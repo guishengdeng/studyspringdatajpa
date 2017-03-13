@@ -11,16 +11,26 @@ import javax.persistence.*;
  * @see
  */
 @Entity
-
 public class User {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String username;
     private String password;
     private String email;
     private String sex;
     private Integer age;
+    @OneToOne
+    private Address address;
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+
     public String getEmail() {
         return email;
     }
@@ -78,6 +88,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", sex='" + sex + '\'' +
                 ", age=" + age +
+                ", address=" + address +
                 '}';
     }
 }

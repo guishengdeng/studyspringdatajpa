@@ -17,6 +17,7 @@ import java.util.List;
  * @reviewer
  * @see
  */
+
 @Service("userService")
 public class UserService {
     @Resource
@@ -30,10 +31,12 @@ public class UserService {
             }
         }
     }
-    /*findAll方法 是SpringDataJpa中PagingAndSortingRepository接口自带的一个方法。只要符合其规范，就可以调用*/
+    /*findAll方法 是SpringDataJpa中PagingAndSortingRepository接口自带的一个方法。只要符合其规范，就可以调用*//*
     public Page<User> getAllUserByPage(PageRequest pageRequest){
 
         return userRepository.findAll(pageRequest);
-    }
-
+    }*/
+   /* public User getUser(int age){
+        return userRepository.findByUsername(age);
+    }*/
 }
