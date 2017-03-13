@@ -70,17 +70,17 @@ public class UserSpringDataJpaTest {
     public void testAddUser() {
 
         User user = new User();
-        user.setPassword("12131231");
-        user.setUsername("dgs");
+        user.setPassword("1213");
+        user.setUsername("xxf");
         user.setAge(23);
-        user.setEmail("23423@qq.com.cn");
-        user.setSex("男");
-        Address address = new Address();
+        user.setEmail("2342sefsef3@qq.com.cn");
+        user.setSex("女");
+     /*   Address address = new Address();
         address.setCountry("China");
         address.setState("四川省");
         address.setStreet("中和下街");
         user.setAddress(address);
-        addressRepository.save(address);
+        addressRepository.save(address);*/
         userRepository.save(user);
     }
 
@@ -88,7 +88,7 @@ public class UserSpringDataJpaTest {
     public void testFindUser() {
         User user = userRepository.findUserByUsername("afweffsfes");
         System.out.println(user);
-        System.out.println(user.getAddress().getCountry());
+
 
     }
 
@@ -143,12 +143,12 @@ public class UserSpringDataJpaTest {
         }
     }
 
-    @Test
+    /*@Test
     public void testFindOne() {
         Future<User> users = userRepository.findByUsername("dgs");
         System.out.println(users);
         //Pageable pageable=new PageRequest(1,5);
-    }
+    }*/
 
     @Transactional
     @Test

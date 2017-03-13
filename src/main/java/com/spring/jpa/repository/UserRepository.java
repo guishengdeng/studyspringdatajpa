@@ -8,22 +8,15 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.concurrent.Future;
 
 @Repository
 public interface UserRepository  extends CrudRepository<User,Long> {
 
     List<User> findByUsernameAndPassword(String username, String password);
 
-   /*@Query("select u from User u where u.age=:age ")
-   User findByUsername(@Param("age") int age);*/
-
-  /* @Query("select u,a from User u inner join Address a on u.address.id=a.id where u.age=:age")
-    AddressAndUserExtendObject getObject(@Param("age") int age);*/
     User  findUserByUsername(String username);
 
     Long countByUsername(String username);
@@ -42,11 +35,15 @@ public interface UserRepository  extends CrudRepository<User,Long> {
     List<User> queryTop4ByUsername(String username,Pageable pageable);
     @Query(value = "select u from User u where u.username = :username order by u.username desc,u.email asc")
     List<User> findTopThree(@Param("username") String username);
-    @Async
-    Future<User> findByUsername(String username);
+
     @Modifying
     @Query("update User u set u.username=:username where u.id=:id")
     int setFixedUsernameFor(@Param("username") String username,@Param("id") Long id);
+
+    @Query("select u from User u")
+    List<User>  getUserList();
+
+    User findById(Long id);
 
 
 

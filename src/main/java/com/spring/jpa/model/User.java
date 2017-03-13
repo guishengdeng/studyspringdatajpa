@@ -20,15 +20,7 @@ public class User {
     private String email;
     private String sex;
     private Integer age;
-    @OneToOne
-    private Address address;
-    public Address getAddress() {
-        return address;
-    }
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
 
 
     public String getEmail() {
@@ -88,7 +80,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", sex='" + sex + '\'' +
                 ", age=" + age +
-                ", address=" + address +
+                ", address=" +
                 '}';
     }
 }

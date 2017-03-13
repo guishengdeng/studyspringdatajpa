@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.2.xsd ">
+    <!--静态资源的解析，如js，css,img等  -->
+    <mvc:resources location="/jquery/" mapping="/jquery/**"/>
+    <!-- 组件扫描，可以扫描controller，service 等等
+      这里让它扫描controller，所以指定controller的包
+     -->
+    <mvc:annotation-driven/>
+    <context:component-scan base-package="com.spring.jpa"></context:component-scan>
+   <!-- <mvc:view-controller path="/adduser" view-name="adduser"/> 查看一下用法-->
+    <!-- 视图解析器 , 解析jsp，默认使用jstl标签，classpath下边都有jstl的包-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!-- 配置jsp的前缀 -->
+        <property name="prefix" value="/WEB-INF/page/"></property>
+        <!-- 配置jsp的后缀 -->
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+    <!-- mvc:annotation-driven代替了上边注解映射器和注解适配器的配置。mvc:annotation-driven默认加载了很多
+      参数绑定方法，比如json转换解析器就默认加载了，如果使用mvc:annotation-driven不用配置上边的RequestMappingHandlerMapping和
+      RequestMappingHandlerAdapter，所以在实际的开发时使用mvc:annotation-driven
+     -->
+
+</beans>

@@ -2,11 +2,9 @@ package com.spring.jpa.service;
 
 import com.spring.jpa.model.User;
 import com.spring.jpa.repository.UserRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -18,25 +16,24 @@ import java.util.List;
  * @see
  */
 
-@Service("userService")
+@Service
 public class UserService {
-    @Resource
+    @Autowired
     private UserRepository userRepository;
 
-    public void showUserList(String username,String password){
-        List<User> list=userRepository.findByUsernameAndPassword(username,password);
-        if(!list.isEmpty()){
-            for(User user:list){
-                System.out.println(user);
-            }
-        }
-    }
-    /*findAll方法 是SpringDataJpa中PagingAndSortingRepository接口自带的一个方法。只要符合其规范，就可以调用*//*
-    public Page<User> getAllUserByPage(PageRequest pageRequest){
+    public List<User> showUserList(){
 
-        return userRepository.findAll(pageRequest);
-    }*/
-   /* public User getUser(int age){
-        return userRepository.findByUsername(age);
-    }*/
+        return userRepository.getUserList();
+    }
+
+    public User getUserById(Long id){
+        return userRepository.findById(id);
+    }
+    public void updateOrAddSubmit(User user){
+          userRepository.save(user);//备注save方法来自于父类接口CrudRepository
+    }
+    public void deleteUser(Long id){
+        userRepository.delete(id);
+    }
+
 }
