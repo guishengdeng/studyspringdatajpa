@@ -4,6 +4,7 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
     <!-- 同时加载多个spring配置文件可用  -->
+    <!--Spring配置-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:applicationContext.xml</param-value>
@@ -11,13 +12,35 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-
+    <!--SpringMVC配置-->
     <servlet>
+        <!--
+          如果不在servlet标签里面配置这段
+           <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:springmvcConfig.xml</param-value>
+           </init-param>
+            (SpringMVC核心配置文件 [<servlet-name>]-servlet.xml)
+            则spring容器默认在WEB-INF目录下去加载名为[<servlet-name>]-servlet.xml
+            [<servlet-name>]也就是（<servlet-name>标签的值，即：springmvc）如：spring-servlet.xml
+            [<servlet-name>]标签值不固定，可以写成xxx等等很多任意你想取得名字，那么springmvc核心配置文件则叫
+            xxx-servlet.xml（如果不按上述要求来配置核心文件则会报这个错
+            ：org.springframework.beans.factory.BeanDefinitionStoreException: IOException parsing XML document from ServletContext resource [/WEB-INF/spring-servlet.xml];
+            nested exception is java.io.FileNotFoundException: Could not open ServletContext resource [/WEB-INF/spring-servlet.xml]）
+            如果配置了上述那段代码，则根据<param-value>classpath:springmvcConfig.xml</param-value>这个标签的值
+            （classpath:springmvcConfig.xml）来加载springmvc核心配置文件。同样地，springmvcConfig.xml（springmvc核心配置文件）文件名任意取，
+            （一般我们取名是顾名思义）如：xxx.xml文件
+            如果配置了上述代码，spring容器，则不会按默认的要求来查找springmvc的核心配置文件，也就是
+             <param-value>classpath:springmvcConfig.xml</param-value>标签的值，会把默认的springmvc核心配置文件给覆盖掉
+
+             在开发中，常常使用的是添加上述代码（重要）
+
+        -->
         <servlet-name>springmvc</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:springmvc-servlet.xml</param-value>
+            <param-value>classpath:springmvcConfig.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>

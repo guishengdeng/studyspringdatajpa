@@ -31,7 +31,7 @@ import java.util.concurrent.Future;
 @ContextConfiguration(locations = "classpath:applicationContext.xml")
 /** 声明使用事务，不声明spring会使用默认事务管理 **/
 public class UserSpringDataJpaTest {
-    /*@Resource
+   /* *//*@Resource
   private pageervice pageervice;
 
   @Test
@@ -60,7 +60,7 @@ public class UserSpringDataJpaTest {
       User user=pageervice.getUser(34);
       System.out.println(user);
 
-  }*/
+  }*//*
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -75,12 +75,12 @@ public class UserSpringDataJpaTest {
         user.setAge(23);
         user.setEmail("2342sefsef3@qq.com.cn");
         user.setSex("女");
-     /*   Address address = new Address();
+     *//*   Address address = new Address();
         address.setCountry("China");
         address.setState("四川省");
         address.setStreet("中和下街");
         user.setAddress(address);
-        addressRepository.save(address);*/
+        addressRepository.save(address);*//*
         userRepository.save(user);
     }
 
@@ -143,12 +143,12 @@ public class UserSpringDataJpaTest {
         }
     }
 
-    /*@Test
+    *//*@Test
     public void testFindOne() {
         Future<User> users = userRepository.findByUsername("dgs");
         System.out.println(users);
         //Pageable pageable=new PageRequest(1,5);
-    }*/
+    }*//*
 
     @Transactional
     @Test
@@ -157,5 +157,5 @@ public class UserSpringDataJpaTest {
         if (influence > 0) {
             System.out.println("修改成功");
         }
-    }
+    }*/
 }

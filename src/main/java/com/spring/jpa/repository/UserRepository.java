@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public interface UserRepository  extends CrudRepository<User,Long> {
 
-    List<User> findByUsernameAndPassword(String username, String password);
+    /*List<User> findByUsernameAndPassword(String username, String password);
 
     User  findUserByUsername(String username);
 
@@ -38,13 +38,14 @@ public interface UserRepository  extends CrudRepository<User,Long> {
 
     @Modifying
     @Query("update User u set u.username=:username where u.id=:id")
-    int setFixedUsernameFor(@Param("username") String username,@Param("id") Long id);
+    int setFixedUsernameFor(@Param("username") String username,@Param("id") Long id);*/
 
-    @Query("select u from User u")
+   /* @Query("select u from User u")
     List<User>  getUserList();
 
-    User findById(Long id);
+    User findById(Long id);*/
 
+    List<User> findByUsername(String username);
 
 
 }

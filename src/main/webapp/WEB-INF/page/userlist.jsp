@@ -18,10 +18,13 @@
     </script>--%>
     <script type="text/javascript">
           function deleteUser(){
-              return false;
+
+              return false;//设置为false目的是为了不让点击超链接时，让其跳转到目标连接
           }
-          function add() {
-              window.location.href="adduser.jap";
+         function queryUser(){
+              document.userForm.action = "${pageContext.request.contextPath }/user/userlist.action";
+              document.userForm.submit();
+              console.log("在此页面");
           }
     </script>
 </head>
@@ -30,15 +33,15 @@
 
         <form name="userForm" action="${pageContext.request.contextPath}/user/userlist.action" method="post">
 
-            <%--<table width="100%" border=1>
+            <table width="100%" border=1>
                 <tr>
-                    <td>查询条件：<input name="itemsCustomer.name" id="condition" /></td>
+                    <td>查询条件：<input name="username" placeholder="请输入用户名" /></td>
                     <td>
-                        <input type="button" value="查询" onclick="queryItems()" />
+                        <input type="button" value="查询" onclick="queryUser()" />
 
                     </td>
                 </tr>
-            </table>--%>
+            </table>
             <table width="100%" border="1">
                 <tr>
                     <th>id</th>
@@ -69,7 +72,7 @@
                 </c:forEach>
             </table>
         </form>
-        <a href="${pageContext.request.contextPath}/user/add.action">添加</a>
+        <a href="/user/add.action">添加</a>
 
 </body>
 </html>

@@ -24,8 +24,14 @@ public class UserController {
     @Autowired
     private UserService userService;
     @RequestMapping(value = "/userlist")
-    public String getUserList(Model model){
-        List<User> users=userService.showUserList();
+    public String getUserList(Model model,String username){
+        //List<User> users=userService.showUserList();
+        Object users=null;
+        if(username!=null){
+              users=userService.userList(username);
+        }else{
+              users=userService.showUserList();
+        }
         model.addAttribute("users",users);
         return "userlist";
     }
