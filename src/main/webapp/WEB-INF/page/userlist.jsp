@@ -11,11 +11,6 @@
 <head>
     <title>用户列表</title>
     <script type="text/javascript" src="../jquery/jquery-1.11.3.min.js"></script>
-    <%--<script type="text/javascript">
-        $(function () {
-            alert("hello world");
-        });
-    </script>--%>
     <script type="text/javascript">
           function deleteUser(){
 
@@ -24,16 +19,23 @@
          function queryUser(){
               document.userForm.action = "${pageContext.request.contextPath }/user/userlist.action";
               document.userForm.submit();
-              console.log("在此页面");
+
           }
     </script>
 </head>
 
 <body>
 
+       <%-- <c:if test="${empty username}">
+            欢迎您:<span style="color:red;">${username}</span>
+        </c:if>
+        <c:if test="${not empty username}">
+            <a href="/user/loginout.action" style="color: blue">退出</a>
+        </c:if>--%>
+       欢迎您:<span style="color:red;">${username}</span> <a href="/user/loginout.action" style="color: blue">退出</a>
         <form name="userForm" action="${pageContext.request.contextPath}/user/userlist.action" method="post">
 
-            <table width="100%" border=1>
+           <%-- <table width="100%" border=1>
                 <tr>
                     <td>查询条件：<input name="username" placeholder="请输入用户名" /></td>
                     <td>
@@ -41,7 +43,7 @@
 
                     </td>
                 </tr>
-            </table>
+            </table>--%>
             <table width="100%" border="1">
                 <tr>
                     <th>id</th>
@@ -50,6 +52,7 @@
                     <th>性别</th>
                     <th>邮箱</th>
                     <th>密码</th>
+                    <th>角色</th>
                     <th>操作</th>
                 </tr>
 
@@ -61,8 +64,9 @@
                         <td>${user.sex}</td>
                         <td>${user.email}</td>
                         <td>${user.password}</td>
+                        <td>${user.roles}</td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/user/update.action?id=${user.id}">修改</a>
+                            <a href="/user/update.action?id=${user.id}" name="${user.id}" class="update">修改</a>
                         </td>
                         <td>
                             <a href="${pageContext.request.contextPath}/user/delete.action?id=${user.id}"

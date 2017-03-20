@@ -1,6 +1,8 @@
 package com.spring.jpa.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * User
@@ -11,15 +13,40 @@ import javax.persistence.*;
  * @see
  */
 @Entity
+@Table(name="user")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Long id;
+
     private String username;
+
     private String password;
+
     private String email;
+
     private String sex;
+
     private Integer age;
+   /* @OneToMany( cascade = CascadeType.ALL)    //一个用户可以有多个角色。
+    @JoinColumn(name = "user_id")
+    private Set<Role> roles=new HashSet<Role>();
+    public Set<Role> getRoles() {
+        return roles;
+    }
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }*/
+
+    private String roles;
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRole(String roles) {
+        this.roles = roles;
+    }
+
 
 
 
@@ -80,7 +107,10 @@ public class User {
                 ", email='" + email + '\'' +
                 ", sex='" + sex + '\'' +
                 ", age=" + age +
-                ", address=" +
+                ", roles='" + roles + '\'' +
                 '}';
+    }
+
+    public User() {
     }
 }

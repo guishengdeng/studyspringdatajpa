@@ -9,22 +9,48 @@
 <html>
 <head>
     <title>修改用户页面</title>
+    <script type="text/javascript" src="../jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+           $('.confirm').bind('click',function(){
+
+               $.ajax({
+                   cache: true,
+                   type: "POST",
+                   url:'../user/updatesubmit.action',
+                   data:$('#formid').serialize(),// 你的formid
+
+                   error: function(request) {
+                       alert("Connection error");
+                   },
+                   success: function(data) {
+                       alert(data);
+                       window.location.href="../user/userlist.action";
+
+                   }
+               });
+            });
+
+        });
+
+    </script>
+
 </head>
 <body>
-<form  action="${pageContext.request.contextPath }/user/updatesubmit.action" method="post">
-    <input type="hidden" name="id" value="${user.id }"/>
+<form  id="formid">
+   <%-- <input type="hidden" name="id" value="${user.id }"/>--%>
 
     <table  border="1" width="100%">
         <tr>
             <td>用户id：</td>
             <td>
-                <input type="text" name="id" value="${user.id }"/>
+                <input type="text" name="id" readonly="readonly" value="${user.id }"/>
             </td>
         </tr>
         <tr>
             <td>用户名：</td>
             <td>
-                <input type="text" name="username" value="${user.username }"/>
+                <input type="text" name="username" readonly="readonly" value="${user.username }"/>
             </td>
         </tr>
 
@@ -37,24 +63,24 @@
         <tr>
             <td>邮箱：</td>
             <td>
-                <input type="text" name="email" value="${user.email }"/>
+                <input type="text" name="email"  value="${user.email }"/>
             </td>
         </tr>
         <tr>
             <td>年龄：</td>
             <td>
-                <input type="text" name="age" value="${user.age }"/>
+                <input type="text" name="age"   value="${user.age }"/>
             </td>
         </tr>
         <tr>
             <td>性别：</td>
             <td>
-                <input type="text" name="sex" value="${user.sex }"/>
+                <input type="text" name="sex"  value="${user.sex }"/>
             </td>
         </tr>
     </table>
 
-    <input type="submit" value="提交"/>
+    <input type="button" value="提交" class="confirm"/>
 
 </form>
 </body>

@@ -1,0 +1,45 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security-4.1.xsd">
+    <!--开启Spring Security 全局方法安全-->
+    <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled" />
+    <security:http auto-config="true">
+        <!--requiring the role ROLE_USER to access them-->
+        <!--指定url /user/login.action告诉spring security 我想使用自己定义的登录页,而且还要告诉spring security不能拦截我的登录页面-->
+        <security:intercept-url pattern="/user/login.action" access="permitAll"/>
+        <!--这个配置的意思是：只有角色是ROLE_SUPER，才能进行修改-->
+        <security:intercept-url pattern="/user/update.action" access="hasRole('ROLE_ADMIN')"/>
+        <!--在业务层里添加了@secured，@PreAuthorize注解后，还要在这里添加拦截配置，才能起作用-->
+        <security:intercept-url pattern="/user/delete.action" access="hasRole('ROLE_ADMIN') AND hasRole('ROLE_DBA')"/>
+        <security:intercept-url pattern="/user/add.action" access="hasRole('ROLE_USER')"/>
+
+        <!--用户无权限时，要跳转的页面(这样做的目的是为了友好性)-->
+        <security:access-denied-handler error-page="/user/access_denied.action"/>
+
+        <security:form-login login-page="/user/login.action"
+                             authentication-failure-url="/user/login.action?login_error=1"
+                             username-parameter="username"
+                             password-parameter="password"
+                             login-processing-url="/login"
+                             default-target-url="/user/userlist.action"
+        />
+
+        <security:session-management>
+            <security:concurrency-control max-sessions="4" error-if-maximum-exceeded="false"
+                                          expired-url="/page/login.jsp?expired"/>
+        </security:session-management>
+        <security:csrf disabled="true"/>
+    </security:http>
+
+    <security:authentication-manager>
+        <security:authentication-provider user-service-ref="customerService">
+        </security:authentication-provider>
+    </security:authentication-manager>
+    <bean id="customerService" class="com.spring.jpa.security.CustomerService">
+
+    </bean>
+</beans>

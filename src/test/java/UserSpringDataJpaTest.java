@@ -1,4 +1,5 @@
 import com.spring.jpa.model.Address;
+import com.spring.jpa.model.Role;
 import com.spring.jpa.model.User;
 import com.spring.jpa.repository.AddressRepository;
 import com.spring.jpa.repository.UserRepository;
@@ -13,8 +14,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Properties;
+import javax.annotation.Resource;
+import java.util.*;
 import java.util.concurrent.Future;
 
 /**
@@ -31,36 +32,36 @@ import java.util.concurrent.Future;
 @ContextConfiguration(locations = "classpath:applicationContext.xml")
 /** 声明使用事务，不声明spring会使用默认事务管理 **/
 public class UserSpringDataJpaTest {
-   /* *//*@Resource
-  private pageervice pageervice;
+   @Resource
+   private UserRepository userRepository;
+    /*
+     @Test
+     public  void add(){
+         User user=new User();
+         user.setPassword("12131231");
+         user.setUsername("adminafefafefsefsefs");
+         user.setAge(34);
+         user.setEmail("23423@qq.com.cn");
+         user.setSex("男");
 
-  @Test
-  public  void add(){
-      User user=new User();
-      user.setPassword("12131231");
-      user.setUsername("adminafefafefsefsefs");
-      user.setAge(34);
-      user.setEmail("23423@qq.com.cn");
-      user.setSex("男");
+     }
+     @Test
+     public void getAll(){
+        pageervice.showUserList("admin","12131231");
+     }
+     @Test
+     public void testPage(){
+         PageRequest pageRequest=new PageRequest(1,2);
+         Page<User> page=pageervice.getAllUserByPage(pageRequest);
+         System.out.println("查询结果：共"+page.getTotalElements()+"条数据，每页显示"+page.getSize()+"条，"
+                 +"共"+page.getTotalPages()+"页，当前第"+(page.getNumber()+1)+"页！");
+     }
+     @Test
+     public void testUser(){
+         User user=pageervice.getUser(34);
+         System.out.println(user);
 
-  }
-  @Test
-  public void getAll(){
-     pageervice.showUserList("admin","12131231");
-  }
-  @Test
-  public void testPage(){
-      PageRequest pageRequest=new PageRequest(1,2);
-      Page<User> page=pageervice.getAllUserByPage(pageRequest);
-      System.out.println("查询结果：共"+page.getTotalElements()+"条数据，每页显示"+page.getSize()+"条，"
-              +"共"+page.getTotalPages()+"页，当前第"+(page.getNumber()+1)+"页！");
-  }
-  @Test
-  public void testUser(){
-      User user=pageervice.getUser(34);
-      System.out.println(user);
-
-  }*//*
+     }*//*
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -158,4 +159,44 @@ public class UserSpringDataJpaTest {
             System.out.println("修改成功");
         }
     }*/
+   /* @Test
+    public void testFind(){
+        Iterable<User> users=userRepository.findAll();
+        for (Iterator<User> iter = users.iterator(); iter.hasNext();) {
+            User user = (User)iter.next();
+            System.out.println(user);
+        }
+    }*/
+   /*  @Test
+   public void testAdd(){
+        User user=new User();
+        user.setAge(12);
+        user.setEmail("1523@qq.com");
+        user.setId(20L);
+        user.setPassword("123456");
+        user.setSex("男");
+        user.setUsername("小李");
+       Set<Role> roles=new HashSet<Role>();
+        Role role1=new Role();
+        role1.setId(5L);
+        role1.setDescription("超人");
+        role1.setName("ROLE_SUPERMAN");
+        Role role2=new Role();
+        role2.setId(6L);
+        role2.setDescription("普通人");
+        role2.setName("ROLE_COMMON");
+        roles.add(role1);
+        roles.add(role2);
+        user.setRoles(roles);
+        userRepository.save(user);
+
+   }
+   @Test
+    public void testList(){
+       Iterable<User> users=userRepository.findAll();
+       for (Iterator<User> iter = users.iterator(); iter.hasNext();) {
+           User user = (User)iter.next();
+           System.out.println(user);
+       }
+   }*/
 }

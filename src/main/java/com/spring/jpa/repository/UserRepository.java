@@ -4,6 +4,7 @@ import com.spring.jpa.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -46,6 +47,11 @@ public interface UserRepository  extends CrudRepository<User,Long> {
     User findById(Long id);*/
 
     List<User> findByUsername(String username);
+    //分页查询
+    //该方法直接从PagingAndSortingRepository接口复制而来的
+    Page<User> findAll(Pageable pageable);//分页查询需要页码，以及每页需要显示几条记录
 
+    //还可以写个带查询条件的分页
+    //Page<User> findByUsername(String username,Pageable pageable);
 
 }
