@@ -1,5 +1,6 @@
 package com.spring.jpa.security;
 
+import com.spring.jpa.model.Role;
 import com.spring.jpa.model.User;
 import com.spring.jpa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +8,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * CustomerService
@@ -24,6 +27,7 @@ public class CustomerService implements UserDetailsService{
     @Autowired
     private UserService userService;
     @Override
+
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
          User user=null;
          if(!userService.userList(username).isEmpty()){
@@ -32,13 +36,17 @@ public class CustomerService implements UserDetailsService{
          if(user==null)
              throw new UsernameNotFoundException("The user name " + username
                      + " can not be found!");
-         String [] roles=user.getRoles().split(",");
+         Set<Role> roles=user.getRoles();
 
          List<GrantedAuthority> grantedAuthorityList=new ArrayList<GrantedAuthority>();
          //增加access中配置的权限，实际上这里就是让所有登陆用户都具备该权限，
          //而真正的资源权限验证留给AccessDecisionManager来决定
-         for(String role :roles)
-             grantedAuthorityList.add(new GrantAuthorityImpl(role));
+         if(!roles.isEmpty()){
+             for(Role role:roles){
+                 grantedAuthorityList.add(new GrantAuthorityImpl(role.getName()));
+             }
+         }
+
         //验证用户名和密码是否正确，以及是否权限正确
 
         return new org.springframework.security.core.userdetails.User

@@ -64,7 +64,13 @@
                         <td>${user.sex}</td>
                         <td>${user.email}</td>
                         <td>${user.password}</td>
-                        <td>${user.roles}</td>
+                        <td>
+                            <c:if test="${not empty user.roles}">
+                                  <c:forEach items="${user.roles}" var="role">
+                                       <span>${role.name}</span>
+                                  </c:forEach>
+                            </c:if>
+                        </td>
                         <td>
                             <a href="/user/update.action?id=${user.id}" name="${user.id}" class="update">修改</a>
                         </td>

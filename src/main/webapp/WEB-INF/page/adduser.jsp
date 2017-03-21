@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <html>
 <head>
     <title>添加用户</title>
@@ -49,6 +50,18 @@
             <td>性别：</td>
             <td>
                 <input type="text" name="sex" value=""/>
+            </td>
+        </tr>
+        <tr>
+            <td>角色：</td>
+            <td>
+                    <c:if test="${not empty roles}">
+                         <c:forEach items="${roles}" var="rolename">
+                              <%--备注：name="name" 对应Role实体类的name属性--%>
+                              <input type="checkbox" name="name" value="${rolename}"/>${rolename}
+
+                         </c:forEach>
+                    </c:if>
             </td>
         </tr>
     </table>

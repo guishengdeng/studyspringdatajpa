@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <html>
 <head>
     <title>修改用户页面</title>
@@ -77,6 +78,23 @@
             <td>性别：</td>
             <td>
                 <input type="text" name="sex"  value="${user.sex }"/>
+            </td>
+        </tr>
+        <tr>
+            <td>角色：</td>
+            <td>
+                 <%--这是用户点击修改时，其本身都具有的角色--%>
+                 <c:if test="${not empty user.roles}">
+                     <c:forEach items="${user.roles}" var="role">
+                         <input type="checkbox" name="name" value="${role.name}" checked="checked"/>${role.name}
+                     </c:forEach>
+                 </c:if>
+                 <%--数据来源于数据库 role表中的数据--%>
+                 <c:if test="${not empty roles}">
+                         <c:forEach items="${roles}" var="rolename">
+                              <input type="checkbox" name="name" value="${rolename}" />${rolename}
+                         </c:forEach>
+                 </c:if>
             </td>
         </tr>
     </table>

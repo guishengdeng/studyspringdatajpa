@@ -16,39 +16,29 @@ import java.util.Set;
 @Table(name="user")
 public class User {
     @Id
-
+    @Column(name="id")
     private Long id;
-
+    @Column(name="username")
     private String username;
-
+    @Column(name="password")
     private String password;
-
+    @Column(name="email")
     private String email;
-
+    @Column(name="sex")
     private String sex;
-
+    @Column(name="age")
     private Integer age;
-   /* @OneToMany( cascade = CascadeType.ALL)    //一个用户可以有多个角色。
-    @JoinColumn(name = "user_id")
-    private Set<Role> roles=new HashSet<Role>();
+    @ManyToMany( cascade = CascadeType.ALL)    //一个用户可以有多个角色。
+    @JoinTable(name="user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns =@JoinColumn(name="role_id"))
+    private Set<Role> roles;
     public Set<Role> getRoles() {
         return roles;
     }
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }*/
-
-    private String roles;
-    public String getRoles() {
-        return roles;
     }
-
-    public void setRole(String roles) {
-        this.roles = roles;
-    }
-
-
-
 
     public String getEmail() {
         return email;
@@ -98,18 +88,7 @@ public class User {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", sex='" + sex + '\'' +
-                ", age=" + age +
-                ", roles='" + roles + '\'' +
-                '}';
-    }
+
 
     public User() {
     }

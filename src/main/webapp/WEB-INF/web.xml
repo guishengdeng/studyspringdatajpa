@@ -49,6 +49,17 @@
         <servlet-name>springmvc</servlet-name>
         <url-pattern>*.action</url-pattern>
     </servlet-mapping>
+    <!--备注：为什么加了这个？？？？，懒加载的问题就解决了（错误异常信息） failed to lazily initialize a collection of role: com.spring.jpa.model.User.roles, could not initialize proxy - no Session-->
+    <filter>
+        <filter-name>Spring OpenEntityManagerInViewFilter</filter-name>
+        <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>Spring OpenEntityManagerInViewFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
     <!--post乱码过滤器  -->
     <filter>
         <filter-name>CharacterEncodingFilter</filter-name>

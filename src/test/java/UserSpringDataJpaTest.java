@@ -199,4 +199,54 @@ public class UserSpringDataJpaTest {
            System.out.println(user);
        }
    }*/
+   @Test
+   public void testAdd(){
+      User user=new User();
+      user.setAge(12);
+      user.setEmail("1523@qq.com");
+      user.setId(22L);
+      user.setPassword("123456");
+      user.setSex("男");
+      user.setUsername("小九");
+      Set<Role> roles=new HashSet<Role>();
+      Role role1=new Role();
+      role1.setId(9L);
+      role1.setDescription("普通人");
+      role1.setName("ROLE_GUY");
+      Role role2=new Role();
+      role2.setId(10L);
+      role2.setDescription("超人");
+      role2.setName("ROLE_GAY");
+      roles.add(role1);
+      roles.add(role2);
+      user.setRoles(roles);
+      userRepository.save(user);
+   }
+   @Transactional//为什么添加了事务，就可以？
+   @Test
+   public void getUser(){
+        User user=userRepository.findByUsername("小李").get(0);
+        System.out.println(user.getUsername());
+        Set<Role> roles=user.getRoles();
+
+       for(Role role:roles){
+          System.out.println(role.getName());
+       }
+   }
+
+   @Test
+   public void getUserList(){
+      Iterable<User> users=userRepository.findAll();
+      for(Iterator<User> iter = users.iterator(); iter.hasNext();){
+         User user=(User) iter.next();
+         System.out.println(user);
+      }
+
+   }
+   @Test
+   public void testRandom(){
+      Random r=new Random();
+      long random=r.nextInt(200)+20;
+      System.out.println(random);
+   }
 }

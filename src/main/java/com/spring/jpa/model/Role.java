@@ -1,6 +1,7 @@
 package com.spring.jpa.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Role
@@ -14,15 +15,24 @@ import javax.persistence.*;
 @Entity
 @Table(name="role")
 public class Role {
-    @Id
-
+     @Id
+     @Column(name="id")
      private Long id;
-
+     @Column(name="name")
      private String name;
-
+     @Column(name="descn")
      private String description;
-     @ManyToOne(cascade = CascadeType.ALL)
-     private User user;
+    @ManyToMany(mappedBy = "roles",cascade = CascadeType.ALL)
+    private Set<User> users;
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
+
     public Long getId() {
         return id;
     }
@@ -48,14 +58,8 @@ public class Role {
     }
 
     public Role() {
+
     }
 
-    @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
-    }
+
 }

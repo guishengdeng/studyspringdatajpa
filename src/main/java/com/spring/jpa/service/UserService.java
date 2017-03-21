@@ -44,9 +44,9 @@ public class UserService {
     public void updateOrAddSubmit(User user){
           userRepository.save(user);//备注save方法来自于父类接口CrudRepository,上述角色为什么需要定义成ROLE_,见RoleVoter类
     }
-    @PreAuthorize("hasRole('ROLE_DBA') AND hasRole('ROLE_ADMIN')")//表示此方法只能被拥有ROLE_ADMIN权限和ROLE_DBA的用户调用
+    @PreAuthorize("hasRole('ROLE_USER') AND hasRole('ROLE_ADMIN')")//表示此方法只能被拥有ROLE_ADMIN权限和ROLE_DBA的用户调用
     public void deleteUser(Long id){
-        userRepository.delete(id);
+         userRepository.delete(id);
     }
 
 

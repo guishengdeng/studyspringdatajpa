@@ -40,9 +40,6 @@
         </mvc:interceptor>
 
     </mvc:interceptors>-->
-    <!-- mvc:annotation-driven代替了上边注解映射器和注解适配器的配置。mvc:annotation-driven默认加载了很多
-      参数绑定方法，比如json转换解析器就默认加载了，如果使用mvc:annotation-driven不用配置上边的RequestMappingHandlerMapping和
-      RequestMappingHandlerAdapter，所以在实际的开发时使用mvc:annotation-driven
-     -->
+
 
 </beans>
