@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+	<script type="text/javascript" src="jquery-1.11.3.min.js"></script>
+    <script type="text/javascript">
+	    $(function(){
+	         var $categroy=$('ul>li:gt(5):not(:last)');
+	         var $toggleBtn=$('.showMore>a');
+	         $categroy.hide();
+	         $toggleBtn.click(function(){
+	              if($categroy.is(':visible')){
+	                   $categroy.hide();
+	                   $(this).find('span').css('backgroundColor','red')
+                           .text('显示全部');
+				  }else{
+                      $categroy.show();
+                      $(this).find('span').css('backgroundColor','red')
+                          .text('显示精简信息');
+				  }
+				  return false;
+			 });
+		});
+	</script>
+</head>
+<body>
+    <div class="SubCategoryBox">
+        <ul>
+			  <li><a href="#">佳能</a><i></i>(30440)</li>
+			  <li><a href="#">索尼</a><i></i>(30440)</li>
+			  <li><a href="#">三星</a><i></i>(30440)</li>
+			  <li><a href="#">尼康</a><i></i>(30440)</li>
+			  <li><a href="#">TCL</a><i></i>(30440)</li>
+			  <li><a href="#">华为</a><i></i>(30440)</li>
+			  <li><a href="#">中心</a><i></i>(30440)</li>
+			  <li><a href="#">康佳</a><i></i>(30440)</li>
+			  <li><a href="#">创维</a><i></i>(30440)</li>
+			  <li><a href="#">海信</a><i></i>(30440)</li>
+			  <li><a href="#">柯达</a><i></i>(30440)</li>
+			  <li><a href="#">富士</a><i></i>(30440)</li>
+			  <li><a href="#">金士力</a><i></i>(30440)</li>
+			  <li><a href="#">劳伦斯</a><i></i>(30440)</li>
+		</ul>
+		  
+	
+		<div class="showMore">
+			   <a href="showmore.html"><span>显示全部</span></a>
+		
+		</div>
+    </div>
+</body>
+</html>
