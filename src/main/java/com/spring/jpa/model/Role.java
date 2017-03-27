@@ -1,6 +1,7 @@
 package com.spring.jpa.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -17,13 +18,27 @@ import java.util.Set;
 public class Role {
      @Id
      @Column(name="id")
-     private Long id;
+     private Long role_id;
      @Column(name="name")
      private String name;
      @Column(name="descn")
      private String description;
-    @ManyToMany(mappedBy = "roles",cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private Set<User> users;
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinTable(name="role_resource", joinColumns = @JoinColumn(name="role_id")
+            ,inverseJoinColumns = @JoinColumn(name="resource_id"))
+    private Set<Resource> resources=new HashSet<Resource>();
+    public Set<Resource> getResources() {
+        return resources;
+    }
+
+    public void setResources(Set<Resource> resources) {
+        this.resources = resources;
+    }
+
+
+
     public Set<User> getUsers() {
         return users;
     }
@@ -32,13 +47,12 @@ public class Role {
         this.users = users;
     }
 
-
-    public Long getId() {
-        return id;
+    public Long getRole_id() {
+        return role_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRole_id(Long role_id) {
+        this.role_id = role_id;
     }
 
     public String getName() {

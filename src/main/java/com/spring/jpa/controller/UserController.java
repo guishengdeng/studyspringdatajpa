@@ -2,26 +2,26 @@ package com.spring.jpa.controller;
 
 import com.spring.jpa.model.Role;
 import com.spring.jpa.model.User;
-import com.spring.jpa.model.UserRoleVo;
+import com.spring.jpa.model.vo.UserRoleVo;
 import com.spring.jpa.service.RoleService;
 import com.spring.jpa.service.UserService;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 
@@ -48,23 +48,27 @@ public class UserController {
 
          return "userlist";
     }
+
     @RequestMapping(value = "/update")
-
-    public String updateUser(@RequestParam(value = "id") String id,Model model){
-
+    @ResponseBody
+    public  String updateUser(String id){
+        JSONObject json = new JSONObject();
         long user_id=Long.parseLong(id);
         User user=userService.getUserById(user_id);
         Iterable<Role> roles=roleService.getRoleList();
-        model.addAttribute("user",user);
-        model.addAttribute("roles",roles);
-        return "updatelist";
+        JsonConfig jsonc = new JsonConfig();
+        jsonc.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
+        json.put("user", JSONObject.fromObject(user, jsonc));
+        json.put("roles", JSONArray.fromObject(roles, jsonc));
+        try{
+            return URLEncoder.encode(json.toString(), "UTF-8");
+        }catch(Exception e){
+            return null;
+        }
     }
-    @RequestMapping(value = "/updatesubmit")
-    public String submitUpdate(UserRoleVo vo){
-        //User user, HttpServletRequest request
+    @RequestMapping(value = "/updateOrAddSubmit")
+    public String updateOrAddSubmit(UserRoleVo vo){
         //思路：做修改操作就是：先查询出来是否有该对象，有该对象后，再做修改，然后保存（插入）
-        /*JSONObject json = JSONObject.fromObject(request.getParameter("jsondata"));
-        System.out.println(json);*/
         User user=new User();
         user.setId(vo.getId());
         user.setEmail(vo.getEmail());
@@ -73,29 +77,18 @@ public class UserController {
         user.setAge(vo.getAge());
         user.setPassword(vo.getPassword());
         Set<Role> roles=new HashSet<>();
-        //Set<Role> roleSet=null;
-        if(vo.getName()!=null){
-            for(String name:vo.getName()){
-                Random r = new Random();
-                long rand=r.nextInt(200)+20;
-                Role role=new Role();
-                role.setId(rand);
-                role.setName(name);
+        if(vo.getRole_id()!=null){
+            for(String role_id:vo.getRole_id()){
+                Long roleId=Long.parseLong(role_id);
+                Role role=roleService.getRoleById(roleId);
                 roles.add(role);
-                //问题：当用户登陆时,（情况一：）
-                // 假如该用户应经有两个角色想再添加一个角色，或者（情况二：假如该用户已经有两个角色
-                // 想删除其中一个或把其拥有的角色都删除。）
-                //这是用户在登陆成功后，本身所拥有的角色
-               /* User u=userService.userList(vo.getUsername()).get(0);
-                roleSet= u.getRoles();
-                roleSet.add(role);*/
             }
         }
          user.setRoles(roles);
-        //user.setRoles(roleSet);
         userService.updateOrAddSubmit(user);
-        return "redirect:userlist.action";
+        return "redirect:userlist";
     }
+
     @RequestMapping(value = "/delete")
     public String submitDelete(String id){
         Long user_id=Long.parseLong(id);
@@ -103,39 +96,21 @@ public class UserController {
         return "redirect:userlist.action";
     }
     @RequestMapping(value="/add")
-    public String addJsp(Model model){
-        Iterable<Role> roles=roleService.getRoleList();
-        model.addAttribute("roles",roles);
-        return "adduser";
-    }
-    @RequestMapping(value="/adduser")
-    public String addUser(UserRoleVo vo){
-        //备注：从form表单的复选框拿值时，一定要在value="${}"
-        User user=new User();
-        user.setId(vo.getId());
-        user.setUsername(vo.getUsername());
-        user.setPassword(vo.getPassword());
-        user.setAge(vo.getAge());
-        user.setSex(vo.getSex());
-        user.setEmail(vo.getEmail());
-        Set<Role> roles=new HashSet<>();
-        if (vo.getName()!=null){
-            for(String roleName:vo.getName()){
-                //Long random=(long)Math.random()*100+20;
-                Random r = new Random();
-                long rand=r.nextInt(200)+20;
-                 Role role=new Role();
-                 role.setId(rand);
-                 role.setName(roleName);
-                 role.setDescription("普通管理员");
-                 roles.add(role);
-             }
+    @ResponseBody
+    public String addJsp(){
+        JSONObject json = new JSONObject();
+        Iterable<Role> roles=roleService.getList();
+        JsonConfig jsonc = new JsonConfig();
+        jsonc.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
+        json.put("roles", JSONArray.fromObject(roles, jsonc));
+
+        try{
+            return URLEncoder.encode(json.toString(), "UTF-8");
+        }catch(Exception e){
+            return null;
         }
-        user.setRoles(roles);
-        userService.updateOrAddSubmit(user);
-        //userService.updateOrAddSubmit(user);
-        return "redirect:userlist.action";
     }
+
     @RequestMapping(value="/login")
     public String userLogin(HttpServletRequest request,HttpSession session,String username){
 

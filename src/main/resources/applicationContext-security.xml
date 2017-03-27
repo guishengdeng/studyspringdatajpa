@@ -16,16 +16,18 @@
         &lt;!&ndash;在业务层里添加了@secured，@PreAuthorize注解后，还要在这里添加拦截配置，才能起作用&ndash;&gt;
         <security:intercept-url pattern="/user/delete.action" access="hasRole('ROLE_ADMIN') AND hasRole('ROLE_USER')"/>
         <security:intercept-url pattern="/user/add.action" access="hasRole('ROLE_USER')"/>-->
-
+        <!--用户在未登录的情况下访问资源时，直接跳转到登陆页面-->
+        <security:intercept-url pattern="/**" access="isAuthenticated()"/>
         <!--用户无权限时，要跳转的页面(这样做的目的是为了友好性)-->
         <security:access-denied-handler error-page="/user/access_denied.action"/>
-
+        <!--自定义用户登陆页面-->
         <security:form-login login-page="/user/login.action"
                              authentication-failure-url="/user/login.action?login_error=1"
                              username-parameter="username"
                              password-parameter="password"
                              login-processing-url="/login"
                              default-target-url="/user/userlist.action"
+
         />
 
         <security:session-management>

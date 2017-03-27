@@ -2,7 +2,9 @@ import com.spring.jpa.model.Address;
 import com.spring.jpa.model.Role;
 import com.spring.jpa.model.User;
 import com.spring.jpa.repository.AddressRepository;
+import com.spring.jpa.repository.RoleRepository;
 import com.spring.jpa.repository.UserRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,9 @@ import java.util.concurrent.Future;
 public class UserSpringDataJpaTest {
    @Resource
    private UserRepository userRepository;
+   @Resource
+   private RoleRepository roleRepository;
+
     /*
      @Test
      public  void add(){
@@ -210,11 +215,11 @@ public class UserSpringDataJpaTest {
       user.setUsername("小九");
       Set<Role> roles=new HashSet<Role>();
       Role role1=new Role();
-      role1.setId(9L);
+      role1.setRole_id(9L);
       role1.setDescription("普通人");
       role1.setName("ROLE_GUY");
       Role role2=new Role();
-      role2.setId(10L);
+      role2.setRole_id(10L);
       role2.setDescription("超人");
       role2.setName("ROLE_GAY");
       roles.add(role1);
@@ -225,7 +230,7 @@ public class UserSpringDataJpaTest {
    @Transactional//为什么添加了事务，就可以？
    @Test
    public void getUser(){
-        User user=userRepository.findByUsername("小李").get(0);
+        User user=userRepository.findByUsername("行走江湖").get(0);
         System.out.println(user.getUsername());
         Set<Role> roles=user.getRoles();
 
@@ -248,5 +253,24 @@ public class UserSpringDataJpaTest {
       Random r=new Random();
       long random=r.nextInt(200)+20;
       System.out.println(random);
+   }
+   @Test
+   public void getRole(){
+      Role role=roleRepository.findByName("管理员");
+      Set<com.spring.jpa.model.Resource> resources=role.getResources();
+
+      for(com.spring.jpa.model.Resource resource:resources){
+            System.out.println(resource.getResourcename());
+      }
+   }
+   @Test
+   public void getRoleList(){
+     Iterable<Role> roles= roleRepository.findAll();
+     for(Role role:roles){
+         System.out.println(role.getName());
+         for(com.spring.jpa.model.Resource  resource:role.getResources()){
+              System.out.println(resource.getResourcename());
+         }
+     }
    }
 }

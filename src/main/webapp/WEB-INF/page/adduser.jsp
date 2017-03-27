@@ -56,10 +56,9 @@
             <td>角色：</td>
             <td>
                     <c:if test="${not empty roles}">
-                         <c:forEach items="${roles}" var="rolename">
+                         <c:forEach items="${roles}" var="role">
                               <%--备注：name="name" 对应Role实体类的name属性--%>
-                              <input type="checkbox" name="name" value="${rolename}"/>${rolename}
-
+                              <input type="checkbox" name="role_id" value="${role.role_id}"/>${role.name}
                          </c:forEach>
                     </c:if>
             </td>

@@ -28,7 +28,7 @@ public class User {
     private String sex;
     @Column(name="age")
     private Integer age;
-    @ManyToMany( cascade = CascadeType.ALL)    //一个用户可以有多个角色。
+    @ManyToMany( cascade = CascadeType.PERSIST)    //一个用户可以有多个角色。
     @JoinTable(name="user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns =@JoinColumn(name="role_id"))

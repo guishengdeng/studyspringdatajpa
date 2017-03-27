@@ -86,13 +86,14 @@
                  <%--这是用户点击修改时，其本身都具有的角色--%>
                  <c:if test="${not empty user.roles}">
                      <c:forEach items="${user.roles}" var="role">
-                         <input type="checkbox" name="name" value="${role.name}" checked="checked"/>${role.name}
+                         <input type="checkbox" name="role_id" value="${role.role_id}" checked="checked"/>${role.name}
                      </c:forEach>
                  </c:if>
                  <%--数据来源于数据库 role表中的数据--%>
+                  <%--备注：从form表单的复选框要想后台传值时，一定要在value="${}"--%>
                  <c:if test="${not empty roles}">
-                         <c:forEach items="${roles}" var="rolename">
-                              <input type="checkbox" name="name" value="${rolename}" />${rolename}
+                         <c:forEach items="${roles}" var="role">
+                             <input type="checkbox" name="role_id" value="${role.role_id}"/>${role.name}
                          </c:forEach>
                  </c:if>
             </td>

@@ -22,7 +22,52 @@
 				  return false;
 			 });
 		});
+	    $(function () {
+	         var $hoverBtn=$('a.tooltip');
+			 $hoverBtn.bind('mouseover',function(e){
+                 this.myTitle=this.title;//这种赋值方式，参考一下。
+                 this.title='';
+                 var tooltip="<div id='tooltip'>"+this.myTitle+"</div>";
+                 var x=-100;
+                 var y=-200
+                 $('body').append(tooltip);
+			      $('#tooltip').css({
+			             "top":(e.pageY+y) +"px",
+					     "left":(e.pageX+x)+ "px"
+				  }).show("fast");
+			 }).bind('mouseout',function () {//同时为该节点绑定多个事件
+			     this.title=this.myTitle;
+				 $('#tooltip').remove();
+             }).bind('mousemove',function(e){
+                 $('#tooltip').css({
+                     "top":(e.pageY+y) +"px",
+                     "left":(e.pageX+x)+ "px"
+                 });
+			 });
+        });
+	    $(function(){
+	         $('#panel>h5.head').toggle(function () {
+				   $(this).next().show();
+             },function(){
+                 $(this).next().hide();
+			 });
+	         $('#panel>h5.head').hover(function(){
+
+			 },function(){
+
+			 });
+
+		})
 	</script>
+	<style type="text/css">
+		 .content{
+			 : hidden;
+
+		 }
+		 .head{
+			 font-size: 20em;
+		 }
+	</style>
 </head>
 <body>
     <div class="SubCategoryBox">
@@ -46,8 +91,20 @@
 	
 		<div class="showMore">
 			   <a href="showmore.html"><span>显示全部</span></a>
-		
 		</div>
     </div>
+    <p><a hred="#" title="这是我的超链接提示1" class="tooltip">这是我的超链接提示1</a></p>
+    <p><a hred="#" title="这是我的超链接提示2" class="tooltip">这是我的超链接提示2</a></p>
+    <p><a hred="#" title="自带提示1" >自带提示1</a></p>
+    <p><a hred="#" title="自带提示2" >自带提示2</a></p>
+    <div id="panel">
+		   <h5 class="head"><什么是>Jqury</什么是></h5>
+		   <div class="content">
+			   jQuery是一个快速、简洁的JavaScript框架，是继Prototype之后
+			   又一个优秀的JavaScript代码库（或JavaScript框架）。jQuery
+			   设计的宗旨是“write Less，Do More”，即倡导写更少的代码，
+			   做更多的事情。它封装JavaScript常用的功能代码，提供一种简便的JavaScript设计模式，优化HTML文档操作、事件处理、动画设计和Ajax交互。
+		   </div>
+	</div>
 </body>
 </html>

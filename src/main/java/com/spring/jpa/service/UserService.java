@@ -2,6 +2,7 @@ package com.spring.jpa.service;
 
 import com.spring.jpa.model.User;
 import com.spring.jpa.repository.UserRepository;
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +20,7 @@ import java.util.List;
  */
 
 @Service
+@Secured("ROLE_ADMIN")//同样的，RoleService类，也需要这样定义@(secured)
 public class UserService {
     @Autowired
     private UserRepository userRepository;
@@ -40,14 +42,25 @@ public class UserService {
        // return userRepository.findById(id);
         return userRepository.findOne(id);
     }
-    //@Secured({"ROLE_ADMIN,ROLE_USER"})//表示此方法只能被拥有ROLE_ADMIN权限或者ROLE_USER的用户调用
+
+    /**
+     * 表示此方法只能被拥有ROLE_ADMIN权限或者ROLE_USER的用户调用
+     * @param user
+     */
+
     public void updateOrAddSubmit(User user){
           userRepository.save(user);//备注save方法来自于父类接口CrudRepository,上述角色为什么需要定义成ROLE_,见RoleVoter类
     }
-    //@PreAuthorize("hasRole('ROLE_USER') AND hasRole('ROLE_ADMIN')")//表示此方法只能被拥有ROLE_ADMIN权限和ROLE_DBA的用户调用
+
+    /**
+     * 表示此方法只能被拥有 ROLE_ADMIN权限OPT_USER_DELETE的用户调用
+     * @param id
+     */
+    @PreAuthorize("hasAuthority('OPT_USER_DELETE')")
     public void deleteUser(Long id){
          userRepository.delete(id);
     }
+
 
 
 

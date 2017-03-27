@@ -1,4 +1,4 @@
-package com.spring.jpa.model;
+package com.spring.jpa.model.vo;
 
 /**
  * UserRoleVo
@@ -17,6 +17,15 @@ public class UserRoleVo {
     private Integer age;
     private String sex;
     private String [] name;//role类实体里的角色名
+    private String [] role_id;//role类实体里的role_id
+
+    public String[] getRole_id() {
+        return role_id;
+    }
+
+    public void setRole_id(String[] role_id) {
+        this.role_id = role_id;
+    }
 
     public String[] getName() {
         return name;

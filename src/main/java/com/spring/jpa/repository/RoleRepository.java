@@ -18,6 +18,9 @@ import java.util.List;
  */
 @Repository
 public interface RoleRepository extends CrudRepository<Role,Long> {
-   @Query("select distinct r.name from Role r")
+   @Query("select distinct r  from Role r")
    List<Role> getRoleList();
+
+   Role findByName(String name);
+
 }

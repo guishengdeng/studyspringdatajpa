@@ -16,6 +16,9 @@ public class GrantAuthorityImpl implements GrantedAuthority {
 
     private String authority;
 
+    public GrantAuthorityImpl(){
+
+    }
 
     public GrantAuthorityImpl(String s) {
          authority=s;

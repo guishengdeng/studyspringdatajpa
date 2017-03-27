@@ -21,7 +21,27 @@ public class RoleService {
     @Autowired
     private RoleRepository roleRepository;
 
-    public Iterable<Role> getRoleList(){
+    public List<Role> getList(){
         return roleRepository.getRoleList();
+    }
+    public Role getRoleByName(String name){
+       return roleRepository.findByName(name);
+    }
+    /**
+     * 获取role表里的所有记录
+     */
+    public Iterable<Role> getRoleList(){
+
+        return roleRepository.findAll();
+    }
+    public  Role  getRoleById(Long id){
+          return roleRepository.findOne(id);
+    }
+
+    public void deleteRole(Long role_id){
+         roleRepository.delete(role_id);
+    }
+    public void addOrUpdateSubimt(Role role){
+         roleRepository.save(role);
     }
 }
