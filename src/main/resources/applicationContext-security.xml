@@ -27,6 +27,7 @@
                              password-parameter="password"
                              login-processing-url="/login"
                              default-target-url="/user/userlist.action"
+
         />
 
         <security:session-management>
