@@ -3,6 +3,7 @@ package com.spring.jpa.controller;
 import com.spring.jpa.model.Role;
 import com.spring.jpa.model.User;
 import com.spring.jpa.model.vo.UserRoleVo;
+import com.spring.jpa.security.accessdenied.LoginUserValidate;
 import com.spring.jpa.service.RoleService;
 import com.spring.jpa.service.UserService;
 import net.sf.json.JSONArray;
@@ -14,7 +15,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.net.URLEncoder;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -41,17 +45,25 @@ public class UserController {
     @Autowired
     private RoleService roleService;
     @RequestMapping(value = "/userlist")
-    public String getUserList(Model model){
+    public String getUserList(Model model,HttpSession session){
          Iterable<User> users=userService.showUserList();
-         model.addAttribute("username",getPrincipal());
+         //model.addAttribute("username",getPrincipal());
          model.addAttribute("users",users);
-
+         session.setAttribute("roleSet",getCurrentUserRole());
+         session.setAttribute("username",getPrincipal());
          return "userlist";
     }
+
+    @RequestMapping(value = "{path}")
+    public String forwardToPage(@PathVariable String path,@RequestParam(value="action",required = false)String bindAction){
+        return path;
+    }
+
 
     @RequestMapping(value = "/update")
     @ResponseBody
     public  String updateUser(String id){
+
         JSONObject json = new JSONObject();
         long user_id=Long.parseLong(id);
         User user=userService.getUserById(user_id);
@@ -86,7 +98,7 @@ public class UserController {
         }
          user.setRoles(roles);
         userService.updateOrAddSubmit(user);
-        return "redirect:userlist";
+        return "redirect:userlist.action";
     }
 
     @RequestMapping(value = "/delete")
@@ -135,18 +147,30 @@ public class UserController {
     }
 
     /**
+     * 严格来讲：这个方法应该定义在Service层
      * @description:用于用户登录时，在登陆成功后
      * 跳转到目标页面，显示登陆用户名
      * @return String
      */
     private String getPrincipal(){
-        String username="";
-        Object principal=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(principal instanceof UserDetails)
-             username=((UserDetails) principal).getUsername();
-        else
-             username=principal.toString();
+            String username="";
+            Object principal=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if(principal instanceof UserDetails)
+                 username=((UserDetails) principal).getUsername();
+            else
+                 username=principal.toString();
 
         return username;
+    }
+    private Set<Role> getCurrentUserRole(){
+            //相当于是获得实现UserDetails接口的实现类
+            Object principal=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Set<Role> roleSet=null;
+            if(principal instanceof UserDetails)
+                roleSet = ((LoginUserValidate) principal).getRoleDirectory();
+            else
+                roleSet=new HashSet<Role>();
+
+        return roleSet;
     }
 }

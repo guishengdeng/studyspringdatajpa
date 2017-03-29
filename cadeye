@@ -1,0 +1,53 @@
+[33mcommit 8f07903580d978804faab052dcd14f6f77ec5ef6[m
+Author: guisheng.deng <1582340648@qq.com>
+Date:   Wed Mar 22 09:33:10 2017 +0800
+
+    添加了一个test.html页面
+
+[33mcommit b2241a7ee9b7cd59d25525b433515acc5c464b8e[m
+Author: guisheng.deng <1582340648@qq.com>
+Date:   Tue Mar 21 15:49:31 2017 +0800
+
+    在dev分支上做的开发
+
+[33mcommit 8013f7abc4b3a6524c07474f40b80f0999e12e7a[m
+Author: guisheng.deng <1582340648@qq.com>
+Date:   Mon Mar 20 15:09:14 2017 +0800
+
+    xxx
+
+[33mcommit 542216203fe86961feb70a75d9b99d2df27e2566[m
+Author: guisheng.deng <1582340648@qq.com>
+Date:   Mon Mar 20 11:21:22 2017 +0800
+
+    springsecurity用户访问权限验证
+
+[33mcommit 5d3820571d84b0aa15dc22c5bbf1bda4ada9f7dc[m
+Author: guisheng.deng <1582340648@qq.com>
+Date:   Tue Mar 14 13:34:40 2017 +0800
+
+    添加了业务层和持久层的相关类，以及配置文件
+
+[33mcommit f1d0ad2d9e13f71b6491a2a1c705fd787a0f59b0[m
+Author: guisheng.deng <1582340648@qq.com>
+Date:   Mon Mar 13 22:49:46 2017 +0800
+
+    添加了业务层
+
+[33mcommit 0519b3036b169b585adbe6bf4605b58d0689ee29[m
+Author: guisheng.deng <1582340648@qq.com>
+Date:   Mon Mar 13 12:35:09 2017 +0800
+
+    修改了pom文件和测试类
+
+[33mcommit de247e9efdd6a8d181f076c2aa21a8c8c73f77c5[m
+Author: guisheng.deng <1582340648@qq.com>
+Date:   Thu Mar 9 11:28:23 2017 +0800
+
+    提交了dgs分支上的内容
+
+[33mcommit 8d7c657eee6d14b0aecf9350bc543328278436dc[m
+Author: guisheng.deng <1582340648@qq.com>
+Date:   Thu Mar 9 10:45:20 2017 +0800
+
+    已经忽略了相关文件

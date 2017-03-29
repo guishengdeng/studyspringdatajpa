@@ -5,6 +5,7 @@ import com.spring.jpa.model.vo.ResourceVo;
 import com.spring.jpa.service.ResourceService;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,8 +46,14 @@ public class ResourceController {
         Resource resource=resourceService.getResourceById(resourceId);
         JSONObject json=new JSONObject();
         JsonConfig jsonConfig=new JsonConfig();
-        json.put("resource",resource);
-        return json.toString();
+        jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
+        json.put("resource", JSONObject.fromObject(resource, jsonConfig));
+
+        try{
+            return URLEncoder.encode(json.toString(), "UTF-8");
+        }catch(Exception e){
+            return null;
+        }
     }
     @RequestMapping(value="/updateOrAddSubmit")
     public String updateOrAddSubmit(ResourceVo vo){
@@ -54,6 +61,7 @@ public class ResourceController {
         resource.setDescription(vo.getDescription());
         resource.setId(vo.getId());
         resource.setResourcename(vo.getResourcename());
+        resource.setLinkedaddress(vo.getLinkedaddress());
         resourceService.addOrUpdate(resource);
         return "redirect:resourcelist.action";
     }

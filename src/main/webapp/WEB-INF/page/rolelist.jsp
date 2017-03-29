@@ -16,14 +16,8 @@
     <link rel="stylesheet" href="../css/bootstrap.min.css" />
 </head>
 <body>
-<div class="welcome">
-    欢迎您:<span style="color:red;">${username}</span>
-    <button type="button" class="btn btn-default btn-xs">
-        <span class="glyphicon glyphicon-user"></span><a href="../user/loginout.action">退出</a>
-    </button>
-
-</div>
-<jsp:include page="commonNavBar.jsp"/>
+    <%--引用公共界面--%>
+    <jsp:include page="commonNavBar.jsp"/>
     <table width="100%" class="table table-bordered" border="1">
         <thead>
             <tr>

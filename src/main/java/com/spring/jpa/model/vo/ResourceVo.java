@@ -17,6 +17,16 @@ public class ResourceVo {
 
     private String description;
 
+    private String linkedaddress;
+
+    public String getLinkedaddress() {
+        return linkedaddress;
+    }
+
+    public void setLinkedaddress(String linkedaddress) {
+        this.linkedaddress = linkedaddress;
+    }
+
     public Long getId() {
         return id;
     }

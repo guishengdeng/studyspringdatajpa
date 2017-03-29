@@ -4,6 +4,8 @@ import com.spring.jpa.model.User;
 import com.spring.jpa.repository.AddressRepository;
 import com.spring.jpa.repository.RoleRepository;
 import com.spring.jpa.repository.UserRepository;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -273,4 +275,5 @@ public class UserSpringDataJpaTest {
          }
      }
    }
+
 }

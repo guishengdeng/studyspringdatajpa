@@ -30,7 +30,7 @@
                             <%--for="user_id"的属性值对应 id="user_id"的属性 --%>
                             <label for="role_id" class="col-sm-3 control-label">ID</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control"  name="id" value="" id="role_id"
+                                <input type="text" class="form-control"  name="role_id" value="" id="role_id"
                                        placeholder="请输入id">
                             </div>
                         </div>

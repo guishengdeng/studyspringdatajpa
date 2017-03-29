@@ -23,14 +23,9 @@
 
 <body>
 <%--<div class="container" style="min-width: 1200px;">--%>
-       <div class="welcome">
-         欢迎您:<span style="color:red;">${username}</span>
-           <button type="button" class="btn btn-default btn-xs">
-               <span class="glyphicon glyphicon-user"></span><a href="../user/loginout.action">退出</a>
-           </button>
-          <%-- <a href="/user/loginout.action" style="color: blue">退出</a>--%>
-       </div>
-       <jsp:include page="commonNavBar.jsp"/>
+    <%--引用公共页面--%>
+    <a href="/person/profile.action" target="_blank">测试页面</a>
+    <jsp:include page="commonNavBar.jsp"/>
     <table class="table table-hover table-bordered" >
         <thead>
             <tr>

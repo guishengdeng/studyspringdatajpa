@@ -16,19 +16,14 @@
     <link rel="stylesheet" href="../css/bootstrap.min.css" />
 </head>
 <body>
-<div class="welcome">
-    欢迎您:<span style="color:red;">${username}</span>
-    <button type="button" class="btn btn-default btn-xs">
-        <span class="glyphicon glyphicon-user"></span><a href="../user/loginout.action">退出</a>
-    </button>
-
-</div>
+<%--引用公共界面--%>
 <jsp:include page="commonNavBar.jsp"/>
     <table class="table table-bordered" width="100%" border="1">
         <tr>
             <th>id</th>
             <th>资源名</th>
             <th>描述</th>
+            <th>链接地址</th>
             <th>操作</th>
         </tr>
         <c:forEach items="${resources}" var="resource">
@@ -36,6 +31,7 @@
                 <td>${resource.id}</td>
                 <td>${resource.resourcename}</td>
                 <td>${resource.description}</td>
+                <td>${resource.linkedaddress}</td>
                 <td>
                     <button type="button" class="btn btn-info" data-toggle="modal" onclick="editInfo(${resource.id})" data-target="#addOrUpdateRosourceModal">编辑</button>
                     &nbsp;&nbsp;

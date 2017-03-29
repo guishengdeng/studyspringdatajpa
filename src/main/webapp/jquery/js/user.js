@@ -87,8 +87,8 @@ function deleteInfo(id) {
     $.ajax({
         type: "POST",
         data: {"id": id},
-        url: '../role/deleterole.action',
-        async: false, // 是否异步加载数据， 为false时只有加载完成后才继续其他操作，类似于同步锁
+        url: '../user/delete.action',
+        async: false, // 是否异步加载数据,为false时只有加载完成后才继续其他操作，类似于同步锁
         error: function (request) {
             alert("Connection error");
         },

@@ -49,6 +49,19 @@
         <servlet-name>springmvc</servlet-name>
         <url-pattern>*.action</url-pattern>
     </servlet-mapping>
+    <!-- 配置前端控制器   RESTful风格的-->
+    <servlet>
+        <servlet-name>SpringMVCREST</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:springmvcConfig.xml</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SpringMVCREST</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
     <!--备注：为什么加了这个？？？？，懒加载的问题就解决了（错误异常信息） failed to lazily initialize a collection of role: com.spring.jpa.model.User.roles, could not initialize proxy - no Session-->
     <filter>
         <filter-name>Spring OpenEntityManagerInViewFilter</filter-name>

@@ -3,6 +3,7 @@ package com.spring.jpa.security;
 import com.spring.jpa.model.Resource;
 import com.spring.jpa.model.Role;
 import com.spring.jpa.model.User;
+import com.spring.jpa.security.accessdenied.LoginUserValidate;
 import com.spring.jpa.service.RoleService;
 import com.spring.jpa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +34,7 @@ public class CustomerService implements UserDetailsService{
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
          User user=null;
-        String u1="";
-        try {
-             u1 = new String(username.getBytes(), "GBK");
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        if(!userService.userList(u1).isEmpty()){
+        if(userService.userList(username)!=null){
               user=userService.userList(username).get(0);
          }
          if(user==null)
@@ -58,16 +52,25 @@ public class CustomerService implements UserDetailsService{
                  Set<Resource> set=role.getResources();
                  if(set!=null){
                      for(Resource resource:set){
-                         grantedAuthoritySet.add(new GrantAuthorityImpl(resource.getResourcename()));
+                         //这个地方到时候还要改，因为到时候在资源表中，用户在做修改时，可能会对资源进行;的增添
+                         String [] splitStr=resource.getResourcename().split(";");
+                         if(splitStr.length>=2){
+                             for(String item:splitStr){
+                                 grantedAuthoritySet.add(new GrantAuthorityImpl(item));
+                             }
+                         }else{
+                             grantedAuthoritySet.add(new GrantAuthorityImpl(resource.getResourcename()));
+                         }
                      }
                  }
              }
          }
 
         //验证用户名和密码是否正确，以及是否权限正确
-        return new org.springframework.security.core.userdetails.User
-                (user.getUsername(),user.getPassword(),true,
-                        true,true,
-                        true,grantedAuthoritySet);
+        LoginUserValidate userValidate=new LoginUserValidate(user.getUsername(),user.getPassword(),
+                grantedAuthoritySet,true,true,
+                true,true,roles);
+         return userValidate;
+
     }
 }
