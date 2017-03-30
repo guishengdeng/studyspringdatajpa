@@ -1,6 +1,9 @@
 package com.spring.jpa.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +18,8 @@ import java.util.Set;
  */
 @Entity
 @Table(name="resource")
-public class Resource {
+@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","role"})
+public class Resource implements Serializable {
     @Id
     @Column(name="id")
     private Long id;

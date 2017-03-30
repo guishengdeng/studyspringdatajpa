@@ -1,6 +1,11 @@
 package com.spring.jpa.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,7 +19,8 @@ import java.util.Set;
  */
 @Entity
 @Table(name="user")
-public class User {
+@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","roles"})
+public class User implements Serializable{
     @Id
     @Column(name="id")
     private Long id;
@@ -33,6 +39,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns =@JoinColumn(name="role_id"))
     private Set<Role> roles;
+
     public Set<Role> getRoles() {
         return roles;
     }

@@ -54,7 +54,11 @@ function editInfo(id) {
         dataType: "text",
         async: false,
         success: function (data) {
+           /* alert(data);
             data = JSON.parse(decodeURIComponent(data));
+            alert(data);*/
+            console.log(data);
+            data=JSON.parse(data);
             $("#user_id").val(data.user.id);
             $("#user_name").val(data.user.username);
             $("#user_age").val(data.user.age);
@@ -65,9 +69,9 @@ function editInfo(id) {
             // 将input元素设置为readonly
             //$('#user_id').attr("readonly","readonly");
             $("#rolesList").empty();
-            //这是点击修改时，之前选择的角色。
-            for (var index = 0; index < data.user.roles.length; index++) {
-                var role = data.user.roles[index];
+            //这是点击修改时，当前用户本身所具有的角色。
+            for (var index = 0; index < data.currentRoles.length; index++) {
+                var role = data.currentRoles[index];
                 $("#rolesList").append('<input type="checkbox" name="role_id" value="' + role.role_id + '" checked="checked" />' + role.name);
             }
             for (var index = 0; index < data.roles.length; index++) {

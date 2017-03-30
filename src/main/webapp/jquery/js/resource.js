@@ -33,6 +33,7 @@ function editInfo(id) {
             $('#resourcesList').empty();
             $("#resource_id").val(data.resource.id);
             $("#resource_resourcename").val(data.resource.resourcename);
+            $('#resource_linkedaddress').val(data.resource.linkedaddress);
             $("#resource_description").val(data.resource.description);
         }
 

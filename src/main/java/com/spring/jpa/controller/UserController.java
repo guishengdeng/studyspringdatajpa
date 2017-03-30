@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -58,25 +59,17 @@ public class UserController {
     public String forwardToPage(@PathVariable String path,@RequestParam(value="action",required = false)String bindAction){
         return path;
     }
-
-
     @RequestMapping(value = "/update")
     @ResponseBody
-    public  String updateUser(String id){
-
-        JSONObject json = new JSONObject();
+    public  Map<String,Object> updateUser(String id){
+        Map<String,Object> map=new HashMap<String,Object>();
         long user_id=Long.parseLong(id);
         User user=userService.getUserById(user_id);
         Iterable<Role> roles=roleService.getRoleList();
-        JsonConfig jsonc = new JsonConfig();
-        jsonc.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
-        json.put("user", JSONObject.fromObject(user, jsonc));
-        json.put("roles", JSONArray.fromObject(roles, jsonc));
-        try{
-            return URLEncoder.encode(json.toString(), "UTF-8");
-        }catch(Exception e){
-            return null;
-        }
+        map.put("user",user);
+        map.put("currentRoles",user.getRoles());
+        map.put("roles",roles);
+        return map;
     }
     @RequestMapping(value = "/updateOrAddSubmit")
     public String updateOrAddSubmit(UserRoleVo vo){
