@@ -23,7 +23,8 @@
             <th>id</th>
             <th>资源名</th>
             <th>描述</th>
-            <th>链接地址</th>
+         <%--   <th>链接地址</th>--%>
+            <th>子目录(多对一)</th>
             <th>操作</th>
         </tr>
         <c:forEach items="${resources}" var="resource">
@@ -31,7 +32,8 @@
                 <td>${resource.id}</td>
                 <td>${resource.resourcename}</td>
                 <td>${resource.description}</td>
-                <td>${resource.linkedaddress}</td>
+              <%--  <td>${resource.linkedaddress}</td>--%>
+                <td>${resource.menuItem.name}</td>
                 <td>
                     <button type="button" class="btn btn-info" data-toggle="modal" onclick="editInfo(${resource.id})" data-target="#addOrUpdateRosourceModal">编辑</button>
                     &nbsp;&nbsp;
@@ -43,7 +45,7 @@
 </form>
 <div>${data}</div>
 <!-- 按钮触发模态框 -->
-<button class="btn btn-primary btn-sm" data-toggle="modal"  data-target="#addOrUpdateRosourceModal">
+<button class="btn btn-primary btn-sm" data-toggle="modal"  data-target="#addOrUpdateRosourceModal" id="addResource">
     添加资源
 </button>
 <%--引用资源模态框的jsp页面--%>
