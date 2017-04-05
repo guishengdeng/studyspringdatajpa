@@ -19,6 +19,16 @@ public class ResourceVo {
 
     private String linkedaddress;
 
+    private Long menuitem_id;
+
+    public Long getMenuitem_id() {
+        return menuitem_id;
+    }
+
+    public void setMenuitem_id(Long menuitem_id) {
+        this.menuitem_id = menuitem_id;
+    }
+
     public String getLinkedaddress() {
         return linkedaddress;
     }
