@@ -1,9 +1,5 @@
-import com.spring.jpa.model.Address;
-import com.spring.jpa.model.Role;
-import com.spring.jpa.model.User;
-import com.spring.jpa.repository.AddressRepository;
-import com.spring.jpa.repository.RoleRepository;
-import com.spring.jpa.repository.UserRepository;
+import com.spring.jpa.model.*;
+import com.spring.jpa.repository.*;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.junit.Before;
@@ -40,7 +36,10 @@ public class UserSpringDataJpaTest {
    private UserRepository userRepository;
    @Resource
    private RoleRepository roleRepository;
-
+   @Autowired
+   private MenuItemRepository menuItemRepository;
+   @Autowired
+   private MainMenuRepository mainMenuRepository;
     /*
      @Test
      public  void add(){
@@ -275,5 +274,27 @@ public class UserSpringDataJpaTest {
          }
      }
    }
+   @Test
+    public void testAddMenuItem(){
+       MainMenu mainMenu=new MainMenu();
 
+       mainMenu.setDescription("主菜单二");
+       mainMenu.setCode(2002);
+       mainMenu.setName("资源管理");
+       MenuItem menuItem1=new MenuItem();
+       menuItem1.setName("增加资源");
+       menuItem1.setDescription("增加");
+       menuItem1.setLink("/resources/addresource.action");
+       menuItem1.setSymbol("OPT_RESOURCE_ADD");
+       menuItem1.setMainMenu(mainMenu);
+       MenuItem menuItem2=new MenuItem();
+       menuItem2.setName("修改资源");
+       menuItem2.setDescription("修改");
+       menuItem2.setLink("/goods/updateresource.action");
+       menuItem2.setSymbol("OPT_RESOURCE_UPDATE");
+       menuItem2.setMainMenu(mainMenu);
+       //mainMenuRepository.save(mainMenu);
+       menuItemRepository.save(menuItem1);
+      // menuItemRepository.save(menuItem2);
+   }
 }
