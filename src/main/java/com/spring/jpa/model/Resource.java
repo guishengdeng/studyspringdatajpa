@@ -20,6 +20,7 @@ import java.util.Set;
 @Table(name="resource")
 @JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","role"})
 public class Resource implements Serializable {
+    private static final long serialVersionUID = 7883897092060098272L;
     @Id
     @Column(name="id")
     private Long id;
@@ -34,6 +35,16 @@ public class Resource implements Serializable {
     // 这个类是被维护端,它只能被别人级联,不能去保存别人
     @ManyToMany(mappedBy = "resources", cascade = CascadeType.PERSIST)
     private Set<Role> role=new HashSet<Role>();
+   //重构后的代码
+    @ManyToOne
+    private MenuItem menuItem;
+    public MenuItem getMenuItem() {
+        return menuItem;
+    }
+
+    public void setMenuItem(MenuItem menuItem) {
+        this.menuItem = menuItem;
+    }
 
     public String getLinkedaddress() {
         return linkedaddress;
