@@ -3,10 +3,16 @@ package com.spring.jpa.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.spring.jpa.security.GrantAuthorityImpl;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,7 +26,8 @@ import java.util.Set;
 @Entity
 @Table(name="user")
 @JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","roles"})
-public class User implements Serializable{
+public class User implements Serializable,UserDetails{
+    private static final long serialVersionUID = 1702697991615493989L;
     @Id
     @Column(name="id")
     private Long id;
@@ -39,6 +46,16 @@ public class User implements Serializable{
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns =@JoinColumn(name="role_id"))
     private Set<Role> roles;
+    @Transient
+    private Set<Role> roleDirectory;
+
+    public Set<Role> getRoleDirectory() {
+        return roleDirectory;
+    }
+
+    public void setRoleDirectory(Set<Role> roleDirectory) {
+        this.roleDirectory = roleDirectory;
+    }
 
     public Set<Role> getRoles() {
         return roles;
@@ -95,8 +112,56 @@ public class User implements Serializable{
         this.password = password;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
+        if (roles != null) {
+            for (Role role : roles) {
+                List<MenuItem> menuItems = role.getMenuItems();
+                for(MenuItem menuItem:menuItems){
+                    if (StringUtils.isNotBlank(menuItem.getSymbol())) {
+                        String[] roleSymbol = menuItem.getSymbol().split(";");
+                        for (String sybmol : roleSymbol) {
+                            auths.add(new GrantAuthorityImpl(sybmol));
+                        }
+                    }
+                }
+                Set<Resource> resources = role.getResources();
+                for (Resource resource : resources) {
+                    if (StringUtils.isNotBlank(resource.getResourcename())) {
+                        String[] roleSymbol = resource.getResourcename().split(";");
+                        for (String sybmol : roleSymbol) {
+                            auths.add(new GrantAuthorityImpl(sybmol));
+                        }
+                    }
+                }
+            }
 
+        }
+        return auths;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
     public User() {
     }
+
 }
