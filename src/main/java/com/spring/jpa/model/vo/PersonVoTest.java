@@ -12,6 +12,7 @@ import java.io.Serializable;
  * @see
  */
 public class PersonVoTest implements Serializable{
+    private static final long serialVersionUID = -8919557937924095176L;
     private Integer id;
     private String name;
     private boolean status;
