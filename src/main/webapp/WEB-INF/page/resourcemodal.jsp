@@ -34,15 +34,21 @@
                                        placeholder="请输入id">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <%--<div class="form-group">
                             <label for="resource_linkedaddress" class="col-sm-3 control-label">链接地址</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control"  name="linkedaddress" value="" id="resource_linkedaddress"
                                        placeholder="">
                             </div>
+                        </div>--%>
+                        <div class="form-group">
+                            <label  class="col-sm-3 control-label">目录(子目录)</label>
+                            <div class="col-sm-9" id="menuItem">
+
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="resource_resourcename" class="col-sm-3 control-label">需要权限</label>
+                            <label for="resource_resourcename" class="col-sm-3 control-label">资源名</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control"  name="resourcename" value="" id="resource_resourcename"
                                        placeholder="">
