@@ -15,7 +15,16 @@ public class RoleResourceVo {
     private String role_id;
     private String name;
     private String description;
-    private String [] id;
+    private String [] id;//这是资源类（Resource类里的id）
+    private Long []  menuitem_id;//这是子目录类（MenuItem类里的id）
+
+    public Long [] getMenuitem_id() {
+        return menuitem_id;
+    }
+
+    public void setMenuitem_id(Long [] menuitem_id) {
+        this.menuitem_id = menuitem_id;
+    }
 
     public String getRole_id() {
         return role_id;

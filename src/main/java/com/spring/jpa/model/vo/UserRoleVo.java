@@ -83,8 +83,7 @@ public class UserRoleVo {
         this.sex = sex;
     }
 
-
-
     public UserRoleVo() {
+
     }
 }

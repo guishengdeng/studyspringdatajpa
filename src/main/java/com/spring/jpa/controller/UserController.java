@@ -41,6 +41,11 @@ import java.util.Set;
 @Controller
 @RequestMapping(value="/user")
 public class UserController {
+    /**
+     * 业务不复杂时,就没有严格按照MVC的设计,对代码进行分层
+     * 当业务复杂时，要把与业务相关的代码抽取到Service层，而不是像
+     * 现在放在Controller层。
+     */
     @Autowired
     private UserService userService;
     @Autowired
@@ -55,9 +60,9 @@ public class UserController {
          return "userlist";
     }
 
-    @RequestMapping(value = "{path}")
-    public String forwardToPage(@PathVariable String path,@RequestParam(value="action",required = false)String bindAction){
-        return path;
+    @RequestMapping(value = "{path}")//RESTful风格,截取的是/user/{add_admin}这一部分
+    public String forwardToPage(@PathVariable(value="path") String requestPath,@RequestParam(value="action",required = false)String bindAction){
+        return requestPath;
     }
     @RequestMapping(value = "/update")
     @ResponseBody
@@ -160,7 +165,7 @@ public class UserController {
             Object principal=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             Set<Role> roleSet=null;
             if(principal instanceof UserDetails)
-                roleSet = ((LoginUserValidate) principal).getRoleDirectory();
+                roleSet = ((User)principal).getRoleDirectory();//before:((LoginUserValidate)principal).getRoleDirectory()
             else
                 roleSet=new HashSet<Role>();
 

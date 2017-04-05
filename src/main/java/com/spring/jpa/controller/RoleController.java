@@ -1,8 +1,10 @@
 package com.spring.jpa.controller;
 
+import com.spring.jpa.model.MenuItem;
 import com.spring.jpa.model.Resource;
 import com.spring.jpa.model.Role;
 import com.spring.jpa.model.vo.RoleResourceVo;
+import com.spring.jpa.service.MenuItemService;
 import com.spring.jpa.service.ResourceService;
 import com.spring.jpa.service.RoleService;
 import net.sf.json.JSONArray;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -35,6 +39,8 @@ public class RoleController {
     private RoleService roleService;
     @Autowired
     private ResourceService resourceService;
+    @Autowired
+    private MenuItemService menuItemService;
     @RequestMapping(value="/rolelist")
     public String getRoleList(Model model){
          Iterable<Role> roles=roleService.getRoleList();
@@ -51,6 +57,8 @@ public class RoleController {
         jsonc.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
         json.put("role", JSONObject.fromObject(role, jsonc));
         json.put("resources", JSONArray.fromObject(resourceService.getResourceList(), jsonc));
+        json.put("currentmenuItem",JSONArray.fromObject(role.getMenuItems(), jsonc));
+        json.put("menuItems",JSONArray.fromObject(menuItemService.getMenuItems(), jsonc));
         try{
             return URLEncoder.encode(json.toString(), "UTF-8");
         }catch(Exception e){
@@ -72,6 +80,7 @@ public class RoleController {
         JsonConfig jsonc = new JsonConfig();
         jsonc.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
         json.put("resources", JSONArray.fromObject(resourceService.getResourceList(), jsonc));
+        json.put("menuItems", JSONArray.fromObject(menuItemService.getMenuItems(), jsonc));
         try{
             return URLEncoder.encode(json.toString(), "UTF-8");
         }catch(Exception e){
@@ -86,6 +95,7 @@ public class RoleController {
         role.setName(vo.getName());
         role.setDescription(vo.getDescription());
         Set<Resource> resourceSet=role.getResources();
+        List<MenuItem> menuItems=new ArrayList<MenuItem>();
         if(vo.getId()!=null){
             for(String resource_id:vo.getId()){
                 Long reourceId=Long.parseLong(resource_id);
@@ -93,7 +103,15 @@ public class RoleController {
                 resourceSet.add(resource);
             }
         }
+        //重构后的代码
+        if(vo.getMenuitem_id()!=null){
+            for(Long menuitem_id:vo.getMenuitem_id()){
+                MenuItem menuItem=menuItemService.getMenuItemById(menuitem_id);
+                menuItems.add(menuItem);
+            }
+        }
         role.setResources(resourceSet);
+        role.setMenuItems(menuItems);
         roleService.addOrUpdateSubimt(role);
         return "redirect:rolelist.action";
     }

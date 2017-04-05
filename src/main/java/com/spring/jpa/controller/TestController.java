@@ -56,17 +56,17 @@ public class TestController {
         return new PersonVoTest(pid,name,status);
     }
     @RequestMapping(value = "/profiless/{id}/{name}/{status}",method = RequestMethod.GET)
-
-    public @ResponseBody List<PersonVoTest> profiless(@PathVariable(value="id") Integer pid, @PathVariable String name, @PathVariable boolean status){
+    @ResponseBody
+    public  List<PersonVoTest> profiless(@PathVariable(value="id") Integer pid, @PathVariable String name, @PathVariable boolean status){
         List<PersonVoTest> list=new ArrayList<PersonVoTest>();
         list.add(new PersonVoTest(pid,name,status));
         //返回的数据[{"id":1,"name":"李四","status":false}]
         return list;
     }
 
-    @RequestMapping(value = "/login")
-    public @ResponseBody
-    PersonVoTest login(@RequestBody PersonVoTest person) {
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @ResponseBody
+    public PersonVoTest login(@RequestBody PersonVoTest person) {
         return person;
     }
 }

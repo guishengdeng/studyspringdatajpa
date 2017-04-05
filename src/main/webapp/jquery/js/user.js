@@ -51,11 +51,11 @@ function editInfo(id) {
         type: 'POST',
         url: "../user/update.action",
         data: {"id": id},
-        dataType: "text",
+        dataType: "text",//html xml javascirpt text json jsonp
         async: false,
         success: function (data) {
-           /* alert(data);
-            data = JSON.parse(decodeURIComponent(data));
+           alert(data);
+            /*  data = JSON.parse(decodeURIComponent(data));
             alert(data);*/
             console.log(data);
             data=JSON.parse(data);
@@ -100,4 +100,15 @@ function deleteInfo(id) {
             window.location.href = "../user/userlist.action";
         }
     });
+}
+
+function testAjax(){
+   $('#send').bind('click',function () {
+       $.post('../user/userlist.action',
+           {"usename":"张三","age":12},
+           function(data,textStauts){
+
+           },"json")
+
+   })
 }

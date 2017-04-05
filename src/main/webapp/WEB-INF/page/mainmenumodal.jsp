@@ -1,19 +1,14 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: lenovo
-  Date: 2017/3/26
-  Time: 23:55
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>主菜单模态框</title>
 </head>
 <body>
 <!-- 添加(修改)模态框示例实例 -->
 <form method="post" action="" class="form-horizontal" role="form" id="form_data"  style="margin: 20px;">
-    <div class="modal fade" id="addOrUpdateRoleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addOrUpdateMainMenuModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -21,42 +16,43 @@
                         &times
                     </button>
                     <h4 class="modal-title" id="myModalLabel">
-                        角色信息
+                        主菜单信息
                     </h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal" role="form" id="roleForm">
+                    <form class="form-horizontal" role="form" id="mainMenuForm">
                         <div class="form-group">
                             <%--for="user_id"的属性值对应 id="user_id"的属性 --%>
-                            <label for="role_id" class="col-sm-3 control-label">ID</label>
+                            <label for="mainmenu_id" class="col-sm-3 control-label">ID</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control"  name="role_id" value="" id="role_id"
+                                <input type="text" class="form-control"  name="id" value="" id="mainmenu_id"
                                        placeholder="请输入id">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="role_name" class="col-sm-3 control-label">角色</label>
+                            <label for="mainmenu_code" class="col-sm-3 control-label">代码</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="name" value="" id="role_name"
+                                <input type="text" class="form-control" name="code" value="" id="mainmenu_code"
                                        placeholder="请输入角色">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="role_description" class="col-sm-3 control-label">描述</label>
+                            <label for="mainmenu_name" class="col-sm-3 control-label">名称</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="description" value="" id="role_description"
+                                <input type="text" class="form-control" name="name" value="" id="mainmenu_name"
                                        placeholder="">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">资源</label>
-                            <div class="col-sm-9" id="resourcesList">
-
+                            <label for="mainmenu_description" class="col-sm-3 control-label">描述</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="description" value="" id="mainmenu_description"
+                                       placeholder="">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">目录(子目录)</label>
+                            <label class="col-sm-3 control-label">子目录</label>
                             <div class="col-sm-9" id="menuItemList">
 
                             </div>

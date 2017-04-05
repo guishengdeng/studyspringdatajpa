@@ -18,11 +18,15 @@ function addRoleModal() {
                 data = JSON.parse(decodeURIComponent(data));
                 console.log(data);
                 $('#resourcesList').empty();
+                $('#menuItemList').empty();
                 for (var index = 0; index < data.resources.length; index++) {
                     var resource = data.resources[index];
                     $("#resourcesList").append('<input type="checkbox" name="id" value="' + resource.id + '"/>' + resource.resourcename);
                 }
-
+                for (var index = 0; index < data.menuItems.length; index++) {
+                    var menuitem = data.menuItems[index];
+                    $("#menuItemList").append('<input type="checkbox" name="menuitem_id" value="' + menuitem.menuitem_id + '"/>' + menuitem.name);
+                }
             }
         });
     });
@@ -63,14 +67,23 @@ function editInfo(id){
             $("#role_name").val(data.role.name);
             $("#role_description").val(data.role.description);
             $('#resourcesList').empty();
-           ///这是点击修改时，之前选择的角色。
             for (var index = 0; index < data.role.resources.length; index++) {
                 var resource = data.role.resources[index];
-                $("#resourcesList").append('<input type="checkbox" name="id" value="' + resource.id + '" checked="checked" />' + resource.resourcename);
+                $("#resourcesList").append('<input type="checkbox" name="id" value="' + resource.id + '" checked="checked" />' + resource.description);
             }
             for (var index = 0; index < data.resources.length; index++) {
                 var resource = data.resources[index];
-                $("#resourcesList").append('<input type="checkbox" name="id" value="' + resource.id + '"/>' + resource.resourcename);
+                $("#resourcesList").append('<input type="checkbox" name="id" value="' + resource.id + '"/>' + resource.description);
+            }
+            //重构后的代码
+            $('#menuItemList').empty();
+            for (var index = 0; index < data.currentmenuItem.length; index++) {
+                var menuitem = data.currentmenuItem[index];
+                $("#menuItemList").append('<input type="checkbox" name="menuitem_id" value="' + menuitem.menuitem_id + '" checked="checked" />' + menuitem.name);
+            }
+            for (var index = 0; index < data.menuItems.length; index++) {
+                var menuitem = data.menuItems[index];
+                $("#menuItemList").append('<input type="checkbox" name="menuitem_id" value="' + menuitem.menuitem_id + '"/>' + menuitem.name);
             }
         }
 

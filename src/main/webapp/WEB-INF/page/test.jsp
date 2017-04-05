@@ -26,21 +26,16 @@
              var url = '../person/profiles/'+query+'.action';
              alert(url);
              $.get(url, function(data) {
-                 alert(data.personVoTest.length);
                  //{"personVoTest":[{"id":1,"name":"张三","status":false},{"id":2,"name":"李思","status":true}]}
-                 for(var index=0;index<data.personVoTest.length;index++){
-                      var person=data.personVoTest[index];
-                      alert(person.id+"----"+person.name+"----"+person.status);
-                 }
-                 console.log(data);
-             });
+                      alert(data.id+"----"+data.name+"----"+data.status);
+             },"json");
          }
 
              function login() {
                  alert($('#form_data').serialize());
                  $.ajax({
                      type : 'POST',
-                     contentType : 'application/json',
+                  /*   contentType : 'application/json',*/
                      url :'../person/login.action',
                      dataType : 'json',
                      data : $('#form_data').serialize(),
@@ -57,7 +52,7 @@
     </script>
 </head>
 <body>
-      <form action="" id="form_data">
+      <form action="" id="form_data" method="post">
             <table>
                 <tr>
                     <td>id</td>

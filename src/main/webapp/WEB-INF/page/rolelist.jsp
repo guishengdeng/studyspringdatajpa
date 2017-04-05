@@ -25,6 +25,7 @@
                 <th>角色</th>
                 <th>描述</th>
                 <th>资源</th>
+                <th>目录(子目录)</th>
                 <th>操作</th>
             </tr>
         </thead>
@@ -38,6 +39,13 @@
                         <c:if test="${not empty role.resources}">
                             <c:forEach items="${role.resources}" var="resource">
                                 <span>${resource.resourcename}</span>
+                            </c:forEach>
+                        </c:if>
+                    </td>
+                    <td>
+                        <c:if test="${not empty role.menuItems}">
+                            <c:forEach items="${role.menuItems}" var="menuitem">
+                                <span>${menuitem.name}</span>
                             </c:forEach>
                         </c:if>
                     </td>
