@@ -24,7 +24,7 @@
 <body>
 <%--<div class="container" style="min-width: 1200px;">--%>
     <%--引用公共页面--%>
-    <a href="/person/profile.action" target="_blank">测试页面</a>
+    <%--<a href="/person/profile.action" target="_blank">测试页面</a>--%>
     <jsp:include page="commonNavBar.jsp"/>
     <table class="table table-hover table-bordered" >
         <thead>
