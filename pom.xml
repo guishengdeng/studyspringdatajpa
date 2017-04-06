@@ -10,8 +10,8 @@
         <version>1.5.2.RELEASE</version>
     </parent>
 
-    <groupId>com.biz</groupId>
-    <artifactId>intelli-stock</artifactId>
+    <groupId>com.depotnextdoor</groupId>
+    <artifactId>server-parent</artifactId>
     <version>${current.project.version}</version>
     <packaging>pom</packaging>
     <description>Project module definition in current Project</description>
