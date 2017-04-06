@@ -51,7 +51,7 @@ public class MainMenuController {
     }
     @RequestMapping(value="/add")
     @ResponseBody
-    public Map<String,Object> getMenuItems(Model model){
+    public Map<String,Object> getMenuItems(){
         Iterable<MenuItem> menuItems=menuItemService.getMenuItems();
         Map<String,Object> map=new HashMap<String,Object>();
         map.put("menuItems",menuItems);
