@@ -13,11 +13,11 @@
 
 </head>
 <body>
-<%--<a href="/user/userlist.action">用户列表</a>
+<a href="/user/userlist.action">用户列表</a>
 <a href="/role/rolelist.action">角色列表</a>
 <a href="/resource/resourcelist.action">资源列表</a>
 <a href="/mainmenu/mainmenulist.action">主目录</a>
-<a href="/menuitem/menuitemlist.action">子菜单目录</a>--%>
+<a href="/menuitem/menuitemlist.action">子菜单目录</a>
     <div class="welcome">
         欢迎您:<span style="color:red;">${sessionScope.username}</span>
         <button type="button" class="btn btn-default btn-xs">
