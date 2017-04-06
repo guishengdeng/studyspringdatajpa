@@ -54,10 +54,9 @@ function editInfo(id) {
         dataType: "text",//html xml javascirpt text json jsonp
         async: false,
         success: function (data) {
-           alert(data);
             /*  data = JSON.parse(decodeURIComponent(data));
             alert(data);*/
-            console.log(data);
+            //console.log(data);
             data=JSON.parse(data);
             $("#user_id").val(data.user.id);
             $("#user_name").val(data.user.username);
@@ -70,8 +69,13 @@ function editInfo(id) {
             //$('#user_id').attr("readonly","readonly");
             $("#rolesList").empty();
             //这是点击修改时，当前用户本身所具有的角色。
-            for (var index = 0; index < data.currentRoles.length; index++) {
+            /*for (var index = 0; index < data.currentRoles.length; index++) {
                 var role = data.currentRoles[index];
+                $("#rolesList").append('<input type="checkbox" name="role_id" value="' + role.role_id + '" checked="checked" />' + role.name);
+            }*/
+            for(var index in data.currentRoles){
+                console.log(data.currentRoles[index]);
+                var role=data.currentRoles[index];
                 $("#rolesList").append('<input type="checkbox" name="role_id" value="' + role.role_id + '" checked="checked" />' + role.name);
             }
             for (var index = 0; index < data.roles.length; index++) {

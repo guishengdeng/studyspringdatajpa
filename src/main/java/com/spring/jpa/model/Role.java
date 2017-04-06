@@ -28,19 +28,19 @@ public class Role implements Serializable{
      @Column(name="id")
      private Long role_id;
      @Column(name="name")
-     @OrderBy(value="name asc")
+     @OrderBy(value = "name asc")
      private String name;
      @Column(name="descn")
      private String description;
    /* @ManyToMany(cascade = CascadeType.PERSIST)
     private Set<User> users;*/
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)//之前为EAGER
     @JoinTable(name="role_resource", joinColumns = @JoinColumn(name="role_id")
             ,inverseJoinColumns = @JoinColumn(name="resource_id"))
     private Set<Resource> resources=new HashSet<Resource>();
 
     //重构后的代码
-    @ManyToMany(fetch=FetchType.LAZY)
+    @ManyToMany(fetch=FetchType.LAZY)//定义了加载关联对象的加载策略
     @JoinTable(name = "role_menuitem",
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "menuitem_id"))

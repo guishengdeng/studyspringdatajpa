@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Repository
 public interface RoleRepository extends CrudRepository<Role,Long> {
-   @Query("select distinct r  from Role r")
+   @Query("select distinct r  from Role r order by r.name asc ")
    List<Role> getRoleList();
 
    Role findByName(String name);

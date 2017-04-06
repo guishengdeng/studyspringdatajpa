@@ -54,4 +54,5 @@ public interface UserRepository  extends CrudRepository<User,Long> {
     //还可以写个带查询条件的分页
     //Page<User> findByUsername(String username,Pageable pageable);
 
+
 }

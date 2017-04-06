@@ -21,7 +21,7 @@ function addRoleModal() {
                 $('#menuItemList').empty();
                 for (var index = 0; index < data.resources.length; index++) {
                     var resource = data.resources[index];
-                    $("#resourcesList").append('<input type="checkbox" name="id" value="' + resource.id + '"/>' + resource.resourcename);
+                    $("#resourcesList").append('<input type="checkbox" name="id" value="' + resource.id + '"/>' + resource.description);
                 }
                 for (var index = 0; index < data.menuItems.length; index++) {
                     var menuitem = data.menuItems[index];

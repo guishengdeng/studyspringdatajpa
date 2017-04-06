@@ -77,6 +77,7 @@ function add(){
             dataType:"json",
             async: false, // 是否异步加载数据， 为false时只有加载完成后才继续其他操作，类似于同步锁
             success: function (data) {
+                $('#menuItem').empty();
                 if(data.menuItems!=null){
                     for(var index=0;index<data.menuItems.length;index++){
                         var menuitem=data.menuItems[index];
