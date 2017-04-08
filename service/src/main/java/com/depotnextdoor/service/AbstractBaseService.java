@@ -1,8 +1,6 @@
 package com.depotnextdoor.service;
 
 import com.depotnextdoor.core.util.ExecutionUnit;
-import com.depotnextdoor.event.BizEvent;
-import com.depotnextdoor.event.BizEventPublisher;
 import com.depotnextdoor.transaction.BizTransactionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,48 +18,6 @@ public abstract class AbstractBaseService {
 
     @Autowired
     protected IdService idService;
-
-    @Autowired
-    private BizEventPublisher publisher;
-
-    /**
-     * 立即异步发送事件
-     *
-     * @author yanweijin
-     * @date 2016年8月15日
-     */
-    protected void publishEvent(BizEvent event) {
-        publisher.publishEvent(event);
-    }
-
-    /**
-     * 立即发布同步事件
-     *
-     * @author yanweijin
-     */
-    protected void syncPublishEvent(BizEvent event) {
-        publisher.syncPublishEvent(event);
-    }
-
-    /**
-     * 使用事务管理器异步发送事件,事件只有在事务成功提交之后才会开始发布
-     *
-     * @author yanweijin
-     * @date 2016年8月15日
-     */
-    protected void publishEventUsingTx(BizEvent event) {
-        publisher.publishEventUsingTransactionManager(event);
-    }
-
-    /**
-     * 使用事务管理器同步发送事件,事件只有在事务成功提交之后才会开始发布,本次请求在事件处理完成后才会返回
-     *
-     * @author yanweijin
-     * @date 2016年8月15日
-     */
-    protected void syncPublishEventUsingTx(BizEvent event) {
-        publisher.syncPublishEventUsingTransactionManager(event);
-    }
 
     /**
      * 使用事务管理器执行redis操作,只有事务成功提交之后才会执行这些操作,本次请求在操作结束后才会返回
