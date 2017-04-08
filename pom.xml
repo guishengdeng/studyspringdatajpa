@@ -12,14 +12,28 @@
 
     <groupId>com.depotnextdoor</groupId>
     <artifactId>server-parent</artifactId>
-    <version>${current.project.version}</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>Project module definition in current Project</description>
 
     <modules>
+        <module>manage</module>
+        <module>core</module>
+        <module>support-jpa</module>
+        <module>support-web</module>
+        <module>rest</module>
+        <module>dao</module>
+        <module>service</module>
     </modules>
 
     <properties>
+        <depotnextdoor.manage.version>1.0-SNAPSHOT</depotnextdoor.manage.version>
+        <depotnextdoor.core.version>1.0-SNAPSHOT</depotnextdoor.core.version>
+        <depotnextdoor.support-jpa.version>1.0-SNAPSHOT</depotnextdoor.support-jpa.version>
+        <depotnextdoor.support-web.version>1.0-SNAPSHOT</depotnextdoor.support-web.version>
+        <depotnextdoor.rest.version>1.0-SNAPSHOT</depotnextdoor.rest.version>
+        <depotnextdoor.dao.version>1.0-SNAPSHOT</depotnextdoor.dao.version>
+        <depotnextdoor.service.version>1.0-SNAPSHOT</depotnextdoor.service.version>
         <current.project.version>1.0-SNAPSHOT</current.project.version>
         <java.version>1.8</java.version>
         <spring-boot.version>1.5.2.RELEASE</spring-boot.version>
@@ -38,15 +52,29 @@
         <codelogger.version>1.0.0</codelogger.version>
         <apache.commons.pool.version>2.2</apache.commons.pool.version>
         <springframework.security.core.version>4.0.1.RELEASE</springframework.security.core.version>
-        <springframework.security.config.verison>3.2.5.RELEASE</springframework.security.config.verison>
-        <springframework.security.taglibs.version>4.2.1.RELEASE</springframework.security.taglibs.version>
+        <springframework.security.config.verison>3.2.5.RELEASE
+        </springframework.security.config.verison>
+        <springframework.security.taglibs.version>4.2.1.RELEASE
+        </springframework.security.taglibs.version>
         <mysql.connector.version>5.1.6</mysql.connector.version>
-        <c3p0.version>0.9.5.2</c3p0.version>
+        <druid.version>1.0.18</druid.version>
         <jstl.version>1.2</jstl.version>
         <tomcat.servlet.api.version>8.0.36</tomcat.servlet.api.version>
+        <standard.taglib.version>1.1.2</standard.taglib.version>
+        <servlet-api.version>2.5</servlet-api.version>
+        <fastjson.version>1.2.16</fastjson.version>
+        <zookeeper.version>3.4.6</zookeeper.version>
+        <hibernate-jpa-api.version>1.0.0.Final</hibernate-jpa-api.version>
+        <javax.validation-api.version>1.1.0.Final</javax.validation-api.version>
+        <pinyin4j.version>2.5.0</pinyin4j.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -86,6 +114,7 @@
             <groupId>org.codelogger</groupId>
             <artifactId>utils</artifactId>
         </dependency>
+
     </dependencies>
 
     <dependencyManagement>
@@ -175,9 +204,9 @@
             </dependency>
 
             <dependency>
-                <groupId>com.mchange</groupId>
-                <artifactId>c3p0</artifactId>
-                <version>${c3p0.version}</version>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
             </dependency>
 
             <dependency>
@@ -185,7 +214,68 @@
                 <artifactId>jstl</artifactId>
                 <version>${jstl.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>javax.servlet.jsp.jstl</groupId>
+                <artifactId>jstl-api</artifactId>
+                <version>${jstl.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-taglibs</artifactId>
+                <version>${springframework.security.taglibs.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>taglibs</groupId>
+                <artifactId>standard</artifactId>
+                <version>${standard.taglib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>${servlet-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>${zookeeper.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate.javax.persistence</groupId>
+                <artifactId>hibernate-jpa-2.1-api</artifactId>
+                <version>${hibernate-jpa-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${javax.validation-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.belerweb</groupId>
+                <artifactId>pinyin4j</artifactId>
+                <version>${pinyin4j.version}</version>
+            </dependency>
         </dependencies>
+
     </dependencyManagement>
 
     <build>

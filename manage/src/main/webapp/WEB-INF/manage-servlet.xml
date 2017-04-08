@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:mvc="http://www.springframework.org/schema/mvc"
+        xmlns:security="http://www.springframework.org/schema/security"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security.xsd
+	http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.depotnextdoor.manage.controller"/>
+    <context:annotation-config/>
+    <mvc:annotation-driven/>
+
+    <mvc:view-controller path="/login.do" view-name="login"/>
+    <mvc:view-controller path="/welcome.do" view-name="home"/>
+
+    <!-- 因为 controller 是在此文件中注册,所以需要这里也写 -->
+    <security:global-method-security pre-post-annotations="enabled" secured-annotations="enabled"
+            jsr250-annotations="enabled"/>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--<mvc:interceptors>-->
+    <!--<mvc:interceptor>-->
+    <!--<mvc:mapping path="/**"/>-->
+    <!--<bean class="com.depotnextdoor.manage.interceptor.LogInterceptor">-->
+    <!--&lt;!&ndash; 不需要记录log的正则表达式 &ndash;&gt;-->
+    <!--<property name="excludedUri"-->
+    <!--value="/files/upload.do|/files/uploadAudit.do|/prices/upload.do|/depots/saveImportEmployee.do|/depots/saveImportDepot.do"/>-->
+    <!--<property name="enabled" value="true"/>-->
+    <!--</bean>-->
+    <!--</mvc:interceptor>-->
+    <!--</mvc:interceptors>-->
+
+</beans>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"
+        default-autowire="byType">
+
+    <bean id="depotnextdoorDatasource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${depotnearby.driver}" />
+        <property name="url" value="${depotnearby.url}" />
+        <property name="username" value="${depotnearby.user}" />
+        <property name="password" value="${depotnearby.pass}" />
+
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="${depotnearby.jdbc.initialSize}" />
+        <property name="minIdle" value="${depotnearby.jdbc.minIdle}" />
+        <property name="maxActive" value="${depotnearby.jdbc.maxActive}" />
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="${depotnearby.jdbc.maxWait}" />
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${depotnearby.jdbc.timeBetweenEvictionRunsMillis}" />
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="${depotnearby.jdbc.minEvictableIdleTimeMillis}" />
+
+        <property name="validationQuery" value="SELECT 'x' from dual" />
+        <property name="testWhileIdle" value="true" />
+        <property name="testOnBorrow" value="false" />
+        <property name="testOnReturn" value="false" />
+        <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+        <property name="poolPreparedStatements" value="${depotnearby.jdbc.poolPreparedStatements}" />
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="${depotnearby.jdbc.maxPoolPreparedStatementPerConnectionSize}" />
+    </bean>
+
+
+    <bean id="persistenceUnitManager"
+            class="org.springframework.data.jpa.support.MergingPersistenceUnitManager ">
+        <property name="persistenceXmlLocations">
+            <list value-type="java.lang.String">
+                <value>classpath*:META-INF/persistence.xml</value>
+            </list>
+        </property>
+        <property name="defaultJtaDataSource" ref="depotnextdoorDatasource"/>
+        <property name="defaultDataSource" ref="depotnextdoorDatasource"/>
+    </bean>
+
+
+    <bean id="entityManagerFactory"
+            class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="depotnextdoorDatasource"/>
+        <property name="packagesToScan">
+            <list>
+                <value>com.depotnextdoor.dao.rdb.po</value>
+            </list>
+        </property>
+        <property name="persistenceProvider">
+            <bean class="org.hibernate.ejb.HibernatePersistence"/>
+        </property>
+        <!--<property name="persistenceUnitName" value="depotnextdoor"/>-->
+        <!--<property name="persistenceUnitManager" ref="persistenceUnitManager"/>-->
+        <property name="jtaDataSource" ref="depotnextdoorDatasource"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="generateDdl" value="true"/>
+                <property name="database" value="MYSQL"/>
+                <property name="databasePlatform"
+                        value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+                <property name="showSql" value="true"/>
+            </bean>
+        </property>
+        <property name="jpaDialect">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <!-- <prop key="hibernate.query.substitutions">1</prop>true 1, false 0
+                <prop key="hibernate.default_batch_fetch_size">16</prop>
+                <prop key="hibernate.max_fetch_depth">2</prop>
+                <prop key="hibernate.generate_statistics">true</prop>
+                <prop key="hibernate.bytecode.use_reflection_optimizer">true</prop> -->
+
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <!-- 这个配置能略微加速hibernate连接速度,但会失去自动更新表结构的能力
+                <prop key="hibernate.hbm2ddl.auto">none</prop>
+                <prop key="hibernate.temp.use_jdbc_metadata_defaults">false</prop>
+                 -->
+                <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
+                <prop key="hibernate.cache.use_query_cache">false</prop>
+                <prop key="hibernate.cache.use_second_level_cache">false</prop>
+                <prop key="hibernate.transaction.flush_before_completion">true</prop>
+                <prop key="hibernate.show_sql">${depotnearby.show_sql}</prop>
+                <prop key="hibernate.ejb.naming_strategy">
+                    org.hibernate.cfg.DefaultComponentSafeNamingStrategy
+                </prop>
+            </props>
+        </property>
+    </bean>
+
+    <jpa:repositories base-package="com.depotnextdoor.dao.rdb.repository" transaction-manager-ref="transactionManager" entity-manager-factory-ref="entityManagerFactory"
+            factory-class="com.depotnextdoor.support.jpa.repository.CommonRepositoryFactoryBean"/>
+
+    <!-- 事件发布器 -->
+    <bean id="eventPublisher" class="com.depotnextdoor.event.BizEventPublisher"/>
+
+    <!-- Jpa 事务管理器 -->
+    <bean id="transactionManager" class="com.depotnextdoor.transaction.BizTransactionManager">
+        <property name="dataSource" ref="depotnextdoorDatasource"/>
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+        <property name="eventPublisher" ref="eventPublisher"/>
+    </bean>
+
+    <!-- 开启注解事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+
+</beans>

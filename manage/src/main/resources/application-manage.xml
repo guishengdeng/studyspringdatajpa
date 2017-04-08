@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd"
+        default-autowire="byType">
+
+    <context:annotation-config/>
+    <context:property-placeholder ignore-unresolvable="true"
+            location="classpath:/properties/config.properties, classpath:/properties/datasource.properties"/>
+    <context:component-scan base-package="com.depotnextdoor"/>
+
+    <!-- 引入datasource配置 -->
+    <import resource="classpath:application-datasource.xml"/>
+    <import resource="classpath:application-security.xml"/>
+
+    <bean id="passwordEncoder"
+            class="org.springframework.security.authentication.encoding.Md5PasswordEncoder"/>
+    <bean id="userDetailsManager" class="com.depotnextdoor.service.security.AdminServiceImpl"/>
+
+</beans>
