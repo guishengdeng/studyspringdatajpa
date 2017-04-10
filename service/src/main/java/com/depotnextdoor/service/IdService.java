@@ -2,14 +2,12 @@ package com.depotnextdoor.service;
 
 import com.depotnextdoor.core.zookeeper.SoaIndexFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 /**
  * 全局Id生成器 从网上copy的
  *
  * @author gongshutao
  */
-@Service
 public class IdService {
 
     private final static long twepoch = 1409030641843L;

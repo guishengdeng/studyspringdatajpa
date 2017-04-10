@@ -4,6 +4,7 @@ import com.depotnextdoor.dao.rdb.po.security.*;
 import com.depotnextdoor.dao.rdb.repository.admin.AdminRepository;
 import com.depotnextdoor.dao.rdb.repository.admin.MainMenuRepository;
 import com.depotnextdoor.service.AbstractBaseService;
+import com.depotnextdoor.service.security.interfaces.AdminService;
 import com.google.common.collect.Lists;
 import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
@@ -15,7 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AdminServiceImpl extends AbstractBaseService implements UserDetailsService {
+public class AdminServiceImpl extends AbstractBaseService implements UserDetailsService, AdminService {
 
     @Autowired
     private AdminRepository adminRepository;
