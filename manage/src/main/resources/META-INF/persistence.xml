@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
-    <persistence-unit name="depotnextdoor" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="gbck" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-        <class>com.depotnextdoor.dao.rdb.po.security.Admin</class>
-        <class>com.depotnextdoor.dao.rdb.po.security.Role</class>
-        <class>com.depotnextdoor.dao.rdb.po.security.MainMenu</class>
-        <class>com.depotnextdoor.dao.rdb.po.security.MenuItem</class>
-        <class>com.depotnextdoor.dao.rdb.po.security.Resource</class>
     </persistence-unit>
 </persistence>

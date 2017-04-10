@@ -47,13 +47,7 @@
     <bean id="entityManagerFactory"
             class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="persistenceUnitPostProcessors">
-            <list>
-                <bean class="org.springframework.data.jpa.support.ClasspathScanningPersistenceUnitPostProcessor">
-                    <constructor-arg value="com.depotnextdoor.dao.rdb.po.*"/>
-                </bean>
-            </list>
-        </property>
+        <property name="packagesToScan" value="com.depotnextdoor.dao.rdb.po"/>
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="generateDdl" value="true"/>
@@ -77,7 +71,7 @@
             </props>
         </property>
         <property name="persistenceUnitManager" ref="persistenceUnitManager"/>
-        <property name="persistenceUnitName" value="depotnextdoor"/>
+        <property name="persistenceUnitName" value="gbck"/>
     </bean>
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
