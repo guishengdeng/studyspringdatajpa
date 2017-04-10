@@ -10,3 +10,13 @@ spring:
     password:
     url: jdbc:mysql://127.0.0.1:3306/depotnextdoor
 
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database: mysql
+
+biz:
+  soa:
+    idx: 1
+

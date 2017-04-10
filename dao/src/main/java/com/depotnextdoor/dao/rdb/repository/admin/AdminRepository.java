@@ -1,7 +1,7 @@
 package com.depotnextdoor.dao.rdb.repository.admin;
 
 import com.depotnextdoor.dao.rdb.po.security.Admin;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.depotnextdoor.support.jpa.repository.CommonJpaRepository;
 
-public interface AdminRepository extends JpaRepository<Admin, String> {
+public interface AdminRepository extends CommonJpaRepository<Admin, String> {
 }

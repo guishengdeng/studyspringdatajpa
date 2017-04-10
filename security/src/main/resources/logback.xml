@@ -13,12 +13,12 @@
     <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="FILE"/>
     </appender>
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="ASYNC"/>
     </root>
 
-    <logger name="org.springframework" level="DEBUG" additivity="false">
+    <logger name="org.springframework" level="INFO" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
 </configuration>
