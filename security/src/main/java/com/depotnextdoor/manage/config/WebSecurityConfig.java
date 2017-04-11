@@ -2,6 +2,8 @@ package com.depotnextdoor.manage.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.authentication.dao.ReflectionSaltSource;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -59,7 +61,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        //        auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
-        auth.userDetailsService(userDetailsService).passwordEncoder(md5PasswordEncoder);
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setPasswordEncoder(md5PasswordEncoder);
+        authenticationProvider.setUserDetailsService(userDetailsService);
+        ReflectionSaltSource saltSource = new ReflectionSaltSource();
+        saltSource.setUserPropertyToUse("username");
+        authenticationProvider.setSaltSource(saltSource);
+        auth.authenticationProvider(authenticationProvider);
     }
 }
