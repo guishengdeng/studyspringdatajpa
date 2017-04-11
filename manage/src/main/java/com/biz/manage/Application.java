@@ -12,9 +12,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.biz.support.jpa.repository.CommonRepositoryFactoryBean;
+
 @SpringBootApplication
 @ComponentScan(basePackages = "com.biz")
-@EnableJpaRepositories(basePackages = "com.biz")
+@EnableJpaRepositories(basePackages = "com.biz" ,repositoryFactoryBeanClass=CommonRepositoryFactoryBean.class)
 @EntityScan(basePackages = "com.biz")
 @EnableTransactionManagement
 public class Application extends SpringBootServletInitializer {

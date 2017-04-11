@@ -1,16 +1,18 @@
 package com.biz.gbck.dao.mysql.repository.admin;
 
-import com.biz.gbck.dao.mysql.po.security.MainMenu;
 import java.util.List;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-/**
- * 主菜单Repository
- *
- * @author david-liu
- * @date 2017年04月07日
- * @reviewer
- */
-public interface MainMenuRepository extends JpaRepository<MainMenu, Long> {
-    List<MainMenu> findByOrderByCodeAscNameAsc();
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
+
+import com.biz.gbck.dao.mysql.po.security.MainMenu;
+import com.biz.support.jpa.repository.CommonJpaRepository;
+
+
+@Repository
+public interface MainMenuRepository extends CommonJpaRepository<MainMenu, Long>, MainMenuDao,JpaSpecificationExecutor<MainMenu> {
+
+	List<MainMenu> findByOrderByCodeAscNameAsc();
+
 }
+

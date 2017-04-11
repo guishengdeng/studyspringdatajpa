@@ -1,7 +1,10 @@
 package com.biz.gbck.dao.mysql.repository.admin;
 
-import com.biz.gbck.dao.mysql.po.security.Admin;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface AdminRepository extends JpaRepository<Admin, String> {
+import com.biz.gbck.dao.mysql.po.security.Admin;
+import com.biz.support.jpa.repository.CommonJpaRepository;
+
+public interface AdminRepository  extends CommonJpaRepository<Admin, String>, MainMenuDao,JpaSpecificationExecutor<Admin> {
+
 }
