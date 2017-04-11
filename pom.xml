@@ -20,6 +20,10 @@
         <module>biz-core</module>
         <module>biz-support-jpa</module>
         <module>biz-support-web</module>
+        <module>biz-redis</module>
+        <module>biz-message</module>
+        <module>biz-support-es</module>
+        <module>search</module>
         <module>rest</module>
         <module>dao</module>
         <module>service</module>
@@ -34,6 +38,10 @@
         <gbck.rest.version>1.0-SNAPSHOT</gbck.rest.version>
         <gbck.dao.version>1.0-SNAPSHOT</gbck.dao.version>
         <gbck.service.version>1.0-SNAPSHOT</gbck.service.version>
+        <gbck.redis.version>1.0-SNAPSHOT</gbck.redis.version>
+        <gbck.message.version>1.0-SNAPSHOT</gbck.message.version>
+        <gbck.support-es.version>1.0-SNAPSHOT</gbck.support-es.version>
+        <gbck.search.version>1.0-SNAPSHOT</gbck.search.version>
         <current.project.version>1.0-SNAPSHOT</current.project.version>
         <java.version>1.8</java.version>
         <spring-boot.version>1.5.2.RELEASE</spring-boot.version>
