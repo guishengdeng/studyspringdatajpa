@@ -1,6 +1,4 @@
 spring:
-  profiles:
-    active: prod
   mvc:
     view:
       prefix: /WEB-INF/views/
@@ -10,7 +8,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password:
-    url: jdbc:mysql://127.0.0.1:3306/depotnextdoor
+    url: jdbc:mysql://127.0.0.1:3307/depotnextdoor
 
   jpa:
     show-sql: true

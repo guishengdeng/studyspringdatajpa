@@ -35,4 +35,6 @@ hs_err_pid*
 .project
 .settings
 .classpath
-.gitignore
+
+# Spring Boot Multiple Environment Alternational Config File
+*appcalition.yml

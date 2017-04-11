@@ -1,6 +1,4 @@
 spring:
-  profiles:
-    active: prod
   mvc:
     view:
       prefix: /WEB-INF/views/
@@ -21,4 +19,3 @@ spring:
 biz:
   soa:
     idx: 1
-
