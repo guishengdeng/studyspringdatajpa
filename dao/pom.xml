@@ -5,20 +5,27 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.depotnextdoor</groupId>
+        <groupId>com.biz.gbck</groupId>
         <artifactId>server-parent</artifactId>
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>dao</artifactId>
-    <version>${depotnextdoor.dao.version}</version>
+    <version>${dao.version}</version>
     <packaging>jar</packaging>
     
     
     <dependencies>
         <dependency>
-            <groupId>com.depotnextdoor</groupId>
+            <groupId>com.biz.gbck</groupId>
             <artifactId>biz-support-jpa</artifactId>
+    		<version>${biz-support-jpa.version}</version>
+        </dependency>
+        
+		<dependency>
+            <groupId>com.biz.gbck</groupId>
+            <artifactId>biz-redis</artifactId>
+    		<version>${biz-redis.version}</version>
         </dependency>
 
         <dependency>
@@ -31,10 +38,6 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-        </dependency>
     </dependencies>
 
 

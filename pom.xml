@@ -10,7 +10,7 @@
         <version>1.5.2.RELEASE</version>
     </parent>
 
-    <groupId>com.gbck</groupId>
+    <groupId>com.biz.gbck</groupId>
     <artifactId>server-parent</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -18,33 +18,43 @@
 
     <modules>
         <module>biz-core</module>
+        <module>biz-message</module>
+        <module>biz-redis</module>
+        
         <module>biz-support-jpa</module>
         <module>biz-support-web</module>
-        <module>biz-redis</module>
-        <module>biz-message</module>
         <module>biz-support-es</module>
-        <module>search</module>
-        <module>rest</module>
+        
+        
         <module>dao</module>
-        <module>service</module>
         <module>manage</module>
+        <module>rest</module>
+        <module>service</module>
+        <module>search</module>
     </modules>
 
     <properties>
-        <gbck.manage.version>1.0-SNAPSHOT</gbck.manage.version>
-        <gbck.core.version>1.0-SNAPSHOT</gbck.core.version>
-        <gbck.support-jpa.version>1.0-SNAPSHOT</gbck.support-jpa.version>
-        <gbck.support-web.version>1.0-SNAPSHOT</gbck.support-web.version>
-        <gbck.rest.version>1.0-SNAPSHOT</gbck.rest.version>
-        <gbck.dao.version>1.0-SNAPSHOT</gbck.dao.version>
-        <gbck.service.version>1.0-SNAPSHOT</gbck.service.version>
-        <gbck.redis.version>1.0-SNAPSHOT</gbck.redis.version>
-        <gbck.message.version>1.0-SNAPSHOT</gbck.message.version>
-        <gbck.support-es.version>1.0-SNAPSHOT</gbck.support-es.version>
-        <gbck.search.version>1.0-SNAPSHOT</gbck.search.version>
+    
+        <biz-core.version>1.0-SNAPSHOT</biz-core.version>
+        <biz-message.version>1.0-SNAPSHOT</biz-message.version>
+        <biz-redis.version>1.0-SNAPSHOT</biz-redis.version>
+        
+        <biz-support-jpa.version>1.0-SNAPSHOT</biz-support-jpa.version>
+        <biz-support-web.version>1.0-SNAPSHOT</biz-support-web.version>
+        <biz-support-es.version>1.0-SNAPSHOT</biz-support-es.version>
+      
+
+        <dao.version>1.0-SNAPSHOT</gbck.dao.version>
+        <manage.version>1.0-SNAPSHOT</gbck.manage.version>
+        <rest.version>1.0-SNAPSHOT</gbck.rest.version>
+        <service.version>1.0-SNAPSHOT</gbck.service.version>
+        <search.version>1.0-SNAPSHOT</gbck.search.version>
+        
         <current.project.version>1.0-SNAPSHOT</current.project.version>
+        
         <java.version>1.8</java.version>
         <spring-boot.version>1.5.2.RELEASE</spring-boot.version>
+        
         <mysql-connector-java.version>5.1.35</mysql-connector-java.version>
         <jedis.version>2.9.0</jedis.version>
         <apache.commons.lang.version>3.4</apache.commons.lang.version>
@@ -75,6 +85,7 @@
         <hibernate-jpa-api.version>1.0.0.Final</hibernate-jpa-api.version>
         <javax.validation-api.version>1.1.0.Final</javax.validation-api.version>
         <pinyin4j.version>2.5.0</pinyin4j.version>
+        
         <maven-shade-plugin.version>2.2</maven-shade-plugin.version>
     </properties>
 

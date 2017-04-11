@@ -5,19 +5,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.depotnextdoor</groupId>
+        <groupId>com.biz.gbck</groupId>
         <artifactId>server-parent</artifactId>
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>biz-support-jpa</artifactId>
-    <version>${depotnextdoor.support-jpa.version}</version>
+    <version>${biz-support-jpa.version}</version>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
-            <groupId>com.depotnextdoor</groupId>
+            <groupId>com.biz.gbck</groupId>
             <artifactId>biz-core</artifactId>
+    		<version>${biz-core.version}</version>
         </dependency>
 
         <dependency>
