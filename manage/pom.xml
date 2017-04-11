@@ -11,8 +11,6 @@
     </parent>
 
     <artifactId>manage</artifactId>
-    <!--<version>${depotnextdoor.manage.version}</version>-->
-    <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <dependencies>
