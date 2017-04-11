@@ -12,4 +12,5 @@
 
     <artifactId>biz-redis</artifactId>
     <version>${gbck.redis.version}</version>
+    <packaging>jar</packaging>
 </project>

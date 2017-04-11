@@ -12,6 +12,12 @@
 
     <artifactId>biz-support-es</artifactId>
     <version>${gbck.support-es.version}</version>
+    <packaging>jar</packaging>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+        </dependency>
+    </dependencies>
 </project>

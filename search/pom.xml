@@ -12,6 +12,7 @@
 
     <artifactId>search</artifactId>
     <version>${gbck.search.version}</version>
+    <packaging>war</packaging>
 
 
 </project>
