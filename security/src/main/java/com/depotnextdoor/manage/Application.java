@@ -32,4 +32,6 @@ public class Application extends SpringBootServletInitializer {
     public Filter openEntityManagerInViewFilter() {
         return new OpenEntityManagerInViewFilter();
     }
+
+
 }
