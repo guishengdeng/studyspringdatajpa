@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.gbck</groupId>
+        <groupId>com.biz.gbck</groupId>
         <artifactId>server-parent</artifactId>
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>biz-support-es</artifactId>
-    <version>${gbck.support-es.version}</version>
+    <version>${biz-support-es.version}</version>
     <packaging>jar</packaging>
 
     <dependencies>

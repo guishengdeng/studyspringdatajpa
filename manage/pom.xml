@@ -5,19 +5,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.depotnextdoor</groupId>
+        <groupId>com.biz.gbck</groupId>
         <artifactId>server-parent</artifactId>
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>manage</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>${manage.version}</version>
     <packaging>war</packaging>
 
     <dependencies>
         <dependency>
-            <groupId>com.depotnextdoor</groupId>
+            <groupId>com.biz.gbck</groupId>
             <artifactId>service</artifactId>
+            <version>${service.version}</version>
         </dependency>
 
         <dependency>
@@ -43,11 +44,6 @@
         <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
         <dependency>

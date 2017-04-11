@@ -5,14 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.gbck</groupId>
+        <groupId>com.biz.gbck</groupId>
         <artifactId>server-parent</artifactId>
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>search</artifactId>
-    <version>${gbck.search.version}</version>
-    <packaging>war</packaging>
-
+    <version>${search.version}</version>
 
 </project>

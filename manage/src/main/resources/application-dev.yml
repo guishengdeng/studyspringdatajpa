@@ -8,7 +8,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password:
-    url: jdbc:mysql://127.0.0.1:3307/biz
+    url: jdbc:mysql://127.0.0.1:3306/depotnextdoor
 
   jpa:
     show-sql: true

@@ -5,12 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.gbck</groupId>
+        <groupId>com.biz.gbck</groupId>
         <artifactId>server-parent</artifactId>
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>biz-redis</artifactId>
-    <version>${gbck.redis.version}</version>
+    <version>${biz-redis.version}</version>
     <packaging>jar</packaging>
+
 </project>
