@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.depotnextdoor</groupId>
         <artifactId>server-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>rest</artifactId>
@@ -18,7 +18,6 @@
         <dependency>
             <groupId>com.depotnextdoor</groupId>
             <artifactId>biz-support-web</artifactId>
-            <version>${depotnextdoor.support-web.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -10,9 +10,9 @@
         <version>1.5.2.RELEASE</version>
     </parent>
 
-    <groupId>com.depotnextdoor</groupId>
+    <groupId>com.gbck</groupId>
     <artifactId>server-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>Project module definition in current Project</description>
 
@@ -27,13 +27,13 @@
     </modules>
 
     <properties>
-        <depotnextdoor.manage.version>1.0-SNAPSHOT</depotnextdoor.manage.version>
-        <depotnextdoor.core.version>1.0-SNAPSHOT</depotnextdoor.core.version>
-        <depotnextdoor.support-jpa.version>1.0-SNAPSHOT</depotnextdoor.support-jpa.version>
-        <depotnextdoor.support-web.version>1.0-SNAPSHOT</depotnextdoor.support-web.version>
-        <depotnextdoor.rest.version>1.0-SNAPSHOT</depotnextdoor.rest.version>
-        <depotnextdoor.dao.version>1.0-SNAPSHOT</depotnextdoor.dao.version>
-        <depotnextdoor.service.version>1.0-SNAPSHOT</depotnextdoor.service.version>
+        <gbck.manage.version>1.0-SNAPSHOT</gbck.manage.version>
+        <gbck.core.version>1.0-SNAPSHOT</gbck.core.version>
+        <gbck.support-jpa.version>1.0-SNAPSHOT</gbck.support-jpa.version>
+        <gbck.support-web.version>1.0-SNAPSHOT</gbck.support-web.version>
+        <gbck.rest.version>1.0-SNAPSHOT</gbck.rest.version>
+        <gbck.dao.version>1.0-SNAPSHOT</gbck.dao.version>
+        <gbck.service.version>1.0-SNAPSHOT</gbck.service.version>
         <current.project.version>1.0-SNAPSHOT</current.project.version>
         <java.version>1.8</java.version>
         <spring-boot.version>1.5.2.RELEASE</spring-boot.version>
@@ -277,10 +277,35 @@
             </dependency>
 
             <dependency>
-                <groupId>com.depotnextdoor</groupId>
+                <groupId>com.gbck</groupId>
                 <artifactId>service</artifactId>
-                <version>${depotnextdoor.service.version}</version>
+                <version>${gbck.service.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.gbck</groupId>
+                <artifactId>dao</artifactId>
+                <version>${gbck.dao.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.gbck</groupId>
+                <artifactId>biz-core</artifactId>
+                <version>${gbck.core.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.gbck</groupId>
+                <artifactId>biz-support-jpa</artifactId>
+                <version>${gbck.support-jpa.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.gbck</groupId>
+                <artifactId>biz-support-web</artifactId>
+                <version>${gbck.support-web.version}</version>
+            </dependency>
+
         </dependencies>
 
     </dependencyManagement>
