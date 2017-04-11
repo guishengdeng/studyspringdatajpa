@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>com.depotnextdoor</groupId>
-            <artifactId>support-jpa</artifactId>
+            <artifactId>biz-support-jpa</artifactId>
             <version>${current.project.version}</version>
         </dependency>
 

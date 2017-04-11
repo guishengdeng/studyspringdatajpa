@@ -28,7 +28,7 @@
 
                                             <div class="space-6"></div>
 
-                                            <form action="login/check.do" method="post">
+                                            <form action="/login" method="post">
                                                 <fieldset>
                                                     <label class="block clearfix">
 														<span class="block input-icon input-icon-right">

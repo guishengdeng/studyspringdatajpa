@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>com.depotnextdoor</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>biz-core</artifactId>
             <version>${current.project.version}</version>
         </dependency>
         <dependency>

@@ -48,7 +48,7 @@
     <link rel="stylesheet" href="static-resource/ace/assets/css/ace-ie.min.css"/>
     <![endif]-->
     <link rel="stylesheet" href="static-resource/common/css/localos.css"/>
-	<script src="msg.do"></script>
+	<%--<script src="msg.do"></script>--%>
     <!-- inline styles related to this page -->
 
     <!-- ace settings handler -->

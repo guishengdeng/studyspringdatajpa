@@ -1,23 +1,24 @@
 spring:
+  profiles:
+    active: prod
   mvc:
     view:
-      prefix: /WEB-INF/views
+      prefix: /WEB-INF/views/
       suffix: .jsp
-#  jpa:
-#    show-sql: true
-#    hibernate:
-#      ddl-auto: update
-#    database: mysql
+
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password:
-    url: jdbc:mysql://127.0.0.1:3306/depotnextdoor
-#
-#biz:
-#  soa:
-#    idx: 1
-server:
-  port: 8080
+    url: jdbc:mysql://127.0.0.1:3306/biz
 
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database: mysql
+
+biz:
+  soa:
+    idx: 1
 

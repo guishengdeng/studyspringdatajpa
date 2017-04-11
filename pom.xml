@@ -17,14 +17,13 @@
     <description>Project module definition in current Project</description>
 
     <modules>
-        <module>manage</module>
-        <module>core</module>
-        <module>support-jpa</module>
-        <module>support-web</module>
+        <module>biz-core</module>
+        <module>biz-support-jpa</module>
+        <module>biz-support-web</module>
         <module>rest</module>
         <module>dao</module>
         <module>service</module>
-        <module>security</module>
+        <module>manage</module>
     </modules>
 
     <properties>
@@ -276,10 +275,16 @@
                 <artifactId>pinyin4j</artifactId>
                 <version>${pinyin4j.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.depotnextdoor</groupId>
+                <artifactId>service</artifactId>
+                <version>${depotnextdoor.service.version}</version>
+            </dependency>
         </dependencies>
 
     </dependencyManagement>
-    
+
     <build>
         <plugins>
             <plugin>
