@@ -10,10 +10,12 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AdminServiceImpl extends AbstractBaseService implements UserDetailsService, AdminService {
@@ -25,6 +27,7 @@ public class AdminServiceImpl extends AbstractBaseService implements UserDetails
     private MainMenuRepository mainMenuRepository;
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Admin admin = adminRepository.findOne(username);
         if (admin != null) {
@@ -54,6 +57,11 @@ public class AdminServiceImpl extends AbstractBaseService implements UserDetails
 
     public List<MainMenu> listAllMainMenu() {
         return mainMenuRepository.findByOrderByCodeAscNameAsc();
+    }
+
+    public static void main(String[] args) {
+        Md5PasswordEncoder md5PasswordEncoder = new Md5PasswordEncoder();
+        System.err.println(md5PasswordEncoder.encodePassword("password", "admin"));
     }
 
 }
