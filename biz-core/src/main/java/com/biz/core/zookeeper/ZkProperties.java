@@ -31,13 +31,13 @@ public class ZkProperties {
     private Properties config;
     private byte[] configBytes;
 
-    public ZkProperties(final String path) {
-        this(path, false);
+    public ZkProperties(final String zookeeperUrl, final String path) {
+        this(zookeeperUrl, path, false);
     }
 
-    public ZkProperties(final String path, boolean watch) {
+    public ZkProperties(final String zoookeeperUrl, final String path, boolean watch) {
         try {
-            final CuratorFramework curator = ZooClient.getClient();
+            final CuratorFramework curator = ZooClient.getClient(zoookeeperUrl);
             if (curator.checkExists().forPath(path) == null) {
                 logger.debug("zk 文件:{} 不存在, 创建zk文件", path);
                 curator.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(path);
@@ -73,7 +73,6 @@ public class ZkProperties {
     }
 
     /**
-     * @param data
      * @throws IOException
      * @throws ConfigurationException
      */
@@ -89,8 +88,6 @@ public class ZkProperties {
     /**
      * 获取属性
      *
-     * @param key
-     * @return
      * @author defei
      * @date 2015年10月29日
      */
@@ -101,8 +98,6 @@ public class ZkProperties {
     /**
      * 获取Long类型的property
      *
-     * @param key
-     * @return
      * @author defei
      * @date 2015年12月2日
      */
@@ -114,7 +109,6 @@ public class ZkProperties {
     /**
      * 获取所有属性
      *
-     * @return
      * @author defei
      * @date 2015年10月29日
      */

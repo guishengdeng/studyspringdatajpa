@@ -52,7 +52,9 @@ public class ManageConfig {
     @Bean
     public IdService idService() {
         Integer soaIdx = Integer.valueOf(environment.getProperty("biz.soa.idx"));
-        return new IdService(soaIdx);
+        String soaIdxZooNodePath = environment.getProperty("biz.zookeeper.soaIdx.path");
+        String zookeeperUrl = environment.getProperty("biz.zookeeper.url");
+        return new IdService(soaIdx, soaIdxZooNodePath, zookeeperUrl);
     }
 
     @Bean
@@ -75,7 +77,7 @@ public class ManageConfig {
         return dataSource;
     }
 
-//    @Bean(name = "entityManagerFactory")
+    //    @Bean(name = "entityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws PropertyVetoException {
         PersistenceUnitManager persistenceUnitManager = this.persistenceUnitManager();
         LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
@@ -98,7 +100,7 @@ public class ManageConfig {
         return localContainerEntityManagerFactoryBean;
     }
 
-//    @Bean
+    //    @Bean
     public PersistenceUnitManager persistenceUnitManager() throws PropertyVetoException {
         DataSource dataSource = this.dataSource();
         MergingPersistenceUnitManager persistenceUnitManager = new MergingPersistenceUnitManager();
@@ -107,7 +109,7 @@ public class ManageConfig {
         return persistenceUnitManager;
     }
 
-//    @Bean
+    //    @Bean
     public JpaTransactionManager transactionManager() throws PropertyVetoException {
         return new JpaTransactionManager((EntityManagerFactory) entityManagerFactory());
     }

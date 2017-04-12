@@ -1,7 +1,9 @@
 package com.biz.service;
 
 import com.biz.core.zookeeper.SoaIndexFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.codelogger.utils.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 全局Id生成器 从网上copy的
@@ -9,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
  * @author gongshutao
  */
 public class IdService {
+
+    private static final Logger logger = LoggerFactory.getLogger(IdService.class);
 
     private final static long twepoch = 1409030641843L;
     // 机器标识位数
@@ -38,12 +42,20 @@ public class IdService {
 
     private final long dataCenterId;
 
-    public IdService(@Value("${soa.idcIndex}") long dataCenterId) {
+    public IdService(long dataCenterId, String soaIdxZooNodePath, String zookeeperUrl) {
         if (dataCenterId > maxDataCenterId || dataCenterId < 0) {
-            throw new IllegalArgumentException(
-                    "data center Id can't be greater than %d or less than 0");
+            throw new IllegalArgumentException("data center Id can't be greater than %d or less than 0");
         }
-        this.workerId = SoaIndexFactory.newInstance().getSoaIdx();
+
+        long workerId;
+        if (StringUtils.isBlank(soaIdxZooNodePath) || StringUtils.isBlank(zookeeperUrl)) {
+            logger.warn("未配置SoaIdx在Zookeeper中存储的路径或者ZookeeperUrl, 使用默认的SoaIdx[1]");
+            // 如果未配置SoaIdx
+            workerId = 1;
+        } else {
+            workerId = SoaIndexFactory.newInstance(soaIdxZooNodePath, zookeeperUrl).getSoaIdx();
+        }
+        this.workerId = workerId;
         this.dataCenterId = dataCenterId;
     }
 

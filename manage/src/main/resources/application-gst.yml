@@ -23,4 +23,8 @@ spring:
 biz:
   soa:
     idx: 1
+  zookeeper:
+      url: zookeeper://127.0.0.1:2181
+      soaIdx:
+        path: /biz/gbck/boot/soaIdx
 

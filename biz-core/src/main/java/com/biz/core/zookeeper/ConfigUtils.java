@@ -68,13 +68,13 @@ public class ConfigUtils {
     /**
      * 从classpath或zookeeper加载配置文件
      */
-    public static Properties loadFromFileOrZooKeeper(String zooPath, String classPath) {
+    public static Properties loadFromFileOrZooKeeper(String zookeeperUrl, String zooPath, String classPath) {
 
         Properties conf = new Properties();
         InputStream inputStream = null;
         try {
-            if (ConfigUtils.isConfiguredByZoo() && StringUtils.isNotBlank(zooPath)) {
-                ZkProperties zkProperties = new ZkProperties(zooPath);
+            if (ConfigUtils.isConfiguredByZoo() && StringUtils.isNotBlank(zookeeperUrl) && StringUtils.isNotBlank(zooPath)) {
+                ZkProperties zkProperties = new ZkProperties(zookeeperUrl, zooPath);
                 inputStream = new ByteArrayInputStream(zkProperties.getPropertiesBytes());
             } else {
                 inputStream = new FileInputStream(ConfigUtils.class.getResource("/").getPath() + classPath);

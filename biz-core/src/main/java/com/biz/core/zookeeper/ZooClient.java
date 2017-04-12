@@ -6,16 +6,23 @@ import org.apache.curator.retry.RetryNTimes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 自定义Zookeeper客户端
+ * <p>
+ * 更改:
+ * 1. 将ZookeeperUrl通过构造函数参数传入
+ * </p>
+ */
 public class ZooClient {
 
     private final static Logger logger = LoggerFactory.getLogger(ZooClient.class);
 
     private static CuratorFramework client;
 
-    public static synchronized CuratorFramework getClient() {
+    public static synchronized CuratorFramework getClient(String zookeeperUrl) {
         if (client == null) {
             // zookeeper地址
-            String zookeeperUrl = getZookeeperUrl().replace("zookeeper://", "").replace("?backup=", ",");
+            zookeeperUrl = zookeeperUrl.replace("zookeeper://", "").replace("?backup=", ",");
             logger.info("zookeeperUrl: {}", zookeeperUrl);
             try {
                 client = CuratorFrameworkFactory.builder().connectString(zookeeperUrl).retryPolicy(new RetryNTimes(Integer.MAX_VALUE, 1000))
