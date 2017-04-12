@@ -295,33 +295,39 @@
             </dependency>
 
             <dependency>
-                <groupId>com.gbck</groupId>
+                <groupId>com.biz.gbck</groupId>
                 <artifactId>service</artifactId>
-                <version>${gbck.service.version}</version>
+                <version>${service.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.gbck</groupId>
+                <groupId>com.biz.gbck</groupId>
                 <artifactId>dao</artifactId>
-                <version>${gbck.dao.version}</version>
+                <version>${dao.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.gbck</groupId>
+                <groupId>com.biz.gbck</groupId>
                 <artifactId>biz-core</artifactId>
-                <version>${gbck.core.version}</version>
+                <version>${biz-core.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.gbck</groupId>
+                <groupId>com.biz.gbck</groupId>
                 <artifactId>biz-support-jpa</artifactId>
-                <version>${gbck.support-jpa.version}</version>
+                <version>${biz-support-jpa.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.gbck</groupId>
+                <groupId>com.biz.gbck</groupId>
                 <artifactId>biz-support-web</artifactId>
-                <version>${gbck.support-web.version}</version>
+                <version>${biz-support-web.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.biz.gbck</groupId>
+                <artifactId>biz-support-es</artifactId>
+                <version>${biz-support-es.version}</version>
             </dependency>
 
         </dependencies>
