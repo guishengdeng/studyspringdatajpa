@@ -18,9 +18,6 @@ public class MainMenu implements Identifiable<Long> {
     @Column(length = 200)
     private String name;
 
-    @Column(length = 200)
-    private String nameEn;
-
     @Column
     private String description;
 
@@ -79,14 +76,6 @@ public class MainMenu implements Identifiable<Long> {
 
     public String toString() {
         return name;
-    }
-
-    public String getNameEn() {
-        return nameEn;
-    }
-
-    public void setNameEn(String nameEn) {
-        this.nameEn = nameEn;
     }
 
     public String getIcon() {
