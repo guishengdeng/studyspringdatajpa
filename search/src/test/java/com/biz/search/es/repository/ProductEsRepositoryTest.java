@@ -1,24 +1,32 @@
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.runner.RunWith;
+package com.biz.search.es.repository;
 
-import static org.junit.Assert.*;
+import com.biz.search.es.entity.ProductEsEntity;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author david-liu
  * @date 2017年04月12日
  * @reviewer
  */
-@RunWith(Arquillian.class)
+@RunWith(SpringRunner.class)
+@EnableElasticsearchRepositories(basePackages = "com.biz.search")
+@SpringBootTest
 public class ProductEsRepositoryTest {
-    @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addClass(com.biz.search.es.repository.ProductEsRepository.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+
+    @Autowired
+    private ProductEsRepository productEsRepository;
+
+    @Test
+    public void testCreateEsEntityAndSave() {
+        ProductEsEntity productEsEntity = new ProductEsEntity();
+        productEsEntity.setId("this is the first");
+        productEsEntity.setName("i am foo");
+        this.productEsRepository.save(productEsEntity);
     }
 
 }
