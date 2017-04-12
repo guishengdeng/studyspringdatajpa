@@ -120,7 +120,7 @@
 
                 <ul class="nav nav-list">
                     <li>
-                        <a href="welcome.do">
+                        <a href="welcome">
                             <i class="menu-icon fa fa-tachometer"></i>
                             <span class="menu-text"> Dashboard </span>
                         </a>
@@ -131,7 +131,7 @@
                         <li class="${_activeMainMenu_ eq menuStatus.index ? 'active open' : ''}">
                             <a href="#" class="dropdown-toggle">
                                 <i class="menu-icon ${empty menu.icon ? 'fa fa-list' : menu.icon}"></i>
-                                <span class="menu-text"><localos:i18nNameTag i18nName="${menu}" /></span>
+                                <span class="menu-text"><c:out value="${menu.name}"/></span>
                                 <b class="arrow fa fa-angle-down"></b>
                             </a>
                             <b class="arrow"></b>
@@ -139,7 +139,7 @@
                                 <c:forEach var="child" items="${menu.children}" varStatus="subMenuStatus">
                                     <li class="${_activeMainMenu_ eq menuStatus.index  and _activeSubMenu_ eq subMenuStatus.index ? 'active' : ''}">
                                         <a data-main-menu="${menuStatus.index}" data-sub-menu="${subMenuStatus.index}" data-href="${pageContext.request.contextPath}${child.url}" class="navable-a-tag">
-                                            <c:out value="${child}"/>
+                                            <c:out value="${child.name}"/>
                                         </a>
                                     </li>
                                 </c:forEach>
