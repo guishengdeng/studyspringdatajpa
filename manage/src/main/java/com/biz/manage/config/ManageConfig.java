@@ -1,22 +1,19 @@
 package com.biz.manage.config;
 
+import com.biz.event.BizEventMulticaster;
+import com.biz.event.BizEventPublisher;
 import com.biz.manage.security.ManageLogoutSuccessHandler;
 import com.biz.service.IdService;
 import com.biz.service.security.AdminServiceImpl;
 import com.biz.transaction.BizTransactionManager;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import java.beans.PropertyVetoException;
-import java.util.Properties;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.data.jpa.support.MergingPersistenceUnitManager;
 import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.persistenceunit.PersistenceUnitManager;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -77,40 +74,20 @@ public class ManageConfig {
         return dataSource;
     }
 
-    //    @Bean(name = "entityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws PropertyVetoException {
-        PersistenceUnitManager persistenceUnitManager = this.persistenceUnitManager();
-        LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        vendorAdapter.setGenerateDdl(true);
-        vendorAdapter.setShowSql(true);
-        localContainerEntityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
-        Properties jpaProperties = new Properties();
-        jpaProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-        jpaProperties.setProperty("hibernate.ejb.naming_strategy", "org.hibernate.cfg.DefaultComponentSafeNamingStrategy");
-        jpaProperties.setProperty("hibernate.hbm2ddl.auto", "update");
-        jpaProperties.setProperty("hibernate.enable_lazy_load_no_trans", "true");
-        jpaProperties.setProperty("hibernate.cache.use_query_cache", "false");
-        jpaProperties.setProperty("hibernate.cache.use_second_level_cache", "false");
-        jpaProperties.setProperty("hibernate.transaction.flush_before_completion", "true");
-        localContainerEntityManagerFactoryBean.setPackagesToScan("com.biz");
-        localContainerEntityManagerFactoryBean.setJpaProperties(jpaProperties);
-        localContainerEntityManagerFactoryBean.setPersistenceUnitManager(persistenceUnitManager);
-        localContainerEntityManagerFactoryBean.setPersistenceUnitName("biz");
-        return localContainerEntityManagerFactoryBean;
-    }
-
-    //    @Bean
-    public PersistenceUnitManager persistenceUnitManager() throws PropertyVetoException {
-        DataSource dataSource = this.dataSource();
-        MergingPersistenceUnitManager persistenceUnitManager = new MergingPersistenceUnitManager();
-        persistenceUnitManager.setPersistenceXmlLocation("classpath:META-INF/persistence.xml");
-        persistenceUnitManager.setDefaultDataSource(dataSource);
-        return persistenceUnitManager;
+    @Bean
+    public BizEventMulticaster bizEventMulticaster() {
+        return new BizEventMulticaster();
     }
 
     @Bean
-    public JpaTransactionManager transactionManager() throws PropertyVetoException {
-        return new BizTransactionManager();
+    public BizEventPublisher bizEventPublisher() {
+        return new BizEventPublisher();
+    }
+
+    @Bean
+    public JpaTransactionManager transactionManager(@Autowired BizEventPublisher bizEventPublisher) throws PropertyVetoException {
+        BizTransactionManager jpaTransactionManager = new BizTransactionManager();
+        jpaTransactionManager.setEventPublisher(bizEventPublisher);
+        return jpaTransactionManager;
     }
 }
