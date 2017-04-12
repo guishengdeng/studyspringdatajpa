@@ -11,7 +11,6 @@ import javax.persistence.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 管理员
@@ -147,7 +146,6 @@ public class Admin implements Serializable, UserDetails {
     }
 
     @Override
-    @Transactional
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = Sets.newHashSet();
         if (roles != null) {
