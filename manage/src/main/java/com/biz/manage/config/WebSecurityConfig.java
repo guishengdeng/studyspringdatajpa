@@ -26,21 +26,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //        http
-        //                .authorizeRequests()
-        //                .antMatchers("/favicon.ico", "/manifest*", "/login", "/msg", "/static-resource/**").permitAll()
-        //                .antMatchers("/**").authenticated()
-        //                .and().exceptionHandling().accessDeniedPage("/WEB-INF/views/manage/accessDenied.jsp")
-        //                .and()
-        //                .formLogin()
-        //                .loginPage("/login")
-        //                .usernameParameter("username")
-        //                .passwordParameter("password")
-        //                .defaultSuccessUrl("/home")
-        //                .permitAll()
-        //                .and()
-        //                .logout()
-        //                .permitAll();
         http
                 .authorizeRequests()
                 .antMatchers("/static-resource/**", "/login").permitAll()
@@ -55,6 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout()
+                .logoutUrl("/logout")
                 .permitAll();
         http.csrf().disable();
     }
