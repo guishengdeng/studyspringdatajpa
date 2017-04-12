@@ -15,7 +15,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AdminServiceImpl extends AbstractBaseService implements UserDetailsService, AdminService {
@@ -27,7 +26,6 @@ public class AdminServiceImpl extends AbstractBaseService implements UserDetails
     private MainMenuRepository mainMenuRepository;
 
     @Override
-    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Admin admin = adminRepository.findOne(username);
         if (admin != null) {

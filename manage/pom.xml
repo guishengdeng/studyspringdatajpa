@@ -61,4 +61,8 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>manage</finalName>
+    </build>
 </project>
