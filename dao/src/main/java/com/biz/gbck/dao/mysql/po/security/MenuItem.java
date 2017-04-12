@@ -1,12 +1,13 @@
 package com.biz.gbck.dao.mysql.po.security;
 
 import com.biz.core.model.Identifiable;
+import com.biz.gbck.dao.mysql.po.BasePo;
 import java.util.List;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "adm_menuitem")
-public class MenuItem implements Identifiable<Long> {
+public class MenuItem extends BasePo<Long> implements Identifiable<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -44,7 +45,20 @@ public class MenuItem implements Identifiable<Long> {
     private List<Role> roles;
 
     public MenuItem() {
+        super(null);
+    }
 
+    public MenuItem(Long id, Integer code, String name, String icon, String link, String description, String symbol, MainMenu mainMenu, List<Resource> resources, List<Role> roles) {
+        super(id);
+        this.code = code;
+        this.name = name;
+        this.icon = icon;
+        this.link = link;
+        this.description = description;
+        this.symbol = symbol;
+        this.mainMenu = mainMenu;
+        this.resources = resources;
+        this.roles = roles;
     }
 
     public Integer getCode() {
@@ -108,6 +122,7 @@ public class MenuItem implements Identifiable<Long> {
     }
 
     public void setId(Long id) {
+        super.setId(id);
         this.id = id;
     }
 
@@ -146,6 +161,11 @@ public class MenuItem implements Identifiable<Long> {
         this.description = item.description;
         this.symbol = item.symbol;
         this.icon = item.icon;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
     }
 
 }

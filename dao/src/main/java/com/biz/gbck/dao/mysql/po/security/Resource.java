@@ -1,12 +1,13 @@
 package com.biz.gbck.dao.mysql.po.security;
 
 import com.biz.core.model.Identifiable;
+import com.biz.gbck.dao.mysql.po.BasePo;
 import java.util.List;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "adm_resource")
-public class Resource implements Identifiable<Long> {
+public class Resource extends BasePo<Long> implements Identifiable<Long> {
 
     public final static int TYPE_MENU = 0;
 
@@ -35,11 +36,25 @@ public class Resource implements Identifiable<Long> {
             uniqueConstraints = {@UniqueConstraint(columnNames = {"resource_id", "role_id"})})
     private List<Role> roles;
 
+    public Resource() {
+        super(null);
+    }
+
+    public Resource(Long id, String name, String symbol, String description, MenuItem menuItem, List<Role> roles) {
+        super(id);
+        this.name = name;
+        this.symbol = symbol;
+        this.description = description;
+        this.menuItem = menuItem;
+        this.roles = roles;
+    }
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
+        super.setId(id);
         this.id = id;
     }
 
@@ -87,5 +102,10 @@ public class Resource implements Identifiable<Long> {
         this.name = res.name;
         this.description = res.description;
         this.symbol = res.symbol;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
     }
 }

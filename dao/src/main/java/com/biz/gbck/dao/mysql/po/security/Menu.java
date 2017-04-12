@@ -56,4 +56,29 @@ public class Menu implements Serializable {
     public void setChildren(List<Menu> children) {
         this.children = children;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Menu)) return false;
+
+        Menu menu = (Menu) o;
+
+        if (getName() != null ? !getName().equals(menu.getName()) : menu.getName() != null)
+            return false;
+        if (getUrl() != null ? !getUrl().equals(menu.getUrl()) : menu.getUrl() != null)
+            return false;
+        if (getIcon() != null ? !getIcon().equals(menu.getIcon()) : menu.getIcon() != null)
+            return false;
+        return getChildren() != null ? getChildren().equals(menu.getChildren()) : menu.getChildren() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getName() != null ? getName().hashCode() : 0;
+        result = 31 * result + (getUrl() != null ? getUrl().hashCode() : 0);
+        result = 31 * result + (getIcon() != null ? getIcon().hashCode() : 0);
+        result = 31 * result + (getChildren() != null ? getChildren().hashCode() : 0);
+        return result;
+    }
 }

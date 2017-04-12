@@ -1,6 +1,7 @@
 package com.biz.gbck.dao.mysql.po.security;
 
 import com.biz.core.model.Identifiable;
+import com.biz.gbck.dao.mysql.po.BasePo;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "adm_role")
-public class Role implements Identifiable<Long>, Serializable {
+public class Role extends BasePo<Long> implements Identifiable<Long>, Serializable {
 
     private static final long serialVersionUID = 2033192329314085870L;
 
@@ -43,6 +44,18 @@ public class Role implements Identifiable<Long>, Serializable {
             uniqueConstraints = {@UniqueConstraint(columnNames = {"role_id", "resource_id"})})
     private List<Resource> resources;
 
+    public Role() {
+        super(null);
+    }
+
+    public Role(Long id, String name, String description, List<MenuItem> menuItems, List<Resource> resources) {
+        super(id);
+        this.name = name;
+        this.description = description;
+        this.menuItems = menuItems;
+        this.resources = resources;
+    }
+
     public void addMenuItem(MenuItem menuItem) {
         if (menuItems == null) {
             menuItems = new ArrayList<>();
@@ -59,6 +72,7 @@ public class Role implements Identifiable<Long>, Serializable {
 
     @Override
     public void setId(Long id) {
+        super.setId(id);
         this.id = id;
     }
 
@@ -92,5 +106,10 @@ public class Role implements Identifiable<Long>, Serializable {
 
     public void setResources(List<Resource> resources) {
         this.resources = resources;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
     }
 }
