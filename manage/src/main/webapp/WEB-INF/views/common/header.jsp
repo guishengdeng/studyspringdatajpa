@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib prefix="localos" uri="http://com.localos/tag/core" %>
+<%@ taglib prefix="depotnextdoor" uri="http://com.depotnextdoor/tag/core" %>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
@@ -9,10 +9,10 @@
 <div id="navbar" class="navbar navbar-default navbar-collapse ace-save-state" style="background: #17A500">
     <div class="navbar-container" id="navbar-container">
         <div class="navbar-header pull-left">
-            <a href="welcome.do" class="navbar-brand">
+            <a href="welcome" class="navbar-brand">
                 <small>
                     <i class="fa fa-map"></i>
-                    Local OS
+                    隔壁仓库
                 </small>
             </a>
             <button class="pull-right navbar-toggle navbar-toggle-img collapsed" type="button" data-toggle="collapse" data-target=".navbar-buttons,.navbar-menu">
@@ -32,15 +32,13 @@
         </div>
         <div class="navbar-buttons navbar-header pull-right navbar-collapse collapse" role="navigation">
             <ul class="nav ace-nav">
-                <tag:msg/><!-- message tag -->
-
                 <li class="light-blue dropdown-modal">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle" style="background: #17A500">
                         <img class="nav-user-photo" src="static-resource/ace/assets/images/avatars/user.jpg" alt="Jason's Photo">
 								<span class="user-info">
-									<small>Welcome,</small>
+									<small>欢迎,</small>
 									<sec:authentication property="principal" var="userOfLogin"/>
-                                    <localos:i18nNameTag i18nName="${userOfLogin}" />
+                                    <c:out value="${userOfLogin.name}" />
 								</span>
 
                         <i class="ace-icon fa fa-caret-down"></i>
@@ -50,39 +48,26 @@
                         <li>
                             <a href="setting.do">
                                 <i class="ace-icon fa fa-cog"></i>
-                                Settings
+                                设置
                             </a>
                         </li>
 
                         <li>
                             <a href="profile.do">
                                 <i class="ace-icon fa fa-user"></i>
-                                Profile
+                                个人首页
                             </a>
                         </li>
-                        <li>
-                            <c:choose>
-                                <c:when test="${pageContext.response.locale.toLanguageTag() == 'en'}">
-                                    <a href=".?userLanguage=zh_CN"><i class="ace-icon glyphicon glyphicon-font"></i>中文</a>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href=".?userLanguage=en"><i class="ace-icon glyphicon glyphicon-font"></i>English</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </li>
-
                         <li class="divider"></li>
-
                         <li>
-                            <a href="logout.do">
+                            <a href="logout">
                                 <i class="ace-icon fa fa-power-off"></i>
-                                <spring:message code="common.logout" />
+                                注销
                             </a>
                         </li>
                     </ul>
                 </li>
             </ul>
         </div>
-
     </div><!-- /.navbar-container -->
 </div>
