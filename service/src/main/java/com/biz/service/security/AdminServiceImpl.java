@@ -1,16 +1,18 @@
 package com.biz.service.security;
 
+import com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum;
 import com.biz.gbck.dao.mysql.po.security.*;
 import com.biz.gbck.dao.mysql.repository.admin.AdminRepository;
 import com.biz.gbck.dao.mysql.repository.admin.MainMenuRepository;
+import com.biz.gbck.dao.mysql.repository.admin.RoleRepository;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.security.interfaces.AdminService;
 import com.google.common.collect.Lists;
+import java.sql.Date;
 import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,6 +26,9 @@ public class AdminServiceImpl extends AbstractBaseService implements UserDetails
 
     @Autowired
     private MainMenuRepository mainMenuRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -57,9 +62,30 @@ public class AdminServiceImpl extends AbstractBaseService implements UserDetails
         return mainMenuRepository.findByOrderByCodeAscNameAsc();
     }
 
-    public static void main(String[] args) {
-        Md5PasswordEncoder md5PasswordEncoder = new Md5PasswordEncoder();
-        System.err.println(md5PasswordEncoder.encodePassword("password", "admin"));
+    @Override
+    public List<Admin> listEnableAdmins() {
+        return adminRepository.findAdminsByStatus(CommonStatusEnum.ENABLE);
     }
 
+    @Override
+    public List<Admin> listDisableAdmins() {
+        return adminRepository.findAdminsByStatus(CommonStatusEnum.DISABLE);
+    }
+
+    @Override
+    public List<Role> listAllRoles() {
+        return roleRepository.findAll();
+    }
+
+    @Override
+    public Admin getAdmin(String username) {
+        return adminRepository.findOne(username);
+    }
+
+    @Override
+    public void createAdmin(Admin admin, String createBy) {
+        admin.setCreateDate(new Date(System.currentTimeMillis()));
+        admin.setCreateBy(createBy);
+        adminRepository.save(admin);
+    }
 }

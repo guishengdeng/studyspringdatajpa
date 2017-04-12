@@ -1,5 +1,7 @@
 package com.biz.manage.servlet;
 
+import com.biz.gbck.dao.mysql.po.security.Admin;
+
 /**
  * 自定义Servlet
  *
@@ -9,13 +11,13 @@ package com.biz.manage.servlet;
  */
 public class ManageServlet extends MarvelServlet {
 
-    private static ThreadLocal<Object> threadLocalAdmin = new ThreadLocal<>();
+    private static ThreadLocal<Admin> threadLocalAdmin = new ThreadLocal<>();
 
-    public static Object getAdmin() {
+    public static Admin getAdmin() {
         return threadLocalAdmin.get();
     }
 
-    public ManageServlet(Object admin) {
+    public ManageServlet(Admin admin) {
         threadLocalAdmin.set(admin);
     }
 }

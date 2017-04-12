@@ -1,5 +1,6 @@
 package com.biz.manage.filter;
 
+import com.biz.gbck.dao.mysql.po.security.Admin;
 import com.biz.manage.servlet.ManageServlet;
 import com.biz.manage.servlet.MarvelServlet;
 import com.biz.manage.util.AuthorityUtil;
@@ -21,7 +22,7 @@ public class ManageFilter extends MarvelFilter<MarvelServlet> {
 
     @Override
     public ManageServlet buildMarvelServlet() {
-        return new ManageServlet(AuthorityUtil.getLoginUser());
+        return new ManageServlet((Admin) AuthorityUtil.getLoginUser());
     }
 
     @Override

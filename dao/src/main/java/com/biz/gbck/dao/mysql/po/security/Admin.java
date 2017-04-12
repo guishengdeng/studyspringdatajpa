@@ -3,6 +3,7 @@ package com.biz.gbck.dao.mysql.po.security;
 import com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum;
 import com.google.common.collect.Sets;
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -78,6 +79,12 @@ public class Admin implements Serializable, UserDetails {
      */
     @Transient
     private List<Menu> menus;
+
+    @Column
+    private Date createDate;
+
+    @Column(length = 50)
+    private String createBy;
 
     @Override
     public String getPassword() {
@@ -187,5 +194,21 @@ public class Admin implements Serializable, UserDetails {
     @Override
     public boolean isEnabled() {
         return this.status.isEnable();
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
     }
 }

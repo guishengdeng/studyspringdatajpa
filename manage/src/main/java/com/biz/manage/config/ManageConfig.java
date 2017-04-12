@@ -3,10 +3,10 @@ package com.biz.manage.config;
 import com.biz.manage.security.ManageLogoutSuccessHandler;
 import com.biz.service.IdService;
 import com.biz.service.security.AdminServiceImpl;
+import com.biz.transaction.BizTransactionManager;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import java.beans.PropertyVetoException;
 import java.util.Properties;
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -109,8 +109,8 @@ public class ManageConfig {
         return persistenceUnitManager;
     }
 
-    //    @Bean
+    @Bean
     public JpaTransactionManager transactionManager() throws PropertyVetoException {
-        return new JpaTransactionManager((EntityManagerFactory) entityManagerFactory());
+        return new BizTransactionManager();
     }
 }
