@@ -1,11 +1,11 @@
 package com.biz.redis.util;
 
 import com.biz.core.util.StringUtil;
-import com.biz.core.zookeeper.ZkProperties;
-import java.io.ByteArrayInputStream;
+import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.slf4j.Logger;
@@ -24,7 +24,8 @@ import redis.clients.util.Hashing;
  */
 public class ShardedJedisPoolLoad {
 
-    private static final Logger log = LoggerFactory.getLogger(ShardedJedisPoolLoad.class);
+    private static final Logger logger = LoggerFactory.getLogger(ShardedJedisPoolLoad.class);
+
     private static ShardedJedisPool shardedJedisPool;
 
     synchronized public static ShardedJedisPool getJedisPool() {
@@ -34,65 +35,50 @@ public class ShardedJedisPoolLoad {
     /**
      * 获取redis 连接池, 支持多host主机列表配置
      */
-    synchronized public static ShardedJedisPool getJedisPool(String zookeeperUrl, Boolean configByZookeeper, String localConfigPath) {
+    synchronized public static ShardedJedisPool getJedisPool(PropertiesConfiguration propertiesConfiguration) {
         if (shardedJedisPool == null) {
-            log.debug("开始初始化redis池对象");
-            PropertiesConfiguration config = null;
-            try {
-                if (configByZookeeper && StringUtils.isNotBlank(zookeeperUrl)) {
-                    log.debug("zookeeper加载redis配置文件");
-                    ZkProperties zkProperties = new ZkProperties(zookeeperUrl, "/bozhi/config/redis.properties");
-                    config = new PropertiesConfiguration();
-                    config.load(new ByteArrayInputStream(zkProperties.getPropertiesBytes()));
-                } else {
-                    // 从classpath加载配置文件
-                    config = new PropertiesConfiguration(localConfigPath);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                log.error("加载redis配置出错,-->", e.getMessage());
-            }
+            logger.debug("开始初始化redis池对象");
+            GenericObjectPoolConfig redisPoolConfig = new JedisPoolConfig();
+            redisPoolConfig.setMaxTotal(propertiesConfiguration.getInt("biz.redis.maxTotal"));
+            redisPoolConfig.setMaxIdle(propertiesConfiguration.getInt("biz.redis.maxIdle"));
+            redisPoolConfig.setTimeBetweenEvictionRunsMillis(propertiesConfiguration.getLong("biz.redis.timeBetweenEvictionRunsMillis"));
+            redisPoolConfig.setMinEvictableIdleTimeMillis(propertiesConfiguration.getLong("biz.redis.minEvictableIdleTimeMillis"));
+            redisPoolConfig.setTestOnBorrow(propertiesConfiguration.getBoolean("biz.redis.testOnBorrow"));
 
-            GenericObjectPoolConfig poolConfig = new JedisPoolConfig();
-            poolConfig.setMaxTotal(config.getInt("redis.maxTotal"));
-            poolConfig.setMaxIdle(config.getInt("redis.maxIdle"));
-            poolConfig.setTimeBetweenEvictionRunsMillis(config.getLong("redis.timeBetweenEvictionRunsMillis"));
-            poolConfig.setMinEvictableIdleTimeMillis(config.getLong("redis.minEvictableIdleTimeMillis"));
-            poolConfig.setTestOnBorrow(config.getBoolean("redis.testOnBorrow"));
-
-            log.debug("开始加载redis主机列表");
-            String hosts = config.getString("redis.host");
-            String ports = config.getString("redis.port");
-            String dbnames = config.getString("redis.name");
-            String pwasswords = config.getString("redis.password");
-            List<JedisShardInfo> shards = new ArrayList<JedisShardInfo>();
+            logger.debug("开始加载redis主机列表");
+            String hosts = propertiesConfiguration.getString("biz.redis.host");
+            String ports = propertiesConfiguration.getString("biz.redis.port");
+            String dbNames = propertiesConfiguration.getString("biz.redis.name");
+            String passwords = propertiesConfiguration.getString("biz.redis.password");
+            List<JedisShardInfo> shards = new ArrayList<>();
             String[] hostArr = hosts.split("@");
             String[] portArr = ports.split("@");
-            String[] dbnameArr = null;
-            if (StringUtils.isNotBlank(dbnames)) {
-                dbnameArr = dbnames.split("@");
+            String[] dbNameArr = null;
+            if (StringUtils.isNotBlank(dbNames)) {
+                dbNameArr = dbNames.split("@");
             }
-            String[] pwasswordArr = null;
-            if (StringUtils.isNotBlank(pwasswords)) {
-                pwasswordArr = pwasswords.split("@");
+            String[] passwordArr = null;
+            if (StringUtils.isNotBlank(passwords)) {
+                passwordArr = passwords.split("@");
             }
-            if (hostArr.length == portArr.length
-                //&& hostArr.length == dbnameArr.length && hostArr.length  == pwasswordArr.length
-                //&&portArr.length == dbnameArr.length && portArr.length  == pwasswordArr.length
-                //&&dbnameArr.length  == pwasswordArr.length
-                    ) {
+
+            Preconditions.checkArgument(ArrayUtils.isNotEmpty(hostArr) && ArrayUtils.isNotEmpty(portArr));
+            if (ArrayUtils.isNotEmpty(passwordArr)) {
+                Preconditions.checkArgument(ArrayUtils.isNotEmpty(hostArr) && ArrayUtils.isNotEmpty(passwordArr));
+            }
+            if (hostArr.length == portArr.length) {
                 for (int i = 0; i < hostArr.length; i++) {
                     // 发现redis主机配置
                     String host = hostArr[i].trim();
                     int port = Integer.parseInt(portArr[i].trim());
-                    String name = (dbnameArr == null) ? "" : (dbnameArr[i] == null ? "" : dbnameArr[i].trim());
-                    String password = (pwasswordArr == null) ? "" : (pwasswordArr[i] == null ? "" : pwasswordArr[i].trim());
-                    log.debug("redis主机, host: {}, port: {}, name: {}", host, port, name);
-                    JedisShardInfo jedisShardInfo = null;
+                    String name = (dbNameArr == null) ? "" : (dbNameArr[i] == null ? "" : dbNameArr[i].trim());
+                    String password = (passwordArr == null) ? "" : (passwordArr[i] == null ? "" : passwordArr[i].trim());
+                    logger.debug("redis主机, host: {}, port: {}, name: {}", host, port, name);
+                    JedisShardInfo jedisShardInfo;
                     if (StringUtil.isNullOrEmpty(name)) {
-                        jedisShardInfo = new JedisShardInfo(host, port, config.getInt("redis.socketTimeout", 2000));
+                        jedisShardInfo = new JedisShardInfo(host, port, propertiesConfiguration.getInt("biz.redis.socketTimeout", 2000));
                     } else {
-                        jedisShardInfo = new JedisShardInfo(host, port, config.getInt("redis.socketTimeout", 2000), name);
+                        jedisShardInfo = new JedisShardInfo(host, port, propertiesConfiguration.getInt("biz.redis.socketTimeout", 2000), name);
                     }
                     if (StringUtils.isNotBlank(password)) {
                         jedisShardInfo.setPassword(password);
@@ -100,17 +86,17 @@ public class ShardedJedisPoolLoad {
                     shards.add(jedisShardInfo);
                 }
             } else {
-                log.error("redis配置有问题，请检查");
+                logger.error("redis配置有问题，请检查");
                 throw new RuntimeException("redis配置有问题，请检查");
             }
             if (shards.isEmpty()) {
-                log.error("请指定至少一个redis主机");
+                logger.error("请指定至少一个redis主机");
                 throw new RuntimeException("请指定至少一个redis主机");
             }
             //考虑按照业务分片
             //            shardedJedisPool = new ShardedJedisPool(poolConfig, shards, new ShardHashing());
             //不安业务分片
-            shardedJedisPool = new ShardedJedisPool(poolConfig, shards);
+            shardedJedisPool = new ShardedJedisPool(redisPoolConfig, shards);
         }
         return shardedJedisPool;
     }

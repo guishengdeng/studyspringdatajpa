@@ -9,7 +9,7 @@ import redis.clients.util.Pool;
 
 public interface ComJedisRedis<T> {
 
-    public Pool<T> getPool();
+    Pool<T> getPool();
 
     /**
      * Returns the value associated with field in the hash stored at key.

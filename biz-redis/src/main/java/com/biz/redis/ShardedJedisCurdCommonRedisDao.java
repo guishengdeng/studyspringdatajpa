@@ -6,6 +6,7 @@ import com.biz.redis.spi.ShardedJedisRedis;
 import com.biz.redis.util.ExpressionUtil;
 import com.biz.redis.util.RedisUtil;
 import com.biz.redis.util.SortedSetAssist;
+import com.google.common.base.Preconditions;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -40,26 +41,25 @@ public class ShardedJedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID ex
      * ro key
      */
     private String keyPrefix = null;
-    private boolean isExistRo = false;
 
     private String roLockKeyPrefix = null;
-    private boolean isExistRoLock = false;
-    private RoLock roLock = null;
 
     private String roSortedSetKey = null;
+
     private boolean isExistRoSortedSet = false;
-    private RoSortedSet roSortedSet = null;
 
-    Expression expression = null;
+    private Expression expression = null;
 
-    Map<String, FieldSortedSet> fieldName_Annotation_Map = null;
-    Map<FieldSortedSet, SortedSetAssist<T, ID>> fieldInSortedSetMap = null;
+    private Map<String, FieldSortedSet> fieldName_Annotation_Map = null;
 
-    Map<String, MethodSortedSet> methodName_Annotation_Map = null;
-    Map<MethodSortedSet, SortedSetAssist<T, ID>> methodInSortedSetMap = null;
+    private Map<FieldSortedSet, SortedSetAssist<T, ID>> fieldInSortedSetMap = null;
+
+    private Map<String, MethodSortedSet> methodName_Annotation_Map = null;
+
+    private Map<MethodSortedSet, SortedSetAssist<T, ID>> methodInSortedSetMap = null;
 
     public String getKeyByParams(Object... params) {
-        StringBuffer key = new StringBuffer(getKeyPrefix());
+        StringBuilder key = new StringBuilder(getKeyPrefix());
         if (params != null && params.length > 0) {
             for (Object param : params) {
                 key.append(SEPARATOR).append(String.valueOf(param));
@@ -75,7 +75,7 @@ public class ShardedJedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID ex
      * @date 2016年8月15日
      */
     public String getFieldSortedSetKey(String fieldName, Object fieldValue) {
-        StringBuffer key = new StringBuffer();
+        StringBuilder key = new StringBuilder();
         FieldSortedSet fieldSortedSet = fieldName_Annotation_Map.get(fieldName);
         if (fieldSortedSet == null) {
             throw new RuntimeException("[" + fieldName + "]--> FieldSortedSet is null");
@@ -139,11 +139,11 @@ public class ShardedJedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID ex
 
     //lock
     public String getLockHashKeyFromIdByte(byte[] byteId) {
-        return new StringBuffer(getRoLockKeyPrefix()).append(SEPARATOR).append(new String(byteId)).toString();
+        return getRoLockKeyPrefix() + SEPARATOR + new String(byteId);
     }
 
     public String getRoLockKeyByParams(Object... params) {
-        StringBuffer key = new StringBuffer(getRoLockKeyPrefix());
+        StringBuilder key = new StringBuilder(getRoLockKeyPrefix());
         if (params != null && params.length > 0) {
             for (Object param : params) {
                 key.append(SEPARATOR).append(param.toString());
@@ -165,7 +165,7 @@ public class ShardedJedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID ex
 
         //类ro基础注解
         Ro ro = entityClass.getAnnotation(Ro.class);
-        isExistRo = (ro == null ? false : true);
+        boolean isExistRo = (ro != null);
         if (isExistRo) {
             keyPrefix = ro.key().intern();
         } else {
@@ -174,8 +174,8 @@ public class ShardedJedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID ex
         }
 
         //类roLock锁注解
-        roLock = entityClass.getAnnotation(RoLock.class);
-        isExistRoLock = (roLock == null ? false : true);
+        RoLock roLock = entityClass.getAnnotation(RoLock.class);
+        boolean isExistRoLock = (roLock != null);
         if (isExistRoLock) {
             roLockKeyPrefix = roLock.key().intern();
         }
@@ -183,8 +183,8 @@ public class ShardedJedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID ex
         ExpressionParser parser = new SpelExpressionParser();
 
         //类roSortedSet注解 基于类ro注解
-        roSortedSet = entityClass.getAnnotation(RoSortedSet.class);
-        isExistRoSortedSet = (roSortedSet == null ? false : true);
+        RoSortedSet roSortedSet = entityClass.getAnnotation(RoSortedSet.class);
+        isExistRoSortedSet = (roSortedSet != null);
         if (isExistRoSortedSet) {
             roSortedSetKey = (getKeyPrefix() + SEPARATOR + roSortedSet.key()).intern();
             if (StringUtils.isNotBlank(roSortedSet.score())) {
@@ -472,14 +472,14 @@ public class ShardedJedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID ex
      */
     public Map<ID, T> findMapByIds(Iterable<ID> ids) {
         if (ids == null || !ids.iterator().hasNext())
-            return new HashMap<ID, T>();
-        List<String> keys = new ArrayList<String>();
+            return new HashMap<>();
+        List<String> keys = new ArrayList<>();
         for (ID id : ids) {
             keys.add(getHashKey(id));
         }
         List<T> list = findByKeys(keys);
         if (!CollectionUtils.isEmpty(list)) {
-            Map<ID, T> result = new HashMap<ID, T>();
+            Map<ID, T> result = new HashMap<>();
             for (T t : list) {
                 if (t != null) {
                     result.put(t.getId(), t);
@@ -487,7 +487,7 @@ public class ShardedJedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID ex
             }
             return result;
         }
-        return new HashMap<ID, T>();
+        return new HashMap<>();
     }
 
     /**
@@ -498,14 +498,14 @@ public class ShardedJedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID ex
      */
     public Map<ID, T> findMapByIds(Set<byte[]> ids) {
         if (CollectionUtils.isEmpty(ids))
-            return new HashMap<ID, T>();
+            return new HashMap<>();
         List<String> keys = new ArrayList<String>(ids.size());
         for (byte[] id : ids) {
             keys.add(getHashKeyFromIdByte(id));
         }
         List<T> list = findByKeys(keys);
         if (!CollectionUtils.isEmpty(list)) {
-            Map<ID, T> result = new HashMap<ID, T>();
+            Map<ID, T> result = new HashMap<>();
             for (T t : list) {
                 if (t != null) {
                     result.put(t.getId(), t);
@@ -513,7 +513,7 @@ public class ShardedJedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID ex
             }
             return result;
         }
-        return new HashMap<ID, T>();
+        return new HashMap<>();
     }
 
     /**
@@ -527,8 +527,8 @@ public class ShardedJedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID ex
         List<T> result = newArrayList();
         if (CollectionUtils.isNotEmpty(keys)) {
             List<Object> list = pipeHgetall(keys);
-            for (int i = 0; i < list.size(); i++) {
-                Map<byte[], byte[]> map = (Map<byte[], byte[]>) list.get(i);
+            for (Object aList : list) {
+                Map<byte[], byte[]> map = (Map<byte[], byte[]>) aList;
                 if (map != null && !map.isEmpty()) {
                     T ro = instance();
                     try {
@@ -572,11 +572,12 @@ public class ShardedJedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID ex
      * @date 2016年9月13日
      */
     public T findByKey(String key) {
-        Map<byte[], byte[]> map = (Map<byte[], byte[]>) hgetAll(key);
+        Map<byte[], byte[]> map = hgetAll(key);
         if (map == null || map.isEmpty()) {
             return null;
         } else {
             T ro = instance();
+            Preconditions.checkArgument(ro != null);
             try {
                 ro.fromMap(map);
             } catch (Exception e) {
@@ -664,7 +665,7 @@ public class ShardedJedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID ex
         } catch (Exception e) {
             logger.error("redis save iterator error.", e);
         } finally {
-            pool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -748,6 +749,7 @@ public class ShardedJedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID ex
         ShardedJedis jedis = null;
         try {
             jedis = pool.getResource();
+            Preconditions.checkArgument(jedis != null);
             ShardedJedisPipeline jedisPipeline = jedis.pipelined();
             for (String key : keys) {
                 jedisPipeline.del(key);
@@ -756,7 +758,9 @@ public class ShardedJedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID ex
         } catch (Exception e) {
             logger.error("redis save iterator error.", e);
         } finally {
-            pool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
+
+
 }

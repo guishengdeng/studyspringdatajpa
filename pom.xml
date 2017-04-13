@@ -69,6 +69,7 @@
         <springframework.core.version>4.3.7.RELEASE</springframework.core.version>
         <springframework.expression.version>4.3.7.RELEASE</springframework.expression.version>
         <springframework.beans.version>4.3.7.RELEASE</springframework.beans.version>
+        <springframework.context.version>4.3.7.RELEASE</springframework.context.version>
         <codelogger.version>1.0.0</codelogger.version>
         <apache.commons.pool.version>2.2</apache.commons.pool.version>
         <springframework.security.core.version>4.0.1.RELEASE</springframework.security.core.version>
@@ -343,6 +344,12 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-beans</artifactId>
                 <version>${springframework.beans.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${springframework.context.version}</version>
             </dependency>
 
             <!-- 迁移Ro模块 被迫引入的Jar -->

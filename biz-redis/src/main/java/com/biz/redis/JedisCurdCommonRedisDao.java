@@ -6,6 +6,7 @@ import com.biz.redis.spi.JedisRedis;
 import com.biz.redis.util.ExpressionUtil;
 import com.biz.redis.util.RedisUtil;
 import com.biz.redis.util.SortedSetAssist;
+import com.google.common.base.Preconditions;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -38,41 +39,40 @@ import static com.google.common.collect.Lists.newArrayList;
  */
 public class JedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID extends Serializable> extends JedisRedis {
 
-    private static final String SEPARATOR = ":";
-
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
     private Class<T> entityClass;
+
+    private static final String SEPARATOR = ":";
 
     /**
      * ro key
      */
     private String keyPrefix = null;
-    private boolean isExistRo = false;
 
     private String roLockKeyPrefix = null;
-    private boolean isExistRoLock = false;
-    private RoLock roLock = null;
 
     private String roSortedSetKey = null;
+
     private boolean isExistRoSortedSet = false;
-    private RoSortedSet roSortedSet = null;
 
-    Expression expression = null;
+    private Expression expression = null;
 
-    Map<String, FieldSortedSet> fieldName_Annotation_Map = null;
-    Map<FieldSortedSet, SortedSetAssist<T, ID>> fieldInSortedSetMap = null;
+    private Map<String, FieldSortedSet> fieldName_Annotation_Map = null;
 
-    Map<String, MethodSortedSet> methodName_Annotation_Map = null;
-    Map<MethodSortedSet, SortedSetAssist<T, ID>> methodInSortedSetMap = null;
+    private Map<FieldSortedSet, SortedSetAssist<T, ID>> fieldInSortedSetMap = null;
+
+    private Map<String, MethodSortedSet> methodName_Annotation_Map = null;
+
+    private Map<MethodSortedSet, SortedSetAssist<T, ID>> methodInSortedSetMap = null;
 
     public String getKeyByParams(Object... params) {
-        StringBuffer key = new StringBuffer(getKeyPrefix());
+        StringBuilder key = new StringBuilder(getKeyPrefix());
         if (params != null && params.length > 0) {
-            for (Object param : params) {
+            Arrays.stream(params).forEach(param -> {
                 logger.debug("ShardedJedisCurdCommonRedisDao>>getKeyByParams>>params:{},param:{}", params, param);
                 key.append(SEPARATOR).append(param.toString());
-            }
+            });
         }
         return key.toString();
     }
@@ -84,7 +84,7 @@ public class JedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID extends S
      * @date 2016年8月15日
      */
     public String getFieldSortedSetKey(String fieldName, Object fieldValue) {
-        StringBuffer key = new StringBuffer();
+        StringBuilder key = new StringBuilder();
         FieldSortedSet fieldSortedSet = fieldName_Annotation_Map.get(fieldName);
         if (fieldSortedSet == null) {
             throw new RuntimeException("[" + fieldName + "]--> FieldSortedSet is null");
@@ -108,7 +108,7 @@ public class JedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID extends S
      * @date 2016年8月15日
      */
     public String getMethodSortedSetKey(String methodName, Object fieldValue) {
-        StringBuffer key = new StringBuffer();
+        StringBuilder key = new StringBuilder();
         MethodSortedSet methodSortedSet = methodName_Annotation_Map.get(methodName);
         if (methodSortedSet == null)
             throw new RuntimeException("[" + methodName + "]--> MethodSortedSet is null");
@@ -122,44 +122,42 @@ public class JedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID extends S
     }
 
     public String getKeyPrefix() {
-        return keyPrefix.toString();
+        return keyPrefix;
     }
 
     public String getRoSortedSetKey() {
-        return roSortedSetKey.toString();
+        return roSortedSetKey;
     }
 
     //ro
     public String getHashKey(Serializable id) {
-        return new StringBuffer(getKeyPrefix()).append(SEPARATOR).append(id).toString();
+        return getKeyPrefix() + SEPARATOR + id;
     }
 
     //ro
     public String getHashKeyFromIdByte(byte[] byteId) {
-        return new StringBuffer(getKeyPrefix()).append(SEPARATOR).append(new String(byteId)).toString();
+        return getKeyPrefix() + SEPARATOR + new String(byteId);
     }
 
     //lock
     public String getRoLockKeyPrefix() {
-        return roLockKeyPrefix.toString();
+        return roLockKeyPrefix;
     }
 
     //lock
     public String getLockHashKey(Serializable id) {
-        return new StringBuffer(getRoLockKeyPrefix()).append(SEPARATOR).append(id).toString();
+        return getRoLockKeyPrefix() + SEPARATOR + id;
     }
 
     //lock
     public String getLockHashKeyFromIdByte(byte[] byteId) {
-        return new StringBuffer(getRoLockKeyPrefix()).append(SEPARATOR).append(new String(byteId)).toString();
+        return getRoLockKeyPrefix() + SEPARATOR + new String(byteId);
     }
 
     public String getRoLockKeyByParams(Object... params) {
         StringBuffer key = new StringBuffer(getRoLockKeyPrefix());
         if (params != null && params.length > 0) {
-            for (Object param : params) {
-                key.append(SEPARATOR).append(param.toString());
-            }
+            Arrays.stream(params).forEach(param -> key.append(SEPARATOR).append(param.toString()));
         }
         return key.toString();
     }
@@ -177,7 +175,7 @@ public class JedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID extends S
 
         //类ro基础注解
         Ro ro = entityClass.getAnnotation(Ro.class);
-        isExistRo = (ro == null ? false : true);
+        boolean isExistRo = (ro != null);
         if (isExistRo) {
             keyPrefix = ro.key().intern();
         } else {
@@ -186,8 +184,9 @@ public class JedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID extends S
         }
 
         //类roLock锁注解
-        roLock = entityClass.getAnnotation(RoLock.class);
-        isExistRoLock = (roLock == null ? false : true);
+        RoLock roLock = entityClass.getAnnotation(RoLock.class);
+
+        boolean isExistRoLock = (roLock != null);
         if (isExistRoLock) {
             roLockKeyPrefix = roLock.key().intern();
         }
@@ -195,8 +194,8 @@ public class JedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID extends S
         ExpressionParser parser = new SpelExpressionParser();
 
         //类roSortedSet注解 基于类ro注解
-        roSortedSet = entityClass.getAnnotation(RoSortedSet.class);
-        isExistRoSortedSet = (roSortedSet == null ? false : true);
+        RoSortedSet roSortedSet = entityClass.getAnnotation(RoSortedSet.class);
+        isExistRoSortedSet = (roSortedSet != null);
         if (isExistRoSortedSet) {
             roSortedSetKey = (getKeyPrefix() + SEPARATOR + roSortedSet.key()).intern();
             if (StringUtils.isNotBlank(roSortedSet.score())) {
@@ -217,7 +216,7 @@ public class JedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID extends S
                         field.setAccessible(true);//修改访问权限
                         //获取字段中包含的注解
                         FieldSortedSet fieldSortedSet = field.getAnnotation(FieldSortedSet.class);
-                        boolean isExistFieldSortedSet = (fieldSortedSet == null ? false : true);
+                        boolean isExistFieldSortedSet = (fieldSortedSet != null);
                         if (isExistFieldSortedSet) {
                             if (fieldInSortedSetMap == null) {
                                 fieldInSortedSetMap = new HashMap<>();
@@ -227,7 +226,7 @@ public class JedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID extends S
                             }
                             fieldInSortedSetMap.put(
                                     fieldSortedSet,
-                                    new SortedSetAssist<T, ID>(
+                                    new SortedSetAssist<>(
                                             field.getName(),
                                             StringUtils.isBlank(fieldSortedSet.prefix()) ? getKeyPrefix() + SEPARATOR + field.getName() : fieldSortedSet.prefix() + SEPARATOR + field.getName(),
                                             parser.parseExpression(fieldSortedSet.key()),
@@ -247,7 +246,7 @@ public class JedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID extends S
                         method.setAccessible(true);//修改访问权限
                         //获取方法中包含的注解
                         MethodSortedSet methodSortedSet = method.getAnnotation(MethodSortedSet.class);
-                        boolean isExistMethodSortedSet = (methodSortedSet == null ? false : true);
+                        boolean isExistMethodSortedSet = (methodSortedSet != null);
                         if (isExistMethodSortedSet) {
                             if (methodInSortedSetMap == null) {
                                 methodInSortedSetMap = new HashMap<>();
@@ -257,7 +256,7 @@ public class JedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID extends S
                             }
                             methodInSortedSetMap.put(
                                     methodSortedSet,
-                                    new SortedSetAssist<T, ID>(
+                                    new SortedSetAssist<>(
                                             method.getName(),
                                             StringUtils.isBlank(methodSortedSet.prefix()) ? getKeyPrefix() + SEPARATOR + method.getName() : methodSortedSet.prefix() + SEPARATOR + method.getName(),
                                             parser.parseExpression(methodSortedSet.key()),
@@ -281,9 +280,7 @@ public class JedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID extends S
     private T instance() {
         try {
             return entityClass.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return null;
@@ -302,6 +299,7 @@ public class JedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID extends S
         Map<byte[], byte[]> map = hgetAll(getHashKey(id));
         if (MapUtils.isNotEmpty(map)) {
             T ro = instance();
+            Preconditions.checkArgument(ro != null);
             ro.fromMap(map);
             return ro;
         } else
@@ -453,14 +451,14 @@ public class JedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID extends S
      */
     public Map<ID, T> findMapByIds(Iterable<ID> ids) {
         if (ids == null || !ids.iterator().hasNext())
-            return new HashMap<ID, T>();
-        List<String> keys = new ArrayList<String>();
+            return new HashMap<>();
+        List<String> keys = new ArrayList<>();
         for (ID id : ids) {
             keys.add(getHashKey(id));
         }
         List<T> list = findByKeys(keys);
         if (!CollectionUtils.isEmpty(list)) {
-            Map<ID, T> result = new HashMap<ID, T>();
+            Map<ID, T> result = new HashMap<>();
             for (T t : list) {
                 if (t != null) {
                     result.put(t.getId(), t);
@@ -468,7 +466,7 @@ public class JedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID extends S
             }
             return result;
         }
-        return new HashMap<ID, T>();
+        return new HashMap<>();
     }
 
     /**

@@ -35,9 +35,9 @@ public class ZkProperties {
         this(zookeeperUrl, path, false);
     }
 
-    public ZkProperties(final String zoookeeperUrl, final String path, boolean watch) {
+    public ZkProperties(final String zookeeperUrl, final String path, boolean watch) {
         try {
-            final CuratorFramework curator = ZooClient.getClient(zoookeeperUrl);
+            final CuratorFramework curator = ZooClient.getClient(zookeeperUrl);
             if (curator.checkExists().forPath(path) == null) {
                 logger.debug("zk 文件:{} 不存在, 创建zk文件", path);
                 curator.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(path);

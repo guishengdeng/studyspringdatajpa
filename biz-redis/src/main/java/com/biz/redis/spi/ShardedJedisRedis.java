@@ -42,7 +42,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.hget(key.getBytes(), field.getBytes());
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -53,7 +53,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.incrBy(key, increment);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -67,7 +67,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.hdel(key.getBytes(), field.getBytes());
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -81,7 +81,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.hset(key.getBytes(), field.getBytes(), value);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -95,7 +95,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.hsetnx(key.getBytes(), field.getBytes(), value).intValue() == 1;
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -109,7 +109,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.hmset(key.getBytes(), hash);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -123,7 +123,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.hmget(key.getBytes(), fields);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -137,7 +137,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.hgetAll(key.getBytes());
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -151,7 +151,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.hexists(key.getBytes(), field.getBytes());
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -165,7 +165,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.sadd(key.getBytes(), value);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -179,7 +179,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.sismember(key.getBytes(), member);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -193,12 +193,12 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.smembers(key.getBytes());
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
     /* (non-Javadoc)
-	 * @see com.redis.spi.a#srem(java.lang.String, byte[])
+     * @see com.redis.spi.a#srem(java.lang.String, byte[])
 	 */
     @Override
     public Long srem(String key, byte[] members) {
@@ -207,12 +207,12 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.srem(key.getBytes(), members);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
     /* (non-Javadoc)
-	 * @see com.redis.spi.a#del(java.lang.String)
+     * @see com.redis.spi.a#del(java.lang.String)
 	 */
     @Override
     public Long del(String key) {
@@ -221,12 +221,12 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.del(key.getBytes());
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
     /* (non-Javadoc)
-	 * @see com.redis.spi.a#exists(java.lang.String)
+     * @see com.redis.spi.a#exists(java.lang.String)
 	 */
     @Override
     public boolean exists(String key) {
@@ -235,12 +235,12 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.exists(key.getBytes());
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
     /* (non-Javadoc)
-	 * @see com.redis.spi.a#zadd(java.lang.String, double, byte[])
+     * @see com.redis.spi.a#zadd(java.lang.String, double, byte[])
 	 */
     @Override
     public boolean zadd(String key, double score, byte[] member) {
@@ -250,12 +250,12 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             Long result = jedis.zadd(key.getBytes(), score, member);
             return result == 1l || result == 0l;
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
     /* (non-Javadoc)
-	 * @see com.redis.spi.a#zrem(java.lang.String, byte)
+     * @see com.redis.spi.a#zrem(java.lang.String, byte)
 	 */
     @Override
     public Long zrem(String key, byte[]... members) {
@@ -264,12 +264,12 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.zrem(key.getBytes(), members);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
     /* (non-Javadoc)
-	 * @see com.redis.spi.a#zrem(java.lang.String, java.lang.String)
+     * @see com.redis.spi.a#zrem(java.lang.String, java.lang.String)
 	 */
     @Override
     public Long zrem(String key, String member) {
@@ -278,7 +278,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.zrem(key.getBytes(), member.getBytes());
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -290,7 +290,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.zrem(key, members);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -304,12 +304,12 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.zrange(key.getBytes(), start, end);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
     /* (non-Javadoc)
-	 * @see com.redis.spi.a#zrevrange(java.lang.String, long, long)
+     * @see com.redis.spi.a#zrevrange(java.lang.String, long, long)
 	 */
     @Override
     public Set<byte[]> zrevrange(String key, long start, long end) {
@@ -318,12 +318,12 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.zrevrange(key.getBytes(), start, end);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
     /* (non-Javadoc)
-	 * @see com.redis.spi.a#zrevrangeWithScore(java.lang.String, long, long)
+     * @see com.redis.spi.a#zrevrangeWithScore(java.lang.String, long, long)
 	 */
     @Override
     public Set<Tuple> zrevrangeWithScore(String key, long start, long end) {
@@ -332,12 +332,12 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.zrevrangeWithScores(key.getBytes(), start, end);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
     /* (non-Javadoc)
-	 * @see com.redis.spi.a#zangeByScore(java.lang.String, java.lang.String, java.lang.String)
+     * @see com.redis.spi.a#zangeByScore(java.lang.String, java.lang.String, java.lang.String)
 	 */
     @Override
     public Set<byte[]> zangeByScore(String key, String min, String max) {
@@ -346,13 +346,13 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.zrangeByScore(key.getBytes(), min.getBytes(), max.getBytes());
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
 
     /* (non-Javadoc)
-	 * @see com.redis.spi.a#zrangeWithScores(java.lang.String, long, long)
+     * @see com.redis.spi.a#zrangeWithScores(java.lang.String, long, long)
 	 */
     @Override
     public Set<Tuple> zrangeWithScores(String key, long start, long end) {
@@ -361,13 +361,13 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.zrangeWithScores(key.getBytes(), start, end);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
     //获取列表元素总数
     /* (non-Javadoc)
-	 * @see com.redis.spi.a#zCard(java.lang.String)
+     * @see com.redis.spi.a#zCard(java.lang.String)
 	 */
     @Override
     public Long zCard(String key) {
@@ -376,13 +376,13 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.zcard(key.getBytes());
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
     //获取sort set score
     /* (non-Javadoc)
-	 * @see com.redis.spi.a#zscore(java.lang.String, byte[])
+     * @see com.redis.spi.a#zscore(java.lang.String, byte[])
 	 */
     @Override
     public Double zscore(String key, byte[] member) {
@@ -391,12 +391,12 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.zscore(key.getBytes(), member);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
     /* (non-Javadoc)
-	 * @see com.redis.spi.a#zscoreToInt(java.lang.String, byte[])
+     * @see com.redis.spi.a#zscoreToInt(java.lang.String, byte[])
 	 */
     @Override
     public Integer zscoreToInt(String key, byte[] member) {
@@ -406,13 +406,13 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             Double d = jedis.zscore(key.getBytes(), member);
             return d == null ? null : d.intValue();
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
 
     /* (non-Javadoc)
-	 * @see com.redis.spi.a#zscoreToLong(java.lang.String, byte[])
+     * @see com.redis.spi.a#zscoreToLong(java.lang.String, byte[])
 	 */
     @Override
     public Long zscoreToLong(String key, byte[] member) {
@@ -422,12 +422,12 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             Double d = jedis.zscore(key.getBytes(), member);
             return d == null ? null : d.longValue();
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
     /* (non-Javadoc)
-	 * @see com.redis.spi.a#zrank(java.lang.String, byte[])
+     * @see com.redis.spi.a#zrank(java.lang.String, byte[])
 	 */
     @Override
     public Long zrank(String key, byte[] member) {
@@ -436,7 +436,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.zrank(key.getBytes(), member);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -450,7 +450,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.zincrby(key.getBytes(), score, member);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -465,7 +465,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.rpush(key.getBytes(), value);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -479,7 +479,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.rpush(key.getBytes(), strings);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -493,7 +493,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.lpush(key.getBytes(), strings);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -504,7 +504,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.lpush(key, strings);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -515,7 +515,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.rpush(key, strings);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -526,7 +526,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.ltrim(key.getBytes(), start, end);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -540,7 +540,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.lrange(key.getBytes(), start, end);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -554,7 +554,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.llen(key.getBytes());
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -568,7 +568,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.lpop(key.getBytes());
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -582,7 +582,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.zrevrangeByScore(key.getBytes(), max, min);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -596,7 +596,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.zrevrangeByScore(key.getBytes(), max.getBytes(), min.getBytes());
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -612,7 +612,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             return jedis
                     .zrevrangeByScore(key.getBytes(), max.getBytes(), min.getBytes(), offset, count);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -627,7 +627,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             Long count = jedis.zcount(key.getBytes(), min.getBytes(), max.getBytes());
             return count == null ? 0 : count;
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -641,7 +641,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.zremrangeByScore(key.getBytes(), start.getBytes(), end.getBytes());
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -652,7 +652,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.zremrangeByRank(key.getBytes(), start, end);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -666,7 +666,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.zcount(key.getBytes(), min, max);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -680,7 +680,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.zrangeByScore(key, min, max, offset, count);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -694,7 +694,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.zrangeByScore(key, min, max);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -708,7 +708,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.zrangeByScore(key, min, max);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -722,7 +722,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             jedis.expire(key.getBytes(), seconds);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -736,7 +736,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             jedis.expireAt(key.getBytes(), unixTime);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -754,7 +754,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             }
             return jedisPipeline.syncAndReturnAll();
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -770,7 +770,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedisPipeline.sadd(key, members);
             jedisPipeline.syncAndReturnAll();
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -788,7 +788,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             }
             jedisPipeline.syncAndReturnAll();
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -807,7 +807,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             }
             return jedisPipeline.syncAndReturnAll();
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -825,7 +825,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             }
             jedisPipeline.syncAndReturnAll();
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -839,7 +839,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.hincrBy(key.getBytes(), field, value);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -853,7 +853,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.get(key.getBytes());
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -867,7 +867,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             jedis.set(key.getBytes(), value);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -881,7 +881,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             jedis.setex(key.getBytes(), seconds, value);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -896,7 +896,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             Long r = jedis.setnx(key.getBytes(), value);
             return r != null && r.intValue() == 1;
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -910,7 +910,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.ttl(key.getBytes());
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -924,7 +924,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.incr(key.getBytes());
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -938,7 +938,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.zrevrank(key.getBytes(), member);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -953,7 +953,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             }
             return jedisPipeline.syncAndReturnAll();
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -964,7 +964,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedis = shardedJedisPool.getResource();
             return jedis.lrem(key.getBytes(), count, value);
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -979,7 +979,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             }
             return jedisPipeline.syncAndReturnAll();
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -994,7 +994,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             }
             return jedisPipeline.syncAndReturnAll();
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -1011,7 +1011,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             }
             jedisPipeline.sync();
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -1025,7 +1025,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             jedisPipeline.zrem(key, ArrayUtils.toArray(members));
             jedisPipeline.sync();
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -1043,7 +1043,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             }
             jedisPipeline.sync();
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -1058,7 +1058,13 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
             }
             jedisPipeline.sync();
         } finally {
-            shardedJedisPool.returnResource(jedis);
+            this.releaseShardedJedisResource(jedis);
+        }
+    }
+
+    protected void releaseShardedJedisResource(ShardedJedis jedis) {
+        if (jedis != null) {
+            jedis.close();
         }
     }
 }

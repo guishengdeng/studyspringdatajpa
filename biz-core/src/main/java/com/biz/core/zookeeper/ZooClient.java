@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  * 1. 将ZookeeperUrl通过构造函数参数传入
  * </p>
  */
-public class ZooClient {
+public class ZooClient implements AutoCloseable {
 
     private final static Logger logger = LoggerFactory.getLogger(ZooClient.class);
 
@@ -48,7 +48,7 @@ public class ZooClient {
         return url;
     }
 
-    public static void close() {
+    public void close() {
         if (client != null) {
             client.close();
         }
