@@ -16,9 +16,9 @@ public class IdService {
 
     private final static long twepoch = 1409030641843L;
     // 机器标识位数
-    private final static long workerIdBits = 5L;
+    private final static long workerIdBits = 7L;
     // 数据中心标识位数
-    private final static long dataCenterIdBits = 5L;
+    private final static long dataCenterIdBits = 3L;
     // 机器ID最大值
     //private final static long maxWorkerId = -1L ^ (-1L << workerIdBits);
     // 数据中心ID最大值

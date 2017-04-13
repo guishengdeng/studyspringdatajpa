@@ -66,11 +66,13 @@
         <apache.commons.collections.version>3.2.2</apache.commons.collections.version>
         <org.slf4j.api.version>1.7.22</org.slf4j.api.version>
         <apache.curator.framework.version>2.6.0</apache.curator.framework.version>
-        <springframework.core.version>4.2.4.RELEASE</springframework.core.version>
+        <springframework.core.version>4.3.7.RELEASE</springframework.core.version>
+        <springframework.expression.version>4.3.7.RELEASE</springframework.expression.version>
+        <springframework.beans.version>4.3.7.RELEASE</springframework.beans.version>
         <codelogger.version>1.0.0</codelogger.version>
         <apache.commons.pool.version>2.2</apache.commons.pool.version>
         <springframework.security.core.version>4.0.1.RELEASE</springframework.security.core.version>
-        <springframework.security.config.verison>3.2.5.RELEASE
+        <springframework.security.config.verison>4.2.2.RELEASE
         </springframework.security.config.verison>
         <springframework.security.taglibs.version>4.2.1.RELEASE
         </springframework.security.taglibs.version>
@@ -330,6 +332,20 @@
                 <version>${biz-support-es.version}</version>
             </dependency>
 
+            <!-- 迁移Ro模块 被迫引入的Jar -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-expression</artifactId>
+                <version>${springframework.expression.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${springframework.beans.version}</version>
+            </dependency>
+
+            <!-- 迁移Ro模块 被迫引入的Jar -->
         </dependencies>
 
     </dependencyManagement>
