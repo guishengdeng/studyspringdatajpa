@@ -110,7 +110,7 @@ public class ShardedJedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID ex
     }
 
     public String getKeyPrefix() {
-        return keyPrefix.toString();
+        return keyPrefix;
     }
 
     public String getRoSortedSetKey() {
@@ -654,18 +654,10 @@ public class ShardedJedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID ex
     public void save(Iterable<T> ros) {
         //如果注入的是ComJedisRedis<ShardedJedis>
         Pool<ShardedJedis> pool = getPool();
-        ShardedJedis jedis = null;
-        try {
-            jedis = pool.getResource();
+        try (ShardedJedis jedis = pool.getResource()) {
             ShardedJedisPipeline jedisPipeline = jedis.pipelined();
-            for (T ro : ros) {
-                this.save(ro, jedisPipeline);
-            }
+            ros.forEach(ro -> this.save(ro, jedisPipeline));
             jedisPipeline.syncAndReturnAll();
-        } catch (Exception e) {
-            logger.error("redis save iterator error.", e);
-        } finally {
-            this.releaseShardedJedisResource(jedis);
         }
     }
 
@@ -735,32 +727,20 @@ public class ShardedJedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID ex
         if (isExistRoSortedSet) {
             List<String> keys = getKeyListFromSortedSet(this.getRoSortedSetKey());
             if (CollectionUtils.isNotEmpty(keys)) {
-                for (String key : keys) {
-                    super.del(key);
-                }
+                keys.forEach(super::del);
             }
         } else {
             throw new UnsupportedOperationException();
         }
     }
 
-    public void pipleDelete(List<String> keys) {
+    public void pipeDelete(List<String> keys) {
         Pool<ShardedJedis> pool = getPool();
-        ShardedJedis jedis = null;
-        try {
-            jedis = pool.getResource();
+        try (ShardedJedis jedis = pool.getResource()) {
             Preconditions.checkArgument(jedis != null);
             ShardedJedisPipeline jedisPipeline = jedis.pipelined();
-            for (String key : keys) {
-                jedisPipeline.del(key);
-            }
+            keys.forEach(jedisPipeline::del);
             jedisPipeline.syncAndReturnAll();
-        } catch (Exception e) {
-            logger.error("redis save iterator error.", e);
-        } finally {
-            this.releaseShardedJedisResource(jedis);
         }
     }
-
-
 }

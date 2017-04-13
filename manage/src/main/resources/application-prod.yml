@@ -33,6 +33,18 @@ biz:
   soa:
     idx: 1
   zookeeper:
-      url: zookeeper://127.0.0.1:2181
-      soaIdx:
-        path: /biz/gbck/boot/soaIdx
+    url: zookeeper://127.0.0.1:2181
+    soaIdx:
+      path: /biz/gbck/boot/soaIdx
+    redis:
+      path: /biz/gbck/boot/redis
+  redis:
+    maxTotal: 120
+    maxIdle: 10
+    timeBetweenEvictionRunsMillis: 30000
+    minEvictableIdleTimeMillis: 30000
+    testOnBorrow: true
+    host: 127.0.0.1
+    port: 6379
+    name:
+    password:
