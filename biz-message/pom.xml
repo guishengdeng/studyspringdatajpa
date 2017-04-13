@@ -14,5 +14,16 @@
     <version>${biz-message.version}</version>
     <packaging>jar</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.biz.gbck</groupId>
+            <artifactId>biz-core</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
