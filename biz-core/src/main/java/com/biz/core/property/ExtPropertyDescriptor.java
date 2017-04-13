@@ -90,6 +90,7 @@ public class ExtPropertyDescriptor {
      *
      * 没有找到注解则返回 null;
      */
+    @SuppressWarnings("unchecked")
     public <A extends Annotation> A findAnnotation(Class<A> annotationClass) {
         Object cached = annotationMapping.get(annotationClass);
 
