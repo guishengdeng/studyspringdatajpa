@@ -27,8 +27,8 @@ public class RedisConfig {
     @Autowired
     private Environment environment;
 
-    @Bean
-    public ShardedJedisPool shardedJedisPool() throws ConfigurationException {
+    @Bean(name = "redisConfiguration")
+    public PropertiesConfiguration redisConfiguration() throws ConfigurationException {
         String zookeeperUrl = environment.getProperty("biz.zookeeper.url", String.class),
                 redisConfigZookeeperPath = environment.getProperty("biz.zookeeper.redis.path", String.class);
         boolean isConfigRedisByZookeeper = StringUtils.isNotBlank(zookeeperUrl) && StringUtils.isNotBlank(redisConfigZookeeperPath);
@@ -49,7 +49,11 @@ public class RedisConfig {
             propertiesConfiguration.addProperty("biz.redis.minEvictableIdleTimeMillis", environment.getProperty("biz.redis.minEvictableIdleTimeMillis", Integer.class));
             propertiesConfiguration.addProperty("biz.redis.testOnBorrow", environment.getProperty("biz.redis.testOnBorrow", Boolean.class));
         }
+        return propertiesConfiguration;
+    }
 
-        return ShardedJedisPoolLoad.getJedisPool(propertiesConfiguration);
+    @Bean
+    public ShardedJedisPool shardedJedisPool(@Autowired PropertiesConfiguration redisConfiguration) throws ConfigurationException {
+        return ShardedJedisPoolLoad.getJedisPool(redisConfiguration);
     }
 }

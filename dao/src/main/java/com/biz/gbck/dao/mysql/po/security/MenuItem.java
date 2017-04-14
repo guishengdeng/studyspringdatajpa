@@ -9,6 +9,8 @@ import javax.persistence.*;
 @Table(name = "adm_menuitem")
 public class MenuItem extends BasePo<Long> implements Identifiable<Long> {
 
+    private static final long serialVersionUID = -5767627457894527720L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

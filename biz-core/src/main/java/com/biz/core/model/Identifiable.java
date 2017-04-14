@@ -1,6 +1,8 @@
 package com.biz.core.model;
 
-public interface Identifiable<ID> {
+import java.io.Serializable;
+
+public interface Identifiable<ID> extends Serializable {
 
     ID getId();
 

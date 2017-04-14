@@ -1,5 +1,6 @@
 package com.biz.gbck.dao.mysql.po;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -9,7 +10,9 @@ import java.util.Objects;
  * @date 2017年04月12日
  * @reviewer
  */
-public class BasePo<T> {
+public class BasePo<T> implements Serializable {
+
+    private static final long serialVersionUID = 4920583045812713490L;
 
     private T id;
 
