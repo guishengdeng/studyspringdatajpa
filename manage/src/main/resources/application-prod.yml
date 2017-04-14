@@ -48,3 +48,7 @@ biz:
     port: 6379
     name:
     password:
+
+server:
+  session:
+    timeout: 1200
