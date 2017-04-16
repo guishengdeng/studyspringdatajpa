@@ -1,5 +1,6 @@
 import com.spring.jpa.model.*;
 import com.spring.jpa.repository.*;
+import com.spring.jpa.service.UserService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.junit.Before;
@@ -40,6 +41,8 @@ public class UserSpringDataJpaTest {
    private MenuItemRepository menuItemRepository;
    @Autowired
    private MainMenuRepository mainMenuRepository;
+   @Autowired
+   private UserService userService;
     /*
      @Test
      public  void add(){
@@ -296,5 +299,12 @@ public class UserSpringDataJpaTest {
        //mainMenuRepository.save(mainMenu);
        menuItemRepository.save(menuItem1);
       // menuItemRepository.save(menuItem2);
+   }
+   @Test
+   public void test(){
+       User user=new User();
+       user.setUsername("行走");
+       List<User>users=userService.search(user,null);
+       System.out.println(users.get(0));
    }
 }

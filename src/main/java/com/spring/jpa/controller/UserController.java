@@ -151,12 +151,13 @@ public class UserController {
      * @return String
      */
     private String getPrincipal(){
-            String username="";
+            //String username="";
             Object principal=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if(principal instanceof UserDetails)
+            /*if(principal instanceof UserDetails)
                  username=((UserDetails) principal).getUsername();
             else
-                 username=principal.toString();
+                 username=principal.toString();*/
+        String username = principal instanceof UserDetails ? ((UserDetails) principal).getUsername():principal.toString();
 
         return username;
     }
@@ -171,4 +172,5 @@ public class UserController {
 
         return roleSet;
     }
+
 }

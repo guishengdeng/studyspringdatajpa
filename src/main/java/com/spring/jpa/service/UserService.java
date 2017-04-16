@@ -1,13 +1,22 @@
 package com.spring.jpa.service;
 
+import com.spring.jpa.model.PageInfo;
 import com.spring.jpa.model.User;
 import com.spring.jpa.repository.UserRepository;
-import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 /**
@@ -62,6 +71,24 @@ public class UserService {
     }
 
 
+    public List<User> search(final User user, PageInfo pageInfo){//返回Page
+        //userRepository调用的findAll方法，来自于父接口JpaSpecificationExecutor
+        //而该接口默认是有一个实现类的SimpleJpaRepository
+        return userRepository.findAll(new Specification<User>() {
+            //注意看SimpleJpaRepository中的方法以及applySpecificationToCriteria
+            @Override
+            public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                Predicate userNameLike=null;
+                if(null!=user&&!StringUtils.isEmpty(user.getUsername())){
+                   userNameLike=cb.like(root.<String>get("username"),"%"+user.getUsername()+"%");
+                }
+                if(null!=userNameLike){
+                    query.where(userNameLike);
+                }
+                return userNameLike;
+            }
+        });
+    }
 
 
 }
