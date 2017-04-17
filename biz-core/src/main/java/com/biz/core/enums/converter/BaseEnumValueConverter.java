@@ -17,16 +17,6 @@ public abstract class BaseEnumValueConverter<E extends EnumerableValue> implemen
     private Class<E> clz;
     private Method method;
 
-    @Override
-    public Integer convertToDatabaseColumn(EnumerableValue attribute) {
-        return attribute == null ? null : attribute.getValue();
-    }
-
-    @Override
-    public E convertToEntityAttribute(Integer dbData) {
-        return valueOf(dbData);
-    }
-
     @SuppressWarnings("unchecked")
     public BaseEnumValueConverter() {
         try {
@@ -35,6 +25,16 @@ public abstract class BaseEnumValueConverter<E extends EnumerableValue> implemen
         } catch (Exception e) {
             throw new SystemException("反射失败", e);
         }
+    }
+
+    @Override
+    public Integer convertToDatabaseColumn(EnumerableValue attribute) {
+        return attribute == null ? null : attribute.getValue();
+    }
+
+    @Override
+    public E convertToEntityAttribute(Integer dbData) {
+        return valueOf(dbData);
     }
 
     /**

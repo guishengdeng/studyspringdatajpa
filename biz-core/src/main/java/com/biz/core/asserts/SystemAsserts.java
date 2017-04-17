@@ -31,7 +31,7 @@ public class SystemAsserts {
         if (!expression) {
             String errMsg = String.format(msg, args);
             logger.error(errMsg);
-            if(StringUtils.isNotBlank(errMsg)){
+            if (StringUtils.isNotBlank(errMsg)) {
                 throw new BusinessException(FunctionExceptions.System.SYS_EXCEPTION, errMsg);
             }
             throw new SystemException(errMsg);
@@ -46,7 +46,7 @@ public class SystemAsserts {
         if (object == null) {
             String errMsg = String.format(msg, args);
             logger.error(errMsg);
-            if(StringUtils.isNotBlank(errMsg)){
+            if (StringUtils.isNotBlank(errMsg)) {
                 throw new BusinessException(FunctionExceptions.System.SYS_EXCEPTION, errMsg);
             }
             throw new SystemException(errMsg);
@@ -64,6 +64,7 @@ public class SystemAsserts {
             throw new SystemException(errMsg);
         }
     }
+
     public static void notEmpty(Collection<?> collection) {
         notEmpty(collection, "参数不能为empty");
     }
@@ -76,11 +77,11 @@ public class SystemAsserts {
         }
     }
 
-    public static void notEmpty(Map<?,?> map) {
+    public static void notEmpty(Map<?, ?> map) {
         notEmpty(map, "参数不能为empty");
     }
 
-    public static void notEmpty(Map<?,?> map, String msg, Object... args) {
+    public static void notEmpty(Map<?, ?> map, String msg, Object... args) {
         if (map == null || map.isEmpty()) {
             String errMsg = String.format(msg, args);
             logger.error(errMsg);
@@ -88,8 +89,8 @@ public class SystemAsserts {
         }
     }
 
-    public static void hasText(String text, String msg, Object...args) {
-        if(!StringUtils.isNotBlank(text)){
+    public static void hasText(String text, String msg, Object... args) {
+        if (!StringUtils.isNotBlank(text)) {
             String errMsg = String.format(msg, args);
             logger.error(errMsg);
             throw new SystemException(errMsg);
@@ -97,6 +98,6 @@ public class SystemAsserts {
     }
 
     public static void hasText(String text) {
-        hasText(text,"文本不能为空白");
+        hasText(text, "文本不能为空白");
     }
 }

@@ -4,23 +4,20 @@ import java.io.Serializable;
 
 /**
  * 推送对象
+ *
  * @author david-liu
  * @date 2016年08月13日
  * @reviewer
  * @see
  */
 public class Notification implements Serializable {
+    public static final int MI_RETRY_TIMES = 3;
+    public static final String MI_PACKAGE_NAME = "com.yijiuyijiu.eshop";
+    public static final String NOTIFICATION_TITLE = "快喝";
     /**
      *
      */
     private static final long serialVersionUID = 5275911233087953818L;
-
-    public static final int MI_RETRY_TIMES = 3;
-
-    public static final String MI_PACKAGE_NAME = "com.yijiuyijiu.eshop";
-
-    public static final String NOTIFICATION_TITLE = "快喝";
-
     /**
      * 推送的方式(发送给所有人/发送给单个用户)
      * P2P

@@ -14,8 +14,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class PinyinUtil {
-    private static Logger logger = LoggerFactory.getLogger(PinyinUtil.class);
     public static HanyuPinyinOutputFormat pinyinOutputFormat;
+    private static Logger logger = LoggerFactory.getLogger(PinyinUtil.class);
 
     static {
         pinyinOutputFormat = new HanyuPinyinOutputFormat();

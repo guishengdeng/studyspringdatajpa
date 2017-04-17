@@ -35,11 +35,13 @@ public class BusinessAsserts {
     public static void notNull(Object object, ExceptionType throwing) {
         notNull(object, throwing, "");
     }
+
     public static void notNull(Object object, ExceptionType throwing, String msg, Object... args) {
         if (object == null) {
             throw new BusinessException(throwing, String.format(msg, args));
         }
     }
+
     public static void isNull(Object object, ExceptionType throwing) {
         isNull(object, throwing, "");
     }

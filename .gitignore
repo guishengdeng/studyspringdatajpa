@@ -24,7 +24,7 @@
 hs_err_pid*
 
 # Intellij Idea Generated Resources #
-.idea/
+.idea/*
 *.iml
 
 # Apache Maven Generated Resources #

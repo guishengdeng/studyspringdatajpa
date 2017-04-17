@@ -11,6 +11,11 @@ import java.io.UnsupportedEncodingException;
  */
 public class AesCryptographer {
 
+    public static final String ENCODING = "UTF-8";
+    private static final String KEY_ALGORITHM = "AES";
+    private static final String CIPHER_ALGORITHM_CBC = "AES/CBC/PKCS5Padding";
+    private static ThreadLocal<Cipher> cipherThreadLocal = new ThreadLocal<Cipher>();
+
     /**
      * 使用AES 算法 加密，默认模式 AES/CBC/PKCS5Padding
      */
@@ -24,7 +29,6 @@ public class AesCryptographer {
             throw new AesEncryptException(e);
         }
     }
-
 
     /**
      * 使用AES 算法 加密，默认模式 AES/CBC/PKCS5Padding
@@ -74,13 +78,5 @@ public class AesCryptographer {
     private SecretKeySpec getAesSecretKeySpec(String password) throws UnsupportedEncodingException {
         return new SecretKeySpec(password.getBytes(ENCODING), KEY_ALGORITHM);
     }
-
-    public static final String ENCODING = "UTF-8";
-
-    private static final String KEY_ALGORITHM = "AES";
-
-    private static final String CIPHER_ALGORITHM_CBC = "AES/CBC/PKCS5Padding";
-
-    private static ThreadLocal<Cipher> cipherThreadLocal = new ThreadLocal<Cipher>();
 
 }

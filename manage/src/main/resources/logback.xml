@@ -6,7 +6,7 @@
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- encoder defaults to ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%line - %msg%n</pattern>
+            <pattern>%d{MM-dd HH:mm:ss} [%-5level] %class{0}:%line - %msg%n</pattern>
         </encoder>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -29,8 +29,7 @@
         <!-- encoder defaults to ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
         <encoder>
             <!--<pattern>%-5level %logger{36} - %msg%n</pattern>-->
-            <pattern>%date{ISO8601} %-5level %logger{36} - %msg%n
-            </pattern>
+            <pattern>%d{MM-dd HH:mm:ss} [%-5level] %class{0}:%line - %msg%n</pattern>
         </encoder>
         <!-- Only log level INFO and above -->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">

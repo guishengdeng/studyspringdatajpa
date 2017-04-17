@@ -17,14 +17,16 @@ import org.slf4j.LoggerFactory;
 
 /**
  * 迁移
+ *
  * @author yanweijin
- * @since 2016年8月3日
  * @usage
  * @reviewer
+ * @since 2016年8月3日
  */
 public class ConfigUtils {
 
     private final static Map<String, PropertiesConfiguration> propertyConfigMap = Maps.newHashMap();
+    private static final Logger logger = LoggerFactory.getLogger(ConfigUtils.class);
 
     private ConfigUtils() {
 
@@ -88,7 +90,5 @@ public class ConfigUtils {
             IOUtils.closeQuietly(inputStream);
         }
     }
-
-    private static final Logger logger = LoggerFactory.getLogger(ConfigUtils.class);
 
 }

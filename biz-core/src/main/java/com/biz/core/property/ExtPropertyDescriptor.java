@@ -24,21 +24,14 @@ import org.springframework.util.ReflectionUtils;
  */
 public class ExtPropertyDescriptor {
 
-    private PropertyDescriptor propertyDescriptor;
-
     private final Class<?> propertyType;
-
     private final Method readMethod;
-
     private final Method writeMethod;
-
     private final String name;
-
     private final Field propertyField;
-
     private final Class<?> beanClass;
-
     private final Map<Class, Object> annotationMapping = Maps.newHashMap();
+    private PropertyDescriptor propertyDescriptor;
 
     public ExtPropertyDescriptor(PropertyDescriptor pd, Class<?> beanClass) {
         super();

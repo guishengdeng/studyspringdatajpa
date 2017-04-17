@@ -33,13 +33,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HttpClientUtil {
-    protected static final Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);
-
-    private static PoolingHttpClientConnectionManager connectionManager;
-
-    public static CloseableHttpClient httpClient = null;
-
-    private static Logger log = LoggerFactory.getLogger(HttpClientUtil.class);
     /**
      * 最大连接数
      */
@@ -60,15 +53,16 @@ public class HttpClientUtil {
      * 读取超时时间
      */
     public final static int READ_TIMEOUT = 8000;
-
     public final static int BUFFER_SIZE = 4096;
-
     public final static int SO_TIMEOUT = 60000;
-
     //默认重新尝试次数
     public final static int DEFAULT_RETRY_TIME = 3;
     //字符编码
     public static final String CHARSET = "UTF-8";
+    protected static final Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);
+    public static CloseableHttpClient httpClient = null;
+    private static PoolingHttpClientConnectionManager connectionManager;
+    private static Logger log = LoggerFactory.getLogger(HttpClientUtil.class);
 
     static {
         SocketConfig socketConfig = SocketConfig.custom()

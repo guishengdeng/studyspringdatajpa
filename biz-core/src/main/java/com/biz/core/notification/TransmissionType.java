@@ -16,8 +16,7 @@ public enum TransmissionType implements EnumerableValue {
 
     REDIRECT_URL(1), REDIRECT_APP_VIEW(2);
 
-    public static class Converter extends BaseEnumValueConverter<TransmissionType> {
-    }
+    private int value;
 
     TransmissionType(int value) {
         this.value = value;
@@ -28,5 +27,6 @@ public enum TransmissionType implements EnumerableValue {
         return value;
     }
 
-    private int value;
+    public static class Converter extends BaseEnumValueConverter<TransmissionType> {
+    }
 }

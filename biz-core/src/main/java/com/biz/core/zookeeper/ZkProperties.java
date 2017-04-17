@@ -72,6 +72,11 @@ public class ZkProperties {
         }
     }
 
+    private static Properties createEmptyConfig() {
+        Properties c = new Properties();
+        return c;
+    }
+
     /**
      * @throws IOException
      * @throws ConfigurationException
@@ -118,11 +123,6 @@ public class ZkProperties {
 
     public byte[] getPropertiesBytes() {
         return this.configBytes;
-    }
-
-    private static Properties createEmptyConfig() {
-        Properties c = new Properties();
-        return c;
     }
 
 }

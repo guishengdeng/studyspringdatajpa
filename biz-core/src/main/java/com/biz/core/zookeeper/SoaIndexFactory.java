@@ -23,12 +23,9 @@ import org.slf4j.LoggerFactory;
 public class SoaIndexFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(SoaIndexFactory.class);
-
-    private static Integer soaIdx = 1;
-
-    private static int MAX_SOA_IDX = 32;
-
     private static final String NODE_SEPARATOR = "/";
+    private static Integer soaIdx = 1;
+    private static int MAX_SOA_IDX = 32;
 
     private SoaIndexFactory(String soaIdxZooNodePath, String zookeeperUrl) {
         try {
@@ -63,6 +60,16 @@ public class SoaIndexFactory {
         return SoaIdxFactoryHolder.getInstance(soaIdxZooNodePath, zookeeperUrl);
     }
 
+    /**
+     * 获取当前进程soaIdx
+     *
+     * @author defei
+     * @date 2015年11月18日
+     */
+    public int getSoaIdx() {
+        return soaIdx;
+    }
+
     private static class SoaIdxFactoryHolder {
         static SoaIndexFactory instance;
 
@@ -72,16 +79,6 @@ public class SoaIndexFactory {
             }
             return instance;
         }
-    }
-
-    /**
-     * 获取当前进程soaIdx
-     *
-     * @author defei
-     * @date 2015年11月18日
-     */
-    public int getSoaIdx() {
-        return soaIdx;
     }
 
 }

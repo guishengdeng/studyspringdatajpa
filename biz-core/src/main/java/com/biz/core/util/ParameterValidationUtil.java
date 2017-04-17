@@ -15,12 +15,11 @@ import java.util.Set;
  */
 public class ParameterValidationUtil {
     private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private final static Validator VALIDATOR = Validation.buildDefaultValidatorFactory().getValidator();
 
     static {
         OBJECT_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
-
-    private final static Validator VALIDATOR = Validation.buildDefaultValidatorFactory().getValidator();
 
     /**
      * 校验参数

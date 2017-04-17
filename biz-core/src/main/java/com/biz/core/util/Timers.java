@@ -15,15 +15,11 @@ import java.util.Map;
  * @since 2016年10月13日
  */
 public class Timers {
-    private StopWatch sw = new StopWatch();
-
-    private Map<String, Long> map = Maps.newLinkedHashMap();
-
-    private long preTime = 0;
-
-    private boolean enabled = true;
-
     private static final Logger logger = LoggerFactory.getLogger(Timers.class);
+    private StopWatch sw = new StopWatch();
+    private Map<String, Long> map = Maps.newLinkedHashMap();
+    private long preTime = 0;
+    private boolean enabled = true;
 
     private Timers() {
     }
