@@ -17,13 +17,23 @@
     <description>Project module definition in current Project</description>
 
     <modules>
+        <!-- 功能模块 -->
         <module>biz-core</module>
         <module>biz-message</module>
         <module>biz-redis</module>
 
+        <!-- 功能支持模块 -->
         <module>biz-support-jpa</module>
         <module>biz-support-web</module>
         <module>biz-support-es</module>
+
+        <!-- SOA模块 -->
+        <module>soa-product</module><!-- 商品模块 -->
+        <module>soa-stock</module><!-- 库存模块 -->
+        <module>soa-user</module> <!-- 用户模块 -->
+        <module>soa-promotion</module><!-- 促销模块 -->
+        <module>soa-purchase</module> <!-- 采购模块 -->
+        <module>soa-order</module><!-- 订单模块(包含订单和购物车) !! 这只是暂定的, 如果有必要, 可以拆成2个模块 -->
 
         <module>notice</module>
         <module>dao</module>
