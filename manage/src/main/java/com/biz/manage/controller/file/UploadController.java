@@ -36,14 +36,14 @@ public class UploadController {
 
 	@RequestMapping(value = "fileUpload", method = RequestMethod.POST)
 	public JSONResult fileUpload(MultipartFile file, HttpServletRequest request) {
-		String key = request.getParameter("key");
+		String key = request.getParameter(UPLOAD_NAME_PARAM);
 		try {
 			PutObjectRequest req = new PutObjectRequest(config.getBucketName(), key, file.getInputStream
 					());
 			OssUtil.putObject(ossClient, req);
 			return new JSONResult(0,"上传成功");
 		} catch (Exception e) {
-
+			logger.error("上传失败", e);
 			return new JSONResult(1,"上传失败");
 		}
 	}
