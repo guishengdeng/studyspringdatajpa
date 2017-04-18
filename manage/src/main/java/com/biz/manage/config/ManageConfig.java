@@ -1,5 +1,6 @@
 package com.biz.manage.config;
 
+import com.biz.core.ali.oss.config.OssConfig;
 import com.biz.event.BizEventMulticaster;
 import com.biz.event.BizEventPublisher;
 import com.biz.manage.security.ManageLogoutSuccessHandler;
@@ -89,6 +90,17 @@ public class ManageConfig {
         jedisPoolConfig.setMinEvictableIdleTimeMillis(redisConfiguration.getLong("biz.redis.minEvictableIdleTimeMillis"));
         jedisConnectionFactory.setPoolConfig(jedisPoolConfig);
         return jedisConnectionFactory;
+    }
+
+    @Bean
+    public OssConfig ossConfig(@Autowired PropertiesConfiguration ossConfiguration) {
+        OssConfig ossConfig = new OssConfig();
+        ossConfig.setRemoteEndpoint(ossConfiguration.getString("biz.oss.remoteEndpoint"));
+        ossConfig.setLocalEndpoint(ossConfiguration.getString("biz.oss.localEndpoint"));
+        ossConfig.setAccessKeyId(ossConfiguration.getString("biz.oss.accessKeyId"));
+        ossConfig.setAccessSecret(ossConfiguration.getString("biz.oss.accessKeySecret"));
+        ossConfig.setBucketName(ossConfiguration.getString("biz.oss.bucketName"));
+        return ossConfig;
     }
 
 }
