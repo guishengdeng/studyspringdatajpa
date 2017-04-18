@@ -95,22 +95,22 @@ public class ManageConfig {
     }
 
     @Bean
-    public OssConfig ossConfig(@Autowired PropertiesConfiguration ossConfiguration) {
+    public OssConfig ossConfig() {
         OssConfig ossConfig = new OssConfig();
-        ossConfig.setRemoteEndpoint(ossConfiguration.getString("biz.oss.remoteEndpoint"));
-        ossConfig.setLocalEndpoint(ossConfiguration.getString("biz.oss.localEndpoint"));
-        ossConfig.setAccessKeyId(ossConfiguration.getString("biz.oss.accessKeyId"));
-        ossConfig.setAccessSecret(ossConfiguration.getString("biz.oss.accessKeySecret"));
-        ossConfig.setBucketName(ossConfiguration.getString("biz.oss.bucketName"));
+        ossConfig.setRemoteEndpoint(environment.getProperty("biz.oss.remoteEndpoint"));
+        ossConfig.setLocalEndpoint(environment.getProperty("biz.oss.localEndpoint"));
+        ossConfig.setAccessKeyId(environment.getProperty("biz.oss.accessKeyId"));
+        ossConfig.setAccessSecret(environment.getProperty("biz.oss.accessKeySecret"));
+        ossConfig.setBucketName(environment.getProperty("biz.oss.bucketName"));
         return ossConfig;
     }
 
 
     @Bean
-    public OSSClient ossClient(@Autowired PropertiesConfiguration ossClientConfiguration) {
-        String endpoint = ossClientConfiguration.getString("biz.oss.remoteEndpoint");
-        String accessKeyId = ossClientConfiguration.getString("biz.oss.accessKeyId");
-        String secretAccessKey = ossClientConfiguration.getString("biz.oss.accessKeySecret");
+    public OSSClient ossClient() {
+        String endpoint = environment.getProperty("biz.oss.remoteEndpoint");
+        String accessKeyId = environment.getProperty("biz.oss.accessKeyId");
+        String secretAccessKey = environment.getProperty("biz.oss.accessKeySecret");
         return new OSSClient(endpoint, accessKeyId, secretAccessKey);
     }
 
