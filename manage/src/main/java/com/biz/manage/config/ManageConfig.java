@@ -81,6 +81,7 @@ public class ManageConfig {
         jedisConnectionFactory.setHostName(redisConfiguration.getString("biz.redis.host"));
         jedisConnectionFactory.setPort(redisConfiguration.getInt("biz.redis.port"));
         jedisConnectionFactory.setClientName(redisConfiguration.getString("biz.redis.name"));
+        jedisConnectionFactory.setPassword(redisConfiguration.getString("biz.redis.password"));
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxTotal(redisConfiguration.getInt("biz.redis.maxTotal"));
         jedisPoolConfig.setMaxIdle(redisConfiguration.getInt("biz.redis.maxIdle"));
