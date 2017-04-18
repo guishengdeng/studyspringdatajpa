@@ -20,11 +20,11 @@ public class UpgradeRedisDao extends CommonRedisDao {
     private final Logger logger = LoggerFactory.getLogger(UpgradeRedisDao.class);
 
     public void save(UpgradeRo ro) {
-       /* String os = ro.getOs();
+        String os = ro.getOs();
         long score = ro.versionToSroce();
         String setKey = Upgrade.getUpgradeSortSetKey(os);
-        zadd(setKey, score, RedisUtil.toByteArray(ro.getId()));*/
-        /*hmset(Upgrade.getUpgradeHashKey(ro.getId()), ro.toMap());*/
+        zadd(setKey, score, RedisUtil.toByteArray(ro.getId()));
+        hmset(Upgrade.getUpgradeHashKey(ro.getId()), ro.toMap());
     }
 
     public UpgradeRo getUpgradeRo(String id) {
@@ -34,7 +34,7 @@ public class UpgradeRedisDao extends CommonRedisDao {
             return null;
         }
         UpgradeRo upgrade = new UpgradeRo();
-      /*  upgrade.fromMap(map);*/
+        upgrade.fromMap(map);
         return upgrade;
     }
 

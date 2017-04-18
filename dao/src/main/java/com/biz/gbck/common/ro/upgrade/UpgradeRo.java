@@ -1,8 +1,9 @@
 package com.biz.gbck.common.ro.upgrade;
 
+import com.biz.gbck.common.ro.AbstractRedisObj;
 import org.apache.commons.lang3.StringUtils;
 
-@SuppressWarnings("serial") public class UpgradeRo { // extends AbstractRedisObj
+@SuppressWarnings("serial") public class UpgradeRo extends AbstractRedisObj {
 
     private String id;
     private String os;
