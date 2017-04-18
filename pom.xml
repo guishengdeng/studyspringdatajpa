@@ -99,8 +99,8 @@
         <hibernate-jpa-api.version>1.0.0.Final</hibernate-jpa-api.version>
         <javax.validation-api.version>1.1.0.Final</javax.validation-api.version>
         <pinyin4j.version>2.5.0</pinyin4j.version>
-
         <maven-shade-plugin.version>2.2</maven-shade-plugin.version>
+        <apache.commons.beanutils.version>1.9.3</apache.commons.beanutils.version>
     </properties>
 
     <dependencies>
@@ -355,7 +355,6 @@
                 <version>${biz-support-es.version}</version>
             </dependency>
 
-            <!-- 迁移Ro模块 被迫引入的Jar -->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-expression</artifactId>
@@ -373,8 +372,6 @@
                 <artifactId>spring-context</artifactId>
                 <version>${springframework.context.version}</version>
             </dependency>
-
-            <!-- 迁移Ro模块 被迫引入的Jar -->
         </dependencies>
 
     </dependencyManagement>

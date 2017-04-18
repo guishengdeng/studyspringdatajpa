@@ -1,11 +1,11 @@
 package com.biz.manage.config;
 
-import com.biz.event.BizEventMulticaster;
-import com.biz.event.BizEventPublisher;
+import com.biz.core.event.BizEventMulticaster;
+import com.biz.core.event.BizEventPublisher;
+import com.biz.core.transaction.BizTransactionManager;
 import com.biz.manage.security.ManageLogoutSuccessHandler;
 import com.biz.service.IdService;
 import com.biz.service.security.AdminServiceImpl;
-import com.biz.transaction.BizTransactionManager;
 import java.beans.PropertyVetoException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
