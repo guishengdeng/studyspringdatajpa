@@ -7,7 +7,7 @@
 <li class="hover">
     <a class="dropdown-toggle" href="#">
         <c:if test="${not empty icon}">
-            <i class="menu-icon fa fa-tag"></i>
+            <i class="menu-icon ${icon}"></i>
         </c:if>
         <span class="menu-text"> <spring:message code="${text}" text="${text}" /> </span>
         <b class="arrow fa fa-angle-down"></b>
