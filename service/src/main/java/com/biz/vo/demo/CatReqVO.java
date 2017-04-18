@@ -2,6 +2,8 @@ package com.biz.vo.demo;
 
 import com.biz.gbck.dao.mysql.po.demo.SaleStatusEnum;
 import com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 
@@ -12,16 +14,18 @@ public class CatReqVO {
 
 	private Long id;
 
-	@NotNull
+	@NotNull(message = "名字不能为空")
+	@NotBlank(message = "名字不能为空")
 	private String name;
 
-	@NotNull
+	@NotNull(message = "销售状态不能为空")
 	private SaleStatusEnum saleStatus;
 
-	@NotNull
+	@NotNull(message = "状态不能为空")
 	private CommonStatusEnum status;
 
-	@NotNull
+	@NotNull(message = "描述不能为空")
+	@NotBlank(message = "描述不能为空")
 	private String description;
 
 	public Long getId() {

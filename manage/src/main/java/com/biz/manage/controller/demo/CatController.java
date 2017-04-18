@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -62,7 +63,7 @@ public class CatController extends BaseController {
 
 	@PostMapping
 	@PreAuthorize("hasAuthority('OPT_CAT_CREATE')")
-	public ModelAndView save(CatReqVO catReqVO, BindingResult result, HttpServletRequest request) {
+	public ModelAndView save(@Valid CatReqVO catReqVO, BindingResult result, HttpServletRequest request) {
 
 		error(result);
 		catService.save(catReqVO);

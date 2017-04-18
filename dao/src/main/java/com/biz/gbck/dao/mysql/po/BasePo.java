@@ -20,10 +20,6 @@ public class BasePo<T> implements Serializable {
     @Id
     private T id;
 
-    public BasePo(T id) {
-        this.id = id;
-    }
-
     public T getId() {
         return id;
     }

@@ -1,10 +1,17 @@
 <%@ page contentType="text/html; charset=utf-8" %>
-<%@ taglib prefix="depotnextdoor" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="gbck" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<depotnextdoor:page title="欢迎">
+<gbck:page title="欢迎">
 
     <jsp:body>
-        <depotnextdoor:sidebar icon="fa fa-list"/>
+        <gbck:sidebar icon="fa fa-list">
+            <gbck:singleMenu text="单个菜单" link="demo/cats.do" />
+            <gbck:menuGroup text="这是个菜单组">
+                <gbck:singleMenu text="菜单管理" link="manage/mainMenus.do" />
+                <gbck:singleMenu text="角色管理" link="manage/roles.do" />
+            </gbck:menuGroup>
+            <gbck:singleMenu text="另一个菜单" link="manage/users.do" />
+        </gbck:sidebar>
     </jsp:body>
-</depotnextdoor:page>
+</gbck:page>

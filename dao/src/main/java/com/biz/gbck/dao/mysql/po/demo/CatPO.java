@@ -32,11 +32,6 @@ public class CatPO extends BasePo<Long> {
 	@Enumerated(EnumType.STRING)
 	private CommonStatusEnum status;
 
-	public CatPO(Long id) {
-
-		super(id);
-	}
-
 	/**
 	 * {@linkplain CatPO#name}
 	 */

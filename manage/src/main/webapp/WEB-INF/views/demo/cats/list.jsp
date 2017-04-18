@@ -20,6 +20,7 @@
         </script>
     </jsp:attribute>
     <jsp:body>
+        <jsp:include page="component/navigations.jsp"/>
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
                 <li>
@@ -37,8 +38,7 @@
             </ul>
         </div>
 
-        <div>
-            <jsp:include page="component/navigations.jsp"/>
+        <div class="page-content">
             <div class="row">
                 <div class="col-xs-12">
                     <!-- PAGE CONTENT BEGINS -->

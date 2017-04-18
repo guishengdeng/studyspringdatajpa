@@ -41,7 +41,8 @@ public class CatServiceImpl extends AbstractRepositorySupportService<CatPO> impl
 		CatPO existCat = getByName(vo.getName());
 		iae.throwIfTrue(existCat != null && Objects.equals(vo.getId(), existCat.getId()), "名字已存在");
 
-		CatPO catPO = new CatPO(vo.getId());
+		CatPO catPO = vo.getId() == null ? new CatPO() : get(vo.getId());
+		catPO.setId(vo.getId());
 		catPO.setName(vo.getName());
 		catPO.setDescription(vo.getDescription());
 		catPO.setSaleStatus(vo.getSaleStatus());

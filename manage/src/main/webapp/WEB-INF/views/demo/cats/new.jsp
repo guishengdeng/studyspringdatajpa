@@ -1,9 +1,9 @@
 <%@page contentType="text/html; charset=utf-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="depotnextdoor" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="gbck" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<depotnextdoor:page title="page.user.edit">
+<gbck:page title="page.user.edit">
     <jsp:attribute name="script">
         <script type="application/javascript">
             <c:forEach items="${admin.roles}" var="role" varStatus="status">
@@ -13,6 +13,7 @@
         </script>
     </jsp:attribute>
     <jsp:body>
+        <jsp:include page="component/navigations.jsp"/>
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
                 <li>
@@ -29,124 +30,55 @@
                 </li>
             </ul>
         </div>
-
         <div class="page-content">
-            <jsp:include page="component/navigations.jsp"/>
             <div class="row">
                 <div class="col-xs-12">
-                    <!-- PAGE CONTENT BEGINS -->
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <h3 class="header smaller lighter blue">
-                                用户管理
-                                <span class="hidden-sm hidden-xs btn-group pull-right">
-                                <a href="manage/users.do" class="btn btn-sm btn-primary"><i
-                                        class="ace-icon fa fa-angle-left"></i>
-                                    返回
-                                </a>
-                            </span>
-                            </h3>
-                            <form action="manage/users/save_${cmd}.do" method="post"
-                                  class="form-horizontal" role="form">
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label no-padding-right"
-                                           for="account">
-                                        用户名
-                                    </label>
+                    <form id="contact-form" action="demo/cats.do" method="post" class="form-horizontal"
+                          role="form">
+                        <input type="hidden" name="id" id="id" value="${cat.id}"/>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label no-padding-right" for="name">
+                                名字
+                            </label>
 
-                                    <div class="col-sm-9">
-                                        <input ${empty admin ? '' : 'readonly'} type="text"
-                                                                                id="account"
-                                                                                placeholder="用户名"
-                                                                                name="username"
-                                                                                value="${admin.username}"
-                                                                                class="col-xs-10 col-sm-5">
-                                    </div>
-                                </div>
-                                <c:if test="${empty admin}">
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label no-padding-right"
-                                               for="password">
-                                            密码
-                                        </label>
+                            <div class="col-sm-4">
+                                <input id="name" type="text" name="name"
+                                       placeholder="名字"
+                                       maxlength="255" minlength="1"
+                                       value="${cat.name}" class="required text col-xs-12 col-sm-12">
 
-                                        <div class="col-sm-9">
-                                            <input type="password" id="password" placeholder="密码"
-                                                   name="pwd" class="col-xs-10 col-sm-5">
-                                        </div>
-                                    </div>
-                                </c:if>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label no-padding-right"
-                                           for="name">
-                                        姓名
-                                    </label>
+                            </div>
+                        </div>
 
-                                    <div class="col-sm-9">
-                                        <input type="text" id="name" name="name" placeholder="姓名"
-                                               value="${admin.name}" class="col-xs-10 col-sm-5">
-                                    </div>
-                                </div>
-                                <c:if test="${not empty admin.username}">
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label no-padding-right"
-                                               for="status">
-                                            启用状态
-                                        </label>
-                                        <div class="col-sm-9">
-                                            <label class="checkbox-inline">
-                                                <input type="radio"
-                                                       name="status" ${admin.status.value == 1 ? 'checked' :''}
-                                                       value="true"> 启用
-                                            </label>
-                                            <label class="checkbox-inline">
-                                                <input type="radio"
-                                                       name="status" ${admin.status.value == 0 ? '' :'checked'}
-                                                       value="false"> 禁用
-                                            </label>
-                                        </div>
-                                    </div>
-                                </c:if>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label no-padding-right"
-                                           for="roles">
-                                        角色
-                                    </label>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label no-padding-right" for="description">
+                                描述
+                            </label>
 
-                                    <div id="roles" class="col-sm-9">
-                                        <c:forEach items="${roles}" var="role" varStatus="status">
-                                            <input type="checkbox" name="roles"
-                                                   id="roleId_${role.id}" value="${role.id}"> <label
-                                                for="roleId_${role.id}"><c:out
-                                                value="${role.name}"/>[${role.description}]</label><br>
-                                        </c:forEach>
-                                    </div>
-                                </div>
+                            <div class="col-sm-4">
+                                <textarea id="description" type="text" name="description" placeholder="名字"
+                                       maxlength="255" class="col-xs-12 col-sm-12">${cat.description}</textarea>
 
-                                <sec:authorize access="hasAnyAuthority('OPT_USER_ADD', 'OPT_USER_EDIT')">
-                                    <div class="clearfix form-actions">
-                                        <div class="col-md-offset-3 col-md-9">
-                                            <button class="btn btn-info" type="submit">
-                                                <i class="ace-icon fa fa-check bigger-110"></i>
-                                                提交
-                                            </button>
+                            </div>
+                        </div>
 
-                                            &nbsp; &nbsp; &nbsp;
-                                            <button class="btn" type="reset">
-                                                <i class="ace-icon fa fa-undo bigger-110"></i>
-                                                重置
-                                            </button>
-                                        </div>
-                                    </div>
-                                </sec:authorize>
+                        <div class="clearfix form-actions">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button class="btn btn-info" type="submit" id="btn_save">
+                                    <i class="ace-icon fa fa-check bigger-110"></i>
+                                    保存
+                                </button>
 
-                            </form>
-                        </div><!-- /.span -->
-                    </div><!-- /.row -->
-
-                    <!-- PAGE CONTENT ENDS -->
-                </div><!-- /.col -->
-            </div><!-- /.row -->
+                                &nbsp; &nbsp; &nbsp;
+                                <button class="btn" type="reset">
+                                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                                    重置
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </jsp:body>
-</depotnextdoor:page>
+</gbck:page>

@@ -269,7 +269,7 @@
 <!-- support for act beetbox -->
 <script src="static-resource/ace/assets/js/bootbox.js"></script>
 
-<script src="static-resource/common/js/localos.js"></script>
+<script src="static-resource/common/js/gbck.js"></script>
 
 <jsp:invoke fragment="script"/>
 </html>
