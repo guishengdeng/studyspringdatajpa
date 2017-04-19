@@ -5,7 +5,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="depotnextdoor" tagdir="/WEB-INF/tags" %>
-<depotnextdoor:page title="page.user.list">
+<%--当前页面是用户点击用户管理时，显示的页面--%>
+<%--导入manage工程下的webapp目录下的WEB-INF目录下的tags目录的page.tag标签--%>
+<depotnextdoor:page title="page.user.list" >
     <jsp:attribute name="css">
         <style type="text/css">
             #name-of-ban-user, #name-of-reset-user {
@@ -143,7 +145,8 @@
                                     <th class="hidden-md hidden-sm hidden-xs">联系电话</th>
                                     <th class="hidden-md hidden-sm hidden-xs">角色</th>
                                     <th class="hidden-md hidden-sm hidden-xs">状态</th>
-                                    <th class="center"></th>
+                                    <%--center--%>
+                                    <th class="hidden-md hidden-sm hidden-xs">操作</th>
                                 </tr>
                                 </thead>
 
@@ -160,18 +163,24 @@
                                         </td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
-                                                <sec:authorize access="hasAuthority('OPT_USER_RESET')">
+                                               <%-- <sec:authorize access="hasAuthority('OPT_USER_RESET')">
                                                     <a data-id="${user.username}"
                                                        data-name="${user.username}"
                                                        class="btn btn-minier btn-warning user-reset-pwd-btn">
                                                         <i class="ace-icon fa fa-key bigger-120"></i>
                                                     </a>
-                                                </sec:authorize>
-
+                                                </sec:authorize>--%>
+                                                   <sec:authorize access="hasAuthority('OPT_USER_DELETE')">
+                                                       <a href="manage/users/delete?username=${user.username}"
+                                                          class="btn btn-minier btn-info">
+                                                           <i class="ace-icon fa fa-trash-o bigger-120">删除</i>
+                                                       </a>
+                                                   </sec:authorize>
+                                                <%--修改操作--%>
                                                 <sec:authorize access="hasAuthority('OPT_USER_EDIT')">
                                                     <a href="manage/users/edit?username=${user.username}"
                                                        class="btn btn-minier btn-info">
-                                                        <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                                        <i class="ace-icon fa fa-pencil bigger-120">修改</i>
                                                     </a>
                                                 </sec:authorize>
                                                 <sec:authorize access="hasAuthority('OPT_USER_DELETE')">

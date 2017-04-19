@@ -27,7 +27,7 @@ public class MainMenu extends BasePo<Long> implements Identifiable<Long> {
 
     @Column(length = 200)
     private String companyType;
-
+    //mappedBy出现的位置所在的类,这个类是被维护端,它只能被别人级联,不能去保存别人
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "mainMenu")
     @OrderBy(value = "code")
     private List<MenuItem> menuItems;
