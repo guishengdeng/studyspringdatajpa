@@ -92,7 +92,7 @@
                     </a>
                 </li>
                 <li class="active">
-                    用户管理
+                    广告管理
                 </li>
             </ul><!-- /.breadcrumb -->
         </div>
@@ -105,54 +105,36 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <h3 class="header smaller lighter blue">
-                                <c:choose>
-                                    <c:when test="${param.enabled == 'false'}">
-                                        禁用
-                                    </c:when>
-                                    <c:otherwise>
-                                        正常
-                                    </c:otherwise>
-                                </c:choose>
+                                <li>
+                                    启动页面广告管理
+                                </li>
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
-                                <sec:authorize access="hasAuthority('OPT_USER_ADD')">
-                                    <a href="manage/users/add.do" class="btn btn-sm btn-primary"><i
+                                <%--<sec:authorize access="hasAuthority('OPT_USER_ADD')">--%>
+                                    <a href="manage/advertisement/add.do" class="btn btn-sm btn-primary"><i
                                             class="ace-icon glyphicon glyphicon-plus"></i>
                                         添加
                                     </a>
-                                </sec:authorize>
-                                <a href="manage/users?enabled=${enabled == 'false' ? 'ENABLE' : 'DISABLE'}"
-                                   class="btn btn-sm btn-danger">
-                                    <c:choose>
-                                        <c:when test="${enabled == 'false'}">
-                                            <i class="ace-icon fa fa-eye"></i>
-                                            正常用户
-                                        </c:when>
-                                        <c:otherwise>
-                                            <i class="ace-icon fa fa-ban"></i>
-                                            已禁用用户
-                                        </c:otherwise>
-                                    </c:choose>
-                                </a>
+                                <%--</sec:authorize>--%>
                             </span>
                             </h3>
                             <table id="simple-table" class="table  table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>用户名</th>
-                                    <th>名字</th>
-                                    <th class="hidden-md hidden-sm hidden-xs">联系电话</th>
-                                    <th class="hidden-md hidden-sm hidden-xs">角色</th>
-                                    <th class="hidden-md hidden-sm hidden-xs">状态</th>
+                                    <th>图片链接</th>
+                                    <th>点击链接</th>
+                                    <th class="hidden-md hidden-sm hidden-xs">广告生效时间</th>
+                                    <th class="hidden-md hidden-sm hidden-xs">广告过期时间</th>
+                                    <th class="hidden-md hidden-sm hidden-xs">停留(毫秒)</th>
+                                    <th class="hidden-md hidden-sm hidden-xs">优先级</th>
                                     <th class="center"></th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                <c:forEach items="${admins}" var="user">
-                                    <tr id="tr-${user.username}">
-
-                                        <td>${user.username}</td>
-                                        <td>${user.name}</td>
+                                <c:forEach items="${activitys}" var="activity">
+                                    <tr id="tr-${activity.id}">
+                                        <td>${activity.username}</td>
+                                        <td>${activity.name}</td>
                                         <td class="hidden-md hidden-sm hidden-xs">${user.phone}</td>
                                         <td class="hidden-md hidden-sm hidden-xs"></td>
                                         <td class="hidden-md hidden-sm hidden-xs">

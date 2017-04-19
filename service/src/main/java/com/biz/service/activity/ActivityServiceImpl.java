@@ -50,6 +50,19 @@ public class ActivityServiceImpl extends AbstractBaseService implements Activity
         return Lists.transform(ros, new ActivityRo2ActivityVo());
     }
 
+    @Override
+    public ActivityRo findById(String id) {
+        if (StringUtils.isNotBlank(id)){
+            return activityRedisDao.findOne(id);
+        }
+        return null;
+    }
+
+    @Override
+    public void delete(String id) {
+        activityRedisDao.delete(id);
+    }
+
     public ActivityRo buildActivityRo(ActivityRo ro, ActivityVo vo) {
         if (vo == null){
             return null;

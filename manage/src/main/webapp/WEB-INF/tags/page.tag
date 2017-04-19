@@ -67,6 +67,11 @@
 
     <!--[if IE]>
     <script src="static-resource/ace/assets/js/jquery-1.11.3.min.js"></script>
+
+    <![datepicker]-->
+    <link rel="stylesheet" href="static-resource/ace/assets/css/bootstrap-datepicker3.min.css"/>
+    <script src="static-resource/ace/assets/js/bootstrap-datepicker.min.js"></script>
+
     <![endif]-->
 
     <jsp:invoke fragment="css"/>

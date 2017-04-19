@@ -20,7 +20,7 @@ public class AdvertisementVo implements Serializable {
 
     private Timestamp endTimestamp;
 
-    private Long residenceTime;
+    private String residenceTime;
 
     private Integer priority;
 
@@ -64,11 +64,11 @@ public class AdvertisementVo implements Serializable {
         this.endTimestamp = endTimestamp;
     }
 
-    public Long getResidenceTime() {
+    public String getResidenceTime() {
         return residenceTime;
     }
 
-    public void setResidenceTime(Long residenceTime) {
+    public void setResidenceTime(String residenceTime) {
         this.residenceTime = residenceTime;
     }
 

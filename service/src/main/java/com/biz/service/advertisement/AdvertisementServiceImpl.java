@@ -6,6 +6,7 @@ import com.biz.core.page.PageResult;
 import com.biz.gbck.advertisement.frontend.AdvertisementQueryParamVo;
 import com.biz.gbck.advertisement.frontend.AdvertisementVo;
 import com.biz.gbck.dao.redis.repository.advertisement.AdvertisementRedisDao;
+import com.biz.gbck.dao.redis.ro.activity.ActivityRo;
 import com.biz.gbck.dao.redis.ro.advertisement.AdvertisementRo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.advertisementtransformer.AdvertisementRo2AdvertisementVo;
@@ -58,6 +59,19 @@ public class AdvertisementServiceImpl extends AbstractBaseService implements Adv
     public List<AdvertisementVo> findAllAdvertisements() {
         List<AdvertisementRo> ros = advertisementRedisDao.findAll();
         return Lists.transform(ros, new AdvertisementRo2AdvertisementVo());
+    }
+
+    @Override
+    public AdvertisementRo findById(String id) {
+        if (StringUtils.isNotBlank(id)){
+            return advertisementRedisDao.findOne(id);
+        }
+        return null;
+    }
+
+    @Override
+    public void delete(String id) {
+        advertisementRedisDao.delete(id);
     }
 
     public AdvertisementRo buildAdvertisementRo(AdvertisementRo ro,AdvertisementVo vo) {
