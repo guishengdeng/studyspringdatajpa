@@ -2,7 +2,6 @@ package com.biz.soa.product.service.backend;
 
 import com.alibaba.fastjson.JSON;
 import com.biz.core.util.DateUtil;
-import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.dao.mysql.po.product.GroupProduct;
 import com.biz.gbck.dao.mysql.po.product.GroupProductItem;
 import com.biz.gbck.dao.mysql.po.product.MnsProduct;
@@ -10,6 +9,7 @@ import com.biz.gbck.dao.mysql.po.product.Product;
 import com.biz.gbck.dao.mysql.repository.product.GroupProductRepository;
 import com.biz.gbck.dao.mysql.repository.product.MnsProductRepository;
 import com.biz.gbck.dao.mysql.repository.product.ProductRepository;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.oms.InvalidOmsDataType;
 import com.biz.gbck.enums.oms.InvalidOmsMessageType;
 import com.biz.gbck.enums.product.SaleStatusEnum;
@@ -51,22 +51,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class MnsProductServiceImpl extends AbstractBaseService implements MnsProductService {
 
-    @Autowired
-    private MnsProductRepository mnsProductRepository;
-
-    @Autowired
-    private MessageService messageService;
-
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private GroupProductRepository groupProductRepository;
-
     /**
      * 日期格式转换（线程安全）
      */
     FastDateFormat dateFormat = FastDateFormat.getInstance("yyyy-MM-dd");
+    @Autowired
+    private MnsProductRepository mnsProductRepository;
+    @Autowired
+    private MessageService messageService;
+    @Autowired
+    private ProductRepository productRepository;
+    @Autowired
+    private GroupProductRepository groupProductRepository;
 
     /**
      * 校验中台商品对象中的参数

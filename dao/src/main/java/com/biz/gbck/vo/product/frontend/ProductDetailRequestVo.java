@@ -56,7 +56,7 @@ public class ProductDetailRequestVo implements Serializable {
      * 定位纬度
      */
     private BigDecimal longitude;
-    
+
     /**
      * 是否通过库存校验
      */
@@ -132,7 +132,7 @@ public class ProductDetailRequestVo implements Serializable {
         this.longitude = longitude;
     }
 
-	public Boolean getValidateStock() {
+    public Boolean getValidateStock() {
         return validateStock;
     }
 

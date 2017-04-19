@@ -21,15 +21,20 @@ public enum BackstageSMSType implements EnumerableValue {
     VENDOR_AUDIT_PASS(6, "店铺审核通过"),
     VENDOR_AUDIT_NOT_PASS(7, "店铺审核未通过");
 
-    public static class Converter extends BaseEnumValueConverter<BackstageSMSType> {
-    }
-
     private int value;
     private String desc;
-
     BackstageSMSType(int value, String desc) {
         this.value = value;
         this.desc = desc;
+    }
+
+    public static BackstageSMSType getBackstageSMSTypeByValue(int codeVal) {
+        for (BackstageSMSType backstageSMSType : BackstageSMSType.values()) {
+            if (backstageSMSType.getValue() == codeVal) {
+                return backstageSMSType;
+            }
+        }
+        return null;
     }
 
     public int getValue() {
@@ -40,12 +45,6 @@ public enum BackstageSMSType implements EnumerableValue {
         return desc;
     }
 
-    public static BackstageSMSType getBackstageSMSTypeByValue(int codeVal) {
-        for (BackstageSMSType backstageSMSType : BackstageSMSType.values()) {
-            if (backstageSMSType.getValue() == codeVal) {
-                return backstageSMSType;
-            }
-        }
-        return null;
+    public static class Converter extends BaseEnumValueConverter<BackstageSMSType> {
     }
 }

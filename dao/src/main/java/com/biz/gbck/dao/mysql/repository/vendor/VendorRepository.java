@@ -1,10 +1,10 @@
 package com.biz.gbck.dao.mysql.repository.vendor;
 
 
-import com.biz.gbck.enums.vendor.AuditStatus;
-import com.biz.gbck.enums.vendor.VendorStatus;
 import com.biz.gbck.dao.mysql.po.product.Vendor;
 import com.biz.gbck.enums.product.VendorTypeEnum;
+import com.biz.gbck.enums.vendor.AuditStatus;
+import com.biz.gbck.enums.vendor.VendorStatus;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

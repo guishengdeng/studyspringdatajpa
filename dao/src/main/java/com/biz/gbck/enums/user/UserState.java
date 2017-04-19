@@ -16,15 +16,20 @@ public enum UserState implements EnumerableValue {
     LOCKED(-50, "锁定"),
     NORMAL(0, "正常");
 
-    public static class Converter extends BaseEnumValueConverter<UserState> {
-    }
-
     private int value;
     private String desc;
-
     private UserState(int value, String desc) {
         this.value = value;
         this.desc = desc;
+    }
+
+    public static UserState getUserStateByValue(int codeVal) {
+        for (UserState userState : UserState.values()) {
+            if (userState.getValue() == codeVal) {
+                return userState;
+            }
+        }
+        return null;
     }
 
     public int getValue() {
@@ -35,13 +40,7 @@ public enum UserState implements EnumerableValue {
         return desc;
     }
 
-    public static UserState getUserStateByValue(int codeVal) {
-        for (UserState userState : UserState.values()) {
-            if (userState.getValue() == codeVal) {
-                return userState;
-            }
-        }
-        return null;
+    public static class Converter extends BaseEnumValueConverter<UserState> {
     }
 
 }

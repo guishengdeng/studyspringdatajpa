@@ -17,15 +17,11 @@ import java.util.List;
  */
 public class TranslatorBuilder {
 
-    private DataTransformer dataTransformer;
-
-    private List<Bucket> converterBuckets = Lists.newArrayList();
-
-    private BeanRegistry beanRegistry;
-
-    private ConverterRegistry converterRegistry;
-
     private static Translator defaultTranslator;
+    private DataTransformer dataTransformer;
+    private List<Bucket> converterBuckets = Lists.newArrayList();
+    private BeanRegistry beanRegistry;
+    private ConverterRegistry converterRegistry;
 
     public static TranslatorBuilder createBuilder() {
         return new TranslatorBuilder().addDefaultConverter();

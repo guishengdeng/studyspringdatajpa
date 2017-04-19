@@ -25,15 +25,6 @@ import org.springframework.transaction.support.DefaultTransactionStatus;
 public class BizTransactionManager extends JpaTransactionManager {
 
     private static final long serialVersionUID = -4124357045575124417L;
-
-    private static Logger logger = LoggerFactory.getLogger(BizTransactionManager.class);
-
-    private static BizEventPublisher eventPublisher;
-
-    public void setEventPublisher(BizEventPublisher eventPublisher) {
-        BizTransactionManager.eventPublisher = eventPublisher;
-    }
-
     /*
      *
      *	*** warnning ***
@@ -57,9 +48,69 @@ public class BizTransactionManager extends JpaTransactionManager {
     private static final ThreadLocal<List<ExecutionUnit>> redisOperate = new ThreadLocal<List<ExecutionUnit>>();
     //事务标志
     private static final ThreadLocal<Boolean> inTransactions = new ThreadLocal<Boolean>();
-
+    private static Logger logger = LoggerFactory.getLogger(BizTransactionManager.class);
+    private static BizEventPublisher eventPublisher;
     public BizTransactionManager() {
         super();
+    }
+
+    public static void publishEvent(BizEvent event, boolean asyncPublish) {
+        SystemAsserts.notNull(eventPublisher, "事务管理器必须注入eventPublisher才能进行事件发布");
+        Boolean transFlag = inTransactions.get();
+        ThreadLocal<List<BizEvent>> events = asyncPublish ? asyncEvents : syncEvents;
+
+        if (transFlag != null && transFlag) {
+            List<BizEvent> list = events.get();
+            if (list == null) {
+                list = Lists.newArrayList();
+                events.set(list);
+            }
+            if (logger.isDebugEnabled()) {
+                logger.debug("thread is in Transaction send push event to list");
+            }
+            list.add(event);
+        } else {
+            if (logger.isDebugEnabled()) {
+                logger.debug("thread is not in Transaction send event now! eventPublisher is : {} event is:{} ", eventPublisher, event);
+            }
+            eventPublisher.publishEvent(event);
+        }
+    }
+
+    public static void delayExecuteIfInTx(ExecutionUnit unit) {
+        Boolean transFlag = inTransactions.get();
+        if (transFlag != null && transFlag) {
+            List<ExecutionUnit> list = redisOperate.get();
+            if (list == null) {
+                list = new ArrayList<>(4);
+                redisOperate.set(list);
+            }
+            list.add(unit);
+        } else {
+            throw new UnsupportedOperationException("redis后置操作必须在事务中执行");
+        }
+    }
+
+    public static void preCommitOpt(ExecutionUnit unit) {
+        Boolean transFlag = inTransactions.get();
+        if (transFlag != null && transFlag) {
+            List<ExecutionUnit> list = preCommitOperate.get();
+            if (list == null) {
+                list = new ArrayList<>(4);
+                preCommitOperate.set(list);
+            }
+            list.add(unit);
+        } else {
+            unit.execute();
+        }
+    }
+
+    public static void setInTransaction(boolean isInTx) {
+        inTransactions.set(isInTx);
+    }
+
+    public void setEventPublisher(BizEventPublisher eventPublisher) {
+        BizTransactionManager.eventPublisher = eventPublisher;
     }
 
     protected void doBegin(Object transaction, TransactionDefinition definition) {
@@ -141,61 +192,6 @@ public class BizTransactionManager extends JpaTransactionManager {
             logger.debug("rooback && clear event");
         }
         clearThreadLocal();
-    }
-
-    public static void publishEvent(BizEvent event, boolean asyncPublish) {
-        SystemAsserts.notNull(eventPublisher, "事务管理器必须注入eventPublisher才能进行事件发布");
-        Boolean transFlag = inTransactions.get();
-        ThreadLocal<List<BizEvent>> events = asyncPublish ? asyncEvents : syncEvents;
-
-        if (transFlag != null && transFlag) {
-            List<BizEvent> list = events.get();
-            if (list == null) {
-                list = Lists.newArrayList();
-                events.set(list);
-            }
-            if (logger.isDebugEnabled()) {
-                logger.debug("thread is in Transaction send push event to list");
-            }
-            list.add(event);
-        } else {
-            if (logger.isDebugEnabled()) {
-                logger.debug("thread is not in Transaction send event now! eventPublisher is : {} event is:{} ", eventPublisher, event);
-            }
-            eventPublisher.publishEvent(event);
-        }
-    }
-
-    public static void delayExecuteIfInTx(ExecutionUnit unit) {
-        Boolean transFlag = inTransactions.get();
-        if (transFlag != null && transFlag) {
-            List<ExecutionUnit> list = redisOperate.get();
-            if (list == null) {
-                list = new ArrayList<>(4);
-                redisOperate.set(list);
-            }
-            list.add(unit);
-        } else {
-            throw new UnsupportedOperationException("redis后置操作必须在事务中执行");
-        }
-    }
-
-    public static void preCommitOpt(ExecutionUnit unit) {
-        Boolean transFlag = inTransactions.get();
-        if (transFlag != null && transFlag) {
-            List<ExecutionUnit> list = preCommitOperate.get();
-            if (list == null) {
-                list = new ArrayList<>(4);
-                preCommitOperate.set(list);
-            }
-            list.add(unit);
-        } else {
-            unit.execute();
-        }
-    }
-
-    public static void setInTransaction(boolean isInTx) {
-        inTransactions.set(isInTx);
     }
 
 }

@@ -24,6 +24,19 @@ import static com.google.common.collect.Lists.newArrayList;
 @Repository
 public class DepotStockRedisDao extends CrudRedisDao<DepotStockRo, String> {
 
+    public static String getId(String depotCode, String productCode) {
+        return String.format("%s%s%s", depotCode, Constant.SEPARATOR, productCode);
+    }
+
+    public static String getHashKey(String depotCode, String productCode) {
+        return String.format("%s%s%s%s%s", "stock:depot", Constant.SEPARATOR, depotCode, Constant.SEPARATOR,
+                productCode);
+    }
+
+    public static String versionMappingKey(OssType type) {
+        return String.format("%s%s%s%s%s", "stock:depot", Constant.SEPARATOR, "version", Constant.SEPARATOR, type);
+    }
+
     public void save(DepotStockRo ro) {
         ro.setUpdateTimestamp(DateUtil.now());
         super.save(ro);
@@ -52,7 +65,6 @@ public class DepotStockRedisDao extends CrudRedisDao<DepotStockRo, String> {
     public Long getLatestDepotStockVersion(OssType type) {
         return RedisUtil.byteArrayToLong(super.get(versionMappingKey(type)));
     }
-
 
     public void delete(DepotStockRo ro) {
         super.delete(ro);
@@ -143,18 +155,5 @@ public class DepotStockRedisDao extends CrudRedisDao<DepotStockRo, String> {
         if (stock < 0) {
             hset(getHashKey(getId(depotCode, productCode)), Constant.RO_QUANTITY_FIELD, RedisUtil.toByteArray(0));
         }
-    }
-
-    public static String getId(String depotCode, String productCode) {
-        return String.format("%s%s%s", depotCode, Constant.SEPARATOR, productCode);
-    }
-
-    public static String getHashKey(String depotCode, String productCode) {
-        return String.format("%s%s%s%s%s", "stock:depot", Constant.SEPARATOR, depotCode, Constant.SEPARATOR,
-                productCode);
-    }
-
-    public static String versionMappingKey(OssType type) {
-        return String.format("%s%s%s%s%s", "stock:depot", Constant.SEPARATOR, "version", Constant.SEPARATOR, type);
     }
 }

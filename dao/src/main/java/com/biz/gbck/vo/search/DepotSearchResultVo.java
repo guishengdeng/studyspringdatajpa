@@ -4,42 +4,41 @@ import java.io.Serializable;
 
 /**
  * 门店搜素结果
- * 
- * @author Nian.Li
- * <br>2016年9月5日
+ *
+ * @author Nian.Li <br>2016年9月5日
  */
 public class DepotSearchResultVo implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3130864416300686832L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 3130864416300686832L;
 
-	/**
-	 * 门店ID
-	 */
-	private Long id;
-	
-	/**
-	 * 距离
-	 */
-	private Integer distance = -1;
+    /**
+     * 门店ID
+     */
+    private Long id;
 
-	public Long getId() {
-		return id;
-	}
+    /**
+     * 距离
+     */
+    private Integer distance = -1;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public Integer getDistance() {
-		return distance;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setDistance(Integer distance) {
-		this.distance = distance;
-	}
-	
-	
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Integer distance) {
+        this.distance = distance;
+    }
+
+
 }

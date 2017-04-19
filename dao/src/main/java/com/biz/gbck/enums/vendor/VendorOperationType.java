@@ -8,15 +8,11 @@ public enum VendorOperationType implements EnumerableValue {
     SELF(0),//商家自运营
     AGENCY(1);//平台代运营
 
-    public static class Converter extends BaseEnumValueConverter<VendorOperationType> {
-
-    }
+    private Integer value;
 
     VendorOperationType(Integer value) {
         this.value = value;
     }
-
-    private Integer value;
 
     public int getValue() {
         return value;
@@ -24,6 +20,10 @@ public enum VendorOperationType implements EnumerableValue {
 
     public void setValue(Integer value) {
         this.value = value;
+    }
+
+    public static class Converter extends BaseEnumValueConverter<VendorOperationType> {
+
     }
 
 }

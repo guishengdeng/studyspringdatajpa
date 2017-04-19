@@ -13,15 +13,15 @@ import org.slf4j.LoggerFactory;
  * @date 2016/12/22
  */
 public abstract class AbstractMultiValueConverter<V> implements ValueConverter<V> {
-    private ConverterRegistry converterRegistry;
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    protected ConverterRegistry getConverterRegistry() {
-        return converterRegistry;
-    }
+    private ConverterRegistry converterRegistry;
 
     public AbstractMultiValueConverter(ConverterRegistry converterRegistry) {
         this.converterRegistry = converterRegistry;
+    }
+
+    protected ConverterRegistry getConverterRegistry() {
+        return converterRegistry;
     }
 
     protected DataItem[] resolveItems(String key, Object value) {

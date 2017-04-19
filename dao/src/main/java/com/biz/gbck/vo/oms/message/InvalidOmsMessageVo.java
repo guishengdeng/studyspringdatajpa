@@ -7,12 +7,13 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * 对于中台过来的对象没有通过校验的结果Vo
+ *
  * @author zhangcheng
  * @date 2017/1/7
  * @reviewer
  * @see
  */
-public class InvalidOmsMessageVo implements Serializable{
+public class InvalidOmsMessageVo implements Serializable {
 
     private static final long serialVersionUID = 5849244061802476563L;
 

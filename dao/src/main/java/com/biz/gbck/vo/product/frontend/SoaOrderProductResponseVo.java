@@ -9,7 +9,6 @@ public class SoaOrderProductResponseVo extends ShopCartProductResponseVo {
     private static final long serialVersionUID = -4981104587512238679L;
 
 
-
     /**
      * 品牌ID
      */
@@ -20,7 +19,7 @@ public class SoaOrderProductResponseVo extends ShopCartProductResponseVo {
      */
     private Long categoryId;
 
-//    private FrontendDepotType depotType;
+    //    private FrontendDepotType depotType;
 
     //重量,单位为克(g)
     private Integer weight;
@@ -59,11 +58,11 @@ public class SoaOrderProductResponseVo extends ShopCartProductResponseVo {
         this.vendorName = vendorName;
     }
     //
-//    public FrontendDepotType getDepotType() {
-//        return depotType;
-//    }
-//
-//    public void setDepotType(FrontendDepotType depotType) {
-//        this.depotType = depotType;
-//    }
+    //    public FrontendDepotType getDepotType() {
+    //        return depotType;
+    //    }
+    //
+    //    public void setDepotType(FrontendDepotType depotType) {
+    //        this.depotType = depotType;
+    //    }
 }

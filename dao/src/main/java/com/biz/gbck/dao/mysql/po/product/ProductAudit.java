@@ -315,10 +315,6 @@ public class ProductAudit extends BaseEntity {
         this.auditStatus = auditStatus;
     }
 
-    public void setProductType(VendorTypeEnum productType) {
-        this.productType = productType;
-    }
-
     public Boolean getDeleteFlag() {
         return deleteFlag;
     }
@@ -369,6 +365,10 @@ public class ProductAudit extends BaseEntity {
 
     public VendorTypeEnum getProductType() {
         return productType;
+    }
+
+    public void setProductType(VendorTypeEnum productType) {
+        this.productType = productType;
     }
 
     public String getVendorProductCode() {

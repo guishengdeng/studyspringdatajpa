@@ -1,9 +1,9 @@
 package com.biz.core.util;
 
+import java.io.IOException;
 import org.apache.http.*;
 import org.apache.http.client.entity.GzipDecompressingEntity;
 import org.apache.http.protocol.HttpContext;
-import java.io.IOException;
 
 public class GZIPResponseInterceptor implements HttpResponseInterceptor {
     public void process(final HttpResponse response, final HttpContext context) throws HttpException, IOException {

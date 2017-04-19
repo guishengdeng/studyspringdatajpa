@@ -48,16 +48,16 @@ public class ProductSearchResultVo<T> implements Serializable {
         return filters;
     }
 
+    public void setFilters(List<ProductFieldVo> filters) {
+        this.filters = filters;
+    }
+
     public List<T> getItems() {
         return items;
     }
 
     public void setItems(List<T> items) {
         this.items = items;
-    }
-
-    public void setFilters(List<ProductFieldVo> filters) {
-        this.filters = filters;
     }
 
     public Integer getTotalCount() {

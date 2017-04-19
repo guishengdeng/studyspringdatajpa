@@ -15,15 +15,20 @@ public enum RefereeType implements EnumerableValue {
     MEMBER(1, "会员"),
     STORE(2, "门店");
 
-    public static class Converter extends BaseEnumValueConverter<RefereeType> {
-    }
-
     private int value;
     private String desc;
-
     private RefereeType(int value, String desc) {
         this.value = value;
         this.desc = desc;
+    }
+
+    public static RefereeType getRefereeTypeByValue(int codeVal) {
+        for (RefereeType refereeType : RefereeType.values()) {
+            if (refereeType.getValue() == codeVal) {
+                return refereeType;
+            }
+        }
+        return null;
     }
 
     public int getValue() {
@@ -34,12 +39,6 @@ public enum RefereeType implements EnumerableValue {
         return desc;
     }
 
-    public static RefereeType getRefereeTypeByValue(int codeVal) {
-        for (RefereeType refereeType : RefereeType.values()) {
-            if (refereeType.getValue() == codeVal) {
-                return refereeType;
-            }
-        }
-        return null;
+    public static class Converter extends BaseEnumValueConverter<RefereeType> {
     }
 }

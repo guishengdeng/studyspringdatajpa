@@ -14,14 +14,13 @@ public enum ChannelType implements EnumerableValue {
 
     BBC(1, "www.1919.cn");
 
+    private Integer value;
+    private String code;
+
     ChannelType(Integer value, String code) {
         this.value = value;
         this.code = code;
     }
-
-    private Integer value;
-
-    private String code;
 
     @Override
     public int getValue() {

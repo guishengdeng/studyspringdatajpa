@@ -15,15 +15,20 @@ public enum Wedlock implements EnumerableValue {
     UNMARRIED(0, "未婚"),
     MARRIED(1, "已婚");
 
-    public static class Converter extends BaseEnumValueConverter<Wedlock> {
-    }
-
     private int value;
     private String desc;
-
     Wedlock(int value, String desc) {
         this.value = value;
         this.desc = desc;
+    }
+
+    public static Wedlock getWedlockByValue(int codeVal) {
+        for (Wedlock wedlock : Wedlock.values()) {
+            if (wedlock.getValue() == codeVal) {
+                return wedlock;
+            }
+        }
+        return null;
     }
 
     public int getValue() {
@@ -34,12 +39,6 @@ public enum Wedlock implements EnumerableValue {
         return desc;
     }
 
-    public static Wedlock getWedlockByValue(int codeVal) {
-        for (Wedlock wedlock : Wedlock.values()) {
-            if (wedlock.getValue() == codeVal) {
-                return wedlock;
-            }
-        }
-        return null;
+    public static class Converter extends BaseEnumValueConverter<Wedlock> {
     }
 }

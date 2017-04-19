@@ -13,7 +13,7 @@ import com.biz.service.AbstractBaseService;
 import com.biz.service.depot.DepotService;
 import com.biz.service.geo.GeoService;
 import com.biz.service.stock.frontend.StockService;
-import com.biz.service.warehouse.warehouse.frontend.WarehouseService;
+import com.biz.service.warehouse.frontend.WarehouseService;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;

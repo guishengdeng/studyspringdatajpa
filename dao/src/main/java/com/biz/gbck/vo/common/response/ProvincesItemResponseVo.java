@@ -11,9 +11,9 @@ import java.util.List;
  */
 public class ProvincesItemResponseVo implements Serializable {
 
-	private static final long serialVersionUID = -2899886943850821771L;
+    private static final long serialVersionUID = -2899886943850821771L;
 
-	private String prefix;
+    private String prefix;
 
     private List<ProvinceItemResponseVo> provinces;
 
@@ -25,12 +25,12 @@ public class ProvincesItemResponseVo implements Serializable {
         this.prefix = prefix;
     }
 
-	public List<ProvinceItemResponseVo> getProvinces() {
-		return provinces;
-	}
+    public List<ProvinceItemResponseVo> getProvinces() {
+        return provinces;
+    }
 
-	public void setProvinces(List<ProvinceItemResponseVo> provinces) {
-		this.provinces = provinces;
-	}
-    
+    public void setProvinces(List<ProvinceItemResponseVo> provinces) {
+        this.provinces = provinces;
+    }
+
 }

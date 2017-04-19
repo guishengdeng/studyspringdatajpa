@@ -25,6 +25,14 @@ public class SearchFieldVo implements Serializable {
     private String value;
 
 
+    public SearchFieldVo(String field, String value) {
+        this.field = field;
+        this.value = value;
+    }
+
+    public SearchFieldVo() {
+    }
+
     public String getField() {
         return field;
     }
@@ -39,13 +47,5 @@ public class SearchFieldVo implements Serializable {
 
     public void setValue(String value) {
         this.value = value;
-    }
-
-    public SearchFieldVo(String field, String value) {
-        this.field = field;
-        this.value = value;
-    }
-
-    public SearchFieldVo() {
     }
 }

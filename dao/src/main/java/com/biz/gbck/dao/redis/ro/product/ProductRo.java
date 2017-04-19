@@ -391,10 +391,6 @@ public class ProductRo extends BaseRedisObject<String> implements Serializable {
         return this.productType != null && this.productType == VendorTypeEnum.TYPE_A.getValue();
     }
 
-    public void setPropertiesJson(String propertiesJson) {
-        this.propertiesJson = propertiesJson;
-    }
-
     public Boolean getRapidProduct() {
         return isRapidProduct;
     }
@@ -405,6 +401,10 @@ public class ProductRo extends BaseRedisObject<String> implements Serializable {
 
     public String getPropertiesJson() {
         return propertiesJson;
+    }
+
+    public void setPropertiesJson(String propertiesJson) {
+        this.propertiesJson = propertiesJson;
     }
 
     public List<RapidProductItemVo> getRapidProductInfoVo() {

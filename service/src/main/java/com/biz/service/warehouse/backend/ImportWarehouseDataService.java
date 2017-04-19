@@ -1,4 +1,4 @@
-package com.biz.service.warehouse.warehouse.backend;
+package com.biz.service.warehouse.backend;
 
 /**
  * @author zhangheng

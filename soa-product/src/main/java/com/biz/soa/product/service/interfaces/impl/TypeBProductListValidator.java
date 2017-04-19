@@ -24,6 +24,19 @@ public class TypeBProductListValidator implements ProductValidator {
 
     }
 
+    public static ProductValidator getInstance() {
+        if (instance != null) {
+            return instance;
+        } else {
+            synchronized (TypeBProductListValidator.class) {
+                if (instance == null) {
+                    instance = new TypeBProductListValidator();
+                }
+                return instance;
+            }
+        }
+    }
+
     @Override
     public Boolean doValidate(ProductPrototype productPrototype, Integer userLevel, Boolean validateStock) {
 
@@ -57,19 +70,6 @@ public class TypeBProductListValidator implements ProductValidator {
     public void doValidateWithException(ProductPrototype productPrototype, Integer userLevel, Boolean validateStock) throws DepotNextDoorException {
         if (!this.doValidate(productPrototype, userLevel, validateStock)) {
             throw new DepotNextDoorException("商品校验失败");
-        }
-    }
-
-    public static ProductValidator getInstance() {
-        if (instance != null) {
-            return instance;
-        } else {
-            synchronized (TypeBProductListValidator.class) {
-                if (instance == null) {
-                    instance = new TypeBProductListValidator();
-                }
-                return instance;
-            }
         }
     }
 }

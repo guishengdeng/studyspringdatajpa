@@ -9,17 +9,13 @@ import com.biz.core.enums.converter.BaseEnumValueConverter;
 public enum SaleStatusEnum implements EnumerableValue {
     ON_SALE(10, "已上架"), OFF_SALE(0, "未上架");
 
-    public static class Converter extends BaseEnumValueConverter<SaleStatusEnum> {
-    }
+    private Integer value;
+    private String description;
 
     SaleStatusEnum(Integer value, String description) {
         this.value = value;
         this.description = description;
     }
-
-    private Integer value;
-
-    private String description;
 
     @Override
     public int getValue() {
@@ -28,6 +24,9 @@ public enum SaleStatusEnum implements EnumerableValue {
 
     public String getDescription() {
         return description;
+    }
+
+    public static class Converter extends BaseEnumValueConverter<SaleStatusEnum> {
     }
 
 }

@@ -27,6 +27,11 @@ public class CategoryRedisDao extends CrudRedisDao<CategoryRo, Long> implements 
 
     private static final long serialVersionUID = 1009646058514234622L;
 
+    public static void main(String[] args) {
+        CategoryRedisDao categoryRedisDao = new CategoryRedisDao();
+        String string = categoryRedisDao.getCategorySalesTopSortSetKey(323651698197401600L);
+        System.out.println(string);
+    }
 
     /**
      * 获取category 配置field的 SortSetKey
@@ -67,7 +72,6 @@ public class CategoryRedisDao extends CrudRedisDao<CategoryRo, Long> implements 
         return this.getKeyByParams(categoryId, "TopProduct");
     }
 
-
     /**
      * 设置topN分类排行商品
      */
@@ -87,12 +91,6 @@ public class CategoryRedisDao extends CrudRedisDao<CategoryRo, Long> implements 
             resultList = resultList.subList(0, size * 2);
         }
         return resultList;
-    }
-
-    public static void main(String[] args) {
-        CategoryRedisDao categoryRedisDao = new CategoryRedisDao();
-        String string = categoryRedisDao.getCategorySalesTopSortSetKey(323651698197401600L);
-        System.out.println(string);
     }
 
 }

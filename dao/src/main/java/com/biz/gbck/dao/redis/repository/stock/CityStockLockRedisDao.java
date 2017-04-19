@@ -22,6 +22,14 @@ import static com.google.common.collect.Lists.newArrayList;
 @Repository
 public class CityStockLockRedisDao extends CrudRedisDao<CityStockLockRo, String> {
 
+    public static String getId(Integer cityId, String productCode) {
+        return String.format("%s%s%s", cityId, Constant.SEPARATOR, productCode);
+    }
+
+    public static String getHashKey(Integer cityId, String productCode) {
+        return String.format("%s%s%s%s%s", "stock:city:lock", Constant.SEPARATOR, cityId, Constant.SEPARATOR, productCode);
+    }
+
     public void delete(CityStockLockRo ro) {
         super.delete(ro);
     }
@@ -70,13 +78,5 @@ public class CityStockLockRedisDao extends CrudRedisDao<CityStockLockRo, String>
             keys.add(getHashKey(getId(cityId, productCode)));
         }
         return findByKeys(keys);
-    }
-
-    public static String getId(Integer cityId, String productCode) {
-        return String.format("%s%s%s", cityId, Constant.SEPARATOR, productCode);
-    }
-
-    public static String getHashKey(Integer cityId, String productCode) {
-        return String.format("%s%s%s%s%s", "stock:city:lock", Constant.SEPARATOR, cityId, Constant.SEPARATOR, productCode);
     }
 }

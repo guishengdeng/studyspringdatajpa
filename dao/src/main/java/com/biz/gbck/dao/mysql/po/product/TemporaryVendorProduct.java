@@ -14,6 +14,7 @@ import javax.persistence.Table;
 /**
  * 该Po为A类商品原始数据，主要用于商品数据导入时使用，正式的商品数据不用该Po
  * 并且在商家商(A类)品导入时才会使用到该Po
+ *
  * @author zhangcheng
  * @date 2017/2/22
  * @reviewer
@@ -26,7 +27,7 @@ public class TemporaryVendorProduct extends BaseEntity {
     /**
      * 商家名称
      */
-    @Column(length = 255 , nullable = false)
+    @Column(length = 255, nullable = false)
     private String vendorName;
 
     /**
@@ -44,7 +45,7 @@ public class TemporaryVendorProduct extends BaseEntity {
     /**
      * 商家自定义编码
      */
-    @Column(length = 50 , nullable = false)
+    @Column(length = 50, nullable = false)
     private String productCode;
 
     /**

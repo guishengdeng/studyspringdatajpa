@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
  * @see
  */
 @Repository
-public class TemporaryVendorProductRepositoryImpl implements TemporaryVendorProductDao , Serializable {
+public class TemporaryVendorProductRepositoryImpl implements TemporaryVendorProductDao, Serializable {
 
     private static final long serialVersionUID = -8833768999178571631L;
 }

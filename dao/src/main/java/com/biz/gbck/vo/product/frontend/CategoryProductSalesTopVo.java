@@ -20,6 +20,14 @@ public class CategoryProductSalesTopVo implements Serializable {
 
     private List<ProductSalesVo> productSalesVos;
 
+    public CategoryProductSalesTopVo(Long categoryId, List<ProductSalesVo> productSalesVos) {
+        this.categoryId = categoryId;
+        this.productSalesVos = productSalesVos;
+    }
+
+    public CategoryProductSalesTopVo() {
+    }
+
     public Long getCategoryId() {
         return categoryId;
     }
@@ -34,14 +42,6 @@ public class CategoryProductSalesTopVo implements Serializable {
 
     public void setProductSalesVos(List<ProductSalesVo> productSalesVos) {
         this.productSalesVos = productSalesVos;
-    }
-
-    public CategoryProductSalesTopVo(Long categoryId, List<ProductSalesVo> productSalesVos) {
-        this.categoryId = categoryId;
-        this.productSalesVos = productSalesVos;
-    }
-
-    public CategoryProductSalesTopVo() {
     }
 
     public List<ProductSalesVo> getTopN(int n) {

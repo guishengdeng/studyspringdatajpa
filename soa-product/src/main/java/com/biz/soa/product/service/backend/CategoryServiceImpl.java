@@ -33,15 +33,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class CategoryServiceImpl extends AbstractCategoryService implements CategoryService {
 
     /**
-     * 分类缓存容器
-     */
-    private static Map<String, Object> CATEGORY_CACHE = Maps.newHashMap();
-
-    /**
      * 后台分类树形结构缓存 key
      */
     private static final String BACKEND_TREE_VIEW_CACHE_KEY = "backend-tree-view";
-
+    /**
+     * 分类缓存容器
+     */
+    private static Map<String, Object> CATEGORY_CACHE = Maps.newHashMap();
     @Autowired
     private CategoryRepository categoryRepository;
 

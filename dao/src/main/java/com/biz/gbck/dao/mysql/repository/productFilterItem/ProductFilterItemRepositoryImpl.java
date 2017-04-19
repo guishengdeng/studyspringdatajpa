@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public class ProductFilterItemRepositoryImpl implements ProductFilterItemDao{
-	 
-	private static final long serialVersionUID = 1236576017958409101L;
+public class ProductFilterItemRepositoryImpl implements ProductFilterItemDao {
+
+    private static final long serialVersionUID = 1236576017958409101L;
 
 }

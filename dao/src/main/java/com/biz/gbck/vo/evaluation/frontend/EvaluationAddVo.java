@@ -9,7 +9,7 @@ import java.util.List;
  * @author yangzichun
  * @date 2017/2/18
  */
-public class EvaluationAddVo implements Serializable{
+public class EvaluationAddVo implements Serializable {
     //评价id
     private Long id;
     //店铺id

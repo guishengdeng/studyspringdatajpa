@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.redis.ro.vendor;
 
-import com.biz.gbck.enums.vendor.*;
 import com.biz.gbck.enums.product.VendorTypeEnum;
+import com.biz.gbck.enums.vendor.*;
 import com.biz.redis.annotation.Ro;
 import com.biz.redis.annotation.RoSortedSet;
 import com.biz.redis.bean.BaseRedisObject;
@@ -924,6 +924,10 @@ public class VendorRo extends BaseRedisObject<Long> implements Serializable {
         return auditVendorRemark;
     }
 
+    public void setAuditVendorRemark(String auditVendorRemark) {
+        this.auditVendorRemark = auditVendorRemark;
+    }
+
     public Integer getAttitudeNum() {
         return attitudeNum;
     }
@@ -938,10 +942,6 @@ public class VendorRo extends BaseRedisObject<Long> implements Serializable {
 
     public void setAttitudeScore(Integer attitudeScore) {
         this.attitudeScore = attitudeScore;
-    }
-
-    public void setAuditVendorRemark(String auditVendorRemark) {
-        this.auditVendorRemark = auditVendorRemark;
     }
 
     public Integer getDescriptionNum() {

@@ -15,18 +15,17 @@ import org.codelogger.utils.ValueUtils;
  */
 public class TypeBProductPriceGenerator implements ProductPriceGenerator {
 
-    public static ProductPriceGenerator doClone(PriceRo priceRo, DepotPromotionVo depotPromotionVo) {
-        return new TypeBProductPriceGenerator(priceRo, depotPromotionVo);
-    }
+    private PriceRo priceRo;
+    private DepotPromotionVo depotPromotionVo;
 
     private TypeBProductPriceGenerator(PriceRo priceRo, DepotPromotionVo depotPromotionVo) {
         this.priceRo = priceRo;
         this.depotPromotionVo = depotPromotionVo;
     }
 
-    private PriceRo priceRo;
-
-    private DepotPromotionVo depotPromotionVo;
+    public static ProductPriceGenerator doClone(PriceRo priceRo, DepotPromotionVo depotPromotionVo) {
+        return new TypeBProductPriceGenerator(priceRo, depotPromotionVo);
+    }
 
     @Override
     public Integer doGetFinalPrice(Integer userLevel) {

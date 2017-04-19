@@ -18,6 +18,10 @@ public class Product2VendorProductListItemVo implements Function<Product, Vendor
 
     private ProductAuditRepository productAuditRepository;
 
+    public Product2VendorProductListItemVo(ProductAuditRepository productAuditRepository) {
+        this.productAuditRepository = productAuditRepository;
+    }
+
     @Nullable
     @Override
     public VendorProductListItemVo apply(@Nullable Product product) {
@@ -38,9 +42,5 @@ public class Product2VendorProductListItemVo implements Function<Product, Vendor
         respVo.setLogo(product.getLogo());
         respVo.setId(String.valueOf(product.getId()));
         return respVo;
-    }
-
-    public Product2VendorProductListItemVo(ProductAuditRepository productAuditRepository) {
-        this.productAuditRepository = productAuditRepository;
     }
 }

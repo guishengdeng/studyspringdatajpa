@@ -29,6 +29,15 @@ public enum PeriodsOfDeliveriesTime {
         this.range = supportRange;
     }
 
+    public static PeriodsOfDeliveriesTime valueOfDistance(Integer distance) {
+        for (PeriodsOfDeliveriesTime e : values()) {
+            if (e.supported(distance)) {
+                return e;
+            }
+        }
+        return null;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -54,14 +63,5 @@ public enum PeriodsOfDeliveriesTime {
                 return cal.getTime();
         }
         throw new SystemException("");
-    }
-
-    public static PeriodsOfDeliveriesTime valueOfDistance(Integer distance) {
-        for (PeriodsOfDeliveriesTime e : values()) {
-            if (e.supported(distance)) {
-                return e;
-            }
-        }
-        return null;
     }
 }

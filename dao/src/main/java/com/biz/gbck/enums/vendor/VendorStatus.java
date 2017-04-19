@@ -10,16 +10,12 @@ public enum VendorStatus implements EnumerableValue {
     FROZEN(2),//冻结
     NOT_PERFECT(3);//未完善
 
-    public static class Converter extends BaseEnumValueConverter<VendorStatus> {
-
-    }
+    private Integer value;
 
 
     VendorStatus(Integer value) {
         this.value = value;
     }
-
-    private Integer value;
 
     public int getValue() {
         return value;
@@ -27,6 +23,10 @@ public enum VendorStatus implements EnumerableValue {
 
     public void setValue(Integer value) {
         this.value = value;
+    }
+
+    public static class Converter extends BaseEnumValueConverter<VendorStatus> {
+
     }
 
 }

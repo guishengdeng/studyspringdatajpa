@@ -10,6 +10,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * 中台商品主数据Po
+ *
  * @author zhangcheng
  * @date 2017/1/5
  * @reviewer

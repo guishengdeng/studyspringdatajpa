@@ -23,7 +23,7 @@ import com.biz.message.queue.BizBaseQueue;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.depot.DepotService;
 import com.biz.service.stock.backend.StockBackendService;
-import com.biz.service.warehouse.warehouse.frontend.WarehouseService;
+import com.biz.service.warehouse.frontend.WarehouseService;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import java.sql.Timestamp;
@@ -81,15 +81,12 @@ public class StockBackendServiceImpl extends AbstractBaseService implements Stoc
 
     @Autowired
     protected StockChangeRedisDao stockChangeRedisDao;
-
-    @Autowired
-    private MessageService messageService;
-
     @Autowired
     protected DepotService depotService;
-
     @Autowired
     protected WarehouseService warehouseService;
+    @Autowired
+    private MessageService messageService;
 
     /******************************* Backend Service *******************************/
 

@@ -60,21 +60,16 @@ public abstract class AbstractProductService implements Serializable {
 
     @Autowired
     protected IProductSearchService productSearchService;
-
-    @Autowired
-    private PriceRedisDao priceRedisDao;
-
-    @Autowired
-    private ProductRedisDao productRedisDao;
-
-    @Autowired
-    private IProductStockService productStockService;
-
-    @Autowired
-    private DepotService depotService;
-
     @Autowired
     protected DepotPromotionService depotPromotionService;
+    @Autowired
+    private PriceRedisDao priceRedisDao;
+    @Autowired
+    private ProductRedisDao productRedisDao;
+    @Autowired
+    private IProductStockService productStockService;
+    @Autowired
+    private DepotService depotService;
 
     /**
      * 通过商品搜索 Vo 执行搜索方法

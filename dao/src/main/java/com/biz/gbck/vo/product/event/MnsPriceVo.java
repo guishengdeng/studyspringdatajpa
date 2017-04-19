@@ -5,12 +5,13 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * 中台价格信息Vo
+ *
  * @author zhangcheng
  * @date 2017/1/11
  * @reviewer
  * @see
  */
-public class MnsPriceVo implements Serializable{
+public class MnsPriceVo implements Serializable {
 
     private static final long serialVersionUID = -8707138490985405308L;
 

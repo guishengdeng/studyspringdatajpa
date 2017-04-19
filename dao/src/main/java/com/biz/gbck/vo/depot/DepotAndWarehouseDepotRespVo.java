@@ -5,12 +5,13 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * 门店及省仓门店ResponseVo
+ *
  * @author zhangcheng
  * @date 2017/1/22
  * @reviewer
  * @see
  */
-public class DepotAndWarehouseDepotRespVo implements Serializable{
+public class DepotAndWarehouseDepotRespVo implements Serializable {
 
     private static final long serialVersionUID = -3773836163420838462L;
 

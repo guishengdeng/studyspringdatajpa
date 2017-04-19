@@ -21,6 +21,19 @@ public class TypeBProductDetailValidator implements ProductValidator {
     private static final long serialVersionUID = -670579316191570064L;
     private static TypeBProductDetailValidator instance = null;
 
+    public static ProductValidator getInstance() {
+        if (instance != null) {
+            return instance;
+        } else {
+            synchronized (TypeBProductDetailValidator.class) {
+                if (instance == null) {
+                    instance = new TypeBProductDetailValidator();
+                }
+                return instance;
+            }
+        }
+    }
+
     @Override
     public Boolean doValidate(ProductPrototype productPrototype, Integer userLevel, Boolean validateStock) {
         Boolean isOnSale = productPrototype.getSaleStatus() == SaleStatusEnum.ON_SALE.getValue();
@@ -76,19 +89,6 @@ public class TypeBProductDetailValidator implements ProductValidator {
 
         if (!isPriceValid) {
             throw new ProductPriceException("商品价格异常");
-        }
-    }
-
-    public static ProductValidator getInstance() {
-        if (instance != null) {
-            return instance;
-        } else {
-            synchronized (TypeBProductDetailValidator.class) {
-                if (instance == null) {
-                    instance = new TypeBProductDetailValidator();
-                }
-                return instance;
-            }
         }
     }
 }

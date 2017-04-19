@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  *
  * Created by maoyikun on 16-12-16.
  */
-public class AreaResponseVo implements Serializable{
+public class AreaResponseVo implements Serializable {
 
     /**
      * 省市区县名称

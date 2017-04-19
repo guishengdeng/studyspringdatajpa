@@ -60,6 +60,21 @@ public class RecommendProductReqVo extends AbstractProductReqVo {
      */
     private String productCode;
 
+    public RecommendProductReqVo() {
+    }
+
+    public RecommendProductReqVo(Long geoId, String depotCode, String warehouseDepotCode, Integer userLevel, ProductRecommend type, BigDecimal latitude, BigDecimal longitude, String memberId, String productCode) {
+        this.geoId = geoId;
+        this.depotCode = depotCode;
+        this.warehouseDepotCode = warehouseDepotCode;
+        this.userLevel = userLevel;
+        this.type = type;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.memberId = memberId;
+        this.productCode = productCode;
+    }
+
     public Integer getUserLevel() {
         return userLevel;
     }
@@ -149,20 +164,5 @@ public class RecommendProductReqVo extends AbstractProductReqVo {
         } else {
             return super.getInvalidMessage();
         }
-    }
-
-    public RecommendProductReqVo() {
-    }
-
-    public RecommendProductReqVo(Long geoId, String depotCode, String warehouseDepotCode, Integer userLevel, ProductRecommend type, BigDecimal latitude, BigDecimal longitude, String memberId, String productCode) {
-        this.geoId = geoId;
-        this.depotCode = depotCode;
-        this.warehouseDepotCode = warehouseDepotCode;
-        this.userLevel = userLevel;
-        this.type = type;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.memberId = memberId;
-        this.productCode = productCode;
     }
 }

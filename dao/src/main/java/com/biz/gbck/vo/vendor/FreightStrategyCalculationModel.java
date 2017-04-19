@@ -5,13 +5,13 @@ package com.biz.gbck.vo.vendor;
  * @date 2017/1/24
  */
 public interface FreightStrategyCalculationModel {
-	Integer getFirstWeight();
+    Integer getFirstWeight();
 
-	Integer getNextWeight();
+    Integer getNextWeight();
 
-	Integer getFirstPrice();
+    Integer getFirstPrice();
 
-	Integer getNextPrice();
+    Integer getNextPrice();
 
-	Integer getFreeIfExceedPrice();
+    Integer getFreeIfExceedPrice();
 }

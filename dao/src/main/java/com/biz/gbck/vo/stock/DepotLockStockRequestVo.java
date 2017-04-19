@@ -10,10 +10,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @author lei
  */
 public class DepotLockStockRequestVo implements Serializable {
-    private static final long serialVersionUID = -6059851300298157347L;
-
     public static final int DEFAULT_ALIVE_TIME = 24 * 60; //默认失效时间
-
+    private static final long serialVersionUID = -6059851300298157347L;
     /**
      * 订单编号(必选)
      */

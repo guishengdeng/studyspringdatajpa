@@ -21,6 +21,15 @@ public class ProductPageResult extends PageResult<ProductListItemVo> {
 
     private List<ProductFieldVo> searchFields = Lists.newArrayList();
 
+    public ProductPageResult(List<ProductFieldVo> searchFields) {
+        this.searchFields = searchFields;
+    }
+
+    public ProductPageResult(int currentPage, int size, int total, List<ProductListItemVo> result, List<ProductFieldVo> searchFields) {
+        super(currentPage, size, total, result);
+        this.searchFields = searchFields;
+    }
+
     public List<ProductFieldVo> getSearchFields() {
         //        去掉field中的 /
         if (CollectionUtils.isNotEmpty(searchFields)) {
@@ -38,15 +47,6 @@ public class ProductPageResult extends PageResult<ProductListItemVo> {
     }
 
     public void setSearchFields(List<ProductFieldVo> searchFields) {
-        this.searchFields = searchFields;
-    }
-
-    public ProductPageResult(List<ProductFieldVo> searchFields) {
-        this.searchFields = searchFields;
-    }
-
-    public ProductPageResult(int currentPage, int size, int total, List<ProductListItemVo> result, List<ProductFieldVo> searchFields) {
-        super(currentPage, size, total, result);
         this.searchFields = searchFields;
     }
 

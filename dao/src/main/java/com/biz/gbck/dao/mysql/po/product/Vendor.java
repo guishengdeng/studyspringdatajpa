@@ -1,8 +1,8 @@
 package com.biz.gbck.dao.mysql.po.product;
 
-import com.biz.gbck.enums.vendor.*;
 import com.biz.gbck.dao.mysql.po.vendor.*;
 import com.biz.gbck.enums.product.VendorTypeEnum;
+import com.biz.gbck.enums.vendor.*;
 import com.biz.support.jpa.po.BaseEntity;
 import java.util.Date;
 import java.util.List;
@@ -123,7 +123,7 @@ public class Vendor extends BaseEntity {
 
 
     // 密码答案
-	/*
+    /*
 	 * @Column(length = 50) private String secretAnswer;
 	 */
 

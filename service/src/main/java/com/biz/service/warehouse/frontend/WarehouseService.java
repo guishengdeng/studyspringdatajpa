@@ -1,4 +1,4 @@
-package com.biz.service.warehouse.warehouse.frontend;
+package com.biz.service.warehouse.frontend;
 
 import com.biz.gbck.vo.warehouse.WarehouseResponseVo;
 import java.util.List;

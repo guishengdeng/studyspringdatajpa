@@ -6,12 +6,13 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * 中台商品信息Vo
+ *
  * @author zhangcheng
  * @date 2017/1/5
  * @reviewer
  * @see
  */
-public class MnsProductVo implements Serializable{
+public class MnsProductVo implements Serializable {
 
     private static final long serialVersionUID = -5005054613985016074L;
 

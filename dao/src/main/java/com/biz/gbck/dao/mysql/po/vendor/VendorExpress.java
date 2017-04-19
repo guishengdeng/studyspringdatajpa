@@ -10,52 +10,52 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "ven_vendor_express")
-public class VendorExpress  extends BaseEntity {
+public class VendorExpress extends BaseEntity {
 
     private static final long serialVersionUID = -5546235757363076391L;
 
     @ManyToOne
-	private SupportExpress supportExpress;
+    private SupportExpress supportExpress;
 
-	@ManyToOne
-	private Vendor vendor;
+    @ManyToOne
+    private Vendor vendor;
 
-	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	private FreightStrategy freightStrategy;
-	
-	private Boolean deleteFlag = Boolean.FALSE;
-	
-	public SupportExpress getSupportExpress() {
-		return supportExpress;
-	}
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private FreightStrategy freightStrategy;
 
-	public void setSupportExpress(SupportExpress supportExpress) {
-		this.supportExpress = supportExpress;
-	}
+    private Boolean deleteFlag = Boolean.FALSE;
 
-	public Vendor getVendor() {
-		return vendor;
-	}
+    public SupportExpress getSupportExpress() {
+        return supportExpress;
+    }
 
-	public void setVendor(Vendor vendor) {
-		this.vendor = vendor;
-	}
+    public void setSupportExpress(SupportExpress supportExpress) {
+        this.supportExpress = supportExpress;
+    }
 
-	public FreightStrategy getFreightStrategy() {
-		return freightStrategy;
-	}
+    public Vendor getVendor() {
+        return vendor;
+    }
 
-	public void setFreightStrategy(FreightStrategy freightStrategy) {
-		this.freightStrategy = freightStrategy;
-	}
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
+    }
 
-	public Boolean getDeleteFlag() {
-		return deleteFlag;
-	}
+    public FreightStrategy getFreightStrategy() {
+        return freightStrategy;
+    }
 
-	public void setDeleteFlag(Boolean deleteFlag) {
-		this.deleteFlag = deleteFlag;
-	}
+    public void setFreightStrategy(FreightStrategy freightStrategy) {
+        this.freightStrategy = freightStrategy;
+    }
 
-	
+    public Boolean getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(Boolean deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
+
+
 }

@@ -24,6 +24,19 @@ public class TypeBSeckillProductDetailValidator implements ProductValidator {
 
     }
 
+    public static ProductValidator getInstance() {
+        if (instance != null) {
+            return instance;
+        } else {
+            synchronized (TypeBSeckillProductDetailValidator.class) {
+                if (instance == null) {
+                    instance = new TypeBSeckillProductDetailValidator();
+                }
+                return instance;
+            }
+        }
+    }
+
     @Override
     public Boolean doValidate(ProductPrototype productPrototype, Integer userLevel, Boolean validateStock) {
         boolean isOnSale = productPrototype.getSaleStatus() == SaleStatusEnum.ON_SALE.getValue();
@@ -41,19 +54,6 @@ public class TypeBSeckillProductDetailValidator implements ProductValidator {
 
         if (!isMarketPriceValid) {
             throw new ProductPriceException("当前秒杀商品在当前地区不销售!");
-        }
-    }
-
-    public static ProductValidator getInstance() {
-        if (instance != null) {
-            return instance;
-        } else {
-            synchronized (TypeBSeckillProductDetailValidator.class) {
-                if (instance == null) {
-                    instance = new TypeBSeckillProductDetailValidator();
-                }
-                return instance;
-            }
         }
     }
 }

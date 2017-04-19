@@ -6,12 +6,13 @@ import java.sql.Timestamp;
 
 /**
  * 中台省仓更新事件Vo
+ *
  * @author zhangcheng
  * @date 2017/1/10
  * @reviewer
  * @see
  */
-public class UpdateWarehouseEventVo implements Serializable{
+public class UpdateWarehouseEventVo implements Serializable {
 
     private static final long serialVersionUID = 7501675439709580845L;
 

@@ -20,6 +20,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class StockRedisDao extends CrudRedisDao<StockRo, String> {
 
+    public static String getHashKey(String productCode) {
+        return String.format("%s%s%s", "stock:product", Constant.SEPARATOR, productCode);
+    }
+
     public void save(StockRo ro) {
         super.save(ro);
     }
@@ -61,7 +65,6 @@ public class StockRedisDao extends CrudRedisDao<StockRo, String> {
         return RedisUtil.bytesSetToStringList(bytes);
     }
 
-
     /**
      * 根据商品编号查询数量
      */
@@ -102,9 +105,5 @@ public class StockRedisDao extends CrudRedisDao<StockRo, String> {
 
     private String getId(String productCode) {
         return productCode;
-    }
-
-    public static String getHashKey(String productCode) {
-        return String.format("%s%s%s", "stock:product", Constant.SEPARATOR, productCode);
     }
 }

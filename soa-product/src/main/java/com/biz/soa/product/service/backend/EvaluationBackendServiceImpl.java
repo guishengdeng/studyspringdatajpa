@@ -3,12 +3,12 @@ package com.biz.soa.product.service.backend;
 import com.biz.core.page.PageResult;
 import com.biz.core.util.DateUtil;
 import com.biz.core.util.ExecutionUnit;
-import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.dao.mysql.po.product.Evaluation;
 import com.biz.gbck.dao.mysql.repository.evaluation.EvaluationRepository;
 import com.biz.gbck.dao.mysql.specification.EvaluationSpecification;
 import com.biz.gbck.dao.redis.repository.product.EvaluationRedisDao;
 import com.biz.gbck.dao.redis.ro.product.EvaluationRo;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.user.ChannelType;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.evaluation.EvaluationNotExistException;
@@ -49,14 +49,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class EvaluationBackendServiceImpl extends AbstractBaseService implements EvaluationBackendService {
     @Autowired
+    protected UserService userService;
+    @Autowired
     private EvaluationRepository evaluationRepository;
-
     @Autowired
     private EvaluationRedisDao evaluationRedisDao;
-
-    @Autowired
-    protected UserService userService;
-
     @Autowired
     private VendorBackendService vendorBackendService;
 

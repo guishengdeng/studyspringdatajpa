@@ -10,6 +10,7 @@ import javax.persistence.Table;
 
 /**
  * 该破用于存储A类商品的图片新的名称，临时用，以后可废弃
+ *
  * @author zhangcheng
  * @date 2017/2/22
  * @reviewer

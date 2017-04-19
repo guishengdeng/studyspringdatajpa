@@ -8,15 +8,11 @@ public enum VendorExpressStatus implements EnumerableValue {
     VALID(0),//有效状态
     DEL(1);//删除状态
 
-    public static class Converter extends BaseEnumValueConverter<VendorExpressStatus> {
-
-    }
+    private Integer value;
 
     private VendorExpressStatus(Integer value) {
         this.value = value;
     }
-
-    private Integer value;
 
     public int getValue() {
         return value;
@@ -24,6 +20,10 @@ public enum VendorExpressStatus implements EnumerableValue {
 
     public void setValue(Integer value) {
         this.value = value;
+    }
+
+    public static class Converter extends BaseEnumValueConverter<VendorExpressStatus> {
+
     }
 
 

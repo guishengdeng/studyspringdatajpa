@@ -5,12 +5,13 @@ import java.util.List;
 
 /**
  * 销售区域下的所有门店以及对应的省仓门店
+ *
  * @author zhangcheng
  * @date 2017/2/6
  * @reviewer
  * @see
  */
-public class AreaDepotResVo implements Serializable{
+public class AreaDepotResVo implements Serializable {
 
     private static final long serialVersionUID = -7745733215421462436L;
 

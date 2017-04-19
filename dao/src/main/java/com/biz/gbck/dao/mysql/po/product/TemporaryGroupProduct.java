@@ -9,6 +9,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 /**
  * 该Po为组合商品原始数据，主要用于商品数据导入时使用，正式的商品数据不用该Po
  * 并且在B组合商品导入时才会使用到该Po
+ *
  * @author zhangcheng
  * @date 2017/3/15
  * @reviewer

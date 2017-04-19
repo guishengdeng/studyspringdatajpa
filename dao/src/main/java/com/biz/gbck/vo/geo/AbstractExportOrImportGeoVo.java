@@ -13,31 +13,19 @@ import java.math.BigDecimal;
  */
 public class AbstractExportOrImportGeoVo implements Serializable {
 
-    private Integer id;
-
     protected String code;
-
     protected String name;
-
     protected Integer idx;
-
     protected Integer weight = 0;
-
     protected String coordinate;
-
     protected BigDecimal lat;
-
     protected BigDecimal lon;
-
     protected String baiduname;
-
     protected String description;
-
     protected Integer baiducode;
-
     protected String post;
-
     protected String prefix;
+    private Integer id;
 
     public Integer getId() {
         return id;

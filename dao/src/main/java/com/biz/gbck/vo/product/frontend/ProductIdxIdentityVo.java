@@ -13,17 +13,14 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  */
 public class ProductIdxIdentityVo implements Serializable {
     private static final long serialVersionUID = 5594156877710815875L;
-
-    /**
-     * 商品编码(必传)
-     */
-    private String productCode;
-
     /**
      * 商品类型
      */
     public Integer productType;
-
+    /**
+     * 商品编码(必传)
+     */
+    private String productCode;
     /**
      * 门店编码(B类商品必传, 因为价格发生变化触发的索引除外)
      */

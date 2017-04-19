@@ -19,11 +19,7 @@ public enum DepotType implements EnumerableValue {
     VT("VT", 10);//虚拟门店
 
 
-    public static class Converter extends BaseEnumValueConverter<DepotType> {
-    }
-
     private int value;
-
     private String description;
 
     DepotType(String description, Integer value) {
@@ -46,5 +42,8 @@ public enum DepotType implements EnumerableValue {
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public static class Converter extends BaseEnumValueConverter<DepotType> {
     }
 }

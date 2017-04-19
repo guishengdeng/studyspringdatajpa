@@ -15,15 +15,20 @@ public enum MemberType implements EnumerableValue {
     PERSONAL(1, "个人"),
     COMPANY(2, "公司");
 
-    public static class Converter extends BaseEnumValueConverter<MemberType> {
-    }
-
     private int value;
     private String desc;
-
     private MemberType(int value, String desc) {
         this.value = value;
         this.desc = desc;
+    }
+
+    public static MemberType getMemberTypeByValue(int codeVal) {
+        for (MemberType memberType : MemberType.values()) {
+            if (memberType.getValue() == codeVal) {
+                return memberType;
+            }
+        }
+        return null;
     }
 
     public int getValue() {
@@ -34,13 +39,7 @@ public enum MemberType implements EnumerableValue {
         return desc;
     }
 
-    public static MemberType getMemberTypeByValue(int codeVal) {
-        for (MemberType memberType : MemberType.values()) {
-            if (memberType.getValue() == codeVal) {
-                return memberType;
-            }
-        }
-        return null;
+    public static class Converter extends BaseEnumValueConverter<MemberType> {
     }
 
 

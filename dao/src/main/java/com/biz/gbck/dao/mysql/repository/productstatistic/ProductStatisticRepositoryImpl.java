@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
  * @see
  */
 @Repository
-public class ProductStatisticRepositoryImpl implements ProductStatisticDao{
+public class ProductStatisticRepositoryImpl implements ProductStatisticDao {
 }

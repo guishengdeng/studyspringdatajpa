@@ -9,16 +9,12 @@ public enum AuditStatus implements EnumerableValue {
     REJECT(2),//审核不通过
     FIRST_PERFECT(3);//第一页注册完成
 
-    public static class Converter extends BaseEnumValueConverter<AuditStatus> {
-
-    }
+    private Integer value;
 
 
     private AuditStatus(Integer value) {
         this.value = value;
     }
-
-    private Integer value;
 
     public int getValue() {
         return value;
@@ -26,5 +22,9 @@ public enum AuditStatus implements EnumerableValue {
 
     public void setValue(Integer value) {
         this.value = value;
+    }
+
+    public static class Converter extends BaseEnumValueConverter<AuditStatus> {
+
     }
 }

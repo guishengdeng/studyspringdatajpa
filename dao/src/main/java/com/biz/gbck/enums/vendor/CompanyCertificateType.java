@@ -8,10 +8,6 @@ public enum CompanyCertificateType implements EnumerableValue {
     ID_CARD(0),
     PASSPORT(1);
 
-    public static class Converter extends BaseEnumValueConverter<CompanyCertificateType> {
-
-    }
-
     private Integer value;
 
     CompanyCertificateType(Integer value) {
@@ -20,6 +16,10 @@ public enum CompanyCertificateType implements EnumerableValue {
 
     public int getValue() {
         return value;
+    }
+
+    public static class Converter extends BaseEnumValueConverter<CompanyCertificateType> {
+
     }
 
 

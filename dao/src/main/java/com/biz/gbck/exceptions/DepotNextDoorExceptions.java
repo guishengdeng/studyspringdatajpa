@@ -314,13 +314,12 @@ public interface DepotNextDoorExceptions {
         CARD_ID_ERROR(3000, "未输入储值卡卡号"),
         FAILED_TO_GET_PREPAID(3001, "未获取到储值卡信息");
 
+        private int code;
+        private String description;
         PrePaidCard(int code, String description) {
             this.code = code;
             this.description = description;
         }
-
-        private int code;
-        private String description;
 
         @Override
         public int getCode() {

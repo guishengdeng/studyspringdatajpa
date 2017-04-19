@@ -16,9 +16,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class SaleAreaRedisDao extends CrudRedisDao<SaleAreaRo, String> implements Serializable {
-    private static final long serialVersionUID = 7233687876668184174L;
-
     public static final String TYPE_A_PRICE_AREA_NO = "PA0CN";
+    private static final long serialVersionUID = 7233687876668184174L;
 
     /**
      * 通过 GeoId 获取 销售区域编码

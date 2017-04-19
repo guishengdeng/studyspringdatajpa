@@ -26,8 +26,8 @@ public class RelevanceProduct extends BaseEntity implements Serializable {
      * 关联子商品
      */
     @ManyToMany
-    @JoinTable(name="pro_relevance",joinColumns = {@JoinColumn(name="relevance_id",referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "product_id",referencedColumnName = "id")})
+    @JoinTable(name = "pro_relevance", joinColumns = {@JoinColumn(name = "relevance_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")})
     private List<Product> childRelevanceProducts;
 
 

@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * 更新库存请求vo
+ *
  * @author lei
  */
 public class UpdateStockRequestVo implements Serializable {

@@ -7,12 +7,12 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 /**
- * @Description: 运费策略dao
  * @author mounan
+ * @Description: 运费策略dao
  * @time:2017年1月12日 下午12:06:47
  */
 @Repository
-public interface FreightStrategyRepository extends CommonJpaRepository<FreightStrategy, Long>,JpaSpecificationExecutor<FreightStrategy> {
-	
-	List<FreightStrategy> findFreightStrategyByVendorIdAndDeleted(Long vendorId, Boolean status);
+public interface FreightStrategyRepository extends CommonJpaRepository<FreightStrategy, Long>, JpaSpecificationExecutor<FreightStrategy> {
+
+    List<FreightStrategy> findFreightStrategyByVendorIdAndDeleted(Long vendorId, Boolean status);
 }

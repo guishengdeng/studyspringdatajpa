@@ -61,20 +61,20 @@ public class ProductFilterItem extends BaseEntity implements Serializable {
      */
     @Column
     private Boolean highlightShow = false;
-    
+
     /**
      * 状态
      */
     @Column
     @Enumerated(value = EnumType.STRING)
     private CommonStatusEnum status;
-    
+
     /**
      * 删除状态
      */
     @Column
     private Boolean deleteFlag = Boolean.FALSE;
-    
+
     public ProductFilter getProductFilter() {
         return productFilter;
     }
@@ -140,11 +140,11 @@ public class ProductFilterItem extends BaseEntity implements Serializable {
     }
 
     public Boolean getDeleteFlag() {
-		return deleteFlag;
-	}
+        return deleteFlag;
+    }
 
-	public void setDeleteFlag(Boolean deleteFlag) {
-		this.deleteFlag = deleteFlag;
-	}
-    
+    public void setDeleteFlag(Boolean deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
+
 }

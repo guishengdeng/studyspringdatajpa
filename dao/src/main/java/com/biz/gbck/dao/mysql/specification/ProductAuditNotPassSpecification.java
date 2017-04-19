@@ -22,6 +22,10 @@ public class ProductAuditNotPassSpecification implements Specification<ProductAu
 
     private VendorProductListReqVo reqVo;
 
+    public ProductAuditNotPassSpecification(VendorProductListReqVo reqVo) {
+        this.reqVo = reqVo;
+    }
+
     @Override
     public Predicate toPredicate(Root<ProductAudit> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = Lists.newArrayList();
@@ -49,9 +53,5 @@ public class ProductAuditNotPassSpecification implements Specification<ProductAu
         predicates.add(predicate);
         criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
         return criteriaQuery.getRestriction();
-    }
-
-    public ProductAuditNotPassSpecification(VendorProductListReqVo reqVo) {
-        this.reqVo = reqVo;
     }
 }

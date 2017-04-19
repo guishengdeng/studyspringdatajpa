@@ -20,7 +20,6 @@ public class ExtendSelectVo implements Serializable {
     private List<ExtendPropertyVo> extendPropertyVos;
 
 
-
     public String getExtendName() {
         return extendName;
     }

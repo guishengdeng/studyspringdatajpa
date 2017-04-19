@@ -22,19 +22,6 @@ public class TypeASeckillProductDetailValidator implements ProductValidator {
 
     }
 
-    @Override
-    public Boolean doValidate(ProductPrototype productPrototype, Integer userLevel, Boolean validateStock) {
-        return productPrototype.getSaleStatus() == SaleStatusEnum.ON_SALE.getValue();
-    }
-
-    @Override
-    public void doValidateWithException(ProductPrototype productPrototype, Integer userLevel, Boolean validateStock) throws DepotNextDoorException {
-        Boolean isOnSale = productPrototype.getSaleStatus() == SaleStatusEnum.ON_SALE.getValue();
-        if (!isOnSale) {
-            throw new ProductSaleStatusException("当前商品已经下架");
-        }
-    }
-
     public static ProductValidator getInstance() {
         if (instance != null) {
             return instance;
@@ -45,6 +32,19 @@ public class TypeASeckillProductDetailValidator implements ProductValidator {
                 }
                 return instance;
             }
+        }
+    }
+
+    @Override
+    public Boolean doValidate(ProductPrototype productPrototype, Integer userLevel, Boolean validateStock) {
+        return productPrototype.getSaleStatus() == SaleStatusEnum.ON_SALE.getValue();
+    }
+
+    @Override
+    public void doValidateWithException(ProductPrototype productPrototype, Integer userLevel, Boolean validateStock) throws DepotNextDoorException {
+        Boolean isOnSale = productPrototype.getSaleStatus() == SaleStatusEnum.ON_SALE.getValue();
+        if (!isOnSale) {
+            throw new ProductSaleStatusException("当前商品已经下架");
         }
     }
 }

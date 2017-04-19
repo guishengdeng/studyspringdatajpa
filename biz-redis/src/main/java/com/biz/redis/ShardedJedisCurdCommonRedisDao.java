@@ -58,6 +58,114 @@ public class ShardedJedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID ex
 
     private Map<MethodSortedSet, SortedSetAssist<T, ID>> methodInSortedSetMap = null;
 
+    @SuppressWarnings("unchecked")
+    public ShardedJedisCurdCommonRedisDao() {
+        super();
+
+        /** getClass().getGenericSuperclass()返回表示此 Class 所表示的实体（类、接口、基本类型或 void）
+         *  的直接超类的 Type(Class<T>泛型中的类型)，然后将其转换ParameterizedType。。
+         *  getActualTypeArguments()返回表示此类型实际类型参数的 Type 对象的数组。
+         *  [0]就是这个数组中第一个了。。
+         *  简而言之就是获得超类的泛型参数的实际类型。。*/
+        entityClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+
+        //类ro基础注解
+        Ro ro = entityClass.getAnnotation(Ro.class);
+        boolean isExistRo = (ro != null);
+        if (isExistRo) {
+            keyPrefix = ro.key().intern();
+        } else {
+            //keyPrefix.append(entityClass.getCanonicalName());
+            throw new RuntimeException("not find Ro annotation");
+        }
+
+        //类roLock锁注解
+        RoLock roLock = entityClass.getAnnotation(RoLock.class);
+        boolean isExistRoLock = (roLock != null);
+        if (isExistRoLock) {
+            roLockKeyPrefix = roLock.key().intern();
+        }
+
+        ExpressionParser parser = new SpelExpressionParser();
+
+        //类roSortedSet注解 基于类ro注解
+        RoSortedSet roSortedSet = entityClass.getAnnotation(RoSortedSet.class);
+        isExistRoSortedSet = (roSortedSet != null);
+        if (isExistRoSortedSet) {
+            roSortedSetKey = (getKeyPrefix() + SEPARATOR + roSortedSet.key()).intern();
+            if (StringUtils.isNotBlank(roSortedSet.score())) {
+                expression = parser.parseExpression(roSortedSet.score());
+            }
+        }
+
+        if (entityClass != null) {
+            /**返回类中所有字段，包括公共、保护、默认（包）访问和私有字段，但不包括继承的字段
+             * entity.getFields();只返回对象所表示的类或接口的所有可访问公共字段
+             * 在class中getDeclared**()方法返回的都是所有访问权限的字段、方法等；
+             * 可看API
+             * */
+            Field[] fields = entityClass.getDeclaredFields();
+            if (fields != null && fields.length > 0) {
+                for (Field field : fields) {
+                    if (!Modifier.isFinal(field.getModifiers())) {
+                        field.setAccessible(true);//修改访问权限
+                        //获取字段中包含的注解
+                        FieldSortedSet fieldSortedSet = field.getAnnotation(FieldSortedSet.class);
+                        boolean isExistFieldSortedSet = (fieldSortedSet == null ? false : true);
+                        if (isExistFieldSortedSet) {
+                            if (fieldInSortedSetMap == null) {
+                                fieldInSortedSetMap = new HashMap<>();
+                            }
+                            if (fieldName_Annotation_Map == null) {
+                                fieldName_Annotation_Map = new HashMap<>();
+                            }
+                            fieldInSortedSetMap.put(
+                                    fieldSortedSet,
+                                    new SortedSetAssist<T, ID>(
+                                            field.getName(),
+                                            StringUtils.isBlank(fieldSortedSet.prefix()) ? getKeyPrefix() + SEPARATOR + field.getName() : fieldSortedSet.prefix() + SEPARATOR + field.getName(),
+                                            parser.parseExpression(fieldSortedSet.key()),
+                                            StringUtils.isNotBlank(fieldSortedSet.score()) ? parser.parseExpression(fieldSortedSet.score()) : null
+                                    )
+                            );
+                            fieldName_Annotation_Map.put(field.getName(), fieldSortedSet);
+                        }
+                    }
+                }
+            }
+
+            Method[] methods = entityClass.getMethods();
+            if (methods != null && methods.length > 0) {
+                for (Method method : methods) {
+                    if (!Modifier.isFinal(method.getModifiers())) {
+                        method.setAccessible(true);//修改访问权限
+                        //获取方法中包含的注解
+                        MethodSortedSet methodSortedSet = method.getAnnotation(MethodSortedSet.class);
+                        boolean isExistMethodSortedSet = (methodSortedSet == null ? false : true);
+                        if (isExistMethodSortedSet) {
+                            if (methodInSortedSetMap == null) {
+                                methodInSortedSetMap = new HashMap<>();
+                            }
+                            if (methodName_Annotation_Map == null) {
+                                methodName_Annotation_Map = new HashMap<>();
+                            }
+                            methodInSortedSetMap.put(
+                                    methodSortedSet,
+                                    new SortedSetAssist<T, ID>(
+                                            method.getName(),
+                                            StringUtils.isBlank(methodSortedSet.prefix()) ? getKeyPrefix() + SEPARATOR + method.getName() : methodSortedSet.prefix() + SEPARATOR + method.getName(),
+                                            parser.parseExpression(methodSortedSet.key()),
+                                            StringUtils.isNotBlank(methodSortedSet.score()) ? parser.parseExpression(methodSortedSet.score()) : null
+                                    )
+                            );
+                            methodName_Annotation_Map.put(method.getName(), methodSortedSet);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public String getKeyByParams(Object... params) {
         StringBuilder key = new StringBuilder(getKeyPrefix());
         if (params != null && params.length > 0) {
@@ -150,114 +258,6 @@ public class ShardedJedisCurdCommonRedisDao<T extends BaseRedisObject<ID>, ID ex
             }
         }
         return key.toString();
-    }
-
-    @SuppressWarnings("unchecked")
-    public ShardedJedisCurdCommonRedisDao() {
-        super();
-
-        /** getClass().getGenericSuperclass()返回表示此 Class 所表示的实体（类、接口、基本类型或 void）
-         *  的直接超类的 Type(Class<T>泛型中的类型)，然后将其转换ParameterizedType。。 
-         *  getActualTypeArguments()返回表示此类型实际类型参数的 Type 对象的数组。 
-         *  [0]就是这个数组中第一个了。。 
-         *  简而言之就是获得超类的泛型参数的实际类型。。*/
-        entityClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-
-        //类ro基础注解
-        Ro ro = entityClass.getAnnotation(Ro.class);
-        boolean isExistRo = (ro != null);
-        if (isExistRo) {
-            keyPrefix = ro.key().intern();
-        } else {
-            //keyPrefix.append(entityClass.getCanonicalName());
-            throw new RuntimeException("not find Ro annotation");
-        }
-
-        //类roLock锁注解
-        RoLock roLock = entityClass.getAnnotation(RoLock.class);
-        boolean isExistRoLock = (roLock != null);
-        if (isExistRoLock) {
-            roLockKeyPrefix = roLock.key().intern();
-        }
-
-        ExpressionParser parser = new SpelExpressionParser();
-
-        //类roSortedSet注解 基于类ro注解
-        RoSortedSet roSortedSet = entityClass.getAnnotation(RoSortedSet.class);
-        isExistRoSortedSet = (roSortedSet != null);
-        if (isExistRoSortedSet) {
-            roSortedSetKey = (getKeyPrefix() + SEPARATOR + roSortedSet.key()).intern();
-            if (StringUtils.isNotBlank(roSortedSet.score())) {
-                expression = parser.parseExpression(roSortedSet.score());
-            }
-        }
-
-        if (entityClass != null) {
-            /**返回类中所有字段，包括公共、保护、默认（包）访问和私有字段，但不包括继承的字段 
-             * entity.getFields();只返回对象所表示的类或接口的所有可访问公共字段 
-             * 在class中getDeclared**()方法返回的都是所有访问权限的字段、方法等； 
-             * 可看API 
-             * */
-            Field[] fields = entityClass.getDeclaredFields();
-            if (fields != null && fields.length > 0) {
-                for (Field field : fields) {
-                    if (!Modifier.isFinal(field.getModifiers())) {
-                        field.setAccessible(true);//修改访问权限
-                        //获取字段中包含的注解
-                        FieldSortedSet fieldSortedSet = field.getAnnotation(FieldSortedSet.class);
-                        boolean isExistFieldSortedSet = (fieldSortedSet == null ? false : true);
-                        if (isExistFieldSortedSet) {
-                            if (fieldInSortedSetMap == null) {
-                                fieldInSortedSetMap = new HashMap<>();
-                            }
-                            if (fieldName_Annotation_Map == null) {
-                                fieldName_Annotation_Map = new HashMap<>();
-                            }
-                            fieldInSortedSetMap.put(
-                                    fieldSortedSet,
-                                    new SortedSetAssist<T, ID>(
-                                            field.getName(),
-                                            StringUtils.isBlank(fieldSortedSet.prefix()) ? getKeyPrefix() + SEPARATOR + field.getName() : fieldSortedSet.prefix() + SEPARATOR + field.getName(),
-                                            parser.parseExpression(fieldSortedSet.key()),
-                                            StringUtils.isNotBlank(fieldSortedSet.score()) ? parser.parseExpression(fieldSortedSet.score()) : null
-                                    )
-                            );
-                            fieldName_Annotation_Map.put(field.getName(), fieldSortedSet);
-                        }
-                    }
-                }
-            }
-
-            Method[] methods = entityClass.getMethods();
-            if (methods != null && methods.length > 0) {
-                for (Method method : methods) {
-                    if (!Modifier.isFinal(method.getModifiers())) {
-                        method.setAccessible(true);//修改访问权限
-                        //获取方法中包含的注解
-                        MethodSortedSet methodSortedSet = method.getAnnotation(MethodSortedSet.class);
-                        boolean isExistMethodSortedSet = (methodSortedSet == null ? false : true);
-                        if (isExistMethodSortedSet) {
-                            if (methodInSortedSetMap == null) {
-                                methodInSortedSetMap = new HashMap<>();
-                            }
-                            if (methodName_Annotation_Map == null) {
-                                methodName_Annotation_Map = new HashMap<>();
-                            }
-                            methodInSortedSetMap.put(
-                                    methodSortedSet,
-                                    new SortedSetAssist<T, ID>(
-                                            method.getName(),
-                                            StringUtils.isBlank(methodSortedSet.prefix()) ? getKeyPrefix() + SEPARATOR + method.getName() : methodSortedSet.prefix() + SEPARATOR + method.getName(),
-                                            parser.parseExpression(methodSortedSet.key()),
-                                            StringUtils.isNotBlank(methodSortedSet.score()) ? parser.parseExpression(methodSortedSet.score()) : null
-                                    )
-                            );
-                            methodName_Annotation_Map.put(method.getName(), methodSortedSet);
-                        }
-                    }
-                }
-            }
-        }
     }
 
     /**

@@ -1,9 +1,9 @@
 package com.biz.gbck.vo.vendor;
 
+import com.biz.gbck.enums.product.VendorTypeEnum;
 import com.biz.gbck.enums.vendor.AuditStatus;
 import com.biz.gbck.enums.vendor.VendorOperationType;
 import com.biz.gbck.enums.vendor.VendorStatus;
-import com.biz.gbck.enums.product.VendorTypeEnum;
 import com.biz.gbck.vo.IRequestVo;
 import java.sql.Timestamp;
 import java.util.Date;

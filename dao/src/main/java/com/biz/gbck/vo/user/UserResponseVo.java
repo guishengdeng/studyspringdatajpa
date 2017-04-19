@@ -229,6 +229,10 @@ public class UserResponseVo implements Serializable {
      */
     private Timestamp regTimestamp;
 
+    public static void main(String[] args) throws UnsupportedEncodingException {
+        System.out.println(StringUtils.getRandomPasswordChar());
+    }
+
     public String getEmail() {
         return email;
     }
@@ -313,16 +317,16 @@ public class UserResponseVo implements Serializable {
         return interest;
     }
 
+    public void setInterest(String interest) {
+        this.interest = interest;
+    }
+
     public String getUserLevelText() {
         return userLevelText;
     }
 
     public void setUserLevelText(String userLevelText) {
         this.userLevelText = userLevelText;
-    }
-
-    public void setInterest(String interest) {
-        this.interest = interest;
     }
 
     public Long getLastCityId() {
@@ -555,10 +559,6 @@ public class UserResponseVo implements Serializable {
 
     public void setArea(String area) {
         this.area = area;
-    }
-
-    public static void main(String[] args) throws UnsupportedEncodingException {
-        System.out.println(StringUtils.getRandomPasswordChar());
     }
 
     public Timestamp getCreateTimestamp() {

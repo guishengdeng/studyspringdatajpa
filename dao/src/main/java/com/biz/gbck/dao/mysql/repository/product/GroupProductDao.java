@@ -8,5 +8,5 @@ import java.io.Serializable;
  * @reviewer
  * @see
  */
-public interface GroupProductDao extends Serializable{
+public interface GroupProductDao extends Serializable {
 }

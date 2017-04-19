@@ -23,6 +23,14 @@ import static com.google.common.collect.Lists.newArrayList;
 public class DepotStockLockRedisDao extends CrudRedisDao<DepotStockLockRo, String> {
 
 
+    public static String getId(String depotCode, String productCode) {
+        return String.format("%s%s%s", depotCode, Constant.SEPARATOR, productCode);
+    }
+
+    public static String getHashKey(String depotCode, String productCode) {
+        return String.format("%s%s%s%s%s", "stock:depot:lock", Constant.SEPARATOR, depotCode, Constant.SEPARATOR, productCode);
+    }
+
     public void delete(DepotStockLockRo ro) {
         super.delete(ro);
     }
@@ -75,13 +83,5 @@ public class DepotStockLockRedisDao extends CrudRedisDao<DepotStockLockRo, Strin
 
     public void updateQuantities(Map<String, Integer> keyToDepotStockQuantity) {
         super.pipeHincrBy(keyToDepotStockQuantity, Constant.RO_QUANTITY_FIELD);
-    }
-
-    public static String getId(String depotCode, String productCode) {
-        return String.format("%s%s%s", depotCode, Constant.SEPARATOR, productCode);
-    }
-
-    public static String getHashKey(String depotCode, String productCode) {
-        return String.format("%s%s%s%s%s", "stock:depot:lock", Constant.SEPARATOR, depotCode, Constant.SEPARATOR, productCode);
     }
 }

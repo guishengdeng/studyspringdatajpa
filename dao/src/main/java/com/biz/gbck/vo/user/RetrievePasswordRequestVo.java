@@ -2,88 +2,90 @@ package com.biz.gbck.vo.user;
 
 /**
  * 类说明：找回密码的请求对象
- * @author xiaoyasong 
- * @E-mail:yasong.xiao@biz-united.com.cn 
- * @version 创建时间：2017年1月3日 下午6:01:07 
+ *
+ * @author xiaoyasong
+ * @version 创建时间：2017年1月3日 下午6:01:07
+ * @E-mail:yasong.xiao@biz-united.com.cn
  */
-public class RetrievePasswordRequestVo extends BaseRequestVo{
+public class RetrievePasswordRequestVo extends BaseRequestVo {
 
-	private static final long serialVersionUID = 1484782819481681729L;
+    private static final long serialVersionUID = 1484782819481681729L;
 
-	/**
-	 * 账号(手机号或其他类型的账号)
-	 */
-	private String name;
-	
-	/**
-	 * 手机短信验证码
-	 */
-	private String smsCode;
-	
-	/**
-	 * 手机号
-	 */
-	private String mobile;
-	
-	/**
-	 * 新密码
-	 */
-	private String newPassword;
+    /**
+     * 账号(手机号或其他类型的账号)
+     */
+    private String name;
 
-	/**
-	 * 渠道代码
-	 */
-	private String channelCode;
+    /**
+     * 手机短信验证码
+     */
+    private String smsCode;
 
-	/**
-	 * 页面验证码
-	 */
-	private String code;
-	public String getName() {
-		return name;
-	}
+    /**
+     * 手机号
+     */
+    private String mobile;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * 新密码
+     */
+    private String newPassword;
 
-	public String getSmsCode() {
-		return smsCode;
-	}
+    /**
+     * 渠道代码
+     */
+    private String channelCode;
 
-	public void setSmsCode(String smsCode) {
-		this.smsCode = smsCode;
-	}
+    /**
+     * 页面验证码
+     */
+    private String code;
 
-	public String getMobile() {
-		return mobile;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getNewPassword() {
-		return newPassword;
-	}
+    public String getSmsCode() {
+        return smsCode;
+    }
 
-	public void setNewPassword(String newPassword) {
-		this.newPassword = newPassword;
-	}
+    public void setSmsCode(String smsCode) {
+        this.smsCode = smsCode;
+    }
 
-	public String getChannelCode() {
-		return channelCode;
-	}
+    public String getMobile() {
+        return mobile;
+    }
 
-	public void setChannelCode(String channelCode) {
-		this.channelCode = channelCode;
-	}
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public String getNewPassword() {
+        return newPassword;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getChannelCode() {
+        return channelCode;
+    }
+
+    public void setChannelCode(String channelCode) {
+        this.channelCode = channelCode;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 }

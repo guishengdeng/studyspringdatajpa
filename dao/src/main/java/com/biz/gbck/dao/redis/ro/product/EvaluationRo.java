@@ -45,16 +45,16 @@ public class EvaluationRo extends BaseRedisObject<Long> implements Serializable 
     //商品编号
     @FieldSortedSet(key = "productCode", score = "evaluationTime")
     private String productCode;
-    
+
     public String getProductCode() {
-		return productCode;
-	}
+        return productCode;
+    }
 
-	public void setProductCode(String productCode) {
-		this.productCode = productCode;
-	}
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
 
-	public Long getProductId() {
+    public Long getProductId() {
         return productId;
     }
 
@@ -158,13 +158,13 @@ public class EvaluationRo extends BaseRedisObject<Long> implements Serializable 
         this.orderCode = orderCode;
     }
 
-	@Override
-	public String toString() {
-		return "EvaluationRo [productId=" + productId + ", productName=" + productName + ", vendorId=" + vendorId
-				+ ", vendorName=" + vendorName + ", memberId=" + memberId + ", accountName=" + accountName
-				+ ", evaluationTime=" + evaluationTime + ", descriptionScore=" + descriptionScore + ", logisticsScore="
-				+ logisticsScore + ", atitudeScore=" + atitudeScore + ", content=" + content + ", images=" + images
-				+ ", orderCode=" + orderCode + "]";
-	}
-    
+    @Override
+    public String toString() {
+        return "EvaluationRo [productId=" + productId + ", productName=" + productName + ", vendorId=" + vendorId
+                + ", vendorName=" + vendorName + ", memberId=" + memberId + ", accountName=" + accountName
+                + ", evaluationTime=" + evaluationTime + ", descriptionScore=" + descriptionScore + ", logisticsScore="
+                + logisticsScore + ", atitudeScore=" + atitudeScore + ", content=" + content + ", images=" + images
+                + ", orderCode=" + orderCode + "]";
+    }
+
 }

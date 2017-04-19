@@ -29,8 +29,7 @@ public interface BrandRepository extends CommonJpaRepository<Brand, Long>, JpaSp
     Page<Brand> findByDeleteFlag(Boolean deleteFlag, Pageable pageable);
 
     List<Brand> findByDeleteFlagAndIdIn(Boolean deleteFlag, List<Long> ids);
-    
-    
+
 
     Page<Brand> findByNameLikeAndDeleteFlag(String name, Boolean deleteFlag, Pageable pageable);
 
@@ -38,13 +37,13 @@ public interface BrandRepository extends CommonJpaRepository<Brand, Long>, JpaSp
 
     @Query("select b from Brand b join b.categories c where c.id = ?1 and b.deleteFlag = ?2")
     List<Brand> findBycategoryIdAndDeleteFlag(Long categoryId, Boolean aFalse);
-    
-//    @Query("select b from Brand b join b.categories bc where bc.id = :categoryId and b.deleteFlag=false order by rand() ")
+
+    //    @Query("select b from Brand b join b.categories bc where bc.id = :categoryId and b.deleteFlag=false order by rand() ")
 
     List<Brand> findByName(String name);
 
     @Query("FROM Brand GROUP BY name")
     List<Brand> findGroupByname();
-//    @Query("select new com.biz.soa.vo.vendor.BrandStreetVo() from Brand b ")
-//    List<Brand> findByDeleteFlag(@Param("categoryId") Long id, Pageable pageable);
+    //    @Query("select new com.biz.soa.vo.vendor.BrandStreetVo() from Brand b ")
+    //    List<Brand> findByDeleteFlag(@Param("categoryId") Long id, Pageable pageable);
 }

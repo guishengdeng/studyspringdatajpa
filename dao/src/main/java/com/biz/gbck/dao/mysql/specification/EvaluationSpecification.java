@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.mysql.specification;
 
-import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.dao.mysql.po.product.Evaluation;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.evaluation.backend.EvaluationQueryRequestVo;
 import com.google.common.collect.Lists;
 import java.util.List;

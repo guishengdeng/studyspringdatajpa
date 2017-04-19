@@ -18,6 +18,10 @@ public class ProductListSpecification implements Specification<Product> {
 
     private BackendProductListReqVo reqVo;
 
+    public ProductListSpecification(BackendProductListReqVo backendProductListReqVo) {
+        this.reqVo = backendProductListReqVo;
+    }
+
     @Override
     public Predicate toPredicate(Root<Product> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = Lists.newArrayList();
@@ -46,10 +50,5 @@ public class ProductListSpecification implements Specification<Product> {
 
         criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
         return criteriaQuery.getRestriction();
-    }
-
-
-    public ProductListSpecification(BackendProductListReqVo backendProductListReqVo) {
-        this.reqVo = backendProductListReqVo;
     }
 }

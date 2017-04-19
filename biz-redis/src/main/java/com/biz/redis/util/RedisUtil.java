@@ -16,10 +16,10 @@ public final class RedisUtil {
 
     private static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
 
-	public static byte[] toByteArray(Serializable id) {
-		return id.toString().getBytes();
-	}
-    
+    public static byte[] toByteArray(Serializable id) {
+        return id.toString().getBytes();
+    }
+
     public static byte[] currentTs() {
         return toByteArray(System.currentTimeMillis());
     }
@@ -81,7 +81,7 @@ public final class RedisUtil {
         }
         return result;
     }
-    
+
     public static byte[][] ListBytetoByteArray(List<byte[]> list) {
         byte[][] result = new byte[list.size()][];
         for (int i = 0; i < list.size(); i++) {
@@ -122,42 +122,42 @@ public final class RedisUtil {
         return ArrayUtils.isEmpty(b) ? null : new String(b, DEFAULT_CHARSET);
     }
 
-//    public static byte[] toBitByteArray(long value) {
-//        byte[] byteNum = new byte[8];
-//        for (int ix = 0; ix < 8; ++ix) {
-//            int offset = 64 - (ix + 1) * 8;
-//            byteNum[ix] = (byte) ((value >> offset) & 0xff);
-//        }
-//        return byteNum;
-//    }
-//
-//    public static byte[] toBitByteArray(int value) {
-//        byte[] byteNum = new byte[4];
-//        for (int ix = 0; ix < 4; ++ix) {
-//            int offset = 32 - (ix + 1) * 8;
-//            byteNum[ix] = (byte) ((value >> offset) & 0xff);
-//        }
-//        return byteNum;
-//    }
-//
-//
-//    public static int bitByteArrayToInt(byte[] b) {
-//        int num = 0;
-//        for (int ix = 0; ix < b.length; ++ix) {
-//            num <<= 8;
-//            num |= (b[ix] & 0xff);
-//        }
-//        return num;
-//    }
-//
-//    public static long bitByteArrayToLong(byte[] b) {
-//        long num = 0;
-//        for (int ix = 0; ix < b.length; ++ix) {
-//            num <<= 8;
-//            num |= (b[ix] & 0xff);
-//        }
-//        return num;
-//    }
+    //    public static byte[] toBitByteArray(long value) {
+    //        byte[] byteNum = new byte[8];
+    //        for (int ix = 0; ix < 8; ++ix) {
+    //            int offset = 64 - (ix + 1) * 8;
+    //            byteNum[ix] = (byte) ((value >> offset) & 0xff);
+    //        }
+    //        return byteNum;
+    //    }
+    //
+    //    public static byte[] toBitByteArray(int value) {
+    //        byte[] byteNum = new byte[4];
+    //        for (int ix = 0; ix < 4; ++ix) {
+    //            int offset = 32 - (ix + 1) * 8;
+    //            byteNum[ix] = (byte) ((value >> offset) & 0xff);
+    //        }
+    //        return byteNum;
+    //    }
+    //
+    //
+    //    public static int bitByteArrayToInt(byte[] b) {
+    //        int num = 0;
+    //        for (int ix = 0; ix < b.length; ++ix) {
+    //            num <<= 8;
+    //            num |= (b[ix] & 0xff);
+    //        }
+    //        return num;
+    //    }
+    //
+    //    public static long bitByteArrayToLong(byte[] b) {
+    //        long num = 0;
+    //        for (int ix = 0; ix < b.length; ++ix) {
+    //            num <<= 8;
+    //            num |= (b[ix] & 0xff);
+    //        }
+    //        return num;
+    //    }
 
     /**
      * @param bytesValue
@@ -256,15 +256,16 @@ public final class RedisUtil {
         }
         return idList;
     }
+
     public static List<String> stringSetToStringList(Set<String> stringSet) {
-    	if (isEmpty(stringSet)) {
-    		return new ArrayList<>();
-    	}
-    	List<String> idList = new ArrayList<String>(stringSet.size());
-    	for (String s : stringSet) {
-    		idList.add(String.valueOf(s));
-    	}
-    	return idList;
+        if (isEmpty(stringSet)) {
+            return new ArrayList<>();
+        }
+        List<String> idList = new ArrayList<String>(stringSet.size());
+        for (String s : stringSet) {
+            idList.add(String.valueOf(s));
+        }
+        return idList;
     }
 
 }

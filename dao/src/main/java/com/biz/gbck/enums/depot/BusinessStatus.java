@@ -19,12 +19,12 @@ public enum BusinessStatus implements EnumerableValue {
         this.value = value;
     }
 
-    public static class Convert extends BaseEnumValueConverter<BusinessStatus> {
-
-    }
-
     @Override
     public int getValue() {
         return value;
+    }
+
+    public static class Convert extends BaseEnumValueConverter<BusinessStatus> {
+
     }
 }

@@ -6,12 +6,13 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * 中台组合商品Vo
+ *
  * @author zhangcheng
  * @date 2017/3/11
  * @reviewer
  * @see
  */
-public class MnsGroupProductVo implements Serializable{
+public class MnsGroupProductVo implements Serializable {
 
     private static final long serialVersionUID = -6074539658380380312L;
 

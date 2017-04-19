@@ -9,7 +9,7 @@ import java.sql.Timestamp;
  * @author yangzichun
  * @date 2017/2/17
  */
-public class EvaluationResponseVo implements Serializable{
+public class EvaluationResponseVo implements Serializable {
     private Long id;
 
     private Long productId;

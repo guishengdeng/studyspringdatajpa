@@ -11,10 +11,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author lei
  */
 public class UpdateLockStockRequestVo implements Serializable {
-    private static final long serialVersionUID = -1255509936241623105L;
-
     public static final int DEFAULT_ALIVE_TIME = 24 * 60; //默认失效时间
-
+    private static final long serialVersionUID = -1255509936241623105L;
     /**
      * 订单编号
      */

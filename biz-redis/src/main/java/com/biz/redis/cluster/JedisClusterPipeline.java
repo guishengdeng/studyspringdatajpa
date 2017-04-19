@@ -51,6 +51,26 @@ public class JedisClusterPipeline extends PipelineBase implements Closeable {
         return pipeline;
     }
 
+    private static Field getField(Class<?> cls, String fieldName) {
+        try {
+            Field field = cls.getDeclaredField(fieldName);
+            field.setAccessible(true);
+            return field;
+        } catch (NoSuchFieldException | SecurityException e) {
+            throw new RuntimeException("cannot find or access field '" + fieldName + "' from " + cls.getName(), e);
+        }
+    }
+
+    @SuppressWarnings({"unchecked"})
+    private static <T> T getValue(Object obj, Field field) {
+        try {
+            return (T) field.get(obj);
+        } catch (IllegalArgumentException | IllegalAccessException e) {
+            log.error("get value fail", e);
+            throw new RuntimeException(e);
+        }
+    }
+
     public void setJedisCluster(JedisCluster jedis) {
         JedisSlotBasedConnectionHandler ch = getValue(jedis, FIELD_CONNECTION_HANDLER);
         if (null == ch) {
@@ -162,25 +182,5 @@ public class JedisClusterPipeline extends PipelineBase implements Closeable {
             jedisMap.put(pool, jedis);
         }
         return jedis;
-    }
-
-    private static Field getField(Class<?> cls, String fieldName) {
-        try {
-            Field field = cls.getDeclaredField(fieldName);
-            field.setAccessible(true);
-            return field;
-        } catch (NoSuchFieldException | SecurityException e) {
-            throw new RuntimeException("cannot find or access field '" + fieldName + "' from " + cls.getName(), e);
-        }
-    }
-
-    @SuppressWarnings({"unchecked"})
-    private static <T> T getValue(Object obj, Field field) {
-        try {
-            return (T) field.get(obj);
-        } catch (IllegalArgumentException | IllegalAccessException e) {
-            log.error("get value fail", e);
-            throw new RuntimeException(e);
-        }
     }
 }

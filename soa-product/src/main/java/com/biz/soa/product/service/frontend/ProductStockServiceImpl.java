@@ -85,8 +85,8 @@ public class ProductStockServiceImpl implements IProductStockService {
         HashMap<String, Integer> productCodeIndexMap = Maps.newHashMap();
         for (ProductStockReqProductVo reqVo : reqVos) {
             if (reqVo.getRapidProduct()) {
-                if (reqVo.getRapidProductItems()==null||reqVo.getRapidProductItems().size() == 0){
-                    logger.error("组合商品没有子商品[{}]",reqVo.getProductCode());
+                if (reqVo.getRapidProductItems() == null || reqVo.getRapidProductItems().size() == 0) {
+                    logger.error("组合商品没有子商品[{}]", reqVo.getProductCode());
                 }
                 for (RapidProductItemVo itemVo : reqVo.getRapidProductItems()) {
                     if (!productCodeIndexMap.containsKey(itemVo.getProductCode())) {
@@ -106,12 +106,12 @@ public class ProductStockServiceImpl implements IProductStockService {
         provinceStockReqVo.setProductCodes(productCodes);
         provinceStockReqVo.setDepotCode(warehouseDepotCode); //省仓所在省份库存(适配库存查询条件3)
         provinceStockReqVo.setIsProvince(Boolean.TRUE);
-        logger.debug("查询B类商品库存  包含组合商品的查询数量为={},包含=[{}]",productCodes.size(), JSON.toJSONString(productCodes));
+        logger.debug("查询B类商品库存  包含组合商品的查询数量为={},包含=[{}]", productCodes.size(), JSON.toJSONString(productCodes));
         List<StockResponseVo> provinceStocks = stockService.getStocks(provinceStockReqVo);
         provinceStocks = getStockResponseVos(reqVos, productCodeIndexMap, provinceStocks);
-        if (CollectionUtils.isNotEmpty(provinceStocks)){
-            logger.debug("返回库存数量为 {}",provinceStocks.size());
-        }else {
+        if (CollectionUtils.isNotEmpty(provinceStocks)) {
+            logger.debug("返回库存数量为 {}", provinceStocks.size());
+        } else {
             logger.debug("返回库存数量为空");
         }
         if (StringUtils.isBlank(depotCode)) {
@@ -129,7 +129,7 @@ public class ProductStockServiceImpl implements IProductStockService {
             depotStockReqVo.setDepotCode(depotCode);
             depotStockReqVo.setIsProvince(Boolean.FALSE);
             List<StockResponseVo> depotStocks = stockService.getStocks(depotStockReqVo);
-            depotStocks = getStockResponseVos(reqVos,productCodeIndexMap,depotStocks);
+            depotStocks = getStockResponseVos(reqVos, productCodeIndexMap, depotStocks);
             List<Integer> depotQuantities = this.getStocks(reqVos, depotStocks);
             List<Integer> provinceQuantities = this.getStocks(reqVos, provinceStocks);
             Preconditions.checkArgument(depotQuantities.size() == reqVos.size() && reqVos.size() == provinceQuantities.size());
@@ -149,20 +149,16 @@ public class ProductStockServiceImpl implements IProductStockService {
 
     /**
      * 重新组装库存
-     * @param reqVos
-     * @param productCodeIndexMap
-     * @param provinceStocks
-     * @return
      */
     private List<StockResponseVo> getStockResponseVos(List<ProductStockReqProductVo> reqVos, HashMap<String, Integer> productCodeIndexMap, List<StockResponseVo> provinceStocks) {
         List<StockResponseVo> tempStockList = Lists.newArrayList();
         //转换库存查询结果
-        for (ProductStockReqProductVo index:reqVos){
-            if(index.getRapidProduct() == Boolean.TRUE){
+        for (ProductStockReqProductVo index : reqVos) {
+            if (index.getRapidProduct() == Boolean.TRUE) {
                 for (RapidProductItemVo item : index.getRapidProductItems()) {
                     tempStockList.add(provinceStocks.get(productCodeIndexMap.get(item.getProductCode())));
                 }
-            }else {
+            } else {
                 tempStockList.add(provinceStocks.get(productCodeIndexMap.get(index.getProductCode())));
             }
         }

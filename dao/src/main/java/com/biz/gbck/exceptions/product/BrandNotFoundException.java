@@ -1,7 +1,7 @@
 package com.biz.gbck.exceptions.product;
 
-import com.biz.gbck.exceptions.DepotNextDoorExceptions;
 import com.biz.gbck.exceptions.DepotNextDoorException;
+import com.biz.gbck.exceptions.DepotNextDoorExceptions;
 
 /**
  * 品牌未找到 Exception

@@ -17,6 +17,13 @@ import org.apache.commons.lang3.math.NumberUtils;
  * @see
  */
 public class MnsPriceVo2PriceRo implements Function<MnsPriceVo, PriceRo> {
+    private static Integer getPrice(String originPrice) {
+        if (StringUtils.isBlank(originPrice)) {
+            return null;
+        }
+        return new BigDecimal(originPrice).multiply(new BigDecimal(100)).setScale(0, BigDecimal.ROUND_UP).intValue();
+    }
+
     @Override
     public PriceRo apply(MnsPriceVo vo) {
         if (vo != null) {
@@ -54,12 +61,5 @@ public class MnsPriceVo2PriceRo implements Function<MnsPriceVo, PriceRo> {
             return ro;
         }
         return null;
-    }
-
-    private static Integer getPrice(String originPrice) {
-        if (StringUtils.isBlank(originPrice)) {
-            return null;
-        }
-        return new BigDecimal(originPrice).multiply(new BigDecimal(100)).setScale(0, BigDecimal.ROUND_UP).intValue();
     }
 }

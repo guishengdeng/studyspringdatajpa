@@ -24,6 +24,18 @@ public class IncrIndexVo implements Serializable {
      */
     private Boolean willBeDeleted = false;
 
+    public IncrIndexVo(String identityCode, Boolean willBeDeleted) {
+        this.identityCode = identityCode;
+        this.willBeDeleted = willBeDeleted;
+    }
+
+    public IncrIndexVo(String identityCode) {
+        this.identityCode = identityCode;
+    }
+
+    public IncrIndexVo() {
+    }
+
     public String getIdentityCode() {
         return identityCode;
     }
@@ -38,17 +50,5 @@ public class IncrIndexVo implements Serializable {
 
     public void setWillBeDeleted(Boolean willBeDeleted) {
         this.willBeDeleted = willBeDeleted;
-    }
-
-    public IncrIndexVo(String identityCode, Boolean willBeDeleted) {
-        this.identityCode = identityCode;
-        this.willBeDeleted = willBeDeleted;
-    }
-
-    public IncrIndexVo(String identityCode) {
-        this.identityCode = identityCode;
-    }
-
-    public IncrIndexVo() {
     }
 }

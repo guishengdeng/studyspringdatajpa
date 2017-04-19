@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.mysql.repository.aparttag;
 
-import com.biz.gbck.dao.mysql.repository.category.CategoryDao;
 import com.biz.gbck.dao.mysql.po.product.ApartTag;
+import com.biz.gbck.dao.mysql.repository.category.CategoryDao;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.List;
 import org.springframework.stereotype.Repository;

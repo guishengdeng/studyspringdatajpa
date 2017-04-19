@@ -10,8 +10,10 @@ public enum AuditVendorSearchType implements EnumerableValue {
     PHONE_NUBER(2),//按电话号码搜索
     VENDOR_NAME(3);//按店铺名称搜索
 
-    public static class Converter extends BaseEnumValueConverter<AuditStatus> {
+    private Integer value;
 
+    private AuditVendorSearchType(Integer value) {
+        this.value = value;
     }
 
     @Override
@@ -19,14 +21,12 @@ public enum AuditVendorSearchType implements EnumerableValue {
         return this.value;
     }
 
-    private AuditVendorSearchType(Integer value) {
+    public void setValue(Integer value) {
         this.value = value;
     }
 
-    private Integer value;
+    public static class Converter extends BaseEnumValueConverter<AuditStatus> {
 
-    public void setValue(Integer value) {
-        this.value = value;
     }
 
 }

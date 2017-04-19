@@ -17,6 +17,10 @@ public class ProductAuditSpecification implements Specification<ProductAudit> {
 
     private PlatformProductAuditListReqVo reqVo;
 
+    public ProductAuditSpecification(PlatformProductAuditListReqVo reqVo) {
+        this.reqVo = reqVo;
+    }
+
     @Override
     public Predicate toPredicate(Root<ProductAudit> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = Lists.newArrayList();
@@ -55,9 +59,5 @@ public class ProductAuditSpecification implements Specification<ProductAudit> {
         criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
         return criteriaQuery.getRestriction();
 
-    }
-
-    public ProductAuditSpecification(PlatformProductAuditListReqVo reqVo) {
-        this.reqVo = reqVo;
     }
 }

@@ -9,10 +9,6 @@ public enum CertificateType implements EnumerableValue {
     ID_CARD(0), //身份证
     PASSPORT(1); //护照
 
-    public static class Converter extends BaseEnumValueConverter<CertificateType> {
-
-    }
-
     private Integer value;
 
     CertificateType(Integer value) {
@@ -21,6 +17,10 @@ public enum CertificateType implements EnumerableValue {
 
     public int getValue() {
         return value;
+    }
+
+    public static class Converter extends BaseEnumValueConverter<CertificateType> {
+
     }
 
 

@@ -1,9 +1,9 @@
 package com.biz.soa.product.service.backend;
 
-import com.biz.gbck.dao.mysql.repository.category.CategoryRepository;
 import com.biz.gbck.dao.mysql.po.product.Category;
 import com.biz.gbck.dao.mysql.po.product.GeoProduct;
 import com.biz.gbck.dao.mysql.po.product.SaleTag;
+import com.biz.gbck.dao.mysql.repository.category.CategoryRepository;
 import com.biz.gbck.dao.mysql.repository.product.GeoProductRepository;
 import com.biz.gbck.dao.mysql.repository.saleTag.SaleTagRepository;
 import com.biz.gbck.dao.redis.repository.product.SaleTagRedisDao;

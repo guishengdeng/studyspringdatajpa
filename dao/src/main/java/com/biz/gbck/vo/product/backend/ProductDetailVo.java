@@ -228,16 +228,16 @@ public class ProductDetailVo implements Serializable {
         return productImages;
     }
 
+    public void setProductImages(List<String> productImages) {
+        this.productImages = productImages;
+    }
+
     public String getLogo() {
         return logo;
     }
 
     public void setLogo(String logo) {
         this.logo = logo;
-    }
-
-    public void setProductImages(List<String> productImages) {
-        this.productImages = productImages;
     }
 
     public Integer getCountryStock() {

@@ -16,15 +16,20 @@ public enum Sex implements EnumerableValue {
     MALE(1, "男性"),
     SECRECY(2, "保密");
 
-    public static class Converter extends BaseEnumValueConverter<Sex> {
-    }
-
     private int value;
     private String desc;
-
     Sex(int value, String desc) {
         this.value = value;
         this.desc = desc;
+    }
+
+    public static Sex getSexByValue(int codeVal) {
+        for (Sex sex : Sex.values()) {
+            if (sex.getValue() == codeVal) {
+                return sex;
+            }
+        }
+        return null;
     }
 
     public int getValue() {
@@ -35,12 +40,6 @@ public enum Sex implements EnumerableValue {
         return desc;
     }
 
-    public static Sex getSexByValue(int codeVal) {
-        for (Sex sex : Sex.values()) {
-            if (sex.getValue() == codeVal) {
-                return sex;
-            }
-        }
-        return null;
+    public static class Converter extends BaseEnumValueConverter<Sex> {
     }
 }

@@ -7,27 +7,27 @@ import org.springframework.context.ApplicationListener;
 
 /**
  * 预先抽象的事件监听器基类
- * 
+ *
+ * @param <E> 监听的事件类型
  * @author yanweijin
  * @date 2016年7月24日
  * @reviewer
- * @param <E> 监听的事件类型
  */
 public abstract class AbstractBizEventListener<E extends BizEvent> implements ApplicationListener<E> {
 
-	protected Logger logger = LoggerFactory.getLogger(getClass());
+    protected Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Override
-//	@Transactional
-	public void onApplicationEvent(E event) {
-		handleEvent(event);
-	}
+    @Override
+    //	@Transactional
+    public void onApplicationEvent(E event) {
+        handleEvent(event);
+    }
 
-	@PostConstruct
-	void init() {
-		logger.debug("初始化事件监听器:{}", this.getClass().getName());
-	}
+    @PostConstruct
+    void init() {
+        logger.debug("初始化事件监听器:{}", this.getClass().getName());
+    }
 
-	protected abstract void handleEvent(E event);
+    protected abstract void handleEvent(E event);
 
 }

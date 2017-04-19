@@ -36,13 +36,6 @@ public enum InvalidOmsDataType implements EnumerableValue {
         this.description = description;
     }
 
-    public static class Converter extends BaseEnumValueConverter<InvalidOmsDataType> {
-    }
-
-    public void setValue(int value) {
-        this.value = value;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -54,5 +47,12 @@ public enum InvalidOmsDataType implements EnumerableValue {
     @Override
     public int getValue() {
         return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public static class Converter extends BaseEnumValueConverter<InvalidOmsDataType> {
     }
 }

@@ -22,6 +22,11 @@ public class ProductRecItemsVo implements Serializable {
      */
     private List<String> productCodes;
 
+    public ProductRecItemsVo(String traceId, List<String> productCodes) {
+        this.traceId = traceId;
+        this.productCodes = productCodes;
+    }
+
     public String getTraceId() {
         return traceId;
     }
@@ -35,11 +40,6 @@ public class ProductRecItemsVo implements Serializable {
     }
 
     public void setProductCodes(List<String> productCodes) {
-        this.productCodes = productCodes;
-    }
-
-    public ProductRecItemsVo(String traceId, List<String> productCodes) {
-        this.traceId = traceId;
         this.productCodes = productCodes;
     }
 }

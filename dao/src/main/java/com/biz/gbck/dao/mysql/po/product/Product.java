@@ -211,6 +211,9 @@ public class Product extends BaseEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private SaleStatusEnum typeBSaleStatus;
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     public String getBreif() {
         return breif;
@@ -272,16 +275,16 @@ public class Product extends BaseEntity implements Serializable {
         return properties;
     }
 
+    public void setProperties(List<ExtendProperty> properties) {
+        this.properties = properties;
+    }
+
     public GroupProduct getGroupProduct() {
         return groupProduct;
     }
 
     public void setGroupProduct(GroupProduct groupProduct) {
         this.groupProduct = groupProduct;
-    }
-
-    public void setProperties(List<ExtendProperty> properties) {
-        this.properties = properties;
     }
 
     public List<String> getIntroImages() {
@@ -296,16 +299,16 @@ public class Product extends BaseEntity implements Serializable {
         return logo;
     }
 
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
     public RelevanceProduct getRelevanceProduct() {
         return relevanceProduct;
     }
 
     public void setRelevanceProduct(RelevanceProduct relevanceProduct) {
         this.relevanceProduct = relevanceProduct;
-    }
-
-    public void setLogo(String logo) {
-        this.logo = logo;
     }
 
     public List<String> getImages() {
@@ -318,6 +321,10 @@ public class Product extends BaseEntity implements Serializable {
 
     public List<SaleTag> getSaleTags() {
         return saleTags;
+    }
+
+    public void setSaleTags(List<SaleTag> saleTags) {
+        this.saleTags = saleTags;
     }
 
     public String getSaleTagIds() {
@@ -360,10 +367,6 @@ public class Product extends BaseEntity implements Serializable {
         }
         return JSON.toJSONString(propertyItemVos);
 
-    }
-
-    public void setSaleTags(List<SaleTag> saleTags) {
-        this.saleTags = saleTags;
     }
 
     public String getSeoTitle() {
@@ -428,10 +431,6 @@ public class Product extends BaseEntity implements Serializable {
 
     public void setLocked(Boolean locked) {
         this.locked = locked;
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
     }
 
     public Boolean getDeleteFlag() {

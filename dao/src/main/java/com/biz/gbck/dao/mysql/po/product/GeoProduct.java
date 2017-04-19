@@ -203,16 +203,16 @@ public class GeoProduct extends BaseEntity implements Serializable {
         return geoIds;
     }
 
+    public void setGeoIds(String geoIds) {
+        this.geoIds = geoIds;
+    }
+
     public List<String> getGeoIdsString() {
         if (geoIds == null) {
             return null;
         }
         String[] geoIdsArray = geoIds.split(",");
         return Lists.newArrayList(geoIdsArray);
-    }
-
-    public void setGeoIds(String geoIds) {
-        this.geoIds = geoIds;
     }
 
     public SaleStatusEnum getSaleStatus() {

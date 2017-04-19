@@ -14,11 +14,11 @@ public enum GeoLevelEnum implements EnumerableValue {
 
     GEO_CITY(1), GEO_PROVINCE(2), GEO_DISTRICT(3), DOMAIN_SALE_AREA(4);
 
+    private Integer value;
+
     GeoLevelEnum(Integer value) {
         this.value = value;
     }
-
-    private Integer value;
 
     @Override
     public int getValue() {

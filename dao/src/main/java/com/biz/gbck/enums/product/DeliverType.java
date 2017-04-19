@@ -15,6 +15,8 @@ public enum DeliverType {
     // 省仓门店配送
     WAREHOUSE_DELIVER("省仓门店配送");
 
+    private String description;
+
     DeliverType(String description) {
         this.description = description;
     }
@@ -26,8 +28,6 @@ public enum DeliverType {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    private String description;
 
 
 }

@@ -1,7 +1,7 @@
 package com.biz.soa.product.service.backend;
 
-import com.biz.gbck.dao.mysql.repository.category.CategoryRepository;
 import com.biz.gbck.dao.mysql.po.product.ProductFilter;
+import com.biz.gbck.dao.mysql.repository.category.CategoryRepository;
 import com.biz.gbck.dao.mysql.repository.productFilter.ProductFilterRepository;
 import com.biz.gbck.exceptions.product.ProductFilterNotFoundException;
 import com.biz.gbck.vo.product.backend.*;

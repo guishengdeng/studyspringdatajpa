@@ -7,17 +7,9 @@ public enum VendorTypeEnum implements EnumerableValue {
     TYPE_A(0),//A类商家
     TYPE_B(1);//B类商家
 
-    VendorTypeEnum(Integer value) {
-        this.value = value;
-    }
-
     private Integer value;
 
-    public int getValue() {
-        return value;
-    }
-
-    public void setValue(Integer value) {
+    VendorTypeEnum(Integer value) {
         this.value = value;
     }
 
@@ -30,6 +22,14 @@ public enum VendorTypeEnum implements EnumerableValue {
             default:
                 return null;
         }
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(Integer value) {
+        this.value = value;
     }
 
 }

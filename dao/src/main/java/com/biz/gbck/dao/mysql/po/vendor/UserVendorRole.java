@@ -18,37 +18,37 @@ public class UserVendorRole extends BaseEntity {
 
     private Long userId;
 
-	@ManyToOne
-	private VendorRole vendorRole;
+    @ManyToOne
+    private VendorRole vendorRole;
 
-	@ManyToOne
-	private Vendor vendor;
+    @ManyToOne
+    private Vendor vendor;
 
-	public VendorRole getVendorRole() {
-		return vendorRole;
-	}
+    public VendorRole getVendorRole() {
+        return vendorRole;
+    }
 
-	public void setVendorRole(VendorRole vendorRole) {
-		this.vendorRole = vendorRole;
-	}
+    public void setVendorRole(VendorRole vendorRole) {
+        this.vendorRole = vendorRole;
+    }
 
-	public Long getUserId() {
+    public Long getUserId() {
 
-		return userId;
-	}
+        return userId;
+    }
 
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
-	public Vendor getVendor() {
-		return vendor;
-	}
+    public Vendor getVendor() {
+        return vendor;
+    }
 
-	public void setVendor(Vendor vendor) {
-		this.vendor = vendor;
-	}
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
+    }
 
 
 }

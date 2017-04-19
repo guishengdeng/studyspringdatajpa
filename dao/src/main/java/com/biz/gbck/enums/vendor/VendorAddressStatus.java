@@ -8,11 +8,11 @@ public enum VendorAddressStatus implements EnumerableValue {
     VALID(0),//有效状态
     DEL(1);//删除状态
 
-    public static class Converter extends BaseEnumValueConverter<FreightStrategyStatus> {
-
-    }
-
     private Integer value;
+
+    private VendorAddressStatus(Integer value) {
+        this.value = value;
+    }
 
     public int getValue() {
         return value;
@@ -22,8 +22,8 @@ public enum VendorAddressStatus implements EnumerableValue {
         this.value = value;
     }
 
-    private VendorAddressStatus(Integer value) {
-        this.value = value;
+    public static class Converter extends BaseEnumValueConverter<FreightStrategyStatus> {
+
     }
 
 

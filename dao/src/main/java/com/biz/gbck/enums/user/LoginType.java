@@ -17,12 +17,8 @@ public enum LoginType implements EnumerableValue {
     MOBILE(1, "mobile"),
     EMAIL(2, "email");
 
-    public static class Converter extends BaseEnumValueConverter<LoginType> {
-    }
-
     private int value;
     private String name;
-
     LoginType(int value, String name) {
         this.value = value;
         this.name = name;
@@ -34,5 +30,8 @@ public enum LoginType implements EnumerableValue {
 
     public String getName() {
         return name;
+    }
+
+    public static class Converter extends BaseEnumValueConverter<LoginType> {
     }
 }

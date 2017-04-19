@@ -12,15 +12,15 @@ import com.biz.soa.product.service.interfaces.ProductPriceGenerator;
  */
 public class TypeAProductPriceGenerator implements ProductPriceGenerator {
 
-    public static ProductPriceGenerator doClone(PriceRo priceRo) {
-        return new TypeAProductPriceGenerator(priceRo);
-    }
+    private PriceRo priceRo;
 
     private TypeAProductPriceGenerator(PriceRo priceRo) {
         this.priceRo = priceRo;
     }
 
-    private PriceRo priceRo;
+    public static ProductPriceGenerator doClone(PriceRo priceRo) {
+        return new TypeAProductPriceGenerator(priceRo);
+    }
 
     @Override
     public Integer doGetFinalPrice(Integer userLevel) {

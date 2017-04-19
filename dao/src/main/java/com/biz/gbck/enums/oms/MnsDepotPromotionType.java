@@ -20,11 +20,11 @@ public enum MnsDepotPromotionType implements EnumerableValue {
         this.value = value;
     }
 
-    public static class Converter extends BaseEnumValueConverter<MnsDepotPromotionType> {
-    }
-
     @Override
     public int getValue() {
         return value;
+    }
+
+    public static class Converter extends BaseEnumValueConverter<MnsDepotPromotionType> {
     }
 }

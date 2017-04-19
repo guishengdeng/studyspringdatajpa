@@ -10,10 +10,6 @@ public enum VendorRegisterType implements EnumerableValue {
     MONOPOLY_STORE(1),//专卖店: 商家持商标权人品牌授权，入驻1919商城开设的店铺。
     SPECIALTY_STORE(2);//专营店: 经营同一品类下两个及以上他人或自有品牌商品的店铺。
 
-    public static class Converter extends BaseEnumValueConverter<VendorRegisterType> {
-
-    }
-
     private Integer value;
 
     private VendorRegisterType(Integer value) {
@@ -22,6 +18,10 @@ public enum VendorRegisterType implements EnumerableValue {
 
     public int getValue() {
         return value;
+    }
+
+    public static class Converter extends BaseEnumValueConverter<VendorRegisterType> {
+
     }
 
 }

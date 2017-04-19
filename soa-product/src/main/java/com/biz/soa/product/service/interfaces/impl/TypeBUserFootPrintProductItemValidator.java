@@ -22,6 +22,19 @@ public class TypeBUserFootPrintProductItemValidator implements ProductValidator 
 
     }
 
+    public static ProductValidator getInstance() {
+        if (instance != null) {
+            return instance;
+        } else {
+            synchronized (TypeBUserFootPrintProductItemValidator.class) {
+                if (instance == null) {
+                    instance = new TypeBUserFootPrintProductItemValidator();
+                }
+                return instance;
+            }
+        }
+    }
+
     @Override
     public Boolean doValidate(ProductPrototype productPrototype, Integer userLevel, Boolean validateStock) {
         if (productPrototype == null) {
@@ -44,19 +57,6 @@ public class TypeBUserFootPrintProductItemValidator implements ProductValidator 
     public void doValidateWithException(ProductPrototype productPrototype, Integer userLevel, Boolean validateStock) throws DepotNextDoorException {
         if (!this.doValidate(productPrototype, userLevel, validateStock)) {
             throw new DepotNextDoorException("商品数据校验失败");
-        }
-    }
-
-    public static ProductValidator getInstance() {
-        if (instance != null) {
-            return instance;
-        } else {
-            synchronized (TypeBUserFootPrintProductItemValidator.class) {
-                if (instance == null) {
-                    instance = new TypeBUserFootPrintProductItemValidator();
-                }
-                return instance;
-            }
         }
     }
 }

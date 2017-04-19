@@ -16,15 +16,20 @@ public enum Education implements EnumerableValue {
     SPECIALTY(4, "专科"),
     HIGH_SCHOOL(5, "高中");
 
-    public static class Converter extends BaseEnumValueConverter<Education> {
-    }
-
     private int value;
     private String desc;
-
     private Education(int value, String desc) {
         this.value = value;
         this.desc = desc;
+    }
+
+    public static Education getEducationByValue(int codeVal) {
+        for (Education education : Education.values()) {
+            if (education.getValue() == codeVal) {
+                return education;
+            }
+        }
+        return null;
     }
 
     public int getValue() {
@@ -35,13 +40,7 @@ public enum Education implements EnumerableValue {
         return desc;
     }
 
-    public static Education getEducationByValue(int codeVal) {
-        for (Education education : Education.values()) {
-            if (education.getValue() == codeVal) {
-                return education;
-            }
-        }
-        return null;
+    public static class Converter extends BaseEnumValueConverter<Education> {
     }
 
 

@@ -21,6 +21,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class StockLockRedisDao extends CrudRedisDao<StockLockRo, String> {
 
+    public static String getId(String productCode) {
+        return productCode;
+    }
+
+    public static String getHashKey(String productCode) {
+        return String.format("%s%s%s", "stock:product:lock", Constant.SEPARATOR, productCode);
+    }
+
     public void save(StockLockRo ro) {
         super.save(ro);
     }
@@ -88,13 +96,5 @@ public class StockLockRedisDao extends CrudRedisDao<StockLockRo, String> {
 
     public void updateQuantities(Map<String, Integer> keyToStockQuantity) {
         super.pipeHincrBy(keyToStockQuantity, Constant.RO_QUANTITY_FIELD);
-    }
-
-    public static String getId(String productCode) {
-        return productCode;
-    }
-
-    public static String getHashKey(String productCode) {
-        return String.format("%s%s%s", "stock:product:lock", Constant.SEPARATOR, productCode);
     }
 }

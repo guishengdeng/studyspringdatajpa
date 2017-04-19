@@ -65,16 +65,16 @@ public class TypeProductsGroupVo implements Serializable {
         return indexVos;
     }
 
+    public void setIndexVos(List<ProductTypeWithIndexVo> indexVos) {
+        this.indexVos = indexVos;
+    }
+
     public List<String> getAllProductCodes() {
         return allProductCodes;
     }
 
     public void setAllProductCodes(List<String> allProductCodes) {
         this.allProductCodes = allProductCodes;
-    }
-
-    public void setIndexVos(List<ProductTypeWithIndexVo> indexVos) {
-        this.indexVos = indexVos;
     }
 
     @Override
