@@ -1,4 +1,4 @@
-package com.biz.gbck.common.vo.upgrade;
+package com.biz.gbck.vo.upgrade;
 
 import javax.validation.constraints.NotNull;
 

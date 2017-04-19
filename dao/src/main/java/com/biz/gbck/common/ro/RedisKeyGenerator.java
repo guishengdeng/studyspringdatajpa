@@ -40,4 +40,35 @@ public class RedisKeyGenerator {
         }
     }
 
+    public static class Promotion {
+
+        public static String getPromotionHashKey(Long id) {
+            return "info:promotion:" + id;
+        }
+
+        /**
+         * 所有用户的Id， score ： 发布时间，member ： promotionId
+         *
+         * @return
+         */
+        public static String getAllPromotionSortSetKey() {
+            return "global:all_promotionIds";
+        }
+
+        /**
+         * 活动最后一次更新时间 hash key
+         */
+        public static String getSystemLatestUpdateTimeHashKey(){
+            return "global:promotion_system_latestUpdateTime";
+        }
+
+        /**
+         * 用户最后一次查看活动中心时间 hash key
+         */
+        public static String getUserLatestUpdateTimeHashKey(Long userId){
+            return "global:promotion_user_latestUpdateTime:" + userId;
+        }
+
+    }
+
 }
