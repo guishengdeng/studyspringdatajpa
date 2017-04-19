@@ -86,22 +86,22 @@ public class DefaultTranslator implements Translator {
         return dataTransformer;
     }
 
+    public void setDataTransformer(DataTransformer dataTransformer) {
+        this.dataTransformer = dataTransformer;
+    }
+
     @Override
     public ConverterRegistry getConverterRegistry() {
         return converterRegistry;
     }
 
+    public void setConverterRegistry(ConverterRegistry converterRegistry) {
+        this.converterRegistry = converterRegistry;
+    }
+
     @Override
     public BeanRegistry getBeanRegistry() {
         return beanRegistry;
-    }
-
-    public void setDataTransformer(DataTransformer dataTransformer) {
-        this.dataTransformer = dataTransformer;
-    }
-
-    public void setConverterRegistry(ConverterRegistry converterRegistry) {
-        this.converterRegistry = converterRegistry;
     }
 
     public void setBeanRegistry(BeanRegistry beanRegistry) {

@@ -10,8 +10,8 @@ import java.io.Serializable;
  */
 public interface GlobalParamsAware extends Serializable {
 
-	void setGlobalParams(GlobalParams globalParams);
+    GlobalParams getGlobalParams();
 
-	GlobalParams getGlobalParams();
+    void setGlobalParams(GlobalParams globalParams);
 
 }

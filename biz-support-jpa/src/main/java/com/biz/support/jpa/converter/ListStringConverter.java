@@ -9,9 +9,8 @@ package com.biz.support.jpa.converter;
  * @author yanweijin 2016年5月5日
  */
 public class ListStringConverter extends AbstractListStringConverter<String> {
-    private static final long serialVersionUID = -3786469606707789991L;
-
     public static final ListStringConverter INSTANCE = new ListStringConverter();
+    private static final long serialVersionUID = -3786469606707789991L;
 
     public ListStringConverter() {
     }

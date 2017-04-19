@@ -2,12 +2,13 @@ package com.biz.manage.config;
 
 import com.aliyun.oss.OSSClient;
 import com.biz.core.ali.oss.config.OssConfig;
-import com.biz.event.BizEventMulticaster;
-import com.biz.event.BizEventPublisher;
+import com.biz.core.event.BizEventMulticaster;
+import com.biz.core.event.BizEventPublisher;
+import com.biz.core.transaction.BizTransactionManager;
 import com.biz.manage.security.ManageLogoutSuccessHandler;
 import com.biz.service.IdService;
 import com.biz.service.security.AdminServiceImpl;
-import com.biz.transaction.BizTransactionManager;
+import java.beans.PropertyVetoException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,8 +20,6 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import redis.clients.jedis.JedisPoolConfig;
-
-import java.beans.PropertyVetoException;
 
 /**
  * @author david-liu
@@ -104,7 +103,6 @@ public class ManageConfig {
         ossConfig.setBucketName(environment.getProperty("biz.oss.bucketName"));
         return ossConfig;
     }
-
 
     @Bean
     public OSSClient ossClient() {

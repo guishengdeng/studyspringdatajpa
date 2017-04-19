@@ -45,11 +45,11 @@ public class Role extends BasePo<Long> implements Identifiable<Long>, Serializab
     private List<Resource> resources;
 
     public Role() {
-        super(null);
+
     }
 
     public Role(Long id, String name, String description, List<MenuItem> menuItems, List<Resource> resources) {
-        super(id);
+        setId(id);
         this.name = name;
         this.description = description;
         this.menuItems = menuItems;

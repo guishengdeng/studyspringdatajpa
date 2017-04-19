@@ -13,11 +13,11 @@ public class ManageServlet extends MarvelServlet {
 
     private static ThreadLocal<Admin> threadLocalAdmin = new ThreadLocal<>();
 
-    public static Admin getAdmin() {
-        return threadLocalAdmin.get();
-    }
-
     public ManageServlet(Admin admin) {
         threadLocalAdmin.set(admin);
+    }
+
+    public static Admin getAdmin() {
+        return threadLocalAdmin.get();
     }
 }

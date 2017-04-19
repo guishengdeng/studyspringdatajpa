@@ -27,8 +27,8 @@ import org.springframework.util.ClassUtils;
  */
 public class QueueDefinitionScanFilter implements TypeFilter {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
     static final List<Class<Enum<?>>> container = new ArrayList<>();
+    private Logger logger = LoggerFactory.getLogger(getClass());
     private Set<String> filteringInterfaces = Sets.newHashSet(
             "com.bozhi.message.QueueDefinition"
     );

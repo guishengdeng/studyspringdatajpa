@@ -32,7 +32,6 @@ public class AuthorityUtil {
     /**
      * 获取当前登录用户
      *
-     * @return
      * @author defei
      * @date 2015-4-13
      */
@@ -46,7 +45,6 @@ public class AuthorityUtil {
      * 判断当前用户是否拥有角色
      *
      * @param roleName 角色名称
-     * @return
      * @author defei
      * @date 2015-4-13
      */
@@ -83,7 +81,7 @@ public class AuthorityUtil {
      */
 
     // TODO 切换到真实变量类型
-    public static boolean hasAuthentication(/*Admin admin*/ Object admin, String authenticationName){
+    public static boolean hasAuthentication(/*Admin admin*/ Object admin, String authenticationName) {
         if (authenticationName == null) {
             logger.warn("roleName is null");
             return false;
