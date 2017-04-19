@@ -1,7 +1,7 @@
 package com.biz.vo.demo;
 
 import com.biz.gbck.dao.mysql.po.demo.SaleStatusEnum;
-import com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum;
+import com.biz.gbck.enums.CommonStatusEnum;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 

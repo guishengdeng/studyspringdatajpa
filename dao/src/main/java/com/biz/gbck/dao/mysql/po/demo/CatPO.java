@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.mysql.po.demo;
 
 import com.biz.gbck.dao.mysql.po.BasePo;
-import com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum;
+import com.biz.gbck.enums.CommonStatusEnum;
 
 import javax.persistence.*;
 

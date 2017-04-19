@@ -2,7 +2,7 @@ package com.biz.service.demo.interfaces;
 
 import com.biz.gbck.dao.mysql.po.demo.CatPO;
 import com.biz.gbck.dao.mysql.po.demo.SaleStatusEnum;
-import com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.service.RepositorySupportService;
 import com.biz.vo.demo.CatReqVO;
 

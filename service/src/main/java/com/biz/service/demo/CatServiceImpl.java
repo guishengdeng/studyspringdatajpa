@@ -2,8 +2,8 @@ package com.biz.service.demo;
 
 import com.biz.gbck.dao.mysql.po.demo.CatPO;
 import com.biz.gbck.dao.mysql.po.demo.SaleStatusEnum;
-import com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum;
 import com.biz.gbck.dao.mysql.repository.demo.CatRepository;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.service.AbstractRepositorySupportService;
 import com.biz.service.demo.interfaces.CatService;
 import com.biz.support.jpa.repository.CommonJpaRepository;
