@@ -32,7 +32,7 @@ public class ManageFilter extends MarvelFilter<MarvelServlet> {
 
     @Override
     public ManageServlet buildMarvelServlet() {
-        return new ManageServlet((Admin) AuthorityUtil.getLoginUser());
+        return new ManageServlet( AuthorityUtil.getLoginUser() instanceof Admin ? (Admin) AuthorityUtil.getLoginUser() : null);
     }
 
     @Override
