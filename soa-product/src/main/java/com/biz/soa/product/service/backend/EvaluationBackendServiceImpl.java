@@ -3,7 +3,7 @@ package com.biz.soa.product.service.backend;
 import com.biz.core.page.PageResult;
 import com.biz.core.util.DateUtil;
 import com.biz.core.util.ExecutionUnit;
-import com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.dao.mysql.po.product.Evaluation;
 import com.biz.gbck.dao.mysql.repository.evaluation.EvaluationRepository;
 import com.biz.gbck.dao.mysql.specification.EvaluationSpecification;

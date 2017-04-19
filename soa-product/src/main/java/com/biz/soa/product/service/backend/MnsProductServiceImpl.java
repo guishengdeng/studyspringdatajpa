@@ -2,7 +2,7 @@ package com.biz.soa.product.service.backend;
 
 import com.alibaba.fastjson.JSON;
 import com.biz.core.util.DateUtil;
-import com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.dao.mysql.po.product.GroupProduct;
 import com.biz.gbck.dao.mysql.po.product.GroupProductItem;
 import com.biz.gbck.dao.mysql.po.product.MnsProduct;

@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.redis.ro.vendor;
 
-import com.biz.gbck.dao.mysql.po.enums.vendor.*;
+import com.biz.gbck.enums.vendor.*;
 import com.biz.gbck.enums.product.VendorTypeEnum;
 import com.biz.redis.annotation.Ro;
 import com.biz.redis.annotation.RoSortedSet;

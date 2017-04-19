@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.po.product;
 
-import com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.support.jpa.po.BaseEntity;
 import java.io.Serializable;
 import javax.persistence.*;

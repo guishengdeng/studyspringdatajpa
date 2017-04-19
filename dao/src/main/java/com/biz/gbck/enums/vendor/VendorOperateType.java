@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.po.enums.vendor;
+package com.biz.gbck.enums.vendor;
 
 import com.biz.core.enums.EnumerableValue;
 

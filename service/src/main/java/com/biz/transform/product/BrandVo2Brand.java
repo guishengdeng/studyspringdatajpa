@@ -1,6 +1,6 @@
 package com.biz.transform.product;
 
-import com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.dao.mysql.po.product.Brand;
 import com.biz.gbck.dao.mysql.po.product.Category;
 import com.biz.gbck.vo.product.backend.BrandVo;

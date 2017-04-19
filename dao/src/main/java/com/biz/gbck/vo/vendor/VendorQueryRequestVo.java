@@ -1,6 +1,6 @@
 package com.biz.gbck.vo.vendor;
 
-import com.biz.gbck.dao.mysql.po.enums.vendor.VendorStatus;
+import com.biz.gbck.enums.vendor.VendorStatus;
 import com.biz.gbck.enums.product.VendorTypeEnum;
 import com.biz.gbck.vo.PageableRequestVo;
 

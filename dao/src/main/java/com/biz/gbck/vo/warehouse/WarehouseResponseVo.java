@@ -1,6 +1,6 @@
 package com.biz.gbck.vo.warehouse;
 
-import com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum;
+import com.biz.gbck.enums.CommonStatusEnum;
 import java.io.Serializable;
 import java.sql.Timestamp;
 

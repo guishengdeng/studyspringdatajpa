@@ -1,19 +1,15 @@
-package com.biz.gbck.dao.mysql.po.enums.vendor;
+package com.biz.gbck.enums.vendor;
 
 import com.biz.core.enums.EnumerableValue;
 import com.biz.core.enums.converter.BaseEnumValueConverter;
 
-public enum VendorExpressStatus implements EnumerableValue {
+public enum VendorAddressStatus implements EnumerableValue {
 
     VALID(0),//有效状态
     DEL(1);//删除状态
 
-    public static class Converter extends BaseEnumValueConverter<VendorExpressStatus> {
+    public static class Converter extends BaseEnumValueConverter<FreightStrategyStatus> {
 
-    }
-
-    private VendorExpressStatus(Integer value) {
-        this.value = value;
     }
 
     private Integer value;
@@ -23,6 +19,10 @@ public enum VendorExpressStatus implements EnumerableValue {
     }
 
     public void setValue(Integer value) {
+        this.value = value;
+    }
+
+    private VendorAddressStatus(Integer value) {
         this.value = value;
     }
 

@@ -1,6 +1,6 @@
 package com.biz.gbck.vo.depot;
 
-import com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.depot.BusinessStatus;
 import com.biz.gbck.enums.depot.DepotType;
 import com.biz.gbck.vo.PageableRequestVo;

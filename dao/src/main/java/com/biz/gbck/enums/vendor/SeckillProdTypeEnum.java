@@ -7,7 +7,7 @@
  * Copyright 成都博智维讯信息技术股份有限公司
  */
 
-package com.biz.gbck.dao.mysql.po.enums.vendor;
+package com.biz.gbck.enums.vendor;
 
 
 /**

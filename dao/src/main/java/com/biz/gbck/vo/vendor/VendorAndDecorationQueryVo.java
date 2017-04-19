@@ -1,6 +1,6 @@
 package com.biz.gbck.vo.vendor;
 
-import com.biz.gbck.dao.mysql.po.enums.vendor.VendorOperationType;
+import com.biz.gbck.enums.vendor.VendorOperationType;
 import java.io.Serializable;
 
 public class VendorAndDecorationQueryVo implements Serializable {

@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.po.product;
 
-import com.biz.gbck.dao.mysql.po.enums.vendor.*;
+import com.biz.gbck.enums.vendor.*;
 import com.biz.gbck.dao.mysql.po.vendor.*;
 import com.biz.gbck.enums.product.VendorTypeEnum;
 import com.biz.support.jpa.po.BaseEntity;

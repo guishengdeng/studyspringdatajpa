@@ -1,6 +1,6 @@
 package com.biz.gbck.vo.product.backend;
 
-import com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.IRequestVo;
 import java.io.Serializable;
 import java.util.List;

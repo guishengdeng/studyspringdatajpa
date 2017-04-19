@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.redis.ro.product;
 
-import com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.redis.annotation.Ro;
 import com.biz.redis.bean.BaseRedisObject;
 import java.io.Serializable;

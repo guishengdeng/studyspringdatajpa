@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.po.enums;
+package com.biz.gbck.enums;
 
 import com.biz.core.enums.EnumerableValue;
 

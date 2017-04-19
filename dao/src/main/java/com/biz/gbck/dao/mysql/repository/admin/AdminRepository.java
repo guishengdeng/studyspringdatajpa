@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.admin;
 
-import com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.dao.mysql.po.security.Admin;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.List;

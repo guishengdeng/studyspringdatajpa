@@ -1,6 +1,6 @@
 package com.biz.service.security;
 
-import com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.dao.mysql.po.security.*;
 import com.biz.gbck.dao.mysql.repository.admin.AdminRepository;
 import com.biz.gbck.dao.mysql.repository.admin.MainMenuRepository;

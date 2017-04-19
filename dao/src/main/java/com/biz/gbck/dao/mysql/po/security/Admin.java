@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.po.security;
 
-import com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.google.common.collect.Sets;
 import java.io.Serializable;
 import java.sql.Date;

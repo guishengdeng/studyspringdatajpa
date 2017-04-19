@@ -1,6 +1,6 @@
 package com.biz.transform.product;
 
-import com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.dao.mysql.po.product.TemporaryEvaluation;
 import com.biz.gbck.vo.product.backend.SyncEvaluationDataVo;
 import com.google.common.base.Function;
