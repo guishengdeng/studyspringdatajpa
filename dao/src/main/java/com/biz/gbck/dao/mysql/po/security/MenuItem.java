@@ -47,11 +47,11 @@ public class MenuItem extends BasePo<Long> implements Identifiable<Long> {
     private List<Role> roles;
 
     public MenuItem() {
-        super(null);
+
     }
 
     public MenuItem(Long id, Integer code, String name, String icon, String link, String description, String symbol, MainMenu mainMenu, List<Resource> resources, List<Role> roles) {
-        super(id);
+        setId(id);
         this.code = code;
         this.name = name;
         this.icon = icon;

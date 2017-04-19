@@ -33,11 +33,11 @@ public class MainMenu extends BasePo<Long> implements Identifiable<Long> {
     private List<MenuItem> menuItems;
 
     public MainMenu() {
-        super(null);
+
     }
 
     public MainMenu(Long id, Integer code, String name, String description, String icon, String companyType, List<MenuItem> menuItems) {
-        super(id);
+        setId(id);
         this.code = code;
         this.name = name;
         this.description = description;
