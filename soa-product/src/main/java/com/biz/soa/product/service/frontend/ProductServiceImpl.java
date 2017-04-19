@@ -45,7 +45,6 @@ import com.biz.soa.product.service.interfaces.ProductPriceGenerator;
 import com.biz.soa.product.service.interfaces.impl.*;
 import com.biz.soa.product.util.PageUtil;
 import com.biz.soa.product.vo.BuildProductPrototypesVo;
-import com.biz.gbck.product.*;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;

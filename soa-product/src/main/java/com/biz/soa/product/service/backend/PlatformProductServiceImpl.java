@@ -26,7 +26,6 @@ import com.biz.gbck.vo.product.backend.*;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.depot.DepotService;
 import com.biz.service.product.backend.PlatformProductService;
-import com.biz.gbck.product.*;
 import com.google.common.collect.Lists;
 import java.io.Serializable;
 import java.util.List;
