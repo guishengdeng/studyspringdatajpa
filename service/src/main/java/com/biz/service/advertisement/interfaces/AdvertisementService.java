@@ -1,0 +1,21 @@
+package com.biz.service.advertisement.interfaces;
+
+import com.biz.core.page.PageResult;
+import com.biz.gbck.advertisement.frontend.AdvertisementQueryParamVo;
+import com.biz.gbck.advertisement.frontend.AdvertisementVo;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * Created by xys on 2017/4/18.
+ */
+
+public interface AdvertisementService {
+
+    void saveOrUpdateAdvertisement(AdvertisementVo advertisementVo);
+
+    PageResult<AdvertisementVo> findAdvertisement(AdvertisementQueryParamVo vo);
+
+    List<AdvertisementVo> findAllAdvertisements();
+}
