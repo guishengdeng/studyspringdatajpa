@@ -1,5 +1,7 @@
 package com.biz.manage.config;
 
+import com.aliyun.oss.OSSClient;
+import com.biz.core.ali.oss.config.OssConfig;
 import com.biz.core.event.BizEventMulticaster;
 import com.biz.core.event.BizEventPublisher;
 import com.biz.core.transaction.BizTransactionManager;
@@ -80,6 +82,7 @@ public class ManageConfig {
         jedisConnectionFactory.setHostName(redisConfiguration.getString("biz.redis.host"));
         jedisConnectionFactory.setPort(redisConfiguration.getInt("biz.redis.port"));
         jedisConnectionFactory.setClientName(redisConfiguration.getString("biz.redis.name"));
+        jedisConnectionFactory.setPassword(redisConfiguration.getString("biz.redis.password"));
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxTotal(redisConfiguration.getInt("biz.redis.maxTotal"));
         jedisPoolConfig.setMaxIdle(redisConfiguration.getInt("biz.redis.maxIdle"));
@@ -88,6 +91,25 @@ public class ManageConfig {
         jedisPoolConfig.setMinEvictableIdleTimeMillis(redisConfiguration.getLong("biz.redis.minEvictableIdleTimeMillis"));
         jedisConnectionFactory.setPoolConfig(jedisPoolConfig);
         return jedisConnectionFactory;
+    }
+
+    @Bean
+    public OssConfig ossConfig() {
+        OssConfig ossConfig = new OssConfig();
+        ossConfig.setRemoteEndpoint(environment.getProperty("biz.oss.remoteEndpoint"));
+        ossConfig.setLocalEndpoint(environment.getProperty("biz.oss.localEndpoint"));
+        ossConfig.setAccessKeyId(environment.getProperty("biz.oss.accessKeyId"));
+        ossConfig.setAccessSecret(environment.getProperty("biz.oss.accessKeySecret"));
+        ossConfig.setBucketName(environment.getProperty("biz.oss.bucketName"));
+        return ossConfig;
+    }
+
+    @Bean
+    public OSSClient ossClient() {
+        String endpoint = environment.getProperty("biz.oss.remoteEndpoint");
+        String accessKeyId = environment.getProperty("biz.oss.accessKeyId");
+        String secretAccessKey = environment.getProperty("biz.oss.accessKeySecret");
+        return new OSSClient(endpoint, accessKeyId, secretAccessKey);
     }
 
 }

@@ -48,6 +48,12 @@ biz:
     port: 6379
     name:
     password:
+  oss:
+    remoteEndpoint: oss-cn-beijing.aliyuncs.com
+    localEndpoint: oss-cn-beijing-internal.aliyuncs.com
+    accessKeyId: LTAIcBsZ7zY66tku
+    accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
+    bucketName: gbck-production
 
 server:
   session:
