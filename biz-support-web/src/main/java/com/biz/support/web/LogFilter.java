@@ -39,15 +39,15 @@ public class LogFilter implements Filter {
     private static class LogHttpServletResponse extends HttpServletResponseWrapper {
         private ByteArrayOutputStream responseBody = new ByteArrayOutputStream();
 
-        public byte[] getBody() {
-            return responseBody.toByteArray();
-        }
-
         /**
          * @param response
          */
         public LogHttpServletResponse(HttpServletResponse response) {
             super(response);
+        }
+
+        public byte[] getBody() {
+            return responseBody.toByteArray();
         }
 
         @Override

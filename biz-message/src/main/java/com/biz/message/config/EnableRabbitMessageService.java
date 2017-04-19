@@ -17,12 +17,13 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.core.env.Environment;
 
 /**
  * 用于激活amqp message service的自动配置类
@@ -38,18 +39,9 @@ import org.springframework.context.annotation.FilterType;
         includeFilters = @Filter(classes = QueueDefinitionScanFilter.class, type = FilterType.CUSTOM))
 public class EnableRabbitMessageService {
     private Logger logger = LoggerFactory.getLogger(getClass());
-    @Value("${amqp.port}")
-    private int port;
-    @Value("${amqp.username}")
-    private String username;
-    @Value("${amqp.password}")
-    private String password;
-    @Value("${amqp.host}")
-    private String host;
-    @Value("${amqp.maxRetry}")
-    private Integer maxRetry;
-    @Value("${amqp.retryElapse}")
-    private Long retryElapse;
+
+    @Autowired
+    private Environment environment;
 
     @Bean
     Jackson2JsonMessageConverter messageConverter() {
@@ -76,15 +68,15 @@ public class EnableRabbitMessageService {
         logger.info("autoconfig.message:初始化消息服务");
         AmqpMessageService messageService = new AmqpMessageService();
         messageService.setAmqpTemplate(amqpTemplate());
-        messageService.setMaxRetry(this.maxRetry);
-        messageService.setRetryElapse(this.retryElapse);
+        messageService.setMaxRetry(this.getMaxRetry());
+        messageService.setRetryElapse(this.getRetryElapse());
         return messageService;
     }
 
     @Bean
     QueueAutomaticCreationProcessor queueAutomaticCreationProcessor() {
         logger.info("autoconfig.message:加载队列自动创建处理器");
-        QueueAutomaticCreationProcessor qacp = new QueueAutomaticCreationProcessor(maxRetry, retryElapse);
+        QueueAutomaticCreationProcessor qacp = new QueueAutomaticCreationProcessor(this.getMaxRetry(), this.getRetryElapse());
         qacp.setMessageAdmin(messageAdmin());
         return qacp;
     }
@@ -97,7 +89,7 @@ public class EnableRabbitMessageService {
     @Bean
     SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory() {
         logger.debug("AmqpConfiguration.rabbitListenerContainerFactory --> execute");
-        logger.debug("amqp link ... username={},password={},host={},port={}", username, password, host, port);
+        logger.debug("amqp link ... username={},password={},host={},port={}", this.getUsername(), this.getPassword(), this.getHost(), this.getPort());
         SimpleRabbitListenerContainerFactory rlc = new SimpleRabbitListenerContainerFactory();
         rlc.setConnectionFactory(rabbitConnectionFactory());
         rlc.setMessageConverter(messageConverter());
@@ -111,6 +103,8 @@ public class EnableRabbitMessageService {
      */
     @Bean
     ConnectionFactory rabbitConnectionFactory() {
+        String host = this.getHost(), username = this.getUsername(), password = this.getPassword();
+        int port = this.getPort();
         logger.debug("AmqpConfiguration.rabbitConnectionFactory--->execute");
         logger.debug("开始初始化spring-amqp消息配置, host:{}, port:{}, username:{}, password{}", host, port, username, password);
 
@@ -128,6 +122,8 @@ public class EnableRabbitMessageService {
      */
     @Bean
     RabbitAdmin admin() {
+        String host = this.getHost(), username = this.getUsername(), password = this.getPassword();
+        int port = this.getPort();
         logger.debug("AmqpConfiguration.admin --> execute");
         logger.debug("amqp link ... username={},password={},host={},port={}", username, password, host, port);
         return new RabbitAdmin(rabbitConnectionFactory());
@@ -140,10 +136,36 @@ public class EnableRabbitMessageService {
      */
     @Bean
     AmqpTemplate amqpTemplate() {
+        String host = this.getHost(), username = this.getUsername(), password = this.getPassword();
+        int port = this.getPort();
         logger.debug("AmqpConfiguration.amqpTemplate --> execute");
         logger.debug("amqp link ... username={},password={},host={},port={}", username, password, host, port);
         RabbitTemplate amqp = new RabbitTemplate(rabbitConnectionFactory());
         amqp.setMessageConverter(messageConverter());
         return amqp;
+    }
+
+    private int getPort() {
+        return environment.getProperty("biz.amqp.port", Integer.class);
+    }
+
+    private String getUsername() {
+        return environment.getProperty("biz.amqp.username", String.class);
+    }
+
+    private String getPassword() {
+        return environment.getProperty("biz.amqp.password", String.class);
+    }
+
+    private String getHost() {
+        return environment.getProperty("biz.amqp.host", String.class);
+    }
+
+    private Integer getMaxRetry() {
+        return environment.getProperty("biz.amqp.maxRetry", Integer.class);
+    }
+
+    private Long getRetryElapse() {
+        return environment.getProperty("biz.amqp.retryElapse", Long.class);
     }
 }

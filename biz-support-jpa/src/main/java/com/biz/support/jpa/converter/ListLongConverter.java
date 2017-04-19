@@ -6,9 +6,8 @@ package com.biz.support.jpa.converter;
  *
  */
 public class ListLongConverter extends AbstractListStringConverter<Long> {
-    private static final long serialVersionUID = -858560178317910071L;
-
     public static final ListLongConverter INSTANCE = new ListLongConverter();
+    private static final long serialVersionUID = -858560178317910071L;
 
     @Override
     protected Long string2Element(String data) {

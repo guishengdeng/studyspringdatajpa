@@ -9,12 +9,9 @@ import javax.persistence.*;
 @Table(name = "adm_resource")
 public class Resource extends BasePo<Long> implements Identifiable<Long> {
 
-    private static final long serialVersionUID = 5242502895214313530L;
-
     public final static int TYPE_MENU = 0;
-
     public final static int TYPE_URL = 1;
-
+    private static final long serialVersionUID = 5242502895214313530L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

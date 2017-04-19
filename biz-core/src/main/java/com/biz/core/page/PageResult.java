@@ -20,6 +20,8 @@ public class PageResult<E> implements Serializable {
 
     private int total;
 
+    private boolean hasNext;
+
     public PageResult(int currentPage, int size, long total, List<E> result) {
         Preconditions.checkArgument(result != null);
         this.currentPage = currentPage;
@@ -62,5 +64,13 @@ public class PageResult<E> implements Serializable {
 
     public void setTotal(int total) {
         this.total = total;
+    }
+
+    public boolean isHasNext() {
+        return hasNext;
+    }
+
+    public void setHasNext(boolean hasNext) {
+        this.hasNext = hasNext;
     }
 }

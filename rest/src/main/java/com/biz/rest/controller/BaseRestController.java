@@ -31,14 +31,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public abstract class BaseRestController {
+    protected static final String DATA_PARAM_NAME = "data";
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Autowired(required = false)
     private List<BuildRequestHandler> handlers = Lists.newArrayList();
-
     private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-
-    protected static final String DATA_PARAM_NAME = "data";
 
     /**
      * @param request http请求

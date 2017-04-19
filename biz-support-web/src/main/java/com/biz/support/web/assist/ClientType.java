@@ -26,11 +26,12 @@ public enum ClientType implements EnumerableValue {
     unknown(5, "未知");
 
 
-    public static class Converter extends BaseEnumValueConverter<ClientType> {
-    }
-
     private int value;
     private String desc;
+    ClientType(int value, String desc) {
+        this.value = value;
+        this.desc = desc;
+    }
 
     public int getValue() {
         return value;
@@ -48,9 +49,7 @@ public enum ClientType implements EnumerableValue {
         this.desc = desc;
     }
 
-    ClientType(int value, String desc) {
-        this.value = value;
-        this.desc = desc;
+    public static class Converter extends BaseEnumValueConverter<ClientType> {
     }
 
 }

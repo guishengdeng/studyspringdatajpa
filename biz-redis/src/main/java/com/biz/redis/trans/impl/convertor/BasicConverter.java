@@ -14,11 +14,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class BasicConverter {
 
-    private BasicConverter() {
-    }
-
     public static final Logger logger = LoggerFactory.getLogger(BasicConverter.class);
-
     public static final ValueConverter<Byte> withByte = new AbstractNumberConvertor<Byte>() {
         @Override
         protected Byte parseValue(String data) {
@@ -146,5 +142,7 @@ public final class BasicConverter {
             return val;
         }
     };
+    private BasicConverter() {
+    }
 
 }

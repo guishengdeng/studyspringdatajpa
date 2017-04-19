@@ -3,19 +3,19 @@ package com.biz.redis.annotation;
 import java.lang.annotation.*;
 
 /**
- * 
  * 类注解  获取类存取的key
  * 如果有此注解 则当前进行更新保存的对象，需序列当前对象到当前key的value
+ *
  * @author jun.liu(by xiaoyu)
  * @date 2016年8月11日
- * @reviewer 
+ * @reviewer
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
 public @interface Ro {
-	
-	String key();
-	
+
+    String key();
+
 }

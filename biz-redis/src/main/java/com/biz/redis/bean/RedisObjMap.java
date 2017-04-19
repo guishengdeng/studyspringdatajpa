@@ -16,20 +16,6 @@ public class RedisObjMap {
      */
     private JedisByteHashMap serialMap;
 
-    /**
-     * @return the serialMap
-     */
-    public JedisByteHashMap getSerialMap() {
-        return serialMap;
-    }
-
-    /**
-     * @param serialMap the serialMap to set
-     */
-    public void setSerialMap(JedisByteHashMap serialMap) {
-        this.serialMap = serialMap;
-    }
-
     public RedisObjMap() {
         this(null);
     }
@@ -45,6 +31,20 @@ public class RedisObjMap {
                 serialMap.putAll(map);
             }
         }
+    }
+
+    /**
+     * @return the serialMap
+     */
+    public JedisByteHashMap getSerialMap() {
+        return serialMap;
+    }
+
+    /**
+     * @param serialMap the serialMap to set
+     */
+    public void setSerialMap(JedisByteHashMap serialMap) {
+        this.serialMap = serialMap;
     }
 
     // bytes

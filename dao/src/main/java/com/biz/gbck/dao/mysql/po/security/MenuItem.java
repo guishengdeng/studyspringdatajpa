@@ -67,12 +67,24 @@ public class MenuItem extends BasePo<Long> implements Identifiable<Long> {
         return code;
     }
 
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
     public String getDescription() {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getLink() {
         return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 
     public String getName() {
@@ -99,28 +111,16 @@ public class MenuItem extends BasePo<Long> implements Identifiable<Long> {
         this.icon = icon;
     }
 
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
     public MainMenu getMainMenu() {
         return mainMenu;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public void setMainMenu(MainMenu mainMenu) {
         this.mainMenu = mainMenu;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {

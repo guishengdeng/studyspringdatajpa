@@ -66,20 +66,20 @@ public class MainMenu extends BasePo<Long> implements Identifiable<Long> {
         return menuItems;
     }
 
-    public Integer getCode() {
-        return code;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
     public void setMenuItems(List<MenuItem> menuItems) {
         this.menuItems = menuItems;
     }
 
+    public Integer getCode() {
+        return code;
+    }
+
     public void setCode(Integer code) {
         this.code = code;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {

@@ -6,8 +6,8 @@ package com.biz.redis.trans.impl.convertor;
  */
 public abstract class AbstractNumberConvertor<N extends Number> extends AbstractSimpleValueConverter<N> {
 
-	@Override
-	protected String val2String(N val) {
-		return val.toString();
-	}
+    @Override
+    protected String val2String(N val) {
+        return val.toString();
+    }
 }

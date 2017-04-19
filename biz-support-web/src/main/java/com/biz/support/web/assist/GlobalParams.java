@@ -133,6 +133,79 @@ public class GlobalParams implements Serializable {
      */
     private Long warehouseDepotId;
 
+    public static GlobalParams fromRequest(HttpServletRequest httpRequest) {
+        GlobalParams params = null;
+        try {
+            GlobalParams p = new GlobalParams();
+            p.setApn(httpRequest.getParameter("apn"));
+            p.setDeviceId(httpRequest.getParameter("deviceId"));
+            String latStr = httpRequest.getParameter("lat");
+            if (StringUtils.isNotEmpty(latStr)) {
+                try {
+                    p.setLat(new BigDecimal(latStr));
+                } catch (Exception e) {
+                }
+            }
+            String lonStr = httpRequest.getParameter("lon");
+            if (StringUtils.isNotEmpty(lonStr)) {
+                try {
+                    p.setLon(new BigDecimal(lonStr));
+                } catch (Exception e) {
+                }
+            }
+            p.setOs(httpRequest.getParameter("os"));
+            p.setOsVersion(httpRequest.getParameter("osVersion"));
+
+            p.setPartner(httpRequest.getParameter("partner"));
+            p.setSign(httpRequest.getParameter("sign"));
+            p.setSub(httpRequest.getParameter("sub"));
+            p.setUserAgent(httpRequest.getParameter("userAgent"));
+            String userIdStr = httpRequest.getParameter("userId");
+            if (StringUtils.isNumeric(userIdStr)) {
+                p.setUserId(Long.valueOf(userIdStr));
+            }
+            p.setVer(httpRequest.getParameter("ver"));
+            p.setMac(httpRequest.getParameter("mac"));
+            p.setImsi(httpRequest.getParameter("imsi"));
+            p.setImei(httpRequest.getParameter("imei"));
+            p.setRouterMac(httpRequest.getParameter("routerMac"));
+            p.setStation(httpRequest.getParameter("station"));
+            String cityIdStr = httpRequest.getParameter("cityId");
+            if (StringUtils.isNumeric(cityIdStr)) {
+                p.setCityId(Long.valueOf(cityIdStr));
+            }
+
+            //			String provinceIdStr = httpRequest.getParameter("provinceId");
+            //			if (StringUtils.isNumeric(provinceIdStr)) {
+            //				p.setProvinceId(Long.valueOf(provinceIdStr));
+            //			}
+
+            String depotIdStr = httpRequest.getParameter("depotId");
+            if (StringUtils.isNumeric(depotIdStr)) {
+                p.setDepotId(Long.valueOf(depotIdStr));
+            }
+            String addressLatStr = httpRequest.getParameter("addressLat");
+            if (StringUtils.isNotEmpty(addressLatStr)) {
+                try {
+                    p.setAddressLat(new BigDecimal(addressLatStr));
+                } catch (Exception e) {
+                }
+            }
+            String addressLonStr = httpRequest.getParameter("addressLon");
+            if (StringUtils.isNotEmpty(addressLonStr)) {
+                try {
+                    p.setAddressLon(new BigDecimal(addressLonStr));
+                } catch (Exception e) {
+                }
+            }
+            params = p;
+        } catch (Exception e) {
+            //			logger.error("解析全局参数出错", e);
+            e.printStackTrace();
+        }
+        return params;
+    }
+
     public String getOs() {
         return os;
     }
@@ -289,10 +362,6 @@ public class GlobalParams implements Serializable {
         return cityId;
     }
 
-    public void setCityId(Long cityId) {
-        this.cityId = cityId;
-    }
-
     //	public Long getProvinceId() {
     //		return provinceId;
     //	}
@@ -300,6 +369,10 @@ public class GlobalParams implements Serializable {
     //	public void setProvinceId(Long provinceId) {
     //		this.provinceId = provinceId;
     //	}
+
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
+    }
 
     public Long getDepotId() {
         return depotId;
@@ -323,79 +396,6 @@ public class GlobalParams implements Serializable {
 
     public void setWarehouseDepotId(Long warehouseDepotId) {
         this.warehouseDepotId = warehouseDepotId;
-    }
-
-    public static GlobalParams fromRequest(HttpServletRequest httpRequest) {
-        GlobalParams params = null;
-        try {
-            GlobalParams p = new GlobalParams();
-            p.setApn(httpRequest.getParameter("apn"));
-            p.setDeviceId(httpRequest.getParameter("deviceId"));
-            String latStr = httpRequest.getParameter("lat");
-            if (StringUtils.isNotEmpty(latStr)) {
-                try {
-                    p.setLat(new BigDecimal(latStr));
-                } catch (Exception e) {
-                }
-            }
-            String lonStr = httpRequest.getParameter("lon");
-            if (StringUtils.isNotEmpty(lonStr)) {
-                try {
-                    p.setLon(new BigDecimal(lonStr));
-                } catch (Exception e) {
-                }
-            }
-            p.setOs(httpRequest.getParameter("os"));
-            p.setOsVersion(httpRequest.getParameter("osVersion"));
-
-            p.setPartner(httpRequest.getParameter("partner"));
-            p.setSign(httpRequest.getParameter("sign"));
-            p.setSub(httpRequest.getParameter("sub"));
-            p.setUserAgent(httpRequest.getParameter("userAgent"));
-            String userIdStr = httpRequest.getParameter("userId");
-            if (StringUtils.isNumeric(userIdStr)) {
-                p.setUserId(Long.valueOf(userIdStr));
-            }
-            p.setVer(httpRequest.getParameter("ver"));
-            p.setMac(httpRequest.getParameter("mac"));
-            p.setImsi(httpRequest.getParameter("imsi"));
-            p.setImei(httpRequest.getParameter("imei"));
-            p.setRouterMac(httpRequest.getParameter("routerMac"));
-            p.setStation(httpRequest.getParameter("station"));
-            String cityIdStr = httpRequest.getParameter("cityId");
-            if (StringUtils.isNumeric(cityIdStr)) {
-                p.setCityId(Long.valueOf(cityIdStr));
-            }
-
-            //			String provinceIdStr = httpRequest.getParameter("provinceId");
-            //			if (StringUtils.isNumeric(provinceIdStr)) {
-            //				p.setProvinceId(Long.valueOf(provinceIdStr));
-            //			}
-
-            String depotIdStr = httpRequest.getParameter("depotId");
-            if (StringUtils.isNumeric(depotIdStr)) {
-                p.setDepotId(Long.valueOf(depotIdStr));
-            }
-            String addressLatStr = httpRequest.getParameter("addressLat");
-            if (StringUtils.isNotEmpty(addressLatStr)) {
-                try {
-                    p.setAddressLat(new BigDecimal(addressLatStr));
-                } catch (Exception e) {
-                }
-            }
-            String addressLonStr = httpRequest.getParameter("addressLon");
-            if (StringUtils.isNotEmpty(addressLonStr)) {
-                try {
-                    p.setAddressLon(new BigDecimal(addressLonStr));
-                } catch (Exception e) {
-                }
-            }
-            params = p;
-        } catch (Exception e) {
-            //			logger.error("解析全局参数出错", e);
-            e.printStackTrace();
-        }
-        return params;
     }
 
 }
