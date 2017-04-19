@@ -17,4 +17,8 @@ public interface MainMenuService {
       List<MainMenu> listMainMenus();
 
       MainMenu getMainMenu(Long id);
+
+      void addOrUpdate(MainMenu mainMenu);
+
+      void delete(Long id);
 }

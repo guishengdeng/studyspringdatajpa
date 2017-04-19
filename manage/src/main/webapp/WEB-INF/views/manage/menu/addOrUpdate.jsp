@@ -44,36 +44,27 @@
                             </span>
                             </h3>
                             <%--${cmd}--%>
-                            <form action="manage/users/saveOrUpdate.do" method="post"
+                            <form action="manage/mainMenus/addOrUpdate.do" method="post"
                                   class="form-horizontal" role="form">
+                                <c:if test="${not empty mainMenu}">
+                                    <input type="hidden" name="id" value="${mainMenu.id}">
+                                </c:if>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"
-                                           for="account">
-                                        用户名
+                                           for="code">
+                                        代码
                                     </label>
 
                                     <div class="col-sm-9">
                                         <input ${empty mainMenu ? '' : 'readonly'} type="text"
-                                                                                id="account"
+                                                                                id="code"
                                                                                 placeholder="代码"
                                                                                 name="code"
                                                                                 value="${mainMenu.code}"
                                                                                 class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>
-                               <%-- <c:if test="${empty admin}">
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label no-padding-right"
-                                               for="password">
-                                            密码
-                                        </label>
 
-                                        <div class="col-sm-9">
-                                            <input type="password" id="password" placeholder="密码"
-                                                   name="password" class="col-xs-10 col-sm-5">
-                                        </div>
-                                    </div>
-                                </c:if>--%>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"
                                            for="companyType">
@@ -81,7 +72,7 @@
                                     </label>
 
                                     <div class="col-sm-9">
-                                        <input type="text" id="companyType" name="companyType" placeholder="姓名"
+                                        <input type="text" id="companyType" name="companyType" placeholder="公司类型"
                                                value="${mainMenu.companyType}" class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>
@@ -92,7 +83,7 @@
                                     </label>
 
                                     <div class="col-sm-9">
-                                        <input type="text" id="name" name="name" placeholder="姓名"
+                                        <input type="text" id="name" name="name" placeholder="菜单名称"
                                                value="${mainMenu.name}" class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>
@@ -103,7 +94,7 @@
                                     </label>
 
                                     <div class="col-sm-9">
-                                        <input type="text" id="description" name="description" placeholder="姓名"
+                                        <input type="text" id="description" name="description" placeholder="菜单描述"
                                                value="${mainMenu.description}" class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>
