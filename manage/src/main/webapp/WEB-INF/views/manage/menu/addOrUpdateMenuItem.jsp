@@ -17,14 +17,19 @@
                 </li>
 
                 <li>
-                    <a href="manage/users">
+                    <a href="manage/mainMenus.do">
                         菜单管理
+                    </a>
+                </li>
+                <li>
+                    <a href="manage/menuItems.do">
+                        子菜单管理
                     </a>
                 </li>
                 <li class="active">
                     <c:out value="${cmd}"/>
                 </li>
-            </ul><!-- /.breadcrumb -->
+            </ul>
         </div>
 
         <div class="page-content">
@@ -35,66 +40,67 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <h3 class="header smaller lighter blue">
-                                菜单管理
+                                子菜单管理
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
-                                <a href="manage/mainMenus.do" class="btn btn-sm btn-primary"><i
+                                <a href="manage/menuItems.do" class="btn btn-sm btn-primary"><i
                                         class="ace-icon fa fa-angle-left"></i>
                                     返回
                                 </a>
                             </span>
                             </h3>
-                            <%--${cmd}--%>
+                                <%--${cmd}--%>
                             <form action="manage/mainMenus/addOrUpdate.do" method="post"
                                   class="form-horizontal" role="form">
-                                <c:if test="${not empty mainMenu}">
-                                    <input type="hidden" name="id" value="${mainMenu.id}">
+                                <c:if test="${not empty menuItem}">
+                                    <input type="hidden" name="id" value="${menuItem.id}">
                                 </c:if>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"
                                            for="code">
-                                        代码
+                                        描述
                                     </label>
 
                                     <div class="col-sm-9">
-                                        <input ${empty mainMenu ? '' : 'readonly'} type="text"
-                                                                                id="code"
-                                                                                placeholder="代码"
-                                                                                name="code"
-                                                                                value="${mainMenu.code}"
-                                                                                class="col-xs-10 col-sm-5">
+                                        <%--三元运算符--%>
+                                        <input ${empty menuItem ? '' : 'readonly'} type="text"
+                                                                                   id="code"
+                                                                                   placeholder=""
+                                                                                   name="description"
+                                                                                   value="${menuItem.description}"
+                                                                                   class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"
-                                           for="companyType">
-                                        公司类型
+                                           for="link">
+                                        链接
                                     </label>
 
                                     <div class="col-sm-9">
-                                        <input type="text" id="companyType" name="companyType" placeholder="公司类型"
-                                               value="${mainMenu.companyType}" class="col-xs-10 col-sm-5">
+                                        <input type="text" id="link" name="link" placeholder=""
+                                               value="${menuItem.link}" class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"
                                            for="name">
-                                        菜单名称
+                                        名称
                                     </label>
 
                                     <div class="col-sm-9">
-                                        <input type="text" id="name" name="name" placeholder="菜单名称"
-                                               value="${mainMenu.name}" class="col-xs-10 col-sm-5">
+                                        <input type="text" id="name" name="name" placeholder="名称"
+                                               value="${menuItem.name}" class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"
-                                           for="description">
-                                        菜单描述
+                                           for="symbol">
+                                        权限
                                     </label>
 
                                     <div class="col-sm-9">
-                                        <input type="text" id="description" name="description" placeholder="菜单描述"
+                                        <input type="text" id="symbol" name="symbol" placeholder="菜单描述"
                                                value="${mainMenu.description}" class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>

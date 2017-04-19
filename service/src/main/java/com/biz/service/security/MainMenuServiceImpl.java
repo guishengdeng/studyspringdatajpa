@@ -28,6 +28,16 @@ public class MainMenuServiceImpl extends AbstractBaseService implements MainMenu
     }
 
     @Override
+    public void delete(Long id) {
+        mainMenuRepository.delete(id);
+    }
+
+    @Override
+    public void addOrUpdate(MainMenu mainMenu) {
+       mainMenuRepository.save(mainMenu);
+    }
+
+    @Override
     public MainMenu getMainMenu(Long id) {
         return mainMenuRepository.findOne(id);
     }

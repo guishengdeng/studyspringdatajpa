@@ -44,7 +44,7 @@ public class MainMenuController {
         MainMenu mainMenu=mainMenuService.getMainMenu(id);
         List<MenuItem> menuItems=mainMenu.getMenuItems();
         model.addAttribute("menuItems",menuItems);
-        return "manage/menu/menuitem";
+        return "manage/menu/menuItem";
     }
     @RequestMapping("/edit")
     @PreAuthorize("hasAuthority('OPT_MAINMENU_EDIT')")
@@ -59,5 +59,21 @@ public class MainMenuController {
     public String add(Model model){
         model.addAttribute("cmd","add");
         return "manage/menu/addOrUpdate";
+    }
+    @RequestMapping("/addOrUpdate")
+    @PreAuthorize("hasAuthority('OPT_MAINMENU_ADD')")
+    public String addOrUpdate(MainMenu mainMenu){
+        mainMenuService.addOrUpdate(mainMenu);
+        return "redirect:/manage/mainMenus";
+    }
+    @RequestMapping("/delete")
+    @PreAuthorize("hasAuthority('OPT_MAINMENU_DELETE')")
+    public ModelAndView delete(@RequestParam("id")Long id){
+        ModelAndView view=null;
+        if(id!=null){
+            mainMenuService.delete(id);
+            view=new ModelAndView("/manage/mainMenus");
+        }
+        return view;
     }
 }
