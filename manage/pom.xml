@@ -66,6 +66,10 @@
             <artifactId>spring-session-data-redis</artifactId>
             <version>1.3.0.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>com.biz.gbck</groupId>
+            <artifactId>biz-support-web</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

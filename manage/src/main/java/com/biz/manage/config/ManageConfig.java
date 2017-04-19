@@ -1,12 +1,13 @@
 package com.biz.manage.config;
 
+import com.aliyun.oss.OSSClient;
+import com.biz.core.ali.oss.config.OssConfig;
 import com.biz.event.BizEventMulticaster;
 import com.biz.event.BizEventPublisher;
 import com.biz.manage.security.ManageLogoutSuccessHandler;
 import com.biz.service.IdService;
 import com.biz.service.security.AdminServiceImpl;
 import com.biz.transaction.BizTransactionManager;
-import java.beans.PropertyVetoException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,8 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import redis.clients.jedis.JedisPoolConfig;
+
+import java.beans.PropertyVetoException;
 
 /**
  * @author david-liu
@@ -80,6 +83,7 @@ public class ManageConfig {
         jedisConnectionFactory.setHostName(redisConfiguration.getString("biz.redis.host"));
         jedisConnectionFactory.setPort(redisConfiguration.getInt("biz.redis.port"));
         jedisConnectionFactory.setClientName(redisConfiguration.getString("biz.redis.name"));
+        jedisConnectionFactory.setPassword(redisConfiguration.getString("biz.redis.password"));
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxTotal(redisConfiguration.getInt("biz.redis.maxTotal"));
         jedisPoolConfig.setMaxIdle(redisConfiguration.getInt("biz.redis.maxIdle"));
@@ -88,6 +92,26 @@ public class ManageConfig {
         jedisPoolConfig.setMinEvictableIdleTimeMillis(redisConfiguration.getLong("biz.redis.minEvictableIdleTimeMillis"));
         jedisConnectionFactory.setPoolConfig(jedisPoolConfig);
         return jedisConnectionFactory;
+    }
+
+    @Bean
+    public OssConfig ossConfig() {
+        OssConfig ossConfig = new OssConfig();
+        ossConfig.setRemoteEndpoint(environment.getProperty("biz.oss.remoteEndpoint"));
+        ossConfig.setLocalEndpoint(environment.getProperty("biz.oss.localEndpoint"));
+        ossConfig.setAccessKeyId(environment.getProperty("biz.oss.accessKeyId"));
+        ossConfig.setAccessSecret(environment.getProperty("biz.oss.accessKeySecret"));
+        ossConfig.setBucketName(environment.getProperty("biz.oss.bucketName"));
+        return ossConfig;
+    }
+
+
+    @Bean
+    public OSSClient ossClient() {
+        String endpoint = environment.getProperty("biz.oss.remoteEndpoint");
+        String accessKeyId = environment.getProperty("biz.oss.accessKeyId");
+        String secretAccessKey = environment.getProperty("biz.oss.accessKeySecret");
+        return new OSSClient(endpoint, accessKeyId, secretAccessKey);
     }
 
 }

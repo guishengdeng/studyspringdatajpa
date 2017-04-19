@@ -8,7 +8,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password:
-    url: jdbc:mysql://127.0.0.1:3306/depotnextdoor
+    url: jdbc:mysql://127.0.0.1:3306/depotnextdoor?characterEncoding=utf-8
     dbcp2:
       initial-size: 5
       max-total: 10
@@ -51,6 +51,12 @@ biz:
     port: 6379
     name:
     password:
+  oss:
+    remoteEndpoint: oss-cn-beijing.aliyuncs.com
+    localEndpoint: oss-cn-beijing-internal.aliyuncs.com
+    accessKeyId: LTAIcBsZ7zY66tku
+    accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
+    bucketName: gbck-test
 
 server:
   session:
