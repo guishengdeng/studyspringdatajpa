@@ -23,7 +23,7 @@ import com.biz.gbck.vo.product.backend.EvaluationAddVo;
 import com.biz.gbck.vo.product.backend.SearchPageVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.evaluation.EvaluationService;
-import com.biz.transform.product.EvaluationRo2EvaluationVo;
+import com.biz.gbck.transform.product.EvaluationRo2EvaluationVo;
 import com.google.common.collect.Lists;
 import java.util.List;
 import org.apache.commons.collections.CollectionUtils;

@@ -25,7 +25,7 @@ import com.biz.message.SimpleBizMessage;
 import com.biz.message.queue.BizBaseQueue;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.product.backend.MnsProductService;
-import com.biz.transform.product.MnsProductVo2MnsProduct;
+import com.biz.gbck.transform.product.MnsProductVo2MnsProduct;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import java.sql.Timestamp;

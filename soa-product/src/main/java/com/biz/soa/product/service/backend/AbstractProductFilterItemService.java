@@ -4,7 +4,7 @@ import com.biz.gbck.dao.mysql.po.product.ProductFilterItem;
 import com.biz.gbck.dao.mysql.repository.productFilterItem.ProductFilterItemRepository;
 import com.biz.gbck.dao.redis.repository.product.ProductFilterItemRedisDao;
 import com.biz.service.AbstractBaseService;
-import com.biz.transform.product.ProductFilterItem2ProductFilterItemRo;
+import com.biz.gbck.transform.product.ProductFilterItem2ProductFilterItemRo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

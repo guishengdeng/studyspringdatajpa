@@ -8,7 +8,7 @@ import com.biz.gbck.vo.product.backend.ApartTagListItemVo;
 import com.biz.gbck.vo.product.backend.ApartTagUpdateVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.product.backend.ApartTagService;
-import com.biz.transform.product.ApartTag2ApartTagListItemVo;
+import com.biz.gbck.transform.product.ApartTag2ApartTagListItemVo;
 import com.google.common.collect.Lists;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

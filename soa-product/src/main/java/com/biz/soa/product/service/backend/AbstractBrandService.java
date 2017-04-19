@@ -4,7 +4,7 @@ import com.biz.gbck.dao.mysql.po.product.Brand;
 import com.biz.gbck.dao.mysql.repository.brand.BrandRepository;
 import com.biz.gbck.dao.redis.repository.product.BrandRedisDao;
 import com.biz.service.AbstractBaseService;
-import com.biz.transform.product.Brand2BrandRo;
+import com.biz.gbck.transform.product.Brand2BrandRo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

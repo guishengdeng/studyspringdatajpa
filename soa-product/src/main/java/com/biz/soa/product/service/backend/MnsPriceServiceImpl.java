@@ -16,7 +16,7 @@ import com.biz.message.SimpleBizMessage;
 import com.biz.message.queue.BizBaseQueue;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.mns.MnsPriceService;
-import com.biz.transform.product.MnsPriceVo2PriceRo;
+import com.biz.gbck.transform.product.MnsPriceVo2PriceRo;
 import com.google.common.collect.Lists;
 import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
