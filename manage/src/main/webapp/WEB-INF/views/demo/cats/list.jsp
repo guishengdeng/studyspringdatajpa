@@ -12,8 +12,27 @@
     </jsp:attribute>
     <jsp:attribute name="script">
         <script type="application/javascript">
-            <sec:authorize access="hasRole('OPT_CAT_DELETE')">
-            </sec:authorize>
+            <%--<sec:authorize access="hasRole('OPT_CAT_DELETE')">--%>
+            $(".cat-ban-btn").click(function () {
+                $("#id-of-cat").val($(this).data("id"));
+                $("#name-of-ban-cat").html($(this).data("name"));
+                $("#cat-disable-confirm-modal").modal();
+            });
+            $(".btn-cancel-ban").click(function () {
+                $("#cat-disable-confirm-modal").modal("hide");
+            });
+            $(".btn-confirm-ban").click(function () {
+                var catId = $("#id-of-cat").val();
+                $.post("demo/cats/delete.do", {
+                    "id": catId
+                }, function (result) {
+                    if (result) {
+                        $("#tr-" + catId).remove();
+                    }
+                }, "json");
+                $("#cat-disable-confirm-modal").modal("hide");
+            });
+            <%--</sec:authorize>--%>
 
             <sec:authorize access="hasRole('OPT_CAT_EDIT')">
             </sec:authorize>
@@ -39,6 +58,7 @@
         </div>
 
         <div class="page-content">
+            <input type="hidden" id="id-of-cat">
             <div class="row">
                 <div class="col-xs-12">
                     <!-- PAGE CONTENT BEGINS -->
@@ -50,117 +70,39 @@
                             <table id="simple-table" class="table  table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>用户名</th>
                                     <th>名字</th>
-                                    <th class="hidden-md hidden-sm hidden-xs">联系电话</th>
-                                    <th class="hidden-md hidden-sm hidden-xs">角色</th>
-                                    <th class="hidden-md hidden-sm hidden-xs">状态</th>
+                                    <th>描述</th>
+                                    <th>销售状态</th>
+                                    <th>生命体征</th>
                                     <th class="center"></th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                <c:forEach items="${admins}" var="user">
-                                    <tr id="tr-${user.username}">
+                                <c:forEach items="${cats}" var="cat">
+                                    <tr id="tr-${cat.id}">
 
-                                        <td>${user.username}</td>
-                                        <td>${user.name}</td>
-                                        <td class="hidden-md hidden-sm hidden-xs">${user.phone}</td>
-                                        <td class="hidden-md hidden-sm hidden-xs"></td>
-                                        <td class="hidden-md hidden-sm hidden-xs">
-                                            <gbck:statusLabel selectedStatus="${user.status.value}"/>
-                                        </td>
+                                        <td>${cat.name}</td>
+                                        <td>${cat.description}</td>
+                                        <td>${cat.saleStatus.name}</td>
+                                        <td>${cat.status eq 'ENABLE' ? '存活' : '死亡'}</td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
-                                                <sec:authorize access="hasAuthority('OPT_USER_RESET')">
-                                                    <a data-id="${user.username}"
-                                                       data-name="${user.username}"
-                                                       class="btn btn-minier btn-warning user-reset-pwd-btn">
-                                                        <i class="ace-icon fa fa-key bigger-120"></i>
-                                                    </a>
-                                                </sec:authorize>
-
-                                                <sec:authorize access="hasAuthority('OPT_USER_EDIT')">
-                                                    <a href="manage/users/edit?username=${user.username}"
+                                                <%--<sec:authorize access="hasAuthority('OPT_CAT_EDIT')">--%>
+                                                    <a href="demo/cats/${cat.id}.do"
                                                        class="btn btn-minier btn-info">
                                                         <i class="ace-icon fa fa-pencil bigger-120"></i>
                                                     </a>
-                                                </sec:authorize>
-                                                <sec:authorize access="hasAuthority('OPT_USER_DELETE')">
+                                                <%--</sec:authorize>--%>
+                                                <%--<sec:authorize access="hasAuthority('OPT_CAT_DELETE')">--%>
                                                     <c:if test="${param.enabled != 'false'}">
-                                                        <a data-id="${user.username}"
-                                                           data-name="${user.username}"
-                                                           class="btn btn-minier btn-danger user-ban-btn">
+                                                        <a data-id="${cat.id}"
+                                                           data-name="${cat.name}"
+                                                           class="btn btn-minier btn-danger cat-ban-btn">
                                                             <i class="ace-icon fa fa-ban bigger-120"></i>
                                                         </a>
                                                     </c:if>
-                                                </sec:authorize>
-                                            </div>
-                                            <div class="hidden-md hidden-lg">
-                                                <div class="inline pos-rel">
-                                                    <button class="btn btn-minier btn-primary dropdown-toggle"
-                                                            data-toggle="dropdown" data-position="auto">
-                                                        <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-                                                    </button>
-
-                                                    <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                                        <li>
-                                                            <a class="green bigger-140 show-details-btn" title="Show Details">
-                                                                <i class="ace-icon fa fa-angle-double-down"></i>
-                                                                <span class="sr-only">详情</span>
-                                                            </a>
-                                                        </li>
-                                                        <sec:authorize access="hasAuthority('OPT_USER_RESET')">
-                                                            <li>
-                                                                <a data-id="${user.username}"
-                                                                   data-name="${user.username}" >
-                                                                    <span class="orange">
-                                                                    <i class="ace-icon fa fa-key bigger-120"></i>
-                                                                        </span>
-                                                                </a>
-                                                            </li>
-                                                        </sec:authorize>
-                                                        <sec:authorize access="hasAuthority('OPT_USER_EDIT')">
-                                                            <li>
-                                                                <a href="manage/users/edit?username=${user.username}">
-																<span class="green">
-																	<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-																</span>
-                                                                </a>
-                                                            </li>
-                                                        </sec:authorize>
-                                                        <sec:authorize access="hasAuthority('OPT_USER_DELETE')">
-                                                            <li>
-                                                                <a class="btn-delete-modal" data-url="manage/localAgency/delete.do"
-                                                                   data-id="${user.username}">
-																<span class="red">
-																	<i class="ace-icon fa fa-trash-o bigger-120"></i>
-																</span>
-                                                                </a>
-                                                            </li>
-                                                        </sec:authorize>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="detail-row" id="tr-detail-${user.username}">
-                                        <td colspan="8" id="td-detail-${user.username}">
-                                            <div class="table-detail">
-                                                <div class="profile-user-info profile-user-info-striped">
-                                                    <div class="profile-info-row">
-                                                        <div class="profile-info-name">名字</div>
-                                                        <div class="profile-info-value">
-                                                            <span><c:out value="${user.name}"/></span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="profile-info-row">
-                                                        <div class="profile-info-row">
-                                                            <div class="profile-info-name">电话</div>
-                                                            <div class="profile-info-value"><c:out value="${user.phone}" /></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <%--</sec:authorize>--%>
                                             </div>
                                         </td>
                                     </tr>
@@ -169,15 +111,15 @@
                             </table>
                         </div><!-- /.span -->
                     </div><!-- /.row -->
-                    <div id="user-disable-confirm-modal" role="dialog" class="modal" tabindex="-1">
+                    <div id="cat-disable-confirm-modal" role="dialog" class="modal" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-body">
                                     <button type="button" class="bootbox-close-button close"
                                             data-dismiss="modal" aria-hidden="true">×
                                     </button>
-                                    <div class="bootbox-body">您确定要禁用用户<span
-                                            id="name-of-ban-user"></span> ?
+                                    <div class="bootbox-body">您确定要杀死猫<span
+                                            id="name-of-ban-cat"></span> ?
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -191,7 +133,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="user-reset-password-modal" role="dialog" class="modal" tabindex="-1">
+                    <div id="cat-reset-password-modal" role="dialog" class="modal" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">

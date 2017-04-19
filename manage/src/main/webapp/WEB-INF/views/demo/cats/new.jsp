@@ -41,13 +41,14 @@
                                 名字
                             </label>
 
-                            <div class="col-sm-4">
+                            <div class="col-sm-9">
                                 <input id="name" type="text" name="name"
                                        placeholder="名字"
                                        maxlength="255" minlength="1"
                                        value="${cat.name}" class="required text col-xs-12 col-sm-12">
 
                             </div>
+                            <%--class上加上required表示为必填，网页上在提交的时候会做验证--%>
                         </div>
 
                         <div class="form-group">
@@ -55,10 +56,26 @@
                                 描述
                             </label>
 
-                            <div class="col-sm-4">
-                                <textarea id="description" type="text" name="description" placeholder="名字"
+                            <div class="col-sm-9">
+                                <textarea id="description" type="text" name="description" placeholder="描述，你可以尝试着不填值"
                                        maxlength="255" class="col-xs-12 col-sm-12">${cat.description}</textarea>
 
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label no-padding-right">
+                                销售状态
+                            </label>
+                            <div class="col-sm-4">
+                                <gbck:saleStatusRadio fieldName="saleStatus" selectedStatus="${cat.saleStatus}" inline="true"/>
+                            </div>
+                            <label class="col-sm-2 control-label no-padding-right">
+                                生命状态
+                            </label>
+
+                            <div class="col-sm-4">
+                                <gbck:commonStatusRadio fieldName="status" selectedStatus="${cat.status}" inline="true" enableLabel="存活" disableLabel="死亡"/>
                             </div>
                         </div>
 

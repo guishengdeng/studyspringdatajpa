@@ -6,7 +6,7 @@
 
     <jsp:body>
         <gbck:sidebar icon="fa fa-list">
-            <gbck:singleMenu text="单个菜单" link="demo/cats.do" />
+            <gbck:singleMenu text="点我，我是猫，以后都照着我做" link="demo/cats.do" />
             <gbck:menuGroup text="这是个菜单组">
                 <gbck:singleMenu text="菜单管理" link="manage/mainMenus.do" />
                 <gbck:singleMenu text="角色管理" link="manage/roles.do" />

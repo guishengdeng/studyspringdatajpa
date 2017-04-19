@@ -70,11 +70,18 @@ public class CatController extends BaseController {
 		return new ModelAndView("redirect:/demo/cats.do");
 	}
 
-	@GetMapping("delete")
+	@PostMapping("delete")
 	@PreAuthorize("hasAuthority('OPT_CAT_DELETE')")
-	public ModelAndView delete(@RequestParam("id") Long id) {
+	@ResponseBody
+	public Boolean delete(@RequestParam("id") Long id) {
 
-		catService.remove(id);
-		return new ModelAndView("redirect:/demo/cats.do");
+		try {
+			catService.remove(id);
+			return true;
+		} catch (Exception e) {
+			logger.info("Kill cat[{}] failed.", id, e);
+			return false;
+		}
+
 	}
 }

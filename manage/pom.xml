@@ -22,6 +22,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.biz.gbck</groupId>
+            <artifactId>biz-support-web</artifactId>
+            <version>${biz-support-web.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
         </dependency>

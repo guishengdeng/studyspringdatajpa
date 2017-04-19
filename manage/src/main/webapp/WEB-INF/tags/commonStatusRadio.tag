@@ -1,13 +1,23 @@
-<%@ tag import="com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum" %>
 <%@ tag pageEncoding="UTF-8" %>
-<%@ taglib prefix="depotnextdoorTag" uri="http://com.depotnextdoor/tag/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ attribute name="selectedStatus" required="true" type="java.lang.Integer" %>
-
-<%
-    request.setAttribute("_commonStatusArray_", CommonStatusEnum.values());
-%>
-<c:forEach items="${_commonStatusArray_}" var="commonStatus">
-
-</c:forEach>
+<%@ attribute name="fieldName" required="true" type="java.lang.String" %>
+<%@ attribute name="selectedStatus" required="false" type="java.lang.Object" %>
+<%@ attribute name="enableLabel" required="false" type="java.lang.String" %>
+<%@ attribute name="disableLabel" required="false" type="java.lang.String" %>
+<%@ attribute name="inline" required="false" type="java.lang.Boolean" %>
+<div class="control-group">
+    <div class="radio ${inline ? 'inline' : ''}">
+        <label>
+            <input name="${fieldName}" type="radio" class="ace" value="ENABLE"
+            ${empty selectedStatus ? 'checked' : ''} ${selectedStatus eq 'ENABLE' ? 'checked' : ''}>
+            <span class="lbl">${empty enableLabel ? '启用' : enableLabel}</span>
+        </label>
+    </div>
+    <div class="radio ${inline ? 'inline' : ''}">
+        <label>
+            <input name="${fieldName}" type="radio" class="ace" value="DISABLE"
+            ${selectedStatus eq 'DISABLE' ? 'checked' : ''}>
+            <span class="lbl">${empty disableLabel ? '启用' : disableLabel}</span>
+        </label>
+    </div>
+</div>

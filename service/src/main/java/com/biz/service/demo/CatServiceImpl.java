@@ -39,7 +39,7 @@ public class CatServiceImpl extends AbstractRepositorySupportService<CatPO> impl
 
 		iae.throwIfNull(vo, "参数不能为空");
 		CatPO existCat = getByName(vo.getName());
-		iae.throwIfTrue(existCat != null && Objects.equals(vo.getId(), existCat.getId()), "名字已存在");
+		iae.throwIfTrue(existCat != null && !Objects.equals(vo.getId(), existCat.getId()), "名字已存在");
 
 		CatPO catPO = vo.getId() == null ? new CatPO() : get(vo.getId());
 		catPO.setId(vo.getId());
@@ -93,6 +93,5 @@ public class CatServiceImpl extends AbstractRepositorySupportService<CatPO> impl
 	public void remove(Long id) {
 
 		catRepository.updateStatus(id, CommonStatusEnum.DISABLE);
-		super.remove(id);
 	}
 }
