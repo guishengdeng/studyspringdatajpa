@@ -31,7 +31,7 @@ public class SupportExpress extends BaseEntity {
     //询件网址
     private String queryExpressWebSite;
 
-    private Boolean using;
+    private Boolean used;
 
     private Boolean deleteFlag = Boolean.FALSE;
 
@@ -91,12 +91,12 @@ public class SupportExpress extends BaseEntity {
         this.deleteFlag = deleteFlag;
     }
 
-    public Boolean getUsing() {
-        return using;
+    public Boolean getUsed() {
+        return used;
     }
 
-    public void setUsing(Boolean using) {
-        this.using = using;
+    public void setUsed(Boolean used) {
+        this.used = used;
     }
 
 }

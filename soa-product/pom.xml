@@ -18,6 +18,11 @@
             <groupId>com.biz.gbck</groupId>
             <artifactId>service</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.biz.gbck</groupId>
+            <artifactId>biz-message</artifactId>
+            <version>${biz-message.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

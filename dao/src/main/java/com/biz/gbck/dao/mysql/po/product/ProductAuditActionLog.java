@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.mysql.po.product;
 
 import com.biz.gbck.enums.product.ProductAuditStatusEnum;
-import com.biz.support.jpa.po.BaseEntityPKIncrement;
+import com.biz.support.jpa.po.BaseEntity;
 import javax.persistence.*;
 
 /**
@@ -14,7 +14,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "pro_product_audit_action_log")
-public class ProductAuditActionLog extends BaseEntityPKIncrement {
+public class ProductAuditActionLog extends BaseEntity {
 
     private static final long serialVersionUID = -4914037328384619339L;
 

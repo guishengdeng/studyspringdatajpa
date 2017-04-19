@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.mysql.po.product;
 
 import com.biz.gbck.enums.product.GeoLevelEnum;
-import com.biz.support.jpa.po.BaseEntityPKIncrement;
+import com.biz.support.jpa.po.BaseEntity;
 import java.io.Serializable;
 import javax.persistence.*;
 
@@ -15,7 +15,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "pro_sale_area_geo")
-public class SaleAreaGeo extends BaseEntityPKIncrement implements Serializable {
+public class SaleAreaGeo extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -8049148688200666349L;
 
