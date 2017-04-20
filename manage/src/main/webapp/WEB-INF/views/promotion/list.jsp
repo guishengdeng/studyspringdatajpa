@@ -3,6 +3,7 @@
 <%@taglib prefix="depotnextdoor" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <depotnextdoor:page title="page.user.edit">
     <jsp:attribute name="script">
         <script type="application/javascript">
@@ -85,7 +86,7 @@
                                             <img src="${promotions.logo}" alt="${promotion.title}">
                                         </td>
                                         <td>${promotions.adminId}</td>
-                                        <td>${promotions.createTime}</td>
+                                        <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${promotion.createTime}"/></td>
                                         <td>${promotions.idx}</td>
                                         <td>
                                             <a class="btn btn-xs btn-info"
