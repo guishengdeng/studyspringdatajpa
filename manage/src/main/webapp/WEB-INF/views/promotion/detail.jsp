@@ -88,7 +88,7 @@
                                            for="url">活动链接
                                     </label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="url" id="url" maxlength="20"
+                                        <input type="text" name="url" id="url" maxlength="100"
                                                placeholder="活动链接" class="required text col-xs-10 col-sm-5"
                                                value="<c:out value="${promotion.url}"/>"/>
                                     </div>
@@ -98,7 +98,7 @@
                                            for="logo">活动图片链接
                                     </label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="logo" id="logo" maxlength="20"
+                                        <input type="text" name="logo" id="logo" maxlength="100"
                                                placeholder="活动图片链接" class="required text col-xs-10 col-sm-5"
                                                value="<c:out value="${promotion.logo}"/>"/>
                                     </div>
@@ -164,7 +164,7 @@
                                 </div>
                             </form>
                         </div>
-                    </div><
+                    </div>
 
                 </div>
             </div>

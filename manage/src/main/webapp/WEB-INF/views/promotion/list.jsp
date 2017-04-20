@@ -17,7 +17,6 @@
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
                 <li>
-                    <i class="ace-icon fa fa-home home-icon"></i>
                     <a href="">
                         活动发布
                     </a>
@@ -91,11 +90,11 @@
                                         <td>
                                             <a class="btn btn-xs btn-info"
                                                href="${pageContext.request.contextPath}/promotions/${promotions.id}.do">
-                                                <i class="icon-edit bigger-120"></i>
+                                                <i class="ace-icon fa fa-pencil bigger-120"></i>
                                                 <span>修改</span></a>&nbsp;
                                             <a class="btn btn-xs btn-danger"
                                                href="${pageContext.request.contextPath}/promotions/delete.do?id=${promotions.id}">
-                                                <i class="icon-edit bigger-120"></i>
+                                                <i class="ace-icon fa fa-ban bigger-120"></i>
                                                 <span>禁用</span></a>
                                         </td>
                                     </tr>
