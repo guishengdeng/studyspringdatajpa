@@ -344,6 +344,22 @@ import java.util.Set;
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @OrderBy(value = "id") @NotFound(action = NotFoundAction.IGNORE) private List<ShopPo> children;
 
+    /**
+     * {@linkplain ShopPo#shopGroupPo}
+     */
+    public ShopGroupPo getShopGroupPo() {
+
+        return shopGroupPo;
+    }
+
+    /**
+     * {@linkplain ShopPo#shopGroupPo}
+     */
+    public void setShopGroupPo(ShopGroupPo shopGroupPo) {
+
+        this.shopGroupPo = shopGroupPo;
+    }
+
     public ShopLevel getShopLevel() {
         return shopLevel;
     }

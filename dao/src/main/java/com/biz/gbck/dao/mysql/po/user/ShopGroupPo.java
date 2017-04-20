@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Set;
 
 /**
  * 客户组
@@ -32,7 +33,7 @@ public class ShopGroupPo extends BaseEntity {
      * 商铺客户
      */
     @OneToMany(mappedBy = "shopGroupPo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private ShopPo shopPo;
+    private Set<ShopPo> shopPos;
 
     public String getCode() {
         return code;
@@ -50,11 +51,19 @@ public class ShopGroupPo extends BaseEntity {
         this.name = name;
     }
 
-    public ShopPo getShopPo() {
-        return shopPo;
+    /**
+     * {@linkplain ShopGroupPo#shopPos}
+     */
+    public Set<ShopPo> getShopPos() {
+
+        return shopPos;
     }
 
-    public void setShopPo(ShopPo shopPo) {
-        this.shopPo = shopPo;
+    /**
+     * {@linkplain ShopGroupPo#shopPos}
+     */
+    public void setShopPos(Set<ShopPo> shopPos) {
+
+        this.shopPos = shopPos;
     }
 }
