@@ -1,7 +1,7 @@
 package com.biz.soa.product.service.backend;
 
 import com.biz.gbck.dao.mysql.po.product.ApartTag;
-import com.biz.gbck.dao.mysql.repository.aparttag.ApartTagRepository;
+import com.biz.gbck.dao.mysql.repository.apartTag.ApartTagRepository;
 import com.biz.gbck.exceptions.product.ApartTagNotFoundException;
 import com.biz.gbck.vo.product.backend.ApartTagCreateVo;
 import com.biz.gbck.vo.product.backend.ApartTagListItemVo;
