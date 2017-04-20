@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.po.product;
+package com.biz.gbck.dao.mysql.po.product.bbc;
 
 import com.biz.gbck.dao.mysql.po.vendor.*;
 import com.biz.gbck.enums.product.VendorTypeEnum;

@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.evaluation;
 
-import com.biz.gbck.dao.mysql.po.product.TemporaryEvaluation;
+import com.biz.gbck.dao.mysql.po.product.bbc.TemporaryEvaluation;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.product;
 
-import com.biz.gbck.dao.mysql.po.product.MnsProduct;
+import com.biz.gbck.dao.mysql.po.product.bbc.MnsProduct;
 import com.biz.support.jpa.repository.CommonJpaRepositoryBean;
 import javax.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;

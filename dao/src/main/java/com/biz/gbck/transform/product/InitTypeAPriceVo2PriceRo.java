@@ -4,7 +4,7 @@ import com.biz.gbck.dao.redis.ro.product.PriceRo;
 import com.biz.gbck.vo.product.backend.InitTypeAPriceVo;
 import com.google.common.base.Function;
 
-import static com.biz.gbck.dao.redis.repository.product.SaleAreaRedisDao.TYPE_A_PRICE_AREA_NO;
+import static com.biz.gbck.dao.redis.repository.product.bbc.SaleAreaRedisDao.TYPE_A_PRICE_AREA_NO;
 
 
 /**

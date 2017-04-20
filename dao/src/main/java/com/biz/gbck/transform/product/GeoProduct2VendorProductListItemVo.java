@@ -1,9 +1,9 @@
 package com.biz.gbck.transform.product;
 
 import com.biz.core.util.MoneyConverter;
-import com.biz.gbck.dao.mysql.po.product.GeoProduct;
-import com.biz.gbck.dao.mysql.po.product.Product;
-import com.biz.gbck.dao.mysql.po.product.ProductAudit;
+import com.biz.gbck.dao.mysql.po.product.bbc.GeoProduct;
+import com.biz.gbck.dao.mysql.po.product.bbc.Product;
+import com.biz.gbck.dao.mysql.po.product.bbc.ProductAudit;
 import com.biz.gbck.vo.product.backend.VendorProductListItemVo;
 import com.google.common.base.Function;
 

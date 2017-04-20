@@ -1,7 +1,7 @@
 package com.biz.gbck.transform.product;
 
-import com.biz.gbck.dao.mysql.po.product.ProductAudit;
-import com.biz.gbck.dao.mysql.po.product.Vendor;
+import com.biz.gbck.dao.mysql.po.product.bbc.ProductAudit;
+import com.biz.gbck.dao.mysql.po.product.bbc.Vendor;
 import com.biz.gbck.dao.mysql.repository.vendor.VendorRepository;
 import com.biz.gbck.vo.product.backend.PlatformProductAuditListItemVo;
 import com.google.common.base.Function;

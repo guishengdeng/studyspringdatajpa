@@ -1,5 +1,6 @@
 package com.biz.gbck.dao.mysql.po.product;
 
+import com.biz.gbck.dao.mysql.po.product.bbc.Product;
 import com.biz.support.jpa.po.BaseEntity;
 import java.io.Serializable;
 import javax.persistence.*;

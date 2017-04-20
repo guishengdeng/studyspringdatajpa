@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.product;
 
-import com.biz.gbck.dao.mysql.po.product.ProductAudit;
+import com.biz.gbck.dao.mysql.po.product.bbc.ProductAudit;
 import com.biz.gbck.enums.product.ProductAuditStatusEnum;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.List;

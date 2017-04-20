@@ -1,5 +1,9 @@
-package com.biz.gbck.dao.mysql.po.product;
+package com.biz.gbck.dao.mysql.po.product.bbc;
 
+import com.biz.gbck.dao.mysql.po.product.Brand;
+import com.biz.gbck.dao.mysql.po.product.Category;
+import com.biz.gbck.dao.mysql.po.product.ExtendProperty;
+import com.biz.gbck.dao.mysql.po.product.SaleTag;
 import com.biz.gbck.enums.product.ProductAuditStatusEnum;
 import com.biz.gbck.enums.product.VendorTypeEnum;
 import com.biz.gbck.vo.product.backend.IProductAuditVo;

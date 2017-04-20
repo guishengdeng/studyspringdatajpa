@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.temporaryproduct;
 
-import com.biz.gbck.dao.mysql.po.product.TemporaryVendorProduct;
+import com.biz.gbck.dao.mysql.po.product.bbc.TemporaryVendorProduct;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;

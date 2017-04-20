@@ -1,7 +1,7 @@
 package com.biz.gbck.transform.product;
 
-import com.biz.gbck.dao.mysql.po.product.Product;
-import com.biz.gbck.dao.mysql.po.product.ProductAudit;
+import com.biz.gbck.dao.mysql.po.product.bbc.Product;
+import com.biz.gbck.dao.mysql.po.product.bbc.ProductAudit;
 import com.biz.gbck.dao.mysql.repository.product.ProductAuditRepository;
 import com.biz.gbck.enums.product.SaleStatusEnum;
 import com.biz.gbck.vo.product.backend.VendorProductListItemVo;

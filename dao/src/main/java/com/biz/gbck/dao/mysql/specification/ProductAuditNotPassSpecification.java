@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.specification;
 
-import com.biz.gbck.dao.mysql.po.product.ProductAudit;
+import com.biz.gbck.dao.mysql.po.product.bbc.ProductAudit;
 import com.biz.gbck.enums.product.ProductAuditStatusEnum;
 import com.biz.gbck.vo.product.backend.VendorProductListReqVo;
 import com.google.common.collect.Lists;
