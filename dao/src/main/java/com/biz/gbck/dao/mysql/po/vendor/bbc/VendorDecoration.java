@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.po.vendor;
+package com.biz.gbck.dao.mysql.po.vendor.bbc;
 
 import com.biz.gbck.dao.mysql.converter.VendorResourceConverter;
 import com.biz.gbck.dao.mysql.po.product.bbc.Vendor;

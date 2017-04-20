@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.vendor.vendorRole;
 
-import com.biz.gbck.dao.mysql.po.vendor.VendorRole;
+import com.biz.gbck.dao.mysql.po.vendor.bbc.VendorRole;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

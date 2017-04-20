@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.vendor;
 
-import com.biz.gbck.dao.mysql.po.vendor.VendorDecoration;
+import com.biz.gbck.dao.mysql.po.vendor.bbc.VendorDecoration;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

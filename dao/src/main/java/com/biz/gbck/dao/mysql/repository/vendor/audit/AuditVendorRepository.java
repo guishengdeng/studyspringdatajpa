@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.vendor.audit;
 
-import com.biz.gbck.dao.mysql.po.vendor.AuditVendor;
+import com.biz.gbck.dao.mysql.po.vendor.bbc.AuditVendor;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.sql.Timestamp;
 import java.util.List;

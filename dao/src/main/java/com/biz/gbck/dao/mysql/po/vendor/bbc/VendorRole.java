@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.po.vendor;
+package com.biz.gbck.dao.mysql.po.vendor.bbc;
 
 import com.biz.support.jpa.po.BaseEntity;
 import javax.persistence.Entity;
