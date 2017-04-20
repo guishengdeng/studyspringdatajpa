@@ -4,7 +4,7 @@ import com.biz.gbck.dao.mysql.po.product.Category;
 import com.biz.gbck.dao.mysql.po.product.bbc.GeoProduct;
 import com.biz.gbck.dao.mysql.po.product.SaleTag;
 import com.biz.gbck.dao.mysql.repository.category.CategoryRepository;
-import com.biz.gbck.dao.mysql.repository.product.GeoProductRepository;
+import com.biz.gbck.dao.mysql.repository.bbc.product.GeoProductRepository;
 import com.biz.gbck.dao.mysql.repository.saleTag.SaleTagRepository;
 import com.biz.gbck.dao.redis.repository.product.SaleTagRedisDao;
 import com.biz.gbck.exceptions.product.CategoryNotFoundException;

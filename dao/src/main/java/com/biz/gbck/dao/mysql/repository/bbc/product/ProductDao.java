@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.repository.product;
+package com.biz.gbck.dao.mysql.repository.bbc.product;
 
 /**
  * 商品 Dao 接口

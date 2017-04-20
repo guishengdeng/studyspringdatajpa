@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.repository.productCascade;
+package com.biz.gbck.dao.mysql.repository.bbc.productCascade;
 
 /**
  * 商品配置 Dao

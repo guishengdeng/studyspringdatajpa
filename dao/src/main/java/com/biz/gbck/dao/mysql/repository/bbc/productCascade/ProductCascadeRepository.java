@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.repository.productCascade;
+package com.biz.gbck.dao.mysql.repository.bbc.productCascade;
 
 import com.biz.gbck.dao.mysql.po.product.bbc.ProductCascade;
 import com.biz.support.jpa.repository.CommonJpaRepository;

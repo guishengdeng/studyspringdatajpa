@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.mysql.specification.bbc;
 
 import com.biz.gbck.dao.mysql.po.product.bbc.Product;
-import com.biz.gbck.dao.mysql.po.product.bbc.RelevanceProduct;
+import com.biz.gbck.dao.mysql.po.product.bbc.RelevantProduct;
 import com.biz.gbck.vo.product.backend.ListVendorRelevanceProductReqVo;
 import com.google.common.collect.Lists;
 import java.util.List;
@@ -45,7 +45,7 @@ public class ListVendorRelevanceProductSpecification implements Specification<Pr
                     reqVo.getSearchPageVo().getSearchValue());
             predicates.add(predicate);
         }
-        predicates.add(criteriaBuilder.isNotNull(root.get("relevanceProduct").as(RelevanceProduct.class)));
+        predicates.add(criteriaBuilder.isNotNull(root.get("relevanceProduct").as(RelevantProduct.class)));
         // 按照审核状态查询
         criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
         return criteriaQuery.getRestriction();

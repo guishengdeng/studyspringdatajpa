@@ -1,6 +1,5 @@
 package com.biz.gbck.dao.mysql.po.product;
 
-import com.biz.gbck.dao.mysql.po.product.bbc.Product;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.product.backend.ISaleTagVo;
 import com.biz.support.jpa.po.BaseEntity;
@@ -51,12 +50,6 @@ public class SaleTag extends BaseEntity implements Serializable {
      */
     @Column
     private String description;
-
-    /**
-     * 商家 ID
-     */
-    @Column(nullable = false)
-    private String vendorId;
 
     /**
      * 状态
@@ -139,14 +132,6 @@ public class SaleTag extends BaseEntity implements Serializable {
         this.status = status;
     }
 
-    public String getVendorId() {
-        return vendorId;
-    }
-
-    public void setVendorId(String vendorId) {
-        this.vendorId = vendorId;
-    }
-
     public List<Product> getProducts() {
         return products;
     }
@@ -166,7 +151,7 @@ public class SaleTag extends BaseEntity implements Serializable {
 
     public void fromVo(ISaleTagVo iSaleTagVo) {
         if (iSaleTagVo.getId() != null) {
-            this.setId(Long.valueOf(iSaleTagVo.getId()));
+            this.setId(iSaleTagVo.getId());
         }
         this.setName(iSaleTagVo.getName());
         this.setIdx(iSaleTagVo.getIdx());
@@ -174,6 +159,5 @@ public class SaleTag extends BaseEntity implements Serializable {
         this.setDescription(iSaleTagVo.getDescription());
         this.setLogo(iSaleTagVo.getLogo());
         this.setRawHtml(iSaleTagVo.getRawHtml());
-        this.setVendorId(iSaleTagVo.getVendorId());
     }
 }
