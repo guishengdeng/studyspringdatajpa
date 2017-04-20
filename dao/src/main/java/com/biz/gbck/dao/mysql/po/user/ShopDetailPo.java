@@ -1,11 +1,10 @@
 package com.biz.gbck.dao.mysql.po.user;
 
-import com.depotnearby.common.po.Persistent;
-import com.depotnearby.common.po.geo.CityPo;
-import com.depotnearby.common.po.geo.DistrictPo;
-import com.depotnearby.common.po.geo.ProvincePo;
-import com.depotnearby.common.po.user.ShopTypePo;
-import com.depotnearby.util.DateTool;
+
+import com.biz.core.util.DateUtil;
+import com.biz.gbck.dao.mysql.po.geo.CityPo;
+import com.biz.gbck.dao.mysql.po.geo.DistrictPo;
+import com.biz.gbck.dao.mysql.po.geo.ProvincePo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +23,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "shop_detail")
-public class ShopDetailPo implements Persistent {
+public class ShopDetailPo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -104,7 +103,7 @@ public class ShopDetailPo implements Persistent {
     /**
      * 创建时间
      */
-    private Timestamp createTime = DateTool.nowTimestamp();
+    private Timestamp createTime = DateUtil.now();
 
     /**
      * 审核时间

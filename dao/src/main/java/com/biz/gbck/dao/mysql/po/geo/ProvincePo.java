@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.mysql.po.geo;
 
-import com.depotnearby.common.model.geo.IArea;
-import com.depotnearby.common.model.geo.IProvince;
+import com.biz.gbck.model.geo.IArea;
+import com.biz.gbck.model.geo.IProvince;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;

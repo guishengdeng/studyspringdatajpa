@@ -11,6 +11,8 @@ import com.biz.support.jpa.po.BaseEntity;
 public class Company extends BaseEntity {
 
 
+    private String name;
 
+    
 
 }

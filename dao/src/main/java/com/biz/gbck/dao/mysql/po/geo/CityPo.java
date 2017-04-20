@@ -1,8 +1,7 @@
 package com.biz.gbck.dao.mysql.po.geo;
 
-import com.depotnearby.common.model.geo.IArea;
-import com.depotnearby.common.model.geo.ICity;
-import com.depotnearby.common.po.organization.CompanyPo;
+import com.biz.gbck.model.geo.IArea;
+import com.biz.gbck.model.geo.ICity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
@@ -38,11 +37,11 @@ import java.util.Set;
     @OrderBy(value = "idx") @NotFound(action = NotFoundAction.IGNORE) private List<DistrictPo>
         districts;
 
-    @ManyToMany(fetch = FetchType.LAZY) @JoinTable(name = "org_company_city",
-        joinColumns = {@JoinColumn(name = "city_id", referencedColumnName = "id")},
-        inverseJoinColumns = {@JoinColumn(name = "company_id", referencedColumnName = "id")},
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"city_id", "company_id"})})
-    private Set<CompanyPo> companies;
+//    @ManyToMany(fetch = FetchType.LAZY) @JoinTable(name = "org_company_city",
+//        joinColumns = {@JoinColumn(name = "city_id", referencedColumnName = "id")},
+//        inverseJoinColumns = {@JoinColumn(name = "company_id", referencedColumnName = "id")},
+//        uniqueConstraints = {@UniqueConstraint(columnNames = {"city_id", "company_id"})})
+//    private Set<CompanyPo> companies;
 
     public ProvincePo getProvince() {
         return province;
@@ -89,13 +88,5 @@ import java.util.Set;
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public Set<CompanyPo> getCompanies() {
-        return companies;
-    }
-
-    public void setCompanies(Set<CompanyPo> companies) {
-        this.companies = companies;
     }
 }

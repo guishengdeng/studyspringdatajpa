@@ -1,7 +1,6 @@
 package com.biz.gbck.dao.mysql.po.geo;
 
-import com.depotnearby.common.model.IWeight;
-import com.depotnearby.common.po.Persistent;
+import com.biz.gbck.model.geo.IWeight;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.StringUtils;
 
@@ -10,8 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.math.BigDecimal;
 
-@SuppressWarnings("serial") @MappedSuperclass public class AbstractAreaWithCode
-    implements Persistent {
+@SuppressWarnings("serial") @MappedSuperclass public class AbstractAreaWithCode {
 
     @Id private Integer id;
 
