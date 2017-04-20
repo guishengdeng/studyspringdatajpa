@@ -60,14 +60,18 @@
 
                                         <td>${advertisement.picturesLink}</td>
                                         <td>${advertisement.clickLink}</td>
-                                        <td class="hidden-md hidden-sm hidden-xs">${advertisement.beginTimestamp}</td>
-                                        <td class="hidden-md hidden-sm hidden-xs">${advertisement.endTimestamp}</td>
-                                        <td class="hidden-md hidden-sm hidden-xs">${advertisement.residenceTime}</td>
-                                        <td class="hidden-md hidden-sm hidden-xs">${advertisement.priority}</td>
+                                        <td><fmt:formatDate value="${advertisement.beginTimestamp}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+                                        <td><fmt:formatDate value="${advertisement.endTimestamp}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+                                        <td>${advertisement.residenceTime}</td>
+                                        <td>${advertisement.priority}</td>
                                         <td>
-                                            <div class="hidden-sm hidden-xs btn-group">
+                                            <div>
+                                                <a href="manage/advertisement/delete?id=${advertisement.id}"
+                                                   class="btn btn-minier btn-info">
+                                                    <i class="ace-icon fa fa-trash-o bigger-120">删除</i>
+                                                </a>
                                                 <a href="manage/advertisement/edit?id=${advertisement.id}" class="btn btn-minier btn-info">
-                                                    <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                                    <i class="ace-icon fa fa-pencil bigger-120">修改</i>
                                                 </a>
                                             </div>
                                         </td>

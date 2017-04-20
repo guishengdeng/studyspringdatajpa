@@ -72,6 +72,10 @@
     <link rel="stylesheet" href="static-resource/ace/assets/css/bootstrap-datepicker3.min.css"/>
     <script src="static-resource/ace/assets/js/bootstrap-datepicker.min.js"></script>
 
+    <!-- <![layer]-->
+    <link rel="stylesheet" href="static-resource/layer/mobile/need/layer.css"/>
+    <script src="/static-resource/layer/mobile/layer.js"></script>
+
     <![endif]-->
 
     <jsp:invoke fragment="css"/>

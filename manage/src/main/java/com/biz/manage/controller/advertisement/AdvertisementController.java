@@ -2,6 +2,7 @@ package com.biz.manage.controller.advertisement;
 
 import com.biz.gbck.activity.frontend.ActivityVo;
 import com.biz.gbck.advertisement.frontend.AdvertisementVo;
+import com.biz.gbck.advertisement.frontend.request.AdvertisementRequestVo;
 import com.biz.service.activity.interfaces.ActivityService;
 import com.biz.service.advertisement.interfaces.AdvertisementService;
 import org.slf4j.Logger;
@@ -31,8 +32,9 @@ public class AdvertisementController {
     @RequestMapping("/list")
     public ModelAndView toList() {
         List<AdvertisementVo> advertisements = advertisementService.findAllAdvertisements();
-        ModelAndView view = new ModelAndView("manage/advertisement/list","advertisements", advertisements);
-        return view;
+        ModelAndView view = new ModelAndView("manage/advertisement/list");
+
+        return view.addObject("advertisements",advertisements);
     }
 
     /**
@@ -59,7 +61,7 @@ public class AdvertisementController {
 
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
     @ResponseBody
-    public ModelAndView saveOrUpdate(AdvertisementVo req) {
+    public ModelAndView saveOrUpdate(AdvertisementRequestVo req) {
         advertisementService.saveOrUpdateAdvertisement(req);
         return new ModelAndView("redirect:/manage/advertisement/list.do");
     }

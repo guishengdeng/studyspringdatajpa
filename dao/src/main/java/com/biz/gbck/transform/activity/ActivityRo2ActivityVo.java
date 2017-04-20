@@ -1,9 +1,7 @@
-package com.biz.service.activitytransformer;
+package com.biz.gbck.transform.activity;
 
 import com.biz.gbck.activity.frontend.ActivityVo;
-import com.biz.gbck.advertisement.frontend.AdvertisementVo;
 import com.biz.gbck.dao.redis.ro.activity.ActivityRo;
-import com.biz.gbck.dao.redis.ro.advertisement.AdvertisementRo;
 import com.google.common.base.Function;
 import org.springframework.beans.BeanUtils;
 

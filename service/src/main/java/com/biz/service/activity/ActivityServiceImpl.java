@@ -1,15 +1,12 @@
 package com.biz.service.activity;
 
 import com.biz.gbck.activity.frontend.ActivityVo;
-import com.biz.gbck.advertisement.frontend.AdvertisementVo;
 import com.biz.gbck.dao.redis.repository.activity.ActivityRedisDao;
 import com.biz.gbck.dao.redis.ro.activity.ActivityRo;
-import com.biz.gbck.dao.redis.ro.advertisement.AdvertisementRo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.activity.interfaces.ActivityService;
-import com.biz.service.activitytransformer.ActivityRo2ActivityVo;
-import com.biz.service.activitytransformer.ActivityVo2ActivityRo;
-import com.biz.service.advertisementtransformer.AdvertisementRo2AdvertisementVo;
+import com.biz.gbck.transform.activity.ActivityRo2ActivityVo;
+import com.biz.gbck.transform.activity.ActivityVo2ActivityRo;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;

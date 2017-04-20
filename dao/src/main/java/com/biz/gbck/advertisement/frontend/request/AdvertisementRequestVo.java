@@ -1,12 +1,11 @@
-package com.biz.gbck.advertisement.frontend;
+package com.biz.gbck.advertisement.frontend.request;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 /**
  * Created by xys on 2017/4/18.
  */
-public class AdvertisementVo implements Serializable {
+public class AdvertisementRequestVo implements Serializable {
 
     private static final long serialVersionUID = 6693905559390118477L;
 
@@ -16,9 +15,9 @@ public class AdvertisementVo implements Serializable {
 
     private String clickLink;
 
-    private Timestamp beginTimestamp;
+    private String beginTimestamp;
 
-    private Timestamp endTimestamp;
+    private String endTimestamp;
 
     private Long residenceTime;
 
@@ -48,19 +47,19 @@ public class AdvertisementVo implements Serializable {
         this.clickLink = clickLink;
     }
 
-    public Timestamp getBeginTimestamp() {
+    public String getBeginTimestamp() {
         return beginTimestamp;
     }
 
-    public void setBeginTimestamp(Timestamp beginTimestamp) {
+    public void setBeginTimestamp(String beginTimestamp) {
         this.beginTimestamp = beginTimestamp;
     }
 
-    public Timestamp getEndTimestamp() {
+    public String getEndTimestamp() {
         return endTimestamp;
     }
 
-    public void setEndTimestamp(Timestamp endTimestamp) {
+    public void setEndTimestamp(String endTimestamp) {
         this.endTimestamp = endTimestamp;
     }
 

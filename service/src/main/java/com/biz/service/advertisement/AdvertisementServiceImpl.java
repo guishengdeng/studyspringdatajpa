@@ -2,15 +2,16 @@ package com.biz.service.advertisement;
 
 
 import com.alibaba.fastjson.JSON;
+import com.biz.core.asserts.SystemAsserts;
 import com.biz.core.page.PageResult;
 import com.biz.gbck.advertisement.frontend.AdvertisementQueryParamVo;
 import com.biz.gbck.advertisement.frontend.AdvertisementVo;
+import com.biz.gbck.advertisement.frontend.request.AdvertisementRequestVo;
 import com.biz.gbck.dao.redis.repository.advertisement.AdvertisementRedisDao;
-import com.biz.gbck.dao.redis.ro.activity.ActivityRo;
 import com.biz.gbck.dao.redis.ro.advertisement.AdvertisementRo;
 import com.biz.service.AbstractBaseService;
-import com.biz.service.advertisementtransformer.AdvertisementRo2AdvertisementVo;
-import com.biz.service.advertisementtransformer.AdvertisementVo2AdvertisementRo;
+import com.biz.gbck.transform.advertisement.AdvertisementRo2AdvertisementVo;
+import com.biz.gbck.transform.advertisement.AdvertisementRequestVo2AdvertisementRo;
 import com.biz.service.advertisement.interfaces.AdvertisementService;
 
 import com.google.common.collect.Lists;
@@ -31,14 +32,17 @@ public class AdvertisementServiceImpl extends AbstractBaseService implements Adv
     private AdvertisementRedisDao advertisementRedisDao;
 
     @Override
-    public void saveOrUpdateAdvertisement(AdvertisementVo req) {
+    public void saveOrUpdateAdvertisement(AdvertisementRequestVo req) {
         //TODO 定义异常信息
         String advertisementId = req.getId();
         AdvertisementRo ro;
         //如果没有id 则进行保存操作
         if (StringUtils.isBlank(advertisementId)) {
             req.setId(String.valueOf(idService.nextId()));
-            ro = new AdvertisementVo2AdvertisementRo().apply(req);
+            //验证是否上传图片
+            String icon = req.getPicturesLink();
+            SystemAsserts.isTrue(StringUtils.isNotBlank(icon), "请上传广告图片！");
+            ro = new AdvertisementRequestVo2AdvertisementRo().apply(req);
         }else {
             ro = advertisementRedisDao.findOne(req.getId());
             buildAdvertisementRo(ro,req);
@@ -74,7 +78,7 @@ public class AdvertisementServiceImpl extends AbstractBaseService implements Adv
         advertisementRedisDao.delete(id);
     }
 
-    public AdvertisementRo buildAdvertisementRo(AdvertisementRo ro,AdvertisementVo vo) {
+    public AdvertisementRo buildAdvertisementRo(AdvertisementRo ro,AdvertisementRequestVo vo) {
         if (vo == null){
             return null;
         }

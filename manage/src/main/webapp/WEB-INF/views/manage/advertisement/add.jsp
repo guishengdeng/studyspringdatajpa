@@ -1,5 +1,6 @@
 <%@page contentType="text/html; charset=utf-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="depotnextdoor" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
@@ -11,34 +12,77 @@
             });
         </script>
         <script type="application/javascript">
-            $('body').on('change', 'input[type=file]', function () {
-                var img = $(this).parent().parent().find('img.p-logo');
+            /** -----------------------------》图片上传《-------------------------------- */
+            //隐藏文件控件
+            $('#logo_file').hide();
+
+            //如果之前有上传过图片，将图片展示出来
+            if ($('#logo_container').val() != '') {
+                preview();
+            }
+
+            //点击上传图片，弹出选择框
+            $('#logo_button').on('click', function () {
+                var logo_file = $(this).next();
+                logo_file.click();
+            });
+            /**
+             * 上传图片
+             */
+            $('#logo_file').on('change', function () {
+                var hidden_input = $(this).next();
                 var file = this.files[0];
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     var base64stream = this.result;
-                    var dataObj = new Object();
-                    dataObj.productName = $("input[name='name']").val();
-                    dataObj.fileName = file.name;
-                    dataObj.base64stream = base64stream;
+                    var dataObj = {
+                        base64stream: base64stream
+                    };
                     $.ajax({
                         type: "POST",
-                        url: 'upload/streamUpload.do',
+                        url: "upload/streamUpload.do",
                         enctype: 'multipart/form-data',
                         data: dataObj
                     }).done(function (data) {
-                        if (data.status != "success") {
-                            alert("上传图片失败");
+                        console.log(data);
+                        if (data.code == 0) {
+                            layer.msg("上传图片成功");
+//                            hidden_input.val(data.name);
+                            preview();
                         } else {
-                            img.prop('src', data.imageUrl);
-                            img.parent().find('form').remove();
-                            img.removeClass('new');
-                            layer.msg('图片上传成功');
-                            syncImageVals();
+                            layer.msg("上传图片失败");
                         }
                     });
                 };
                 reader.readAsDataURL(file);
+            });
+
+            /**
+             * 预览图片
+             */
+            function preview() {
+                var image_container = $('#logo_container');
+                $.ajax({
+                    method: 'post',
+                    data: {image_name: image_container.val()},
+                    url: "upload/preview.do"
+                }).done(function (data) {
+                    $('#image').attr('src', data.uri);
+                });
+            }
+
+            /**
+             * 页面加载完成之后执行
+             */
+            $(document).ready(function () {
+                //初始化日期插件
+                $('.date').datepicker({
+                    dateFormat: 'yyyy-MM-dd HH:mm',
+                    autoclose: true,
+                    startView: 0,
+                    todayHighlight: true,
+                    todayBtn: true
+                });
             });
         </script>
     </jsp:attribute>
@@ -79,13 +123,18 @@
                             <form action="manage/advertisement/saveOrUpdate.do" method="post"
                                   class="form-horizontal" role="form">
                                 <div class="field adv-photo">
-                                    <label>广告页图片</label>
+                                    <label class="col-sm-3 control-label no-padding-right"
+                                           for="picturesLink">
+                                        广告图片
+                                    </label>
 
-                                    <div class="btn btn-primary" id="logo_button">选择图片</div>
-
-                                    <c:if test="${advertisement.picturesLink!=null}">
-                                        <depot:qiniu type="product" element="${advertisement.picturesLink}"/>
-                                    </c:if>
+                                    <div class="col-md-10">
+                                        <img id="image" src="" width="100px" height="100px"/>
+                                        <div class="btn btn-primary" id="logo_button">选择图片</div>
+                                        <input type="file" id="logo_file" value=""/>
+                                        <input name="picturesLink" type="hidden" id="logo_container"
+                                               value="${advertisement.picturesLink}" class="form-control required">
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"
@@ -95,7 +144,7 @@
 
                                     <div class="col-sm-9">
                                         <input type="text" id="picturesLink" placeholder="图片链接"
-                                               name="picturesLink" class="col-xs-10 col-sm-5">
+                                               name="picturesLink" class="col-xs-10 col-sm-5" value="${advertisement.picturesLink}">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -106,7 +155,7 @@
 
                                     <div class="col-sm-9">
                                         <input type="text" id="clickLink" placeholder="点击链接"
-                                               name="clickLink" class="col-xs-10 col-sm-5">
+                                               name="clickLink" class="col-xs-10 col-sm-5" value="${advertisement.clickLink}">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -115,8 +164,11 @@
                                         广告生效时间
                                     </label>
 
-                                    <div class="col-sm-9">
-                                        <input class="date-picker" id="beginTimestamp"  name="beginTimestamp" type="text" data-date-format="yyyy-mm-dd"/>
+                                    <div class="col-md-9">
+                                        <input type="text" required="required" name="beginTimestamp"
+                                               value="<fmt:formatDate value="${advertisement.beginTimestamp}" pattern="yyyy-MM-dd"/>"
+                                               id="beginTimestamp"
+                                               class="form-control required date"/>
                                     </div>
                                 </div>
                                 <%--<c:if test="${not empty admin.username}">--%>
@@ -126,8 +178,11 @@
                                         广告过期时间
                                     </label>
 
-                                    <div class="col-sm-9">
-                                        <input class="date-picker" id="endTimestamp" name="endTimestamp" type="text" data-date-format="yyyy-mm-dd"/>
+                                    <div class="col-md-10">
+                                        <input type="text" required="required" name="endTimestamp"
+                                               value="<fmt:formatDate value="${advertisement.endTimestamp}" pattern="yyyy-MM-dd"/>"
+                                               id="endTimestamp"
+                                               class="form-control required date"/>
                                     </div>
                                 </div>
                                 <%--</c:if>--%>
@@ -139,7 +194,7 @@
 
                                     <div class="col-sm-9">
                                         <input type="text" id="residenceTime" placeholder="停留(毫秒)"
-                                               name="clickLink" class="col-xs-10 col-sm-5">
+                                               name="clickLink" class="col-xs-10 col-sm-5" value="${advertisement.residenceTime}">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -150,7 +205,7 @@
 
                                     <div class="col-sm-9">
                                         <input type="text" id="priority" placeholder="优先级"
-                                               name="clickLink" class="col-xs-10 col-sm-5">
+                                               name="clickLink" class="col-xs-10 col-sm-5" value="${advertisement.priority}">
                                     </div>
                                 </div>
 
