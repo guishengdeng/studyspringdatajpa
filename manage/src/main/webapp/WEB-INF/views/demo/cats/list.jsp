@@ -8,6 +8,12 @@
 <gbck:page title="猫">
     <jsp:attribute name="css">
         <style type="text/css">
+            #cat-table .name{
+                min-width: 150px;
+            }
+            #cat-table .operate, #cat-table .status{
+                width: 70px;
+            }
         </style>
     </jsp:attribute>
     <jsp:attribute name="script">
@@ -67,14 +73,14 @@
                             <h3 class="header smaller lighter blue">
                                 猫列表
                             </h3>
-                            <table id="simple-table" class="table  table-bordered table-hover">
+                            <table id="cat-table" class="table  table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>名字</th>
+                                    <th class="name">名字</th>
                                     <th>描述</th>
-                                    <th>销售状态</th>
-                                    <th>生命体征</th>
-                                    <th class="center"></th>
+                                    <th class="status">销售状态</th>
+                                    <th class="status">生命体征</th>
+                                    <th class="center operate"></th>
                                 </tr>
                                 </thead>
 

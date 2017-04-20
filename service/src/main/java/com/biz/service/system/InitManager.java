@@ -120,7 +120,7 @@ public class InitManager {
 			cats.add(buildCat(catId++, "巴厘猫", "最早出现在人们认为是纯暹罗猫血统的猫中。当时养猫者几乎不感兴趣，但是巴厘猫的吸引力逐步扩大，所以品种便开始发展。因为长毛是显性基因，因此任何两个巴厘猫交配必然生出中长毛型的巴厘仔猫，但也采用异种型杂交，以保持暹罗猫短毛的外形。", SaleStatusEnum.FOR_SALE, CommonStatusEnum.DISABLE));
 			cats.add(buildCat(catId++, "伯曼猫", "伯曼猫相传是源出于缅甸。", SaleStatusEnum.SOLD, CommonStatusEnum.DISABLE));
 			for (int i = 0; i < 100; i++) {
-				cats.add(buildCat(catId++, "随机薛定谔的猫" + i, "随机薛定谔的猫，一种存在于计算机程序中的特殊的猫，该猫处于“死－活叠加态”——既死了又活着！", SaleStatusEnum.LOCK, MathUtils.randomInt(1,100) % 3 == 0 ? CommonStatusEnum.ENABLE : CommonStatusEnum.DISABLE));
+				cats.add(buildCat(catId++, "随机薛定谔的猫" + i, "随机薛定谔的猫，一种存在于计算机程序中的特殊的猫，该猫处于“死－活叠加态”——既死了又活着！", SaleStatusEnum.values()[MathUtils.randomInt(0,SaleStatusEnum.values().length - 1)], MathUtils.randomInt(1,100) % 3 == 0 ? CommonStatusEnum.ENABLE : CommonStatusEnum.DISABLE));
 			}
 			catRepository.save(cats);
 			logger.info("完成初始化猫数据...");
