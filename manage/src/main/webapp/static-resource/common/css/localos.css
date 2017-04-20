@@ -60,3 +60,7 @@
 .navable-a-tag:hover{
     cursor: pointer;
 }
+.breadcrumbs .history-back{
+    float: right;
+    margin-top: 6px;
+}

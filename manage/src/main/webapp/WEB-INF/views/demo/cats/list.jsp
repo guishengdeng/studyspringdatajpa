@@ -52,7 +52,7 @@
                     示例管理
                 </li>
                 <li class="active">
-                    猫
+                    猫列表
                 </li>
             </ul>
         </div>

@@ -28,7 +28,7 @@ public class BaseController {
 	@ExceptionHandler({ Exception.class })
 	public ModelAndView exception(Exception e) throws Exception {
 
-		ModelAndView result = new ModelAndView("/common/error");
+		ModelAndView result = new ModelAndView("/common/400");
 		if (e instanceof NumberIdParameterException) {
 			return result.addObject(SINGLE_MESSAGE_ATTR_NAME, "错误的ID");
 		} else if (e instanceof InvalidParameterException) {

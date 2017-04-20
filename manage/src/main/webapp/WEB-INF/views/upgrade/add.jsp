@@ -54,7 +54,7 @@
                                     </label>
                                     <div class="col-sm-9">
                                         <input type="text" name="version" id="version" maxlength="20"
-                                               placeholder="版本号" class="col-xs-10 col-sm-5"/>
+                                               placeholder="版本号" class="required text col-xs-10 col-sm-5"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -62,7 +62,7 @@
                                            for="os">类型
                                     </label>
                                     <div class="col-sm-9">
-                                        <select name="os"  id="os" class="col-xs-10 col-sm-5">
+                                        <select name="os"  id="os" class="required text col-xs-10 col-sm-5">
                                             <option value="ios" selected>ios</option>
                                             <option value="androId">androId</option>
                                         </select>
@@ -73,7 +73,7 @@
                                            for="inhourse">是否抢版
                                     </label>
                                     <div class="col-sm-9">
-                                        <select name="inhourse" id="inhourse"  class="col-xs-10 col-sm-5">
+                                        <select name="inhourse" id="inhourse"  class="required text col-xs-10 col-sm-5">
                                             <option value="false" selected>否</option>
                                             <option value="true">是</option>
                                         </select>
@@ -84,7 +84,7 @@
                                            for="force">是否强制升级
                                     </label>
                                     <div class="col-sm-9">
-                                        <select name="force" id="force"  class="col-xs-10 col-sm-5">
+                                        <select name="force" id="force"  class="required text col-xs-10 col-sm-5">
                                             <option value="false" selected>否</option>
                                             <option value="true">是</option>
                                         </select>
@@ -95,7 +95,7 @@
                                            for="url">URL
                                     </label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="url" id="url" size="50" class="col-xs-10 col-sm-5">
+                                        <input type="text" name="url" id="url" size="50" class="required text col-xs-10 col-sm-5">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -103,7 +103,7 @@
                                            for="md5">MD5
                                     </label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="md5" id="md5" size="50" class="col-xs-10 col-sm-5">
+                                        <input type="text" name="md5" id="md5" size="50" class="required text col-xs-10 col-sm-5">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -111,7 +111,7 @@
                                            for="info">升级说明
                                     </label>
                                     <div class="col-sm-9">
-                                        <textarea name="info" id="info" rows="5" cols="20"  class="col-xs-10 col-sm-5"></textarea>
+                                        <textarea name="info" id="info" rows="5" cols="20"  class="required text col-xs-10 col-sm-5"></textarea>
                                     </div>
                                 </div>
 
