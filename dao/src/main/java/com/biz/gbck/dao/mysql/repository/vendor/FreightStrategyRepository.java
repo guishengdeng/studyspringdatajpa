@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.vendor;
 
-import com.biz.gbck.dao.mysql.po.vendor.FreightStrategy;
+import com.biz.gbck.dao.mysql.po.vendor.bbc.FreightStrategy;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

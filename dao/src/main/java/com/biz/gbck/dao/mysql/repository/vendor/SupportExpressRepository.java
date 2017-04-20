@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.vendor;
 
-import com.biz.gbck.dao.mysql.po.vendor.SupportExpress;
+import com.biz.gbck.dao.mysql.po.vendor.bbc.SupportExpress;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

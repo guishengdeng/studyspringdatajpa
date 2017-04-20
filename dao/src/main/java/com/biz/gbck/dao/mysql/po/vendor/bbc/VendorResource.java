@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.po.vendor;
+package com.biz.gbck.dao.mysql.po.vendor.bbc;
 
 /**
  * 店铺图片资源(以json格式存入数据库和 redis)

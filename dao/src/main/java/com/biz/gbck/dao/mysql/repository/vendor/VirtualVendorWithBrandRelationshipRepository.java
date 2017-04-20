@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.vendor;
 
-import com.biz.gbck.dao.mysql.po.vendor.VirtualVendorWithBrandRelationShip;
+import com.biz.gbck.dao.mysql.po.vendor.bbc.VirtualVendorWithBrandRelationShip;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import org.springframework.stereotype.Repository;
 

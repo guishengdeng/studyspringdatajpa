@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.mysql.repository.vendor.vendorBrand;
 
-import com.biz.gbck.dao.mysql.po.vendor.BrandVendorRelation;
-import com.biz.gbck.dao.mysql.po.vendor.RegisterVendorBrand;
+import com.biz.gbck.dao.mysql.po.vendor.bbc.BrandVendorRelation;
+import com.biz.gbck.dao.mysql.po.vendor.bbc.RegisterVendorBrand;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
