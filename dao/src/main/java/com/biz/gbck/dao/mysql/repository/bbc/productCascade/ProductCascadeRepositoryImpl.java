@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.repository.productCascade;
+package com.biz.gbck.dao.mysql.repository.bbc.productCascade;
 
 import java.io.Serializable;
 import org.springframework.stereotype.Repository;

@@ -6,7 +6,7 @@ import com.biz.gbck.dao.mysql.po.product.bbc.Evaluation;
 import com.biz.gbck.dao.mysql.po.product.bbc.Product;
 import com.biz.gbck.dao.mysql.po.product.bbc.Vendor;
 import com.biz.gbck.dao.mysql.repository.bbc.evaluation.EvaluationRepository;
-import com.biz.gbck.dao.mysql.repository.product.ProductRepository;
+import com.biz.gbck.dao.mysql.repository.bbc.product.ProductRepository;
 import com.biz.gbck.dao.mysql.repository.bbc.vendor.VendorRepository;
 import com.biz.gbck.dao.redis.repository.product.bbc.EvaluationRedisDao;
 import com.biz.gbck.dao.redis.repository.product.ProductRedisDao;

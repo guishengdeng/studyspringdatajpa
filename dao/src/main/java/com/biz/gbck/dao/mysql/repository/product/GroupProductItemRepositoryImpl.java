@@ -1,6 +1,5 @@
-package com.biz.gbck.dao.mysql.repository.bbc.product;
+package com.biz.gbck.dao.mysql.repository.product;
 
-import java.io.Serializable;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Repository;
  * @see
  */
 @Repository
-public class GroupProductItemRepositoryImpl implements GroupProductItemDao, Serializable {
+public class GroupProductItemRepositoryImpl implements GroupProductItemDao {
 
-    private static final long serialVersionUID = 7439903304617204498L;
 }

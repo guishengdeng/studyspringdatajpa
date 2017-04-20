@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.repository.productStatistic;
+package com.biz.gbck.dao.mysql.repository.bbc.productStatistic;
 
 /**
  * 商品统计数据Dao

@@ -138,7 +138,7 @@ public class Product extends BaseEntity implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "relevance_product_id")
-    private RelevanceProduct relevanceProduct;
+    private RelevantProduct relevanceProduct;
 
     /**
      * 商品的伴随展示标签(商品列表项下的标签介绍)
@@ -304,11 +304,11 @@ public class Product extends BaseEntity implements Serializable {
         this.logo = logo;
     }
 
-    public RelevanceProduct getRelevanceProduct() {
+    public RelevantProduct getRelevanceProduct() {
         return relevanceProduct;
     }
 
-    public void setRelevanceProduct(RelevanceProduct relevanceProduct) {
+    public void setRelevanceProduct(RelevantProduct relevanceProduct) {
         this.relevanceProduct = relevanceProduct;
     }
 

@@ -1,6 +1,6 @@
-package com.biz.gbck.dao.mysql.repository.bbc.product;
+package com.biz.gbck.dao.mysql.repository.product;
 
-import java.io.Serializable;
+import com.biz.gbck.dao.mysql.repository.bbc.product.GeoProductDao;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
  * @see
  */
 @Repository
-public class GroupProductRepositoryImpl implements GeoProductDao, Serializable {
+public class GroupProductRepositoryImpl implements GeoProductDao {
 
-    private static final long serialVersionUID = -5852883455241641423L;
 }

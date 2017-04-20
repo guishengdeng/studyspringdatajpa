@@ -1,6 +1,4 @@
-package com.biz.gbck.dao.mysql.repository.product;
-
-import java.io.Serializable;
+package com.biz.gbck.dao.mysql.repository.bbc.product;
 
 /**
  * 区域商品Dao
@@ -10,5 +8,5 @@ import java.io.Serializable;
  * @reviewer
  * @see
  */
-public interface GeoProductDao extends Serializable {
+public interface GeoProductDao {
 }

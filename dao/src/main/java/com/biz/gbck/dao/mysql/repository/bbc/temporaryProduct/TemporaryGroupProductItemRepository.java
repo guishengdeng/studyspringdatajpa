@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.repository.bbc.temporaryproduct;
+package com.biz.gbck.dao.mysql.repository.bbc.temporaryProduct;
 
 import com.biz.gbck.dao.mysql.po.product.bbc.TemporaryGroupProductItem;
 import com.biz.support.jpa.repository.CommonJpaRepository;

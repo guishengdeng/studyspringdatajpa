@@ -2,13 +2,13 @@ package com.biz.soa.product.service.backend;
 
 import com.alibaba.fastjson.JSON;
 import com.biz.core.util.DateUtil;
-import com.biz.gbck.dao.mysql.po.product.bbc.GroupProduct;
-import com.biz.gbck.dao.mysql.po.product.bbc.GroupProductItem;
+import com.biz.gbck.dao.mysql.po.product.GroupProduct;
+import com.biz.gbck.dao.mysql.po.product.GroupProductItem;
 import com.biz.gbck.dao.mysql.po.product.bbc.MnsProduct;
 import com.biz.gbck.dao.mysql.po.product.bbc.Product;
 import com.biz.gbck.dao.mysql.repository.product.GroupProductRepository;
-import com.biz.gbck.dao.mysql.repository.product.MnsProductRepository;
-import com.biz.gbck.dao.mysql.repository.product.ProductRepository;
+import com.biz.gbck.dao.mysql.repository.bbc.product.MnsProductRepository;
+import com.biz.gbck.dao.mysql.repository.bbc.product.ProductRepository;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.oms.InvalidOmsDataType;
 import com.biz.gbck.enums.oms.InvalidOmsMessageType;

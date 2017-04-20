@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.repository.bbc.temporaryproduct;
+package com.biz.gbck.dao.mysql.repository.bbc.temporaryProduct;
 
 import java.io.Serializable;
 import org.springframework.stereotype.Repository;

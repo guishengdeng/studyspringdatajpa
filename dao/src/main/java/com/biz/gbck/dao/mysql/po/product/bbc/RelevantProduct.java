@@ -5,16 +5,11 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
 
-/**
- * @author 江南
- * @usage
- * @reviewer
- * @since 2017/4/6
- */
-
 @Entity
-@Table(name = "pro_relevance_product")
-public class RelevanceProduct extends BaseEntity implements Serializable {
+@Table(name = "pro_relevant_product")
+public class RelevantProduct extends BaseEntity implements Serializable {
+
+    private static final long serialVersionUID = 5750362855763754192L;
 
     /**
      * 商品数据
@@ -26,17 +21,17 @@ public class RelevanceProduct extends BaseEntity implements Serializable {
      * 关联子商品
      */
     @ManyToMany
-    @JoinTable(name = "pro_relevance", joinColumns = {@JoinColumn(name = "relevance_id", referencedColumnName = "id")},
+    @JoinTable(name = "pro_relevant", joinColumns = {@JoinColumn(name = "relevant_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")})
-    private List<Product> childRelevanceProducts;
+    private List<Product> relevntProductList;
 
 
-    public List<Product> getChildRelevanceProducts() {
-        return childRelevanceProducts;
+    public List<Product> getRelevntProductList() {
+        return relevntProductList;
     }
 
-    public void setChildRelevanceProducts(List<Product> childRelevanceProducts) {
-        this.childRelevanceProducts = childRelevanceProducts;
+    public void setRelevntProductList(List<Product> relevntProductList) {
+        this.relevntProductList = relevntProductList;
     }
 
     public Product getProduct() {

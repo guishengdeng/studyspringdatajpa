@@ -3,7 +3,7 @@ package com.biz.soa.product.service.frontend;
 import com.biz.core.page.PageResult;
 import com.biz.core.util.DistanceCalc;
 import com.biz.gbck.dao.mysql.po.product.bbc.Product;
-import com.biz.gbck.dao.mysql.repository.product.ProductRepository;
+import com.biz.gbck.dao.mysql.repository.bbc.product.ProductRepository;
 import com.biz.gbck.dao.redis.repository.product.CategoryRedisDao;
 import com.biz.gbck.dao.redis.repository.product.bbc.PriceRedisDao;
 import com.biz.gbck.dao.redis.repository.product.ProductCascadeRedisDao;
