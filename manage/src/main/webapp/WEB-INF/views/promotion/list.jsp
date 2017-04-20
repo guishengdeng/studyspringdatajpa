@@ -88,13 +88,14 @@
                                         <td>${promotions.createTime}</td>
                                         <td>${promotions.idx}</td>
                                         <td>
-                                            <a class="ui primary find-btn"
-                                               href="${pageContext.request.contextPath}/promotions/${promotions.id}.do"><i
-                                                    class="ui icon legal"></i><span>修改</span></a>&nbsp;
-                                            <a class="ui "
+                                            <a class="btn btn-xs btn-info"
+                                               href="${pageContext.request.contextPath}/promotions/${promotions.id}.do">
+                                                <i class="icon-edit bigger-120"></i>
+                                                <span>修改</span></a>&nbsp;
+                                            <a class="btn btn-xs btn-danger"
                                                href="${pageContext.request.contextPath}/promotions/delete.do?id=${promotions.id}">
-                                                <i class="minus circle icon"></i>
-                                                </i><span>禁用</span></a>
+                                                <i class="icon-edit bigger-120"></i>
+                                                <span>禁用</span></a>
                                         </td>
                                     </tr>
                                 </c:forEach>
