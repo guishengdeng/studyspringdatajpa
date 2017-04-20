@@ -26,11 +26,18 @@
                     示例管理
                 </li>
                 <li class="active">
-                    猫
+                    猫维护
                 </li>
             </ul>
+            <a class="btn btn-xs btn-primary history-back">
+                <i class="ace-icon fa fa-angle-left"></i>
+                返回
+            </a>
         </div>
         <div class="page-content">
+            <h3 class="header smaller lighter blue">
+                猫数据
+            </h3>
             <div class="row">
                 <div class="col-xs-12">
                     <form id="contact-form" action="demo/cats.do" method="post" class="form-horizontal"
