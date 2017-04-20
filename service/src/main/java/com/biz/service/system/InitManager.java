@@ -110,7 +110,7 @@ public class InitManager {
 			logger.info("完成初始化系统基础数据...");
 		}
 
-		if (catRepository.count() == 0) {
+		if (catRepository.count() < 100) {
 			logger.info("开始初始化猫数据...");
 			Long catId = 1L;
 			List<CatPO> cats = newArrayList();
