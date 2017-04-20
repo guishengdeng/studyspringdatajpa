@@ -12,5 +12,7 @@ public interface MainMenuRepository extends CommonJpaRepository<MainMenu, Long>,
 
     List<MainMenu> findByOrderByCodeAscNameAsc();
 
+
+
 }
 

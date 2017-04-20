@@ -1,5 +1,6 @@
 package com.biz.manage;
 
+import com.biz.manage.filter.ManageFilter;
 import com.biz.support.jpa.repository.CommonRepositoryFactoryBean;
 import javax.servlet.Filter;
 import org.springframework.boot.SpringApplication;
@@ -32,6 +33,11 @@ public class Application extends SpringBootServletInitializer {
     @Bean
     public Filter openEntityManagerInViewFilter() {
         return new OpenEntityManagerInViewFilter();
+    }
+
+    @Bean
+    public Filter manageFilter(){
+        return new ManageFilter();
     }
 
 

@@ -36,11 +36,11 @@ public class Resource extends BasePo<Long> implements Identifiable<Long> {
     private List<Role> roles;
 
     public Resource() {
-        super(null);
+
     }
 
     public Resource(Long id, String name, String symbol, String description, MenuItem menuItem, List<Role> roles) {
-        super(id);
+        setId(id);
         this.name = name;
         this.symbol = symbol;
         this.description = description;

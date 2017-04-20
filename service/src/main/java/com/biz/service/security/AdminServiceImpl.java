@@ -88,4 +88,10 @@ public class AdminServiceImpl extends AbstractBaseService implements UserDetails
         admin.setCreateBy(createBy);
         adminRepository.save(admin);
     }
+
+    @Override
+    public void deleteAdmin(String username) {
+
+         adminRepository.delete(username);
+    }
 }

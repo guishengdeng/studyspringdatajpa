@@ -18,7 +18,7 @@
 </div>
 <script type="application/javascript">
     jQuery(function($) {
-        $('#sidebar_tag_${sidebar_seq}').insertBefore('.page-content');
+        $('#sidebar_tag_${sidebar_seq}').insertBefore('.page-content:first');
 
         $('.navbar-toggle[data-target="#sidebar_tag_${sidebar_seq}"]').insertAfter('#menu-toggler');
 

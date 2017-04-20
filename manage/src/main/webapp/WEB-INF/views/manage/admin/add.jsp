@@ -3,12 +3,15 @@
 <%@taglib prefix="depotnextdoor" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%--这是用户--%>
 <depotnextdoor:page title="page.user.edit">
+
     <jsp:attribute name="script">
         <script type="application/javascript">
             <c:forEach items="${admin.roles}" var="role" varStatus="status">
             var obj${status.count} = document.getElementById('roleId_${role.id}');
-            if (obj${status.count}) obj${status.count}.checked = true;
+            if (obj${status.count})
+                obj${status.count}.checked = true;
             </c:forEach>
         </script>
     </jsp:attribute>
@@ -50,11 +53,11 @@
                             </span>
                             </h3>
                             <form action="manage/users/save_${cmd}.do" method="post"
-                                  class="form-horizontal" role="form">
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label no-padding-right"
-                                           for="account">
-                                        用户名
+                                                 class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"
+                                                   for="account">
+                                                用户名
                                     </label>
 
                                     <div class="col-sm-9">
@@ -75,10 +78,14 @@
 
                                         <div class="col-sm-9">
                                             <input type="password" id="password" placeholder="密码"
-                                                   name="pwd" class="col-xs-10 col-sm-5">
+                                                   name="password" class="col-xs-10 col-sm-5">
                                         </div>
                                     </div>
                                 </c:if>
+                                <%--由于sql语句要求一定要传入密码参数，所以，这里需要给定一个隐藏的input标签--%>
+                                <input type="hidden" value="${admin.password}"
+                                       name="password" class="col-xs-10 col-sm-5">
+                                 <%--由于sql语句要求一定要传入密码参数，所以，这里需要给定一个隐藏的input标签--%>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"
                                            for="name">
@@ -100,12 +107,12 @@
                                             <label class="checkbox-inline">
                                                 <input type="radio"
                                                        name="status" ${admin.status.value == 1 ? 'checked' :''}
-                                                       value="true"> 启用
+                                                       value="ENABLE"> 启用
                                             </label>
                                             <label class="checkbox-inline">
                                                 <input type="radio"
                                                        name="status" ${admin.status.value == 0 ? '' :'checked'}
-                                                       value="false"> 禁用
+                                                       value="DISABLE"> 禁用
                                             </label>
                                         </div>
                                     </div>

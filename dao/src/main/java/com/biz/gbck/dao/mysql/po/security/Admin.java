@@ -35,8 +35,10 @@ public class Admin implements Serializable, UserDetails {
 
     /**
      * 密码
+     * before:, nullable = false
+     * after:删除了这个参数
      */
-    @Column(length = 200, nullable = false)
+    @Column(length = 200)
     private String password;
 
     /**

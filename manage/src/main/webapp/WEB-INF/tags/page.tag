@@ -126,7 +126,7 @@
                         </a>
                         <b class="arrow"></b>
                     </li>
-
+                     <%--这里就是用户登陆成功后,左边显示的选项卡:用户管理，角色管理，菜单管理--%>
                     <c:forEach var="menu" items="${menus}" varStatus="menuStatus">
                         <li class="${_activeMainMenu_ eq menuStatus.index ? 'active open' : ''}">
                             <a href="#" class="dropdown-toggle">
@@ -269,7 +269,7 @@
 <!-- support for act beetbox -->
 <script src="static-resource/ace/assets/js/bootbox.js"></script>
 
-<script src="static-resource/common/js/localos.js"></script>
+<script src="static-resource/common/js/gbck.js"></script>
 
 <jsp:invoke fragment="script"/>
 </html>
