@@ -16,9 +16,9 @@ import com.biz.gbck.dao.mysql.repository.product.ProductAuditActionLogRepository
 import com.biz.gbck.dao.mysql.repository.product.ProductAuditRepository;
 import com.biz.gbck.dao.mysql.repository.product.ProductRepository;
 import com.biz.gbck.dao.mysql.repository.saleTag.SaleTagRepository;
-import com.biz.gbck.dao.mysql.repository.vendor.VendorRepository;
-import com.biz.gbck.dao.mysql.specification.ProductAuditSpecification;
-import com.biz.gbck.dao.mysql.specification.TypeBProductSpecification;
+import com.biz.gbck.dao.mysql.repository.bbc.vendor.VendorRepository;
+import com.biz.gbck.dao.mysql.specification.bbc.ProductAuditSpecification;
+import com.biz.gbck.dao.mysql.specification.bbc.TypeBProductSpecification;
 import com.biz.gbck.dao.redis.repository.product.bbc.PriceRedisDao;
 import com.biz.gbck.dao.redis.repository.product.ProductRedisDao;
 import com.biz.gbck.dao.redis.ro.product.PriceRo;
