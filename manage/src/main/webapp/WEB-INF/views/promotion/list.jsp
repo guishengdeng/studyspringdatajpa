@@ -23,7 +23,7 @@
                 </li>
 
                 <li>
-                    <a href="">
+                    <a href="/promotions.do">
                         活动列表
                     </a>
                 </li>

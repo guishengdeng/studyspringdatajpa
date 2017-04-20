@@ -36,13 +36,13 @@ import java.util.Date;
             size = Integer.MAX_VALUE;
             number = 0;
         }
-        return new ModelAndView("manage/promotion/list", "promotions",
+        return new ModelAndView("promotion/list", "promotions",
             promotionService.findNormal(new PageRequest(number, size, null)));
     }
 
     @RequestMapping(value = "new", method = RequestMethod.GET)  @PreAuthorize("hasAuthority('OPT_PROMOTION_SAVE')")
     public ModelAndView add() {
-        return new ModelAndView("manage/promotion/detail");
+        return new ModelAndView("promotion/detail");
     }
 
     @RequestMapping( method = RequestMethod.POST)  @PreAuthorize("hasAuthority('OPT_PROMOTION_SAVE')")
@@ -55,7 +55,7 @@ import java.util.Date;
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET) @PreAuthorize("hasAuthority('OPT_PROMOTION_UPDATE')")
     public ModelAndView toUpdate(@PathVariable("id") Long id) {
-        return new ModelAndView("manage/promotion/detail", "promotion", promotionService.get(id));
+        return new ModelAndView("promotion/detail", "promotion", promotionService.get(id));
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.POST)  @PreAuthorize("hasAuthority('OPT_PROMOTION_UPDATE')")
