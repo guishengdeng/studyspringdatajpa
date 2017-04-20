@@ -86,18 +86,6 @@ public class Category extends BaseEntity implements Serializable {
     private List<ProductFilter> productFilters;
 
     /**
-     * 分类商品
-     */
-    @OneToMany
-    private List<Product> products;
-
-    /**
-     * 分类商品审核记录
-     */
-    @OneToMany
-    private List<ProductAudit> productAudits;
-
-    /**
      * SEO 标题
      */
     @Column(length = 50)
@@ -259,28 +247,10 @@ public class Category extends BaseEntity implements Serializable {
                 ", brands=" + brands +
                 ", productExtends=" + productExtends +
                 ", productFilters=" + productFilters +
-                ", products=" + products +
-                ", productAudits=" + productAudits +
                 ", seoTitle='" + seoTitle + '\'' +
                 ", seoKeywords='" + seoKeywords + '\'' +
                 ", seoDescription='" + seoDescription + '\'' +
                 ", deleteFlag=" + deleteFlag +
                 '}';
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
-    public List<ProductAudit> getProductAudits() {
-        return productAudits;
-    }
-
-    public void setProductAudits(List<ProductAudit> productAudits) {
-        this.productAudits = productAudits;
     }
 }

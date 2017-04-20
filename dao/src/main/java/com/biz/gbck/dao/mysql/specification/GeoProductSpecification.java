@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.specification;
 
-import com.biz.gbck.dao.mysql.po.product.GeoProduct;
+import com.biz.gbck.dao.mysql.po.product.bbc.GeoProduct;
 import com.biz.gbck.enums.product.ProductAuditStatusEnum;
 import com.biz.gbck.enums.product.SaleStatusEnum;
 import com.biz.gbck.vo.product.backend.VendorProductListReqVo;

@@ -82,27 +82,6 @@ public class Brand extends BaseEntity implements Serializable {
     private List<Category> categories;
 
     /**
-     * 店铺
-     */
-    //    @ManyToMany(fetch = FetchType.LAZY)
-    //    @JoinTable(name = "ven_vendor_brand",
-    //            joinColumns = {@JoinColumn(name = "brand_id", referencedColumnName = "id")},
-    //            inverseJoinColumns = {@JoinColumn(name = "vendor_id", referencedColumnName = "id")},
-    //            uniqueConstraints = {@UniqueConstraint(columnNames= {"brand_id" , "vendor_id"})})
-    //    private List<Vendor> vendors;
-    /**
-     * 品牌商品
-     */
-    @OneToMany
-    private List<Product> products;
-
-    /**
-     * 品牌商品审核记录
-     */
-    @OneToMany
-    private List<ProductAudit> productAudits;
-
-    /**
      * SEO 标题
      */
     @Column(length = 50)
@@ -240,21 +219,5 @@ public class Brand extends BaseEntity implements Serializable {
         this.setSeoDescription(vo.getSeoDescription());
         this.setSeoKeywords(vo.getSeoKeywords());
         this.setSeoTitle(vo.getSeoTitle());
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
-    public List<ProductAudit> getProductAudits() {
-        return productAudits;
-    }
-
-    public void setProductAudits(List<ProductAudit> productAudits) {
-        this.productAudits = productAudits;
     }
 }

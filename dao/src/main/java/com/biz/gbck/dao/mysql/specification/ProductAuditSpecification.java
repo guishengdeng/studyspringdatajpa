@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.specification;
 
-import com.biz.gbck.dao.mysql.po.product.ProductAudit;
+import com.biz.gbck.dao.mysql.po.product.bbc.ProductAudit;
 import com.biz.gbck.vo.product.backend.PlatformProductAuditListReqVo;
 import com.google.common.collect.Lists;
 import java.util.List;

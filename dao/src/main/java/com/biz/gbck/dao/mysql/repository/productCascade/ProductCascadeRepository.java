@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.productCascade;
 
-import com.biz.gbck.dao.mysql.po.product.ProductCascade;
+import com.biz.gbck.dao.mysql.po.product.bbc.ProductCascade;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;

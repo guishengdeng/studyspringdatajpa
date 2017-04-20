@@ -2,7 +2,7 @@ package com.biz.soa.product.service.backend;
 
 import com.alibaba.fastjson.JSON;
 import com.biz.core.util.DateUtil;
-import com.biz.gbck.dao.redis.repository.product.PriceRedisDao;
+import com.biz.gbck.dao.redis.repository.product.bbc.PriceRedisDao;
 import com.biz.gbck.dao.redis.ro.product.PriceRo;
 import com.biz.gbck.enums.oms.InvalidOmsDataType;
 import com.biz.gbck.enums.oms.InvalidOmsMessageType;

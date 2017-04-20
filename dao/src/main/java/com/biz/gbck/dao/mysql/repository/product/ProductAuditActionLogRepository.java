@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.product;
 
-import com.biz.gbck.dao.mysql.po.product.ProductAuditActionLog;
+import com.biz.gbck.dao.mysql.po.product.bbc.ProductAuditActionLog;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import org.springframework.stereotype.Repository;
 

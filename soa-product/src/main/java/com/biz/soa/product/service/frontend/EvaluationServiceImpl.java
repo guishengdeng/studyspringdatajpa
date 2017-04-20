@@ -2,13 +2,13 @@ package com.biz.soa.product.service.frontend;
 
 import com.biz.core.page.PageResult;
 import com.biz.core.util.JsonUtil;
-import com.biz.gbck.dao.mysql.po.product.Evaluation;
-import com.biz.gbck.dao.mysql.po.product.Product;
-import com.biz.gbck.dao.mysql.po.product.Vendor;
+import com.biz.gbck.dao.mysql.po.product.bbc.Evaluation;
+import com.biz.gbck.dao.mysql.po.product.bbc.Product;
+import com.biz.gbck.dao.mysql.po.product.bbc.Vendor;
 import com.biz.gbck.dao.mysql.repository.evaluation.EvaluationRepository;
 import com.biz.gbck.dao.mysql.repository.product.ProductRepository;
 import com.biz.gbck.dao.mysql.repository.vendor.VendorRepository;
-import com.biz.gbck.dao.redis.repository.product.EvaluationRedisDao;
+import com.biz.gbck.dao.redis.repository.product.bbc.EvaluationRedisDao;
 import com.biz.gbck.dao.redis.repository.product.ProductRedisDao;
 import com.biz.gbck.dao.redis.repository.vendor.VendorRedisDao;
 import com.biz.gbck.dao.redis.ro.product.EvaluationRo;

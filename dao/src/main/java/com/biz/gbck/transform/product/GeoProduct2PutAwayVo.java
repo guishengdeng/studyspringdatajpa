@@ -1,7 +1,7 @@
 package com.biz.gbck.transform.product;
 
 import com.biz.core.util.MoneyConverter;
-import com.biz.gbck.dao.mysql.po.product.GeoProduct;
+import com.biz.gbck.dao.mysql.po.product.bbc.GeoProduct;
 import com.biz.gbck.vo.product.backend.PutAwayVo;
 import com.google.common.base.Function;
 

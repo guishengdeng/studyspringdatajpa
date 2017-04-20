@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.temporaryproduct;
 
-import com.biz.gbck.dao.mysql.po.product.TemporaryGroupProductItem;
+import com.biz.gbck.dao.mysql.po.product.bbc.TemporaryGroupProductItem;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import org.springframework.stereotype.Repository;
 

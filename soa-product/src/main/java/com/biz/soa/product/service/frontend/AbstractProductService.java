@@ -2,7 +2,7 @@ package com.biz.soa.product.service.frontend;
 
 import com.biz.core.util.DistanceCalc;
 import com.biz.core.util.StringTool;
-import com.biz.gbck.dao.redis.repository.product.PriceRedisDao;
+import com.biz.gbck.dao.redis.repository.product.bbc.PriceRedisDao;
 import com.biz.gbck.dao.redis.repository.product.ProductRedisDao;
 import com.biz.gbck.dao.redis.ro.product.PriceRo;
 import com.biz.gbck.dao.redis.ro.product.ProductRo;
@@ -42,7 +42,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static com.biz.gbck.dao.redis.repository.product.SaleAreaRedisDao.TYPE_A_PRICE_AREA_NO;
+import static com.biz.gbck.dao.redis.repository.product.bbc.SaleAreaRedisDao.TYPE_A_PRICE_AREA_NO;
 
 /**
  * 商品搜索抽象方法

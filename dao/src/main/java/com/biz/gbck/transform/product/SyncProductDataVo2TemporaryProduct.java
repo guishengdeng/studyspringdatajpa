@@ -1,6 +1,6 @@
 package com.biz.gbck.transform.product;
 
-import com.biz.gbck.dao.mysql.po.product.TemporaryProduct;
+import com.biz.gbck.dao.mysql.po.product.bbc.TemporaryProduct;
 import com.biz.gbck.vo.product.backend.SyncProductDataVo;
 import com.google.common.base.Function;
 import org.codelogger.utils.BeanUtils;

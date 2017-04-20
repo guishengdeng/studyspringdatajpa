@@ -1,5 +1,6 @@
-package com.biz.gbck.dao.mysql.po.product;
+package com.biz.gbck.dao.mysql.po.product.bbc;
 
+import com.biz.gbck.dao.mysql.po.product.*;
 import com.biz.gbck.dao.redis.ro.product.ProductRo;
 import com.biz.gbck.enums.product.GeoLevelEnum;
 import com.biz.gbck.enums.product.SaleStatusEnum;

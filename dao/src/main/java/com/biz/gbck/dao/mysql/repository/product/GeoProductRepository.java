@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.mysql.repository.product;
 
-import com.biz.gbck.dao.mysql.po.product.GeoProduct;
-import com.biz.gbck.dao.mysql.po.product.Product;
+import com.biz.gbck.dao.mysql.po.product.bbc.GeoProduct;
+import com.biz.gbck.dao.mysql.po.product.bbc.Product;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

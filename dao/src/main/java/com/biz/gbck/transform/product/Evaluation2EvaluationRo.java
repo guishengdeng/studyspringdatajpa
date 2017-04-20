@@ -1,6 +1,6 @@
 package com.biz.gbck.transform.product;
 
-import com.biz.gbck.dao.mysql.po.product.Evaluation;
+import com.biz.gbck.dao.mysql.po.product.bbc.Evaluation;
 import com.biz.gbck.dao.redis.ro.product.EvaluationRo;
 import com.google.common.base.Function;
 import org.apache.commons.collections.CollectionUtils;

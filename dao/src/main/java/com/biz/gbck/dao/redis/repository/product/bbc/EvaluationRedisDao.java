@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.redis.repository.product;
+package com.biz.gbck.dao.redis.repository.product.bbc;
 
 
 import com.biz.gbck.dao.redis.CrudRedisDao;

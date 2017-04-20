@@ -1,6 +1,6 @@
 package com.biz.soa.product.service.frontend;
 
-import com.biz.gbck.dao.redis.repository.product.PriceRedisDao;
+import com.biz.gbck.dao.redis.repository.product.bbc.PriceRedisDao;
 import com.biz.gbck.dao.redis.repository.product.ProductRedisDao;
 import com.biz.gbck.dao.redis.ro.product.PriceRo;
 import com.biz.gbck.dao.redis.ro.product.ProductRo;

@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.product;
 
-import com.biz.gbck.dao.mysql.po.product.MnsProduct;
+import com.biz.gbck.dao.mysql.po.product.bbc.MnsProduct;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
