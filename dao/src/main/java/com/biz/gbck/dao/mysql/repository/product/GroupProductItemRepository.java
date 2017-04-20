@@ -1,7 +1,7 @@
-package com.biz.gbck.dao.mysql.repository.product;
+package com.biz.gbck.dao.mysql.repository.bbc.product;
 
-import com.biz.gbck.dao.mysql.po.product.bbc.GroupProduct;
-import com.biz.gbck.dao.mysql.po.product.bbc.GroupProductItem;
+import com.biz.gbck.dao.mysql.po.product.GroupProduct;
+import com.biz.gbck.dao.mysql.po.product.GroupProductItem;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.List;
 import org.springframework.stereotype.Repository;
