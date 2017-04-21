@@ -19,6 +19,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  *
  * Created by david-liu on 2017/04/20 10:59.
  */
+@Entity
+@Table(name = "pro_product")
 public class Product extends BaseEntity {
 
     private static final long serialVersionUID = 1794204729130850758L;
@@ -170,28 +172,34 @@ public class Product extends BaseEntity {
     private Boolean locked = Boolean.FALSE;
 
     /**
-     * 是否是组合商品
+     * 是否二维码管控(默认二维码管控)
+     */
+    @Column
+    private Boolean isControlByQRCode = Boolean.TRUE;
+
+    /**
+     * 是否是流通商品(默认非流通商品)
+     */
+    @Column
+    private Boolean isCircularFlow = Boolean.FALSE;
+
+    /**
+     * 是否是组合商品(默认是非组合商品)
      */
     @Column
     private Boolean isRapidProduct = Boolean.FALSE;
-
-    /**
-     * 是否二维码管控
-     */
-    @Column
-    private Boolean isControlByQRCode;
-
-    /**
-     * 是否是流通商品
-     */
-    @Column
-    private Boolean isCircularFlow;
 
     /**
      * 组合商品
      */
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private GroupProduct groupProduct;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<DepotProduct> depotProducts;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PriceGroup> priceGroups;
 
     public String getBreif() {
         return breif;
@@ -458,5 +466,21 @@ public class Product extends BaseEntity {
 
     public void setCircularFlow(Boolean circularFlow) {
         isCircularFlow = circularFlow;
+    }
+
+    public List<DepotProduct> getDepotProducts() {
+        return depotProducts;
+    }
+
+    public void setDepotProducts(List<DepotProduct> depotProducts) {
+        this.depotProducts = depotProducts;
+    }
+
+    public List<PriceGroup> getPriceGroups() {
+        return priceGroups;
+    }
+
+    public void setPriceGroups(List<PriceGroup> priceGroups) {
+        this.priceGroups = priceGroups;
     }
 }
