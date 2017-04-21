@@ -1,5 +1,6 @@
 package com.biz.manage.controller.file;
 
+import com.alibaba.fastjson.JSONObject;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.biz.core.ali.oss.config.OssConfig;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
@@ -27,6 +29,8 @@ public class UploadController {
 	private static final String UPLOAD_STREAM_PARAM = "base64stream"; //base64方式上传
 
 	private static final String UPLOAD_NAME_PARAM = "key"; //文件方式上传
+
+	private static final String URI_FLAG = "uri";
 
 	@Autowired
 	private OssConfig config;
@@ -57,12 +61,21 @@ public class UploadController {
 			PutObjectRequest req = new PutObjectRequest(config.getBucketName(), key, ImageUtil.base64stream2image
 					(base64stream));
 			OssUtil.putObject(ossClient, req);
-			return new JSONResult(0, "上传成功");
+			String imageUri = OssUtil.getOssResourceUri(config.getBucketName(), config.getRemoteEndpoint(), key);
+			return new JSONResult(imageUri);
 		} catch (Exception e) {
 			logger.error("上传失败", e);
 			return new JSONResult(1, "上传失败");
 		}
 	}
 
+	@RequestMapping(value = "preview", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject sourceUri(HttpServletRequest request) {
+		String imageName = request.getParameter(UPLOAD_STREAM_PARAM);
+		JSONObject json = new JSONObject();
+		json.put(URI_FLAG, OssUtil.getOssResourceUri(config.getBucketName(), config.getRemoteEndpoint(), imageName));
+		return json;
+	}
 
 }

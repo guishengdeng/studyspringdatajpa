@@ -3,17 +3,10 @@
 <%@taglib prefix="gbck" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<gbck:page title="page.user.edit">
+<gbck:page title="猫维护">
     <jsp:attribute name="script">
-        <script type="application/javascript">
-            <c:forEach items="${admin.roles}" var="role" varStatus="status">
-            var obj${status.count} = document.getElementById('roleId_${role.id}');
-            if (obj${status.count}) obj${status.count}.checked = true;
-            </c:forEach>
-        </script>
     </jsp:attribute>
     <jsp:body>
-        <jsp:include page="component/navigations.jsp"/>
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
                 <li>
@@ -40,7 +33,7 @@
             </h3>
             <div class="row">
                 <div class="col-xs-12">
-                    <form id="contact-form" action="demo/cats.do" method="post" class="form-horizontal"
+                    <form id="contact-form" action="demo/cats/save.do" method="post" class="form-horizontal"
                           role="form">
                         <input type="hidden" name="id" id="id" value="${cat.id}"/>
                         <div class="form-group">
