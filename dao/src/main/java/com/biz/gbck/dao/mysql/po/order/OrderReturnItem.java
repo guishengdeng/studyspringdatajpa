@@ -10,12 +10,12 @@ import javax.persistence.*;
  * @date 2016/12/27
  */
 @Entity
-@Table(name = "ord_order_refund_item")
-public class OrderRefundItem extends BaseEntity {
+@Table(name = "ord_order_return_item")
+public class OrderReturnItem extends BaseEntity {
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "refund_id")
-    private OrderRefund orderRefund;
+    @JoinColumn(name = "return_id")
+    private OrderReturn orderReturn;
 
     //订单明细
     @OneToOne(optional = false)
@@ -25,14 +25,14 @@ public class OrderRefundItem extends BaseEntity {
     /**
      * 退货数量(不超过商品购买数量)
      */
-    private Integer refundQuantity;
+    private Integer returnQuantity;
 
-    public OrderRefund getOrderRefund() {
-        return orderRefund;
+    public OrderReturn getOrderReturn() {
+        return orderReturn;
     }
 
-    public void setOrderRefund(OrderRefund orderRefund) {
-        this.orderRefund = orderRefund;
+    public void setOrderReturn(OrderReturn orderReturn) {
+        this.orderReturn = orderReturn;
     }
 
     public OrderItem getItem() {
@@ -43,11 +43,11 @@ public class OrderRefundItem extends BaseEntity {
         this.item = item;
     }
 
-    public Integer getRefundQuantity() {
-        return refundQuantity;
+    public Integer getReturnQuantity() {
+        return returnQuantity;
     }
 
-    public void setRefundQuantity(Integer refundQuantity) {
-        this.refundQuantity = refundQuantity;
+    public void setReturnQuantity(Integer returnQuantity) {
+        this.returnQuantity = returnQuantity;
     }
 }

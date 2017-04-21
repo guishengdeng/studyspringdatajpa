@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.po.order;
 
-import com.biz.gbck.enums.order.RefundStatus;
+import com.biz.gbck.enums.order.ReturnStatus;
 import com.biz.support.jpa.converter.ListStringConverter;
 import com.biz.support.jpa.po.BaseEntity;
 import javax.persistence.*;
@@ -16,8 +16,8 @@ import static com.google.common.collect.Lists.newArrayList;
  * @see
  */
 @Entity
-@Table(name = "ord_order_refund")
-public class OrderRefund extends BaseEntity {
+@Table(name = "ord_order_return")
+public class OrderReturn extends BaseEntity {
 
     private static final long serialVersionUID = 4548093051968768185L;
 
@@ -33,14 +33,14 @@ public class OrderRefund extends BaseEntity {
     /**
      * 退款状态
      */
-    @Convert(converter = RefundStatus.Converter.class)
-    private RefundStatus status = RefundStatus.PRE_AUDIT;
+    @Convert(converter = ReturnStatus.Converter.class)
+    private ReturnStatus status = ReturnStatus.PRE_AUDIT;
 
     /**
      * 退款单明细
      */
-    @OneToMany(mappedBy = "orderRefund", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderRefundItem> items;
+    @OneToMany(mappedBy = "orderReturn", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderReturnItem> items;
 
     /**
      * 退货收货人姓名
@@ -59,7 +59,7 @@ public class OrderRefund extends BaseEntity {
      */
     @Convert(converter = ListStringConverter.class)
     @Column(length = 800)
-    private List<String> refundImages = newArrayList();
+    private List<String> images = newArrayList();
 
     //退货理由
     @Column(length = 100)
@@ -85,7 +85,7 @@ public class OrderRefund extends BaseEntity {
     private String expressNo;
 
     @Embedded
-    private OrderRefundAudit refundAudit;
+    private OrderReturnAudit returnAudit;
 
     public Order getOrder() {
         return order;
@@ -103,11 +103,11 @@ public class OrderRefund extends BaseEntity {
         this.returnCode = returnCode;
     }
 
-    public RefundStatus getStatus() {
+    public ReturnStatus getStatus() {
         return status;
     }
 
-    public void setStatus(RefundStatus status) {
+    public void setStatus(ReturnStatus status) {
         this.status = status;
     }
 
@@ -127,12 +127,12 @@ public class OrderRefund extends BaseEntity {
         this.mobile = mobile;
     }
 
-    public List<String> getRefundImages() {
-        return refundImages;
+    public List<String> getImages() {
+        return images;
     }
 
-    public void setRefundImages(List<String> refundImages) {
-        this.refundImages = refundImages;
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 
     public String getReason() {
@@ -175,19 +175,19 @@ public class OrderRefund extends BaseEntity {
         this.expressNo = expressNo;
     }
 
-    public OrderRefundAudit getRefundAudit() {
-        return refundAudit;
+    public OrderReturnAudit getReturnAudit() {
+        return returnAudit;
     }
 
-    public void setRefundAudit(OrderRefundAudit refundAudit) {
-        this.refundAudit = refundAudit;
+    public void setReturnAudit(OrderReturnAudit returnAudit) {
+        this.returnAudit = returnAudit;
     }
 
-    public List<OrderRefundItem> getItems() {
+    public List<OrderReturnItem> getItems() {
         return items;
     }
 
-    public void setItems(List<OrderRefundItem> items) {
+    public void setItems(List<OrderReturnItem> items) {
         this.items = items;
     }
 }

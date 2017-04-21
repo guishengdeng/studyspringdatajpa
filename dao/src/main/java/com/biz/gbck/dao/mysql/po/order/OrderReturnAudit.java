@@ -1,9 +1,10 @@
 package com.biz.gbck.dao.mysql.po.order;
 
 import com.biz.gbck.enums.order.AuditStatus;
-import com.biz.support.jpa.po.BaseEntity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Embeddable;
 import java.sql.Timestamp;
 
 /**
@@ -15,7 +16,7 @@ import java.sql.Timestamp;
  * @see
  */
 @Embeddable
-public class OrderRefundAudit extends BaseEntity {
+public class OrderReturnAudit {
 
     private static final long serialVersionUID = 4580991351968768185L;
 

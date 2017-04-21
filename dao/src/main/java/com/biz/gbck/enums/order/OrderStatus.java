@@ -18,9 +18,9 @@ public enum OrderStatus implements EnumerableValue {
 	DELIVERED(30, "已发货"),
 	FINISHED(50, "已完成"),
 
-	APPLY_REFUND(60,"申请退货"),
-	REFUNDING(65,"退货中"),
-	REFUND_REJECT(70,"退货审核不通过"),
+	APPLY_RETURN(60,"申请退货"),
+	RETURNING(65,"退货中"),
+	RETURN_REJECT(70,"退货审核不通过"),
 	REFUNDED(80,"退款完成");
 
 
