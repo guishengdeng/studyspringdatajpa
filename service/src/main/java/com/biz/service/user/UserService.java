@@ -1,5 +1,7 @@
 package com.biz.service.user;
 
+import com.biz.gbck.dao.redis.ro.user.UserRo;
+import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.user.*;
 import java.util.List;
@@ -144,4 +146,21 @@ public interface UserService {
      * @throws DepotNextDoorException
      */
     UpdateUserResponseVo findByAccountName(AccountNameRequestVo reqVo) throws DepotNextDoorException;
+
+    /**
+     * 根据商户类型查询商户id集合
+     * @Author dylan
+     * @param shopTypeId
+     * @return
+     */
+    List<Long> findUserIdByShopType(Long shopTypeId);
+
+    /**
+     * 根据手机号码查询用户
+     * @param mobile
+     * @return
+     */
+    UserRo findUserByMobile(String mobile);
+
+    public List<Long> findAllUserIdByAuditStatus(AuditStatus auditStatus);
 }

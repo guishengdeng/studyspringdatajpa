@@ -34,6 +34,12 @@ public class PushMessage {
         this.url = url;
     }
 
+    public PushMessage(Integer badge, String alertMsg, String url) {
+        this.alertMsg = alertMsg;
+        this.badge = badge;
+        this.url = url;
+    }
+
     public PushMessage() {
     }
 

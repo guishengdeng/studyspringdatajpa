@@ -3,6 +3,8 @@ package com.biz.manage.controller.admin;
 import com.biz.gbck.dao.mysql.po.security.Admin;
 import com.biz.gbck.dao.mysql.po.security.MainMenu;
 import com.biz.gbck.dao.mysql.po.security.MenuItem;
+import com.biz.service.IdService;
+import com.biz.service.security.MainMenuServiceImpl;
 import com.biz.service.security.interfaces.MainMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -31,7 +33,8 @@ import java.util.List;
 public class MainMenuController {
     @Autowired
     private MainMenuService mainMenuService;
-
+    @Autowired
+    private IdService idService;
     @GetMapping
     @PreAuthorize("hasAuthority('OPT_MAINMENU_LIST')")
     public ModelAndView list(){
@@ -43,6 +46,7 @@ public class MainMenuController {
     public String getMenuItems(@RequestParam("id") Long id,Model model){
         MainMenu mainMenu=mainMenuService.getMainMenu(id);
         List<MenuItem> menuItems=mainMenu.getMenuItems();
+        model.addAttribute("mainMenu",mainMenu);
         model.addAttribute("menuItems",menuItems);
         return "manage/menu/menuItem";
     }
@@ -63,6 +67,9 @@ public class MainMenuController {
     @RequestMapping("/addOrUpdate")
     @PreAuthorize("hasAuthority('OPT_MAINMENU_ADD')")
     public String addOrUpdate(MainMenu mainMenu){
+        if(mainMenu.getId()==null){
+            mainMenu.setId(idService.nextId());
+        }
         mainMenuService.addOrUpdate(mainMenu);
         return "redirect:/manage/mainMenus";
     }

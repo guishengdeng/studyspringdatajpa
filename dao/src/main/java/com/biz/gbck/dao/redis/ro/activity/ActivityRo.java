@@ -26,6 +26,21 @@ public class ActivityRo extends BaseRedisObject<String> {
      */
     private String activityPicture;
 
+    /**
+     * 创建人
+     */
+    private String userId;
+
+    /**
+     * 显示排序
+     */
+    private Integer order = 0;
+
+    /**
+     * 是否发布到服务器
+     */
+    private Boolean showInApp = false;
+
     public String getActivityTitle() {
         return activityTitle;
     }
@@ -48,5 +63,29 @@ public class ActivityRo extends BaseRedisObject<String> {
 
     public void setActivityPicture(String activityPicture) {
         this.activityPicture = activityPicture;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Integer getOrder() {
+        return order;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
+
+    public Boolean getShowInApp() {
+        return showInApp;
+    }
+
+    public void setShowInApp(Boolean showInApp) {
+        this.showInApp = showInApp;
     }
 }

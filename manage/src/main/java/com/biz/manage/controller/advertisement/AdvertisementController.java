@@ -1,18 +1,15 @@
 package com.biz.manage.controller.advertisement;
 
-import com.biz.gbck.activity.frontend.ActivityVo;
-import com.biz.gbck.advertisement.frontend.AdvertisementVo;
-import com.biz.gbck.advertisement.frontend.request.AdvertisementRequestVo;
-import com.biz.service.activity.interfaces.ActivityService;
+import com.biz.gbck.vo.advertisement.frontend.AdvertisementVo;
+import com.biz.gbck.vo.advertisement.frontend.request.AdvertisementRequestVo;
 import com.biz.service.advertisement.interfaces.AdvertisementService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -22,6 +19,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("manage/advertisement")
+@Secured("ROLE_ADVERTISEMENT")
 public class AdvertisementController {
 
     private static final Logger logger = LoggerFactory.getLogger(AdvertisementController.class);
@@ -29,7 +27,8 @@ public class AdvertisementController {
     @Autowired
     private AdvertisementService advertisementService;
 
-    @RequestMapping("/list")
+    @GetMapping("list")
+    @PreAuthorize("hasAuthority('OPT_ADVERTISEMENTS_LIST')")
     public ModelAndView toList() {
         List<AdvertisementVo> advertisements = advertisementService.findAllAdvertisements();
         ModelAndView view = new ModelAndView("manage/advertisement/list");
@@ -40,20 +39,22 @@ public class AdvertisementController {
     /**
      * 跳转到新建广告页面
      */
-    @RequestMapping("/add")
+    @GetMapping("add")
+    @PreAuthorize("hasAuthority('OPT_ADVERTISEMENTS_CREATE')")
     public ModelAndView toAdd() {
         ModelAndView view = new ModelAndView("manage/advertisement/add");
         return view;
     }
 
     @RequestMapping("/edit")
+    @PreAuthorize("hasAuthority('OPT_ADVERTISEMENTS_UPDATE')")
     public ModelAndView edit(@RequestParam("id") String id) {
         ModelAndView view = new ModelAndView("manage/advertisement/add", "advertisement", advertisementService.findById(id));
-        view.addObject("cmd", "edit");
         return view;
     }
 
     @RequestMapping("/delete")
+    @PreAuthorize("hasAuthority('OPT_ADVERTISEMENTS_DELETE')")
     public ModelAndView delete(@RequestParam("id") String id) {
         advertisementService.delete(id);
         return new ModelAndView("redirect:/manage/advertisement/list.do");

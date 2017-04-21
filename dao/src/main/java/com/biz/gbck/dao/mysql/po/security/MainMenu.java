@@ -9,6 +9,8 @@ import javax.persistence.*;
 @Table(name = "adm_mainmenu")
 public class MainMenu extends BasePo<Long> {
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

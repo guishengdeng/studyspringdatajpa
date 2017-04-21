@@ -12,6 +12,10 @@
             });
         </script>
         <script type="application/javascript">
+            <c:forEach items="${admin.roles}" var="role" varStatus="status">
+                var obj${status.count} = document.getElementById('roleId_${role.id}');
+                if (obj${status.count}) obj${status.count}.checked = true;
+            </c:forEach>
             /** -----------------------------》图片上传《-------------------------------- */
             //隐藏文件控件
             $('#logo_file').hide();
@@ -40,14 +44,14 @@
                     };
                     $.ajax({
                         type: "POST",
-                        url: "upload/streamUpload.do",
+                        url: "upload/uploadTest.do",
                         enctype: 'multipart/form-data',
                         data: dataObj
                     }).done(function (data) {
                         console.log(data);
-                        if (data.code == 0) {
+                        if (data.status == 'success') {
                             layer.msg("上传图片成功");
-//                            hidden_input.val(data.name);
+                            hidden_input.val(data.name);
                             preview();
                         } else {
                             layer.msg("上传图片失败");
@@ -114,21 +118,21 @@
                             <h3 class="header smaller lighter blue">
                                 启动页面广告管理
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
-                                <a href="manage/advertisement/list.do" class="btn btn-sm btn-primary"><i
-                                        class="ace-icon fa fa-angle-left"></i>
-                                    返回
-                                </a>
-                            </span>
+                                    <a href="manage/advertisement/list.do" class="btn btn-sm btn-primary"><i
+                                            class="ace-icon fa fa-angle-left"></i>
+                                        返回
+                                    </a>
+                                </span>
                             </h3>
                             <form action="manage/advertisement/saveOrUpdate.do" method="post"
                                   class="form-horizontal" role="form">
-                                <div class="field adv-photo">
+                                <div class="field adv-photo row">
                                     <label class="col-sm-3 control-label no-padding-right"
                                            for="picturesLink">
                                         广告图片
                                     </label>
 
-                                    <div class="col-md-10">
+                                    <div class="col-md-9">
                                         <img id="image" src="" width="100px" height="100px"/>
                                         <div class="btn btn-primary" id="logo_button">选择图片</div>
                                         <input type="file" id="logo_file" value=""/>
@@ -136,17 +140,19 @@
                                                value="${advertisement.picturesLink}" class="form-control required">
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label no-padding-right"
-                                           for="picturesLink">
-                                        图片链接
-                                    </label>
+                                <c:if test="${!empty advertisement.picturesLink}">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"
+                                               for="picturesLink">
+                                            图片链接
+                                        </label>
 
-                                    <div class="col-sm-9">
-                                        <input type="text" id="picturesLink" placeholder="图片链接"
-                                               name="picturesLink" class="col-xs-10 col-sm-5" value="${advertisement.picturesLink}">
+                                        <div class="col-sm-9">
+                                            <input type="text" id="picturesLink" placeholder="图片链接"
+                                                   name="picturesLink" class="col-xs-10 col-sm-5" value="${advertisement.picturesLink}">
+                                        </div>
                                     </div>
-                                </div>
+                                </c:if>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"
                                            for="clickLink">
@@ -158,17 +164,22 @@
                                                name="clickLink" class="col-xs-10 col-sm-5" value="${advertisement.clickLink}">
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group row">
                                     <label class="col-sm-3 control-label no-padding-right"
                                            for="beginTimestamp">
                                         广告生效时间
                                     </label>
 
-                                    <div class="col-md-9">
-                                        <input type="text" required="required" name="beginTimestamp"
+                                    <div class="col-sm-9">
+                                        <div class="input-group input-group-sm col-sm-5">
+                                            <input type="text" required="required" name="beginTimestamp"
                                                value="<fmt:formatDate value="${advertisement.beginTimestamp}" pattern="yyyy-MM-dd"/>"
                                                id="beginTimestamp"
                                                class="form-control required date"/>
+                                            <span class="input-group-addon">
+                                                <i class="ace-icon fa fa-calendar"></i>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                                 <%--<c:if test="${not empty admin.username}">--%>
@@ -178,11 +189,16 @@
                                         广告过期时间
                                     </label>
 
-                                    <div class="col-md-10">
-                                        <input type="text" required="required" name="endTimestamp"
-                                               value="<fmt:formatDate value="${advertisement.endTimestamp}" pattern="yyyy-MM-dd"/>"
-                                               id="endTimestamp"
-                                               class="form-control required date"/>
+                                    <div class="col-md-9">
+                                        <div class="input-group input-group-sm col-sm-5">
+                                            <input type="text" required="required" name="endTimestamp"
+                                                   value="<fmt:formatDate value="${advertisement.endTimestamp}" pattern="yyyy-MM-dd"/>"
+                                                   id="endTimestamp"
+                                                   class="form-control required date"/>
+                                            <span class="input-group-addon">
+                                                <i class="ace-icon fa fa-calendar"></i>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                                 <%--</c:if>--%>
@@ -194,7 +210,7 @@
 
                                     <div class="col-sm-9">
                                         <input type="text" id="residenceTime" placeholder="停留(毫秒)"
-                                               name="clickLink" class="col-xs-10 col-sm-5" value="${advertisement.residenceTime}">
+                                               name="clickLink" class="col-xs-10 col-sm-5" value="<c:if test="${advertisement.residenceTime != null}">${advertisement.residenceTime}</c:if><c:if test="${advertisement.residenceTime == null}">3000</c:if>">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -205,7 +221,7 @@
 
                                     <div class="col-sm-9">
                                         <input type="text" id="priority" placeholder="优先级"
-                                               name="clickLink" class="col-xs-10 col-sm-5" value="${advertisement.priority}">
+                                               name="clickLink" class="col-xs-10 col-sm-5" value="<c:if test="${advertisement.priority != null}">${advertisement.priority}</c:if><c:if test="${advertisement.priority == null}">3</c:if>">
                                     </div>
                                 </div>
 
@@ -225,7 +241,6 @@
                                         </div>
                                     </div>
                                 <%--</sec:authorize>--%>
-
                             </form>
                         </div><!-- /.span -->
                     </div><!-- /.row -->
