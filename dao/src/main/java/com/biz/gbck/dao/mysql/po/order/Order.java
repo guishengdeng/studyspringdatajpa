@@ -86,7 +86,7 @@ public class Order extends BaseEntity {
      * 付款状态
      */
     @Column(nullable = false)
-    protected PaymentStatus payStatus = PaymentStatus.UN_PAY;
+    private PaymentStatus payStatus = PaymentStatus.UN_PAY;
 
     /**
      * 支付单

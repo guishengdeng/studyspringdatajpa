@@ -57,13 +57,13 @@ public class OrderDelivery extends BaseEntity {
 	 * 物流公司
 	 */
 	@Column(length = 50)
-	private String logicCompany;
+	private String expressName;
 
 	/**
 	 * 配送单号
 	 */
 	@Column(length = 50)
-	private String logicNo;
+	private String expressNo;
 
 	public Order getOrder() {
 		return order;
@@ -113,19 +113,19 @@ public class OrderDelivery extends BaseEntity {
 		this.address = address;
 	}
 
-	public String getLogicCompany() {
-		return logicCompany;
+	public String getExpressName() {
+		return expressName;
 	}
 
-	public void setLogicCompany(String logicCompany) {
-		this.logicCompany = logicCompany;
+	public void setExpressName(String expressName) {
+		this.expressName = expressName;
 	}
 
-	public String getLogicNo() {
-		return logicNo;
+	public String getExpressNo() {
+		return expressNo;
 	}
 
-	public void setLogicNo(String logicNo) {
-		this.logicNo = logicNo;
+	public void setExpressNo(String expressNo) {
+		this.expressNo = expressNo;
 	}
 }
