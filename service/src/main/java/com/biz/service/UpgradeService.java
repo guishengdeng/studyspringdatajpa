@@ -1,8 +1,8 @@
 package com.biz.service;
 
-import com.biz.gbck.common.ro.upgrade.UpgradeRo;
+import com.biz.gbck.dao.redis.ro.upgrade.UpgradeRo;
 import com.biz.gbck.vo.upgrade.*;
-import com.biz.gbck.dao.redis.upgrade.UpgradeRedisDao;
+import com.biz.gbck.dao.redis.repository.upgrade.UpgradeRedisDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

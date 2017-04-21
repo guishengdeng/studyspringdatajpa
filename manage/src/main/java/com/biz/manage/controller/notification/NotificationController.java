@@ -5,6 +5,11 @@ import com.depotnearby.exception.CommonException;
 import com.depotnearby.security.AuthorityUtil;
 import com.depotnearby.service.NotificationService;
 import com.depotnearby.vo.notify.NotifyVo;*/
+import com.biz.gbck.common.exception.CommonException;
+import com.biz.gbck.dao.mysql.po.security.Admin;
+import com.biz.manage.util.AuthorityUtil;
+import com.biz.service.notification.NotificationService;
+import com.biz.vo.notify.NotifyVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +30,8 @@ public class NotificationController {
 
     private static final Logger logger = LoggerFactory.getLogger(NotificationController.class);
 
-   /* @Autowired
-    private NotificationService notificationService;*/
+    @Autowired
+    private NotificationService notificationService;
 
     @RequestMapping("add") @PreAuthorize("hasAuthority('OPT_NOTIFICATION_SAVE')")
     public ModelAndView addNotification() {
@@ -34,17 +39,17 @@ public class NotificationController {
     }
 
     @RequestMapping(value = "save", method = RequestMethod.POST) @PreAuthorize("hasAuthority('OPT_NOTIFICATION_SAVE')")
-    public ModelAndView saveNotification(/*NotifyVo notifyVo*/) {
-      /*  String errMsg = null;
-        Admin currentAdmin = AuthorityUtil.getLoginUser();
+    public ModelAndView saveNotification(NotifyVo notifyVo) {
+        String errMsg = null;
+        Admin currentAdmin = (Admin) AuthorityUtil.getLoginUser();
+
         try {
             notificationService.sendNotification(currentAdmin.getName(), notifyVo);
         } catch (CommonException e) {
             logger.warn("执行发送推送失败", e);
             errMsg = e.getMessage();
         }
-        return new ModelAndView("notification/add").addObject("errMsg", errMsg);*/
-        return new ModelAndView();
+        return new ModelAndView("notification/add").addObject("errMsg", errMsg);
     }
 
 }

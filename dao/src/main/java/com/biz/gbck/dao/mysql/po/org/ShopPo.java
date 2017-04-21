@@ -5,6 +5,7 @@ import com.biz.core.util.DateUtil;
 import com.biz.gbck.dao.mysql.po.geo.CityPo;
 import com.biz.gbck.dao.mysql.po.geo.DistrictPo;
 import com.biz.gbck.dao.mysql.po.geo.ProvincePo;
+import com.biz.gbck.dao.mysql.po.salearea.SaleAreaPo;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopStatus;
 import org.hibernate.annotations.NotFound;
@@ -260,15 +261,15 @@ public class ShopPo extends Company {
 //
 //    private List<BusinessTagPo> businessTags;
 
-//    /**
-//     * 销售区域
-//     */
-//    @ManyToMany(fetch = FetchType.LAZY) @JoinTable(name = "shop_salearea",
-//        joinColumns = {@JoinColumn(name = "shop_id", referencedColumnName = "id")},
-//        inverseJoinColumns = {@JoinColumn(name = "salearea_id", referencedColumnName = "id")},
-//        uniqueConstraints = {@UniqueConstraint(columnNames = {"shop_id", "salearea_id"})})
-//
-//    private List<SaleAreaPo> saleAreas;
+    /**
+     * 销售区域
+     */
+    @ManyToMany(fetch = FetchType.LAZY) @JoinTable(name = "shop_salearea",
+        joinColumns = {@JoinColumn(name = "shop_id", referencedColumnName = "id")},
+        inverseJoinColumns = {@JoinColumn(name = "salearea_id", referencedColumnName = "id")},
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"shop_id", "salearea_id"})})
+
+    private List<SaleAreaPo> saleAreas;
 
     /**
      * 邀请者
