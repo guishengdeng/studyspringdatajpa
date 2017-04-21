@@ -197,11 +197,25 @@ public class Product extends BaseEntity {
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private GroupProduct groupProduct;
 
+    /**
+     * 公司商品
+     */
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DepotProduct> depotProducts;
 
+    /**
+     * 价格组
+     */
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PriceGroup> priceGroups;
+
+    /**
+     * 商品维护记录
+     */
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ProductActionLog> actionLogs;
+
+
 
     public String getBreif() {
         return breif;
