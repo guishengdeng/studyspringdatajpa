@@ -1,6 +1,6 @@
 package com.biz.gbck.transform.product;
 
-import com.biz.gbck.dao.mysql.po.product.ApartTag;
+import com.biz.gbck.dao.mysql.po.product.meta.ApartTag;
 import com.biz.gbck.vo.product.backend.ApartTagListItemVo;
 import com.google.common.base.Function;
 

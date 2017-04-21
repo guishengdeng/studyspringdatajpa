@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.po.product;
+package com.biz.gbck.dao.mysql.po.product.price;
 
 import com.biz.support.jpa.po.BaseEntity;
 import javax.persistence.Column;

@@ -1,6 +1,7 @@
-package com.biz.gbck.dao.mysql.po.product;
+package com.biz.gbck.dao.mysql.po.product.master;
 
 import com.alibaba.fastjson.JSON;
+import com.biz.gbck.dao.mysql.po.product.price.PriceGroup;
 import com.biz.gbck.dao.mysql.po.product.bbc.ProductCascade;
 import com.biz.gbck.dao.mysql.po.product.bbc.RelevantProduct;
 import com.biz.gbck.dao.mysql.po.product.meta.*;

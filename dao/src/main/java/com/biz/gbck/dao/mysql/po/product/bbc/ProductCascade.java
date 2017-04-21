@@ -1,8 +1,7 @@
 package com.biz.gbck.dao.mysql.po.product.bbc;
 
-import com.biz.gbck.dao.mysql.po.product.Category;
-import com.biz.gbck.dao.mysql.po.product.ExtendProperty;
-import com.biz.gbck.dao.mysql.po.product.bbc.Product;
+import com.biz.gbck.dao.mysql.po.product.meta.Category;
+import com.biz.gbck.dao.mysql.po.product.meta.ExtendProperty;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.support.jpa.po.BaseEntity;
 import java.io.Serializable;

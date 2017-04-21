@@ -1,8 +1,8 @@
 package com.biz.soa.product.service.backend;
 
-import com.biz.gbck.dao.mysql.po.product.ExtendProperty;
+import com.biz.gbck.dao.mysql.po.product.meta.ExtendProperty;
 import com.biz.gbck.dao.mysql.po.product.bbc.Product;
-import com.biz.gbck.dao.mysql.po.product.ProductExtend;
+import com.biz.gbck.dao.mysql.po.product.meta.ProductExtend;
 import com.biz.gbck.dao.mysql.repository.extendProperty.ExtendPropertyRepository;
 import com.biz.gbck.dao.mysql.repository.bbc.product.ProductRepository;
 import com.biz.gbck.dao.mysql.repository.productExtend.ProductExtendRepository;

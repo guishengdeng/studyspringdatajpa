@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.po.product;
+package com.biz.gbck.dao.mysql.po.product.meta;
 
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.support.jpa.po.BaseEntity;

@@ -1,8 +1,8 @@
 package com.biz.gbck.transform.product;
 
 import com.alibaba.fastjson.JSON;
-import com.biz.gbck.dao.mysql.po.product.Category;
-import com.biz.gbck.dao.mysql.po.product.ExtendProperty;
+import com.biz.gbck.dao.mysql.po.product.meta.Category;
+import com.biz.gbck.dao.mysql.po.product.meta.ExtendProperty;
 import com.biz.gbck.dao.mysql.po.product.bbc.Product;
 import com.biz.gbck.dao.mysql.po.product.bbc.ProductCascade;
 import com.biz.gbck.dao.redis.ro.product.ProductCascadeRo;

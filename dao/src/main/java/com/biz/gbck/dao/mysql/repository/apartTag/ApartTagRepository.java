@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.apartTag;
 
-import com.biz.gbck.dao.mysql.po.product.ApartTag;
+import com.biz.gbck.dao.mysql.po.product.meta.ApartTag;
 import com.biz.gbck.dao.mysql.repository.category.CategoryDao;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.List;

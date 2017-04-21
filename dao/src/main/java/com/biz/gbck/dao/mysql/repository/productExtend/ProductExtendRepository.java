@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.productExtend;
 
-import com.biz.gbck.dao.mysql.po.product.ProductExtend;
+import com.biz.gbck.dao.mysql.po.product.meta.ProductExtend;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.Collection;
 import java.util.List;

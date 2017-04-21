@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.bbc.productStatistic;
 
-import com.biz.gbck.dao.mysql.po.product.ProductStatistic;
+import com.biz.gbck.dao.mysql.po.product.meta.ProductStatistic;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
