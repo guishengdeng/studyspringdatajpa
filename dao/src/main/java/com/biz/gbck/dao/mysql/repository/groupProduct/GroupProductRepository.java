@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.repository.product;
+package com.biz.gbck.dao.mysql.repository.groupProduct;
 
 import com.biz.gbck.dao.mysql.po.product.master.GroupProduct;
 import com.biz.gbck.dao.mysql.repository.bbc.product.GeoProductDao;

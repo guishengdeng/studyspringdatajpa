@@ -6,7 +6,7 @@ import com.biz.gbck.dao.mysql.po.product.master.GroupProduct;
 import com.biz.gbck.dao.mysql.po.product.master.GroupProductItem;
 import com.biz.gbck.dao.mysql.po.product.bbc.MnsProduct;
 import com.biz.gbck.dao.mysql.po.product.bbc.Product;
-import com.biz.gbck.dao.mysql.repository.product.GroupProductRepository;
+import com.biz.gbck.dao.mysql.repository.groupProduct.GroupProductRepository;
 import com.biz.gbck.dao.mysql.repository.bbc.product.MnsProductRepository;
 import com.biz.gbck.dao.mysql.repository.bbc.product.ProductRepository;
 import com.biz.gbck.enums.CommonStatusEnum;
