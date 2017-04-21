@@ -1,4 +1,4 @@
-package com.biz.gbck.common.ro.upgrade;
+package com.biz.gbck.dao.redis.ro.upgrade;
 
 import com.biz.gbck.common.ro.AbstractRedisObj;
 import org.apache.commons.lang3.StringUtils;
