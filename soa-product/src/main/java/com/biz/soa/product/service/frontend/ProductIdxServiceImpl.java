@@ -3,7 +3,7 @@ package com.biz.soa.product.service.frontend;
 import com.biz.gbck.dao.redis.repository.product.bbc.PriceRedisDao;
 import com.biz.gbck.dao.redis.repository.product.ProductRedisDao;
 import com.biz.gbck.dao.redis.ro.product.bbc.PriceRo;
-import com.biz.gbck.dao.redis.ro.product.master.ProductRo;
+import com.biz.gbck.dao.redis.ro.product.bbc.ProductRo;
 import com.biz.gbck.enums.product.VendorTypeEnum;
 import com.biz.gbck.vo.depot.DepotPromotionReqVo;
 import com.biz.gbck.vo.depot.DepotPromotionRespVo;
