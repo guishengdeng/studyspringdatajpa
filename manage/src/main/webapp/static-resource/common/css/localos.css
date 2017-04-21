@@ -67,3 +67,6 @@
 .main-content-inner .page-content .breadcrumbs{
     margin-top: -10px;
 }
+.header  span.help-block{
+    font-size: 0.7em;
+}

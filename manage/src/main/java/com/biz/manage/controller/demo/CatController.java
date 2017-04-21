@@ -61,9 +61,9 @@ public class CatController extends BaseController {
 		return new ModelAndView("demo/cats/new");
 	}
 
-	@PostMapping
+	@PostMapping("save")
 	@PreAuthorize("hasAuthority('OPT_CAT_CREATE')")
-	public ModelAndView save(@Valid CatReqVO catReqVO, BindingResult result, HttpServletRequest request) {
+	public ModelAndView save(@Valid CatReqVO catReqVO, BindingResult result) {
 
 		error(result);
 		catService.save(catReqVO);
