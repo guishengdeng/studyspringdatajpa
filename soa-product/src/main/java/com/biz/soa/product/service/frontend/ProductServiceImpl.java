@@ -7,7 +7,7 @@ import com.biz.gbck.dao.mysql.repository.bbc.product.ProductRepository;
 import com.biz.gbck.dao.redis.repository.product.CategoryRedisDao;
 import com.biz.gbck.dao.redis.repository.product.bbc.PriceRedisDao;
 import com.biz.gbck.dao.redis.repository.product.ProductCascadeRedisDao;
-import com.biz.gbck.dao.redis.repository.product.ProductRedisDao;
+import com.biz.gbck.dao.redis.repository.product.bbc.ProductRedisDao;
 import com.biz.gbck.dao.redis.repository.vendor.VendorRedisDao;
 import com.biz.gbck.dao.redis.ro.product.bbc.PriceRo;
 import com.biz.gbck.dao.redis.ro.product.master.ProductCascadeRo;

@@ -9,7 +9,7 @@ import com.biz.gbck.dao.mysql.repository.bbc.evaluation.EvaluationRepository;
 import com.biz.gbck.dao.mysql.repository.bbc.product.ProductRepository;
 import com.biz.gbck.dao.mysql.repository.bbc.vendor.VendorRepository;
 import com.biz.gbck.dao.redis.repository.product.bbc.EvaluationRedisDao;
-import com.biz.gbck.dao.redis.repository.product.ProductRedisDao;
+import com.biz.gbck.dao.redis.repository.product.bbc.ProductRedisDao;
 import com.biz.gbck.dao.redis.repository.vendor.VendorRedisDao;
 import com.biz.gbck.dao.redis.ro.evaluation.EvaluationRo;
 import com.biz.gbck.dao.redis.ro.product.bbc.ProductRo;
