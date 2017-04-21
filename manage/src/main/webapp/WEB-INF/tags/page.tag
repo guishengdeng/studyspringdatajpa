@@ -22,8 +22,7 @@
 
     <!-- bootstrap & fontawesome -->
     <link rel="stylesheet" href="static-resource/ace/assets/css/bootstrap.min.css"/>
-    <link rel="stylesheet"
-          href="static-resource/ace/assets/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="static-resource/ace/assets/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="static-resource/ace/assets/css/jquery-ui.custom.min.css" />
     <link rel="stylesheet" href="static-resource/ace/assets/css/chosen.min.css" />
 
@@ -33,9 +32,11 @@
     <!-- text fonts -->
     <link rel="stylesheet" href="static-resource/ace/assets/css/fonts.googleapis.com.css"/>
 
+    <!-- <![jquery-ui.min]-->
+    <link rel="stylesheet" href="static-resource/ace/assets/css/jquery-ui.min.css"/>
+
     <!-- ace styles -->
-    <link rel="stylesheet" href="static-resource/ace/assets/css/ace.min.css"
-          class="ace-main-stylesheet" id="main-ace-style"/>
+    <link rel="stylesheet" href="static-resource/ace/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style"/>
 
     <!--[if lte IE 9]>
     <link rel="stylesheet" href="static-resource/ace/assets/css/ace-part2.min.css"
@@ -51,34 +52,38 @@
 	<%--<script src="msg.do"></script>--%>
     <!-- inline styles related to this page -->
 
+    <!--[if !IE]> -->
+    <script src="static-resource/ace/assets/js/jquery-2.1.4.min.js"></script>
+
+    <!-- <![endif]-->
+    <script src="static-resource/ace/assets/js/ace.min.js"></script>
+    <!--[if IE]>
+    <script src="staic-resource/ace/assets/js/jquery-1.11.3.min.js"></script>
+
+    <!-- <![endif]-->
+    <script src="static-resource/ace/assets/js/jquery-ui.min.js"></script>t
     <!-- ace settings handler -->
     <script src="static-resource/ace/assets/js/ace-extra.min.js"></script>
 
     <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
 
+
     <!--[if lte IE 8]>
     <script src="static-resource/ace/assets/js/html5shiv.min.js"></script>
     <script src="static-resource/ace/assets/js/respond.min.js"></script>
     <![endif]-->
-    <!--[if !IE]> -->
-    <script src="static-resource/ace/assets/js/jquery-2.1.4.min.js"></script>
 
-    <!-- <![endif]-->
 
-    <!--[if IE]>
-    <script src="static-resource/ace/assets/js/jquery-1.11.3.min.js"></script>
-
-    <![datepicker]-->
+    <!-- <![datepicker]-->
     <link rel="stylesheet" href="static-resource/ace/assets/css/bootstrap-datepicker3.min.css"/>
     <script src="static-resource/ace/assets/js/bootstrap-datepicker.min.js"></script>
 
     <!-- <![layer]-->
     <link rel="stylesheet" href="static-resource/layer/mobile/need/layer.css"/>
-    <script src="/static-resource/layer/mobile/layer.js"></script>
+    <script src="static-resource/layer/layer.js"></script>
 
-    <![endif]-->
 
-    <jsp:invoke fragment="css"/>
+
 </head>
 <body class="${empty bodyClasses ? 'no-skin' : bodyClasses}">
 <c:choose>
@@ -270,7 +275,7 @@
 
 <!-- ace scripts -->
 <script src="static-resource/ace/assets/js/ace-elements.min.js"></script>
-<script src="static-resource/ace/assets/js/ace.min.js"></script>
+<%--<script src="static-resource/ace/assets/js/ace.min.js"></script>--%>
 
 <!-- support for jquery validator -->
 <script src="static-resource/ace/assets/js/jquery.validate.min.js"></script>

@@ -1,45 +1,35 @@
-package com.biz.gbck.dao.redis.ro.activity;
+package com.biz.gbck.vo.activity.frontend;
 
-import com.biz.redis.annotation.Ro;
-import com.biz.redis.annotation.RoSortedSet;
-import com.biz.redis.bean.BaseRedisObject;
+import java.io.Serializable;
 
 /**
  * Created by xys on 2017/4/18.
  */
-@Ro(key = "ac:ActivityRo")
-@RoSortedSet(key = "list", score = "createTimestamp")
-public class ActivityRo extends BaseRedisObject<String> {
+public class ActivityVo implements Serializable {
 
-    /**
-     * 活动标题
-     */
+    private static final long serialVersionUID = 810810602964154699L;
+
+    private String id;
+
     private String activityTitle;
 
-    /**
-     * 活动链接
-     */
     private String activityLink;
 
-    /**
-     * 活动图片
-     */
     private String activityPicture;
 
-    /**
-     * 创建人
-     */
     private String userId;
 
-    /**
-     * 显示排序
-     */
     private Integer order = 0;
 
-    /**
-     * 是否发布到服务器
-     */
     private Boolean showInApp = false;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getActivityTitle() {
         return activityTitle;

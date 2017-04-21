@@ -1,6 +1,6 @@
 package com.biz.gbck.transform.activity;
 
-import com.biz.gbck.activity.frontend.ActivityVo;
+import com.biz.gbck.vo.activity.frontend.ActivityVo;
 import com.biz.gbck.dao.redis.ro.activity.ActivityRo;
 import com.google.common.base.Function;
 import org.springframework.beans.BeanUtils;

@@ -8,9 +8,84 @@
     <jsp:attribute name="script">
         <script type="application/javascript">
             <c:forEach items="${admin.roles}" var="role" varStatus="status">
-            var obj${status.count} = document.getElementById('roleId_${role.id}');
-            if (obj${status.count}) obj${status.count}.checked = true;
+                var obj${status.count} = document.getElementById('roleId_${role.id}');
+                if (obj${status.count}) obj${status.count}.checked = true;
             </c:forEach>
+
+            /** -----------------------------》图片上传《-------------------------------- */
+            //隐藏文件控件
+            $('#logo_file').hide();
+
+            //如果之前有上传过图片，将图片展示出来
+            if ($('#logo_container').val() != '') {
+                preview();
+            }
+
+            //点击上传图片，弹出选择框
+            $('#logo_button').on('click', function () {
+                var logo_file = $(this).next();
+                logo_file.click();
+            });
+            /**
+             * 上传图片
+             */
+            $('#logo_file').on('change', function () {
+                var hidden_input = $(this).next();
+                var file = this.files[0];
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var base64stream = this.result;
+                    var dataObj = {
+                        base64stream: base64stream
+                    };
+                    $.ajax({
+                        type: "POST",
+                        url: "upload/uploadTest.do",
+                        enctype: 'multipart/form-data',
+                        data: dataObj
+                    }).done(function (data) {
+                        console.log(data);
+                        if (data.status == 'success') {
+                            layer.msg("上传图片成功");
+                            hidden_input.val(data.name);
+                            preview();
+                        } else {
+                            layer.msg("上传图片失败");
+                        }
+                    });
+                };
+                reader.readAsDataURL(file);
+            });
+
+            /**
+             * 预览图片
+             */
+            function preview() {
+                var image_container = $('#logo_container');
+                $.ajax({
+                    method: 'post',
+                    data: {image_name: image_container.val()},
+                    url: "upload/preview.do"
+                }).done(function (data) {
+                    $('#image').attr('src', data.uri);
+                });
+            }
+
+            $(function(){
+                var spinner = $( "#idx" ).spinner({
+                    create: function( event, ui ) {
+                        //add custom classes and icons
+                        $(this)
+                            .next().addClass('btn btn-success').html('<i class="ace-icon fa fa-plus"></i>').css('right','0')
+                            .next().addClass('btn btn-danger').html('<i class="ace-icon fa fa-minus"></i>').css('right','0').css('bottom','0');
+
+                        //larger buttons on touch devices
+                        if('touchstart' in document.documentElement)
+                            $(this).closest('.ui-spinner').addClass('ui-spinner-touch');
+                            $(this).closest('.ui-spinner').css('width','335px');
+                    }
+                });
+            })
         </script>
     </jsp:attribute>
     <jsp:body>
@@ -93,16 +168,33 @@
                                                value="<c:out value="${promotion.url}"/>"/>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="field adv-photo row">
                                     <label class="col-sm-3 control-label no-padding-right"
-                                           for="logo">活动图片链接
+                                           for="logo">
+                                        活动图片
                                     </label>
-                                    <div class="col-sm-9">
-                                        <input type="text" name="logo" id="logo" maxlength="100"
-                                               placeholder="活动图片链接" class="required text col-xs-10 col-sm-5"
-                                               value="<c:out value="${promotion.logo}"/>"/>
+
+                                    <div class="col-md-9">
+                                        <img id="image" src="" width="100px" height="100px"/>
+                                        <div class="btn btn-primary" id="logo_button">选择图片</div>
+                                        <input type="file" id="logo_file" value=""/>
+                                        <input name="logo" type="hidden" id="logo_container"
+                                               value="${promotion.logo}" class="form-control required">
                                     </div>
                                 </div>
+                                <c:if test="${!empty promotion.logo}">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"
+                                               for="logo">
+                                            活动图片链接
+                                        </label>
+
+                                        <div class="col-sm-9">
+                                            <input type="text" id="logo" placeholder="活动图片链接"
+                                                   name="picturesLink" class="col-xs-10 col-sm-5" value="${promotion.logo}">
+                                        </div>
+                                    </div>
+                                </c:if>
 
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"
@@ -120,9 +212,7 @@
                                            for="idx">显示顺序
                                     </label>
                                     <div class="col-sm-9">
-                                        <input type="number" name="idx" id="idx" maxlength="20"
-                                               placeholder="显示顺序" class="required text col-xs-10 col-sm-5"
-                                               value="<c:out value="${promotion.idx}"/>"/>
+                                        <input id="idx" name="idx" type="text" style="margin:0;" class="col-sm-12 ui-spinner-input" autocomplete="off" role="spinbutton" aria-valuenow="10" value="<c:out value="${promotion.idx}"/>" />
                                     </div>
                                 </div>
 

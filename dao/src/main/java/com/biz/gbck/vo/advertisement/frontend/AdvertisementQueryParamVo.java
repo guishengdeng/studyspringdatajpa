@@ -1,4 +1,4 @@
-package com.biz.gbck.advertisement.frontend;
+package com.biz.gbck.vo.advertisement.frontend;
 
 /**
  * Created by xys on 2017/4/18.

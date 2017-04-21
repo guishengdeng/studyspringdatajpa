@@ -1,4 +1,4 @@
-package com.biz.manage.vo;
+package com.biz.gbck.vo.promotion;
 
 import com.biz.gbck.enums.CommonStatusEnum;
 

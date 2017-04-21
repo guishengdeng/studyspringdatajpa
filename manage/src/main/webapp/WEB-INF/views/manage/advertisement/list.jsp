@@ -6,6 +6,14 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="depotnextdoor" tagdir="/WEB-INF/tags" %>
 <depotnextdoor:page title="page.user.list">
+    <jsp:attribute name="script">
+        <script type="application/javascript">
+            <c:forEach items="${admin.roles}" var="role" varStatus="status">
+            var obj${status.count} = document.getElementById('roleId_${role.id}');
+            if (obj${status.count}) obj${status.count}.checked = true;
+            </c:forEach>
+        </script>
+    </jsp:attribute>
     <jsp:body>
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
@@ -30,16 +38,12 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <h3 class="header smaller lighter blue">
-                                <li>
                                     启动页面广告管理
-                                </li>
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
-                                <%--<sec:authorize access="hasAuthority('OPT_USER_ADD')">--%>
                                     <a href="manage/advertisement/add.do" class="btn btn-sm btn-primary"><i
                                             class="ace-icon glyphicon glyphicon-plus"></i>
                                         添加
                                     </a>
-                                <%--</sec:authorize>--%>
                                 </span>
                             </h3>
                             <table id="simple-table" class="table  table-bordered table-hover">
@@ -58,6 +62,7 @@
                                 <tbody>
                                 <c:forEach items="${advertisements}" var="advertisement">
 
+                                    <tr>
                                         <td>${advertisement.picturesLink}</td>
                                         <td>${advertisement.clickLink}</td>
                                         <td><fmt:formatDate value="${advertisement.beginTimestamp}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
@@ -66,16 +71,20 @@
                                         <td>${advertisement.priority}</td>
                                         <td>
                                             <div>
-                                                <a href="manage/advertisement/delete?id=${advertisement.id}"
-                                                   class="btn btn-minier btn-info">
-                                                    <i class="ace-icon fa fa-trash-o bigger-120">删除</i>
-                                                </a>
-                                                <a href="manage/advertisement/edit?id=${advertisement.id}" class="btn btn-minier btn-info">
-                                                    <i class="ace-icon fa fa-pencil bigger-120">修改</i>
-                                                </a>
+                                                <sec:authorize access="hasAuthority('OPT_ADVERTISEMENTS_DELETE')">
+                                                    <a href="manage/advertisement/delete?id=${advertisement.id}"
+                                                       class="btn btn-minier btn-info">
+                                                        <i class="ace-icon fa fa-trash-o bigger-120">删除</i>
+                                                    </a>
+                                                </sec:authorize>
+                                                <sec:authorize access="hasAuthority('OPT_CAT_EDIT')">
+                                                    <a href="manage/advertisement/edit?id=${advertisement.id}" class="btn btn-minier btn-info">
+                                                        <i class="ace-icon fa fa-pencil bigger-120">修改</i>
+                                                    </a>
+                                                </sec:authorize>
                                             </div>
                                         </td>
-
+                                    </tr>
                                 </c:forEach>
                                 </tbody>
                             </table>

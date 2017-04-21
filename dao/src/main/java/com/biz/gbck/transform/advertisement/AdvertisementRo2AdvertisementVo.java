@@ -1,9 +1,8 @@
 package com.biz.gbck.transform.advertisement;
 
-import com.biz.gbck.advertisement.frontend.AdvertisementVo;
+import com.biz.gbck.vo.advertisement.frontend.AdvertisementVo;
 import com.biz.gbck.dao.redis.ro.advertisement.AdvertisementRo;
 import com.google.common.base.Function;
-import org.springframework.beans.BeanUtils;
 
 /**
  * Created by xys on 2017/4/18.

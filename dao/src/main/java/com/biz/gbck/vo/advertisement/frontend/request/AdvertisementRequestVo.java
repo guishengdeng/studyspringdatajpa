@@ -1,4 +1,4 @@
-package com.biz.gbck.advertisement.frontend.request;
+package com.biz.gbck.vo.advertisement.frontend.request;
 
 import java.io.Serializable;
 
@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class AdvertisementRequestVo implements Serializable {
 
-    private static final long serialVersionUID = 6693905559390118477L;
+    private static final long serialVersionUID = -2409139388454606952L;
 
     private String id;
 

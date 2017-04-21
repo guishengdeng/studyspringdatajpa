@@ -1,12 +1,10 @@
 package com.biz.service.advertisement.interfaces;
 
 import com.biz.core.page.PageResult;
-import com.biz.gbck.advertisement.frontend.AdvertisementQueryParamVo;
-import com.biz.gbck.advertisement.frontend.AdvertisementVo;
-import com.biz.gbck.advertisement.frontend.request.AdvertisementRequestVo;
-import com.biz.gbck.dao.redis.ro.activity.ActivityRo;
+import com.biz.gbck.vo.advertisement.frontend.AdvertisementQueryParamVo;
+import com.biz.gbck.vo.advertisement.frontend.AdvertisementVo;
+import com.biz.gbck.vo.advertisement.frontend.request.AdvertisementRequestVo;
 import com.biz.gbck.dao.redis.ro.advertisement.AdvertisementRo;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
