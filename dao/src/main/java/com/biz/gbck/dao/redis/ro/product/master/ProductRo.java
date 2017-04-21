@@ -15,7 +15,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * 商品Ro
+ * 商品Ro(RoId是商品编码)
  * Created by david-liu on 2017/04/21 11:53.
  */
 @Ro(key = "product:ProductRo")

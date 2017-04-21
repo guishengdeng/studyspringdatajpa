@@ -21,7 +21,7 @@ import com.biz.gbck.dao.mysql.repository.bbc.vendor.VendorRepository;
 import com.biz.gbck.dao.mysql.specification.bbc.ProductAuditSpecification;
 import com.biz.gbck.dao.mysql.specification.bbc.TypeBProductSpecification;
 import com.biz.gbck.dao.redis.repository.product.bbc.PriceRedisDao;
-import com.biz.gbck.dao.redis.repository.product.ProductRedisDao;
+import com.biz.gbck.dao.redis.repository.product.bbc.ProductRedisDao;
 import com.biz.gbck.dao.redis.ro.product.bbc.PriceRo;
 import com.biz.gbck.enums.product.ProductAuditStatusEnum;
 import com.biz.gbck.enums.product.SaleStatusEnum;
