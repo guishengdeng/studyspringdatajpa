@@ -1,11 +1,9 @@
 package com.biz.gbck.dao.mysql.po.product.master;
 
+import com.biz.gbck.enums.CommonActionEnum;
 import com.biz.support.jpa.po.BaseEntity;
 import java.sql.Timestamp;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * 商品维护记录
@@ -34,6 +32,13 @@ public class ProductActionLog extends BaseEntity {
      */
     @Column(length = 50)
     private String actor;
+
+    /**
+     * 操作行为
+     */
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private CommonActionEnum action;
 
     /**
      * 操作之前的商品信息(存JSON字符串)
@@ -85,5 +90,13 @@ public class ProductActionLog extends BaseEntity {
 
     public void setInfoAfterAction(String infoAfterAction) {
         this.infoAfterAction = infoAfterAction;
+    }
+
+    public CommonActionEnum getAction() {
+        return action;
+    }
+
+    public void setAction(CommonActionEnum action) {
+        this.action = action;
     }
 }
