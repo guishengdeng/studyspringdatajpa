@@ -11,7 +11,7 @@ import com.biz.gbck.dao.redis.repository.product.ProductRedisDao;
 import com.biz.gbck.dao.redis.repository.vendor.VendorRedisDao;
 import com.biz.gbck.dao.redis.ro.product.bbc.PriceRo;
 import com.biz.gbck.dao.redis.ro.product.master.ProductCascadeRo;
-import com.biz.gbck.dao.redis.ro.product.master.ProductRo;
+import com.biz.gbck.dao.redis.ro.product.bbc.ProductRo;
 import com.biz.gbck.dao.redis.ro.vendor.VendorRo;
 import com.biz.gbck.enums.product.ProductRecommend;
 import com.biz.gbck.enums.product.ProductShowStatus;

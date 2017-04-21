@@ -9,7 +9,7 @@ import com.biz.gbck.dao.mysql.po.product.meta.ApartTag;
 import com.biz.gbck.dao.mysql.po.product.meta.Brand;
 import com.biz.gbck.dao.mysql.po.product.meta.ExtendProperty;
 import com.biz.gbck.dao.mysql.po.product.meta.SaleTag;
-import com.biz.gbck.dao.redis.ro.product.master.ProductRo;
+import com.biz.gbck.dao.redis.ro.product.bbc.ProductRo;
 import com.biz.gbck.enums.product.SaleStatusEnum;
 import com.biz.gbck.enums.product.VendorTypeEnum;
 import com.biz.gbck.vo.product.RapidProductItemVo;
