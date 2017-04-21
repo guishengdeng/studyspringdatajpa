@@ -16,7 +16,6 @@
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
                 <li>
-                    <i class="ace-icon fa fa-home home-icon"></i>
                     <a href="">
                         升级配置
                     </a>
@@ -79,7 +78,7 @@
                                     <td><pre>${upgrade.info}</pre></td>
                                     <td>
                                         <a class="btn btn-xs btn-danger" href="/upgrade/delete.do?id=${upgrade.id}">
-                                            <i class="icon-trash bigger-120"></i>删除
+                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>删除
                                         </a>
                                     </td>
                                 </tr>
@@ -114,7 +113,7 @@
                                         <td><pre>${upgrade.info}</pre></td>
                                         <td>
                                             <a class="btn btn-xs btn-danger" href="/upgrade/delete.do?id=${upgrade.id}">
-                                                <i class="icon-trash bigger-120"></i>删除
+                                                <i class="ace-icon fa fa-trash-o bigger-120"></i>删除
                                             </a>
                                         </td>
                                     </tr>
