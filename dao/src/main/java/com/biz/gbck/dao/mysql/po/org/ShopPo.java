@@ -329,6 +329,11 @@ public class ShopPo extends Company {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @OrderBy(value = "id") @NotFound(action = NotFoundAction.IGNORE) private List<ShopPo> children;
 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "partnerId")
+    private PartnerPo partner;
+
     public ShopLevel getShopLevel() {
         return shopLevel;
     }

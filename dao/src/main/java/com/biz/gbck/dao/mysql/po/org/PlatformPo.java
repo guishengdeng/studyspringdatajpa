@@ -3,12 +3,14 @@ package com.biz.gbck.dao.mysql.po.org;
 import com.biz.gbck.dao.mysql.po.geo.ProvincePo;
 import com.biz.gbck.dao.mysql.po.security.Admin;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.util.List;
@@ -32,6 +34,14 @@ public class PlatformPo extends Company{
             inverseJoinColumns = {@JoinColumn(name = "username", referencedColumnName = "username")},
             uniqueConstraints = {@UniqueConstraint(columnNames = {"platform_id", "username"})})
     private List<Admin> admins;
+
+
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "warehouseId")
+    private WarehousePo warehouse;
+
+
+    @OneToMany(mappedBy = "platform", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PartnerPo> partners;
 
 
 

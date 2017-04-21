@@ -3,6 +3,7 @@ package com.biz.gbck.dao.mysql.po.org;
 import com.biz.gbck.enums.org.CompanyLevel;
 import com.biz.support.jpa.po.BaseEntity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.util.List;
@@ -41,13 +43,14 @@ public class CompanyGroupPo extends BaseEntity {
      * 上级
      */
     @ManyToOne
-    private Company superior;
+    @JoinColumn(name = "parent_id")
+    private Company parent;
 
     /**
      * 下级
      */
-    @OneToMany
-    private List<Company> subordinate;
+    @OneToMany(mappedBy = "childGroup", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Company> children;
 
 
     @Enumerated(value = EnumType.STRING)

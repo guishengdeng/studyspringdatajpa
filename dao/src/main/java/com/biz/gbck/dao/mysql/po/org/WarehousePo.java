@@ -2,7 +2,9 @@ package com.biz.gbck.dao.mysql.po.org;
 
 import com.biz.gbck.dao.mysql.po.security.Admin;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
@@ -18,8 +20,15 @@ import java.util.List;
 public class WarehousePo extends Company {
 
 
-    @OneToMany
+    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Admin> admins;
+
+    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PlatformPo> platforms;
+
+
+
+
 
 
 
