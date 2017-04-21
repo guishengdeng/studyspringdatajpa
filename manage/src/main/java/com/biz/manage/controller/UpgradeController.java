@@ -24,7 +24,7 @@ public class UpgradeController {
 	@RequestMapping("/list")
 	@PreAuthorize("hasAuthority('OPT_UPGRADE_LIST')")
 	public ModelAndView list() {
-		ModelAndView view =  new ModelAndView("upgrade/list");
+		ModelAndView view =  new ModelAndView("manage/upgrade/list");
 		List<UpgradeRo> ios= clientService.findAll("ios");
 		List<UpgradeRo> androId = clientService.findAll("androId");
 		view.addObject("ios", ios);
@@ -35,7 +35,7 @@ public class UpgradeController {
 	@RequestMapping("/add")
 	@PreAuthorize("hasAuthority('OPT_UPGRADE_ADD')")
 	public ModelAndView add() {
-		ModelAndView view = new ModelAndView("upgrade/add");
+		ModelAndView view = new ModelAndView("manage/upgrade/add");
 		view.addObject("cmd", "add");
 		return view;
 	}
@@ -45,14 +45,14 @@ public class UpgradeController {
 	@PreAuthorize("hasAuthority('OPT_UPGRADE_DELETE')")
 	public ModelAndView delete(@RequestParam("id") String id) {
 		clientService.delete(id);
-		return new ModelAndView("redirect:/upgrade/list.do");
+		return new ModelAndView("redirect:/manage/upgrade/list.do");
 	}
 	
 	@RequestMapping("/save_add")
 	@PreAuthorize("hasAuthority('OPT_UPGRADE_SAVEADD')")
 	public ModelAndView save_add(AddUpgradeVo upgrade) {
 		clientService.save(upgrade);
-		return new ModelAndView("redirect:/upgrade/list.do");
+		return new ModelAndView("redirect:manage//upgrade/list.do");
 	}
 
 }
