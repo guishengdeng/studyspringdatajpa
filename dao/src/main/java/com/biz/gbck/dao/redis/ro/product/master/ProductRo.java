@@ -1,8 +1,7 @@
-package com.biz.gbck.dao.redis.ro.product.bbc;
+package com.biz.gbck.dao.redis.ro.product.master;
 
 import com.alibaba.fastjson.JSON;
 import com.biz.gbck.enums.product.SaleStatusEnum;
-import com.biz.gbck.enums.product.VendorTypeEnum;
 import com.biz.gbck.vo.product.ProductPropertyVo;
 import com.biz.gbck.vo.product.PropertyItemVo;
 import com.biz.gbck.vo.product.RapidProductItemVo;
@@ -10,30 +9,19 @@ import com.biz.redis.annotation.Ro;
 import com.biz.redis.annotation.RoSortedSet;
 import com.biz.redis.bean.BaseRedisObject;
 import com.google.common.collect.Lists;
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * 商品 Ro
- *
- * @author david-liu
- * @date 2016年12月30日
- * @reviewer
- * @see
+ * 商品Ro
+ * Created by david-liu on 2017/04/21 11:53.
  */
-@Ro(key = "bbc:product:ProductRo")
-@RoSortedSet(key = "allProducts", score = "createTimestamp")
-public class ProductRo extends BaseRedisObject<String> implements Serializable {
-
-    private static final long serialVersionUID = 3047690150118104670L;
-
-    /**
-     * 商品类型
-     */
-    private Integer productType;
+@Ro(key = "product:ProductRo")
+@RoSortedSet(key = "list", score = "createTimestamp")
+public class ProductRo extends BaseRedisObject<String> {
+    private static final long serialVersionUID = -2204675391624489385L;
 
     /**
      * 商品 ID
@@ -41,19 +29,9 @@ public class ProductRo extends BaseRedisObject<String> implements Serializable {
     private Long productId;
 
     /**
-     * 商家 ID
-     */
-    private Long vendorId;
-
-    /**
      * 商品编码
      */
     private String productCode;
-
-    /**
-     * 商户自定义商品编码
-     */
-    private String vendorProductCode;
 
     /**
      * 商品名
@@ -195,13 +173,15 @@ public class ProductRo extends BaseRedisObject<String> implements Serializable {
      */
     private String rapidProductInfo;
 
-    public Long getVendorId() {
-        return vendorId;
-    }
+    /**
+     * 是否二维码管控(默认二维码管控)
+     */
+    private Boolean isControlByQRCode = Boolean.TRUE;
 
-    public void setVendorId(Long vendorId) {
-        this.vendorId = vendorId;
-    }
+    /**
+     * 是否是流通商品(默认非流通商品)
+     */
+    private Boolean isCircularFlow = Boolean.FALSE;
 
     public String getProductCode() {
         return productCode;
@@ -323,14 +303,6 @@ public class ProductRo extends BaseRedisObject<String> implements Serializable {
         this.saleStatus = saleStatus;
     }
 
-    public Integer getProductType() {
-        return productType;
-    }
-
-    public void setProductType(Integer productType) {
-        this.productType = productType;
-    }
-
     public String getGeoIds() {
         return geoIds;
     }
@@ -387,10 +359,6 @@ public class ProductRo extends BaseRedisObject<String> implements Serializable {
         this.onSaleTime = onSaleTime;
     }
 
-    public Boolean isTypeA() {
-        return this.productType != null && this.productType == VendorTypeEnum.TYPE_A.getValue();
-    }
-
     public Boolean getRapidProduct() {
         return isRapidProduct;
     }
@@ -431,14 +399,6 @@ public class ProductRo extends BaseRedisObject<String> implements Serializable {
         this.weight = weight;
     }
 
-    public String getVendorProductCode() {
-        return vendorProductCode;
-    }
-
-    public void setVendorProductCode(String vendorProductCode) {
-        this.vendorProductCode = vendorProductCode;
-    }
-
     public String getBrandName() {
         return brandName;
     }
@@ -463,6 +423,22 @@ public class ProductRo extends BaseRedisObject<String> implements Serializable {
         this.introImages = introImages;
     }
 
+    public Boolean getControlByQRCode() {
+        return isControlByQRCode;
+    }
+
+    public void setControlByQRCode(Boolean controlByQRCode) {
+        isControlByQRCode = controlByQRCode;
+    }
+
+    public Boolean getCircularFlow() {
+        return isCircularFlow;
+    }
+
+    public void setCircularFlow(Boolean circularFlow) {
+        isCircularFlow = circularFlow;
+    }
+
     public String getCategoryName() {
         return categoryName;
     }
@@ -479,15 +455,6 @@ public class ProductRo extends BaseRedisObject<String> implements Serializable {
         }
     }
 
-    public boolean isValid() {
-        boolean isTypeValid = this.productType != null && (this.productType == VendorTypeEnum.TYPE_A.getValue() || this.productType == VendorTypeEnum.TYPE_B.getValue());
-        boolean isWeightValid = this.weight != null && this.weight > 0;
-        if (!isWeightValid) {
-            this.weight = 0;
-        }
-        return isTypeValid;
-    }
-
     public boolean isOnSale() {
         return this.saleStatus != null && this.saleStatus == SaleStatusEnum.ON_SALE.getValue();
     }
@@ -495,30 +462,22 @@ public class ProductRo extends BaseRedisObject<String> implements Serializable {
     public ProductPropertyVo getProductProperty() {
         ProductPropertyVo vo = new ProductPropertyVo();
         vo.setProductCode(this.productCode);
-        PropertyItemVo nameItemVo = new PropertyItemVo();
-        nameItemVo.setPropertyName("名称");
-        nameItemVo.setPropertyValue(this.name);
-        PropertyItemVo categoryItemVo = new PropertyItemVo();
-        categoryItemVo.setPropertyName("分类");
-        categoryItemVo.setPropertyValue(this.categoryName);
-        PropertyItemVo brandItemVo = new PropertyItemVo();
-        brandItemVo.setPropertyName("品牌");
-        brandItemVo.setPropertyValue(this.brandName);
         List<PropertyItemVo> propertyItems = this.getProperties();
-        List<PropertyItemVo> resultProperties = Lists.newArrayList(nameItemVo, categoryItemVo, brandItemVo);
-        CollectionUtils.addAll(resultProperties, propertyItems.iterator());
-        vo.setItems(resultProperties);
+        List<PropertyItemVo> appendProperties = Lists.newArrayList(
+                new PropertyItemVo("名称", this.name),
+                new PropertyItemVo("分类", this.categoryName),
+                new PropertyItemVo("品牌", this.brandName)
+        );
+        CollectionUtils.addAll(appendProperties, propertyItems.iterator());
+        vo.setItems(appendProperties);
         return vo;
     }
 
     @Override
     public String toString() {
         return "ProductRo{" +
-                "productType=" + productType +
-                ", productId=" + productId +
-                ", vendorId=" + vendorId +
+                "productId=" + productId +
                 ", productCode='" + productCode + '\'' +
-                ", vendorProductCode='" + vendorProductCode + '\'' +
                 ", name='" + name + '\'' +
                 ", subTitle='" + subTitle + '\'' +
                 ", i18nCode='" + i18nCode + '\'' +
@@ -547,6 +506,8 @@ public class ProductRo extends BaseRedisObject<String> implements Serializable {
                 ", onSaleTime=" + onSaleTime +
                 ", isRapidProduct=" + isRapidProduct +
                 ", rapidProductInfo='" + rapidProductInfo + '\'' +
+                ", isControlByQRCode=" + isControlByQRCode +
+                ", isCircularFlow=" + isCircularFlow +
                 '}';
     }
 }

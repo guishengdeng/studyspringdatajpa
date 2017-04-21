@@ -32,6 +32,14 @@ public class PropertyItemVo implements Serializable {
      */
     private Long propertyValueId;
 
+    public PropertyItemVo() {
+    }
+
+    public PropertyItemVo(String propertyName, String propertyValue) {
+        this.propertyName = propertyName;
+        this.propertyValue = propertyValue;
+    }
+
     public Long getPropertyId() {
         return propertyId;
     }
