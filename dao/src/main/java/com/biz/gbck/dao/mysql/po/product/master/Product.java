@@ -3,6 +3,7 @@ package com.biz.gbck.dao.mysql.po.product;
 import com.alibaba.fastjson.JSON;
 import com.biz.gbck.dao.mysql.po.product.bbc.ProductCascade;
 import com.biz.gbck.dao.mysql.po.product.bbc.RelevantProduct;
+import com.biz.gbck.dao.mysql.po.product.meta.*;
 import com.biz.gbck.vo.product.PropertyItemVo;
 import com.biz.support.jpa.converter.ListStringConverter;
 import com.biz.support.jpa.po.BaseEntity;
