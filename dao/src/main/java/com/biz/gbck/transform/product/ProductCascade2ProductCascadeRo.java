@@ -5,7 +5,7 @@ import com.biz.gbck.dao.mysql.po.product.meta.Category;
 import com.biz.gbck.dao.mysql.po.product.meta.ExtendProperty;
 import com.biz.gbck.dao.mysql.po.product.bbc.Product;
 import com.biz.gbck.dao.mysql.po.product.bbc.ProductCascade;
-import com.biz.gbck.dao.redis.ro.product.ProductCascadeRo;
+import com.biz.gbck.dao.redis.ro.product.master.ProductCascadeRo;
 import com.biz.gbck.vo.product.backend.CascadeExtendVo;
 import com.biz.gbck.vo.product.backend.CascadeProductVo;
 import com.google.common.base.Function;

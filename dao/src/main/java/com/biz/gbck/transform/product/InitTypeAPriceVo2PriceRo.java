@@ -1,6 +1,6 @@
 package com.biz.gbck.transform.product;
 
-import com.biz.gbck.dao.redis.ro.product.PriceRo;
+import com.biz.gbck.dao.redis.ro.product.bbc.PriceRo;
 import com.biz.gbck.vo.product.backend.InitTypeAPriceVo;
 import com.google.common.base.Function;
 

@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.redis.ro.product;
+package com.biz.gbck.dao.redis.ro.product.bbc;
 
 import com.biz.redis.annotation.Ro;
 import com.biz.redis.bean.BaseRedisObject;
