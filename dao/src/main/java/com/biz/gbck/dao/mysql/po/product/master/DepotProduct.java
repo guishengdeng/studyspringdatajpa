@@ -1,5 +1,6 @@
-package com.biz.gbck.dao.mysql.po.product;
+package com.biz.gbck.dao.mysql.po.product.master;
 
+import com.biz.gbck.dao.mysql.po.product.price.Price;
 import com.biz.gbck.enums.product.SaleStatusEnum;
 import com.biz.support.jpa.po.BaseEntity;
 import javax.persistence.*;

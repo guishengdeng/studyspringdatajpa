@@ -1,6 +1,6 @@
 package com.biz.gbck.transform.product;
 
-import com.biz.gbck.dao.mysql.po.product.ProductExtend;
+import com.biz.gbck.dao.mysql.po.product.meta.ProductExtend;
 import com.biz.gbck.vo.product.backend.CreateCategoryPropertyVo;
 import com.google.common.base.Function;
 

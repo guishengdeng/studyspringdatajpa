@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.po.vendor.bbc;
 
-import com.biz.gbck.dao.mysql.po.product.Brand;
+import com.biz.gbck.dao.mysql.po.product.meta.Brand;
 import com.biz.gbck.dao.mysql.po.product.bbc.Vendor;
 import com.biz.support.jpa.po.BaseEntity;
 import javax.persistence.Column;

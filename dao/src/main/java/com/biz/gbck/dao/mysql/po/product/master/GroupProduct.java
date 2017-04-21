@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.po.product;
+package com.biz.gbck.dao.mysql.po.product.master;
 
 import com.biz.support.jpa.po.BaseEntity;
 import com.google.common.collect.Lists;

@@ -1,7 +1,8 @@
 package com.biz.gbck.dao.mysql.po.product.bbc;
 
 import com.alibaba.fastjson.JSON;
-import com.biz.gbck.dao.mysql.po.product.*;
+import com.biz.gbck.dao.mysql.po.product.master.GroupProduct;
+import com.biz.gbck.dao.mysql.po.product.meta.*;
 import com.biz.gbck.enums.product.SaleStatusEnum;
 import com.biz.gbck.enums.product.VendorTypeEnum;
 import com.biz.gbck.vo.product.PropertyItemVo;

@@ -1,6 +1,6 @@
 package com.biz.gbck.transform.product;
 
-import com.biz.gbck.dao.mysql.po.product.ExtendProperty;
+import com.biz.gbck.dao.mysql.po.product.meta.ExtendProperty;
 import com.biz.gbck.dao.mysql.po.product.bbc.Product;
 import com.biz.gbck.vo.product.backend.ExtendVo;
 import com.biz.gbck.vo.product.backend.VendorProductDetailVo;
