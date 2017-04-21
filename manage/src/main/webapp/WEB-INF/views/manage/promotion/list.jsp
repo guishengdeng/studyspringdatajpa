@@ -45,10 +45,6 @@
                                              class="ace-icon glyphicon glyphicon-plus"></i>
                                         新增活动
                                 </a>
-                                <a href="/" class="btn btn-sm btn-primary"><i
-                                        class="ace-icon fa fa-angle-left"></i>
-                                    返回
-                                </a>
                             </span>
                             </h3>
                             <table class="table table-striped table-bordered table-hover">

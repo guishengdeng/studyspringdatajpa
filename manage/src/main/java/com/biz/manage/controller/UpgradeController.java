@@ -1,6 +1,6 @@
 package com.biz.manage.controller;
 
-import com.biz.gbck.common.ro.upgrade.UpgradeRo;
+import com.biz.gbck.dao.redis.ro.upgrade.UpgradeRo;
 import com.biz.service.UpgradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;

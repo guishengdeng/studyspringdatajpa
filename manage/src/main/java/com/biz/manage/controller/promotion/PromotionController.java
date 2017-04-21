@@ -50,7 +50,7 @@ import java.util.Date;
         PromotionPo po= new PromotionVoToPromotionPo().apply(vo);
         po.setCreateTime(new Timestamp(new Date().getTime()));
         promotionService.save(po);
-        return new ModelAndView("redirect:manage/promotions.do");
+        return new ModelAndView("redirect:promotions.do");
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET) @PreAuthorize("hasAuthority('OPT_PROMOTION_UPDATE')")

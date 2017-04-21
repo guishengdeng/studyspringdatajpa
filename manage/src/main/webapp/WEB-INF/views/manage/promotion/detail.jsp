@@ -92,14 +92,15 @@
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
                 <li>
-                    <a href="">
-                        活动发布
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="welcome">
+                        首页
                     </a>
                 </li>
 
                 <li>
-                    <a href="/promotions/new.do">
-                        新增活动
+                    <a href="promotion/list">
+                        活动管理
                     </a>
                 </li>
             </ul><!-- /.breadcrumb -->

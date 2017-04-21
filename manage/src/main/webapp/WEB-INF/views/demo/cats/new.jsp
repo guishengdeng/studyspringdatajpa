@@ -33,7 +33,7 @@
             </h3>
             <div class="row">
                 <div class="col-xs-12">
-                    <form id="contact-form" action="demo/cats.do" method="post" class="form-horizontal"
+                    <form id="contact-form" action="demo/cats/save.do" method="post" class="form-horizontal"
                           role="form">
                         <input type="hidden" name="id" id="id" value="${cat.id}"/>
                         <div class="form-group">

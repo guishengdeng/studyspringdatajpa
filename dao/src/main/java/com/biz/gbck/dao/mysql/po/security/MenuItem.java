@@ -13,6 +13,7 @@ public class MenuItem extends BasePo<Long> implements Identifiable<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Long id;
 
     @Column

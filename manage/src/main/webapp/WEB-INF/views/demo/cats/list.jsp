@@ -12,7 +12,7 @@
                 min-width: 150px;
             }
             #cat-table .operate, #cat-table .status{
-                width: 70px;
+                min-width: 80px;
             }
         </style>
     </jsp:attribute>
@@ -39,6 +39,13 @@
                 $("#cat-disable-confirm-modal").modal("hide");
             });
             <%--</sec:authorize>--%>
+            $(function(){
+                $("#cat-table").DataTable({
+                    "lengthMenu": [[10,20,50,-1], [10, 20, 50, "所有"]],
+                    "columnDefs": [{"targets": [1,4], "orderable": false}],
+                    "order": [[0, "asc"]]
+                });
+            });
 
             <sec:authorize access="hasRole('OPT_CAT_EDIT')">
             </sec:authorize>
@@ -71,9 +78,9 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <h3 class="header smaller lighter blue">
-                                猫列表
+                                猫列表 <span class="inline help-block">(Javascript DataTable 翻页查询，当前这个不会和后台交互，全部在页面完成)</span>
                             </h3>
-                            <table id="cat-table" class="table  table-bordered table-hover">
+                            <table id="cat-table" class="table table-hover">
                                 <thead>
                                 <tr>
                                     <th class="name">名字</th>
@@ -133,60 +140,6 @@
                                         取消
                                     </button>
                                     <button type="button" class="btn btn-confirm-ban btn-primary">
-                                        确认
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="cat-reset-password-modal" role="dialog" class="modal" tabindex="-1">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="bootbox-close-button close"
-                                            data-dismiss="modal" aria-hidden="true">×
-                                    </button>
-                                    <div class="bootbox-body">你是否要重置密码?
-                                    </div>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-horizontal">
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label no-padding-right" for="password">
-                                                新密码
-                                            </label>
-                                            <div class="col-sm-9">
-                                                <input type="password" id="password"
-                                                       placeholder="新密码"
-                                                       name="pwd" class="col-xs-10 col-sm-5">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label no-padding-right"
-                                                   for="confirmPassword">
-                                                确认密码
-                                            </label>
-                                            <div class="col-sm-9">
-                                                <input type="password" id="confirmPassword"
-                                                       placeholder="确认密码"
-                                                       name="pwd" class="col-xs-10 col-sm-5">
-                                            </div>
-                                        </div>
-                                        <div id="password-not-match-msg" class="form-group">
-                                            <label class="col-sm-3 control-label no-padding-right"
-                                                   for="confirmPassword">
-                                            </label>
-                                            <div class="col-sm-9">
-                                                重复录入的新密码不一致
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-cancel-reset btn-default">
-                                        取消
-                                    </button>
-                                    <button type="button" class="btn btn-confirm-reset btn-primary">
                                         确认
                                     </button>
                                 </div>

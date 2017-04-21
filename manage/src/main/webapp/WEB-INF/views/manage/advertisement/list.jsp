@@ -71,17 +71,13 @@
                                         <td>${advertisement.priority}</td>
                                         <td>
                                             <div>
-                                                <sec:authorize access="hasAuthority('OPT_ADVERTISEMENTS_DELETE')">
-                                                    <a href="manage/advertisement/delete?id=${advertisement.id}"
-                                                       class="btn btn-minier btn-info">
-                                                        <i class="ace-icon fa fa-trash-o bigger-120">删除</i>
-                                                    </a>
-                                                </sec:authorize>
-                                                <sec:authorize access="hasAuthority('OPT_CAT_EDIT')">
-                                                    <a href="manage/advertisement/edit?id=${advertisement.id}" class="btn btn-minier btn-info">
-                                                        <i class="ace-icon fa fa-pencil bigger-120">修改</i>
-                                                    </a>
-                                                </sec:authorize>
+                                                <a href="manage/advertisement/delete?id=${advertisement.id}"
+                                                   class="btn btn-minier btn-info">
+                                                    <i class="ace-icon fa fa-trash-o bigger-120">删除</i>
+                                                </a>
+                                                <a href="manage/advertisement/edit?id=${advertisement.id}" class="btn btn-minier btn-info">
+                                                    <i class="ace-icon fa fa-pencil bigger-120">修改</i>
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>

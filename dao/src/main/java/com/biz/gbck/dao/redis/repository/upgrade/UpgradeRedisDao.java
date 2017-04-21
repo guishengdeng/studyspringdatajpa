@@ -1,8 +1,8 @@
-package com.biz.gbck.dao.redis.upgrade;
+package com.biz.gbck.dao.redis.repository.upgrade;
 
 import com.biz.gbck.common.dao.redis.CommonRedisDao;
 import com.biz.gbck.common.ro.RedisKeyGenerator.Upgrade;
-import com.biz.gbck.common.ro.upgrade.UpgradeRo;
+import com.biz.gbck.dao.redis.ro.upgrade.UpgradeRo;
 import com.biz.redis.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

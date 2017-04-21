@@ -23,10 +23,9 @@ import com.depotnearby.service.info.SideslipBarService;
 import com.depotnearby.util.DateTool;
 import com.depotnearby.util.DepotnearbyQiNiuUtils;
 import com.depotnearby.web.util.HttpServletHelper;*/
-import com.biz.gbck.common.ro.upgrade.UpgradeRo;
+import com.biz.gbck.dao.redis.ro.upgrade.UpgradeRo;
 import com.biz.service.UpgradeService;
 import com.biz.support.web.handler.JSONResult;
-import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,10 +35,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("init")
