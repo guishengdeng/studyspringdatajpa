@@ -1,12 +1,12 @@
 package com.biz.service.notice;
 
 
+import com.biz.core.notification.Notification;
 import com.biz.core.notification.NotificationSendType;
 import com.biz.core.notification.NotifyType;
 import com.biz.core.notification.PushMessage;
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.common.mo.Message;
-import com.biz.gbck.common.notification.Notification;
 import com.biz.gbck.common.notification.NotificationPlatform;
 import com.biz.gbck.dao.mysql.po.info.NoticePo;
 import com.biz.gbck.dao.mysql.repository.notice.NoticeRepository;
@@ -126,7 +126,7 @@ public class NoticeService extends CommonService {
      * @throws CommonException
      */
     public void sendNotification(Notification notification) throws CommonException {
-       /* mqService.sendMessage(Message.QUEUE.MQ_CLIENT_PUSH_MSG, notification);*/
+        /*mqService.send(Message.QUEUE.MQ_CLIENT_PUSH_MSG, notification);*/
     }
 
 
