@@ -24,7 +24,51 @@
                 </li>
             </ul><!-- /.breadcrumb -->
         </div>
-        <%----%>
+        <div class="profile-user-info profile-user-info-striped">
+            <div class="profile-info-row">
+                <div class="profile-info-name">代码</div>
+
+                <div class="profile-info-value">
+                    <span class="editable" id="username">${mainMenu.code}</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name">公司类型</div>
+
+                <div class="profile-info-value">
+
+                    <span class="editable">${mainMenu.companyType}</span>
+
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> 描述 </div>
+
+                <div class="profile-info-value">
+                    <span class="editable" id="age">${mainMenu.description}</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> 图标 </div>
+
+                <div class="profile-info-value">
+                    <span class="editable" id="signup">${mainMenu.icon}</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> 名称 </div>
+
+                <div class="profile-info-value">
+                    <span class="editable" id="login">${mainMenu.name}</span>
+                </div>
+            </div>
+
+        </div>
+
         <div class="page-content">
             <input type="hidden" id="id-of-user">
             <div class="row">
@@ -57,10 +101,10 @@
                                     <th class="hidden-md hidden-sm hidden-xs">链接</th>
                                     <th class="hidden-md hidden-sm hidden-xs">名称</th>
                                     <th class="hidden-md hidden-sm hidden-xs">权限</th>
+                                    <th class="hidden-md hidden-sm hidden-xs">操作列表</th>
                                     <th class="hidden-md hidden-sm hidden-xs">操作</th>
                                 </tr>
                                 </thead>
-
                                 <tbody>
                                 <c:forEach items="${menuItems}" var="menuItem" varStatus="status">
                                     <tr id="tr-${menuItem.name}">
@@ -70,6 +114,9 @@
                                         <td class="hidden-md hidden-sm hidden-xs">${menuItem.link}</td>
                                         <td class="hidden-md hidden-sm hidden-xs">${menuItem.name}</td>
                                         <td class="hidden-md hidden-sm hidden-xs">
+                                        </td>
+                                        <td class="hidden-md hidden-sm hidden-xs">
+                                            <a href="/manage/menuItems/detail.do?id=${menuItem.id}">操作管理</a>
                                         </td>
                                         <td class="hidden-md hidden-sm hidden-xs">
                                             <div class="hidden-sm hidden-xs btn-group">

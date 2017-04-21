@@ -17,7 +17,7 @@
                 </li>
 
                 <li>
-                    <a href="manage/users">
+                    <a href="manage/mainMenu.do">
                         菜单管理
                     </a>
                 </li>
