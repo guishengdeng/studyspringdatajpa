@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.redis.repository.product.bbc;
 
 import com.biz.gbck.dao.redis.CrudRedisDao;
-import com.biz.gbck.dao.redis.ro.product.PriceRo;
+import com.biz.gbck.dao.redis.ro.product.bbc.PriceRo;
 import com.google.common.collect.Lists;
 import java.io.Serializable;
 import java.sql.Timestamp;

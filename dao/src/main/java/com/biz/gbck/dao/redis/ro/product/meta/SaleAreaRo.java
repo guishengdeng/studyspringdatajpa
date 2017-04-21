@@ -1,23 +1,22 @@
-package com.biz.gbck.dao.redis.ro.product;
+package com.biz.gbck.dao.redis.ro.product.meta;
 
 import com.biz.gbck.enums.CommonStatusEnum;
-import com.biz.redis.annotation.FieldSortedSet;
 import com.biz.redis.annotation.Ro;
 import com.biz.redis.bean.BaseRedisObject;
 import java.io.Serializable;
 
 /**
- * 销售标签 Ro
+ * 销售区域 Ro(Id为区域编码 + 商家 ID)
  *
  * @author david-liu
- * @date 2016年12月29日
+ * @date 2016年12月30日
  * @reviewer
  * @see
  */
-@Ro(key = "product:SaleTagRo")
-public class SaleTagRo extends BaseRedisObject<Long> implements Serializable {
+@Ro(key = "product:SaleAreaRo")
+public class SaleAreaRo extends BaseRedisObject<String> implements Serializable {
 
-    private static final long serialVersionUID = 5869233720670875892L;
+    private static final long serialVersionUID = -2997083628996008756L;
 
     /**
      * 名称
@@ -25,33 +24,22 @@ public class SaleTagRo extends BaseRedisObject<Long> implements Serializable {
     private String name;
 
     /**
-     * Logo
+     * 区域编码
      */
-    private String logo;
+    private String code;
 
     /**
-     * 序号
-     */
-    private Integer idx;
-
-    /**
-     * 富文本
-     */
-    private String rawHtml;
-
-    /**
-     * 描述
+     * 销售区域描述
      */
     private String description;
 
     /**
-     * 商户 ID
+     * 商家 ID
      */
-    @FieldSortedSet(key = "vendorId", score = "idx")
     private Long vendorId;
 
     /**
-     * 状态
+     * 启用状态
      */
     private CommonStatusEnum status;
 
@@ -63,28 +51,12 @@ public class SaleTagRo extends BaseRedisObject<Long> implements Serializable {
         this.name = name;
     }
 
-    public String getLogo() {
-        return logo;
+    public String getCode() {
+        return code;
     }
 
-    public void setLogo(String logo) {
-        this.logo = logo;
-    }
-
-    public Integer getIdx() {
-        return idx;
-    }
-
-    public void setIdx(Integer idx) {
-        this.idx = idx;
-    }
-
-    public String getRawHtml() {
-        return rawHtml;
-    }
-
-    public void setRawHtml(String rawHtml) {
-        this.rawHtml = rawHtml;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getDescription() {

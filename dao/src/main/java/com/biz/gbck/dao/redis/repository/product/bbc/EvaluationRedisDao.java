@@ -2,7 +2,7 @@ package com.biz.gbck.dao.redis.repository.product.bbc;
 
 
 import com.biz.gbck.dao.redis.CrudRedisDao;
-import com.biz.gbck.dao.redis.ro.product.EvaluationRo;
+import com.biz.gbck.dao.redis.ro.evaluation.EvaluationRo;
 import com.biz.gbck.vo.evaluation.frontend.VendorIdPageRequestVo;
 import java.io.Serializable;
 import java.util.List;

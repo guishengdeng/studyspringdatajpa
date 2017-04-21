@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.redis.repository.product;
 
 import com.biz.gbck.dao.redis.CrudRedisDao;
-import com.biz.gbck.dao.redis.ro.product.ProductCascadeRo;
+import com.biz.gbck.dao.redis.ro.product.master.ProductCascadeRo;
 import com.biz.redis.util.RedisUtil;
 import com.google.common.collect.Lists;
 import java.io.Serializable;

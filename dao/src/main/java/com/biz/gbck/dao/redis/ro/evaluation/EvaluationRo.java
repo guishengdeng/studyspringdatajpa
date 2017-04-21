@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.redis.ro.product;
+package com.biz.gbck.dao.redis.ro.evaluation;
 
 import com.biz.redis.annotation.FieldSortedSet;
 import com.biz.redis.annotation.Ro;

@@ -1,8 +1,8 @@
 package com.biz.soa.product.service.interfaces.impl;
 
 import com.biz.core.util.StringTool;
-import com.biz.gbck.dao.redis.ro.product.PriceRo;
-import com.biz.gbck.dao.redis.ro.product.ProductRo;
+import com.biz.gbck.dao.redis.ro.product.bbc.PriceRo;
+import com.biz.gbck.dao.redis.ro.product.master.ProductRo;
 import com.biz.gbck.enums.depot.PeriodsOfDeliveriesTime;
 import com.biz.gbck.enums.product.DeliverType;
 import com.biz.gbck.enums.product.ProductShowStatus;

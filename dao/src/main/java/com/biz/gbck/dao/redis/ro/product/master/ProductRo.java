@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.redis.ro.product;
+package com.biz.gbck.dao.redis.ro.product.master;
 
 import com.alibaba.fastjson.JSON;
 import com.biz.gbck.enums.product.SaleStatusEnum;

@@ -2,7 +2,7 @@ package com.biz.gbck.dao.redis.repository.product;
 
 import com.biz.core.util.StringTool;
 import com.biz.gbck.dao.redis.CrudRedisDao;
-import com.biz.gbck.dao.redis.ro.product.ProductRo;
+import com.biz.gbck.dao.redis.ro.product.master.ProductRo;
 import com.biz.gbck.enums.product.VendorTypeEnum;
 import com.biz.redis.util.RedisUtil;
 import com.google.common.base.Preconditions;

@@ -1,6 +1,6 @@
 package com.biz.gbck.vo.product.frontend.interfaces;
 
-import com.biz.gbck.dao.redis.ro.product.ProductRo;
+import com.biz.gbck.dao.redis.ro.product.master.ProductRo;
 import com.biz.gbck.enums.product.DeliverType;
 import com.biz.gbck.enums.product.ProductShowStatus;
 import com.biz.gbck.exceptions.DepotNextDoorException;

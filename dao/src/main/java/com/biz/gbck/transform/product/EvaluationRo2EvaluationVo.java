@@ -1,6 +1,6 @@
 package com.biz.gbck.transform.product;
 
-import com.biz.gbck.dao.redis.ro.product.EvaluationRo;
+import com.biz.gbck.dao.redis.ro.evaluation.EvaluationRo;
 import com.biz.gbck.vo.evaluation.frontend.EvaluationVo;
 import com.google.common.base.Function;
 import java.util.List;

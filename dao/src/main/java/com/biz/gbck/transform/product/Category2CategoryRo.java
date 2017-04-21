@@ -1,7 +1,7 @@
 package com.biz.gbck.transform.product;
 
 import com.biz.gbck.dao.mysql.po.product.meta.Category;
-import com.biz.gbck.dao.redis.ro.product.CategoryRo;
+import com.biz.gbck.dao.redis.ro.product.meta.CategoryRo;
 import com.google.common.base.Function;
 
 /**

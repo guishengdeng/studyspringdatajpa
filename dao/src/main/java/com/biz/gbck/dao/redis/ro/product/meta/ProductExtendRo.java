@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.redis.ro.product;
+package com.biz.gbck.dao.redis.ro.product.meta;
 
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.redis.annotation.FieldSortedSet;

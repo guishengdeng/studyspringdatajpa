@@ -7,7 +7,7 @@ import com.biz.gbck.dao.mysql.po.product.bbc.Evaluation;
 import com.biz.gbck.dao.mysql.repository.bbc.evaluation.EvaluationRepository;
 import com.biz.gbck.dao.mysql.specification.bbc.EvaluationSpecification;
 import com.biz.gbck.dao.redis.repository.product.bbc.EvaluationRedisDao;
-import com.biz.gbck.dao.redis.ro.product.EvaluationRo;
+import com.biz.gbck.dao.redis.ro.evaluation.EvaluationRo;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.user.ChannelType;
 import com.biz.gbck.exceptions.DepotNextDoorException;
