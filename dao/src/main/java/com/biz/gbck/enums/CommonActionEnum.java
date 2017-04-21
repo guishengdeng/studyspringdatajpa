@@ -1,6 +1,7 @@
 package com.biz.gbck.enums;
 
 import com.biz.core.enums.EnumerableNameAndValueAndDescription;
+import com.biz.core.enums.converter.BaseEnumNameAndValueAndDescriptionConverter;
 
 /**
  * 维护行为枚举
@@ -16,6 +17,10 @@ public enum CommonActionEnum implements EnumerableNameAndValueAndDescription {
         this.name = name;
         this.value = value;
         this.description = description;
+    }
+
+    public static class Converter extends BaseEnumNameAndValueAndDescriptionConverter<CommonActionEnum> {
+
     }
 
     @Override
