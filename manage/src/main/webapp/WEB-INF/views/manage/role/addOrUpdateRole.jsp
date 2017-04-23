@@ -37,7 +37,7 @@
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
                                 <a href="manage/roles.do" class="btn btn-sm btn-primary"><i
                                         class="ace-icon fa fa-angle-left"></i>
-                                    返回角色列表
+                                    返回
                                 </a>
                             </span>
                             </h3>

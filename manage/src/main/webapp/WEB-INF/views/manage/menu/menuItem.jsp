@@ -6,8 +6,37 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="depotnextdoor" tagdir="/WEB-INF/tags" %>
 
-<depotnextdoor:page title="page.user.list" >
+<depotnextdoor:page title="子菜单列表">
+     <jsp:attribute name="script">
+        <script type="application/javascript">
+          <%-- <sec:authorize access="hasRole('OPT_MENUITEM_DELETE')"> --%>
+                $(".menuitem-ban-btn").click(function () {
+                    //为隐藏的input标签赋值
+                    $("#id-of-menuitem").val($(this).data("id"));
+                    $("#name-of-ban-menuitem").html($(this).data("name"));
+                    $("#menuitem-disable-confirm-modal").modal();
+                });
+                $(".btn-cancel-ban").click(function () {
+                    $("#menuitem-disable-confirm-modal").modal("hide");
+                });
+
+                $(".btn-confirm-ban").click(function () {
+                    var $menuitem_id = $("#id-of-menuitem").val();
+                    $.post("manage/menuItems/delete.do", {
+                        "id": $menuitem_id
+                    }, function (result) {
+                        console.log(result);
+                        if (result) {
+                            $("#tr-" + $menuitem_id).remove();
+                        }
+                    }, "json");
+                    $("#menuitem-disable-confirm-modal").modal("hide");
+                });
+           <%--</sec:authorize>--%>
+        </script>
+    </jsp:attribute>
     <jsp:body>
+
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
                 <li>
@@ -17,7 +46,9 @@
                     </a>
                 </li>
                 <li class="active">
-                    菜单管理
+                    <a href="/manage/mainMenus/detail.do?id=${mainmenu_id}">
+                        菜单管理
+                    </a>
                 </li>
                 <li class="active">
                     子菜单管理
@@ -29,7 +60,7 @@
                 <div class="profile-info-name">代码</div>
 
                 <div class="profile-info-value">
-                    <span class="editable" id="username">${mainMenu.code}</span>
+                    <span class="editable" id="code">${mainMenu.code}</span>
                 </div>
             </div>
 
@@ -38,7 +69,7 @@
 
                 <div class="profile-info-value">
 
-                    <span class="editable">${mainMenu.companyType}</span>
+                    <span class="editable" id="companyType">${mainMenu.companyType}</span>
 
                 </div>
             </div>
@@ -47,7 +78,7 @@
                 <div class="profile-info-name"> 描述 </div>
 
                 <div class="profile-info-value">
-                    <span class="editable" id="age">${mainMenu.description}</span>
+                    <span class="editable" id="description">${mainMenu.description}</span>
                 </div>
             </div>
 
@@ -55,7 +86,7 @@
                 <div class="profile-info-name"> 图标 </div>
 
                 <div class="profile-info-value">
-                    <span class="editable" id="signup">${mainMenu.icon}</span>
+                    <span class="editable" id="icon">${mainMenu.icon}</span>
                 </div>
             </div>
 
@@ -63,28 +94,21 @@
                 <div class="profile-info-name"> 名称 </div>
 
                 <div class="profile-info-value">
-                    <span class="editable" id="login">${mainMenu.name}</span>
+                    <span class="editable" id="name">${mainMenu.name}</span>
                 </div>
             </div>
 
         </div>
 
         <div class="page-content">
-            <input type="hidden" id="id-of-user">
+            <input type="hidden" id="id-of-menuitem">
             <div class="row">
                 <div class="col-xs-12">
                     <!-- PAGE CONTENT BEGINS -->
                     <div class="row">
                         <div class="col-xs-12">
                             <h3 class="header smaller lighter blue">
-                                <c:choose>
-                                    <c:when test="${param.enabled == 'false'}">
-                                        禁用
-                                    </c:when>
-                                    <c:otherwise>
-                                        正常
-                                    </c:otherwise>
-                                </c:choose>
+                                        子菜单列表
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
                                 <sec:authorize access="hasAuthority('OPT_MAINMENU_ADD')">
                                     <a href="manage/menuItems/add.do" class="btn btn-sm btn-primary"><i
@@ -107,7 +131,7 @@
                                 </thead>
                                 <tbody>
                                 <c:forEach items="${menuItems}" var="menuItem" varStatus="status">
-                                    <tr id="tr-${menuItem.name}">
+                                    <tr id="tr-${menuItem.id}">
 
                                         <td>${menuItem.description}</td>
                                         <td>${menuItem.icon}</td>
@@ -121,16 +145,18 @@
                                         <td class="hidden-md hidden-sm hidden-xs">
                                             <div class="hidden-sm hidden-xs btn-group">
                                                 <sec:authorize access="hasAuthority('OPT_MAINMENU_DELETE')">
-                                                    <a href="manage/menuItems/delete?id=${menuItem.id}"
-                                                       class="btn btn-minier btn-info">
-                                                        <i class="ace-icon fa fa-trash-o bigger-120">删除</i>
+                                                    <a data-id="${menuItem.id}"
+                                                       data-name="${menuItem.name}"
+                                                      <%-- href="manage/menuItems/delete.do?id=${menuItem.id}"--%>
+                                                       class="btn btn-minier btn-danger menuitem-ban-btn">
+                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                     </a>
                                                 </sec:authorize>
                                                     <%--修改操作--%>
                                                 <sec:authorize access="hasAuthority('OPT_MAINMENU_EDIT')">
                                                     <a href="manage/menuItems/edit?id=${menuItem.id}"
                                                        class="btn btn-minier btn-info">
-                                                        <i class="ace-icon fa fa-pencil bigger-120">修改</i>
+                                                        <i class="ace-icon fa fa-pencil bigger-120"></i>
                                                     </a>
                                                 </sec:authorize>
                                                     <%--<sec:authorize access="hasAuthority('OPT_USER_DELETE')">
@@ -152,6 +178,29 @@
                             </table>
                         </div><!-- /.span -->
                     </div><!-- /.row -->
+                        <%--做删除修改时的模态框--%>
+                    <div id="menuitem-disable-confirm-modal" role="dialog" class="modal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <button type="button" class="bootbox-close-button close"
+                                            data-dismiss="modal" aria-hidden="true">×
+                                    </button>
+                                    <div class="bootbox-body">您确定要删除当前记录<span
+                                            id="name-of-ban-menuitem"></span> ?
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-cancel-ban btn-default">
+                                        取消
+                                    </button>
+                                    <button type="button" class="btn btn-confirm-ban btn-primary">
+                                        确认
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- PAGE CONTENT ENDS -->
                 </div><!-- /.col -->
             </div><!-- /.row -->

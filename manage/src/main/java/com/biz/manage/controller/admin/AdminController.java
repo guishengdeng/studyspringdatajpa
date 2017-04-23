@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -82,8 +83,13 @@ public class AdminController {
     }
     @RequestMapping("/delete")
     @PreAuthorize("hasAuthority('OPT_USER_DELETE')")
-    public String delete(@RequestParam("username") String username){
-        adminService.deleteAdmin(username);
-        return "redirect:/manage/users";
+    @ResponseBody
+    public Boolean delete(@RequestParam("username") String username){
+       /* adminService.deleteAdmin(username);
+        return "redirect:/manage/users";*/
+       if(username!=null){
+           return true;
+       }
+       return false;
     }
 }

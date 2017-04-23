@@ -20,6 +20,7 @@
         <script type="application/javascript">
             <%--<sec:authorize access="hasRole('OPT_CAT_DELETE')">--%>
             $(".cat-ban-btn").click(function () {
+
                 $("#id-of-cat").val($(this).data("id"));
                 $("#name-of-ban-cat").html($(this).data("name"));
                 $("#cat-disable-confirm-modal").modal();

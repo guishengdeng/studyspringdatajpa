@@ -11,6 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * ResourceController
@@ -60,18 +63,25 @@ public class ResourceController {
     }
     @RequestMapping("/addOrUpdate")
     @PreAuthorize("hasAuthority('OPT_RESOURCE_EDIT')")
-    public String addOrUpdate(Resource resource){
+    public String addOrUpdate(Resource resource, Model model, HttpSession session){
         if(resource.getId()==null)
             resource.setId(idService.nextId());
+        Long menuItem_id=(Long)session.getAttribute("menuitem_id");
         resourceService.addOrUpdate(resource);
-        return "redirect:list.do";
+        return "redirect:../menuItems/detail.do?id="+menuItem_id;
     }
     @RequestMapping("/delete")
-    @PreAuthorize("hasAuthority('OPT_RESOURCE_EDIT')")
-    public String delete(Long id){
-        if(id!=null){
+    @PreAuthorize("hasAuthority('OPT_RESOURCE_DELETE')")
+    @ResponseBody
+    public Boolean delete(Long id,HttpSession session){
+        /*if(id!=null){
             resourceService.delete(id);
         }
-        return "redirect:list.do";
+        Long menuItem_id=(Long)session.getAttribute("menuitem_id");
+        return "redirect:../menuItems/detail.do?id="+menuItem_id;*/
+        if(id!=null){
+            return true;
+        }
+        return false;
     }
 }

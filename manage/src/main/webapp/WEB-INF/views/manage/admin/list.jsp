@@ -23,27 +23,27 @@
     </jsp:attribute>
     <jsp:attribute name="script">
         <script type="application/javascript">
-            <sec:authorize access="hasRole('OPT_USER_DELETE')">
-            $(".user-ban-btn").click(function () {
-                $("#id-of-user").val($(this).data("id"));
-                $("#name-of-ban-user").html($(this).data("name"));
-                $("#user-disable-confirm-modal").modal();
-            });
-            $(".btn-cancel-ban").click(function () {
-                $("#user-disable-confirm-modal").modal("hide");
-            });
-            $(".btn-confirm-ban").click(function () {
-                var userId = $("#id-of-user").val();
-                $.post("manage/users/delete.do", {
-                    "userId": userId
-                }, function (result) {
-                    if (result) {
-                        $("#tr-" + userId).remove();
-                    }
+            <%--<sec:authorize access="hasRole('OPT_USER_DELETE')">--%>
+                $(".user-ban-btn").click(function () {
+                    $("#id-of-user").val($(this).data("id"));
+                    $("#name-of-ban-user").html($(this).data("name"));
+                    $("#user-disable-confirm-modal").modal();
                 });
-                $("#user-disable-confirm-modal").modal("hide");
-            });
-            </sec:authorize>
+                $(".btn-cancel-ban").click(function () {
+                    $("#user-disable-confirm-modal").modal("hide");
+                });
+                $(".btn-confirm-ban").click(function () {
+                    var username = $("#id-of-user").val();
+                    $.post("manage/users/delete.do", {
+                        "username": username
+                    }, function (result) {
+                        if (result) {
+                            $("#tr-" + username).remove();
+                        }
+                    });
+                    $("#user-disable-confirm-modal").modal("hide");
+                });
+            <%--</sec:authorize>--%>
 
             <sec:authorize access="hasRole('OPT_USER_RESET')">
             $(".user-reset-pwd-btn").click(function () {
@@ -171,16 +171,18 @@
                                                     </a>
                                                 </sec:authorize>--%>
                                                    <sec:authorize access="hasAuthority('OPT_USER_DELETE')">
-                                                       <a href="manage/users/delete?username=${user.username}"
-                                                          class="btn btn-minier btn-info">
-                                                           <i class="ace-icon fa fa-trash-o bigger-120">删除</i>
+                                                       <a <%--href="manage/users/delete?username=${user.username}"--%>
+                                                          data-id="${user.username}"
+                                                          data-name="${user.username}"
+                                                          class="btn btn-minier btn-danger user-ban-btn">
+                                                           <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                        </a>
                                                    </sec:authorize>
                                                 <%--修改操作--%>
                                                 <sec:authorize access="hasAuthority('OPT_USER_EDIT')">
                                                     <a href="manage/users/edit?username=${user.username}"
                                                        class="btn btn-minier btn-info">
-                                                        <i class="ace-icon fa fa-pencil bigger-120">修改</i>
+                                                        <i class="ace-icon fa fa-pencil bigger-120"></i>
                                                     </a>
                                                 </sec:authorize>
                                                 <sec:authorize access="hasAuthority('OPT_USER_DELETE')">

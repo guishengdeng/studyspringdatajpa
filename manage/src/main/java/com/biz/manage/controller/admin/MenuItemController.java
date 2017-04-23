@@ -7,6 +7,10 @@ import com.biz.gbck.vo.menu.MenuItemVo;
 import com.biz.service.IdService;
 import com.biz.service.security.interfaces.MainMenuService;
 import com.biz.service.security.interfaces.MenuItemService;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,10 +19,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -68,20 +75,33 @@ public class MenuItemController {
     }
     @RequestMapping("/addOrUpdate")
     @PreAuthorize("hasAuthority('OPT_MENUITEM_ADD')")
-    public String addOrUpdate(MenuItem menuItem){
+    public String addOrUpdate(MenuItem menuItem,Model model,HttpSession session){
         if(menuItem.getId()==null){
             menuItem.setId(idService.nextId());
         }
+        //要获得主菜单的id   从MainMenuController里set
+        Long mainMenu_id=(Long)session.getAttribute("mainmenu_id");
+        MainMenu mainMenu=mainMenuService.getMainMenu(mainMenu_id);
+        model.addAttribute("mainMenu",mainMenu);
         menuItemService.addOrUpdate(menuItem);
-        return "redirect:list.do";
+        return "redirect:../mainMenus/detail.do?id="+mainMenu_id;
     }
     @RequestMapping("/delete")
     @PreAuthorize("hasAuthority('OPT_MENUITEM_DELETE')")
-    public String delete(@RequestParam("id") Long id){
-        if(id!=null){
+    @ResponseBody
+    public Boolean delete(@RequestParam("id") Long id){
+       /* if(id!=null){
             menuItemService.delete(id);
         }
-        return "redirect:manage/menuItems";
+        Long mainMenu_id=(Long)session.getAttribute("mainmenu_id");
+        model.addAttribute("mainMenu",mainMenuService.getMainMenu(mainMenu_id));
+        return "redirect:../mainMenus/detail.do?id="+mainMenu_id;*/
+        if(id!=null){
+            //说明用户要执行删除操作,此时应该执行调用删除方法,而删除应该是逻辑删除而不是物理删除
+            return true;
+        }
+        return false;
+
     }
     @RequestMapping("/detail")
     @PreAuthorize("hasAuthority('OPT_MENUITEM_LIST')")
@@ -90,8 +110,9 @@ public class MenuItemController {
             MenuItem menuItem = menuItemService.getMenuItem(id);
             List<Resource> resources=menuItem.getResources();
             model.addAttribute("resources",resources);
-            session.setAttribute("menuitem_id",id);
+            model.addAttribute("menuItem",menuItem);
         }
+        session.setAttribute("menuitem_id",id);
         return "manage/resource/resourceList";
     }
 }
