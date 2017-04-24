@@ -15,15 +15,10 @@ import java.util.List;
  * @see
  */
 @Entity
-@Table(name = "pur_order_return", indexes = {@Index(columnList = "buyerId"), @Index(columnList = "orderCode", unique = true)})
+@Table(name = "pur_order_return", indexes = {@Index(columnList = "idx_returnCode", unique = true)})
 public class PurchaseReturnOrder extends BaseEntity {
 
     private static final long serialVersionUID = 4548084051968768185L;
-
-    /**
-     * 申请者Id
-     */
-    private Long applicantId;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "purchase_order_id")
@@ -52,4 +47,43 @@ public class PurchaseReturnOrder extends BaseEntity {
     private PurchaseAudit audit;
 
 
+    public PurchaseOrder getPurchaseOrder() {
+        return purchaseOrder;
+    }
+
+    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
+    }
+
+    public String getReturnCode() {
+        return returnCode;
+    }
+
+    public void setReturnCode(String returnCode) {
+        this.returnCode = returnCode;
+    }
+
+    public PurchaseOrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(PurchaseOrderStatus status) {
+        this.status = status;
+    }
+
+    public List<PurchaseOrderReturnItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<PurchaseOrderReturnItem> items) {
+        this.items = items;
+    }
+
+    public PurchaseAudit getAudit() {
+        return audit;
+    }
+
+    public void setAudit(PurchaseAudit audit) {
+        this.audit = audit;
+    }
 }

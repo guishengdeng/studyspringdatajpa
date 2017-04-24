@@ -17,7 +17,7 @@ import java.util.List;
  * @see
  */
 @Entity
-@Table(name = "pur_order", indexes = {@Index(columnList = "buyerId"), @Index(columnList = "orderCode", unique = true)})
+@Table(name = "pur_order", indexes = {@Index(columnList = "idx_buyerId"), @Index(columnList = "idx_orderCode", unique = true)})
 public class PurchaseOrder extends BaseEntity {
 
     private static final long serialVersionUID = 4548084051968768185L;
