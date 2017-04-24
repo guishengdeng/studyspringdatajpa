@@ -16,7 +16,6 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Repository;
 
 /**
  * 商品 RedisDao
@@ -26,7 +25,7 @@ import org.springframework.stereotype.Repository;
  * @reviewer
  * @see
  */
-@Repository
+//@Repository
 public class ProductRedisDao extends CrudRedisDao<ProductRo, String> implements Serializable {
 
     private static final long serialVersionUID = -4837987643262273637L;

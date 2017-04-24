@@ -16,8 +16,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @reviewer
  * @see
  */
-@Entity
-@Table(name = "mns_product")
+//@Entity
+//@Table(name = "mns_product")
 public class MnsProduct extends BaseEntity {
 
     private static final long serialVersionUID = 4113485603284449827L;

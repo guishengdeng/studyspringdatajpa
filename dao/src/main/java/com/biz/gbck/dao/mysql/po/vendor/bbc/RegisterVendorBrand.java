@@ -6,8 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "ven_register_vendor_brand")
+//@Entity
+//@Table(name = "ven_register_vendor_brand")
 public class RegisterVendorBrand extends BaseEntity {
 
     private static final long serialVersionUID = -6593553418837474038L;

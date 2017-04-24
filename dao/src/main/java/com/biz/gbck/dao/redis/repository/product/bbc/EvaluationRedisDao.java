@@ -16,7 +16,7 @@ import static com.google.common.collect.Lists.newArrayList;
  * @author yangzichun
  * @date 2017/2/9
  */
-@Repository
+//@Repository
 public class EvaluationRedisDao extends CrudRedisDao<EvaluationRo, Long> implements Serializable {
     private static final long serialVersionUID = -5950832172677027189L;
 

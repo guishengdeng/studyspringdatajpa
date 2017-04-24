@@ -2,10 +2,7 @@ package com.biz.gbck.dao.mysql.repository.bbc.product;
 
 import com.biz.gbck.dao.mysql.po.product.bbc.GeoProduct;
 import com.biz.gbck.dao.mysql.po.product.bbc.Product;
-import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.List;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.stereotype.Repository;
 
 /**
  * 区域商品Repository
@@ -15,8 +12,9 @@ import org.springframework.stereotype.Repository;
  * @reviewer
  * @see
  */
-@Repository
-public interface GeoProductRepository extends CommonJpaRepository<GeoProduct, Long>, JpaSpecificationExecutor<GeoProduct> {
+//@Repository
+//public interface GeoProductRepository extends CommonJpaRepository<GeoProduct, Long>, JpaSpecificationExecutor<GeoProduct> {
+public interface GeoProductRepository {
 
     GeoProduct findByProductId(Long id);
 

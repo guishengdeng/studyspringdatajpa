@@ -13,8 +13,8 @@ import javax.persistence.*;
  * @reviewer
  * @see
  */
-@Entity
-@Table(name = "pro_sale_area_geo")
+//@Entity
+//@Table(name = "pro_sale_area_geo")
 public class SaleAreaGeo extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -8049148688200666349L;

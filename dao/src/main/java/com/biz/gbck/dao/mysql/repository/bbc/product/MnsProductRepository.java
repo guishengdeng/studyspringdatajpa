@@ -1,12 +1,10 @@
 package com.biz.gbck.dao.mysql.repository.bbc.product;
 
 import com.biz.gbck.dao.mysql.po.product.bbc.MnsProduct;
-import com.biz.support.jpa.repository.CommonJpaRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 /**
  * @author zhangcheng
@@ -14,8 +12,9 @@ import org.springframework.stereotype.Repository;
  * @reviewer
  * @see
  */
-@Repository
-public interface MnsProductRepository extends CommonJpaRepository<MnsProduct, Long>, MnsProductDao {
+//@Repository
+//public interface MnsProductRepository extends CommonJpaRepository<MnsProduct, Long>, MnsProductDao {
+public interface MnsProductRepository {
 
     @Query("FROM MnsProduct p WHERE p.matnr = ?1")
     MnsProduct findBySku(String sku);

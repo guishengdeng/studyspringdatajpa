@@ -1,17 +1,17 @@
 package com.biz.soa.product.service.backend;
 
+import com.biz.gbck.dao.mysql.po.product.master.Product;
 import com.biz.gbck.dao.mysql.po.product.meta.ExtendProperty;
-import com.biz.gbck.dao.mysql.po.product.bbc.Product;
 import com.biz.gbck.dao.mysql.po.product.meta.ProductExtend;
 import com.biz.gbck.dao.mysql.repository.extendProperty.ExtendPropertyRepository;
-import com.biz.gbck.dao.mysql.repository.bbc.product.ProductRepository;
+import com.biz.gbck.dao.mysql.repository.product.ProductRepository;
 import com.biz.gbck.dao.mysql.repository.productExtend.ProductExtendRepository;
 import com.biz.gbck.exceptions.product.ExtendPropertyNotFoundException;
+import com.biz.gbck.transform.product.CreateExtendPropertyVo2ExtendProperty;
+import com.biz.gbck.transform.product.ExtendProperty2CategoryPropertyListItemVo;
 import com.biz.gbck.vo.product.backend.*;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.product.backend.ExtendPropertyService;
-import com.biz.gbck.transform.product.CreateExtendPropertyVo2ExtendProperty;
-import com.biz.gbck.transform.product.ExtendProperty2CategoryPropertyListItemVo;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;

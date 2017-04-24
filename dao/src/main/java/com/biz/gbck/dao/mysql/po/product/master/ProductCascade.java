@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.po.product.bbc;
+package com.biz.gbck.dao.mysql.po.product.master;
 
 import com.biz.gbck.dao.mysql.po.product.meta.Category;
 import com.biz.gbck.dao.mysql.po.product.meta.ExtendProperty;
@@ -17,24 +17,16 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @reviewer
  * @see
  */
-//@Entity
-//@Table(name = "pro_product_cascade", uniqueConstraints = {@UniqueConstraint(columnNames = {"source_product_id", "vendor_id"})})
+@Entity
+@Table(name = "pro_product_cascade")
 public class ProductCascade extends BaseEntity implements Serializable {
-
-    private static final long serialVersionUID = -7016215207841303508L;
+    private static final long serialVersionUID = 5692547842206101188L;
 
     /**
      * 被配置商品
      */
     @JoinColumn(name = "source_product_id")
-    @OneToOne
     private Product sourceProduct;
-
-    /**
-     * 商家 ID
-     */
-    @Column(nullable = false, name = "vendor_id")
-    private Long vendorId;
 
     /**
      * 规格配置名称
@@ -160,14 +152,6 @@ public class ProductCascade extends BaseEntity implements Serializable {
 
     public void setDeleteFlag(Boolean deleteFlag) {
         this.deleteFlag = deleteFlag;
-    }
-
-    public Long getVendorId() {
-        return vendorId;
-    }
-
-    public void setVendorId(Long vendorId) {
-        this.vendorId = vendorId;
     }
 
     public List<Product> getHighlightProducts() {

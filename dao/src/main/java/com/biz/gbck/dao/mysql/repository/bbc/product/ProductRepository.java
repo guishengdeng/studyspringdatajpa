@@ -2,14 +2,11 @@ package com.biz.gbck.dao.mysql.repository.bbc.product;
 
 import com.biz.gbck.dao.mysql.po.product.bbc.Product;
 import com.biz.gbck.enums.product.VendorTypeEnum;
-import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.Collection;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
 /**
  * 商品 Repository
@@ -19,8 +16,8 @@ import org.springframework.stereotype.Repository;
  * @reviewer
  * @see
  */
-@Repository
-public interface ProductRepository extends CommonJpaRepository<Product, Long>, ProductDao, JpaSpecificationExecutor<Product> {
+//public interface ProductRepository extends CommonJpaRepository<Product, Long>, ProductDao, JpaSpecificationExecutor<Product> {
+public interface ProductRepository {
 
     Page<Product> findByVendorIdAndDeleteFlag(Long vendorId, Boolean deleteFlag, Pageable pageable);
 

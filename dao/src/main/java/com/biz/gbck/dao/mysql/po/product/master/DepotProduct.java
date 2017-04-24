@@ -25,8 +25,11 @@ public class DepotProduct extends BaseEntity {
      * 对应商品
      */
     @JoinColumn(name = "product_id")
+    @ManyToOne
     private Product product;
 
+    @JoinColumn(name = "price_id")
+    @OneToOne
     private Price price;
 
     /**
@@ -58,5 +61,13 @@ public class DepotProduct extends BaseEntity {
 
     public void setSaleStatusEnum(SaleStatusEnum saleStatusEnum) {
         this.saleStatusEnum = saleStatusEnum;
+    }
+
+    public Price getPrice() {
+        return price;
+    }
+
+    public void setPrice(Price price) {
+        this.price = price;
     }
 }

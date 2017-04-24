@@ -1,7 +1,5 @@
 package com.biz.gbck.dao.mysql.repository.bbc.product;
 
-import org.springframework.stereotype.Repository;
-
 /**
  * 商品审核日志 RepositoryImpl
  *
@@ -10,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * @reviewer
  * @see
  */
-@Repository
+//@Repository
 public class ProductAuditActionLogRepositoryImpl implements ProductAuditActionLogDao {
 
     private static final long serialVersionUID = 3533027664578967629L;

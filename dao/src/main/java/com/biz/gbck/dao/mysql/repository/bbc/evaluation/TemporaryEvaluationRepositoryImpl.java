@@ -1,7 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.bbc.evaluation;
 
 import java.io.Serializable;
-import org.springframework.stereotype.Repository;
 
 /**
  * @author zhangcheng
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * @reviewer
  * @see
  */
-@Repository
+//@Repository
 public class TemporaryEvaluationRepositoryImpl implements Serializable, TemporaryEvaluationDao {
 
     private static final long serialVersionUID = 3277146191071265187L;

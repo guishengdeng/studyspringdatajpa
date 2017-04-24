@@ -16,8 +16,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @reviewer
  * @see
  */
-@Entity
-@Table(name = "temporary_evaluation")
+//@Entity
+//@Table(name = "temporary_evaluation")
 public class TemporaryEvaluation extends BaseEntity {
 
     /**

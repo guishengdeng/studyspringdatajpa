@@ -13,8 +13,8 @@ import javax.persistence.*;
  * @reviewer
  * @see
  */
-@Entity
-@Table(name = "ven_vendor_statistic")
+//@Entity
+//@Table(name = "ven_vendor_statistic")
 public class VendorStatistic extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 8959410362741036319L;

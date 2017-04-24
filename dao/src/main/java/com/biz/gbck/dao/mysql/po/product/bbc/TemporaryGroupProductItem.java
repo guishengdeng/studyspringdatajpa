@@ -12,8 +12,8 @@ import javax.persistence.*;
  * @reviewer
  * @see
  */
-@Entity
-@Table(name = "pro_temporary_group_product_item")
+//@Entity
+//@Table(name = "pro_temporary_group_product_item")
 public class TemporaryGroupProductItem extends BaseEntity {
 
     /**

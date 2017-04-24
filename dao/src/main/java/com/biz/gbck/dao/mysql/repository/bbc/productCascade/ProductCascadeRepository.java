@@ -1,10 +1,8 @@
 package com.biz.gbck.dao.mysql.repository.bbc.productCascade;
 
 import com.biz.gbck.dao.mysql.po.product.bbc.ProductCascade;
-import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
 /**
  * 商品配置
@@ -14,8 +12,9 @@ import org.springframework.stereotype.Repository;
  * @reviewer
  * @see
  */
-@Repository
-public interface ProductCascadeRepository extends CommonJpaRepository<ProductCascade, Long>, ProductCascadeDao {
+//@Repository
+//public interface ProductCascadeRepository extends CommonJpaRepository<ProductCascade, Long>, ProductCascadeDao {
+public interface ProductCascadeRepository {
 
     ProductCascade findByIdAndVendorId(Long id, Long vendorId);
 

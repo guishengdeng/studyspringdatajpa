@@ -8,8 +8,8 @@ import javax.persistence.Table;
  * @author yanweijin
  * @date 2016/12/19
  */
-@Entity
-@Table(name = "ven_express")
+//@Entity
+//@Table(name = "ven_express")
 public class SupportExpress extends BaseEntity {
 
     private static final long serialVersionUID = -3379776845816521260L;

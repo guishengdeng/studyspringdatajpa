@@ -25,12 +25,13 @@ public class PriceGroup extends BaseEntity {
      * 商品信息
      */
     @JoinColumn(name = "product_id")
+    @ManyToOne
     private Product product;
 
     /**
      * 价格信息
      */
-    @OneToOne(mappedBy = "priceGroup", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Price price;
 
     /**

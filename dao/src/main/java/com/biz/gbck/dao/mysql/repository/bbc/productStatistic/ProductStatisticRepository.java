@@ -1,10 +1,8 @@
 package com.biz.gbck.dao.mysql.repository.bbc.productStatistic;
 
 import com.biz.gbck.dao.mysql.po.product.meta.ProductStatistic;
-import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
 /**
  * 商品统计数据Repository
@@ -14,8 +12,9 @@ import org.springframework.stereotype.Repository;
  * @reviewer
  * @see
  */
-@Repository
-public interface ProductStatisticRepository extends CommonJpaRepository<ProductStatistic, Long>, ProductStatisticDao {
+//@Repository
+//public interface ProductStatisticRepository extends CommonJpaRepository<ProductStatistic, Long>, ProductStatisticDao {
+public interface ProductStatisticRepository {
 
     @Query("FROM ProductStatistic p WHERE p.product.id = ?1")
     ProductStatistic findByProductId(Long productId);

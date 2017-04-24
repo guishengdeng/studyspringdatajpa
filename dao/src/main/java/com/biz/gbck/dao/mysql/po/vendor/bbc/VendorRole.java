@@ -8,8 +8,8 @@ import javax.persistence.Table;
  * @author yanweijin
  * @date 2016/12/19
  */
-@Entity
-@Table(name = "ven_vendor_role")
+//@Entity
+//@Table(name = "ven_vendor_role")
 public class VendorRole extends BaseEntity {
 
     private static final long serialVersionUID = 2352942195867446745L;

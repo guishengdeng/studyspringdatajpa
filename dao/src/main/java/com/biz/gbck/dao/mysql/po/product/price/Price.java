@@ -1,10 +1,7 @@
 package com.biz.gbck.dao.mysql.po.product.price;
 
 import com.biz.support.jpa.po.BaseEntity;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * 价格
@@ -26,7 +23,7 @@ public class Price extends BaseEntity {
     /**
      * 价格组
      */
-    @JoinColumn(name = "price_group_id")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private PriceGroup priceGroup;
 
     /**
