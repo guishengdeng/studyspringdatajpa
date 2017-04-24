@@ -4,6 +4,7 @@ package com.biz.manage.controller.promotion;
 import com.depotnearby.manage.transformer.PromotionVoToPromotionPo;
 import com.depotnearby.manage.vo.PromotionVo;
 import com.depotnearby.service.info.PromotionService;*/
+
 import com.biz.gbck.dao.mysql.po.info.PromotionPo;
 import com.biz.gbck.transform.promotion.PromotionVoToPromotionPo;
 import com.biz.gbck.vo.promotion.PromotionVo;
@@ -50,7 +51,7 @@ import java.util.Date;
         PromotionPo po= new PromotionVoToPromotionPo().apply(vo);
         po.setCreateTime(new Timestamp(new Date().getTime()));
         promotionService.save(po);
-        return new ModelAndView("redirect:promotions.do");
+        return new ModelAndView("redirect:/promotions.do");
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET) @PreAuthorize("hasAuthority('OPT_PROMOTION_UPDATE')")
@@ -61,13 +62,13 @@ import java.util.Date;
     @RequestMapping(value = "{id}", method = RequestMethod.POST)  @PreAuthorize("hasAuthority('OPT_PROMOTION_UPDATE')")
     public ModelAndView update(PromotionVo vo) {
         promotionService.save(new PromotionVoToPromotionPo().apply(vo));
-        return new ModelAndView("redirect:promotions.do");
+        return new ModelAndView("redirect:/promotions.do");
     }
 
     @RequestMapping("/delete") @PreAuthorize("hasAuthority('OPT_PROMOTION_DELETE')")
     public ModelAndView delete(PromotionVo vo) {
         promotionService.delete(vo.getId());
-        return new ModelAndView("redirect:promotions.do");
+        return new ModelAndView("redirect:/promotions.do");
     }
 }
 
