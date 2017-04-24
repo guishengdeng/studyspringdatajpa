@@ -82,8 +82,7 @@
     <link rel="stylesheet" href="static-resource/layer/mobile/need/layer.css"/>
     <script src="static-resource/layer/layer.js"></script>
 
-
-
+    <jsp:invoke fragment="css"/>
 </head>
 <body class="${empty bodyClasses ? 'no-skin' : bodyClasses}">
 <c:choose>
