@@ -18,13 +18,6 @@ public class CommonESRepositoryFactory extends ElasticsearchRepositoryFactory {
         this.elasticsearchOperations = elasticsearchOperations;
     }
 
-
-    @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    protected Object getTargetRepository(RepositoryInformation metadata) {
-        return getTargetRepositoryViaReflection(metadata, getEntityInformation(metadata.getDomainType()), elasticsearchOperations);
-    }
-
     /**
      * copy from super class
      *
@@ -35,6 +28,11 @@ public class CommonESRepositoryFactory extends ElasticsearchRepositoryFactory {
         return QUERY_DSL_PRESENT && QueryDslPredicateExecutor.class.isAssignableFrom(repositoryInterface);
     }
 
+    @Override
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    protected Object getTargetRepository(RepositoryInformation metadata) {
+        return getTargetRepositoryViaReflection(metadata, getEntityInformation(metadata.getDomainType()), elasticsearchOperations);
+    }
 
     @Override
     protected Class<?> getRepositoryBaseClass(RepositoryMetadata metadata) {

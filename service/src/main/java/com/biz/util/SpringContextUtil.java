@@ -14,13 +14,6 @@ public class SpringContextUtil implements ApplicationContextAware {
 
     private static ApplicationContext APPLICATIONCONTEXT;
 
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext)
-            throws BeansException {
-        APPLICATIONCONTEXT = applicationContext;
-    }
-
     /**
      * 获取Spring容器
      */
@@ -28,13 +21,18 @@ public class SpringContextUtil implements ApplicationContextAware {
         return APPLICATIONCONTEXT;
     }
 
-
     public static <T> T getBean(Class<T> beanType) {
         return APPLICATIONCONTEXT == null ? null : APPLICATIONCONTEXT.getBean(beanType);
     }
 
     public static Object getBean(String beanName) {
         return APPLICATIONCONTEXT == null ? null : APPLICATIONCONTEXT.getBean(beanName);
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext)
+            throws BeansException {
+        APPLICATIONCONTEXT = applicationContext;
     }
 
 }

@@ -13,6 +13,7 @@ public class MenuItem extends BasePo<Long> implements Identifiable<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Long id;
 
     @Column
@@ -47,11 +48,11 @@ public class MenuItem extends BasePo<Long> implements Identifiable<Long> {
     private List<Role> roles;
 
     public MenuItem() {
-        super(null);
+
     }
 
     public MenuItem(Long id, Integer code, String name, String icon, String link, String description, String symbol, MainMenu mainMenu, List<Resource> resources, List<Role> roles) {
-        super(id);
+        setId(id);
         this.code = code;
         this.name = name;
         this.icon = icon;
@@ -67,12 +68,24 @@ public class MenuItem extends BasePo<Long> implements Identifiable<Long> {
         return code;
     }
 
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
     public String getDescription() {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getLink() {
         return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 
     public String getName() {
@@ -99,32 +112,19 @@ public class MenuItem extends BasePo<Long> implements Identifiable<Long> {
         this.icon = icon;
     }
 
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
     public MainMenu getMainMenu() {
         return mainMenu;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public void setMainMenu(MainMenu mainMenu) {
         this.mainMenu = mainMenu;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public void setId(Long id) {
-        super.setId(id);
         this.id = id;
     }
 

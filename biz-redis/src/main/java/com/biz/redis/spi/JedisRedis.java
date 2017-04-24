@@ -75,7 +75,7 @@ public class JedisRedis implements ComJedisRedis<Jedis> {
     }
 
     /* (non-Javadoc)
-	 * @see com.redis.spi.ComJedisRedis#hsetnx(java.lang.String, java.lang.String, byte[])
+     * @see com.redis.spi.ComJedisRedis#hsetnx(java.lang.String, java.lang.String, byte[])
 	 */
     @Override
     public boolean hsetnx(String key, String field, byte[] value) {

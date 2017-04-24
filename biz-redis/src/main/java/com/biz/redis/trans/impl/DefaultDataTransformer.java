@@ -17,6 +17,10 @@ import org.apache.commons.collections.MapUtils;
  * @date 2016/12/22
  */
 public class DefaultDataTransformer implements DataTransformer {
+    public static void main(String[] args) {
+        System.out.println("name.id".substring(0, 4));
+    }
+
     @Override
     public DataItem[] redisData2Items(Map<byte[], byte[]> redisData) {
         if (MapUtils.isEmpty(redisData)) {
@@ -53,10 +57,6 @@ public class DefaultDataTransformer implements DataTransformer {
         }
         return map;
 
-    }
-
-    public static void main(String[] args) {
-        System.out.println("name.id".substring(0, 4));
     }
 
     @Override

@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
 @EnableWebSecurity
+//TODO 菜单及角色管理完成后开启此功能
+//@EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true, securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private Md5PasswordEncoder md5PasswordEncoder;

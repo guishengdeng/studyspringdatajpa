@@ -670,7 +670,7 @@ public class ShardedJedisRedis implements ComJedisRedis<ShardedJedis> {
     }
 
     /* (non-Javadoc)
-	 * @see com.redis.spi.a#setex(java.lang.String, int, byte[])
+     * @see com.redis.spi.a#setex(java.lang.String, int, byte[])
 	 */
     @Override
     public void setex(String key, int seconds, byte[] value) {

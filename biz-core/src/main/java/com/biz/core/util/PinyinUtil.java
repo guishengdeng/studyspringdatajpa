@@ -1,5 +1,8 @@
 package com.biz.core.util;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
@@ -9,9 +12,6 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class PinyinUtil {
     public static HanyuPinyinOutputFormat pinyinOutputFormat;

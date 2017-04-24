@@ -35,12 +35,9 @@ public class IdService {
     private final static long sequenceMask = -1L ^ (-1L << sequenceBits);
 
     private static long lastTimestamp = -1L;
-
-    private long sequence = 0L;
-
     private final long workerId;
-
     private final long dataCenterId;
+    private long sequence = 0L;
 
     public IdService(long dataCenterId, String soaIdxZooNodePath, String zookeeperUrl) {
         if (dataCenterId > maxDataCenterId || dataCenterId < 0) {

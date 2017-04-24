@@ -5,7 +5,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="depotnextdoor" tagdir="/WEB-INF/tags" %>
-<depotnextdoor:page title="page.user.list">
+<%--当前页面是用户点击用户管理时，显示的页面--%>
+<%--导入manage工程下的webapp目录下的WEB-INF目录下的tags目录的page.tag标签--%>
+<depotnextdoor:page title="page.user.list" >
     <jsp:attribute name="css">
         <style type="text/css">
             #name-of-ban-user, #name-of-reset-user {
@@ -21,27 +23,27 @@
     </jsp:attribute>
     <jsp:attribute name="script">
         <script type="application/javascript">
-            <sec:authorize access="hasRole('OPT_USER_DELETE')">
-            $(".user-ban-btn").click(function () {
-                $("#id-of-user").val($(this).data("id"));
-                $("#name-of-ban-user").html($(this).data("name"));
-                $("#user-disable-confirm-modal").modal();
-            });
-            $(".btn-cancel-ban").click(function () {
-                $("#user-disable-confirm-modal").modal("hide");
-            });
-            $(".btn-confirm-ban").click(function () {
-                var userId = $("#id-of-user").val();
-                $.post("manage/users/delete.do", {
-                    "userId": userId
-                }, function (result) {
-                    if (result) {
-                        $("#tr-" + userId).remove();
-                    }
+            <%--<sec:authorize access="hasRole('OPT_USER_DELETE')">--%>
+                $(".user-ban-btn").click(function () {
+                    $("#id-of-user").val($(this).data("id"));
+                    $("#name-of-ban-user").html($(this).data("name"));
+                    $("#user-disable-confirm-modal").modal();
                 });
-                $("#user-disable-confirm-modal").modal("hide");
-            });
-            </sec:authorize>
+                $(".btn-cancel-ban").click(function () {
+                    $("#user-disable-confirm-modal").modal("hide");
+                });
+                $(".btn-confirm-ban").click(function () {
+                    var username = $("#id-of-user").val();
+                    $.post("manage/users/delete.do", {
+                        "username": username
+                    }, function (result) {
+                        if (result) {
+                            $("#tr-" + username).remove();
+                        }
+                    });
+                    $("#user-disable-confirm-modal").modal("hide");
+                });
+            <%--</sec:authorize>--%>
 
             <sec:authorize access="hasRole('OPT_USER_RESET')">
             $(".user-reset-pwd-btn").click(function () {
@@ -143,7 +145,8 @@
                                     <th class="hidden-md hidden-sm hidden-xs">联系电话</th>
                                     <th class="hidden-md hidden-sm hidden-xs">角色</th>
                                     <th class="hidden-md hidden-sm hidden-xs">状态</th>
-                                    <th class="center"></th>
+                                    <%--center--%>
+                                    <th class="hidden-md hidden-sm hidden-xs">操作</th>
                                 </tr>
                                 </thead>
 
@@ -160,14 +163,22 @@
                                         </td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
-                                                <sec:authorize access="hasAuthority('OPT_USER_RESET')">
+                                               <%-- <sec:authorize access="hasAuthority('OPT_USER_RESET')">
                                                     <a data-id="${user.username}"
                                                        data-name="${user.username}"
                                                        class="btn btn-minier btn-warning user-reset-pwd-btn">
                                                         <i class="ace-icon fa fa-key bigger-120"></i>
                                                     </a>
-                                                </sec:authorize>
-
+                                                </sec:authorize>--%>
+                                                   <sec:authorize access="hasAuthority('OPT_USER_DELETE')">
+                                                       <a <%--href="manage/users/delete?username=${user.username}"--%>
+                                                          data-id="${user.username}"
+                                                          data-name="${user.username}"
+                                                          class="btn btn-minier btn-danger user-ban-btn">
+                                                           <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                       </a>
+                                                   </sec:authorize>
+                                                <%--修改操作--%>
                                                 <sec:authorize access="hasAuthority('OPT_USER_EDIT')">
                                                     <a href="manage/users/edit?username=${user.username}"
                                                        class="btn btn-minier btn-info">

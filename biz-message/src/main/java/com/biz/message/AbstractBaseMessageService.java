@@ -10,19 +10,18 @@ import org.slf4j.LoggerFactory;
 
 public abstract class AbstractBaseMessageService implements MessageService {
 
-    protected MessageConverter messageConverter = new DefaultMessageConverter();
     protected final Logger logger = LoggerFactory.getLogger(getClass());
-
-    @Override
-    public void setMessageConverter(MessageConverter converter) {
-        this.messageConverter = converter;
-    }
+    protected MessageConverter messageConverter = new DefaultMessageConverter();
 
     public MessageConverter getMessageConverter() {
         SystemAsserts.notNull(messageConverter, "messageConverter不能为null");
         return messageConverter;
     }
 
+    @Override
+    public void setMessageConverter(MessageConverter converter) {
+        this.messageConverter = converter;
+    }
 
     @Override
     public <T> T receiveMessage(QueueDefinition queueDefinition, Class<T> msgType) {

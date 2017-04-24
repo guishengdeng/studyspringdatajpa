@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.po.security;
 
-import com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.google.common.collect.Sets;
 import java.io.Serializable;
 import java.sql.Date;
@@ -35,8 +35,10 @@ public class Admin implements Serializable, UserDetails {
 
     /**
      * 密码
+     * before:, nullable = false
+     * after:删除了这个参数
      */
-    @Column(length = 200, nullable = false)
+    @Column(length = 200)
     private String password;
 
     /**
@@ -91,10 +93,6 @@ public class Admin implements Serializable, UserDetails {
         return password;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -102,6 +100,10 @@ public class Admin implements Serializable, UserDetails {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getName() {

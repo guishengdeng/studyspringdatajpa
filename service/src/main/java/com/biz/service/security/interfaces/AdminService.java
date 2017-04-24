@@ -23,4 +23,6 @@ public interface AdminService {
     Admin getAdmin(String username);
 
     void createAdmin(Admin admin, String createBy);
+
+    void deleteAdmin(String username);
 }
