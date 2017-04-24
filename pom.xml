@@ -63,6 +63,7 @@
 
         <soa.promotion.version>1.0-SNAPSHOT</soa.promotion.version>
         <soa.product.version>1.0-SNAPSHOT</soa.product.version>
+        <soa.base.version>1.0-SNAPSHOT</soa.base.version>
 
         <current.project.version>1.0-SNAPSHOT</current.project.version>
 

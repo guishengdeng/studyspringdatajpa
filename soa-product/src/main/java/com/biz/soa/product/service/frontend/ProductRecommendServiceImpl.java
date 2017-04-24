@@ -9,7 +9,6 @@ import com.biz.soa.product.config.RecConfig;
 import com.google.common.collect.Lists;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * 商品推荐Service实现
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Service;
  * @date 2017/1/20
  * @reviewer
  */
-@Service
+//@Service
 public class ProductRecommendServiceImpl extends AbstractBaseService implements ProductRecommendService {
 
     @Autowired
