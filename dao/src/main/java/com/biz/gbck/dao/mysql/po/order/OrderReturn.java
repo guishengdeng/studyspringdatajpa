@@ -16,7 +16,7 @@ import static com.google.common.collect.Lists.newArrayList;
  * @see
  */
 @Entity
-@Table(name = "ord_order_return")
+@Table(name = "ord_order_return", indexes = {@Index(columnList = "returnCode")})
 public class OrderReturn extends BaseEntity {
 
     private static final long serialVersionUID = 4548093051968768185L;
