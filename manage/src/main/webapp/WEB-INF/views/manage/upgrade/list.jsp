@@ -24,20 +24,15 @@
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
                 <li>
-                    <a href="">
-                        升级配置
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="welcome.do">
+                        首页
                     </a>
                 </li>
-
                 <li>
-                    <a href="">
-                        版本列表
-                    </a>
+                    升级配置列表
                 </li>
-                    <%-- <li class="active">
-                         <c:out value="${cmd}"/>
-                     </li>--%>
-            </ul><!-- /.breadcrumb -->
+            </ul>
         </div>
 
         <div class="page-content">
@@ -53,10 +48,6 @@
                                 <a href="/upgrade/add.do" class="btn btn-sm btn-primary"><i
                                         class="ace-icon glyphicon glyphicon-plus"></i>
                                         新增升级配置
-                                </a>
-                                <a href="/" class="btn btn-sm btn-primary"><i
-                                        class="ace-icon fa fa-angle-left"></i>
-                                    返回
                                 </a>
                             </span>
                             </h3>AndroId:
