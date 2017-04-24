@@ -1,5 +1,6 @@
 package com.biz.gbck.dao.mysql.po.product.promotion;
 
+import com.biz.gbck.enums.product.PromotionOrientEnum;
 import com.biz.gbck.enums.product.PromotionRoundEnum;
 import com.biz.support.jpa.converter.ListLongConverter;
 import com.biz.support.jpa.po.BaseEntity;
@@ -21,68 +22,215 @@ public class ProductPromotion extends BaseEntity {
      * 公司ID
      */
     @Column
-    protected Long companyId;
+    private Long companyId;
 
     /**
      * 促销名称
      */
     @Column(length = 50)
-    protected String name;
+    private String name;
 
     /**
      * 促销开始时间
      */
     @Column(nullable = false)
-    protected Timestamp startDate;
+    private Timestamp startDate;
 
     /**
      * 促销结束时间
      */
     @Column(nullable = false)
-    protected Timestamp endDate;
+    private Timestamp endDate;
 
     /**
      * 促销循环方式
      */
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
-    protected PromotionRoundEnum promotionRound;
+    private PromotionRoundEnum promotionRound;
 
     /**
      * 活动开始时间(可选, 如果设置了代表当天活动生效的开始时间)
      */
     @Column
-    protected Time effectStartTime;
+    private Time effectStartTime;
 
     /**
      * 活动结束时间(可选, 如果设置了代表当天活动生效的结束时间)
      */
     @Column
-    protected Time effectEndTime;
+    private Time effectEndTime;
+
+    /**
+     * 促销面向类型(面向客户/面向客户组)
+     */
+    @Column
+    @Enumerated(value = EnumType.STRING)
+    private PromotionOrientEnum orientType;
 
     /**
      * 面向的下级采购单位
      */
     @Column(columnDefinition = "TEXT")
     @Convert(converter = ListLongConverter.class)
-    protected List<Long> orientedCompany;
+    private List<Long> orientedCompany;
 
     /**
      * 排除的下级采购单位
      */
     @Column(columnDefinition = "TEXT")
     @Convert(converter = ListLongConverter.class)
-    protected List<Long> excludeCompany;
+    private List<Long> excludeCompany;
+
+    /**
+     * 面向的价格组
+     */
+    @Column(columnDefinition = "TEXT")
+    @Convert(converter = ListLongConverter.class)
+    private List<Long> orientedPriceGroup;
+
+    /**
+     * 排除的价格组
+     */
+    @Column(columnDefinition = "TEXT")
+    @Convert(converter = ListLongConverter.class)
+    private List<Long> excludePriceGroup;
 
     /**
      * 是否支持优惠券
      */
     @Column
-    protected Boolean allowVoucher = Boolean.FALSE;
+    private Boolean allowVoucher = Boolean.FALSE;
 
     /**
      * 是否互斥
      */
     @Column
-    protected Boolean isExclusive = Boolean.FALSE;
+    private Boolean isExclusive = Boolean.FALSE;
+
+    /**
+     * 执行单位(促销价和销售价的差价由谁买单)
+     */
+    @Column
+    private String executeDepartment;
+
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Timestamp getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Timestamp startDate) {
+        this.startDate = startDate;
+    }
+
+    public Timestamp getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Timestamp endDate) {
+        this.endDate = endDate;
+    }
+
+    public PromotionRoundEnum getPromotionRound() {
+        return promotionRound;
+    }
+
+    public void setPromotionRound(PromotionRoundEnum promotionRound) {
+        this.promotionRound = promotionRound;
+    }
+
+    public Time getEffectStartTime() {
+        return effectStartTime;
+    }
+
+    public void setEffectStartTime(Time effectStartTime) {
+        this.effectStartTime = effectStartTime;
+    }
+
+    public Time getEffectEndTime() {
+        return effectEndTime;
+    }
+
+    public void setEffectEndTime(Time effectEndTime) {
+        this.effectEndTime = effectEndTime;
+    }
+
+    public PromotionOrientEnum getOrientType() {
+        return orientType;
+    }
+
+    public void setOrientType(PromotionOrientEnum orientType) {
+        this.orientType = orientType;
+    }
+
+    public List<Long> getOrientedCompany() {
+        return orientedCompany;
+    }
+
+    public void setOrientedCompany(List<Long> orientedCompany) {
+        this.orientedCompany = orientedCompany;
+    }
+
+    public List<Long> getExcludeCompany() {
+        return excludeCompany;
+    }
+
+    public void setExcludeCompany(List<Long> excludeCompany) {
+        this.excludeCompany = excludeCompany;
+    }
+
+    public List<Long> getOrientedPriceGroup() {
+        return orientedPriceGroup;
+    }
+
+    public void setOrientedPriceGroup(List<Long> orientedPriceGroup) {
+        this.orientedPriceGroup = orientedPriceGroup;
+    }
+
+    public List<Long> getExcludePriceGroup() {
+        return excludePriceGroup;
+    }
+
+    public void setExcludePriceGroup(List<Long> excludePriceGroup) {
+        this.excludePriceGroup = excludePriceGroup;
+    }
+
+    public Boolean getAllowVoucher() {
+        return allowVoucher;
+    }
+
+    public void setAllowVoucher(Boolean allowVoucher) {
+        this.allowVoucher = allowVoucher;
+    }
+
+    public Boolean getExclusive() {
+        return isExclusive;
+    }
+
+    public void setExclusive(Boolean exclusive) {
+        isExclusive = exclusive;
+    }
+
+    public String getExecuteDepartment() {
+        return executeDepartment;
+    }
+
+    public void setExecuteDepartment(String executeDepartment) {
+        this.executeDepartment = executeDepartment;
+    }
 }

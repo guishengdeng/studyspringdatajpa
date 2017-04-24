@@ -11,7 +11,18 @@
     </parent>
 
     <artifactId>soa-promotion</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>${soa.promotion.version}</version>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.biz.gbck</groupId>
+            <artifactId>dao</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.biz.gbck</groupId>
+            <artifactId>service</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
