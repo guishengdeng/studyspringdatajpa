@@ -3,8 +3,8 @@ package com.biz.soa.product.service.backend;
 import com.biz.gbck.dao.mysql.po.product.meta.Brand;
 import com.biz.gbck.dao.mysql.repository.brand.BrandRepository;
 import com.biz.gbck.dao.redis.repository.product.BrandRedisDao;
-import com.biz.service.AbstractBaseService;
 import com.biz.gbck.transform.product.Brand2BrandRo;
+import com.biz.service.AbstractBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -27,9 +27,7 @@ public class AbstractBrandService extends AbstractBaseService {
     }
 
     protected void saveBrands(Iterable<Brand> brands) {
-        for (Brand brand : brands) {
-            this.saveBrand(brand);
-        }
+        brands.forEach(this::saveBrand);
     }
 
 }
