@@ -1,7 +1,6 @@
 package com.biz.service.activity.interfaces;
 
-import com.biz.gbck.activity.frontend.ActivityVo;
-import com.biz.gbck.advertisement.frontend.AdvertisementVo;
+import com.biz.gbck.vo.activity.frontend.ActivityVo;
 import com.biz.gbck.dao.redis.ro.activity.ActivityRo;
 
 import java.util.List;

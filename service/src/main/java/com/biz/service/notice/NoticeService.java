@@ -126,6 +126,7 @@ public class NoticeService extends CommonService {
      * @throws CommonException
      */
     public void sendNotification(Notification notification) throws CommonException {
+        // TODO: 17-4-21 将对象添加入mq消息队列
         /*mqService.send(Message.QUEUE.MQ_CLIENT_PUSH_MSG, notification);*/
     }
 

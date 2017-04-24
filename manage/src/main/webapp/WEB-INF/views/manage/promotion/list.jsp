@@ -17,15 +17,16 @@
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
                 <li>
-                    <a href="">
-                        活动发布
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="welcome.do">
+                        首页
                     </a>
                 </li>
-
                 <li>
-                    <a href="/promotions.do">
-                        活动列表
-                    </a>
+                    活动管理
+                </li>
+                <li class="active">
+                    活动列表
                 </li>
             </ul>
         </div>
@@ -40,40 +41,22 @@
                             <h3 class="header smaller lighter blue">
                                 活动发布
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
-                                <a href="/promotions/new.do" class="btn btn-sm btn-primary"><i
+                                <a href="promotions/new.do" class="btn btn-sm btn-primary"><i
                                              class="ace-icon glyphicon glyphicon-plus"></i>
                                         新增活动
-                                </a>
-                                <a href="/" class="btn btn-sm btn-primary"><i
-                                        class="ace-icon fa fa-angle-left"></i>
-                                    返回
                                 </a>
                             </span>
                             </h3>
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>
-                                        <h4>活动标题</h4>
-                                    </th>
-                                    <th>
-                                        <h4>活动链接</h4>
-                                    </th>
-                                    <th>
-                                        <h4>活动图片</h4>
-                                    </th>
-                                    <th>
-                                        <h4>创建人</h4>
-                                    </th>
-                                    <th>
-                                        <h4>创建日期</h4>
-                                    </th>
-                                    <th>
-                                        <h4>显示顺序</h4>
-                                    </th>
-                                    <th>
-                                        <h4>操作</h4>
-                                    </th>
+                                    <th>活动标题</th>
+                                    <th>活动链接</th>
+                                    <th>活动图片</th>
+                                    <th>创建人</th>
+                                    <th>创建日期</th>
+                                    <th>显示顺序</th>
+                                    <th>操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -85,7 +68,7 @@
                                             <img src="${promotions.logo}" alt="${promotion.title}">
                                         </td>
                                         <td>${promotions.adminId}</td>
-                                        <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${promotion.createTime}"/></td>
+                                        <td>${promotion.createTime}</td>
                                         <td>${promotions.idx}</td>
                                         <td>
                                             <a class="btn btn-xs btn-info"
@@ -101,7 +84,6 @@
                                 </c:forEach>
                                 </tbody>
                             </table>
-
                         </div><!-- /.span -->
                     </div><!-- /.row -->
 

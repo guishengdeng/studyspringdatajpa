@@ -41,17 +41,10 @@
                         首页
                     </a>
                 </li>
-                <li>
-                    运营管理
-                </li>
                 <li class="active">
                     消息推送
                 </li>
             </ul>
-            <a class="btn btn-xs btn-primary history-back">
-                <i class="ace-icon fa fa-angle-left"></i>
-                返回
-            </a>
         </div>
         <div class="page-content">
             <h3 class="header smaller lighter blue">
@@ -121,9 +114,9 @@
                             <div class="col-sm-9">
                                 <select name="shopTypeId"  id="shopTypeId"  class="required text col-xs-12 col-sm-12">
                                     <option value="" selected>请选择</option>
-                                    <option value="ios" selected>test1</option>
-                                    <option value="androId">test2</option>
-                                    <option value="androId">test3</option>
+                                    <option value="1">test1</option>
+                                    <option value="2">test2</option>
+                                    <option value="3">test3</option>
                                 </select>
                             </div>
                         </div>

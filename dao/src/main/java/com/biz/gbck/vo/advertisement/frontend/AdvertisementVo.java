@@ -1,4 +1,4 @@
-package com.biz.gbck.advertisement.frontend;
+package com.biz.gbck.vo.advertisement.frontend;
 
 import java.io.Serializable;
 import java.sql.Timestamp;

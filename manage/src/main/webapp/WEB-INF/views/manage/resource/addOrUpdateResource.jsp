@@ -16,19 +16,17 @@
                 </li>
 
                 <li>
-                    <a href="manage/mainMenus.do">
+                    <a href="manage/mainMenus/detail?id=${mainmenu_id}">
                         菜单管理
                     </a>
                 </li>
                 <li>
-                    <a href="manage/menuItems.do">
+                    <a href="manage/menuItems/detail.do?id=${menuitem_id}">
                         子菜单管理
                     </a>
                 </li>
-                <li>
-                    <a href="manage/resources.do">
+                <li class="active">
                         操作管理
-                    </a>
                 </li>
                 <li class="active">
                     <c:out value="${cmd}"/>
@@ -48,7 +46,7 @@
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
                                 <a href="manage/menuItems/detail.do?id=${menuitem_id}" class="btn btn-sm btn-primary"><i
                                         class="ace-icon fa fa-angle-left"></i>
-                                    返回子菜单
+                                    返回上一级菜单
                                 </a>
                             </span>
                             </h3>

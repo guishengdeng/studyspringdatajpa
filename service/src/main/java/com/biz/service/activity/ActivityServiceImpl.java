@@ -1,6 +1,6 @@
 package com.biz.service.activity;
 
-import com.biz.gbck.activity.frontend.ActivityVo;
+import com.biz.gbck.vo.activity.frontend.ActivityVo;
 import com.biz.gbck.dao.redis.repository.activity.ActivityRedisDao;
 import com.biz.gbck.dao.redis.ro.activity.ActivityRo;
 import com.biz.service.AbstractBaseService;

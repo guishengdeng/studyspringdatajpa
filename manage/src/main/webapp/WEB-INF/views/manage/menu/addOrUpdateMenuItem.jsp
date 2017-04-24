@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--这是用户--%>
-<depotnextdoor:page title="page.user.edit">
+<depotnextdoor:page title="子菜单edit">
 
     <jsp:body>
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
@@ -17,14 +17,12 @@
                 </li>
 
                 <li>
-                    <a href="manage/mainMenus.do">
+                    <a href="/manage/mainMenus/detail?id=${mainmenu_id}">
                         菜单管理
                     </a>
                 </li>
-                <li>
-                    <a href="manage/menuItems.do">
+                <li class="active">
                         子菜单管理
-                    </a>
                 </li>
                 <li class="active">
                     <c:out value="${cmd}"/>
@@ -42,9 +40,9 @@
                             <h3 class="header smaller lighter blue">
                                 子菜单管理
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
-                                <a href="manage/menuItems.do" class="btn btn-sm btn-primary"><i
+                                <a href="manage/mainMenus/detail.do?id=${mainmenu_id}" class="btn btn-sm btn-primary"><i
                                         class="ace-icon fa fa-angle-left"></i>
-                                    返回
+                                    返回上一级
                                 </a>
                             </span>
                             </h3>

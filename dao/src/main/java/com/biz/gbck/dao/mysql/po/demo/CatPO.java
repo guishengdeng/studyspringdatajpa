@@ -12,6 +12,9 @@ import javax.persistence.*;
 @Table(name = "demo_cat")
 public class CatPO extends BasePo<Long> {
 
+	@Id
+	private Long id;
+
 	/**
 	 * 名字
 	 */
@@ -31,6 +34,24 @@ public class CatPO extends BasePo<Long> {
 	@Column
 	@Enumerated(EnumType.STRING)
 	private CommonStatusEnum status;
+
+	/**
+	 * {@linkplain CatPO#id}
+	 */
+	@Override
+	public Long getId() {
+
+		return id;
+	}
+
+	/**
+	 * {@linkplain CatPO#id}
+	 */
+	@Override
+	public void setId(Long id) {
+
+		this.id = id;
+	}
 
 	/**
 	 * {@linkplain CatPO#name}

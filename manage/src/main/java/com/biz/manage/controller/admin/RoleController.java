@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * RoleController
@@ -68,8 +69,15 @@ public class RoleController {
         model.addAttribute("resources",resourceService.listResources());
         return "manage/role/addOrUpdateRole";
     }
-    public String delete(@RequestParam("id") Long id){
-        roleService.delete(id);
-        return "redirect:manage/roles";
+    @RequestMapping("/delete")
+    @PreAuthorize("hasAuthority('OPT_ROLE_DELETE')")
+    @ResponseBody
+    public Boolean delete(@RequestParam("id") Long id){
+       /* roleService.delete(id);
+        return "redirect:/manage/roles";*/
+       if(id!=null){
+           return true;
+       }
+       return false;
     }
 }

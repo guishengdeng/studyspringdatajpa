@@ -4,9 +4,9 @@ package com.biz.service.advertisement;
 import com.alibaba.fastjson.JSON;
 import com.biz.core.asserts.SystemAsserts;
 import com.biz.core.page.PageResult;
-import com.biz.gbck.advertisement.frontend.AdvertisementQueryParamVo;
-import com.biz.gbck.advertisement.frontend.AdvertisementVo;
-import com.biz.gbck.advertisement.frontend.request.AdvertisementRequestVo;
+import com.biz.gbck.vo.advertisement.frontend.AdvertisementQueryParamVo;
+import com.biz.gbck.vo.advertisement.frontend.AdvertisementVo;
+import com.biz.gbck.vo.advertisement.frontend.request.AdvertisementRequestVo;
 import com.biz.gbck.dao.redis.repository.advertisement.AdvertisementRedisDao;
 import com.biz.gbck.dao.redis.ro.advertisement.AdvertisementRo;
 import com.biz.service.AbstractBaseService;
@@ -37,7 +37,7 @@ public class AdvertisementServiceImpl extends AbstractBaseService implements Adv
         String advertisementId = req.getId();
         AdvertisementRo ro;
         //如果没有id 则进行保存操作
-        if (StringUtils.isBlank(advertisementId)) {
+        if (StringUtils.isNotBlank(advertisementId)) {
             req.setId(String.valueOf(idService.nextId()));
             //验证是否上传图片
             String icon = req.getPicturesLink();

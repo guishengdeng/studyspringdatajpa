@@ -1,13 +1,13 @@
-package com.biz.gbck.activity.frontend;
+package com.biz.gbck.vo.activity.frontend.request;
 
 import java.io.Serializable;
 
 /**
- * Created by xys on 2017/4/18.
+ * Created by xys on 2017/4/20.
  */
-public class ActivityVo implements Serializable {
+public class ActivityRequestVo implements Serializable {
 
-    private static final long serialVersionUID = 810810602964154699L;
+    private static final long serialVersionUID = 5462603895128701236L;
 
     private String id;
 

@@ -14,6 +14,7 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 
 import java.util.List;
 
@@ -49,6 +50,7 @@ public class InitManager {
 	private CatRepository catRepository;
 
 	@PostConstruct
+	@Transactional
 	public void init() {
 
 		if (userRepository.count() == 0) {
@@ -67,6 +69,11 @@ public class InitManager {
 			mainMenu.setCode(999);
 			mainMenu = mainMenuRepository.save(mainMenu);
 
+			MainMenu demoMainMenu = new MainMenu();
+			demoMainMenu.setName("示例演示");
+			demoMainMenu.setCode(0);
+			demoMainMenu = mainMenuRepository.save(demoMainMenu);
+
 			//Menu Item
 			MenuItem menuItemOfAdmin = buildMenuItem("用户管理", "Admin Management", "ROLE_USER;OPT_USER_LIST", 1, "/manage/users.do", mainMenu);
 			menuItemOfAdmin = menuItemRepository.save(menuItemOfAdmin);
@@ -76,32 +83,38 @@ public class InitManager {
 			MenuItem menuItemOfRole = buildMenuItem("角色管理", "Role Management", "ROLE_ROLE;OPT_ROLE_LIST", 3, "/manage/roles.do", mainMenu);
 			menuItemOfRole = menuItemRepository.save(menuItemOfRole);
 
+			MenuItem menuItemOfDemo = buildMenuItem("猫管理", "Cat Management", "ROLE_CAT;OPT_CAT_LIST", 1, "/demo/cats.do", demoMainMenu);
+			menuItemOfDemo = menuItemRepository.save(menuItemOfDemo);
+
+
 			//Resource
 			Resource manageAdmin = builtResource("用户管理", "Admin Management",
 			  "OPT_USER_ADD;OPT_USER_EDIT;OPT_USER_DELETE;OPT_USER_RESET;OPT_USER_DETAIL", menuItemOfAdmin);
 			manageAdmin = resourceRepository.save(manageAdmin);
 			Resource checkAdminDetail = builtResource("查看用户", "Admin Read", "OPT_USER_DETAIL", menuItemOfAdmin);
 			checkAdminDetail = resourceRepository.save(checkAdminDetail);
-
 			Resource manageMenuItem = builtResource("菜单管理", "Menu Management",
 			  "OPT_MAINMENU_ADD;OPT_MAINMENU_EDIT;OPT_MAINMENU_DELETE;OPT_MAINMENU_DETAIL;OPT_MENUITEM_ADD;OPT_MENUITEM_EDIT;OPT_MENUITEM_DELETE;OPT_MENUITEM_DETAIL;OPT_RESOURCE_ADD;OPT_RESOURCE_EDIT;OPT_RESOURCE_DELETE",
 			  menuItemOfMainMenu);
 			manageMenuItem = resourceRepository.save(manageMenuItem);
 			Resource checkMainMenu = builtResource("菜单查看", "Main Menu Management", "OPT_MAINMENU_DETAIL;OPT_MENUITEM_DETAIL", menuItemOfMainMenu);
 			checkMainMenu = resourceRepository.save(checkMainMenu);
-
 			Resource manageRole = builtResource("角色管理", "Role Management", "OPT_ROLE_ADD;OPT_ROLE_EDIT;OPT_ROLE_DELETE;OPT_ROLE_DETAIL",
 			  menuItemOfRole);
 			manageRole = resourceRepository.save(manageRole);
 			Resource checkRoleDetail = builtResource("角色查看", "Role Read", "OPT_ROLE_DETAIL", menuItemOfRole);
 			checkRoleDetail = resourceRepository.save(checkRoleDetail);
 
+			Resource manageDemoMenu = builtResource("示例管理", "Demo Management", "OPT_CAT_CREATE;OPT_CAT_DELETE", menuItemOfDemo);
+			manageDemoMenu = resourceRepository.save(manageDemoMenu);
+
+
 			//Role
 			Role role = new Role();
 			role.setName("超级管理员");
 			role.setDescription("拥有菜单管理，角色管理，用户管理权限");
-			role.setMenuItems(newArrayList(menuItemOfAdmin, menuItemOfMainMenu, menuItemOfRole));
-			role.setResources(newArrayList(manageAdmin, checkMainMenu, manageMenuItem, checkAdminDetail, manageRole, checkRoleDetail));
+			role.setMenuItems(newArrayList(menuItemOfAdmin, menuItemOfMainMenu, menuItemOfRole, menuItemOfDemo));
+			role.setResources(newArrayList(manageAdmin, checkMainMenu, manageMenuItem, checkAdminDetail, manageRole, checkRoleDetail, manageDemoMenu));
 			role = roleRepository.save(role);
 
 			user.setRoles(newArrayList(role));

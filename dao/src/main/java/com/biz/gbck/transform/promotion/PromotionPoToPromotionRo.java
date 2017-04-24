@@ -1,4 +1,4 @@
-package com.biz.gbck.transform;
+package com.biz.gbck.transform.promotion;
 
 import com.biz.gbck.dao.mysql.po.info.PromotionPo;
 import com.biz.gbck.dao.redis.ro.info.PromotionRo;
