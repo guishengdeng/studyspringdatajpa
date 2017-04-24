@@ -61,7 +61,7 @@
     <script src="staic-resource/ace/assets/js/jquery-1.11.3.min.js"></script>
 
     <!-- <![endif]-->
-    <script src="static-resource/ace/assets/js/jquery-ui.min.js"></script>t
+    <script src="static-resource/ace/assets/js/jquery-ui.min.js"></script>
     <!-- ace settings handler -->
     <script src="static-resource/ace/assets/js/ace-extra.min.js"></script>
 
