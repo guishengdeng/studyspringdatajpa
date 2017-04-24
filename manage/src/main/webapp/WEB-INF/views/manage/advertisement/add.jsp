@@ -88,6 +88,27 @@
                     todayBtn: true
                 });
             });
+
+            /**
+             * 为时间控件绑定change时间，用于判断时间先后
+             */
+            $('.date').on('change', function () {
+
+                //广告生效时间
+                var beginTimestamp = $('#beginTimestamp').val();
+                //广告过期时间
+                var endTimestamp = $('#endTimestamp').val();
+
+                if (beginTimestamp && endTimestamp) {
+                    beginTimestamp = new Date(beginTimestamp).getTime();
+                    endTimestamp = new Date(endTimestamp).getTime();
+                    if (beginTimestamp > endTimestamp) {
+                        layer.msg("广告过期时间必须在广告生效时间之后！");
+                        $('#endTimestamp').val('');
+                        return;
+                    }
+                }
+            });
         </script>
     </jsp:attribute>
     <jsp:body>
@@ -161,7 +182,7 @@
 
                                     <div class="col-sm-9">
                                         <input type="text" id="clickLink" placeholder="点击链接"
-                                               name="clickLink" class="col-xs-10 col-sm-5" value="${advertisement.clickLink}">
+                                               name="clickLink" class="required text col-xs-10 col-sm-5" value="${advertisement.clickLink}">
                                     </div>
                                 </div>
                                 <div class="form-group row">

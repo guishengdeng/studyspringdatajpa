@@ -9,9 +9,21 @@
     <jsp:attribute name="script">
         <script type="application/javascript">
             <c:forEach items="${admin.roles}" var="role" varStatus="status">
-            var obj${status.count} = document.getElementById('roleId_${role.id}');
-            if (obj${status.count}) obj${status.count}.checked = true;
+                var obj${status.count} = document.getElementById('roleId_${role.id}');
+                if (obj${status.count}) obj${status.count}.checked = true;
             </c:forEach>
+            function showDiv(id) {
+                $("#cat-disable-confirm-modal").modal();
+                $("#advertisementId").val(id);
+            }
+            $(".btn-cancel-ban").click(function () {
+                $("#cat-disable-confirm-modal").modal("hide");
+            });
+            $(".btn-confirm-ban").click(function () {
+                var advertisementId = $("#advertisementId").val();
+                window.location.href = "/manage/advertisement/delete?id="+advertisementId+"";
+                $("#cat-disable-confirm-modal").modal("hide");
+            });
         </script>
     </jsp:attribute>
     <jsp:body>
@@ -55,7 +67,7 @@
                                     <th class="hidden-md hidden-sm hidden-xs">广告过期时间</th>
                                     <th class="hidden-md hidden-sm hidden-xs">停留(毫秒)</th>
                                     <th class="hidden-md hidden-sm hidden-xs">优先级</th>
-                                    <th class="center"></th>
+                                    <th class="center">操作</th>
                                 </tr>
                                 </thead>
 
@@ -71,9 +83,8 @@
                                         <td>${advertisement.priority}</td>
                                         <td>
                                             <div>
-                                                <a href="manage/advertisement/delete?id=${advertisement.id}"
-                                                   class="btn btn-minier btn-info">
-                                                    <i class="ace-icon fa fa-trash-o bigger-120">删除</i>
+                                                <a onclick="showDiv('${advertisement.id}')" class="btn btn-minier btn-info">
+                                                    <i class="ace-icon fa fa-pencil bigger-120">删除</i>
                                                 </a>
                                                 <a href="manage/advertisement/edit?id=${advertisement.id}" class="btn btn-minier btn-info">
                                                     <i class="ace-icon fa fa-pencil bigger-120">修改</i>
@@ -84,6 +95,28 @@
                                 </c:forEach>
                                 </tbody>
                             </table>
+                            <div id="cat-disable-confirm-modal" role="dialog" class="modal" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <button type="button" class="bootbox-close-button close"
+                                                    data-dismiss="modal" aria-hidden="true">×
+                                            </button>
+                                            <div class="bootbox-body">您确定要删除广告<span
+                                                    id="name-of-ban-cat"></span> ?
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-cancel-ban btn-default">
+                                                取消
+                                            </button>
+                                            <button type="button" class="btn btn-confirm-ban btn-primary">
+                                                确认
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <!-- /.span -->
                     </div>
@@ -97,5 +130,6 @@
         </div>
         <!-- /.row -->
         </div>
+        <input type="hidden" id="advertisementId">
     </jsp:body>
 </depotnextdoor:page>
