@@ -14,8 +14,9 @@ import com.biz.core.enums.converter.BaseEnumValueConverter;
  */
 public enum OrderStatus implements EnumerableValue {
 	CREATED(10, "新创建"),
-	ORDERED(20, "待发货"),
-	DELIVERED(30, "已发货"),
+	PRE_PAY(20, "待支付"),
+	ORDERED(30, "待发货"),
+	DELIVERED(40, "已发货"),
 	FINISHED(50, "已完成"),
 
 	APPLY_RETURN(60,"申请退货"),
