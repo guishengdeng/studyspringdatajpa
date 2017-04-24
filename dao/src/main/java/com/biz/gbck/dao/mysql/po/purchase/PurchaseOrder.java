@@ -78,7 +78,7 @@ public class PurchaseOrder extends BaseEntity {
 
 
     //采购单明细
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PurchaseOrderItem> items;
 
     //收货人信息
