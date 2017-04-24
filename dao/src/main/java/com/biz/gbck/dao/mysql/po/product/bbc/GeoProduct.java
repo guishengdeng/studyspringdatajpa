@@ -25,9 +25,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @reviewer
  * @see
  */
-@Entity
-@Table(name = "pro_product_geo",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"product_id", "geo_level", "vendor_id"})})
+//@Entity
+//@Table(name = "pro_product_geo",
+//        uniqueConstraints = {@UniqueConstraint(columnNames = {"product_id", "geo_level", "vendor_id"})})
 public class GeoProduct extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 6777899828181301694L;

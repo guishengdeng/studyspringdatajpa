@@ -19,6 +19,7 @@ public class ProductActionLog extends BaseEntity {
      * 操作商品
      */
     @JoinColumn(name = "product_id")
+    @ManyToOne
     private Product product;
 
     /**

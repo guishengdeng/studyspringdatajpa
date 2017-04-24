@@ -1,10 +1,12 @@
 package com.biz.gbck.dao.mysql.po.product.master;
 
 import com.alibaba.fastjson.JSON;
-import com.biz.gbck.dao.mysql.po.product.price.PriceGroup;
-import com.biz.gbck.dao.mysql.po.product.bbc.ProductCascade;
-import com.biz.gbck.dao.mysql.po.product.bbc.RelevantProduct;
 import com.biz.gbck.dao.mysql.po.product.meta.*;
+import com.biz.gbck.dao.mysql.po.product.price.PriceGroup;
+import com.biz.gbck.dao.mysql.po.product.promotion.singleProduct.*;
+import com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder.AccountPerUnitCutPromotion;
+import com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder.MultipleIncrementGiftPromotion;
+import com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder.StairCutPromotion;
 import com.biz.gbck.vo.product.PropertyItemVo;
 import com.biz.support.jpa.converter.ListStringConverter;
 import com.biz.support.jpa.po.BaseEntity;
@@ -215,7 +217,56 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ProductActionLog> actionLogs;
 
+    /**
+     * 简单特价
+     */
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<SimpleSpecialOfferPromotion> specialOfferPromotions;
 
+    /**
+     * 批量特价
+     */
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<BatchSpecialOfferPromotion> batchSpecialOfferPromotions;
+
+    /**
+     * 单品买赠
+     */
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<SinglePurchaseGiftPromotion> singlePurchaseGiftPromotions;
+
+    /**
+     * 倍数特价
+     */
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<MultipleQuantityPromotion> multipleQuantityPromotions;
+
+    /**
+     * 数量特价
+     */
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<QuantitySpecialOfferPromotion> quantitySpecialOfferPromotions;
+
+    /**
+     * 倍增满减
+     */
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<AccountPerUnitCutPromotion> accountPerUnitCutPromotions;
+
+    /**
+     * 阶梯满减
+     */
+    @ManyToMany
+    @JoinTable(name = "pro_promotion_stair_cut_product",
+            joinColumns = {@JoinColumn(name = "promotion_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")})
+    private List<StairCutPromotion> stairCutPromotions;
+
+    /**
+     * 倍增满赠
+     */
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<MultipleIncrementGiftPromotion> multipleIncrementGiftPromotions;
 
     public String getBreif() {
         return breif;
@@ -498,5 +549,69 @@ public class Product extends BaseEntity {
 
     public void setPriceGroups(List<PriceGroup> priceGroups) {
         this.priceGroups = priceGroups;
+    }
+
+    public List<ProductActionLog> getActionLogs() {
+        return actionLogs;
+    }
+
+    public void setActionLogs(List<ProductActionLog> actionLogs) {
+        this.actionLogs = actionLogs;
+    }
+
+    public List<SimpleSpecialOfferPromotion> getSpecialOfferPromotions() {
+        return specialOfferPromotions;
+    }
+
+    public void setSpecialOfferPromotions(List<SimpleSpecialOfferPromotion> specialOfferPromotions) {
+        this.specialOfferPromotions = specialOfferPromotions;
+    }
+
+    public List<BatchSpecialOfferPromotion> getBatchSpecialOfferPromotions() {
+        return batchSpecialOfferPromotions;
+    }
+
+    public void setBatchSpecialOfferPromotions(List<BatchSpecialOfferPromotion> batchSpecialOfferPromotions) {
+        this.batchSpecialOfferPromotions = batchSpecialOfferPromotions;
+    }
+
+    public List<SinglePurchaseGiftPromotion> getSinglePurchaseGiftPromotions() {
+        return singlePurchaseGiftPromotions;
+    }
+
+    public void setSinglePurchaseGiftPromotions(List<SinglePurchaseGiftPromotion> singlePurchaseGiftPromotions) {
+        this.singlePurchaseGiftPromotions = singlePurchaseGiftPromotions;
+    }
+
+    public List<StairCutPromotion> getStairCutPromotions() {
+        return stairCutPromotions;
+    }
+
+    public void setStairCutPromotions(List<StairCutPromotion> stairCutPromotions) {
+        this.stairCutPromotions = stairCutPromotions;
+    }
+
+    public List<AccountPerUnitCutPromotion> getAccountPerUnitCutPromotions() {
+        return accountPerUnitCutPromotions;
+    }
+
+    public void setAccountPerUnitCutPromotions(List<AccountPerUnitCutPromotion> accountPerUnitCutPromotions) {
+        this.accountPerUnitCutPromotions = accountPerUnitCutPromotions;
+    }
+
+    public List<MultipleIncrementGiftPromotion> getMultipleIncrementGiftPromotions() {
+        return multipleIncrementGiftPromotions;
+    }
+
+    public void setMultipleIncrementGiftPromotions(List<MultipleIncrementGiftPromotion> multipleIncrementGiftPromotions) {
+        this.multipleIncrementGiftPromotions = multipleIncrementGiftPromotions;
+    }
+
+    public List<MultipleQuantityPromotion> getMultipleQuantityPromotions() {
+        return multipleQuantityPromotions;
+    }
+
+    public void setMultipleQuantityPromotions(List<MultipleQuantityPromotion> multipleQuantityPromotions) {
+        this.multipleQuantityPromotions = multipleQuantityPromotions;
     }
 }

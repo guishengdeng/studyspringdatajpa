@@ -1,12 +1,12 @@
-package com.biz.gbck.dao.mysql.po.product.bbc;
+package com.biz.gbck.dao.mysql.po.product.master;
 
 import com.biz.support.jpa.po.BaseEntity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
 
-//@Entity
-//@Table(name = "pro_relevant_product")
+@Entity
+@Table(name = "pro_relevant_product")
 public class RelevantProduct extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 5750362855763754192L;
@@ -23,15 +23,15 @@ public class RelevantProduct extends BaseEntity implements Serializable {
     @ManyToMany
     @JoinTable(name = "pro_relevant", joinColumns = {@JoinColumn(name = "relevant_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")})
-    private List<Product> relevntProductList;
+    private List<Product> relevantProducts;
 
 
-    public List<Product> getRelevntProductList() {
-        return relevntProductList;
+    public List<Product> getRelevantProducts() {
+        return relevantProducts;
     }
 
-    public void setRelevntProductList(List<Product> relevntProductList) {
-        this.relevntProductList = relevntProductList;
+    public void setRelevantProducts(List<Product> relevantProducts) {
+        this.relevantProducts = relevantProducts;
     }
 
     public Product getProduct() {

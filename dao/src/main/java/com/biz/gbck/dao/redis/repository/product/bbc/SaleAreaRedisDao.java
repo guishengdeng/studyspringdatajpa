@@ -4,7 +4,6 @@ import com.biz.gbck.dao.redis.CrudRedisDao;
 import com.biz.gbck.dao.redis.ro.product.meta.SaleAreaRo;
 import com.biz.redis.util.RedisUtil;
 import java.io.Serializable;
-import org.springframework.stereotype.Repository;
 
 /**
  * 销售区域 RedisDao
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Repository;
  * @reviewer
  * @see
  */
-@Repository
+//@Repository
 public class SaleAreaRedisDao extends CrudRedisDao<SaleAreaRo, String> implements Serializable {
     public static final String TYPE_A_PRICE_AREA_NO = "PA0CN";
     private static final long serialVersionUID = 7233687876668184174L;

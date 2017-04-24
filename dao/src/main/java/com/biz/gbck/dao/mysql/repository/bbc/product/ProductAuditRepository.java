@@ -18,8 +18,9 @@ import org.springframework.stereotype.Repository;
  * @reviewer
  * @see
  */
-@Repository
-public interface ProductAuditRepository extends CommonJpaRepository<ProductAudit, Long>, ProductAuditDao, JpaSpecificationExecutor<ProductAudit> {
+//@Repository
+//public interface ProductAuditRepository extends CommonJpaRepository<ProductAudit, Long>, ProductAuditDao, JpaSpecificationExecutor<ProductAudit> {
+public interface ProductAuditRepository {
 
     ProductAudit findByProductIdAndDeleteFlag(Long productId, Boolean deleteFlag);
 

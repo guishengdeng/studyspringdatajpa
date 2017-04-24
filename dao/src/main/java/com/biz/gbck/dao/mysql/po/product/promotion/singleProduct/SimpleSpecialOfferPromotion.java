@@ -1,13 +1,12 @@
-package com.biz.gbck.dao.mysql.po.product.promotion;
+package com.biz.gbck.dao.mysql.po.product.promotion.singleProduct;
 
 import com.biz.gbck.dao.mysql.po.product.master.Product;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
+import com.biz.gbck.dao.mysql.po.product.promotion.ProductPromotion;
+import javax.persistence.*;
 
 /**
  * 简单特价
+ * <p>商品直接降价销售，例如：A商品原价100元/瓶，特价50元/瓶</p>
  *
  * Created by david-liu on 2017/04/21 15:17.
  */
@@ -20,6 +19,7 @@ public class SimpleSpecialOfferPromotion extends ProductPromotion {
      * 商品
      */
     @JoinColumn(name = "product_id")
+    @ManyToOne
     private Product product;
 
     /**

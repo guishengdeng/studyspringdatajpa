@@ -1,10 +1,8 @@
-package com.biz.gbck.dao.mysql.po.product.promotion;
+package com.biz.gbck.dao.mysql.po.product.promotion.singleProduct;
 
 import com.biz.gbck.dao.mysql.po.product.master.Product;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
+import com.biz.gbck.dao.mysql.po.product.promotion.ProductPromotion;
+import javax.persistence.*;
 
 /**
  * 倍数特价
@@ -19,6 +17,7 @@ public class MultipleQuantityPromotion extends ProductPromotion {
      * 商品
      */
     @JoinColumn(name = "product_id")
+    @ManyToOne
     private Product product;
 
     /**

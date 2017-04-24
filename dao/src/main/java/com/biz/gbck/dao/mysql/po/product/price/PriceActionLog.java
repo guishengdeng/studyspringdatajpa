@@ -16,6 +16,7 @@ public class PriceActionLog extends BaseEntity {
     private static final long serialVersionUID = 4584493130065287819L;
 
     @JoinColumn(name = "price_group_id")
+    @ManyToOne
     private PriceGroup priceGroup;
 
     /**

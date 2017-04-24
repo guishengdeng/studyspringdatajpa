@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * @reviewer
  * @see
  */
-@Repository
+//@Repository
 public class GeoProductRepositoryImpl implements GeoProductDao {
     private static final long serialVersionUID = -4334308416458937405L;
 }

@@ -12,8 +12,8 @@ import javax.persistence.*;
  * @author yanweijin
  * @date 2016/12/19
  */
-@Entity
-@Table(name = "ven_vendor_decoration")
+//@Entity
+//@Table(name = "ven_vendor_decoration")
 public class VendorDecoration extends BaseEntity {
 
     @OneToOne(fetch = FetchType.EAGER)

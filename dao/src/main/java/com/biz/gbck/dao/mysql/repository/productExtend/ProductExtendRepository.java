@@ -16,7 +16,6 @@ import org.springframework.stereotype.Repository;
  * @reviewer
  * @see
  */
-@Repository
 public interface ProductExtendRepository extends CommonJpaRepository<ProductExtend, Long>, JpaSpecificationExecutor<ProductExtend>, ProductExtendDao {
 
     List<ProductExtend> findByIdIn(Collection<Long> ids);

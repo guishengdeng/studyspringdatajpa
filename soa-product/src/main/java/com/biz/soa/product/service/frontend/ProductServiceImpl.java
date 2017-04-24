@@ -2,16 +2,16 @@ package com.biz.soa.product.service.frontend;
 
 import com.biz.core.page.PageResult;
 import com.biz.core.util.DistanceCalc;
-import com.biz.gbck.dao.mysql.po.product.bbc.Product;
-import com.biz.gbck.dao.mysql.repository.bbc.product.ProductRepository;
+import com.biz.gbck.dao.mysql.po.product.master.Product;
+import com.biz.gbck.dao.mysql.repository.product.ProductRepository;
 import com.biz.gbck.dao.redis.repository.product.CategoryRedisDao;
-import com.biz.gbck.dao.redis.repository.product.bbc.PriceRedisDao;
 import com.biz.gbck.dao.redis.repository.product.ProductCascadeRedisDao;
+import com.biz.gbck.dao.redis.repository.product.bbc.PriceRedisDao;
 import com.biz.gbck.dao.redis.repository.product.bbc.ProductRedisDao;
 import com.biz.gbck.dao.redis.repository.vendor.VendorRedisDao;
 import com.biz.gbck.dao.redis.ro.product.bbc.PriceRo;
-import com.biz.gbck.dao.redis.ro.product.master.ProductCascadeRo;
 import com.biz.gbck.dao.redis.ro.product.bbc.ProductRo;
+import com.biz.gbck.dao.redis.ro.product.master.ProductCascadeRo;
 import com.biz.gbck.dao.redis.ro.vendor.VendorRo;
 import com.biz.gbck.enums.product.ProductRecommend;
 import com.biz.gbck.enums.product.ProductShowStatus;
@@ -972,7 +972,7 @@ public class ProductServiceImpl extends AbstractProductService implements Produc
         Preconditions.checkArgument(productDetailVo != null);
         if (NumberUtils.isNumber(productDetailVo.getVendorId())) {
             VendorRo vendorRo = vendorRedisDao.findById(Long.valueOf(productDetailVo.getVendorId()));
-            productDetailVo.setVendorName(Optional.fromNullable(vendorRo).or(new VendorRo()).getVendorName());
+            productDetailVo.setVendorName(java.util.Optional.ofNullable(vendorRo).orElse(new VendorRo()).getVendorName());
         }
 
         return productDetailVo;

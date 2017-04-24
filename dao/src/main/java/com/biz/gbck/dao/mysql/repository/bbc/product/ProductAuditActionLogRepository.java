@@ -1,8 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.bbc.product;
 
 import com.biz.gbck.dao.mysql.po.product.bbc.ProductAuditActionLog;
-import com.biz.support.jpa.repository.CommonJpaRepository;
-import org.springframework.stereotype.Repository;
 
 /**
  * 商品审核日志 Repository
@@ -12,7 +10,8 @@ import org.springframework.stereotype.Repository;
  * @reviewer
  * @see
  */
-@Repository
-public interface ProductAuditActionLogRepository extends CommonJpaRepository<ProductAuditActionLog, Long>, ProductAuditActionLogDao {
+//@Repository
+//public interface ProductAuditActionLogRepository extends CommonJpaRepository<ProductAuditActionLog, Long>, ProductAuditActionLogDao {
+public interface ProductAuditActionLogRepository {
     ProductAuditActionLog findById(Long productAuditId);
 }

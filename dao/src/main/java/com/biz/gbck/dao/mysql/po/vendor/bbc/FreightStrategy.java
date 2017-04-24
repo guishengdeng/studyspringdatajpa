@@ -10,8 +10,8 @@ import javax.persistence.*;
  * @author yanweijin
  * @date 2016/12/19
  */
-@Entity
-@Table(name = "ven_freight_strategy")
+//@Entity
+//@Table(name = "ven_freight_strategy")
 public class FreightStrategy extends BaseEntity implements FreightStrategyCalculationModel {
 
 

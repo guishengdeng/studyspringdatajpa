@@ -10,4 +10,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * Created by david-liu on 2017/04/21 11:25.
  */
 public interface ProductRepository extends CommonJpaRepository<Product, Long>, ProductDao, JpaSpecificationExecutor<Product> {
+
+    Product findByProductCode(String productCode);
 }

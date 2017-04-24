@@ -14,8 +14,8 @@ import javax.persistence.*;
  * @author yangzichun
  * @date 2017/2/8
  */
-@Entity
-@Table(name = "evaluation")
+//@Entity
+//@Table(name = "evaluation")
 public class Evaluation extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -4452195718871842524L;
     //商品

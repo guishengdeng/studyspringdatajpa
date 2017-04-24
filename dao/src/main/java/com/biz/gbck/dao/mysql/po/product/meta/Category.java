@@ -1,5 +1,6 @@
 package com.biz.gbck.dao.mysql.po.product.meta;
 
+import com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder.StairCutPromotion;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.product.backend.ICategoryVo;
 import com.biz.support.jpa.po.BaseEntity;
@@ -108,6 +109,9 @@ public class Category extends BaseEntity implements Serializable {
      */
     @Column
     private Boolean deleteFlag = Boolean.FALSE;
+
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<StairCutPromotion> stairCutPromotions;
 
     public String getName() {
         return name;
@@ -219,6 +223,14 @@ public class Category extends BaseEntity implements Serializable {
 
     public void setDeleteFlag(Boolean delete) {
         deleteFlag = delete;
+    }
+
+    public List<StairCutPromotion> getStairCutPromotions() {
+        return stairCutPromotions;
+    }
+
+    public void setStairCutPromotions(List<StairCutPromotion> stairCutPromotions) {
+        this.stairCutPromotions = stairCutPromotions;
     }
 
     /**

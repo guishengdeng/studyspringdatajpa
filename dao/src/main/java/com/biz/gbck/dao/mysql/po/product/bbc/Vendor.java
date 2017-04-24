@@ -12,8 +12,8 @@ import javax.persistence.*;
  * @author yanweijin
  * @date 2016/12/19
  */
-@Entity
-@Table(name = "ven_vendor")
+//@Entity
+//@Table(name = "ven_vendor")
 public class Vendor extends BaseEntity {
 
     /**

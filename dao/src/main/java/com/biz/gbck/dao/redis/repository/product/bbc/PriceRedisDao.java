@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
  * @reviewer
  * @see
  */
-@Repository
+//@Repository
 public class PriceRedisDao extends CrudRedisDao<PriceRo, String> implements Serializable {
 
     private static final long serialVersionUID = -2075462272866208911L;

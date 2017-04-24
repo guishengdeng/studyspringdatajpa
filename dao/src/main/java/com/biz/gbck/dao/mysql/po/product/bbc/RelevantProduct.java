@@ -5,8 +5,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
 
-@Entity
-@Table(name = "pro_relevant_product")
+//@Entity
+//@Table(name = "pro_relevant_product")
 public class RelevantProduct extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 5750362855763754192L;

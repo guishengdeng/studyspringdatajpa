@@ -3,15 +3,15 @@ package com.biz.gbck.vo.product.promotion;
 import java.io.Serializable;
 
 /**
- * 倍增满赠规则Vo
+ * 阶梯满赠规则Vo
  *
  * <p>
- * 每满X元赠Y瓶酒（赠酒只能是同一种酒），例如：A商品每满100元赠1瓶B，一单中可多次叠加。
+ * 每满X元赠Y瓶酒（赠酒只能是同一种酒），例如：A商品每满100元赠1瓶B，A商品每满200元赠3瓶B，依次类推。
  * </p>
  *
  * Created by david-liu on 2017/04/24 09:44.
  */
-public class MultiIncrGiftRuleVo implements Serializable {
+public class StairGiftPromotionRuleVo implements Serializable {
 
     private static final long serialVersionUID = -6254530022434644101L;
 

@@ -1,7 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.bbc.productCascade;
 
 import java.io.Serializable;
-import org.springframework.stereotype.Repository;
 
 /**
  * 商品配置 RepositoryImpl
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Repository;
  * @reviewer
  * @see
  */
-@Repository
+//@Repository
 public class ProductCascadeRepositoryImpl implements ProductCascadeDao, Serializable {
 
     private static final long serialVersionUID = 1223655982644809000L;

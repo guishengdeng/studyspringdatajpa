@@ -20,8 +20,8 @@ import javax.persistence.Table;
  * @reviewer
  * @see
  */
-@Entity
-@Table(name = "pro_temporary_vendor_product")
+//@Entity
+//@Table(name = "pro_temporary_vendor_product")
 public class TemporaryVendorProduct extends BaseEntity {
 
     /**

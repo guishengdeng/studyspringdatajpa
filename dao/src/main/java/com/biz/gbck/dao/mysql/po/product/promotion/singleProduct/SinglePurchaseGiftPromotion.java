@@ -1,13 +1,14 @@
-package com.biz.gbck.dao.mysql.po.product.promotion;
+package com.biz.gbck.dao.mysql.po.product.promotion.singleProduct;
 
 import com.biz.gbck.dao.mysql.po.product.master.Product;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
+import com.biz.gbck.dao.mysql.po.product.promotion.ProductPromotion;
+import javax.persistence.*;
 
 /**
  * 单品买赠促销
+ * <p>
+ * 单品特价买赠，比如原价100元/瓶，现可以80元/瓶情况下买3瓶赠1瓶
+ * </p>
  *
  * Created by david-liu on 2017/04/21 16:29.
  */
@@ -19,6 +20,7 @@ public class SinglePurchaseGiftPromotion extends ProductPromotion {
     /**
      * 商品
      */
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 

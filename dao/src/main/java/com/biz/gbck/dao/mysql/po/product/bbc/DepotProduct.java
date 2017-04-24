@@ -14,8 +14,8 @@ import javax.persistence.*;
  * @reviewer
  * @see
  */
-@Entity
-@Table(name = "pro_product_depot", uniqueConstraints = {@UniqueConstraint(columnNames = {"product_id", "depot_id"})})
+//@Entity
+//@Table(name = "pro_product_depot", uniqueConstraints = {@UniqueConstraint(columnNames = {"product_id", "depot_id"})})
 public class DepotProduct extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -5692684536049410988L;

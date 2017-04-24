@@ -14,8 +14,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @reviewer
  * @see
  */
-@Entity
-@Table(name = "ven_vendor_brand_relationship")
+//@Entity
+//@Table(name = "ven_vendor_brand_relationship")
 public class VirtualVendorWithBrandRelationShip extends BaseEntity {
 
     private static final long serialVersionUID = -1662276222659367671L;

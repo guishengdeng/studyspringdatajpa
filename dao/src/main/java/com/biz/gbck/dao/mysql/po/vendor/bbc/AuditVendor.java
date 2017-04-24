@@ -11,8 +11,8 @@ import javax.persistence.*;
  * @Description: A类商铺审核类(同时也是注册类)，字段基本冗余商铺，如果商铺审核通过在保存商铺（vendor）
  * @time:2017年2月9日 下午5:26:16
  */
-@Entity
-@Table(name = "ven_audit_vendor")
+//@Entity
+//@Table(name = "ven_audit_vendor")
 public class AuditVendor extends BaseEntity {
 
     // 商铺名称

@@ -24,8 +24,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @reviewer
  * @see
  */
-@Entity
-@Table(name = "pro_product")
+//@Entity
+//@Table(name = "pro_product")
 public class Product extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -4560453072255817874L;

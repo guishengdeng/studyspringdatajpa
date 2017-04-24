@@ -17,8 +17,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @reviewer
  * @see
  */
-@Entity
-@Table(name = "pro_product_cascade", uniqueConstraints = {@UniqueConstraint(columnNames = {"source_product_id", "vendor_id"})})
+//@Entity
+//@Table(name = "pro_product_cascade", uniqueConstraints = {@UniqueConstraint(columnNames = {"source_product_id", "vendor_id"})})
 public class ProductCascade extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -7016215207841303508L;

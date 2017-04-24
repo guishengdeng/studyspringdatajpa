@@ -12,8 +12,8 @@ import javax.persistence.*;
  * @reviewer
  * @see
  */
-@Entity
-@Table(name = "pro_product_audit_action_log")
+//@Entity
+//@Table(name = "pro_product_audit_action_log")
 public class ProductAuditActionLog extends BaseEntity {
 
     private static final long serialVersionUID = -4914037328384619339L;

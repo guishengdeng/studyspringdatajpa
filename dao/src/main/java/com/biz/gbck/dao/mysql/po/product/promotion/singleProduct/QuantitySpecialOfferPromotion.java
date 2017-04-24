@@ -1,10 +1,8 @@
-package com.biz.gbck.dao.mysql.po.product.promotion;
+package com.biz.gbck.dao.mysql.po.product.promotion.singleProduct;
 
 import com.biz.gbck.dao.mysql.po.product.master.Product;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
+import com.biz.gbck.dao.mysql.po.product.promotion.ProductPromotion;
+import javax.persistence.*;
 
 /**
  * 数量特价
@@ -20,6 +18,7 @@ public class QuantitySpecialOfferPromotion extends ProductPromotion {
      * 商品
      */
     @JoinColumn(name = "product_id")
+    @ManyToOne
     private Product product;
 
     /**
@@ -38,4 +37,28 @@ public class QuantitySpecialOfferPromotion extends ProductPromotion {
      */
     @Column(nullable = false)
     private Integer quantityLimit;
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Integer getPromotionPrice() {
+        return promotionPrice;
+    }
+
+    public void setPromotionPrice(Integer promotionPrice) {
+        this.promotionPrice = promotionPrice;
+    }
+
+    public Integer getQuantityLimit() {
+        return quantityLimit;
+    }
+
+    public void setQuantityLimit(Integer quantityLimit) {
+        this.quantityLimit = quantityLimit;
+    }
 }
