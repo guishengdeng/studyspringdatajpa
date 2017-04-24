@@ -37,14 +37,14 @@ public class AdvertisementServiceImpl extends AbstractBaseService implements Adv
         String advertisementId = req.getId();
         AdvertisementRo ro;
         //如果没有id 则进行保存操作
-        if (StringUtils.isNotBlank(advertisementId)) {
+        if (StringUtils.isBlank(advertisementId)) {
             req.setId(String.valueOf(idService.nextId()));
             //验证是否上传图片
             String icon = req.getPicturesLink();
             SystemAsserts.isTrue(StringUtils.isNotBlank(icon), "请上传广告图片！");
             ro = new AdvertisementRequestVo2AdvertisementRo().apply(req);
         }else {
-            ro = advertisementRedisDao.findOne(req.getId());
+             ro = advertisementRedisDao.findOne(req.getId());
             buildAdvertisementRo(ro,req);
         }
         advertisementRedisDao.save(ro);
@@ -53,7 +53,6 @@ public class AdvertisementServiceImpl extends AbstractBaseService implements Adv
     @Override
     public PageResult<AdvertisementVo> findAdvertisement(AdvertisementQueryParamVo req) {
         logger.debug("find advertisement by param [{}]", JSON.toJSONString(req));
-        String picturesLink = req.getPicturesLink();
         //TODO 分页对象
         //PageRequest page = new PageRequest(req.getPage() - 1, req.getSize(), new Sort(Sort.Direction.DESC, "createTimestamp"));
         return null;

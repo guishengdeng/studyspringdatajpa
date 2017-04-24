@@ -48,9 +48,11 @@ public class AdminServiceImpl extends AbstractBaseService implements UserDetails
         List<Role> roles = admin.getRoles();
         List<MenuItem> menuItems = Lists.newArrayList();
         roles.forEach(role -> menuItems.addAll(role.getMenuItems()));
-        List<Menu> children = Lists.newArrayList();
         this.listAllMainMenu().forEach(mainMenu -> {
-            mainMenu.getMenuItems().stream().filter(menuItems::contains).forEach(menuItem -> children.add(new Menu(menuItem.getName(), menuItem.getLink(), menuItem.getIcon())));
+            List<Menu> children = Lists.newArrayList();
+            mainMenu.getMenuItems().stream().filter(menuItems::contains).forEach(menuItem -> {
+                children.add(new Menu(menuItem.getName(), menuItem.getLink(), menuItem.getIcon()));
+            });
             if (CollectionUtils.isNotEmpty(children)) {
                 result.add(new Menu(mainMenu.getName(), "#", mainMenu.getIcon(), children));
             }
