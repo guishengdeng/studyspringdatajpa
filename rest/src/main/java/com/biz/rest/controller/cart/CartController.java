@@ -22,7 +22,7 @@ public class CartController extends BaseRestController {
 
     @RequestMapping("add")
     public JSONResult addCart(HttpServletRequest request) {
-        super.parseBizData(request, )
+        return null;
     }
 
 }

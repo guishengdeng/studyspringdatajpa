@@ -1,7 +1,6 @@
 package com.biz.vo.cart;
 
 import com.biz.core.util.DateUtil;
-
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Set;
