@@ -43,6 +43,35 @@ public class PlatformPo extends Company{
     @OneToMany(mappedBy = "platform", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PartnerPo> partners;
 
+    public ProvincePo getProvince() {
+        return province;
+    }
 
+    public void setProvince(ProvincePo province) {
+        this.province = province;
+    }
 
+    public List<Admin> getAdmins() {
+        return admins;
+    }
+
+    public void setAdmins(List<Admin> admins) {
+        this.admins = admins;
+    }
+
+    public WarehousePo getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(WarehousePo warehouse) {
+        this.warehouse = warehouse;
+    }
+
+    public List<PartnerPo> getPartners() {
+        return partners;
+    }
+
+    public void setPartners(List<PartnerPo> partners) {
+        this.partners = partners;
+    }
 }
