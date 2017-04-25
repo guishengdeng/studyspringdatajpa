@@ -6,18 +6,16 @@
 <depotnextdoor:page title="page.user.edit">
     <jsp:attribute name="script">
         <script type="application/javascript">
-            function showDiv(os,id) {
+            function showDiv(id) {
                 $("#cat-disable-confirm-modal").modal();
                 $("#upgradeId").val(id);
-                $("#upgradeOs").val(os);
             }
             $(".btn-cancel-ban").click(function () {
                 $("#cat-disable-confirm-modal").modal("hide");
             });
             $(".btn-confirm-ban").click(function () {
                 var upgradeId = $("#upgradeId").val();
-                var upgradeOs = $("#upgradeOs").val();
-                window.location.href = "/upgrade/delete.do?os="+upgradeOs+"&id="+upgradeId+"";
+                window.location.href = "/upgrade/delete.do?id="+upgradeId+"";
                 $("#cat-disable-confirm-modal").modal("hide");
             });
         </script>
@@ -78,7 +76,7 @@
                                             <td>${upgrade.md5}</td>
                                             <td><pre>${upgrade.info}</pre></td>
                                             <td>
-                                                <a class="btn btn-xs btn-danger cat-ban-btn" onclick="showDiv('${upgrade.os}','${upgrade.id}')" >
+                                                <a class="btn btn-xs btn-danger cat-ban-btn" onclick="showDiv('${upgrade.id}')" >
                                                     <i class="ace-icon fa fa-trash-o bigger-120"></i>删除
                                                 </a>
                                             </td>
@@ -113,7 +111,7 @@
                                             <td>${upgrade.md5}</td>
                                             <td><pre>${upgrade.info}</pre></td>
                                             <td>
-                                                <a class="btn btn-xs btn-danger" onclick="showDiv('${upgrade.os}','${upgrade.id}')">
+                                                <a class="btn btn-xs btn-danger" onclick="showDiv('${upgrade.id}')">
                                                     <i class="ace-icon fa fa-trash-o bigger-120"></i>删除
                                                 </a>
                                             </td>
@@ -154,6 +152,5 @@
         </div><!-- /.row -->
         </div>
         <input type="hidden" id="upgradeId">
-        <input type="hidden" id="upgradeOs">
     </jsp:body>
 </depotnextdoor:page>
