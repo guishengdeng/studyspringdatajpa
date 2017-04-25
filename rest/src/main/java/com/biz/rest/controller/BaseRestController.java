@@ -4,22 +4,22 @@ import com.biz.core.exceptions.BusinessException;
 import com.biz.core.exceptions.FunctionExceptions;
 import com.biz.core.util.JsonUtil;
 import com.biz.support.web.BuildRequestHandler;
-import com.biz.support.web.assist.IRequestVo;
 import com.biz.support.web.handler.JSONResult;
 import com.google.common.collect.Lists;
-import java.util.List;
-import java.util.Set;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.ValidationException;
-import javax.validation.Validator;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.ValidationException;
+import javax.validation.Validator;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 控制器基类,要求所有面向手机端的api都要继承此类
@@ -42,7 +42,7 @@ public abstract class BaseRestController {
      * @param clazz 请求vo的class
      * @param validationGroups 用于jsr303验证的group class
      */
-    protected <V extends IRequestVo> V parseBizData(HttpServletRequest request, Class<V> clazz, Class<?>... validationGroups) {
+    protected <V> V parseBizData(HttpServletRequest request, Class<V> clazz, Class<?>... validationGroups) {
 
         String bizData = request.getParameter(DATA_PARAM_NAME);
         logger.debug("请求参数:\n{}", bizData);
