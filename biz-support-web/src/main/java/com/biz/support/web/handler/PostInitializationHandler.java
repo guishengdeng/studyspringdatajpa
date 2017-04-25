@@ -2,8 +2,8 @@ package com.biz.support.web.handler;
 
 import com.biz.core.exceptions.SystemException;
 import com.biz.support.web.BuildRequestHandler;
-import com.biz.support.web.assist.IRequestVo;
 import com.biz.support.web.assist.PostInitialization;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 public class PostInitializationHandler implements BuildRequestHandler {
 
     @Override
-    public void handle(HttpServletRequest request, IRequestVo requestVo) throws SystemException {
+    public void handle(HttpServletRequest request, Object requestVo) throws SystemException {
         if (requestVo instanceof PostInitialization) {
             ((PostInitialization) requestVo).postInitializing();
         }
