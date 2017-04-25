@@ -10,9 +10,9 @@ import java.io.Serializable;
  * @author lei
  * @date 2017/01/12
  */
-public class ShopCartItemUpdateReqVo implements Serializable {
+public class ShopCartItemUpdateRespVo implements Serializable {
 
-    private static final long serialVersionUID = -1730115632054116788L;
+    private static final long serialVersionUID = -8001217185262565019L;
 
     /**
      * 商品编码

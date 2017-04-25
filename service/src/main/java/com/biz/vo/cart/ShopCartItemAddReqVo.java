@@ -1,8 +1,9 @@
 package com.biz.vo.cart;
 
 import com.biz.core.util.DateUtil;
+import com.biz.gbck.vo.user.BaseRequestVo;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import java.io.Serializable;
+
 import java.sql.Timestamp;
 
 /**
@@ -11,7 +12,7 @@ import java.sql.Timestamp;
  * @author lei
  * @date 2017/01/12
  */
-public class ShopCartItemAddReqVo implements Serializable {
+public class ShopCartItemAddReqVo extends BaseRequestVo {
 
     /**
      * 商品编码
