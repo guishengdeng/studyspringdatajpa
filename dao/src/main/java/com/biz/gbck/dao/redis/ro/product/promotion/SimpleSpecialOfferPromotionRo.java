@@ -14,10 +14,47 @@ import com.biz.redis.bean.BaseRedisObject;
  *
  * Created by david-liu on 2017/04/25 12:27.
  */
-@Ro(key = "product:promotion:simpleSpecialOffer")
+@Ro(key = "pro:promotion:simpleSpecialOffer")
 @RoSortedSet(key = "list")
 public class SimpleSpecialOfferPromotionRo extends BaseRedisObject<String> {
     private static final long serialVersionUID = -3587986498940399357L;
 
+    /**
+     * 商品编码
+     */
+    private String productCode;
 
+    /**
+     * 价格组ID
+     */
+    private Long priceGroupId;
+
+    /**
+     * 促销价
+     */
+    private Integer promotionPrice;
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
+    public Long getPriceGroupId() {
+        return priceGroupId;
+    }
+
+    public void setPriceGroupId(Long priceGroupId) {
+        this.priceGroupId = priceGroupId;
+    }
+
+    public Integer getPromotionPrice() {
+        return promotionPrice;
+    }
+
+    public void setPromotionPrice(Integer promotionPrice) {
+        this.promotionPrice = promotionPrice;
+    }
 }

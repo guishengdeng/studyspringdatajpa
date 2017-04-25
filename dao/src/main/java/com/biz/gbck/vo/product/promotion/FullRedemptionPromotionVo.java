@@ -1,4 +1,4 @@
-package com.biz.gbck.enums.product;
+package com.biz.gbck.vo.product.promotion;
 
 import java.io.Serializable;
 

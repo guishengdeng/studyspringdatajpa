@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.mysql.po.product.promotion;
 
-import com.biz.gbck.enums.product.PromotionOrientEnum;
-import com.biz.gbck.enums.product.PromotionRoundEnum;
+import com.biz.gbck.enums.product.promotion.PromotionOrientEnum;
+import com.biz.gbck.enums.product.promotion.PromotionRoundEnum;
 import com.biz.support.jpa.converter.ListLongConverter;
 import com.biz.support.jpa.converter.ListStringConverter;
 import com.biz.support.jpa.po.BaseEntity;
