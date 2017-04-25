@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -55,7 +56,8 @@ public class PromotionService extends CommonService {
     }
 
     public List<PromotionPo> findNormal(Pageable pageable) {
-        return promotionRepository.findAllNormal(CommonStatusEnum.ENABLE.getValue());
+        List<PromotionPo> list = promotionRepository.findAllNormal(CommonStatusEnum.ENABLE.getValue());
+        return list;
     }
 
     public PromotionPo get(Long id) {

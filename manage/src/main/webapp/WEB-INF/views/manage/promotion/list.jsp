@@ -77,7 +77,9 @@
                                         <td>${promotions.title}</td>
                                         <td>${promotions.url}</td>
                                         <td>
-                                            <img src="${promotions.logo}" alt="${promotions.title}">
+                                            <img id="image" src="${imgURL}${promotions.logo}" width="100px" height="100px">
+                                            <input name="logo" type="hidden" id="logo_container"
+                                                   value="${promotions.logo}" class="form-control required">
                                         </td>
                                         <td>${promotions.adminId}</td>
                                         <td><fmt:formatDate value="${promotions.createTime}" pattern="yyyy/MM/dd HH:mm:ss"/></td>

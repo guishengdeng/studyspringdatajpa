@@ -5,6 +5,8 @@ import com.depotnearby.manage.transformer.PromotionVoToPromotionPo;
 import com.depotnearby.manage.vo.PromotionVo;
 import com.depotnearby.service.info.PromotionService;*/
 
+import com.biz.core.ali.oss.config.OssConfig;
+import com.biz.core.ali.oss.util.OssUtil;
 import com.biz.gbck.dao.mysql.po.info.PromotionPo;
 import com.biz.gbck.transform.promotion.PromotionVoToPromotionPo;
 import com.biz.gbck.vo.promotion.PromotionVo;
@@ -30,6 +32,8 @@ import java.util.Date;
 @RequestMapping("/promotions")@Secured("ROLE_PROMOTION") public class PromotionController {
     @Autowired
     PromotionService promotionService;
+    @Autowired
+    private OssConfig config;
 
     @RequestMapping(method = RequestMethod.GET) @PreAuthorize("hasAuthority('OPT_PROMOTION_LIST')")
     public ModelAndView list(Integer number, Integer size) {
@@ -37,8 +41,9 @@ import java.util.Date;
             size = Integer.MAX_VALUE;
             number = 0;
         }
+
         return new ModelAndView("manage/promotion/list", "promotions",
-            promotionService.findNormal(new PageRequest(number, size, null)));
+            promotionService.findNormal(new PageRequest(number, size, null))).addObject("imgURL", OssUtil.getOssResourceUriPrefix(config.getBucketName(), config.getRemoteEndpoint()));
     }
 
     @RequestMapping(value = "new", method = RequestMethod.GET)  @PreAuthorize("hasAuthority('OPT_PROMOTION_SAVE')")

@@ -147,6 +147,7 @@
                             </h3>
                             <form action="manage/advertisement/saveOrUpdate.do" method="post"
                                   class="form-horizontal" role="form">
+                                <input type="hidden" name="id" id="id" value="${advertisement.id}"/>
                                 <div class="field adv-photo row">
                                     <label class="col-sm-3 control-label no-padding-right"
                                            for="picturesLink">
@@ -231,7 +232,7 @@
 
                                     <div class="col-sm-9">
                                         <input type="text" id="residenceTime" placeholder="停留(毫秒)"
-                                               name="clickLink" class="col-xs-10 col-sm-5" value="<c:if test="${advertisement.residenceTime != null}">${advertisement.residenceTime}</c:if><c:if test="${advertisement.residenceTime == null}">3000</c:if>">
+                                               name="residenceTime" class="col-xs-10 col-sm-5" value="<c:if test="${advertisement.residenceTime != null}">${advertisement.residenceTime}</c:if><c:if test="${advertisement.residenceTime == null}">3000</c:if>">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -242,7 +243,7 @@
 
                                     <div class="col-sm-9">
                                         <input type="text" id="priority" placeholder="优先级"
-                                               name="clickLink" class="col-xs-10 col-sm-5" value="<c:if test="${advertisement.priority != null}">${advertisement.priority}</c:if><c:if test="${advertisement.priority == null}">3</c:if>">
+                                               name="priority" class="col-xs-10 col-sm-5" value="<c:if test="${advertisement.priority != null}">${advertisement.priority}</c:if><c:if test="${advertisement.priority == null}">3</c:if>">
                                     </div>
                                 </div>
 
