@@ -53,25 +53,9 @@
 
                             <form action="manage/resources/addOrUpdate.do" method="post"
                                   class="form-horizontal" role="form">
-                                <c:if test="${not empty resource}">
+                                    <%--menuitem_id该参数来自于MenuItemController的detail方法--%>
+                                    <input type="hidden" name="menuItem.id" value="${menuitem_id}">
                                     <input type="hidden" name="id" value="${resource.id}">
-                                </c:if>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label no-padding-right"
-                                           for="code">
-                                        描述
-                                    </label>
-
-                                    <div class="col-sm-9">
-                                            <%--三元运算符 ${empty menuItem ? '' : 'readonly'}--%>
-                                        <input  type="text"
-                                                id="code"
-                                                placeholder=""
-                                                name="description"
-                                                value="${resource.description}"
-                                                class="col-xs-10 col-sm-5">
-                                    </div>
-                                </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"
@@ -81,7 +65,7 @@
 
                                     <div class="col-sm-9">
                                         <input type="text" id="link" name="name" placeholder=""
-                                               value="${resource.name}" class="col-xs-10 col-sm-5">
+                                               value="${resource.name}" class="required col-xs-10 col-sm-5">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -97,25 +81,19 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"
-                                           for="menuItem">
-                                        子菜单
+                                           for="description">
+                                        备注
                                     </label>
+
                                     <div class="col-sm-9">
-                                            <%--这是当前资源所属的子菜单--%>
-                                        <c:if test="${not empty resource.menuItem}">
-                                            <input type="checkbox" name="menuItem" id="menuItem" value="${resource.menuItem.id}" checked="checked"/>
-                                            <label for="menuItem">${resource.menuItem.name}</label>
-                                        </c:if>
-                                        <c:if test="${not empty menuItems}">
-                                            <c:forEach items="${menuItems}" var="menuItem"  varStatus="status">
-                                                <input type="checkbox" name="menuItem" id="menuItem" value="${menuItem.id}"/>
-                                                <label for="menuItem">${menuItem.name}</label>
-                                            </c:forEach>
-                                        </c:if>
-
+                                        <input  type="text"
+                                                id="description"
+                                                name="description"
+                                                value="${resource.description}"
+                                                class="col-xs-10 col-sm-5">
                                     </div>
-
                                 </div>
+
                                 <sec:authorize access="hasAnyAuthority('OPT_MENUITEM_ADD', 'OPT_MENUITEM_EDIT')">
                                     <div class="clearfix form-actions">
                                         <div class="col-md-offset-3 col-md-9">

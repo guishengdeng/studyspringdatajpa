@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.po.salearea;
 
-import com.biz.gbck.dao.mysql.po.user.ShopPo;
+import com.biz.gbck.dao.mysql.po.org.ShopPo;
 import com.biz.gbck.enums.CommonStatusEnum;
 
 import javax.persistence.*;

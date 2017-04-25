@@ -1,5 +1,6 @@
 package com.biz.gbck.dao.mysql.po.geo;
 
+import com.biz.gbck.dao.mysql.po.org.PartnerPo;
 import com.biz.gbck.model.geo.IArea;
 import com.biz.gbck.model.geo.IProvince;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -29,6 +30,11 @@ import java.util.List;
 
     @OneToMany(mappedBy = "province", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @OrderBy(value = "idx") @NotFound(action = NotFoundAction.IGNORE) private List<CityPo> cities;
+
+
+    @OneToMany
+    private List<PartnerPo> partnerPos;
+
 
     public List<CityPo> getCities() {
         return cities;
@@ -74,5 +80,13 @@ import java.util.List;
     @JsonIgnore
     public List getChildren() {
         return cities;
+    }
+
+    public List<PartnerPo> getPartnerPos() {
+        return partnerPos;
+    }
+
+    public void setPartnerPos(List<PartnerPo> partnerPos) {
+        this.partnerPos = partnerPos;
     }
 }

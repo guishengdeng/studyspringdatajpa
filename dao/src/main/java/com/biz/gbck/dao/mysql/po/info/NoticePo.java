@@ -1,8 +1,8 @@
 package com.biz.gbck.dao.mysql.po.info;
 
 import com.biz.core.util.DateUtil;
+import com.biz.gbck.dao.mysql.po.org.ShopTypePo;
 import com.biz.gbck.dao.mysql.po.salearea.SaleAreaPo;
-import com.biz.gbck.dao.mysql.po.user.ShopTypePo;
 
 import javax.persistence.*;
 import java.io.Serializable;

@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.po.user;
+package com.biz.gbck.dao.mysql.po.org;
 
 import com.biz.support.jpa.po.BaseEntity;
 

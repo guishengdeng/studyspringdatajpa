@@ -36,9 +36,7 @@ public class ResourceController {
      private MenuItemService menuItemService;
      @RequestMapping("/add")
      @PreAuthorize("hasAuthority('OPT_RESOURCE_ADD')")
-     public String add(Model model){
-         model.addAttribute("menuItems",menuItemService.listMenuItems());
-         model.addAttribute("resources",resourceService.listResources());
+     public String add(Model model,@RequestParam("menuItem_id") Long id ){
          model.addAttribute("cmd","add");
          return "manage/resource/addOrUpdateResource";
      }
@@ -50,8 +48,6 @@ public class ResourceController {
             model.addAttribute("resource",resource);
 
         }
-         model.addAttribute("menuItems",menuItemService.listMenuItems());
-         model.addAttribute("resources",resourceService.listResources());
          model.addAttribute("cmd","edit");
         return "manage/resource/addOrUpdateResource";
     }

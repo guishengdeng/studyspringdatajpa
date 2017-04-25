@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.user;
 
-import com.biz.gbck.dao.mysql.po.user.UserPo;;
+import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.vo.search.SearchUserReqVo;
 import org.springframework.data.repository.NoRepositoryBean;
 
