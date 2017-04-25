@@ -3,6 +3,7 @@ package com.biz.gbck.dao.mysql.po.product.promotion;
 import com.biz.gbck.enums.product.PromotionOrientEnum;
 import com.biz.gbck.enums.product.PromotionRoundEnum;
 import com.biz.support.jpa.converter.ListLongConverter;
+import com.biz.support.jpa.converter.ListStringConverter;
 import com.biz.support.jpa.po.BaseEntity;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -113,6 +114,20 @@ public class ProductPromotion extends BaseEntity {
      */
     @Column
     private String executeDepartment;
+
+    /**
+     * 所有能参与促销的商品编码集合
+     */
+    @Column(columnDefinition = "TEXT")
+    @Convert(converter = ListStringConverter.class)
+    private String orientedProducts;
+
+    /**
+     * 不能参与促销的商品编码集合
+     */
+    @Column(columnDefinition = "TEXT")
+    @Convert(converter = ListStringConverter.class)
+    private String excludeProducts;
 
     public Long getCompanyId() {
         return companyId;
@@ -232,5 +247,21 @@ public class ProductPromotion extends BaseEntity {
 
     public void setExecuteDepartment(String executeDepartment) {
         this.executeDepartment = executeDepartment;
+    }
+
+    public String getOrientedProducts() {
+        return orientedProducts;
+    }
+
+    public void setOrientedProducts(String orientedProducts) {
+        this.orientedProducts = orientedProducts;
+    }
+
+    public String getExcludeProducts() {
+        return excludeProducts;
+    }
+
+    public void setExcludeProducts(String excludeProducts) {
+        this.excludeProducts = excludeProducts;
     }
 }
