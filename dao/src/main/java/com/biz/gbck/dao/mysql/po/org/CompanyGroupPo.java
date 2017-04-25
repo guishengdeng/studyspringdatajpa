@@ -53,12 +53,6 @@ public class CompanyGroupPo extends BaseEntity {
     private List<Company> children;
 
 
-    @Enumerated(value = EnumType.STRING)
-    @Column(nullable = true)
-    private CompanyLevel companyLevel;
-
-
-
     public String getCode() {
         return code;
     }
