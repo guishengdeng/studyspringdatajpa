@@ -4,7 +4,12 @@ import com.biz.gbck.dao.redis.CrudRedisDao;
 import com.biz.gbck.dao.redis.ro.order.OrderRo;
 import com.biz.gbck.enums.order.OrderShowStatus;
 import com.biz.redis.util.RedisUtil;
+import org.codelogger.utils.StringUtils;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * 订单redisDao
@@ -46,6 +51,83 @@ public class OrderRedisDao extends CrudRedisDao<OrderRo, Long> {
 
     }
 
+
+    /**
+     * 根据Id删除
+     */
+    @Override
+    public void delete(Long id) {
+        OrderRo orderRo = this.findOne(id);
+        if (orderRo != null) {
+            this.delete(orderRo);
+        }
+    }
+
+
+    /**
+     * 根据ro删除
+     */
+    @Override
+    public void delete(OrderRo ro) {
+        if (ro == null || ro.getId() == null || ro.getUserId() == null) {
+            return;
+        }
+        Long id = ro.getId();
+        Long userId = ro.getUserId();
+        OrderShowStatus status = ro.getStatus();
+
+        if (status != null) {
+            super.zrem(this.orderPeriodSortedSetKey(userId, status), RedisUtil.toByteArray(id));
+        } else {
+            super.zrem(this.orderPeriodSortedSetKey(userId, OrderShowStatus.ALL), RedisUtil.toByteArray(id));
+        }
+
+        super.delete(ro);
+    }
+
+    /**
+     * 分页查找订单id
+     */
+    public List<Long> findOrderIdsByUserIdWithPeriod(Long userId, OrderShowStatus status, int page, int size) {
+        if (userId == null) {
+            return newArrayList();
+        }
+
+        if (status == null) {
+            status = OrderShowStatus.ALL;
+        }
+        return super.findIdListFromSortedSetRevrange(this.orderPeriodSortedSetKey(userId, status), page, size);
+    }
+
+    /**
+     * 获取不同类型订单总数
+     */
+    public Long findCountByUserIdWithPeriod(Long userId, OrderShowStatus status) {
+        if (userId == null) {
+            return 0L;
+        }
+
+        if (status == null) {
+            status = OrderShowStatus.ALL;
+        }
+        return super.zcount(this.orderPeriodSortedSetKey(userId, status), "-inf", "+inf");
+    }
+
+    /**
+     * 根据订单
+     *
+     * @param orderCode
+     * @return
+     */
+    public Long getOrderIdByOrderCode(String orderCode) {
+        if (StringUtils.isNotBlank(orderCode)) {
+            byte[] bytes = this.get(this.orderCodeToIdMappingKey(orderCode));
+            if (bytes != null) {
+                return RedisUtil.byteArrayToLong(bytes);
+            }
+        }
+        return null;
+    }
 
 
     /**
