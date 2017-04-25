@@ -1,8 +1,9 @@
 package com.biz.gbck.dao.mysql.po.product.promotion.singleProduct;
 
-import com.biz.gbck.dao.mysql.po.product.master.Product;
 import com.biz.gbck.dao.mysql.po.product.promotion.ProductPromotion;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * 数量特价
@@ -15,11 +16,10 @@ public class QuantitySpecialOfferPromotion extends ProductPromotion {
     private static final long serialVersionUID = -1051116366729922357L;
 
     /**
-     * 商品
+     * 商品编码
      */
-    @JoinColumn(name = "product_id")
-    @ManyToOne
-    private Product product;
+    @Column(length = 50)
+    private String productCode;
 
     /**
      * 促销价
@@ -38,12 +38,12 @@ public class QuantitySpecialOfferPromotion extends ProductPromotion {
     @Column(nullable = false)
     private Integer quantityLimit;
 
-    public Product getProduct() {
-        return product;
+    public String getProductCode() {
+        return productCode;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
     }
 
     public Integer getPromotionPrice() {

@@ -129,6 +129,20 @@ public class ProductPromotion extends BaseEntity {
     @Convert(converter = ListStringConverter.class)
     private String excludeProducts;
 
+    /**
+     * 能参与促销的分类
+     */
+    @Column(columnDefinition = "TEXT")
+    @Convert(converter = ListLongConverter.class)
+    private String orientedCategories;
+
+    /**
+     * 不能参与促销的分类
+     */
+    @Column(columnDefinition = "TEXT")
+    @Convert(converter = ListLongConverter.class)
+    private String excludeCategories;
+
     public Long getCompanyId() {
         return companyId;
     }
@@ -263,5 +277,21 @@ public class ProductPromotion extends BaseEntity {
 
     public void setExcludeProducts(String excludeProducts) {
         this.excludeProducts = excludeProducts;
+    }
+
+    public String getOrientedCategories() {
+        return orientedCategories;
+    }
+
+    public void setOrientedCategories(String orientedCategories) {
+        this.orientedCategories = orientedCategories;
+    }
+
+    public String getExcludeCategories() {
+        return excludeCategories;
+    }
+
+    public void setExcludeCategories(String excludeCategories) {
+        this.excludeCategories = excludeCategories;
     }
 }

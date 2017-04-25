@@ -1,8 +1,9 @@
 package com.biz.gbck.dao.mysql.po.product.promotion.singleProduct;
 
-import com.biz.gbck.dao.mysql.po.product.master.Product;
 import com.biz.gbck.dao.mysql.po.product.promotion.ProductPromotion;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * 单品买赠促销
@@ -20,9 +21,8 @@ public class SinglePurchaseGiftPromotion extends ProductPromotion {
     /**
      * 商品
      */
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @Column(length = 50)
+    private String productCode;
 
     /**
      * 促销价
@@ -42,12 +42,12 @@ public class SinglePurchaseGiftPromotion extends ProductPromotion {
     @Column(nullable = false)
     private Integer giftQuantity;
 
-    public Product getProduct() {
-        return product;
+    public String getProductCode() {
+        return productCode;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
     }
 
     public Integer getPromotionPrice() {
