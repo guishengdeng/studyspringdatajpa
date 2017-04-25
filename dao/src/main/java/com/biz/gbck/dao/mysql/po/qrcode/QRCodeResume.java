@@ -58,11 +58,6 @@ public class QRCodeResume extends BasePo<Long> implements Identifiable<Long>{
     @Enumerated(EnumType.STRING)
     private CommonStatusEnum status = CommonStatusEnum.ENABLE;//状态
     
-//    public QRCodeResume(Long id) {
-////        super(null);
-//        // TODO Auto-generated constructor stub
-//    }
-    
     public Long getId() {
         return id;
     }
