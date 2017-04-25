@@ -30,9 +30,10 @@ public abstract class CommonService implements ApplicationEventPublisherAware,
     @Autowired
     protected IdService idService;
 
-  /*  @Autowired
-    protected MQService mqService;
+   /*  @Autowired
+    protected MQService mqService;*/
 
+  /*
     @Autowired
     protected IdPool idPool;*/
 

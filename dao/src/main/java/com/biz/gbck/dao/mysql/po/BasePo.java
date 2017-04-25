@@ -1,8 +1,7 @@
 package com.biz.gbck.dao.mysql.po;
 
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import java.io.Serializable;
+import com.biz.core.model.Identifiable;
+
 import java.util.Objects;
 
 /**
@@ -12,21 +11,9 @@ import java.util.Objects;
  * @date 2017年04月12日
  * @reviewer
  */
-@MappedSuperclass
-public class BasePo<T> implements Serializable {
+public abstract class BasePo<T> implements Identifiable<Long> {
 
     private static final long serialVersionUID = 4920583045812713490L;
-
-    @Id
-    private T id;
-
-    public T getId() {
-        return id;
-    }
-
-    public void setId(T id) {
-        this.id = id;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -34,6 +21,6 @@ public class BasePo<T> implements Serializable {
         if (!(o instanceof BasePo)) return false;
 
         BasePo po = (BasePo) o;
-        return Objects.equals(po.getId(), this.getId());
+        return getId() != null && po.getId() != null && Objects.equals(po.getId(), this.getId());
     }
 }

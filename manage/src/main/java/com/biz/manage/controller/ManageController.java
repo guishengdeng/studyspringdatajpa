@@ -28,12 +28,12 @@ public class ManageController extends AbstractErrorController {
         super(errorAttributes);
     }
 
-    @GetMapping(value = PATH, produces = "text/html")
+    @RequestMapping(value = PATH, produces = "text/html")
     public ModelAndView error(HttpServletRequest request, HttpServletResponse response) {
         HttpStatus status = this.getStatus(request);
-        Map<String, Object> model = Collections.unmodifiableMap(this.getErrorAttributes(request, isIncludeStackTrace(request)));
+        Map<String, Object> model = Collections.unmodifiableMap(this.getErrorAttributes(request, true));
         response.setStatus(status.value());
-        return new ModelAndView("error", model);
+        return new ModelAndView("common/" + status.value(), model);
     }
 
     @Override

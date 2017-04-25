@@ -1,6 +1,7 @@
 package com.biz.manage.controller;
 
-import com.biz.gbck.common.ro.upgrade.UpgradeRo;
+import com.biz.gbck.dao.redis.ro.upgrade.UpgradeAndroidRo;
+import com.biz.gbck.dao.redis.ro.upgrade.UpgradeIosRo;
 import com.biz.service.UpgradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -19,23 +20,23 @@ import java.util.List;
 public class UpgradeController {
 
 	@Autowired
-	private UpgradeService clientService;
-		
+	private UpgradeService upgradeService;
+
 	@RequestMapping("/list")
 	@PreAuthorize("hasAuthority('OPT_UPGRADE_LIST')")
 	public ModelAndView list() {
-		ModelAndView view =  new ModelAndView("upgrade/list");
-		List<UpgradeRo> ios= clientService.findAll("ios");
-		List<UpgradeRo> androId = clientService.findAll("androId");
+		ModelAndView view =  new ModelAndView("manage/upgrade/list");
+		List<UpgradeIosRo> ios= upgradeService.findAllUpgradeIosRo();
+		List<UpgradeAndroidRo> android = upgradeService.findAllUpgradeAndroidRo();
 		view.addObject("ios", ios);
-		view.addObject("androId", androId);
+		view.addObject("android", android);
 		return view;
 	}
 
 	@RequestMapping("/add")
 	@PreAuthorize("hasAuthority('OPT_UPGRADE_ADD')")
 	public ModelAndView add() {
-		ModelAndView view = new ModelAndView("upgrade/add");
+		ModelAndView view = new ModelAndView("manage/upgrade/add");
 		view.addObject("cmd", "add");
 		return view;
 	}
@@ -43,15 +44,15 @@ public class UpgradeController {
 
 	@RequestMapping("/delete")
 	@PreAuthorize("hasAuthority('OPT_UPGRADE_DELETE')")
-	public ModelAndView delete(@RequestParam("id") String id) {
-		clientService.delete(id);
+	public ModelAndView delete(@RequestParam("os") String os,@RequestParam("id") String id) {
+		upgradeService.delete(os,id);
 		return new ModelAndView("redirect:/upgrade/list.do");
 	}
 	
 	@RequestMapping("/save_add")
 	@PreAuthorize("hasAuthority('OPT_UPGRADE_SAVEADD')")
 	public ModelAndView save_add(AddUpgradeVo upgrade) {
-		clientService.save(upgrade);
+		upgradeService.save(upgrade);
 		return new ModelAndView("redirect:/upgrade/list.do");
 	}
 

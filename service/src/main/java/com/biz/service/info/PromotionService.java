@@ -6,7 +6,7 @@ import com.biz.gbck.dao.mysql.repository.info.PromotionRepository;
 import com.biz.gbck.dao.redis.info.PromotionRedisDao;
 import com.biz.gbck.dao.redis.ro.info.PromotionRo;
 import com.biz.gbck.enums.CommonStatusEnum;
-import com.biz.gbck.transform.PromotionPoToPromotionRo;
+import com.biz.gbck.transform.promotion.PromotionPoToPromotionRo;
 import com.biz.service.CommonService;
 import org.codelogger.utils.CollectionUtils;
 import org.codelogger.utils.JudgeUtils;
@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -55,7 +56,8 @@ public class PromotionService extends CommonService {
     }
 
     public List<PromotionPo> findNormal(Pageable pageable) {
-        return promotionRepository.findAllNormal(CommonStatusEnum.ENABLE.getValue());
+        List<PromotionPo> list = promotionRepository.findAllNormal(CommonStatusEnum.ENABLE.getValue());
+        return list;
     }
 
     public PromotionPo get(Long id) {

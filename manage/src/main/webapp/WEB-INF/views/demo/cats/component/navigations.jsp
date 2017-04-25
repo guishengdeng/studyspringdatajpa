@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@ taglib prefix="gbck" tagdir="/WEB-INF/tags" %>
-<gbck:sidebar icon="fa fa-list">
+<gbck:sidebar icon="fa fa-list" fixed="true">
     <gbck:singleMenu text="录入新的猫" link="demo/cats/new.do" icon="fa fa-plus" />
     <gbck:menuGroup text="按生命体征展示" icon="fa fa-list">
         <gbck:singleMenu text="正常的猫" link="demo/cats.do" />

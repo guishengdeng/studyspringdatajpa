@@ -13,6 +13,7 @@ public class MenuItem extends BasePo<Long> implements Identifiable<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Long id;
 
     @Column
@@ -124,7 +125,6 @@ public class MenuItem extends BasePo<Long> implements Identifiable<Long> {
     }
 
     public void setId(Long id) {
-        super.setId(id);
         this.id = id;
     }
 

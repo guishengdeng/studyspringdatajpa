@@ -72,7 +72,6 @@ public class Role extends BasePo<Long> implements Identifiable<Long>, Serializab
 
     @Override
     public void setId(Long id) {
-        super.setId(id);
         this.id = id;
     }
 

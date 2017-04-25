@@ -1,6 +1,7 @@
 package com.biz.service.security.interfaces;
 
 import com.biz.gbck.dao.mysql.po.security.MainMenu;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * @description
  * @see
  */
+
 public interface MainMenuService {
       List<MainMenu> listMainMenus();
 

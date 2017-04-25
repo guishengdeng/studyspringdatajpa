@@ -1,6 +1,10 @@
 package com.biz.gbck.dao.mysql.po.security;
 
+import com.biz.gbck.dao.mysql.po.org.PartnerPo;
+import com.biz.gbck.dao.mysql.po.org.PlatformPo;
+import com.biz.gbck.dao.mysql.po.org.WarehousePo;
 import com.biz.gbck.enums.CommonStatusEnum;
+import com.biz.gbck.enums.org.CompanyLevel;
 import com.google.common.collect.Sets;
 import java.io.Serializable;
 import java.sql.Date;
@@ -87,6 +91,28 @@ public class Admin implements Serializable, UserDetails {
 
     @Column(length = 50)
     private String createBy;
+
+
+    @ManyToMany(fetch = FetchType.LAZY) @JoinTable(name = "org_admin_platform",
+            joinColumns = {@JoinColumn(name = "username", referencedColumnName = "username")},
+            inverseJoinColumns = {@JoinColumn(name = "platform_id", referencedColumnName = "id")},
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"username", "platform_id"})})
+    private Set<PlatformPo> platformCompanies;
+
+
+    @ManyToMany(fetch = FetchType.LAZY) @JoinTable(name = "org_admin_partner",
+            joinColumns = {@JoinColumn(name = "username", referencedColumnName = "username")},
+            inverseJoinColumns = {@JoinColumn(name = "partner_id", referencedColumnName = "id")},
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"username", "partner_id"})})
+    private Set<PartnerPo> partners;
+
+
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "warehouseId")
+    private WarehousePo warehouse;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = true)
+    private CompanyLevel companyLevel;
 
     @Override
     public String getPassword() {

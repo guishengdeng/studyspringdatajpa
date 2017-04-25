@@ -1,6 +1,7 @@
 <%@ tag import="org.codelogger.utils.ValueUtils" description="顶部菜单组，可分下拉二级菜单" %>
 <%@ tag pageEncoding="UTF-8" %>
 <%@ attribute name="icon" required="false" type="java.lang.String" description="手机待小屏幕下，在顶部展示的开关按钮的图标" %>
+<%@ attribute name="fixed" required="false" type="java.lang.Boolean" %>
 <%
     request.setAttribute("sidebar_seq", ValueUtils.getValue((Integer) request.getAttribute("sidebar_seq")) + 1);
 %>
@@ -10,7 +11,7 @@
 
         <i class="ace-icon ${empty icon ? 'fa fa-dashboard' : icon} white bigger-125"></i>
     </button>
-    <div id="sidebar_tag_${sidebar_seq}" class="sidebar h-sidebar navbar-collapse collapse ace-save-state">
+    <div id="sidebar_tag_${sidebar_seq}" class="sidebar h-sidebar navbar-collapse collapse ace-save-state ${fixed ? 'sidebar-fixed' : ''}">
         <ul class="nav nav-list">
             <jsp:doBody />
         </ul>
@@ -25,11 +26,10 @@
 
         $(document).on('settings.ace.two_menu', function(e, event_name, event_val) {
             if(event_name == 'sidebar_fixed') {
-                if( $('#sidebar_tag_').hasClass('sidebar-fixed') ) {
+                if($('#sidebar').hasClass('sidebar-fixed') ) {
                     $('#sidebar_tag_${sidebar_seq}').addClass('sidebar-fixed');
                     $('#navbar').addClass('h-navbar');
-                }
-                else {
+                } else {
                     $('#sidebar_tag_${sidebar_seq}').removeClass('sidebar-fixed');
                     $('#navbar').removeClass('h-navbar');
                 }

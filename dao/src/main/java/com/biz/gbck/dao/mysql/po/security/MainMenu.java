@@ -7,7 +7,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "adm_mainmenu")
-public class MainMenu extends BasePo<Long> implements Identifiable<Long> {
+public class MainMenu extends BasePo<Long> {
+
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -83,7 +85,6 @@ public class MainMenu extends BasePo<Long> implements Identifiable<Long> {
     }
 
     public void setId(Long id) {
-        super.setId(id);
         this.id = id;
     }
 

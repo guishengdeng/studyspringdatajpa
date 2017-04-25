@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--这是用户--%>
-<depotnextdoor:page title="page.user.edit">
+<depotnextdoor:page title="主菜单edit">
 
     <jsp:body>
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
@@ -17,7 +17,7 @@
                 </li>
 
                 <li>
-                    <a href="manage/users">
+                    <a href="manage/mainMenu.do">
                         菜单管理
                     </a>
                 </li>
@@ -51,8 +51,19 @@
                                 </c:if>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"
+                                           for="name">
+                                        菜单名称
+                                    </label>
+
+                                    <div class="col-sm-9">
+                                        <input type="text" id="name" name="name" placeholder="菜单名称"
+                                               value="${mainMenu.name}" class="required col-xs-10 col-sm-5">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right"
                                            for="code">
-                                        代码
+                                        显示顺序
                                     </label>
 
                                     <div class="col-sm-9">
@@ -67,35 +78,14 @@
 
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"
-                                           for="companyType">
-                                        公司类型
-                                    </label>
-
-                                    <div class="col-sm-9">
-                                        <input type="text" id="companyType" name="companyType" placeholder="公司类型"
-                                               value="${mainMenu.companyType}" class="col-xs-10 col-sm-5">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label no-padding-right"
-                                           for="name">
-                                        菜单名称
-                                    </label>
-
-                                    <div class="col-sm-9">
-                                        <input type="text" id="name" name="name" placeholder="菜单名称"
-                                               value="${mainMenu.name}" class="col-xs-10 col-sm-5">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label no-padding-right"
                                            for="description">
-                                        菜单描述
+                                        描述
                                     </label>
-
                                     <div class="col-sm-9">
-                                        <input type="text" id="description" name="description" placeholder="菜单描述"
-                                               value="${mainMenu.description}" class="col-xs-10 col-sm-5">
+                                    <textarea id="description" type="text" name="description" placeholder="菜单描述"
+                                          maxlength="255" class="col-xs-12 col-sm-12">${mainMenu.description}
+                                    </textarea>
+
                                     </div>
                                 </div>
 
