@@ -3,7 +3,7 @@ package com.biz.gbck.dao.redis.repository.user;
 import com.biz.core.util.StringTool;
 import com.biz.gbck.common.dao.redis.CommonRedisDao;
 import com.biz.gbck.common.ro.RedisKeyGenerator;
-import com.biz.gbck.dao.redis.ro.user.UserRo;
+import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.enums.user.ShopChannel;
 import com.biz.redis.util.RedisUtil;
 import org.apache.commons.collections.MapUtils;
