@@ -2,7 +2,7 @@ package com.biz.gbck.dao.mysql.repository.user;
 
 
 import com.biz.gbck.common.dao.mysql.CommonManageAbleDao;
-import com.biz.gbck.dao.mysql.po.user.UserPo;
+import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.vo.search.SearchUserReqVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;

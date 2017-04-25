@@ -16,6 +16,7 @@ import com.biz.gbck.dao.mysql.po.BasePo;
 import com.biz.gbck.dao.mysql.po.qrcode.enums.BusinessStatusEnum;
 import com.biz.gbck.dao.mysql.po.qrcode.enums.BusinessTypeEnum;
 import com.biz.gbck.enums.CommonStatusEnum;
+
 /**
  * 二维码履历
  */
@@ -56,7 +57,6 @@ public class QRCodeResume extends BasePo<Long> implements Identifiable<Long>{
     @Column
     @Enumerated(EnumType.STRING)
     private CommonStatusEnum status = CommonStatusEnum.ENABLE;//状态
-
     
     public Long getId() {
         return id;

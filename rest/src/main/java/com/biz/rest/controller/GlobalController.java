@@ -23,7 +23,6 @@ import com.depotnearby.service.info.SideslipBarService;
 import com.depotnearby.util.DateTool;
 import com.depotnearby.util.DepotnearbyQiNiuUtils;
 import com.depotnearby.web.util.HttpServletHelper;*/
-import com.biz.gbck.dao.redis.ro.upgrade.UpgradeRo;
 import com.biz.service.UpgradeService;
 import com.biz.support.web.handler.JSONResult;
 import org.apache.commons.lang3.StringUtils;
@@ -144,7 +143,7 @@ public class GlobalController  { //extends BaseController
 
         return new JSONResult(map);
     }*/
-
+/*
     @RequestMapping("upgrade")
     public JSONResult upgrade(
             @RequestParam(value = "ver", required = true, defaultValue = "0") String ver,
@@ -152,12 +151,12 @@ public class GlobalController  { //extends BaseController
             @RequestParam(value = "partner", required = true, defaultValue = "") String partner,
             HttpServletRequest request) {
         boolean inhourse = StringUtils.equalsIgnoreCase("inhouse", partner);
-        UpgradeRo ro = upgradeService.needUpgrade(os, ver, inhourse);
+        UpgradeRo ro=null;*//* = upgradeService.needUpgrade(os, ver, inhourse);*//*// TODO: 17-4-25
         if (ro != null) {
             return new JSONResult(ro);
         } else {
             return new JSONResult("need", false);
         }
-    }
+    }*/
 
 }

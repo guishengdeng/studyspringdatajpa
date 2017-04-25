@@ -79,15 +79,16 @@
                                         <td>${advertisement.clickLink}</td>
                                         <td><fmt:formatDate value="${advertisement.beginTimestamp}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
                                         <td><fmt:formatDate value="${advertisement.endTimestamp}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
-                                        <td>${advertisement.residenceTime}</td>
+                                        <td>
+                                            <c:out value="${advertisement.residenceTime}"></c:out></td>
                                         <td>${advertisement.priority}</td>
                                         <td>
                                             <div>
-                                                <a onclick="showDiv('${advertisement.id}')" class="btn btn-minier btn-info">
-                                                    <i class="ace-icon fa fa-pencil bigger-120">删除</i>
-                                                </a>
-                                                <a href="manage/advertisement/edit?id=${advertisement.id}" class="btn btn-minier btn-info">
+                                                <a href="manage/advertisement/edit?id=${advertisement.id}" class="btn btn-xs btn-info">
                                                     <i class="ace-icon fa fa-pencil bigger-120">修改</i>
+                                                </a>
+                                                <a onclick="showDiv('${advertisement.id}')" class="btn btn-xs btn-danger">
+                                                    <i class="ace-icon fa fa-ban bigger-120">删除</i>
                                                 </a>
                                             </div>
                                         </td>

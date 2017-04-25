@@ -1,31 +1,30 @@
-package com.biz.gbck.dao.mysql.po.user;
-
+package com.biz.gbck.enums.org;
 
 import com.biz.core.enums.EnumerableValue;
 import com.biz.core.enums.converter.BaseEnumValueConverter;
 
 /**
- * 记录是否为用户导入
- * Created by dylan on 16-7-21.
+ * 公司层级
+ *
+ * @author: liubin
+ * @date 4/20/17 15:21
  */
-public enum ShopLevel implements EnumerableValue {
+public enum CompanyLevel implements EnumerableValue {
 
-    VIP_ALL("所有会员", -1),
-
-    VIP_1("1倍会员", 1),
-
-    VIP_15("15倍会员", 15),
-
-    VIP_20("20倍会员", 20);
+    ORG_WAREHOUSE("隔壁仓库", 1),
+    ORG_PLATFORM("平台省公司用户", 2),
+    ORG_PARTNER("合作者", 3),
+    ORG_SHOP("商户", 4);
 
     private String name;
 
     private int value;
 
-    ShopLevel(String name, Integer value) {
+    CompanyLevel(String name, int value) {
         this.name = name;
         this.value = value;
     }
+
 
     public String getName() {
         return name;
@@ -40,6 +39,6 @@ public enum ShopLevel implements EnumerableValue {
     }
 
     public static class Converter
-        extends BaseEnumValueConverter<ShopLevel> {
+            extends BaseEnumValueConverter<CompanyLevel> {
     }
 }

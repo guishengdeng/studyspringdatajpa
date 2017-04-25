@@ -6,16 +6,18 @@
 <depotnextdoor:page title="page.user.edit">
     <jsp:attribute name="script">
         <script type="application/javascript">
-            function showDiv(id) {
+            function showDiv(os,id) {
                 $("#cat-disable-confirm-modal").modal();
                 $("#upgradeId").val(id);
+                $("#upgradeOs").val(os);
             }
             $(".btn-cancel-ban").click(function () {
                 $("#cat-disable-confirm-modal").modal("hide");
             });
             $(".btn-confirm-ban").click(function () {
                 var upgradeId = $("#upgradeId").val();
-                window.location.href = "/upgrade/delete.do?id="+upgradeId+"";
+                var upgradeOs = $("#upgradeOs").val();
+                window.location.href = "/upgrade/delete.do?os="+upgradeOs+"&id="+upgradeId+"";
                 $("#cat-disable-confirm-modal").modal("hide");
             });
         </script>
@@ -50,8 +52,8 @@
                                         新增升级配置
                                 </a>
                             </span>
-                            </h3>AndroId:
-                            <c:if test="${not empty androId}">
+                            </h3>Android:
+                            <c:if test="${not empty android}">
                                 <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                     <tr>
@@ -66,7 +68,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach items="${androId}" var="upgrade" varStatus="status">
+                                    <c:forEach items="${android}" var="upgrade" varStatus="status">
                                         <tr>
                                             <td>${upgrade.version}</td>
                                             <td>${upgrade.os}</td>
@@ -76,7 +78,7 @@
                                             <td>${upgrade.md5}</td>
                                             <td><pre>${upgrade.info}</pre></td>
                                             <td>
-                                                <a class="btn btn-xs btn-danger cat-ban-btn" onclick="showDiv('${upgrade.id}')" >
+                                                <a class="btn btn-xs btn-danger cat-ban-btn" onclick="showDiv('${upgrade.os}','${upgrade.id}')" >
                                                     <i class="ace-icon fa fa-trash-o bigger-120"></i>删除
                                                 </a>
                                             </td>
@@ -111,7 +113,7 @@
                                             <td>${upgrade.md5}</td>
                                             <td><pre>${upgrade.info}</pre></td>
                                             <td>
-                                                <a class="btn btn-xs btn-danger" onclick="showDiv('${upgrade.id}')">
+                                                <a class="btn btn-xs btn-danger" onclick="showDiv('${upgrade.os}','${upgrade.id}')">
                                                     <i class="ace-icon fa fa-trash-o bigger-120"></i>删除
                                                 </a>
                                             </td>
@@ -152,5 +154,6 @@
         </div><!-- /.row -->
         </div>
         <input type="hidden" id="upgradeId">
+        <input type="hidden" id="upgradeOs">
     </jsp:body>
 </depotnextdoor:page>

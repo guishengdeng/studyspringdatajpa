@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.po.user;
+package com.biz.gbck.dao.mysql.po.org;
 
 
 import com.biz.core.util.DateUtil;
@@ -8,26 +8,20 @@ import com.biz.gbck.dao.mysql.po.geo.ProvincePo;
 import com.biz.gbck.dao.mysql.po.salearea.SaleAreaPo;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopStatus;
-import com.biz.support.jpa.po.BaseEntity;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ColumnResult;
-import javax.persistence.ConstructorResult;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
-import javax.persistence.SqlResultSetMapping;
-import javax.persistence.SqlResultSetMappings;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.math.BigDecimal;
@@ -98,19 +92,10 @@ import java.util.Set;
 //        }
 //    )
 //})
-@Entity @Table(name = "shop") public class ShopPo extends BaseEntity {
+@Entity
+@Table(name = "org_shop")
+public class ShopPo extends Company {
 
-    @Id private Long id;
-
-
-    @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "shopGroupId")
-    private ShopGroupPo shopGroupPo;
-
-    /**
-     * 老b2bid
-     */
-    private Long oldId;
 
     /**
      * 店铺名称
@@ -303,7 +288,7 @@ import java.util.Set;
     /**
      * 店铺状态
      */
-    @Column(nullable = false) private Integer status = ShopStatus.NORMAL.getValue();
+//    @Column(nullable = false) private Integer status = ShopStatus.NORMAL.getValue();
 
     /**
      * 支持的 付款方式
@@ -335,9 +320,6 @@ import java.util.Set;
      */
     @ManyToOne(optional = true) @JoinColumn(name = "parentId") private ShopPo parent;
 
-    @Column
-    @Convert(converter = ShopLevel.Converter.class)
-    private ShopLevel shopLevel = ShopLevel.VIP_1;
 
     /**
      * 子店铺
@@ -345,45 +327,10 @@ import java.util.Set;
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @OrderBy(value = "id") @NotFound(action = NotFoundAction.IGNORE) private List<ShopPo> children;
 
-    /**
-     * {@linkplain ShopPo#shopGroupPo}
-     */
-    public ShopGroupPo getShopGroupPo() {
 
-        return shopGroupPo;
-    }
-
-    /**
-     * {@linkplain ShopPo#shopGroupPo}
-     */
-    public void setShopGroupPo(ShopGroupPo shopGroupPo) {
-
-        this.shopGroupPo = shopGroupPo;
-    }
-
-    public ShopLevel getShopLevel() {
-        return shopLevel;
-    }
-
-    public void setShopLevel(ShopLevel shopLevel) {
-        this.shopLevel = shopLevel;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getOldId() {
-        return oldId;
-    }
-
-    public void setOldId(Long oldId) {
-        this.oldId = oldId;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "partnerId")
+    private PartnerPo partner;
 
     public String getName() {
         return name;
@@ -608,14 +555,6 @@ import java.util.Set;
 
     public void setQualificationAuditStatus(Integer qualificationAuditStatus) {
         this.qualificationAuditStatus = qualificationAuditStatus;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
     }
 
     public String getSupportPaymentIds() {
