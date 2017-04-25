@@ -39,11 +39,11 @@ public class UploadController {
 
     private static final String ERROR_FLAG = "error";
 
-    private static final String URI_FLAG = "uri";
-
     private static final String UPLOAD_IMAGE_NAME = "name";
 
     private static final String PREVIEW_PARAM = "image_name";
+
+    private static final String URI_FLAG = "uri";
 
     @Autowired
     private OssConfig config;
@@ -82,10 +82,10 @@ public class UploadController {
         }
     }
 
-    @RequestMapping(value = "preview", method = RequestMethod.POST)
+    @PostMapping(value = "preview")
     @ResponseBody
     public JSONObject sourceUri(HttpServletRequest request) {
-        String imageName = request.getParameter(PREVIEW_PARAM);
+        String imageName = request.getParameter(UPLOAD_STREAM_PARAM);
         JSONObject json = new JSONObject();
         json.put(URI_FLAG, OssUtil.getOssResourceUri(config.getBucketName(), config.getRemoteEndpoint(), imageName));
         return json;
