@@ -152,7 +152,7 @@ public class GlobalController  { //extends BaseController
             @RequestParam(value = "partner", required = true, defaultValue = "") String partner,
             HttpServletRequest request) {
         boolean inhourse = StringUtils.equalsIgnoreCase("inhouse", partner);
-        UpgradeRo ro = upgradeService.needUpgrade(os, ver, inhourse);
+        UpgradeRo ro=null;/* = upgradeService.needUpgrade(os, ver, inhourse);*/// TODO: 17-4-25  
         if (ro != null) {
             return new JSONResult(ro);
         } else {

@@ -67,7 +67,7 @@
                                     <div class="col-sm-9">
                                         <select name="os"  id="os" class="required text col-xs-10 col-sm-5">
                                             <option value="ios" selected>ios</option>
-                                            <option value="androId">androId</option>
+                                            <option value="android">android</option>
                                         </select>
                                     </div>
                                 </div>
