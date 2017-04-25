@@ -48,7 +48,7 @@
     <!--[if lte IE 9]>
     <link rel="stylesheet" href="static-resource/ace/assets/css/ace-ie.min.css"/>
     <![endif]-->
-    <link rel="stylesheet" href="static-resource/common/css/localos.css"/>
+    <link rel="stylesheet" href="static-resource/common/css/gbck.css"/>
 	<%--<script src="msg.do"></script>--%>
     <!-- inline styles related to this page -->
 
@@ -61,7 +61,7 @@
     <script src="staic-resource/ace/assets/js/jquery-1.11.3.min.js"></script>
 
     <!-- <![endif]-->
-    <script src="static-resource/ace/assets/js/jquery-ui.min.js"></script>t
+    <script src="static-resource/ace/assets/js/jquery-ui.min.js"></script>
     <!-- ace settings handler -->
     <script src="static-resource/ace/assets/js/ace-extra.min.js"></script>
 
@@ -82,8 +82,7 @@
     <link rel="stylesheet" href="static-resource/layer/mobile/need/layer.css"/>
     <script src="static-resource/layer/layer.js"></script>
 
-
-
+    <jsp:invoke fragment="css"/>
 </head>
 <body class="${empty bodyClasses ? 'no-skin' : bodyClasses}">
 <c:choose>

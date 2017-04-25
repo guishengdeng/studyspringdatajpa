@@ -16,16 +16,20 @@
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
                 <li>
-                    <a href="">
-                        升级配置
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="welcome.do">
+                        首页
                     </a>
+                </li>
+                <li>
+                    <a href="/upgrade/list.do">
+                    升级配置列表
+                    </a>
+                </li>
+                <li>
+                    新增升级配置
                 </li>
 
-                <li>
-                    <a href="">
-                        添加版本
-                    </a>
-                </li>
             </ul><!-- /.breadcrumb -->
         </div>
 
