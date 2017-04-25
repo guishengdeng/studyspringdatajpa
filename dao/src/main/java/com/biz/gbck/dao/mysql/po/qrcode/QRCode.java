@@ -10,9 +10,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.biz.gbck.dao.mysql.po.enums.CommonStatusEnum;
 import com.biz.gbck.dao.mysql.po.qrcode.enums.BusinessStatusEnum;
 import com.biz.gbck.dao.mysql.po.qrcode.enums.BusinessTypeEnum;
+import com.biz.gbck.enums.CommonStatusEnum;
 
 /**
  * 二维码基础信息
