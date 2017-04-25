@@ -22,7 +22,7 @@ import com.biz.gbck.enums.CommonStatusEnum;
  */
 @Entity
 @Table(name = "qrc_qrcode_resume")
-public class QRCodeResume extends BasePo<Long> implements Identifiable<Long>{
+public class QRCodeResumePO extends BasePo<Long> implements Identifiable<Long>{
     private static final long serialVersionUID = 1L;
     
     @Id
