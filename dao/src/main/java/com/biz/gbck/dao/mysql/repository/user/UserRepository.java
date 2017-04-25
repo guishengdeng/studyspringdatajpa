@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.user;
 
-import com.biz.gbck.dao.mysql.po.user.UserPo;
+import com.biz.gbck.dao.mysql.po.org.UserPo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

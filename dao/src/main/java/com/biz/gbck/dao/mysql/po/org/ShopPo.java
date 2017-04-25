@@ -320,9 +320,6 @@ public class ShopPo extends Company {
      */
     @ManyToOne(optional = true) @JoinColumn(name = "parentId") private ShopPo parent;
 
-    @Column
-    @Convert(converter = ShopLevel.Converter.class)
-    private ShopLevel shopLevel = ShopLevel.VIP_1;
 
     /**
      * 子店铺
@@ -334,14 +331,6 @@ public class ShopPo extends Company {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "partnerId")
     private PartnerPo partner;
-
-    public ShopLevel getShopLevel() {
-        return shopLevel;
-    }
-
-    public void setShopLevel(ShopLevel shopLevel) {
-        this.shopLevel = shopLevel;
-    }
 
     public String getName() {
         return name;
