@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.category;
 
-import com.biz.gbck.dao.mysql.po.product.Category;
+import com.biz.gbck.dao.mysql.po.product.meta.Category;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.List;
 import org.springframework.data.domain.Page;

@@ -1,16 +1,18 @@
 package com.biz.soa.product.service.backend;
 
-import com.biz.gbck.dao.mysql.po.product.ApartTag;
-import com.biz.gbck.dao.mysql.repository.aparttag.ApartTagRepository;
+import com.biz.gbck.dao.mysql.po.product.meta.ApartTag;
+import com.biz.gbck.dao.mysql.repository.apartTag.ApartTagRepository;
 import com.biz.gbck.exceptions.product.ApartTagNotFoundException;
+import com.biz.gbck.transform.product.ApartTag2ApartTagListItemVo;
 import com.biz.gbck.vo.product.backend.ApartTagCreateVo;
 import com.biz.gbck.vo.product.backend.ApartTagListItemVo;
 import com.biz.gbck.vo.product.backend.ApartTagUpdateVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.product.backend.ApartTagService;
-import com.biz.gbck.transform.product.ApartTag2ApartTagListItemVo;
 import com.google.common.collect.Lists;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,8 +35,9 @@ public class ApartTagServiceImpl extends AbstractBaseService implements ApartTag
      */
     @Override
     public List<ApartTagListItemVo> listApartTag() {
-        List<ApartTag> apartTagList = apartTagRepository.findByDeleteFlag(Boolean.FALSE);
-        return Lists.transform(apartTagList, new ApartTag2ApartTagListItemVo());
+        return Optional.of(apartTagRepository.findByDeleteFlag(Boolean.FALSE))
+                .orElse(Lists.newArrayList()).stream()
+                .map(apartTag -> new ApartTag2ApartTagListItemVo().apply(apartTag)).collect(Collectors.toList());
     }
 
     /**

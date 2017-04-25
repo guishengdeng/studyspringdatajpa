@@ -1,6 +1,6 @@
 package com.biz.gbck.transform.product;
 
-import com.biz.gbck.dao.mysql.po.product.ProductCascade;
+import com.biz.gbck.dao.mysql.po.product.bbc.ProductCascade;
 import com.biz.gbck.vo.product.backend.VendorCascadeListVo;
 import com.google.common.base.Function;
 
