@@ -83,6 +83,11 @@ public class UploadController {
 		}
 	}
 
+	/**
+	 * 预览图片
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "preview", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject sourceUri(HttpServletRequest request) {
@@ -92,6 +97,11 @@ public class UploadController {
 		return json;
 	}
 
+	/**
+	 * base64位 上传图片初版
+	 * @param request
+	 * @return
+	 */
     @RequestMapping(value = "uploadTest", method = RequestMethod.POST)
     @ResponseBody
     public JSONObject uploadTest(HttpServletRequest request) {

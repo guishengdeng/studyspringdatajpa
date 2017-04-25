@@ -1,5 +1,6 @@
 package com.biz.manage.controller.advertisement;
 
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.advertisement.frontend.AdvertisementVo;
 import com.biz.gbck.vo.advertisement.frontend.request.AdvertisementRequestVo;
 import com.biz.service.advertisement.interfaces.AdvertisementService;
@@ -30,7 +31,7 @@ public class AdvertisementController {
     @GetMapping("list")
     @PreAuthorize("hasAuthority('OPT_ADVERTISEMENTS_LIST')")
     public ModelAndView toList() {
-        List<AdvertisementVo> advertisements = advertisementService.findAllAdvertisements();
+        List<AdvertisementVo> advertisements = advertisementService.findAdvertisementByStatus(CommonStatusEnum.ENABLE.getValue());
         ModelAndView view = new ModelAndView("manage/advertisement/list");
 
         return view.addObject("advertisements",advertisements);
@@ -57,6 +58,13 @@ public class AdvertisementController {
     @PreAuthorize("hasAuthority('OPT_ADVERTISEMENTS_DELETE')")
     public ModelAndView delete(@RequestParam("id") String id) {
         advertisementService.delete(id);
+        return new ModelAndView("redirect:/manage/advertisement/list.do");
+    }
+
+    @RequestMapping("/disable")
+    @PreAuthorize("hasAuthority('OPT_ADVERTISEMENTS_DELETE')")
+    public ModelAndView disable(@RequestParam("id") String id) {
+        advertisementService.disable(id);
         return new ModelAndView("redirect:/manage/advertisement/list.do");
     }
 
