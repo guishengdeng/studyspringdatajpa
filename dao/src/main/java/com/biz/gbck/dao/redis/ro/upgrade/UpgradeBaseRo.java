@@ -1,11 +1,13 @@
 package com.biz.gbck.dao.redis.ro.upgrade;
 
-import com.biz.gbck.common.ro.AbstractRedisObj;
+import com.biz.redis.bean.BaseRedisObject;
 import org.apache.commons.lang3.StringUtils;
 
-@SuppressWarnings("serial") public class UpgradeRo extends AbstractRedisObj {
+import java.io.Serializable;
 
-    private String id;
+
+public class UpgradeBaseRo extends BaseRedisObject<String> implements Serializable{
+
     private String os;
     private boolean force = false;
     private String version;
@@ -15,14 +17,6 @@ import org.apache.commons.lang3.StringUtils;
     private boolean inhourse = false;
 
     private boolean need = true;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getOs() {
         return os;
@@ -69,7 +63,7 @@ import org.apache.commons.lang3.StringUtils;
     }
 
     public void generateId() {
-        this.id = generateId(os, version);
+      setId(generateId(os, version));
     }
 
     public boolean getNeed() {

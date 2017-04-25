@@ -556,10 +556,10 @@ public class ShopPo extends Company {
     public void setQualificationAuditStatus(Integer qualificationAuditStatus) {
         this.qualificationAuditStatus = qualificationAuditStatus;
     }
-
+/*
     public Integer getStatus() {
         return status;
-    }
+    }*/
 
     public void setStatus(Integer status) {
         this.status = status;
