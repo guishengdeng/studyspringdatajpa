@@ -2,6 +2,7 @@ package com.biz.manage.controller.admin;
 
 import com.biz.gbck.dao.mysql.po.security.Role;
 import com.biz.service.IdService;
+import com.biz.service.security.interfaces.MainMenuService;
 import com.biz.service.security.interfaces.MenuItemService;
 import com.biz.service.security.interfaces.ResourceService;
 import com.biz.service.security.interfaces.RoleService;
@@ -36,6 +37,8 @@ public class RoleController {
     private RoleService roleService;
     @Autowired
     private IdService idService;
+    @Autowired
+    private MainMenuService mainMenuService;
     @GetMapping
     @PreAuthorize("hasAuthority('OPT_ROLE_LIST')")
     public String listRoles(Model model){
@@ -53,10 +56,8 @@ public class RoleController {
     @RequestMapping("/add")
     @PreAuthorize("hasAuthority('OPT_ROLE_ADD')")
     public String add(Model model){
-
         model.addAttribute("cmd","add");
-        model.addAttribute("menuItems",menuItemService.listMenuItems());
-        model.addAttribute("resources",resourceService.listResources());
+        model.addAttribute("mainmenus",mainMenuService.listMainMenus());
         return "manage/role/addOrUpdateRole";
     }
     @RequestMapping("/edit")
@@ -65,16 +66,14 @@ public class RoleController {
         Role role = id!=null?roleService.getRole(id):null;
         model.addAttribute("role",role);
         model.addAttribute("cmd","edit");
-        model.addAttribute("menuItems",menuItemService.listMenuItems());
-        model.addAttribute("resources",resourceService.listResources());
+        model.addAttribute("mainmenus",mainMenuService.listMainMenus());
         return "manage/role/addOrUpdateRole";
     }
     @RequestMapping("/delete")
     @PreAuthorize("hasAuthority('OPT_ROLE_DELETE')")
     @ResponseBody
     public Boolean delete(@RequestParam("id") Long id){
-       /* roleService.delete(id);
-        return "redirect:/manage/roles";*/
+      //逻辑删除,不是物理删除。用ajax请求
        if(id!=null){
            return true;
        }

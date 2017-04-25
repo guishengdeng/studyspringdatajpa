@@ -112,7 +112,7 @@
                                资源列表
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
                                 <sec:authorize access="hasAuthority('OPT_MAINMENU_ADD')">
-                                    <a href="manage/resources/add.do" class="btn btn-sm btn-primary"><i
+                                    <a href="manage/resources/add.do?menuItem_id=${menuitem_id}" class="btn btn-sm btn-primary"><i
                                             class="ace-icon glyphicon glyphicon-plus"></i>
                                         添加
                                     </a>
@@ -123,7 +123,7 @@
                                     <tr>
                                         <th>描述</th>
                                         <th>名称</th>
-                                        <th class="hidden-md hidden-sm hidden-xs">符号</th>
+                                        <th class="hidden-md hidden-sm hidden-xs">权限</th>
                                         <th class="hidden-md hidden-sm hidden-xs">操作</th>
                                     </tr>
                                 </thead>

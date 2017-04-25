@@ -4,6 +4,7 @@ package com.biz.service.advertisement;
 import com.alibaba.fastjson.JSON;
 import com.biz.core.asserts.SystemAsserts;
 import com.biz.core.page.PageResult;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.advertisement.frontend.AdvertisementQueryParamVo;
 import com.biz.gbck.vo.advertisement.frontend.AdvertisementVo;
 import com.biz.gbck.vo.advertisement.frontend.request.AdvertisementRequestVo;
@@ -20,7 +21,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.beans.Transient;
+import java.util.Collections;
 import java.util.List;
+
+import static com.biz.gbck.transform.advertisement.AdvertisementRequestVo2AdvertisementRo.StringToTimestamp;
+import static com.biz.gbck.transform.advertisement.AdvertisementRequestVo2AdvertisementRo.StringToTimestamp2;
 
 /**
  * Created by xys on 2017/4/18.
@@ -48,6 +55,7 @@ public class AdvertisementServiceImpl extends AbstractBaseService implements Adv
             buildAdvertisementRo(ro,req);
         }
         advertisementRedisDao.save(ro);
+
     }
 
     @Override
@@ -74,14 +82,41 @@ public class AdvertisementServiceImpl extends AbstractBaseService implements Adv
 
     @Override
     public void delete(String id) {
-        advertisementRedisDao.delete(id);
+        AdvertisementRo ro = advertisementRedisDao.findOne(id);
+        advertisementRedisDao.delete(ro);
+    }
+
+    @Override
+    @Transactional
+    public void disable(String id) {
+        AdvertisementRo ro = advertisementRedisDao.findOne(id);
+        if (ro != null) {
+            ro.setStatus(CommonStatusEnum.DISABLE.getValue());
+            advertisementRedisDao.save(ro);
+        }
+    }
+
+    @Override
+    public List<AdvertisementVo> findAdvertisementByStatus(Integer status) {
+        List<AdvertisementRo> ros = advertisementRedisDao.findAdvertisementByStatus(CommonStatusEnum.ENABLE.getValue());
+        Collections.sort(ros);
+        return Lists.transform(ros, new AdvertisementRo2AdvertisementVo());
     }
 
     public AdvertisementRo buildAdvertisementRo(AdvertisementRo ro,AdvertisementRequestVo vo) {
         if (vo == null){
             return null;
         }
-        BeanUtils.copyProperties(ro, vo);
+        if(vo.getBeginTimestamp() != null){
+            ro.setBeginTimestamp(StringToTimestamp(vo.getBeginTimestamp()));
+        }
+        if(vo.getEndTimestamp()!= null){
+            ro.setEndTimestamp(StringToTimestamp2(vo.getEndTimestamp()));
+        }
+        ro.setClickLink(vo.getClickLink());
+        ro.setPicturesLink(vo.getPicturesLink());
+        ro.setPriority(vo.getPriority());
+        ro.setResidenceTime(vo.getResidenceTime());
         return ro;
     }
 }
