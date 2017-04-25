@@ -48,6 +48,7 @@ public class AdvertisementServiceImpl extends AbstractBaseService implements Adv
             buildAdvertisementRo(ro,req);
         }
         advertisementRedisDao.save(ro);
+
     }
 
     @Override

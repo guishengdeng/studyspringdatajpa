@@ -111,7 +111,7 @@
                                         子菜单列表
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
                                 <sec:authorize access="hasAuthority('OPT_MAINMENU_ADD')">
-                                    <a href="manage/menuItems/add.do" class="btn btn-sm btn-primary"><i
+                                    <a href="manage/menuItems/add.do?mainMenu_id=${mainmenu_id}" class="btn btn-sm btn-primary"><i
                                             class="ace-icon glyphicon glyphicon-plus"></i>
                                         添加
                                     </a>

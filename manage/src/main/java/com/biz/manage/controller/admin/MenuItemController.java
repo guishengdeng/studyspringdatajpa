@@ -61,16 +61,14 @@ public class MenuItemController {
         if(id!=null){
             MenuItem menuItem=menuItemService.getMenuItem(id);
             view=new ModelAndView("manage/menu/addOrUpdateMenuItem","menuItem",menuItem)
-                    .addObject("cmd","edit")
-                    .addObject("mainMenus",mainMenuService.listMainMenus());
+                    .addObject("cmd","edit");
         }
         return view;
     }
     @RequestMapping("/add")
     @PreAuthorize("hasAuthority('OPT_MENUITEM_ADD')")
-    public String add(Model model){
+    public String add(@RequestParam("mainMenu_id") Long id,Model model){
          model.addAttribute("cmd","add");
-         model.addAttribute("mainMenus",mainMenuService.listMainMenus());
          return "manage/menu/addOrUpdateMenuItem";
     }
     @RequestMapping("/addOrUpdate")
