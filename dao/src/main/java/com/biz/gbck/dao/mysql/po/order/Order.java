@@ -91,7 +91,7 @@ public class Order extends BaseEntity {
     /**
      * 支付单
      */
-    @OneToMany(mappedBy = "orderPo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @OrderBy(value = "id asc")
     private List<OrderPayment> payments;
 
