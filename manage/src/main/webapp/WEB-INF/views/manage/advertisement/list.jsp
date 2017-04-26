@@ -21,7 +21,7 @@
             });
             $(".btn-confirm-ban").click(function () {
                 var advertisementId = $("#advertisementId").val();
-                window.location.href = "/manage/advertisement/delete?id="+advertisementId+"";
+                window.location.href = "/advertisement/delete?id="+advertisementId+"";
                 $("#cat-disable-confirm-modal").modal("hide");
             });
         </script>
@@ -35,8 +35,11 @@
                         首页
                     </a>
                 </li>
-                <li class="active">
+                <li>
                     广告管理
+                </li>
+                <li class="active">
+                    广告列表
                 </li>
             </ul>
             <!-- /.breadcrumb -->
@@ -52,7 +55,7 @@
                             <h3 class="header smaller lighter blue">
                                     启动页面广告管理
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
-                                    <a href="manage/advertisement/add.do" class="btn btn-sm btn-primary"><i
+                                    <a href="advertisement/add.do" class="btn btn-sm btn-primary"><i
                                             class="ace-icon glyphicon glyphicon-plus"></i>
                                         添加
                                     </a>
@@ -84,7 +87,7 @@
                                         <td>${advertisement.priority}</td>
                                         <td>
                                             <div>
-                                                <a href="manage/advertisement/edit?id=${advertisement.id}" class="btn btn-xs btn-info">
+                                                <a href="advertisement/edit?id=${advertisement.id}" class="btn btn-xs btn-info">
                                                     <i class="ace-icon fa fa-pencil bigger-120">修改</i>
                                                 </a>
                                                 <a onclick="showDiv('${advertisement.id}')" class="btn btn-xs btn-danger">

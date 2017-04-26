@@ -1,28 +1,22 @@
 package com.biz.service.advertisement;
 
 
-import com.alibaba.fastjson.JSON;
 import com.biz.core.asserts.SystemAsserts;
-import com.biz.core.page.PageResult;
-import com.biz.gbck.enums.CommonStatusEnum;
-import com.biz.gbck.vo.advertisement.frontend.AdvertisementQueryParamVo;
-import com.biz.gbck.vo.advertisement.frontend.AdvertisementVo;
-import com.biz.gbck.vo.advertisement.frontend.request.AdvertisementRequestVo;
 import com.biz.gbck.dao.redis.repository.advertisement.AdvertisementRedisDao;
 import com.biz.gbck.dao.redis.ro.advertisement.AdvertisementRo;
-import com.biz.service.AbstractBaseService;
-import com.biz.gbck.transform.advertisement.AdvertisementRo2AdvertisementVo;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.transform.advertisement.AdvertisementRequestVo2AdvertisementRo;
+import com.biz.gbck.transform.advertisement.AdvertisementRo2AdvertisementVo;
+import com.biz.gbck.vo.advertisement.frontend.AdvertisementVo;
+import com.biz.gbck.vo.advertisement.frontend.request.AdvertisementRequestVo;
+import com.biz.service.AbstractBaseService;
 import com.biz.service.advertisement.interfaces.AdvertisementService;
-
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.beans.Transient;
 import java.util.Collections;
 import java.util.List;
 
@@ -56,20 +50,6 @@ public class AdvertisementServiceImpl extends AbstractBaseService implements Adv
         }
         advertisementRedisDao.save(ro);
 
-    }
-
-    @Override
-    public PageResult<AdvertisementVo> findAdvertisement(AdvertisementQueryParamVo req) {
-        logger.debug("find advertisement by param [{}]", JSON.toJSONString(req));
-        //TODO 分页对象
-        //PageRequest page = new PageRequest(req.getPage() - 1, req.getSize(), new Sort(Sort.Direction.DESC, "createTimestamp"));
-        return null;
-    }
-
-    @Override
-    public List<AdvertisementVo> findAllAdvertisements() {
-        List<AdvertisementRo> ros = advertisementRedisDao.findAll();
-        return Lists.transform(ros, new AdvertisementRo2AdvertisementVo());
     }
 
     @Override
@@ -119,4 +99,5 @@ public class AdvertisementServiceImpl extends AbstractBaseService implements Adv
         ro.setResidenceTime(vo.getResidenceTime());
         return ro;
     }
+
 }

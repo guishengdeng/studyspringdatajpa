@@ -122,7 +122,7 @@
                 </li>
 
                 <li>
-                    <a href="manage/advertisement/list">
+                    <a href="advertisement/list">
                         广告管理
                     </a>
                 </li>
@@ -139,13 +139,13 @@
                             <h3 class="header smaller lighter blue">
                                 启动页面广告管理
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
-                                    <a href="manage/advertisement/list.do" class="btn btn-sm btn-primary"><i
+                                    <a href="advertisement/list.do" class="btn btn-sm btn-primary"><i
                                             class="ace-icon fa fa-angle-left"></i>
                                         返回
                                     </a>
                                 </span>
                             </h3>
-                            <form action="manage/advertisement/saveOrUpdate.do" method="post"
+                            <form action="advertisement/saveOrUpdate.do" method="post"
                                   class="form-horizontal" role="form">
                                 <input type="hidden" name="id" id="id" value="${advertisement.id}"/>
                                 <div class="field adv-photo row">

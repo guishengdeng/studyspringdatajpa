@@ -5,7 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="gbck" tagdir="/WEB-INF/tags" %>
-<gbck:page title="猫">
+<gbck:page title="page.user.list">
     <jsp:attribute name="css">
         <style type="text/css">
             #cat-table .name{
@@ -63,10 +63,10 @@
                     </a>
                 </li>
                 <li>
-                    示例管理
+                    商品品牌管理
                 </li>
                 <li class="active">
-                    猫列表
+                    商品品牌列表
                 </li>
             </ul>
         </div>
@@ -78,28 +78,26 @@
                     <!-- PAGE CONTENT BEGINS -->
                     <div class="row">
                         <div class="col-xs-12">
-                            <h3 class="header smaller lighter blue">
-                                猫列表 <span class="inline help-block">(Javascript DataTable 翻页查询，当前这个不会和后台交互，全部在页面完成)</span>
-                            </h3>
                             <table id="cat-table" class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th class="name">名字</th>
-                                    <th>描述</th>
-                                    <th class="status">销售状态</th>
-                                    <th class="status">生命体征</th>
+                                    <th>ID</th>
+                                    <th class="name">品牌名称</th>
+                                    <th class="name">分类名称</th>
+                                    <th class="status">排序</th>
+                                    <th>状态</th>
                                     <th class="center operate"></th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                <c:forEach items="${cats}" var="cat">
-                                    <tr id="tr-${cat.id}">
-
-                                        <td>${cat.name}</td>
-                                        <td>${cat.description}</td>
-                                        <td>${cat.saleStatus.name}</td>
-                                        <td>${cat.status eq 'ENABLE' ? '存活' : '死亡'}</td>
+                                <c:forEach items="${brands}" var="brand">
+                                    <tr>
+                                        <td>${brand.id}</td>
+                                        <td>${brand.name}</td>
+                                        <td>${brand.categoryName}</td>
+                                        <td>${brand.idx}</td>
+                                        <td>${brand.status}</td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
                                                 <%--<sec:authorize access="hasAuthority('OPT_CAT_EDIT')">--%>
