@@ -8,7 +8,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.biz.gbck.vo.upgrade.AddUpgradeVo;
 
@@ -54,13 +53,6 @@ public class UpgradeController {
 	public ModelAndView save_add(AddUpgradeVo upgrade) {
 		upgradeService.save(upgrade);
 		return new ModelAndView("redirect:/upgrade/list.do");
-	}
-
-	@ResponseBody
-	@RequestMapping("/getTest")
-	@PreAuthorize("hasAuthority('OPT_UPGRADE_SAVEADD')")
-	public UpgradeRo getTest() {
-		return upgradeService.needUpgrade("ios","1.1.2",false);
 	}
 
 
