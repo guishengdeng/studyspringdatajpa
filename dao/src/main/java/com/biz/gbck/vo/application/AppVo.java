@@ -7,11 +7,11 @@ import java.io.Serializable;
  * app内置管理页面信息
  * Created by lzz on 2017/4/26.
  */
-public class ApplicationVo implements Serializable{
+public class AppVo implements Serializable{
 
     private static final long serialVersionUID = -1447542223691552413L;
 
-    private  long id;
+    private  String id;
 
     /*
      * 400电话
@@ -109,6 +109,13 @@ public class ApplicationVo implements Serializable{
     @Column(length = 50)
     private boolean point;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getTel() {
         return tel;

@@ -120,18 +120,18 @@
                             <label>App内容管理</label>
                         </h3>
                         <form id="app_form" class="form-horizontal" action="/addOrUpdate" method="POST" >
-                            <input type="hidden"  name="id" value="${apps.id}">
+                            <input type="hidden"  name="id" value="${appVo.id}">
 
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right"  maxlength="2" for="form-field-1"> 400电话 </label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="form-field-1" name= "tel"  value="${apps.tel}" placeholder="例：400 999 1919" class="col-xs-10 col-sm-5  required text">
+                                    <input type="text" id="form-field-1" name= "tel"  value="${appVo.tel}" placeholder="例：400 999 1919" class="col-xs-10 col-sm-5  required text">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-2" maxlength="2"> 搜索热词 </label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="form-field-2" name= "hotKeyWord"  value="${apps.hotKeyWord}" placeholder="例：茅台 五粮液 剑南春" class="col-xs-10 col-sm-5 required text">
+                                    <input type="text" id="form-field-2" name= "hotKeyWord"  value="${appVo.hotKeyWord}" placeholder="例：茅台 五粮液 剑南春" class="col-xs-10 col-sm-5 required text">
                                 </div>
                             </div>
                                 <%--页遮罩图片URL--%>
@@ -146,7 +146,7 @@
                                     <input type="file" id="logo_file" value=""/>
                                     <%--<div></div>--%>
                                     <input name="pictureUrl" type="" id="logo_container" placeholder="  首页遮罩图片URL"
-                                           value="${apps.pictureUrl}" class="col-xs-10 col-sm-5" readonly>
+                                           value="${appVo.pictureUrl}" class="col-xs-10 col-sm-5" readonly>
                                     <button id="appdelete_button" class="btn btn-primary" type="button">
                                         删除图片
                                     </button>
@@ -157,14 +157,14 @@
                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-4"> 首页遮罩跳转URL </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" id="form-field-4"  name="url" value="${apps.url}" placeholder="提示内容" class="col-xs-10 col-sm-5 required text">
+                                    <input type="text" id="form-field-4"  name="url" value="${appVo.url}" placeholder="提示内容" class="col-xs-10 col-sm-5 required text">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-5"> 红包标题 </label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="form-field-5" name= "title"  value="${apps.title}" placeholder="例：
+                                    <input type="text" id="form-field-5" name= "title"  value="${appVo.title}" placeholder="例：
 gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
                                 </div>
                             </div>
@@ -172,7 +172,7 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-6"> 红包提示内容 </label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="form-field-6" name= "content"  value="${apps.content}" placeholder="提示内容" class="col-xs-10 col-sm-5 required text">
+                                    <input type="text" id="form-field-6" name= "content"  value="${appVo.content}" placeholder="提示内容" class="col-xs-10 col-sm-5 required text">
                                 </div>
                             </div>
 
@@ -180,7 +180,7 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
                                 <label class="col-sm-3 control-label no-padding-right required text" maxlength="2" for="form-field-1-1"> 红包分享出去的图标 </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" id="form-field-1-1" name= "icon"  value="${apps.icon}" placeholder="例：
+                                    <input type="text" id="form-field-1-1" name= "icon"  value="${appVo.icon}" placeholder="例：
 gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
                                 </div>
                             </div>
@@ -189,7 +189,7 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-1-2"> 红包分享页url </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" id="form-field-1-2" name= "shareUrl"  value="${apps.shareUrl}" placeholder="红包分享页url" class="col-xs-10 col-sm-5 required text">
+                                    <input type="text" id="form-field-1-2" name= "shareUrl"  value="${appVo.shareUrl}" placeholder="红包分享页url" class="col-xs-10 col-sm-5 required text">
                                 </div>
                             </div>
 
@@ -197,7 +197,7 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-1-3"> 推荐有礼Url </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" id="form-field-1-3" name= "recommedUrl"  value="${apps.recommedUrl}" placeholder="推荐有礼Url" class="col-xs-10 col-sm-5 required text">
+                                    <input type="text" id="form-field-1-3" name= "recommedUrl"  value="${appVo.recommedUrl}" placeholder="推荐有礼Url" class="col-xs-10 col-sm-5 required text">
                                 </div>
                             </div>
 
@@ -205,7 +205,7 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-1-4"> app下载页面 </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" id="form-field-1-4" name= "appDownloadUrl"  value="${apps.appDownloadUrl}" placeholder="app下载页
+                                    <input type="text" id="form-field-1-4" name= "appDownloadUrl"  value="${appVo.appDownloadUrl}" placeholder="app下载页
 面" class="col-xs-10 col-sm-5 required text">
                                 </div>
                             </div>
@@ -213,7 +213,7 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-1-5"> 订单满足 多少（元） 发券</label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="form-field-1-5" name= "money"  value="${apps.money}" placeholder="888" class="col-xs-10 col-sm-5 required text">
+                                    <input type="text" id="form-field-1-5" name= "money"  value="${appVo.money}" placeholder="888" class="col-xs-10 col-sm-5 required text">
                                 </div>
                             </div>
 
@@ -222,11 +222,11 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
 
                                 <div class="col-sm-9">
                                 <span class="input-icon">
-                                    <input name="tabOne" value="${apps.tabOne}" type="text" id="form-field-icon-1" placeholder="显示标签" class="required text">
+                                    <input name="tabOne" value="${appVo.tabOne}" type="text" id="form-field-icon-1" placeholder="显示标签" class="required text">
                                  </span>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <span class="input-icon input-icon-right">
-												<input name="tabTwo" value="${apps.tabTwo}" type="text" id="form-field-icon-2" placeholder="搜索标签" class="required text">
+												<input name="tabTwo" value="${appVo.tabTwo}" type="text" id="form-field-icon-2" placeholder="搜索标签" class="required text">
                                  </span>
                                 </div>
                             </div>
@@ -237,14 +237,14 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
 
                                         <div class="radio inline">
                                             <label>
-                                                <input name="type"  type="radio" class="ace required text" value="受限" <c:if test="${apps.type eq '受限'}">checked</c:if>>
+                                                <input name="type"  type="radio" class="ace required text" value="受限" <c:if test="${appVo.type eq '受限'}">checked</c:if>>
                                                 <span class="lbl">受限</span>
                                             </label>
                                         </div>
 
                                         <div class="radio inline">
                                             <label>
-                                                <input name="type" type="radio" class="ace required text" value="不受限" <c:if test="${apps.type eq '不受限'}">checked</c:if>>
+                                                <input name="type" type="radio" class="ace required text" value="不受限" <c:if test="${appVo.type eq '不受限'}">checked</c:if>>
                                                 <span  class="lbl">不受限</span>
                                             </label>
                                         </div>
@@ -254,11 +254,11 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
 
                                 <div class="col-sm-9">
                                   <span class="input-icon">
-                                  <input type="number" name="minNum"   min="0" value="${apps.minNum}" id="form-field-icon-4" placeholder="最低起售数量倍数">
+                                  <input type="number" name="minNum"   min="0" value="${appVo.minNum}" id="form-field-icon-4" placeholder="最低起售数量倍数">
                                   </span>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <span class="input-icon input-icon-right">
-												<input type="number" name="maxNum" min="0" value="${apps.maxNum}" id="form-field-icon-3" placeholder="最大购买数量倍数">
+												<input type="number" name="maxNum" min="0" value="${appVo.maxNum}" id="form-field-icon-3" placeholder="最大购买数量倍数">
                                  </span>
                                 </div>
                             </div>
@@ -270,13 +270,13 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
                                         提交
                                     </button>
                                     &nbsp; &nbsp; &nbsp;
-                                    <c:if test="${apps.id == null}">
+                                    <c:if test="${appVo.id == null}">
                                         <button class="btn" type="reset">
                                             <i class="ace-icon fa fa-undo bigger-110"></i>
                                             重置
                                         </button>
                                     </c:if>
-                                    <c:if test="${apps.id != null}">
+                                    <c:if test="${appVo.id != null}">
                                         <a class="btn" href="${pageContext.request.contextPath}/app">
                                             <i class="ace-icon fa fa-undo bigger-110"></i>
                                             重置

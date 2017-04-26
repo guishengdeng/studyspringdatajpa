@@ -2,6 +2,8 @@ package com.biz.service.app;
 
 import com.biz.gbck.dao.mysql.po.app.App;
 import com.biz.gbck.dao.mysql.repository.app.AppRepository;
+import com.biz.gbck.transform.app.AppVoToAppPo;
+import com.biz.gbck.vo.application.AppVo;
 import com.biz.service.AbstractBaseService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ public class AppServiceImpl extends AbstractBaseService implements AppService {
 
     @Autowired
     private AppRepository appRepository;
+
     @Override
     public App findById(String id) {
         if (StringUtils.isNotBlank(id)) {
@@ -27,10 +30,11 @@ public class AppServiceImpl extends AbstractBaseService implements AppService {
         }
     }
     @Override
-    public void addOrUpdate(App app) {
-        if (StringUtils.isBlank(String.valueOf(app.getId()))){
-             app.setId(idService.nextId());
-        }
-        appRepository.save(app);
+    public void addOrUpdate(AppVo appVo) {
+       if (StringUtils.isBlank(appVo.getId())){
+           appVo.setId(String.valueOf(idService.nextId()));
+       }
+          AppVoToAppPo appVoToAppPo=new AppVoToAppPo();
+          appRepository.save(appVoToAppPo.apply(appVo));
     }
 }

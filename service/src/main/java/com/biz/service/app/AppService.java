@@ -1,6 +1,7 @@
 package com.biz.service.app;
 
 import com.biz.gbck.dao.mysql.po.app.App;
+import com.biz.gbck.vo.application.AppVo;
 
 
 /**
@@ -12,7 +13,7 @@ public interface AppService {
 
     App  findById(String id);
 
-    void addOrUpdate(App app);
+    void addOrUpdate(AppVo appVo);
 
 
 }

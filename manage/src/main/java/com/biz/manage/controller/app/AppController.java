@@ -1,6 +1,7 @@
 package com.biz.manage.controller.app;
 
 import com.biz.gbck.dao.mysql.po.app.App;
+import com.biz.gbck.vo.application.AppVo;
 import com.biz.service.IdService;
 import com.biz.service.app.AppService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
  * Created by lzz on 2017/4/18.
  */
 @Controller
-@RequestMapping()
+@RequestMapping
 public class AppController {
 
     @Autowired
@@ -30,17 +31,17 @@ public class AppController {
 
     @GetMapping("/find")
     @PreAuthorize("hasAuthority('OPT_APP_FIND')")
-    public ModelAndView findApp(@RequestParam("id") String id){
+    public ModelAndView find(@RequestParam("id") String id){
         App app = appService.findById(id);
-        ModelAndView modelAndView = new ModelAndView("manage/application/app").addObject("app", app);
+        ModelAndView modelAndView = new ModelAndView("manage/application/app").addObject("App", app);
         return modelAndView;
     }
 
     @RequestMapping(value= "/addOrUpdate", method= RequestMethod.POST)
     @PreAuthorize("hasAuthority('OPT_APP_ADDORUPDATE')")
-    public ModelAndView addOrUpdate(App app){
-        appService.addOrUpdate(app);
-        ModelAndView ModelAndView= new ModelAndView("application/app").addObject("app", app);
+    public ModelAndView addOrUpdate(AppVo appVo){
+        appService.addOrUpdate(appVo);
+        ModelAndView ModelAndView= new ModelAndView("manage/application/app").addObject("AppVo", appVo);
         return ModelAndView;
     }
 

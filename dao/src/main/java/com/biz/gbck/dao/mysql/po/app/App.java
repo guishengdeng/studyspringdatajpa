@@ -59,25 +59,25 @@ public class App extends BaseEntity implements Serializable{
      /*
      *红包分享出去的图标
       */
-     @Column(length = 50)
+     @Column(length = 100)
      private String icon;
 
      /*
       *红包分享页url
       */
-     @Column(length = 50)
+     @Column(length = 200)
      private  String  shareUrl;
 
      /*
       *推荐有礼Url
       */
-     @Column(length = 50)
+     @Column(length = 200)
      private String recommedUrl;
 
      /*
      *app下载页面
      */
-     @Column(length = 50)
+     @Column(length =200)
      private String appDownloadUrl;
 
      /*
@@ -89,10 +89,10 @@ public class App extends BaseEntity implements Serializable{
      /*
      *首页搜索栏显示标签
       */
-     @Column(length = 50)
+     @Column(length =150)
      private String tabOne;
 
-     @Column(length = 50)
+     @Column(length =150)
      private String tabTwo;
 
     /*
