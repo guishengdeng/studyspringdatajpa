@@ -23,6 +23,16 @@ public class WholeOrderPromotionRo extends BaseRedisObject<String> {
     private static final long serialVersionUID = -758114918424985970L;
 
     /**
+     * 商品编码
+     */
+    private String productCode;
+
+    /**
+     * 价格组ID
+     */
+    private Long priceGroupId;
+
+    /**
      * 整单促销类型
      *
      * @see WholeOrderPromotionTypeEnum#value
@@ -170,5 +180,21 @@ public class WholeOrderPromotionRo extends BaseRedisObject<String> {
 
     public void setExclusive(Boolean exclusive) {
         isExclusive = exclusive;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
+    public Long getPriceGroupId() {
+        return priceGroupId;
+    }
+
+    public void setPriceGroupId(Long priceGroupId) {
+        this.priceGroupId = priceGroupId;
     }
 }
