@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.redis.ro.user;
+package com.biz.gbck.dao.redis.ro.org;
 
 import com.biz.redis.annotation.Ro;
 import com.biz.redis.annotation.RoSortedSet;
