@@ -1,25 +1,56 @@
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="depotnextdoor" tagdir="/WEB-INF/tags" %>
-<depotnextdoor:page title="Sorry...">
-    <div class="ui container">
-        <table width="100%" border="0" cellpadding="0" cellspacing="0" height="100%">
-            <tr>
-                <td>
-                    <TABLE width="100%" height="100%">
-                        <TR>
-                            <TD align="center" valign="middle"><br><br><br><br><br><br><br><br><br><br><br><br>
-								<B> 
-									<c:forEach items="${multiple_messages}" var="msg">
-									${msg}<br>
-									</c:forEach>
-									${single_messages}
-								</B>
-                            </TD>
-                        </TR>
-                    </TABLE>
-                </td>
-            </tr>
-        </table>
+<depotnextdoor:page title="404 Error Page" hideHeader="true">
+    <div class="error-container">
+        <div class="well">
+            <h1 class="grey lighter smaller">
+											<span class="blue bigger-125">
+												<i class="ace-icon fa fa-sitemap"></i>
+												404
+											</span>
+                Page Not Found
+            </h1>
+
+            <hr />
+            <h3 class="lighter smaller">We looked everywhere but we couldn't find it!</h3>
+
+            <div>
+                <div class="space"></div>
+                <h4 class="smaller">Try one of the following:</h4>
+
+                <ul class="list-unstyled spaced inline bigger-110 margin-15">
+                    <li>
+                        <i class="ace-icon fa fa-hand-o-right blue"></i>
+                        Re-check the url for typos
+                    </li>
+
+                    <li>
+                        <i class="ace-icon fa fa-hand-o-right blue"></i>
+                        Read the faq
+                    </li>
+
+                    <li>
+                        <i class="ace-icon fa fa-hand-o-right blue"></i>
+                        Tell us about it
+                    </li>
+                </ul>
+            </div>
+
+            <hr />
+            <div class="space"></div>
+
+            <div class="center">
+                <a href="javascript:history.back()" class="btn btn-grey">
+                    <i class="ace-icon fa fa-arrow-left"></i>
+                    Go Back
+                </a>
+
+                <a href="welcome.do" class="btn btn-primary">
+                    <i class="ace-icon fa fa-tachometer"></i>
+                    Dashboard
+                </a>
+            </div>
+        </div>
     </div>
 </depotnextdoor:page>
