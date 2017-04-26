@@ -3,7 +3,7 @@ package com.biz.gbck.dao.mysql.po.qrcode.enums;
 import com.biz.core.enums.EnumerableValue;
 
 public enum BusinessStatusEnum implements EnumerableValue{
-    STATUS0(0,"G7","中间商收货");
+    STATUS0(0,"G7","收货");
 
     private int value;//值
     private String code;//编码

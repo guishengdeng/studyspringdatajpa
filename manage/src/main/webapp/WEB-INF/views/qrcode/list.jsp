@@ -80,7 +80,7 @@
                                     <th class="name">瓶码</th>
                                     <th class="name">箱码</th>
                                     <th class="name">商品编码</th>
-                                    <th class="name">状态</th>
+                                    <th class="name">业务状态</th>
                                     <th class="name">是否删除</th>
                                     <th class="center operate">操作</th>
                                 </tr>
