@@ -23,61 +23,61 @@ public class App extends BaseEntity implements Serializable{
       /*
        * 400电话
        */
-     @Column(length = 50, nullable = false)
+     @Column(length=50, nullable=false)
      private String tel;
 
      /*
       *热搜索词
       */
-     @Column(length = 50)
+     @Column(length=50)
      private String hotKeyWord;
 
      /*
       *首页遮罩图片URL
       */
-     @Column(length =100)
+     @Column(length=100)
      private String pictureUrl;
 
      /*
       *首页遮罩跳转URL
       */
-     @Column(length = 100)
+     @Column(length=100)
      private String url;
 
      /*
      *红包标题
       */
-     @Column(length = 80)
+     @Column(length=80)
      private String title;
 
      /*
      *红包提示的内容
       */
-     @Column(length = 100)
+     @Column(length=100)
      private String  content;
 
      /*
      *红包分享出去的图标
       */
-     @Column(length = 100)
+     @Column(length=100)
      private String icon;
 
      /*
       *红包分享页url
       */
-     @Column(length = 200)
+     @Column(length=200)
      private  String  shareUrl;
 
      /*
       *推荐有礼Url
       */
-     @Column(length = 200)
+     @Column(length=200)
      private String recommedUrl;
 
      /*
      *app下载页面
      */
-     @Column(length =200)
+     @Column(length=200)
      private String appDownloadUrl;
 
      /*
@@ -89,31 +89,31 @@ public class App extends BaseEntity implements Serializable{
      /*
      *首页搜索栏显示标签
       */
-     @Column(length =150)
+     @Column(length=150)
      private String tabOne;
 
-     @Column(length =150)
+     @Column(length=150)
      private String tabTwo;
 
     /*
      *20倍会员下单购买数量受限
      */
-     @Column(length = 50)
+     @Column(length=50)
      private double minNum;
 
-     @Column(length = 50)
+     @Column(length=50)
      private double maxNum;
 
      /*
       *受限类型
       */
-     @Column(nullable = false)
+     @Column(nullable=false)
      private String type;
 
      /*
       *提示
       */
-     @Column(length = 50)
+     @Column(length=50)
      private boolean point;
 
 
