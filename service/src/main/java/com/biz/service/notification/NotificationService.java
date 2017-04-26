@@ -6,7 +6,7 @@ import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.service.CommonService;
 import com.biz.service.notice.NoticeService;
-import com.biz.service.user.UserService;
+import com.biz.service.org.interfaces.UserService;
 import com.biz.vo.notify.NotifyVo;
 import com.google.common.collect.Lists;
 import org.codelogger.utils.StringUtils;

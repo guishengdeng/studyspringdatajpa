@@ -1,4 +1,4 @@
-package com.biz.service.user;
+package com.biz.service.org.interfaces;
 
 import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.enums.user.AuditStatus;

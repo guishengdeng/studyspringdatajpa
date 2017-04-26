@@ -24,7 +24,7 @@ import com.biz.gbck.vo.vendor.VendorQueryRequestVo;
 import com.biz.gbck.vo.vendor.VendorVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.evaluation.EvaluationBackendService;
-import com.biz.service.user.UserService;
+import com.biz.service.org.interfaces.UserService;
 import com.biz.service.vendor.VendorBackendService;
 import com.biz.gbck.transform.product.Evaluation2EvaluationDetailVo;
 import com.biz.gbck.transform.product.Evaluation2EvaluationResponseVo;
