@@ -1,17 +1,19 @@
-package com.biz.gbck.dao.redis.ro.org;
+package com.biz.gbck.dao.redis.ro.user;
 
-import com.biz.gbck.common.ro.AbstractRedisObj;
+import com.biz.redis.annotation.Ro;
+import com.biz.redis.annotation.RoSortedSet;
+import com.biz.redis.bean.BaseRedisObject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-/**
- * Created by defei on 3/11/16.
- */
-public class UserRo extends AbstractRedisObj {
 
-    private Long id;
+@Ro(key = "userRo")
+@RoSortedSet(key = "list", score = "createTimestamp")
+public class UserRo extends BaseRedisObject<String> implements Serializable {
+
 
     /**
      * 账号
@@ -100,15 +102,7 @@ public class UserRo extends AbstractRedisObj {
      */
     private String lastUserAgent;
     
-    
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getAccount() {
         return account;

@@ -1,6 +1,6 @@
 package com.biz.service.org.interfaces;
 
-import com.biz.gbck.dao.redis.ro.org.UserRo;
+import com.biz.gbck.dao.redis.ro.user.UserRo;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.user.*;
