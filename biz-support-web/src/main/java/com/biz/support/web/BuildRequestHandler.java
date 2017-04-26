@@ -1,9 +1,9 @@
 package com.biz.support.web;
 
 import com.biz.core.exceptions.SystemException;
-import com.biz.support.web.assist.IRequestVo;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.core.Ordered;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 构建请求处理链
@@ -17,6 +17,6 @@ import org.springframework.core.Ordered;
  */
 public interface BuildRequestHandler extends Ordered {
 
-    void handle(HttpServletRequest request, IRequestVo requestVo) throws SystemException;
+    void handle(HttpServletRequest request, Object requestVo) throws SystemException;
 
 }

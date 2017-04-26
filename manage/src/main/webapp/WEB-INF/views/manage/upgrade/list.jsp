@@ -50,8 +50,8 @@
                                         新增升级配置
                                 </a>
                             </span>
-                            </h3>AndroId:
-                            <c:if test="${not empty androId}">
+                            </h3>Android:
+                            <c:if test="${not empty android}">
                                 <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                     <tr>
@@ -66,7 +66,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach items="${androId}" var="upgrade" varStatus="status">
+                                    <c:forEach items="${android}" var="upgrade" varStatus="status">
                                         <tr>
                                             <td>${upgrade.version}</td>
                                             <td>${upgrade.os}</td>
