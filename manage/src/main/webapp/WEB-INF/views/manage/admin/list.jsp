@@ -123,7 +123,8 @@
                                     </a>
                                 </sec:authorize>
                                 <a href="manage/users?enabled=${enabled == 'false' ? 'ENABLE' : 'DISABLE'}"
-                                   class="btn btn-sm btn-danger">
+                                   class="${enabled == 'false' ? 'btn btn-sm btn-success' : 'btn btn-sm btn-danger'}">
+                                    <%--btn btn-sm btn-danger--%>
                                     <c:choose>
                                         <c:when test="${enabled == 'false'}">
                                             <i class="ace-icon fa fa-eye"></i>
