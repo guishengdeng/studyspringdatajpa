@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.repository.user;
+package com.biz.gbck.dao.mysql.repository.org;
 
 
 import com.biz.gbck.common.dao.mysql.CommonManageAbleDao;

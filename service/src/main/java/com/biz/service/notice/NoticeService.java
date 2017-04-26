@@ -9,7 +9,7 @@ import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.common.notification.NotificationPlatform;
 import com.biz.gbck.dao.mysql.po.info.NoticePo;
 import com.biz.gbck.dao.mysql.repository.notice.NoticeRepository;
-import com.biz.gbck.dao.mysql.repository.user.UserRepository;
+import com.biz.gbck.dao.mysql.repository.org.UserRepository;
 import com.biz.gbck.dao.redis.repository.notice.NoticeRedisDao;
 import com.biz.gbck.dao.redis.repository.user.UserRedisDao;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
