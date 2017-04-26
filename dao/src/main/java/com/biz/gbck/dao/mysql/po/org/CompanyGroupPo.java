@@ -1,5 +1,6 @@
 package com.biz.gbck.dao.mysql.po.org;
 
+import com.biz.gbck.dao.mysql.po.BasePo;
 import com.biz.gbck.enums.org.CompanyLevel;
 import com.biz.support.jpa.po.BaseEntity;
 
@@ -9,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -27,7 +29,10 @@ import java.util.List;
  */
 @Entity
 @Table(name = "org_group")
-public class CompanyGroupPo extends BaseEntity {
+public class CompanyGroupPo extends BasePo<Long> {
+
+    @Id
+    private Long id;
 
     /**
      * 客户组编码
@@ -60,6 +65,16 @@ public class CompanyGroupPo extends BaseEntity {
     @Column
     private CompanyLevel childrenLevel;
 
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getCode() {
         return code;
