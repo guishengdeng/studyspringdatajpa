@@ -2,9 +2,10 @@
 <%@ taglib prefix="gbck" tagdir="/WEB-INF/tags" %>
 <gbck:sidebar icon="fa fa-list" fixed="true">
     <gbck:singleMenu text="录入新的猫" link="demo/cats/new.do" icon="fa fa-plus" />
+    <gbck:singleMenu text="搜索猫" link="demo/cats.do" icon="fa fa-search" />
     <gbck:menuGroup text="按生命体征展示" icon="fa fa-list">
-        <gbck:singleMenu text="正常的猫" link="demo/cats.do" />
-        <gbck:singleMenu text="死掉的猫" link="demo/cats.do?status=DISABLE" />
+        <gbck:singleMenu text="正常的猫" link="demo/cats/listByStatus.do" />
+        <gbck:singleMenu text="死掉的猫" link="demo/cats/listByStatus.do?status=DISABLE" />
     </gbck:menuGroup>
     <gbck:menuGroup text="按销售状态展示" icon="fa fa-shopping-basket">
         <gbck:singleMenu text="可销售的猫" link="demo/cats/listBySaleStatus.do?saleStatus=FOR_SALE" />
