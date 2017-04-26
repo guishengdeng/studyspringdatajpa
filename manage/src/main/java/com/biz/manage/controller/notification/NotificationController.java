@@ -48,10 +48,6 @@ public class NotificationController {
         return new ModelAndView("notification/add").addObject("errMsg", errMsg);
     }
 
-    @RequestMapping(value = "test")
-    public void test() {
-       notificationService.test();
-    }
 
 
 }
