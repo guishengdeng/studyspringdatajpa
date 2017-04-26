@@ -4,7 +4,6 @@ import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.info.NoticePo;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.mysql.repository.org.UserRepository;
-import com.biz.gbck.dao.redis.ro.user.UserRo;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.service.CommonService;
 import com.biz.service.notice.NoticeService;

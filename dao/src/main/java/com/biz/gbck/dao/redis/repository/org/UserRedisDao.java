@@ -1,7 +1,7 @@
-package com.biz.gbck.dao.redis.repository.user;
+package com.biz.gbck.dao.redis.repository.org;
 
 import com.biz.gbck.dao.redis.CrudRedisDao;
-import com.biz.gbck.dao.redis.ro.user.UserRo;
+import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.redis.util.RedisUtil;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.stereotype.Repository;
