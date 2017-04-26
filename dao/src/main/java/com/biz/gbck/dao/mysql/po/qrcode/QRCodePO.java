@@ -19,7 +19,7 @@ import com.biz.gbck.enums.CommonStatusEnum;
  */
 @Entity
 @Table(name = "qrc_qrcode")
-public class QRCode implements Serializable{
+public class QRCodePO implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
     @Column(length = 50, nullable = false)

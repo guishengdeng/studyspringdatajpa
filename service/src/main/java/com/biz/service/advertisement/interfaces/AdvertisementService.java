@@ -23,4 +23,8 @@ public interface AdvertisementService {
     AdvertisementRo findById(String id);
 
     void delete(String id);
+
+    void disable(String id);
+
+    List<AdvertisementVo> findAdvertisementByStatus(Integer status);
 }

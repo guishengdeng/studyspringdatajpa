@@ -288,7 +288,7 @@ public class ShopPo extends Company {
     /**
      * 店铺状态
      */
-    @Column(nullable = false) private Integer status = ShopStatus.NORMAL.getValue();
+//    @Column(nullable = false) private Integer status = ShopStatus.NORMAL.getValue();
 
     /**
      * 支持的 付款方式
@@ -555,14 +555,6 @@ public class ShopPo extends Company {
 
     public void setQualificationAuditStatus(Integer qualificationAuditStatus) {
         this.qualificationAuditStatus = qualificationAuditStatus;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
     }
 
     public String getSupportPaymentIds() {
