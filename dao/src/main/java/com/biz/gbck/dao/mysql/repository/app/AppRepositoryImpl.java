@@ -1,11 +1,8 @@
 package com.biz.gbck.dao.mysql.repository.app;
 
 import com.biz.gbck.dao.mysql.po.app.App;
-import com.biz.gbck.dao.mysql.po.security.Admin;
 import com.biz.support.jpa.repository.CommonJpaRepositoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-
 import javax.persistence.EntityManager;
 
 /**

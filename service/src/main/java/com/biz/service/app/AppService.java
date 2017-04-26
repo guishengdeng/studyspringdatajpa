@@ -2,7 +2,6 @@ package com.biz.service.app;
 
 import com.biz.gbck.dao.mysql.po.app.App;
 
-import java.util.List;
 
 /**
  * @author lzz
@@ -13,7 +12,7 @@ public interface AppService {
 
     App  findById(String id);
 
-    void insert(App app);
+    void addOrUpdate(App app);
 
 
 }
