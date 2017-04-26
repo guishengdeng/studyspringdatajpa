@@ -1,13 +1,14 @@
 package com.biz.manage.controller;
 
 import com.biz.gbck.dao.redis.ro.upgrade.UpgradeRo;
-import com.biz.service.UpgradeService;
+import com.biz.service.upgrade.UpgradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.biz.gbck.vo.upgrade.AddUpgradeVo;
 
@@ -54,5 +55,13 @@ public class UpgradeController {
 		upgradeService.save(upgrade);
 		return new ModelAndView("redirect:/upgrade/list.do");
 	}
+
+	@ResponseBody
+	@RequestMapping("/getTest")
+	@PreAuthorize("hasAuthority('OPT_UPGRADE_SAVEADD')")
+	public UpgradeRo getTest() {
+		return upgradeService.needUpgrade("ios","1.1.2",false);
+	}
+
 
 }
