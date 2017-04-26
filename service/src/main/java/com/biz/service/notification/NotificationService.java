@@ -2,7 +2,7 @@ package com.biz.service.notification;
 
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.info.NoticePo;
-import com.biz.gbck.dao.redis.ro.org.UserRo;
+import com.biz.gbck.dao.redis.ro.user.UserRo;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.service.CommonService;
 import com.biz.service.notice.NoticeService;
@@ -15,9 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * Created by david-liu on 2016/03/30 16:40.
- */
+
 @Service
 public class NotificationService extends CommonService {
 
@@ -49,13 +47,17 @@ public class NotificationService extends CommonService {
             if(StringUtils.isNotBlank(notifyVo.getMobile())) {
                 UserRo userRo = userService.findUserByMobile(notifyVo.getMobile());
                 if(userRo != null){
-                    userIds.add(userRo.getId());
+                    userIds.add(Long.valueOf(userRo.getId()));
                 }
             } else {
                 userIds = userService.findAllUserIdByAuditStatus(AuditStatus.NORMAL);
             }
         }
         return userIds;
+    }
+
+    public void test(){
+        noticeService.test();
     }
 
 }

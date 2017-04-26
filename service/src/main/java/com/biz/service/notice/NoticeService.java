@@ -12,7 +12,7 @@ import com.biz.gbck.dao.mysql.repository.notice.NoticeRepository;
 import com.biz.gbck.dao.mysql.repository.org.UserRepository;
 import com.biz.gbck.dao.redis.repository.notice.NoticeRedisDao;
 import com.biz.gbck.dao.redis.repository.user.UserRedisDao;
-import com.biz.gbck.dao.redis.ro.org.UserRo;
+import com.biz.gbck.dao.redis.ro.user.UserRo;
 import com.biz.gbck.transform.notice.NoticePoToNoticeRo;
 import com.biz.service.CommonService;
 import org.apache.commons.collections.CollectionUtils;
@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * 用户消息
@@ -128,7 +127,19 @@ public class NoticeService extends CommonService {
         /*mqService.send(Message.QUEUE.MQ_CLIENT_PUSH_MSG, notification);*/
     }
 
-
+    /**
+     * 测试添加个人信息
+     */
+    public void test(){
+        UserRo userRo=new UserRo();
+        userRo.setMobile("13541225017");
+        userRo.setName("侯兴彪");
+        userRo.setId("5211314");
+        userRo.setAccount("biz123456");
+        userRo.setPassword("123456");
+        userRo.setOriginalPassword("654321");
+        userRedisDao.save(userRo);
+    }
 
 
 }
