@@ -1,8 +1,7 @@
 package com.biz.manage.controller;
 
-import com.biz.gbck.dao.redis.ro.upgrade.UpgradeAndroidRo;
-import com.biz.gbck.dao.redis.ro.upgrade.UpgradeIosRo;
-import com.biz.service.UpgradeService;
+import com.biz.gbck.dao.redis.ro.upgrade.UpgradeRo;
+import com.biz.service.upgrade.UpgradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,8 +25,8 @@ public class UpgradeController {
 	@PreAuthorize("hasAuthority('OPT_UPGRADE_LIST')")
 	public ModelAndView list() {
 		ModelAndView view =  new ModelAndView("manage/upgrade/list");
-		List<UpgradeIosRo> ios= upgradeService.findAllUpgradeIosRo();
-		List<UpgradeAndroidRo> android = upgradeService.findAllUpgradeAndroidRo();
+		List<UpgradeRo> ios= upgradeService.findAll("ios");
+		List<UpgradeRo> android = upgradeService.findAll("android");
 		view.addObject("ios", ios);
 		view.addObject("android", android);
 		return view;
@@ -44,8 +43,8 @@ public class UpgradeController {
 
 	@RequestMapping("/delete")
 	@PreAuthorize("hasAuthority('OPT_UPGRADE_DELETE')")
-	public ModelAndView delete(@RequestParam("os") String os,@RequestParam("id") String id) {
-		upgradeService.delete(os,id);
+	public ModelAndView delete(@RequestParam("id") String id) {
+		upgradeService.delete(id);
 		return new ModelAndView("redirect:/upgrade/list.do");
 	}
 	
@@ -55,5 +54,6 @@ public class UpgradeController {
 		upgradeService.save(upgrade);
 		return new ModelAndView("redirect:/upgrade/list.do");
 	}
+
 
 }
