@@ -27,6 +27,11 @@ public class SingleProductPromotionRo extends BaseRedisObject<String> {
     private static final long serialVersionUID = 8189303729064599289L;
 
     /**
+     * 促销ID
+     */
+    private Long promotionId;
+
+    /**
      * 商品编码
      *
      * @see ProductRo#productCode
@@ -86,6 +91,13 @@ public class SingleProductPromotionRo extends BaseRedisObject<String> {
      * @see MultipleQuantityPromotion#luckyNumber
      */
     private Integer luckyNumber;
+
+    /**
+     * 是否互斥
+     *
+     * @see
+     */
+    private Boolean isExclusive;
 
     public String getProductCode() {
         return productCode;
@@ -149,5 +161,21 @@ public class SingleProductPromotionRo extends BaseRedisObject<String> {
 
     public void setLuckyNumber(Integer luckyNumber) {
         this.luckyNumber = luckyNumber;
+    }
+
+    public Long getPromotionId() {
+        return promotionId;
+    }
+
+    public void setPromotionId(Long promotionId) {
+        this.promotionId = promotionId;
+    }
+
+    public Boolean getExclusive() {
+        return isExclusive;
+    }
+
+    public void setExclusive(Boolean exclusive) {
+        isExclusive = exclusive;
     }
 }

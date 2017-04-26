@@ -219,7 +219,10 @@ public class Product extends BaseEntity {
     /**
      * 倍增满减
      */
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany
+    @JoinTable(name = "pro_promotion_account_per_unit_cut_product",
+            joinColumns = {@JoinColumn(name = "promotion_id", referencedColumnName = "id")}
+            , inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")})
     private List<AccountPerUnitCutPromotion> accountPerUnitCutPromotions;
 
     /**
