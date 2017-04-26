@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.repository.apartTag;
+package com.biz.gbck.dao.mysql.repository.aparttag;
 
 /**
  * @author 江南

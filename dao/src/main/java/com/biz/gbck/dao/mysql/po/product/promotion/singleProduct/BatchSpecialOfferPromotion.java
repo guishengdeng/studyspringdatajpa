@@ -1,9 +1,8 @@
 package com.biz.gbck.dao.mysql.po.product.promotion.singleProduct;
 
 import com.biz.gbck.dao.mysql.po.product.promotion.ProductPromotion;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.util.List;
+import javax.persistence.*;
 
 /**
  * 批量特价
@@ -19,44 +18,16 @@ public class BatchSpecialOfferPromotion extends ProductPromotion {
     private static final long serialVersionUID = -1624861972742974525L;
 
     /**
-     * 商品信息
+     * 批量特价商品信息
      */
-    @Column(length = 50)
-    private String productCode;
+    @OneToMany(mappedBy = "batchSpecialOfferPromotion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<BatchSpecialOfferPromotionProduct> batchSpecialOfferPromotionProductList;
 
-    /**
-     * 促销价
-     */
-    @Column(nullable = false)
-    private Integer promotionPrice;
-
-    /**
-     * 数量限制
-     */
-    @Column(nullable = false)
-    private Integer quantityLimit;
-
-    public String getProductCode() {
-        return productCode;
+    public List<BatchSpecialOfferPromotionProduct> getBatchSpecialOfferPromotionProductList() {
+        return batchSpecialOfferPromotionProductList;
     }
 
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
-    }
-
-    public Integer getPromotionPrice() {
-        return promotionPrice;
-    }
-
-    public void setPromotionPrice(Integer promotionPrice) {
-        this.promotionPrice = promotionPrice;
-    }
-
-    public Integer getQuantityLimit() {
-        return quantityLimit;
-    }
-
-    public void setQuantityLimit(Integer quantityLimit) {
-        this.quantityLimit = quantityLimit;
+    public void setBatchSpecialOfferPromotionProductList(List<BatchSpecialOfferPromotionProduct> batchSpecialOfferPromotionProductList) {
+        this.batchSpecialOfferPromotionProductList = batchSpecialOfferPromotionProductList;
     }
 }

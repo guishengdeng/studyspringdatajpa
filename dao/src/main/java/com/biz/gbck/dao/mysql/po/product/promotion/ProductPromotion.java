@@ -51,6 +51,12 @@ public class ProductPromotion extends BaseEntity {
     private PromotionRoundEnum promotionRound;
 
     /**
+     * 循环日(促销生效的日期)
+     */
+    @Column
+    private String roundCycle;
+
+    /**
      * 活动开始时间(可选, 如果设置了代表当天活动生效的开始时间)
      */
     @Column
@@ -293,5 +299,13 @@ public class ProductPromotion extends BaseEntity {
 
     public void setExcludeCategories(String excludeCategories) {
         this.excludeCategories = excludeCategories;
+    }
+
+    public String getRoundCycle() {
+        return roundCycle;
+    }
+
+    public void setRoundCycle(String roundCycle) {
+        this.roundCycle = roundCycle;
     }
 }

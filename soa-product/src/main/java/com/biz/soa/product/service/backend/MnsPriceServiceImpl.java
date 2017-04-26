@@ -32,7 +32,7 @@ import org.springframework.stereotype.Service;
  * @reviewer
  * @see
  */
-@Service
+//@Service
 public class MnsPriceServiceImpl extends AbstractBaseService implements MnsPriceService {
 
     @Autowired

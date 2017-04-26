@@ -21,7 +21,6 @@ import org.codelogger.utils.ValueUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * 商品库存 Service 实现
@@ -31,7 +30,7 @@ import org.springframework.stereotype.Service;
  * @reviewer
  * @see
  */
-@Service
+//@Service
 public class ProductStockServiceImpl implements IProductStockService {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductStockServiceImpl.class);

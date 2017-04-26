@@ -1,4 +1,4 @@
-package com.biz.soa.promotion;
+package com.biz.soa.product;
 
 import com.biz.service.product.impl.BrandServiceImpl;
 import com.biz.service.product.impl.CategoryServiceImpl;
@@ -13,9 +13,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * Soa Promotion入口
+ * SOA-Product Application
  *
- * Created by david-liu on 2017/04/24 12:15.
+ * Created by david-liu on 2017/04/26 10:37.
  */
 @SpringBootApplication
 @ComponentScan(basePackages = "com.biz", excludeFilters = {
@@ -26,8 +26,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(basePackages = "com.biz", repositoryFactoryBeanClass = CommonRepositoryFactoryBean.class)
 @EntityScan(basePackages = "com.biz")
 @EnableTransactionManagement
-public class Application {
+public class SoaProductApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(Application.class);
+        SpringApplication.run(SoaProductApplication.class);
     }
+
 }

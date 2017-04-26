@@ -70,7 +70,7 @@ import static com.biz.gbck.common.Constant.DEFAULT_USER_LEVEL;
  * @date 2017年01月12日
  * @reviewer
  */
-@Service
+//@Service
 public class ProductServiceImpl extends AbstractProductService implements ProductService {
 
     private static final long serialVersionUID = -3282345687871106312L;

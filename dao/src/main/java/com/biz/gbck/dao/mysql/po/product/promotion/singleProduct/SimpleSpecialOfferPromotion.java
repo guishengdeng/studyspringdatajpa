@@ -1,9 +1,8 @@
 package com.biz.gbck.dao.mysql.po.product.promotion.singleProduct;
 
 import com.biz.gbck.dao.mysql.po.product.promotion.ProductPromotion;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.util.List;
+import javax.persistence.*;
 
 /**
  * 简单特价
@@ -17,30 +16,16 @@ public class SimpleSpecialOfferPromotion extends ProductPromotion {
     private static final long serialVersionUID = 1898159488748554862L;
 
     /**
-     * 商品编码
+     * 简单特价商品
      */
-    @Column(length = 50)
-    private String productCode;
+    @OneToMany(mappedBy = "simpleSpecialOfferPromotion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<SimpleSpecialOfferPromotionProduct> promotionProductList;
 
-    /**
-     * 促销价
-     */
-    @Column(nullable = false)
-    private Integer promotionPrice;
-
-    public String getProductCode() {
-        return productCode;
+    public List<SimpleSpecialOfferPromotionProduct> getPromotionProductList() {
+        return promotionProductList;
     }
 
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
-    }
-
-    public Integer getPromotionPrice() {
-        return promotionPrice;
-    }
-
-    public void setPromotionPrice(Integer promotionPrice) {
-        this.promotionPrice = promotionPrice;
+    public void setPromotionProductList(List<SimpleSpecialOfferPromotionProduct> promotionProductList) {
+        this.promotionProductList = promotionProductList;
     }
 }

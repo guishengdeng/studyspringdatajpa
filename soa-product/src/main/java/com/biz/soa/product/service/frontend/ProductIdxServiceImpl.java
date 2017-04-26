@@ -28,7 +28,6 @@ import org.codelogger.utils.ValueUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * 商品索引ServiceImpl
@@ -37,7 +36,7 @@ import org.springframework.stereotype.Service;
  * @date 2017年01月19日
  * @reviewer
  */
-@Service("productIdxServiceImpl")
+//@Service("productIdxServiceImpl")
 public class ProductIdxServiceImpl extends AbstractProductService implements ProductIdxService {
     private static final long serialVersionUID = 1687087661899158754L;
 

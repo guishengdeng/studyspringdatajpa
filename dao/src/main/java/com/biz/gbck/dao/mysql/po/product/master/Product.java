@@ -3,6 +3,10 @@ package com.biz.gbck.dao.mysql.po.product.master;
 import com.alibaba.fastjson.JSON;
 import com.biz.gbck.dao.mysql.po.product.meta.*;
 import com.biz.gbck.dao.mysql.po.product.price.PriceGroup;
+import com.biz.gbck.dao.mysql.po.product.promotion.singleProduct.BatchSpecialOfferPromotionProduct;
+import com.biz.gbck.dao.mysql.po.product.promotion.singleProduct.MultipleQuantityPromotionProduct;
+import com.biz.gbck.dao.mysql.po.product.promotion.singleProduct.QuantitySpecialOfferPromotionProduct;
+import com.biz.gbck.dao.mysql.po.product.promotion.singleProduct.SimpleSpecialOfferPromotionProduct;
 import com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder.AccountPerUnitCutPromotion;
 import com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder.MultipleIncrementGiftPromotion;
 import com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder.StairCutPromotion;
@@ -239,6 +243,30 @@ public class Product extends BaseEntity {
      */
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MultipleIncrementGiftPromotion> multipleIncrementGiftPromotions;
+
+    /**
+     * 简单特价商品
+     */
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<SimpleSpecialOfferPromotionProduct> simpleSpecialOfferPromotionProducts;
+
+    /**
+     * 批量特价商品
+     */
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<BatchSpecialOfferPromotionProduct> batchSpecialOfferPromotionProducts;
+
+    /**
+     * 倍数特价商品
+     */
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<MultipleQuantityPromotionProduct> multipleQuantityPromotionProducts;
+
+    /**
+     * 数量特价商品
+     */
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<QuantitySpecialOfferPromotionProduct> quantitySpecialOfferPromotionProducts;
 
     public String getBreif() {
         return breif;
@@ -553,5 +581,37 @@ public class Product extends BaseEntity {
 
     public void setMultipleIncrementGiftPromotions(List<MultipleIncrementGiftPromotion> multipleIncrementGiftPromotions) {
         this.multipleIncrementGiftPromotions = multipleIncrementGiftPromotions;
+    }
+
+    public List<SimpleSpecialOfferPromotionProduct> getSimpleSpecialOfferPromotionProducts() {
+        return simpleSpecialOfferPromotionProducts;
+    }
+
+    public void setSimpleSpecialOfferPromotionProducts(List<SimpleSpecialOfferPromotionProduct> simpleSpecialOfferPromotionProducts) {
+        this.simpleSpecialOfferPromotionProducts = simpleSpecialOfferPromotionProducts;
+    }
+
+    public List<BatchSpecialOfferPromotionProduct> getBatchSpecialOfferPromotionProducts() {
+        return batchSpecialOfferPromotionProducts;
+    }
+
+    public void setBatchSpecialOfferPromotionProducts(List<BatchSpecialOfferPromotionProduct> batchSpecialOfferPromotionProducts) {
+        this.batchSpecialOfferPromotionProducts = batchSpecialOfferPromotionProducts;
+    }
+
+    public List<MultipleQuantityPromotionProduct> getMultipleQuantityPromotionProducts() {
+        return multipleQuantityPromotionProducts;
+    }
+
+    public void setMultipleQuantityPromotionProducts(List<MultipleQuantityPromotionProduct> multipleQuantityPromotionProducts) {
+        this.multipleQuantityPromotionProducts = multipleQuantityPromotionProducts;
+    }
+
+    public List<QuantitySpecialOfferPromotionProduct> getQuantitySpecialOfferPromotionProducts() {
+        return quantitySpecialOfferPromotionProducts;
+    }
+
+    public void setQuantitySpecialOfferPromotionProducts(List<QuantitySpecialOfferPromotionProduct> quantitySpecialOfferPromotionProducts) {
+        this.quantitySpecialOfferPromotionProducts = quantitySpecialOfferPromotionProducts;
     }
 }
