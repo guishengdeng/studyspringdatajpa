@@ -20,10 +20,6 @@ public class PurchaseReturnOrder extends BaseEntity {
 
     private static final long serialVersionUID = 4548084051968768185L;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "purchase_order_id")
-    private PurchaseOrder purchaseOrder;
-
     //退货单编号
     @Column(length = 50, unique = true, nullable = false)
     private String returnCode;
@@ -45,15 +41,6 @@ public class PurchaseReturnOrder extends BaseEntity {
      */
     @Embedded
     private PurchaseAudit audit;
-
-
-    public PurchaseOrder getPurchaseOrder() {
-        return purchaseOrder;
-    }
-
-    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
-        this.purchaseOrder = purchaseOrder;
-    }
 
     public String getReturnCode() {
         return returnCode;

@@ -22,6 +22,7 @@ public class OrderController extends BaseRestController {
     //订单列表
     @RequestMapping("/list")
     public JSONResult allTypeOrder(HttpServletRequest request){
+
         return new JSONResult();
     }
 

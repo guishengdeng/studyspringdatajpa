@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 /**
- * 采购退货单明细
+ * 出库单明细
  *
  * @author lei
  * @date 2017年04月20日
@@ -15,25 +15,25 @@ import javax.persistence.*;
  * @see
  */
 @Entity
-@Table(name = "pur_order_return_item")
-public class PurchaseOrderReturnItem extends BaseEntity {
+@Table(name = "pur_order_item")
+public class DeliveryOrderItem extends BaseEntity {
 
     private static final long serialVersionUID = 8892140517297834694L;
 
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "purchase_return_id")
-    private PurchaseReturnOrder purchaseReturnOrder;
+    @JoinColumn(name = "delivery_order_id")
+    private DeliveryOrder deliveryOrder;
 
     @Embedded
     private ProductItem productItem;
 
-    public PurchaseReturnOrder getPurchaseReturnOrder() {
-        return purchaseReturnOrder;
+    public DeliveryOrder getDeliveryOrder() {
+        return deliveryOrder;
     }
 
-    public void setPurchaseReturnOrder(PurchaseReturnOrder purchaseReturnOrder) {
-        this.purchaseReturnOrder = purchaseReturnOrder;
+    public void setDeliveryOrder(DeliveryOrder deliveryOrder) {
+        this.deliveryOrder = deliveryOrder;
     }
 
     public ProductItem getProductItem() {
