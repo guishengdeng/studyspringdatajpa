@@ -8,12 +8,15 @@ import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.String.format;
 
 public class BaseController {
 
@@ -29,7 +32,9 @@ public class BaseController {
 	public ModelAndView exception(Exception e) throws Exception {
 
 		ModelAndView result = new ModelAndView("/common/400");
-		if (e instanceof NumberIdParameterException) {
+		if( e instanceof MethodArgumentTypeMismatchException){
+			return result.addObject(SINGLE_MESSAGE_ATTR_NAME, format("参数%s=%s不正确.\n详情:%s", ((MethodArgumentTypeMismatchException) e).getName(), ((MethodArgumentTypeMismatchException) e).getValue(), e.getMessage()));
+		} else if (e instanceof NumberIdParameterException) {
 			return result.addObject(SINGLE_MESSAGE_ATTR_NAME, "错误的ID");
 		} else if (e instanceof InvalidParameterException) {
 			InvalidParameterException invalidParameterException = (InvalidParameterException) e;
