@@ -11,6 +11,7 @@ import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.common.exception.DepotnearbyExceptionFactory;
 import com.biz.gbck.common.model.order.PaymentType;
 import com.biz.gbck.common.org.UserStatus;
+import com.biz.gbck.common.spring.DepotnearbyTransactionManager;
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import com.biz.gbck.common.vo.search.RecommendConditionVo;
 import com.biz.gbck.common.vo.search.RecommendConditionVo2;
@@ -388,7 +389,31 @@ public class UserServiceImpl extends CommonService implements UserService{
 
     @Override
     public void changeMobile(UserChangeMobileReqVo reqVo) throws CommonException {
-
+        if (false) {//smsService.validateAndDisableSMSCode(reqVo.getMobile(), SMSType.CHANGE_MOBILE,
+                    //reqVo.getSmsCode()) // TODO: 17-4-27 校验短信验证码是否正确,如果正确则使该短信验证码失效
+            final UserRo userRo = userRedisDao.get(reqVo.getUserId());
+            if (userRo == null) {
+                throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
+            }
+            Long userId = userRedisDao.getUserIdByMobile(reqVo.getMobile());
+            if (userId != null) {
+                throw DepotnearbyExceptionFactory.User.USER_EXIST;
+            }
+            userRepository.updateUserMobile(reqVo.getUserId(), reqVo.getMobile());
+            final UserPo userPo = userRepository.findOne(reqVo.getUserId());
+            DepotnearbyTransactionManager.doWhenTransactionalSuccess(
+                    new DepotnearbyTransactionManager.Task() {
+                        @Override public void justDoIt() {
+                            syncUserPoToRedis(userPo);
+                            userRedisDao.removeMapMobileToUser(userRo.getMobile());
+                            if(userPo.getIsAdmin()) {
+                                shopService.changeMobile(userRo.getShopId(), reqVo.getMobile());
+                            }
+                        }
+                    });
+        } else {
+            throw DepotnearbyExceptionFactory.SMS.INVALID_SMS_CODE;
+        }
     }
 
     @Override

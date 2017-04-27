@@ -91,5 +91,11 @@ public class UserRedisDao extends CrudRedisDao<UserRo,String> {
         save(userRo);
     }
 
+    public void removeMapMobileToUser(String mobile) {
+        String[] keyAndField = RedisKeyGenerator.User.getMobileKeyAndField(mobile);
+        hdel(keyAndField[0], keyAndField[1]);
+        del(getKeyByParams(mobile));
+    }
+
 
 }

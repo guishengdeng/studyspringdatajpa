@@ -108,14 +108,14 @@ import java.util.concurrent.TimeUnit;
     /**
      * 变更用户绑定手机号码
      */
-   /* @RequestMapping("changeMobile") public JSONResult changeMobile(HttpServletRequest request)
+    @RequestMapping("changeMobile") public JSONResult changeMobile(HttpServletRequest request)
         throws CommonException {
 
         UserChangeMobileReqVo userChangeMobileReqVo =
             RestUtil.parseBizData(request, UserChangeMobileReqVo.class);
         userService.changeMobile(userChangeMobileReqVo);
         return new JSONResult();
-    }*/
+    }
 
     /**
      * 修改用户头像
