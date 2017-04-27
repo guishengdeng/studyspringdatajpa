@@ -10,9 +10,11 @@ import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import com.biz.gbck.common.vo.search.RecommendConditionVo;
 import com.biz.gbck.common.vo.search.RecommendConditionVo2;
 import com.biz.gbck.common.vo.search.SearchProductCondition;
+import com.biz.gbck.dao.mysql.po.org.ShopLevel;
 import com.biz.gbck.dao.mysql.po.org.ShopPo;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.mysql.repository.org.UserRepository;
+import com.biz.gbck.dao.redis.repository.org.ShopRedisDao;
 import com.biz.gbck.dao.redis.repository.org.UserRedisDao;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
@@ -22,6 +24,7 @@ import com.biz.gbck.vo.search.SearchUserReqVo;
 import com.biz.gbck.vo.user.MemberIdRequestVo;
 import com.biz.gbck.vo.user.UserResponseVo;
 import com.biz.service.CommonService;
+import com.biz.service.org.interfaces.ShopService;
 import com.biz.service.org.interfaces.UserService;
 import com.biz.transformer.org.UserRoToUserVo;
 import com.biz.vo.org.*;
@@ -46,7 +49,9 @@ public class UserServiceImpl extends CommonService implements UserService{
 
     @Autowired private UserRepository userRepository;
 
-    /*@Autowired private ShopRedisDao shopRedisDao;*/
+    @Autowired private ShopRedisDao shopRedisDao;
+
+    @Autowired private ShopService shopService;
 
 
 
@@ -88,16 +93,16 @@ public class UserServiceImpl extends CommonService implements UserService{
         }
         Stopwatch stopwatch = Stopwatch.createStarted();
         UserLoginResVo userLoginResVo = new UserRoToUserVo().apply(userRo);
-        ShopRo shopRo = null;/*shopRedisDao.findOne(userRo.getShopId());*/ // TODO: 17-4-27
+        ShopRo shopRo = shopRedisDao.findOne(userRo.getShopId().toString());
         if (shopRo == null) {
             UserPo userPo = userRepository.findOne(Long.parseLong(userRo.getId()));
             if (userPo != null) {
                 if (userPo.getShop() == null) {
-                    shopRo =null; /*shopService.createShop(userPo.getId(), userPo.getName(), null);*/// TODO: 17-4-27
-                  /*  userPo.setShop(shopService.findShopPo(shopRo.getId()));*/// TODO: 17-4-27
+                    shopRo =shopService.createShop(userPo.getId(), userPo.getName(), null);// TODO: 17-4-27 没商户创建商户
+                    userPo.setShop(shopService.findShopPo(Long.parseLong(shopRo.getId())));// TODO: 17-4-27 查询商户
                     userRo = syncUserPoToRedis(userRepository.save(userPo));
                 } else {
-                    shopRo =null;/* shopService.findShop(userPo.getShop().getId());*/// TODO: 17-4-27
+                    shopRo =shopService.findShop(userPo.getShop().getId());// TODO: 17-4-27  shop方法没实现
                 }
             } else {
                 userRedisDao.delete(userRo);
@@ -110,36 +115,36 @@ public class UserServiceImpl extends CommonService implements UserService{
         }
         userLoginResVo.setShopProperties(shopRo);
         //为20倍会员做双重检查，以防状态不正确
-       /*  if(!Objects.equals(userLoginResVo.getDetailAuditStatus(), AuditStatus.NORMAL.getValue()) || !Objects
+         if(!Objects.equals(userLoginResVo.getDetailAuditStatus(), AuditStatus.NORMAL.getValue()) || !Objects
                 .equals(userLoginResVo.getQualificationAuditStatus(), AuditStatus.NORMAL.getValue())){
-            ShopPo shopPo = shopService.findShopPo(shopRo.getId()); // TODO: 17-4-27
+            ShopPo shopPo = shopService.findShopPo(Long.parseLong(shopRo.getId())); // TODO: 17-4-27 根据商户id获取shopPo
             if(shopPo.getShopLevel() == ShopLevel.VIP_20){
                 userLoginResVo.setDetailAuditStatus(AuditStatus.NORMAL.getValue());
                 userLoginResVo.setQualificationAuditStatus(AuditStatus.NORMAL.getValue());
-            } // TODO: 17-4-27
+            }
         }
-       userLoginResVo.setLuckMoneyCount(voucherService.getUserUseableVoucherCount(userRo.getId()));
-        userLoginResVo.setShowActivityRedPoint(promotionService.showRedPoint(userRo.getId()));
+       /*userLoginResVo.setLuckMoneyCount(voucherService.getUserUseableVoucherCount(userRo.getId()));*/// TODO: 17-4-27 获取用户可用优惠券数量
+       /* userLoginResVo.setShowActivityRedPoint(promotionService.showRedPoint(userRo.getId()));*/ // TODO: 17-4-27 是否显示红点，有消息显示
         //TODO update login res vo: showPaymentButton 加上嘴上功夫判断
-        Boolean showPaymentButton = userRo.getIsAdmin() && ((
+      /*  Boolean showPaymentButton = userRo.getIsAdmin() && ((
                 (xiMuCustAccrService.isShopCanApply(shopRo.getId()) || xiMuCustAccrService
                         .isShopCanLoan(shopRo.getId())) && !allPaymentTypeIsInExcludePaymentTypes(shopRo,
                         PaymentType.XIMU)) || !allPaymentTypeIsInExcludePaymentTypes(shopRo,
                 PaymentType.XIMU));
-        userLoginResVo.setShowPaymentButton(showPaymentButton);
+        userLoginResVo.setShowPaymentButton(showPaymentButton);*/ // TODO: 17-4-27   是否显示记我账上
        if (Objects
                 .equals(userLoginResVo.getDetailAuditStatus(), AuditStatus.AUDIT_FAILED.getValue())) {
             List<String> detailAuditRejectReason =
-                    shopService.findDetailAuditRejectReason(shopRo.getId());
+                    shopService.findDetailAuditRejectReason(Long.parseLong(shopRo.getId()));
             userLoginResVo.setDetailRejectReasons(detailAuditRejectReason);
         }
         if (Objects.equals(userLoginResVo.getQualificationAuditStatus(),
                 AuditStatus.AUDIT_FAILED.getValue())) {
             List<String> qualificationAuditRejectReason =
-                    shopService.findQualificationAuditRejectReason(shopRo.getId());
+                    shopService.findQualificationAuditRejectReason(Long.parseLong(shopRo.getId()));
             userLoginResVo.setQualificationRejectReasons(qualificationAuditRejectReason);
         }
-        userLoginResVo.setMsgCount(noticeService.getRemainMSgCount(userRo.getId()));*/
+       /* userLoginResVo.setMsgCount(noticeService.getRemainMSgCount(userRo.getId()));*/ // TODO: 17-4-27 消息数量
         logger.error("获取数据用户[{}] 店铺及系统信息耗时 {} ms", userRo.getId(),
                 stopwatch.elapsed(TimeUnit.MILLISECONDS));
         return userLoginResVo;

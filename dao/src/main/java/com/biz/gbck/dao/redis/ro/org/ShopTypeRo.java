@@ -1,15 +1,20 @@
 package com.biz.gbck.dao.redis.ro.org;
 
 
+import com.biz.redis.annotation.Ro;
+import com.biz.redis.annotation.RoSortedSet;
 import com.biz.redis.bean.BaseRedisObject;
+
+import java.io.Serializable;
 
 /**
  * Created by defei on 3/18/16.
  */
-public class ShopTypeRo extends BaseRedisObject<Long> {
+@Ro(key = "org:shopTypeRo")
+@RoSortedSet(key = "list", score = "createTimestamp")
+public class ShopTypeRo  extends BaseRedisObject<String> implements Serializable {
 
 
-    private Long id;
 
     /**
      * 名称
@@ -35,14 +40,6 @@ public class ShopTypeRo extends BaseRedisObject<Long> {
      * 备注
      */
     private String description;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

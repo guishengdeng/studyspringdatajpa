@@ -112,7 +112,7 @@ public class UserLoginResVo {
     private Boolean emptyPaymentPassword = true;
 
     public void setShopProperties(ShopRo shopRo) {
-        setShopId(shopRo.getId());
+        setShopId(Long.parseLong(shopRo.getId()));
         setDeliveryAddress(shopRo.getDeliveryAddress());
         setDetailAuditStatus(shopRo.getDetailAuditStatus());
         setQualificationAuditStatus(shopRo.getQualificationAuditStatus());

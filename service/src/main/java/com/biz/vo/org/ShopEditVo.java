@@ -1,22 +1,21 @@
-package com.biz.gbck.dao.redis.ro.org;
+package com.biz.vo.org;
 
-import com.biz.redis.annotation.Ro;
-import com.biz.redis.annotation.RoSortedSet;
-import com.biz.redis.bean.BaseRedisObject;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import com.biz.gbck.dao.mysql.po.org.ShopLevel;
+import org.codelogger.utils.ArrayUtils;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
- * 店铺
+ * Created by defei on 4/3/16.
  */
-@Ro(key = "org:shopRo")
-@RoSortedSet(key = "list", score = "createTimestamp")
-public class ShopRo extends BaseRedisObject<String> implements Serializable {
+public class ShopEditVo {
 
-
+    /**
+     * 店铺id
+     */
+    private Long shopId;
 
     /**
      * 店铺名称
@@ -34,11 +33,6 @@ public class ShopRo extends BaseRedisObject<String> implements Serializable {
     private String avatar;
 
     /**
-     * 店铺成员
-     */
-    private String users;
-
-    /**
      * 店铺类型
      */
     private Long shopTypeId;
@@ -54,17 +48,35 @@ public class ShopRo extends BaseRedisObject<String> implements Serializable {
     private String tel;
 
     /**
-     * 绑定门店价格门店id
+     * 价格门店
      */
     private String depotId;
 
-    
     /**
-     * 配送门店Id
+     * 配送门店
      */
     private String deliveryDepotId;
-    
-    
+    /**
+     * 开发门店
+     */
+    private String assartDepotId;
+
+    public String getAssartDepotId() {
+        return assartDepotId;
+    }
+
+
+
+    /**
+     * 支持付款类型
+     */
+    private String supportPaymentIds;
+
+    /**
+     * 禁用的付款方式
+     */
+    private String disabledPaymentIds;
+
     /**
      * 店铺经度
      */
@@ -98,17 +110,17 @@ public class ShopRo extends BaseRedisObject<String> implements Serializable {
     /**
      * 省
      */
-    private Long provinceId;
+    private Integer provinceId;
 
     /**
      * 市
      */
-    private Long cityId;
+    private Integer cityId;
 
     /**
      * 区
      */
-    private Long districtId;
+    private Integer districtId;
 
     /**
      * 营业执照ID
@@ -158,17 +170,17 @@ public class ShopRo extends BaseRedisObject<String> implements Serializable {
     /**
      * 智选价格标签
      */
-    private String priceTags;
+    private List<Integer> priceTagIds;
 
     /**
      * 智选分类标签
      */
-    private String businessTags;
+    private List<Integer> businessTagIds;
 
     /**
      * 销售区域
      */
-    private String saleAreas;
+    private List<Integer> saleAreaIds;
 
     /**
      * 邀请者
@@ -186,32 +198,30 @@ public class ShopRo extends BaseRedisObject<String> implements Serializable {
     private Integer qualificationAuditStatus;
 
     /**
+     * 会员等级
+     */
+    private ShopLevel shopLevel;
+
+    /**
      * 店铺状态
      */
     private Integer status;
 
-    /**
-     * 支持的 付款方式
-     */
-    private String supportPaymentIds;
+    public String getDisabledPaymentIds() {
+        return disabledPaymentIds;
+    }
 
-    /**
-     * 禁用的付款方式
-     */
-    private String disabledPaymentIds;
+    public void setDisabledPaymentIds(String disabledPaymentIds) {
+        this.disabledPaymentIds = disabledPaymentIds;
+    }
 
-    /**
-     * 支付密码
-     */
-    private String paymentPassword;
+    public Long getShopId() {
+        return shopId;
+    }
 
-
-    private Long parentId;
-
-    private Integer channel;
-
-    private Long channelUserId;
-
+    public void setShopId(Long shopId) {
+        this.shopId = shopId;
+    }
 
     public String getName() {
         return name;
@@ -235,14 +245,6 @@ public class ShopRo extends BaseRedisObject<String> implements Serializable {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
-    }
-
-    public String getUsers() {
-        return users;
-    }
-
-    public void setUsers(String users) {
-        this.users = users;
     }
 
     public Long getShopTypeId() {
@@ -269,15 +271,28 @@ public class ShopRo extends BaseRedisObject<String> implements Serializable {
         this.tel = tel;
     }
 
-    /**
-     * {@linkplain ShopRo#depotId}
-     */
     public String getDepotId() {
         return depotId;
     }
 
     public void setDepotId(String depotId) {
         this.depotId = depotId;
+    }
+
+    public String getDeliveryDepotId() {
+        return deliveryDepotId;
+    }
+
+    public void setDeliveryDepotId(String deliveryDepotId) {
+        this.deliveryDepotId = deliveryDepotId;
+    }
+
+    public String getSupportPaymentIds() {
+        return supportPaymentIds;
+    }
+
+    public void setSupportPaymentIds(String[] supportPaymentIds) {
+        this.supportPaymentIds = ArrayUtils.join(supportPaymentIds, ",");
     }
 
     public BigDecimal getLongitude() {
@@ -320,6 +335,22 @@ public class ShopRo extends BaseRedisObject<String> implements Serializable {
         this.deliveryAddress = deliveryAddress;
     }
 
+    public void setAssartDepotId(String assartDepotId) {
+        this.assartDepotId = assartDepotId;
+    }
+
+    public void setSupportPaymentIds(String supportPaymentIds) {
+        this.supportPaymentIds = supportPaymentIds;
+    }
+
+    public String getCorporateIdPhoto() {
+        return corporateIdPhoto;
+    }
+
+    public void setCorporateIdPhoto(String corporateIdPhoto) {
+        this.corporateIdPhoto = corporateIdPhoto;
+    }
+
     public String getShopAddress() {
         return shopAddress;
     }
@@ -328,27 +359,27 @@ public class ShopRo extends BaseRedisObject<String> implements Serializable {
         this.shopAddress = shopAddress;
     }
 
-    public Long getProvinceId() {
+    public Integer getProvinceId() {
         return provinceId;
     }
 
-    public void setProvinceId(Long provinceId) {
+    public void setProvinceId(Integer provinceId) {
         this.provinceId = provinceId;
     }
 
-    public Long getCityId() {
+    public Integer getCityId() {
         return cityId;
     }
 
-    public void setCityId(Long cityId) {
+    public void setCityId(Integer cityId) {
         this.cityId = cityId;
     }
 
-    public Long getDistrictId() {
+    public Integer getDistrictId() {
         return districtId;
     }
 
-    public void setDistrictId(Long districtId) {
+    public void setDistrictId(Integer districtId) {
         this.districtId = districtId;
     }
 
@@ -408,13 +439,6 @@ public class ShopRo extends BaseRedisObject<String> implements Serializable {
         this.corporateId = corporateId;
     }
 
-    public String getCorporateIdPhoto() {
-        return corporateIdPhoto;
-    }
-
-    public void setCorporateIdPhoto(String corporateIdPhoto) {
-        this.corporateIdPhoto = corporateIdPhoto;
-    }
 
     public Timestamp getCreateTime() {
         return createTime;
@@ -424,28 +448,28 @@ public class ShopRo extends BaseRedisObject<String> implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getPriceTags() {
-        return priceTags;
+    public List<Integer> getPriceTagIds() {
+        return priceTagIds;
     }
 
-    public void setPriceTags(String priceTags) {
-        this.priceTags = priceTags;
+    public void setPriceTagIds(List<Integer> priceTagIds) {
+        this.priceTagIds = priceTagIds;
     }
 
-    public String getBusinessTags() {
-        return businessTags;
+    public List<Integer> getBusinessTagIds() {
+        return businessTagIds;
     }
 
-    public void setBusinessTags(String businessTags) {
-        this.businessTags = businessTags;
+    public void setBusinessTagIds(List<Integer> businessTagIds) {
+        this.businessTagIds = businessTagIds;
     }
 
-    public String getSaleAreas() {
-        return saleAreas;
+    public List<Integer> getSaleAreaIds() {
+        return saleAreaIds;
     }
 
-    public void setSaleAreas(String saleAreas) {
-        this.saleAreas = saleAreas;
+    public void setSaleAreaIds(List<Integer> saleAreaIds) {
+        this.saleAreaIds = saleAreaIds;
     }
 
     public String getInviterCode() {
@@ -479,65 +503,12 @@ public class ShopRo extends BaseRedisObject<String> implements Serializable {
     public void setStatus(Integer status) {
         this.status = status;
     }
-    
-    public String getDeliveryDepotId() {
-		return deliveryDepotId;
-	}
 
-	public void setDeliveryDepotId(String deliveryDepotId) {
-		this.deliveryDepotId = deliveryDepotId;
-	}
-
-	public String getSupportPaymentIds() {
-		return supportPaymentIds;
-	}
-
-	public void setSupportPaymentIds(String supportPaymentIds) {
-		this.supportPaymentIds = supportPaymentIds;
-	}
-
-    public String getDisabledPaymentIds() {
-        return disabledPaymentIds;
+    public ShopLevel getShopLevel() {
+        return shopLevel;
     }
 
-    public void setDisabledPaymentIds(String disabledPaymentIds) {
-        this.disabledPaymentIds = disabledPaymentIds;
+    public void setShopLevel(ShopLevel shopLevel) {
+        this.shopLevel = shopLevel;
     }
-
-    public Long getParentId() {
-        return parentId;
-    }
-
-    public Integer getChannel() {
-        return channel;
-    }
-
-    public void setChannel(Integer channel) {
-        this.channel = channel;
-    }
-
-    public Long getChannelUserId() {
-        return channelUserId;
-    }
-
-    public void setChannelUserId(Long channelUserId) {
-        this.channelUserId = channelUserId;
-    }
-
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
-    }
-
-    public String toString(){
-    	return ToStringBuilder.reflectionToString(this);
-    }
-
-    public String getPaymentPassword() {
-        return paymentPassword;
-    }
-
-    public void setPaymentPassword(String paymentPassword) {
-        this.paymentPassword = paymentPassword;
-    }
-
 }
