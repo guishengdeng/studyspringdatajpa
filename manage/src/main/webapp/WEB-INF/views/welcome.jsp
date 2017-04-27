@@ -11,6 +11,7 @@
                 <gbck:singleMenu text="菜单管理" link="manage/mainMenus.do" />
                 <gbck:singleMenu text="角色管理" link="manage/roles.do" />
                 <gbck:singleMenu text="二维码" link="qrcode/list.do" />
+                <gbck:singleMenu text="二维码履历" link="qrcode/resume/list.do" />
             </gbck:menuGroup>
             <gbck:singleMenu text="另一个菜单" link="manage/users.do" />
         </gbck:sidebar>
