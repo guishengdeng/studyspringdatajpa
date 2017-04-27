@@ -172,7 +172,7 @@
                     <i id="sidebar-toggle-icon" class="ace-save-state ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
                 </div>
             </div>
-            <div class="main-content localos-container">
+            <div class="main-content gbck-container">
                 <script type="text/javascript">
                     try{ace.settings.loadState('main-container')}catch(e){}
                 </script>
