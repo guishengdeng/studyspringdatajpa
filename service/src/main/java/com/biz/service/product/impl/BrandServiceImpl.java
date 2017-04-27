@@ -4,21 +4,16 @@ import com.biz.core.page.PageResult;
 import com.biz.gbck.dao.mysql.po.product.meta.Brand;
 import com.biz.gbck.dao.mysql.po.product.meta.Category;
 import com.biz.gbck.dao.mysql.repository.category.CategoryRepository;
-import com.biz.gbck.dao.redis.ro.advertisement.AdvertisementRo;
-import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.exceptions.product.BrandNotFoundException;
 import com.biz.gbck.exceptions.product.CategoryNotFoundException;
 import com.biz.gbck.exceptions.product.IllegalParameterException;
-import com.biz.gbck.transform.advertisement.AdvertisementRo2AdvertisementVo;
 import com.biz.gbck.transform.product.Brand2BrandListItemVo;
 import com.biz.gbck.transform.product.Brand2IdNameVo;
 import com.biz.gbck.transform.product.Brand2UpdateBrandVo;
-import com.biz.gbck.vo.advertisement.frontend.AdvertisementVo;
 import com.biz.gbck.vo.product.backend.*;
 import com.biz.service.product.backend.BrandService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import java.util.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +21,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
 
 /**
  * 品牌 ServiceImpl
@@ -318,7 +315,7 @@ public class BrandServiceImpl extends AbstractBrandService implements BrandServi
      * 2.遍历品牌集合剔除不符合要求的品牌
      * 3.遍历子分类并递归调用原方法,获取所有符合条件的品牌
      *
-     * @param category 分类
+     * @param category    分类
      * @param searchValue 搜索值
      * @return 品牌列表页列表项集合
      */
@@ -349,7 +346,7 @@ public class BrandServiceImpl extends AbstractBrandService implements BrandServi
     }
 
     @Override
-    public List<BrandListItemVo> findBrands(){
+    public List<BrandListItemVo> findBrands() {
         List<Brand> bands = brandRepository.findAll();
         return Lists.transform(bands, new Brand2BrandListItemVo(""));
     }
