@@ -1,6 +1,7 @@
 package com.biz.gbck.dao.mysql.po.app;
 
 import com.biz.support.jpa.po.BaseEntity;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -15,241 +16,241 @@ import java.io.Serializable;
  * @reviewer
  */
 @Entity
-@Table(name="app_con")
-public class App extends BaseEntity implements Serializable{
+@Table(name = "app_con")
+public class App extends BaseEntity implements Serializable {
 
-     private static final long serialVersionUID = 9056063437136572968L;
+    private static final long serialVersionUID = 9056063437136572968L;
 
-      /*
-       * 400电话
-       */
-     @Column(length=50, nullable=false)
-     private String tel;
-
-     /*
-      *热搜索词
-      */
-     @Column(length=50)
-     private String hotKeyWord;
-
-     /*
-      *首页遮罩图片URL
-      */
-     @Column(length=100)
-     private String pictureUrl;
-
-     /*
-      *首页遮罩跳转URL
-      */
-     @Column(length=100)
-     private String url;
-
-     /*
-     *红包标题
-      */
-     @Column(length=80)
-     private String title;
-
-     /*
-     *红包提示的内容
-      */
-     @Column(length=100)
-     private String  content;
-
-     /*
-     *红包分享出去的图标
-      */
-     @Column(length=100)
-     private String icon;
-
-     /*
-      *红包分享页url
-      */
-     @Column(length=200)
-     private  String  shareUrl;
-
-     /*
-      *推荐有礼Url
-      */
-     @Column(length=200)
-     private String recommedUrl;
-
-     /*
-     *app下载页面
+    /*
+     * 400电话
      */
-     @Column(length=200)
-     private String appDownloadUrl;
+    @Column(length = 50, nullable = false)
+    private String tel;
 
-     /*
-      *订单满足 多少（元） 发券
-      */
-     @Column
-     private Integer money;
+    /*
+     *热搜索词
+     */
+    @Column(length = 50)
+    private String hotKeyWord;
 
-     /*
-     *首页搜索栏显示标签
-      */
-     @Column(length=150)
-     private String tabOne;
+    /*
+     *首页遮罩图片URL
+     */
+    @Column(length = 100)
+    private String pictureUrl;
 
-     @Column(length=150)
-     private String tabTwo;
+    /*
+     *首页遮罩跳转URL
+     */
+    @Column(length = 100)
+    private String url;
+
+    /*
+    *红包标题
+     */
+    @Column(length = 80)
+    private String title;
+
+    /*
+    *红包提示的内容
+     */
+    @Column(length = 100)
+    private String content;
+
+    /*
+    *红包分享出去的图标
+     */
+    @Column(length = 100)
+    private String icon;
+
+    /*
+     *红包分享页url
+     */
+    @Column(length = 200)
+    private String shareUrl;
+
+    /*
+     *推荐有礼Url
+     */
+    @Column(length = 200)
+    private String recommedUrl;
+
+    /*
+    *app下载页面
+    */
+    @Column(length = 200)
+    private String appDownloadUrl;
+
+    /*
+     *订单满足 多少（元） 发券
+     */
+    @Column
+    private Integer money;
+
+    /*
+    *首页搜索栏显示标签
+     */
+    @Column(length = 150)
+    private String tabOne;
+
+    @Column(length = 150)
+    private String tabTwo;
 
     /*
      *20倍会员下单购买数量受限
      */
-     @Column(length=50)
-     private double minNum;
+    @Column(length = 50)
+    private double minNum;
 
-     @Column(length=50)
-     private double maxNum;
+    @Column(length = 50)
+    private double maxNum;
 
-     /*
-      *受限类型
-      */
-     @Column(nullable=false)
-     private String type;
+    /*
+     *受限类型
+     */
+    @Column(nullable = false)
+    private String type;
 
-     /*
-      *提示
-      */
-     @Column(length=50)
-     private boolean point;
+    /*
+     *提示
+     */
+    @Column
+    private boolean point;
 
 
     public String getTel() {
-     return tel;
+        return tel;
     }
 
     public void setTel(String tel) {
-     this.tel = tel;
+        this.tel = tel;
     }
 
     public String getHotKeyWord() {
-     return hotKeyWord;
+        return hotKeyWord;
     }
 
     public void setHotKeyWord(String hotKeyWord) {
-     this.hotKeyWord = hotKeyWord;
+        this.hotKeyWord = hotKeyWord;
     }
 
     public String getPictureUrl() {
-     return pictureUrl;
+        return pictureUrl;
     }
 
     public void setPictureUrl(String pictureUrl) {
-     this.pictureUrl = pictureUrl;
+        this.pictureUrl = pictureUrl;
     }
 
     public String getUrl() {
-     return url;
+        return url;
     }
 
     public void setUrl(String url) {
-     this.url = url;
+        this.url = url;
     }
 
     public String getTitle() {
-     return title;
+        return title;
     }
 
     public void setTitle(String title) {
-     this.title = title;
+        this.title = title;
     }
 
     public String getContent() {
-     return content;
+        return content;
     }
 
     public void setContent(String content) {
-     this.content = content;
+        this.content = content;
     }
 
     public String getIcon() {
-     return icon;
+        return icon;
     }
 
     public void setIcon(String icon) {
-     this.icon = icon;
+        this.icon = icon;
     }
 
     public String getShareUrl() {
-     return shareUrl;
+        return shareUrl;
     }
 
     public void setShareUrl(String shareUrl) {
-     this.shareUrl = shareUrl;
+        this.shareUrl = shareUrl;
     }
 
     public String getRecommedUrl() {
-     return recommedUrl;
+        return recommedUrl;
     }
 
     public void setRecommedUrl(String recommedUrl) {
-     this.recommedUrl = recommedUrl;
+        this.recommedUrl = recommedUrl;
     }
 
     public String getAppDownloadUrl() {
-     return appDownloadUrl;
+        return appDownloadUrl;
     }
 
     public void setAppDownloadUrl(String appDownloadUrl) {
-     this.appDownloadUrl = appDownloadUrl;
+        this.appDownloadUrl = appDownloadUrl;
     }
 
     public Integer getMoney() {
-     return money;
+        return money;
     }
 
     public void setMoney(Integer money) {
-     this.money = money;
+        this.money = money;
     }
 
     public String getTabOne() {
-     return tabOne;
+        return tabOne;
     }
 
     public void setTabOne(String tabOne) {
-     this.tabOne = tabOne;
+        this.tabOne = tabOne;
     }
 
     public String getTabTwo() {
-     return tabTwo;
+        return tabTwo;
     }
 
     public void setTabTwo(String tabTwo) {
-     this.tabTwo = tabTwo;
+        this.tabTwo = tabTwo;
     }
 
     public double getMinNum() {
-     return minNum;
+        return minNum;
     }
 
     public void setMinNum(double minNum) {
-     this.minNum = minNum;
+        this.minNum = minNum;
     }
 
     public double getMaxNum() {
-     return maxNum;
+        return maxNum;
     }
 
     public void setMaxNum(double maxNum) {
-     this.maxNum = maxNum;
+        this.maxNum = maxNum;
     }
 
     public String getType() {
-     return type;
+        return type;
     }
 
     public void setType(String type) {
-     this.type = type;
+        this.type = type;
     }
 
     public boolean isPoint() {
-     return point;
+        return point;
     }
 
     public void setPoint(boolean point) {
-     this.point = point;
+        this.point = point;
     }
-   }
+}

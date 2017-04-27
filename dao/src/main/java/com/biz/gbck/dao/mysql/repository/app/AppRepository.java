@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * @reviewer
  */
 
-public interface AppRepository extends CommonJpaRepository<App,String>,JpaSpecificationExecutor<App>{
+public interface AppRepository extends CommonJpaRepository<App, Long>, JpaSpecificationExecutor<App> {
 
 
 }
