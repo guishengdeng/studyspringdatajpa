@@ -4,7 +4,6 @@
 <%@ attribute name="springPage" required="true" type="org.springframework.data.domain.Page" %>
 <%@ attribute name="defaultPageSize" required="false" type="java.lang.Integer" %>
 <%
-
     String fixedUrl = url;
     if(url.contains("?")){
         fixedUrl = url.split("\\?")[0];
@@ -26,10 +25,21 @@
     request.setAttribute("fromPage", Math.max(1, springPage == null ? 0 : springPage.getNumber() - 1));
     request.setAttribute("endPage", Math.min(totalPage ,Math.max(1, springPage == null ? 0 : springPage.getNumber() + 3)));
 %>
+<script type="application/javascript" >
+    function pageForward(e){
+        var $pagination = $(e).closest(".pagination");
+        window.location.href="${fixedUrl}?${pageOtherParams}${empty pageOtherParams ? '' : '&'}page=" + $pagination.find("input[name='page']").val() + "&pageSize=" + $pagination.find("input[name='pageSize']").val()
+    }
+</script>
 <nav style="text-align: right">
+    <c:if test="${not empty springPage}">
+        <div class="pagination pull-left">
+            当前页:${currentPage}/${totalPage}  本页条数:${springPage.numberOfElements}  总数:${springPage.totalElements}
+        </div>
+    </c:if>
     <ul class="pagination">
         <c:if test="${fromPage > 1}">
-            <li>
+            <li title="第一页">
                 <a href="${fixedUrl}?page=1&pageSize=${pageSize}${empty pageOtherParams ? '' : '&'}${pageOtherParams}" >
                     <span>
                         <i class="fa fa-step-backward"></i>
@@ -88,7 +98,7 @@
             </c:otherwise>
         </c:choose>
         <c:if test="${endPage < totalPage}">
-            <li>
+            <li title="最后一页">
                 <a href="${fixedUrl}?page=${totalPage}&pageSize=${pageSize}${empty pageOtherParams ? '' : '&'}${pageOtherParams}" >
                     <span>
                         <i class="fa fa-step-forward"></i>
@@ -96,6 +106,12 @@
                 </a>
             </li>
         </c:if>
-
     </ul>
+    <div class="pagination" style="vertical-align: top;margin-left: 10px">
+        <span>页面大小</span>
+        <input type="number" step="1" min="1" name="pageSize" value="${pageSize}" class="input-sm" style="width: 3em">
+        <span>跳转到</span>
+        <input type="number" step="1" min="1" name="page" value="${currentPage}" class="input-sm" style="width: 3em;">
+        <input type="button" class="btn btn-info btn-sm" value="go" onclick="pageForward(this)">
+    </div>
 </nav>
