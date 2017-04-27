@@ -11,8 +11,19 @@ import javax.validation.constraints.Min;
  */
 public class CatSearchVO {
 
+	/**
+	 * 名字
+	 */
+	private String name;
+
+	/**
+	 * 销售状态
+	 */
 	private SaleStatusEnum saleStatus;
 
+	/**
+	 * 生命体征(可理解为是否删除)
+	 */
 	private CommonStatusEnum status;
 
 	@Min(1)
@@ -20,6 +31,22 @@ public class CatSearchVO {
 
 	@Max(100)
 	private Integer pageSize = 20;
+
+	/**
+	 * {@linkplain CatSearchVO#name}
+	 */
+	public String getName() {
+
+		return name;
+	}
+
+	/**
+	 * {@linkplain CatSearchVO#name}
+	 */
+	public void setName(String name) {
+
+		this.name = name;
+	}
 
 	/**
 	 * {@linkplain CatSearchVO#saleStatus}

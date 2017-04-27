@@ -7,7 +7,6 @@
 <%
     request.setAttribute("_saleStatusArray_", SaleStatusEnum.values());
 %>
-<div class="control-group">
 <c:forEach items="${_saleStatusArray_}" var="_saleStatus_" varStatus="varStatus">
     <div class="radio ${inline ? 'inline' : ''}">
         <label>
@@ -17,4 +16,3 @@
         </label>
     </div>
 </c:forEach>
-</div>

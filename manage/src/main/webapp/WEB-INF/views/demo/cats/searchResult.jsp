@@ -71,8 +71,26 @@
                                 猫列表 <span class="inline help-block">(数据库翻页查询)</span>
                             </h3>
                             <form action="demo/cats.do" method="get">
-
+                                <div class="col-md-2 inline">
+                                    <label>名字</label>
+                                    <input name="name" value='<c:out value="${reqVo.name}" />' type="text" placeholder="名字"  autocomplete="off">
+                                </div>
+                                <div class="col-md-2 inline">
+                                    <label>生命体征</label>
+                                    <gbck:commonStatusSelect fieldName="status" selectedStatus="${reqVo.status}" withNone="true" enableLabel="存活" disableLabel="死亡"/>
+                                </div>
+                                <div class="col-md-2 inline">
+                                    <label>销售状态</label>
+                                    <gbck:saleStatusSelect fieldName="saleStatus" selectedStatus="${reqVo.saleStatus}" withNone="true"/>
+                                </div>
+                                <div class="inline">
+                                    <button type="submit" class="btn btn-info btn-sm">
+                                        <i class="ace-icon fa fa-search bigger-110"></i>搜索
+                                    </button>
+                                </div>
                             </form>
+                            <div class="hr hr-18 dotted"></div>
+
                             <table id="cat-table" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>

@@ -31,7 +31,7 @@ public class CatSearchSpecification implements Specification<CatPO> {
 
 		if (reqVo.getStatus() != null) {
 			// 分类ID
-			Predicate predicate = criteriaBuilder.equal(root.get("status"), reqVo.getSaleStatus());
+			Predicate predicate = criteriaBuilder.equal(root.get("status"), reqVo.getStatus());
 			predicates.add(predicate);
 		}
 
@@ -40,6 +40,12 @@ public class CatSearchSpecification implements Specification<CatPO> {
 			Predicate predicate = criteriaBuilder.equal(root.get("saleStatus"), reqVo.getSaleStatus());
 			predicates.add(predicate);
 		}
+
+		if(StringUtils.isNotBlank(reqVo.getName())){
+			String sqlName = "%" + reqVo.getName().trim() + "%";
+			predicates.add(criteriaBuilder.like(root.get("name").as(String.class), sqlName));
+		}
+
 		criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
 		return criteriaQuery.getRestriction();
 
