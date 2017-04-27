@@ -1,7 +1,7 @@
 package com.biz.gbck.transform.product;
 
-import com.biz.gbck.dao.mysql.po.product.Product;
-import com.biz.gbck.dao.mysql.po.product.ProductAudit;
+import com.biz.gbck.dao.mysql.po.product.bbc.Product;
+import com.biz.gbck.dao.mysql.po.product.bbc.ProductAudit;
 import com.google.common.base.Function;
 import org.codelogger.utils.BeanUtils;
 

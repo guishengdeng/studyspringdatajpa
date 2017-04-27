@@ -9,8 +9,8 @@
     <jsp:attribute name="script">
         <script type="application/javascript">
             <c:forEach items="${admin.roles}" var="role" varStatus="status">
-                var obj${status.count} = document.getElementById('roleId_${role.id}');
-                if (obj${status.count}) obj${status.count}.checked = true;
+            var obj${status.count} = document.getElementById('roleId_${role.id}');
+            if (obj${status.count}) obj${status.count}.checked = true;
             </c:forEach>
             function showDiv(id) {
                 $("#cat-disable-confirm-modal").modal();
@@ -21,7 +21,7 @@
             });
             $(".btn-confirm-ban").click(function () {
                 var promotionsId = $("#promotionsId").val();
-                window.location.href = "${pageContext.request.contextPath}/promotions/delete?id="+promotionsId+"";
+                window.location.href = "${pageContext.request.contextPath}/promotions/delete?id=" + promotionsId + "";
             });
         </script>
     </jsp:attribute>
@@ -54,7 +54,7 @@
                                 活动发布
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
                                 <a href="promotions/new.do" class="btn btn-sm btn-primary"><i
-                                             class="ace-icon glyphicon glyphicon-plus"></i>
+                                        class="ace-icon glyphicon glyphicon-plus"></i>
                                         新增活动
                                 </a>
                             </span>
@@ -77,12 +77,14 @@
                                         <td>${promotions.title}</td>
                                         <td>${promotions.url}</td>
                                         <td>
-                                            <img id="image" src="${imgURL}${promotions.logo}" width="100px" height="100px">
+                                            <img id="image" src="${imgURL}${promotions.logo}" width="100px"
+                                                 height="100px">
                                             <input name="logo" type="hidden" id="logo_container"
                                                    value="${promotions.logo}" class="form-control required">
                                         </td>
                                         <td>${promotions.adminId}</td>
-                                        <td><fmt:formatDate value="${promotions.createTime}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+                                        <td><fmt:formatDate value="${promotions.createTime}"
+                                                            pattern="yyyy/MM/dd HH:mm:ss"/></td>
                                         <td>${promotions.idx}</td>
                                         <td>
                                             <a class="btn btn-xs btn-info"

@@ -2,8 +2,14 @@ package com.biz.gbck.transform.product;
 
 import com.alibaba.fastjson.JSON;
 import com.biz.core.util.DateUtil;
-import com.biz.gbck.dao.mysql.po.product.*;
-import com.biz.gbck.dao.redis.ro.product.ProductRo;
+import com.biz.gbck.dao.mysql.po.product.master.GroupProduct;
+import com.biz.gbck.dao.mysql.po.product.master.GroupProductItem;
+import com.biz.gbck.dao.mysql.po.product.bbc.Product;
+import com.biz.gbck.dao.mysql.po.product.meta.ApartTag;
+import com.biz.gbck.dao.mysql.po.product.meta.Brand;
+import com.biz.gbck.dao.mysql.po.product.meta.ExtendProperty;
+import com.biz.gbck.dao.mysql.po.product.meta.SaleTag;
+import com.biz.gbck.dao.redis.ro.product.bbc.ProductRo;
 import com.biz.gbck.enums.product.SaleStatusEnum;
 import com.biz.gbck.enums.product.VendorTypeEnum;
 import com.biz.gbck.vo.product.RapidProductItemVo;

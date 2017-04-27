@@ -1,6 +1,6 @@
 package com.biz.soa.product.service.interfaces.impl;
 
-import com.biz.gbck.dao.redis.ro.product.PriceRo;
+import com.biz.gbck.dao.redis.ro.product.bbc.PriceRo;
 import com.biz.gbck.vo.depot.DepotPromotionVo;
 import com.biz.soa.product.service.interfaces.ProductPriceGenerator;
 import java.util.Date;

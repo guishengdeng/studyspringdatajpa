@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.redis.repository.product;
 
 import com.biz.gbck.dao.redis.CrudRedisDao;
-import com.biz.gbck.dao.redis.ro.product.ProductExtendRo;
+import com.biz.gbck.dao.redis.ro.product.meta.ProductExtendRo;
 import java.io.Serializable;
 import org.springframework.stereotype.Repository;
 

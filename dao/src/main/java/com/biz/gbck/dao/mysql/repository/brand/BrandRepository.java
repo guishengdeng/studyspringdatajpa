@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.brand;
 
-import com.biz.gbck.dao.mysql.po.product.Brand;
+import com.biz.gbck.dao.mysql.po.product.meta.Brand;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.Collection;
 import java.util.List;
