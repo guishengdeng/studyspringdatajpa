@@ -494,12 +494,31 @@ public class UserServiceImpl extends CommonService implements UserService{
 
     @Override
     public void changePwd(ChangePwdVo changePwdVo) throws CommonException {
-
+        UserRo userRo = userRedisDao.get(changePwdVo.getUserId());
+        if (userRo == null) {
+            throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
+        }
+        final String mobile = userRo.getMobile();
+        if(changePwdVo.getOriginPassword().length()!=32|changePwdVo.getNewPassword().length()!=32|changePwdVo.getConfirmPassword().length()!=32){
+            throw DepotnearbyExceptionFactory.User.ILLEGAL_PASSWORD;
+        }
+        if (changePwdVo.getOriginPassword().equalsIgnoreCase(userRo.getPassword()) &&
+                changePwdVo.getNewPassword().equalsIgnoreCase(changePwdVo.getConfirmPassword())) {
+            userRepository.updateUserPassword(mobile,changePwdVo.getConfirmPassword(),changePwdVo.getRawPassword());
+            DepotnearbyTransactionManager.doWhenTransactionalSuccess(new DepotnearbyTransactionManager.Task() {
+                @Override public void justDoIt() {
+                    userRedisDao.updateUserPassword(mobile,changePwdVo.getConfirmPassword(),changePwdVo.getRawPassword());
+                }
+            });
+        }else{
+            throw DepotnearbyExceptionFactory.User.PWD_NOT_MATCH;
+        }
     }
 
     @Override
     public boolean validateUserLoginPwd(Long userId, String md5Password) throws CommonException {
-        return false;
+        UserRo userRo = findUser(userId);
+        return StringUtils.equals(StringUtils.trim(md5Password), userRo.getPassword());
     }
 
     @Override

@@ -7,7 +7,9 @@ import com.depotnearby.rest.util.RestUtil;
 import com.depotnearby.vo.CommonReqVoBindUserId;
 import com.depotnearby.vo.user.*; */
 import com.biz.gbck.common.exception.CommonException;
+import com.biz.gbck.common.exception.ExceptionCode;
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
+import com.biz.rest.bean.Constant;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.rest.util.RestUtil;
 import com.biz.service.org.interfaces.UserService;
@@ -133,15 +135,18 @@ import java.util.concurrent.TimeUnit;
     /**
      * 修改用户密码
      */
-   /* @RequestMapping("changePwd") public JSONResult changePwd(HttpServletRequest request)
+    @RequestMapping("changePwd") public JSONResult changePwd(HttpServletRequest request)
         throws CommonException {
         ChangePwdVo changePwdVo = RestUtil.parseBizData(request, ChangePwdVo.class);
         userService.changePwd(changePwdVo);
         return new JSONResult();
-    }*/
+    }
 
 
-  /*  @RequestMapping("validateLoginPassword")
+    /**
+     *验证登录密码
+     */
+    @RequestMapping("validateLoginPassword")
     public JSONResult validateLoginPwd(HttpServletRequest request) throws CommonException {
         ValidateUserLoginPwdReqVo validateUserLoginPwdReqVo =
             RestUtil.parseBizData(request, ValidateUserLoginPwdReqVo.class);
@@ -153,6 +158,6 @@ import java.util.concurrent.TimeUnit;
         }
 
         return new JSONResult(Constant.SUCCESS_CODE, "验证用户登录密码成功");
-    }*/
+    }
 
 }
