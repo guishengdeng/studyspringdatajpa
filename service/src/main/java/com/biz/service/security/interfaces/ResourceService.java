@@ -1,6 +1,7 @@
 package com.biz.service.security.interfaces;
 
 import com.biz.gbck.dao.mysql.po.security.Resource;
+import com.biz.gbck.enums.CommonStatusEnum;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface ResourceService  {
     List<Resource> listResources();
     Resource getResource(Long id);
     void delete(Long id);
+
+    List<Resource> listByStatus(CommonStatusEnum status);
 }

@@ -3,6 +3,7 @@ package com.biz.manage.controller.admin;
 import com.biz.gbck.dao.mysql.po.security.MainMenu;
 import com.biz.gbck.dao.mysql.po.security.MenuItem;
 import com.biz.gbck.dao.mysql.po.security.Resource;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.menu.MenuItemVo;
 import com.biz.service.IdService;
 import com.biz.service.security.interfaces.MainMenuService;
@@ -11,6 +12,8 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,16 +44,17 @@ import java.util.Random;
 @RequestMapping("manage/menuItems")
 @Secured("ROLE_MENUITEM")
 public class MenuItemController {
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private MenuItemService menuItemService;
     @Autowired
     private MainMenuService mainMenuService;
     @Autowired
     private IdService idService;
-    @RequestMapping("/list")
+    @GetMapping
     @PreAuthorize("hasAuthority('OPT_MENUITEM_LIST')")
-    public String list(Model model){
-        List<MenuItem> menuItems=menuItemService.listMenuItems();
+    public String list(Model model, @RequestParam(value = "status",required = false,defaultValue = "ENABLE")CommonStatusEnum status){
+        List<MenuItem> menuItems = menuItemService.listByStatus(status);
         model.addAttribute("menuItems",menuItems);
         return "manage/menu/menuItem";
     }
@@ -59,8 +63,8 @@ public class MenuItemController {
     public ModelAndView edit(@RequestParam("id") Long id){
         ModelAndView view=null;
         if(id!=null){
-            MenuItem menuItem=menuItemService.getMenuItem(id);
-            view=new ModelAndView("manage/menu/addOrUpdateMenuItem","menuItem",menuItem)
+            MenuItem menuItem = menuItemService.getMenuItem(id);
+            view = new ModelAndView("manage/menu/addOrUpdateMenuItem","menuItem",menuItem)
                     .addObject("cmd","edit");
         }
         return view;
@@ -78,8 +82,8 @@ public class MenuItemController {
             menuItem.setId(idService.nextId());
         }
         //要获得主菜单的id   从MainMenuController里set
-        Long mainMenu_id=(Long)session.getAttribute("mainmenu_id");
-        MainMenu mainMenu=mainMenuService.getMainMenu(mainMenu_id);
+        Long mainMenu_id = (Long)session.getAttribute("mainmenu_id");
+        MainMenu mainMenu = mainMenuService.getMainMenu(mainMenu_id);
         model.addAttribute("mainMenu",mainMenu);
         menuItemService.addOrUpdate(menuItem);
         return "redirect:../mainMenus/detail.do?id="+mainMenu_id;
@@ -88,14 +92,9 @@ public class MenuItemController {
     @PreAuthorize("hasAuthority('OPT_MENUITEM_DELETE')")
     @ResponseBody
     public Boolean delete(@RequestParam("id") Long id){
-       /* if(id!=null){
-            menuItemService.delete(id);
-        }
-        Long mainMenu_id=(Long)session.getAttribute("mainmenu_id");
-        model.addAttribute("mainMenu",mainMenuService.getMainMenu(mainMenu_id));
-        return "redirect:../mainMenus/detail.do?id="+mainMenu_id;*/
         if(id!=null){
-            //说明用户要执行删除操作,此时应该执行调用删除方法,而删除应该是逻辑删除而不是物理删除
+            menuItemService.delete(id);
+            logger.debug("正在执行删除操作.....");
             return true;
         }
         return false;
@@ -106,7 +105,7 @@ public class MenuItemController {
     public String  detail(@RequestParam("id") Long id, Model model,HttpSession session){
         if(id!=null){
             MenuItem menuItem = menuItemService.getMenuItem(id);
-            List<Resource> resources=menuItem.getResources();
+            List<Resource> resources = menuItem.getResources();
             model.addAttribute("resources",resources);
             model.addAttribute("menuItem",menuItem);
         }

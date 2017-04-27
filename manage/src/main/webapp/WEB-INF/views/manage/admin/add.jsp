@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--这是用户--%>
-<depotnextdoor:page title="page.user.edit">
+<depotnextdoor:page title="用户列表edit">
 
     <jsp:attribute name="script">
         <script type="application/javascript">
@@ -58,16 +58,23 @@
                                             <label class="col-sm-3 control-label no-padding-right"
                                                    for="account">
                                                 用户名
-                                    </label>
+                                            </label>
 
-                                    <div class="col-sm-9">
-                                        <input ${empty admin ? '' : 'readonly'} type="text"
-                                                                                id="account"
-                                                                                placeholder="用户名"
-                                                                                name="username"
-                                                                                value="${admin.username}"
-                                                                                class="col-xs-10 col-sm-5">
-                                    </div>
+                                            <div class="col-sm-9">
+                                                <input ${empty admin ? '' : 'readonly'} type="text"
+                                                                                        id="account"
+                                                                                        placeholder="用户名"
+                                                                                        name="username"
+                                                                                        value="${admin.username}"
+
+                                                                                        class="col-xs-10 col-sm-5">
+                                                 <%--<textarea type="text"
+                                                           id="account"
+                                                           placeholder=""
+                                                           name="username"
+                                                           class="col-xs-5 col-sm-5"
+                                                           ><c:out value="${admin.username}"/></textarea>--%>
+                                            </div>
                                 </div>
                                 <c:if test="${empty admin}">
                                     <div class="form-group">

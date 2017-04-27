@@ -93,7 +93,6 @@ public class AdminServiceImpl extends AbstractBaseService implements UserDetails
 
     @Override
     public void deleteAdmin(String username) {
-
-         adminRepository.delete(username);
+         adminRepository.updateStatus(CommonStatusEnum.DISABLE,username);
     }
 }

@@ -2,6 +2,7 @@ package com.biz.service.security;
 
 import com.biz.gbck.dao.mysql.po.security.Resource;
 import com.biz.gbck.dao.mysql.repository.admin.ResourceRepository;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.security.interfaces.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,25 +21,31 @@ import java.util.List;
  */
 @Service
 public class ResourceServiceImpl extends AbstractBaseService implements ResourceService {
+
+
     @Autowired
-    private ResourceRepository repository;
+    private ResourceRepository resourceRepository;
     @Override
     public void addOrUpdate(Resource resource) {
-        repository.save(resource);
+        resourceRepository.save(resource);
     }
 
     @Override
     public List<Resource> listResources() {
-        return repository.findAll();
+        return resourceRepository.findAll();
     }
 
     @Override
     public Resource getResource(Long id) {
-        return repository.findOne(id);
+        return resourceRepository.findOne(id);
     }
 
     @Override
     public void delete(Long id) {
-          repository.delete(id);
+        resourceRepository.updateStatus(id,CommonStatusEnum.DISABLE);
+    }
+    @Override
+    public List<Resource> listByStatus(CommonStatusEnum status) {
+        return resourceRepository.getByStatus(status);
     }
 }
