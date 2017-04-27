@@ -2,6 +2,7 @@ package com.biz.gbck.dao.mysql.repository.org;
 
 import com.biz.gbck.dao.mysql.po.org.UserPo;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -21,5 +22,13 @@ public interface UserRepository extends JpaRepository<UserPo, Long>, UserDao {
 
 
     UserPo findByMobile(String mobilePhone);
+
+    @Modifying
+    @Query("UPDATE UserPo SET lastLoginDeviceToken = null WHERE id = :userId")
+    void cleanLoginDevice(@Param("userId") Long userId);
+
+
+    @Modifying @Query("update UserPo u set u.password = :password,u.originalPassword = :originalPassword  where u.mobile = :mobile")
+    void updateUserPassword(@Param("mobile") String mobile, @Param("password") String password,@Param("originalPassword") String originalPassword);
 
 }

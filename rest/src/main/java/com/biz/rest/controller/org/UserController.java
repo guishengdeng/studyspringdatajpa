@@ -7,11 +7,14 @@ import com.depotnearby.rest.util.RestUtil;
 import com.depotnearby.vo.CommonReqVoBindUserId;
 import com.depotnearby.vo.user.*; */
 import com.biz.gbck.common.exception.CommonException;
+import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.rest.util.RestUtil;
 import com.biz.service.org.interfaces.UserService;
 import com.biz.support.web.handler.JSONResult;
 import com.biz.support.web.util.HttpServletHelper;
+import com.biz.vo.org.AutoLoginReqVo;
+import com.biz.vo.org.ForgotPasswordReqVo;
 import com.biz.vo.org.UserLoginReqVo;
 import com.biz.vo.org.UserLoginResVo;
 import com.google.common.base.Stopwatch;
@@ -57,14 +60,14 @@ import java.util.concurrent.TimeUnit;
     /**
      * 忘记密码
      */
-  /*  @RequestMapping("forgotPassword") public JSONResult forgotPassword(HttpServletRequest request)
+    @RequestMapping("forgotPassword") public JSONResult forgotPassword(HttpServletRequest request)
         throws CommonException {
 
         ForgotPasswordReqVo forgotPasswordReqVo =
             RestUtil.parseBizData(request, ForgotPasswordReqVo.class);
         userService.forgotPassword(forgotPasswordReqVo);
         return new JSONResult();
-    }*/
+    }
 
     /**
      * 登录
@@ -86,24 +89,24 @@ import java.util.concurrent.TimeUnit;
     /**
      * 退出登录
      */
-  /*  @RequestMapping("logout") public JSONResult logout(HttpServletRequest request) {
+    @RequestMapping("logout") public JSONResult logout(HttpServletRequest request) {
         CommonReqVoBindUserId reqVoBindUserId =
             RestUtil.parseBizData(request, CommonReqVoBindUserId.class);
         userService.logout(reqVoBindUserId);
         return new JSONResult();
-    }*/
+    }
 
     /**
      * 自动登陆详情(此接口会绑定token)
      */
-   /* @RequestMapping(value = "autoLogin") public JSONResult autoLogin(HttpServletRequest request)
+    @RequestMapping(value = "autoLogin") public JSONResult autoLogin(HttpServletRequest request)
         throws CommonException {
         AutoLoginReqVo reqVo = RestUtil.parseBizData(request, AutoLoginReqVo.class);
         logger.debug("Received /users tokenChange request with account:{} from ip:{}",
             reqVo.getUserId());
         UserLoginResVo userLoginResVo = userService.autoLogin(reqVo);
         return new JSONResult(userLoginResVo);
-    }*/
+    }
 
     /**
      * 变更用户绑定手机号码

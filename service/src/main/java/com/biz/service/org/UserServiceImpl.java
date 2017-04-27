@@ -1,6 +1,9 @@
 package com.biz.service.org;
 
+import com.biz.core.codec.PasswordUtil;
+import com.biz.event.org.AutoLoginEvent;
 import com.biz.event.org.UserLoginEvent;
+import com.biz.gbck.common.com.SMSType;
 import com.biz.gbck.common.com.transformer.UserPoToUserRo;
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.common.exception.DepotnearbyExceptionFactory;
@@ -29,6 +32,7 @@ import com.biz.service.org.interfaces.UserService;
 import com.biz.transformer.org.UserRoToUserVo;
 import com.biz.vo.org.*;
 import com.google.common.base.Stopwatch;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +56,8 @@ public class UserServiceImpl extends CommonService implements UserService{
     @Autowired private ShopRedisDao shopRedisDao;
 
     @Autowired private ShopService shopService;
+
+  /*  @Autowired private SMSService smsService;*/
 
 
 
@@ -179,17 +185,40 @@ public class UserServiceImpl extends CommonService implements UserService{
 
     @Override
     public UserLoginResVo autoLogin(AutoLoginReqVo autoLoginReqVo) throws CommonException {
-        return null;
+        UserRo userRo = this.findUser(autoLoginReqVo.getUserId());
+        publishEvent(new AutoLoginEvent(this, userRo, autoLoginReqVo));
+        return buildRespVo(userRo);
     }
 
     @Override
     public void logout(CommonReqVoBindUserId commonReqVoBindUserId) {
-
+        userRedisDao.clearToken(commonReqVoBindUserId.getUserId(), "", "");
+        userRepository.cleanLoginDevice(commonReqVoBindUserId.getUserId()); //保存用户最后登录设备
     }
 
     @Override
     public void forgotPassword(ForgotPasswordReqVo forgotPasswordReqVo) throws CommonException {
 
+        if (forgotPasswordReqVo == null || StringUtils.isBlank(forgotPasswordReqVo.getPassword())
+                || forgotPasswordReqVo.getPassword().length() != 32) {
+            throw DepotnearbyExceptionFactory.User.ILLEGAL_PASSWORD;
+        }
+        if (false) { //smsService.validateAndDisableSMSCode(forgotPasswordReqVo.getMobile(),
+                    // SMSType.FORGOT_PASSWORD,forgotPasswordReqVo.getSmsCode()) // TODO: 17-4-27 校验短信验证码是否正确,如果正确则使该短信验证码失效
+            UserRo userRo = findUserByMobile(forgotPasswordReqVo.getMobile());
+            if (userRo == null) {
+                throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
+            } else {
+                String originalPassword =
+                        PasswordUtil.aes2Original(forgotPasswordReqVo.getOriginalPassword());
+                userRepository.updateUserPassword(forgotPasswordReqVo.getMobile(),
+                        forgotPasswordReqVo.getPassword(), originalPassword);
+                userRedisDao.updateUserPassword(forgotPasswordReqVo.getMobile(),
+                        forgotPasswordReqVo.getPassword(), originalPassword);
+            }
+        } else {
+            throw DepotnearbyExceptionFactory.SMS.INVALID_SMS_CODE;
+        }
     }
 
     @Override

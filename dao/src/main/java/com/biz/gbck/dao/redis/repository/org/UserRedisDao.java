@@ -1,10 +1,12 @@
 package com.biz.gbck.dao.redis.repository.org;
 
 import com.biz.core.util.StringTool;
+import com.biz.gbck.common.ro.RedisKeyGenerator;
 import com.biz.gbck.dao.redis.CrudRedisDao;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.redis.util.RedisUtil;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
@@ -12,6 +14,9 @@ import java.util.Map;
 
 @Repository
 public class UserRedisDao extends CrudRedisDao<UserRo,String> {
+    public static final String DEVICEID = "lastLoginDeviceToken";
+    public static final String TOEKN = "lastToken";
+    public static final String LASTUSERAGENT = "lastUserAgent";
 
     public void save(UserRo user) {
         super.save(user);
@@ -69,6 +74,21 @@ public class UserRedisDao extends CrudRedisDao<UserRo,String> {
         String mobileToUserIdHashKey =getHashKey(mobile);
         byte[] bytes = get(mobileToUserIdHashKey);
         return bytes == null ? null : RedisUtil.byteArrayToLong(bytes);
+    }
+
+    public void clearToken(Long userId, String token, String userAgent) {
+        hset(getHashKey(userId),TOEKN,
+                RedisUtil.toByteArray(StringUtils.defaultString(token)));
+        hset(getHashKey(userId),LASTUSERAGENT,
+                RedisUtil.toByteArray(StringUtils.defaultString(userAgent)));
+    }
+
+    public void updateUserPassword(String mobile, String password, String originalPassword) {
+
+        UserRo userRo = getUserByMobile(mobile);
+        userRo.setPassword(password);
+        userRo.setOriginalPassword(originalPassword);
+        save(userRo);
     }
 
 
