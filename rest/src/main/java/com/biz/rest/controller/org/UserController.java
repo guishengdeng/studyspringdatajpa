@@ -1,11 +1,5 @@
 package com.biz.rest.controller.org;
 
-/*import com.depotnearby.common.exception.ExceptionCode;
-import com.depotnearby.exception.CommonException;
-import com.depotnearby.rest.bean.Constant;
-import com.depotnearby.rest.util.RestUtil;
-import com.depotnearby.vo.CommonReqVoBindUserId;
-import com.depotnearby.vo.user.*; */
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.common.exception.ExceptionCode;
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
