@@ -120,14 +120,14 @@ import java.util.concurrent.TimeUnit;
     /**
      * 修改用户头像
      */
-   /* @RequestMapping("changeAvatar") public JSONResult updateAvatar(HttpServletRequest request)
+    @RequestMapping("changeAvatar") public JSONResult updateAvatar(HttpServletRequest request)
         throws CommonException {
 
         UserChangeAvatarReqVo userChangeAvatarReqVo =
             RestUtil.parseBizData(request, UserChangeAvatarReqVo.class);
         userService.changeAvatar(userChangeAvatarReqVo);
         return new JSONResult();
-    }*/
+    }
 
 
     /**

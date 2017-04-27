@@ -423,7 +423,18 @@ public class UserServiceImpl extends CommonService implements UserService{
 
     @Override
     public void changeAvatar(UserChangeAvatarReqVo reqVo) throws CommonException {
-
+        UserRo userRo = userRedisDao.get(reqVo.getUserId());
+        if (userRo == null) {
+            throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
+        }
+        userRepository.updateUserAvatar(reqVo.getUserId(), reqVo.getAvatar());
+        final UserPo userPo = userRepository.findOne(reqVo.getUserId());
+        DepotnearbyTransactionManager.doWhenTransactionalSuccess(
+                new DepotnearbyTransactionManager.Task() {
+                    @Override public void justDoIt() {
+                        syncUserPoToRedis(userPo);
+                    }
+                });
     }
 
     @Override
