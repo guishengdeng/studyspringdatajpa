@@ -4,12 +4,16 @@ import com.biz.core.page.PageResult;
 import com.biz.gbck.dao.mysql.po.product.meta.Brand;
 import com.biz.gbck.dao.mysql.po.product.meta.Category;
 import com.biz.gbck.dao.mysql.repository.category.CategoryRepository;
+import com.biz.gbck.dao.redis.ro.advertisement.AdvertisementRo;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.exceptions.product.BrandNotFoundException;
 import com.biz.gbck.exceptions.product.CategoryNotFoundException;
 import com.biz.gbck.exceptions.product.IllegalParameterException;
+import com.biz.gbck.transform.advertisement.AdvertisementRo2AdvertisementVo;
 import com.biz.gbck.transform.product.Brand2BrandListItemVo;
 import com.biz.gbck.transform.product.Brand2IdNameVo;
 import com.biz.gbck.transform.product.Brand2UpdateBrandVo;
+import com.biz.gbck.vo.advertisement.frontend.AdvertisementVo;
 import com.biz.gbck.vo.product.backend.*;
 import com.biz.service.product.backend.BrandService;
 import com.google.common.collect.Lists;
@@ -342,5 +346,11 @@ public class BrandServiceImpl extends AbstractBrandService implements BrandServi
         //      List<Brand> list=brandRepository.findByDeleteFlag(categoryId, new PageRequest(0,RandomNumber));
         //      return Lists.transform(list, new Brand2BrandAndVendorInfoVo());
         return Collections.emptyList();
+    }
+
+    @Override
+    public List<BrandListItemVo> findBrands(){
+        List<Brand> bands = brandRepository.findAll();
+        return Lists.transform(bands, new Brand2BrandListItemVo(""));
     }
 }

@@ -5,13 +5,14 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="gbck" tagdir="/WEB-INF/tags" %>
-<gbck:page title="page.user.list">
+<gbck:page title="商品品牌管理">
     <jsp:attribute name="css">
         <style type="text/css">
-            #cat-table .name{
+            #cat-table .name {
                 min-width: 150px;
             }
-            #cat-table .operate, #cat-table .status{
+
+            #cat-table .operate, #cat-table .status {
                 min-width: 80px;
             }
         </style>
@@ -40,20 +41,18 @@
                 $("#cat-disable-confirm-modal").modal("hide");
             });
             <%--</sec:authorize>--%>
-            $(function(){
+            $(function () {
                 $("#cat-table").DataTable({
-                    "lengthMenu": [[10,20,50,-1], [10, 20, 50, "所有"]],
-                    "columnDefs": [{"targets": [1,4], "orderable": false}],
+                    "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "所有"]],
+                    "columnDefs": [{"targets": [1, 4], "orderable": false}],
                     "order": [[0, "asc"]]
                 });
             });
-
             <sec:authorize access="hasRole('OPT_CAT_EDIT')">
             </sec:authorize>
         </script>
     </jsp:attribute>
     <jsp:body>
-        <jsp:include page="component/navigations.jsp"/>
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
                 <li>
@@ -100,21 +99,21 @@
                                         <td>${brand.status}</td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
-                                                <%--<sec:authorize access="hasAuthority('OPT_CAT_EDIT')">--%>
-                                                    <a href="demo/cats/${cat.id}.do"
-                                                       class="btn btn-minier btn-info">
-                                                        <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                                    <%--<sec:authorize access="hasAuthority('OPT_CAT_EDIT')">--%>
+                                                <a href="demo/cats/${brand.id}.do"
+                                                   class="btn btn-minier btn-info">
+                                                    <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                                </a>
+                                                    <%--</sec:authorize>--%>
+                                                    <%--<sec:authorize access="hasAuthority('OPT_CAT_DELETE')">--%>
+                                                <c:if test="${param.enabled != 'false'}">
+                                                    <a data-id="${brand.id}"
+                                                       data-name="${brand.name}"
+                                                       class="btn btn-minier btn-danger cat-ban-btn">
+                                                        <i class="ace-icon fa fa-ban bigger-120"></i>
                                                     </a>
-                                                <%--</sec:authorize>--%>
-                                                <%--<sec:authorize access="hasAuthority('OPT_CAT_DELETE')">--%>
-                                                    <c:if test="${param.enabled != 'false'}">
-                                                        <a data-id="${cat.id}"
-                                                           data-name="${cat.name}"
-                                                           class="btn btn-minier btn-danger cat-ban-btn">
-                                                            <i class="ace-icon fa fa-ban bigger-120"></i>
-                                                        </a>
-                                                    </c:if>
-                                                <%--</sec:authorize>--%>
+                                                </c:if>
+                                                    <%--</sec:authorize>--%>
                                             </div>
                                         </td>
                                     </tr>

@@ -78,6 +78,13 @@
     <link rel="stylesheet" href="static-resource/ace/assets/css/bootstrap-datepicker3.min.css"/>
     <script src="static-resource/ace/assets/js/bootstrap-datepicker.min.js"></script>
 
+    <!-- <![moment]-->
+    <script src="static-resource/ace/assets/js/moment.min.js"></script>
+
+    <!-- <![datetimepicker]-->
+    <link rel="stylesheet" href="static-resource/ace/assets/css/bootstrap-datetimepicker.min.css"/>
+    <script src="static-resource/ace/assets/js/bootstrap-datetimepicker.min.js"></script>
+
     <!-- <![layer]-->
     <link rel="stylesheet" href="static-resource/layer/mobile/need/layer.css"/>
     <script src="static-resource/layer/layer.js"></script>

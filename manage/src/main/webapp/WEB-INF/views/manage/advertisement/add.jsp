@@ -8,13 +8,28 @@
     <jsp:attribute name="script">
         <script>
             $(function () {
-                $(".datepicker").datepicker();
+                $('#endTimestamp,#beginTimestamp').datetimepicker({
+                    format: 'YYYY/MM/DD H:mm:ss',
+                    icons: {
+                        time: 'fa fa-clock-o',
+                        date: 'fa fa-calendar',
+                        up: 'fa fa-chevron-up',
+                        down: 'fa fa-chevron-down',
+                        previous: 'fa fa-chevron-left',
+                        next: 'fa fa-chevron-right',
+                        today: 'fa fa-arrows ',
+                        clear: 'fa fa-trash',
+                        close: 'fa fa-times'
+                    }
+                }).next().on(ace.click_event, function () {
+                    $(this).prev().focus();
+                });
             });
         </script>
         <script type="application/javascript">
             <c:forEach items="${admin.roles}" var="role" varStatus="status">
-                var obj${status.count} = document.getElementById('roleId_${role.id}');
-                if (obj${status.count}) obj${status.count}.checked = true;
+            var obj${status.count} = document.getElementById('roleId_${role.id}');
+            if (obj${status.count}) obj${status.count}.checked = true;
             </c:forEach>
             /** -----------------------------》图片上传《-------------------------------- */
             //隐藏文件控件
@@ -76,39 +91,27 @@
             }
 
             /**
-             * 页面加载完成之后执行
-             */
-            $(document).ready(function () {
-                //初始化日期插件
-                $('.date').datepicker({
-                    dateFormat: 'yyyy-MM-dd HH:mm',
-                    autoclose: true,
-                    startView: 0,
-                    todayHighlight: true,
-                    todayBtn: true
-                });
-            });
-
-            /**
              * 为时间控件绑定change时间，用于判断时间先后
              */
-            $('.date').on('change', function () {
+            /*  $('#beginTimestamp').datetimepicker().on('changeDate', function () {alert(11)
 
-                //广告生效时间
-                var beginTimestamp = $('#beginTimestamp').val();
-                //广告过期时间
-                var endTimestamp = $('#endTimestamp').val();
+             //广告生效时间
+             var beginTimestamp = $('#beginTimestamp').val();
+             //广告过期时间
+             var endTimestamp = $('#endTimestamp').val();
 
-                if (beginTimestamp && endTimestamp) {
-                    beginTimestamp = new Date(beginTimestamp).getTime();
-                    endTimestamp = new Date(endTimestamp).getTime();
-                    if (beginTimestamp > endTimestamp) {
-                        layer.msg("广告过期时间必须在广告生效时间之后！");
-                        $('#endTimestamp').val('');
-                        return;
-                    }
-                }
-            });
+             if (beginTimestamp && endTimestamp) {
+             beginTimestamp = new Date(beginTimestamp).getTime();
+             endTimestamp = new Date(endTimestamp).getTime();
+             console.log(beginTimestamp);
+             console.log(endTimestamp);
+             if (beginTimestamp > endTimestamp) {
+             layer.msg("广告过期时间必须在广告生效时间之后！");
+             $('#endTimestamp').val('');
+             return;
+             }
+             }
+             });*/
         </script>
     </jsp:attribute>
     <jsp:body>
@@ -171,7 +174,8 @@
 
                                         <div class="col-sm-9">
                                             <input type="text" id="picturesLink" placeholder="图片链接"
-                                                   name="picturesLink" class="col-xs-10 col-sm-5" value="${advertisement.picturesLink}">
+                                                   name="picturesLink" class="col-xs-10 col-sm-5"
+                                                   value="${advertisement.picturesLink}">
                                         </div>
                                     </div>
                                 </c:if>
@@ -183,7 +187,8 @@
 
                                     <div class="col-sm-9">
                                         <input type="text" id="clickLink" placeholder="点击链接"
-                                               name="clickLink" class="required text col-xs-10 col-sm-5" value="${advertisement.clickLink}">
+                                               name="clickLink" class="required text col-xs-10 col-sm-5"
+                                               value="${advertisement.clickLink}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -194,17 +199,16 @@
 
                                     <div class="col-sm-9">
                                         <div class="input-group input-group-sm col-sm-5">
-                                            <input type="text" required="required" name="beginTimestamp"
-                                               value="<fmt:formatDate value="${advertisement.beginTimestamp}" pattern="yyyy-MM-dd"/>"
-                                               id="beginTimestamp"
-                                               class="form-control required date"/>
+                                            <input id="beginTimestamp" type="text" required="required"
+                                                   class="form-control required date" name="beginTimestamp"
+                                                   value="<fmt:formatDate value="${advertisement.beginTimestamp}" pattern="yyyy-MM-dd" />"/>
                                             <span class="input-group-addon">
-                                                <i class="ace-icon fa fa-calendar"></i>
+                                                    <i class="fa fa-clock-o"></i>
                                             </span>
                                         </div>
                                     </div>
                                 </div>
-                                <%--<c:if test="${not empty admin.username}">--%>
+                                    <%--<c:if test="${not empty admin.username}">--%>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"
                                            for="endTimestamp">
@@ -213,17 +217,16 @@
 
                                     <div class="col-md-9">
                                         <div class="input-group input-group-sm col-sm-5">
-                                            <input type="text" required="required" name="endTimestamp"
-                                                   value="<fmt:formatDate value="${advertisement.endTimestamp}" pattern="yyyy-MM-dd"/>"
-                                                   id="endTimestamp"
-                                                   class="form-control required date"/>
+                                            <input id="endTimestamp" type="text" required="required"
+                                                   class="form-control required date" name="endTimestamp"
+                                                   value="<fmt:formatDate value="${advertisement.endTimestamp}" pattern="yyyy-MM-dd"/>"/>
                                             <span class="input-group-addon">
-                                                <i class="ace-icon fa fa-calendar"></i>
+                                                    <i class="fa fa-clock-o"></i>
                                             </span>
                                         </div>
                                     </div>
                                 </div>
-                                <%--</c:if>--%>
+                                    <%--</c:if>--%>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"
                                            for="residenceTime">
@@ -232,7 +235,8 @@
 
                                     <div class="col-sm-9">
                                         <input type="text" id="residenceTime" placeholder="停留(毫秒)"
-                                               name="residenceTime" class="col-xs-10 col-sm-5" value="<c:if test="${advertisement.residenceTime != null}">${advertisement.residenceTime}</c:if><c:if test="${advertisement.residenceTime == null}">3000</c:if>">
+                                               name="residenceTime" class="col-xs-10 col-sm-5"
+                                               value="<c:if test="${advertisement.residenceTime != null}">${advertisement.residenceTime}</c:if><c:if test="${advertisement.residenceTime == null}">3000</c:if>">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -243,26 +247,27 @@
 
                                     <div class="col-sm-9">
                                         <input type="text" id="priority" placeholder="优先级"
-                                               name="priority" class="col-xs-10 col-sm-5" value="<c:if test="${advertisement.priority != null}">${advertisement.priority}</c:if><c:if test="${advertisement.priority == null}">3</c:if>">
+                                               name="priority" class="col-xs-10 col-sm-5"
+                                               value="<c:if test="${advertisement.priority != null}">${advertisement.priority}</c:if><c:if test="${advertisement.priority == null}">3</c:if>">
                                     </div>
                                 </div>
 
-                                <%--<sec:authorize access="hasAnyAuthority('OPT_USER_ADD', 'OPT_USER_EDIT')">--%>
-                                    <div class="clearfix form-actions">
-                                        <div class="col-md-offset-3 col-md-9">
-                                            <button class="btn btn-info" type="submit">
-                                                <i class="ace-icon fa fa-check bigger-110"></i>
-                                                提交
-                                            </button>
+                                    <%--<sec:authorize access="hasAnyAuthority('OPT_USER_ADD', 'OPT_USER_EDIT')">--%>
+                                <div class="clearfix form-actions">
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <button class="btn btn-info" type="submit">
+                                            <i class="ace-icon fa fa-check bigger-110"></i>
+                                            提交
+                                        </button>
 
-                                            &nbsp; &nbsp; &nbsp;
-                                            <button class="btn" type="reset">
-                                                <i class="ace-icon fa fa-undo bigger-110"></i>
-                                                重置
-                                            </button>
-                                        </div>
+                                        &nbsp; &nbsp; &nbsp;
+                                        <button class="btn" type="reset">
+                                            <i class="ace-icon fa fa-undo bigger-110"></i>
+                                            重置
+                                        </button>
                                     </div>
-                                <%--</sec:authorize>--%>
+                                </div>
+                                    <%--</sec:authorize>--%>
                             </form>
                         </div><!-- /.span -->
                     </div><!-- /.row -->

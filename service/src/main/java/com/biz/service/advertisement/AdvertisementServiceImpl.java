@@ -21,13 +21,12 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.biz.gbck.transform.advertisement.AdvertisementRequestVo2AdvertisementRo.StringToTimestamp;
-import static com.biz.gbck.transform.advertisement.AdvertisementRequestVo2AdvertisementRo.StringToTimestamp2;
 
 /**
  * Created by xys on 2017/4/18.
  */
 @Service
-public class AdvertisementServiceImpl extends AbstractBaseService implements AdvertisementService{
+public class AdvertisementServiceImpl extends AbstractBaseService implements AdvertisementService {
 
     @Autowired
     private AdvertisementRedisDao advertisementRedisDao;
@@ -44,9 +43,9 @@ public class AdvertisementServiceImpl extends AbstractBaseService implements Adv
             String icon = req.getPicturesLink();
             SystemAsserts.isTrue(StringUtils.isNotBlank(icon), "请上传广告图片！");
             ro = new AdvertisementRequestVo2AdvertisementRo().apply(req);
-        }else {
-             ro = advertisementRedisDao.findOne(req.getId());
-            buildAdvertisementRo(ro,req);
+        } else {
+            ro = advertisementRedisDao.findOne(req.getId());
+            buildAdvertisementRo(ro, req);
         }
         advertisementRedisDao.save(ro);
 
@@ -54,7 +53,7 @@ public class AdvertisementServiceImpl extends AbstractBaseService implements Adv
 
     @Override
     public AdvertisementRo findById(String id) {
-        if (StringUtils.isNotBlank(id)){
+        if (StringUtils.isNotBlank(id)) {
             return advertisementRedisDao.findOne(id);
         }
         return null;
@@ -83,15 +82,15 @@ public class AdvertisementServiceImpl extends AbstractBaseService implements Adv
         return Lists.transform(ros, new AdvertisementRo2AdvertisementVo());
     }
 
-    public AdvertisementRo buildAdvertisementRo(AdvertisementRo ro,AdvertisementRequestVo vo) {
-        if (vo == null){
+    public AdvertisementRo buildAdvertisementRo(AdvertisementRo ro, AdvertisementRequestVo vo) {
+        if (vo == null) {
             return null;
         }
-        if(vo.getBeginTimestamp() != null){
+        if (vo.getBeginTimestamp() != null) {
             ro.setBeginTimestamp(StringToTimestamp(vo.getBeginTimestamp()));
         }
-        if(vo.getEndTimestamp()!= null){
-            ro.setEndTimestamp(StringToTimestamp2(vo.getEndTimestamp()));
+        if (vo.getEndTimestamp() != null) {
+            ro.setEndTimestamp(StringToTimestamp(vo.getEndTimestamp()));
         }
         ro.setClickLink(vo.getClickLink());
         ro.setPicturesLink(vo.getPicturesLink());
