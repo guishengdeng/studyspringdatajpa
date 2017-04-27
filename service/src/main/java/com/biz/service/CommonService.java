@@ -7,6 +7,8 @@ import com.depotnearby.common.mo.cache.CacheMessage;
 import com.depotnearby.common.spring.DepotnearbyTransactionManager;
 import com.depotnearby.exception.CommonException;
 import com.depotnearby.vo.mq.MQMessage;*/
+import com.biz.common.event.DepotnearbyEvent;
+import com.biz.gbck.common.spring.DepotnearbyTransactionManager;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -64,12 +66,12 @@ public abstract class CommonService implements ApplicationEventPublisherAware,
         return APPLICATIONCONTEXT == null ? null : APPLICATIONCONTEXT.getBean(beanName);
     }
 
-   /* protected void publishEvent(DepotnearbyEvent event) {
+    protected void publishEvent(DepotnearbyEvent event) {
         DepotnearbyTransactionManager.publishEvent(event);
     }
 
 
-    protected void sendCacheChangeMessage(CacheChangeMessageType type) throws CommonException {
+   /* protected void sendCacheChangeMessage(CacheChangeMessageType type) throws CommonException {
         MQMessage msg = new MQMessage("cache", CacheMessage.newMsg(type), TimeUnit.SECONDS.toMillis(10), 5, null);
         mqService.sendMessage(msg);
     }

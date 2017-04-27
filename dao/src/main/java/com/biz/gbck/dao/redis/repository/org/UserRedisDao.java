@@ -1,5 +1,6 @@
 package com.biz.gbck.dao.redis.repository.org;
 
+import com.biz.core.util.StringTool;
 import com.biz.gbck.dao.redis.CrudRedisDao;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.redis.util.RedisUtil;
@@ -40,6 +41,34 @@ public class UserRedisDao extends CrudRedisDao<UserRo,String> {
             return userInfo;
         } else
             return null;
+    }
+
+    public UserRo getUserByMobile(String mobile) {
+
+        if (!StringTool.isMobileValid(mobile)) {
+            return null;
+        }
+        Long userIdByMobile = getUserIdByMobile(mobile);
+        UserRo userRo = get(userIdByMobile);
+        if (userRo != null && !mobile.equalsIgnoreCase(userRo.getMobile())) {
+            return null;
+        } else {
+            return userRo;
+        }
+    }
+
+    public Long getUserIdByMobile(String mobile) {
+        Long userId = getUserIdByMobileMap(mobile); //原来还有在string里面没有取出就从hash里面对应的羽取值
+        return userId;
+    }
+
+    /**
+     * 返回手机号对userId的映射
+     */
+    private Long getUserIdByMobileMap(String mobile) {
+        String mobileToUserIdHashKey =getHashKey(mobile);
+        byte[] bytes = get(mobileToUserIdHashKey);
+        return bytes == null ? null : RedisUtil.byteArrayToLong(bytes);
     }
 
 

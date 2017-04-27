@@ -19,6 +19,7 @@ public interface UserRepository extends JpaRepository<UserPo, Long>, UserDao {
     @Query("SELECT u.id FROM UserPo u INNER JOIN u.shop.saleAreas s WHERE s.id = :saleAreaId")
     List<Long> findUserIdsBySaleAreaId(@Param("saleAreaId") Integer saleAreaId);
 
-    List<UserPo> findUserByMobile(String mobile);
+
+    UserPo findByMobile(String mobilePhone);
 
 }

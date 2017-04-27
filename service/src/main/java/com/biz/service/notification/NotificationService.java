@@ -4,6 +4,7 @@ import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.info.NoticePo;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.mysql.repository.org.UserRepository;
+import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.service.CommonService;
 import com.biz.service.notice.NoticeService;
@@ -50,10 +51,9 @@ public class NotificationService extends CommonService {
             }
         } else {
             if(StringUtils.isNotBlank(notifyVo.getMobile())) {
-               // UserRo userRo = userService.findUserByMobile(notifyVo.getMobile()); // TODO: 17-4-26 没实现对应方法 原方法是从redis取数据
-                UserPo userPo = CollectionUtils.getFirstNotNullValue(userRepository.findUserByMobile(notifyVo.getMobile()));
-                if(userPo != null){
-                    userIds.add(Long.valueOf(userPo.getId()));
+               UserRo userRo = userService.findUserByMobile(notifyVo.getMobile());
+                if(userRo != null){
+                    userIds.add(Long.valueOf(userRo.getId()));
                 }
             } else {
                 userIds = userService.findAllUserIdByAuditStatus(AuditStatus.NORMAL);// TODO: 17-4-26 没实现对应方法
