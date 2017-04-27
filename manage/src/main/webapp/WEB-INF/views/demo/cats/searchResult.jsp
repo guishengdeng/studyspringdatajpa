@@ -133,6 +133,7 @@
                                 </c:forEach>
                                 </tbody>
                             </table>
+                            <gbck:springPagePagination url="demo/cats.do" springPage="${catPage}" />
                         </div><!-- /.span -->
                     </div><!-- /.row -->
                     <sec:authorize access="hasAuthority('OPT_CAT_DELETE')">
