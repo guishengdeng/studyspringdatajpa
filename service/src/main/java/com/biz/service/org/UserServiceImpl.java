@@ -1,8 +1,10 @@
 package com.biz.service.org;
 
 import com.biz.core.codec.PasswordUtil;
+import com.biz.core.util.StringTool;
 import com.biz.event.org.AutoLoginEvent;
 import com.biz.event.org.UserLoginEvent;
+import com.biz.event.org.UserRegisterEvent;
 import com.biz.gbck.common.com.SMSType;
 import com.biz.gbck.common.com.transformer.UserPoToUserRo;
 import com.biz.gbck.common.exception.CommonException;
@@ -37,6 +39,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -72,8 +75,63 @@ public class UserServiceImpl extends CommonService implements UserService{
     }
 
     @Override
+    @Transactional
     public UserLoginResVo createUserAndShop(UserRegisterReqVo userRegisterReqVo) throws CommonException {
-        return null;
+
+        if (userRegisterReqVo == null || !StringTool.isMobileValid(userRegisterReqVo.getMobile())
+                || StringUtils.isBlank(userRegisterReqVo.getPassword())) {
+            throw DepotnearbyExceptionFactory.GLOBAL.PARAMETER_ERROR;
+        }
+        if (!StringTool.isMobileValid(userRegisterReqVo.getMobile())) {
+            throw DepotnearbyExceptionFactory.User.ILLEGAL_MOBILE;
+        }
+        if (StringUtils.isBlank(userRegisterReqVo.getPassword())) {
+            throw DepotnearbyExceptionFactory.User.ILLEGAL_PASSWORD;
+        }
+        if(StringUtils.isNotBlank(userRegisterReqVo.getInviterCode()) && !userRegisterReqVo.getInviterCode().matches("(\\d+)|([A-Z\\d]+)")) {
+            throw DepotnearbyExceptionFactory.User.ILLEGAL_INVITER_CODE;
+        }
+
+        if (false) {//smsService.validateAndDisableSMSCode(userRegisterReqVo.getMobile(), SMSType.REGISTER,
+                    // userRegisterReqVo.getSmsCode()) // TODO: 17-4-27 校验短信验证码是否正确,如果正确则使该短信验证码失效
+
+            Boolean userExist = userRedisDao.getUserByMobile(userRegisterReqVo.getMobile()) != null
+                    || userRepository.findByMobile(userRegisterReqVo.getMobile()) != null;
+            if (userExist) {
+                throw DepotnearbyExceptionFactory.User.USER_EXIST;
+            }
+
+            Long userIdByMobile = userRedisDao.getUserIdByMobile(userRegisterReqVo.getMobile());
+            UserPo userPo;
+            if (userIdByMobile != null) {
+                userPo = userRepository.findOne(userIdByMobile);
+                userPo = userRegisterReqVo.toUserPo(userPo);
+            } else {
+                userPo = userRegisterReqVo.toUserPo();
+            }
+            //创建用户
+            userPo.setIsAdmin(true);
+            UserRo userRo = createUser(userPo);
+
+            //创建商铺
+            ShopRo shopRo =
+                    shopService.createShop(Long.parseLong(userRo.getId()), null, userRegisterReqVo.getInviterCode()); // TODO: 17-4-27 shop 创建没实现
+            userPo.setShop(shopService.findShopPo(Long.parseLong(shopRo.getId()))); // TODO: 17-4-27 shop 创建没实现
+            userRepository.save(userPo);
+            userRo.setShopId(Long.parseLong(shopRo.getId()));
+            userRedisDao.save(userRo);
+
+            UserRegisterEvent registerEvent =
+                    new UserRegisterEvent(this, userRo, userRegisterReqVo);
+            publishEvent(registerEvent);
+
+            UserLoginResVo userLoginResVo = new UserRoToUserVo().apply(userRo);
+            assert userLoginResVo != null;
+            userLoginResVo.setShopProperties(shopRo);
+            return userLoginResVo;
+        } else {
+            throw DepotnearbyExceptionFactory.SMS.INVALID_SMS_CODE;
+        }
     }
 
     @Override

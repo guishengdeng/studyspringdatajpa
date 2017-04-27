@@ -13,10 +13,7 @@ import com.biz.rest.util.RestUtil;
 import com.biz.service.org.interfaces.UserService;
 import com.biz.support.web.handler.JSONResult;
 import com.biz.support.web.util.HttpServletHelper;
-import com.biz.vo.org.AutoLoginReqVo;
-import com.biz.vo.org.ForgotPasswordReqVo;
-import com.biz.vo.org.UserLoginReqVo;
-import com.biz.vo.org.UserLoginResVo;
+import com.biz.vo.org.*;
 import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +41,7 @@ import java.util.concurrent.TimeUnit;
     /**
      * 用户注册
      */
-   /* @RequestMapping("register") public JSONResult register(HttpServletRequest request)
+    @RequestMapping("register") public JSONResult register(HttpServletRequest request)
         throws CommonException {
 
         UserRegisterReqVo userRegisterReqVo =
@@ -55,7 +52,7 @@ import java.util.concurrent.TimeUnit;
         userRegisterReqVo.setIp(clientIP);
         UserLoginResVo userLoginResVo = userService.createUserAndShop(userRegisterReqVo);
         return new JSONResult(userLoginResVo);
-    }*/
+    }
 
     /**
      * 忘记密码
