@@ -41,7 +41,7 @@ public class PartnerPo extends Company{
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "plateformId")
+    @JoinColumn(name = "platform_id")
     private PlatformPo platform;
 
     @OneToMany(mappedBy = "partner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

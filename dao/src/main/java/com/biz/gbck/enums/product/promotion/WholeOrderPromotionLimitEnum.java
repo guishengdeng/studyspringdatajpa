@@ -1,4 +1,4 @@
-package com.biz.gbck.enums.product;
+package com.biz.gbck.enums.product.promotion;
 
 import com.biz.core.enums.EnumerableNameAndValueAndDescription;
 import com.biz.core.enums.converter.BaseEnumNameAndValueAndDescriptionConverter;

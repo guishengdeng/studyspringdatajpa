@@ -40,7 +40,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.biz.gbck.dao.redis.repository.product.bbc.SaleAreaRedisDao.TYPE_A_PRICE_AREA_NO;
 
@@ -58,22 +57,22 @@ public abstract class AbstractProductService implements Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractProductService.class);
 
-    @Autowired
+//    @Autowired
     protected IProductSearchService productSearchService;
 
-    @Autowired
+//    @Autowired
     protected DepotPromotionService depotPromotionService;
 
-    @Autowired
+//    @Autowired
     private PriceRedisDao priceRedisDao;
 
-    @Autowired
+//    @Autowired
     private ProductRedisDao productRedisDao;
 
-    @Autowired
+//    @Autowired
     private IProductStockService productStockService;
 
-    @Autowired
+//    @Autowired
     private DepotService depotService;
 
     /**

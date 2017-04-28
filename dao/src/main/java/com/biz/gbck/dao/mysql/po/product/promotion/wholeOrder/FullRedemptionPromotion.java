@@ -2,7 +2,7 @@ package com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder;
 
 import com.alibaba.fastjson.JSON;
 import com.biz.gbck.dao.mysql.po.product.master.Product;
-import com.biz.gbck.enums.product.FullRedemptionPromotionVo;
+import com.biz.gbck.vo.product.promotion.FullRedemptionPromotionVo;
 import com.google.common.collect.Lists;
 import java.util.List;
 import javax.persistence.*;

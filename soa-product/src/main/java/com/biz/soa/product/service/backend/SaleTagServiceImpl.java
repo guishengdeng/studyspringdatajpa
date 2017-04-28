@@ -43,7 +43,7 @@ public class SaleTagServiceImpl extends AbstractBaseService implements SaleTagSe
     @Autowired
     private SaleTagRedisDao saleTagRedisDao;
 
-    @Autowired
+//    @Autowired
     private GeoProductRepository geoProductRepository;
 
     /**

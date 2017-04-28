@@ -53,10 +53,12 @@ public class CompanyGroupPo extends BaseEntity {
     private List<Company> children;
 
 
+    /**
+     * 下级公司层级
+     */
     @Enumerated(value = EnumType.STRING)
-    @Column(nullable = true)
-    private CompanyLevel companyLevel;
-
+    @Column
+    private CompanyLevel childrenLevel;
 
 
     public String getCode() {
@@ -75,6 +77,27 @@ public class CompanyGroupPo extends BaseEntity {
         this.name = name;
     }
 
+    public Company getParent() {
+        return parent;
+    }
 
+    public void setParent(Company parent) {
+        this.parent = parent;
+    }
 
+    public List<Company> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Company> children) {
+        this.children = children;
+    }
+
+    public CompanyLevel getChildrenLevel() {
+        return childrenLevel;
+    }
+
+    public void setChildrenLevel(CompanyLevel childrenLevel) {
+        this.childrenLevel = childrenLevel;
+    }
 }

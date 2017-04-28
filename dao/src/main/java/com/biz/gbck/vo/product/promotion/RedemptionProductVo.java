@@ -30,4 +30,35 @@ public class RedemptionProductVo implements Serializable {
      */
     private String productCode;
 
+    public Integer getRedemptionPrice() {
+        return redemptionPrice;
+    }
+
+    public void setRedemptionPrice(Integer redemptionPrice) {
+        this.redemptionPrice = redemptionPrice;
+    }
+
+    public Integer getRedemptionQuantity() {
+        return redemptionQuantity;
+    }
+
+    public void setRedemptionQuantity(Integer redemptionQuantity) {
+        this.redemptionQuantity = redemptionQuantity;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
 }

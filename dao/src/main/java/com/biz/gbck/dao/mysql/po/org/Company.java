@@ -57,6 +57,51 @@ public class Company extends BaseEntity {
     private CompanyGroupPo childGroup;
 
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public CommonStatusEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(CommonStatusEnum status) {
+        this.status = status;
+    }
+
+    public CompanyLevel getCompanyLevel() {
+        return companyLevel;
+    }
+
+    public void setCompanyLevel(CompanyLevel companyLevel) {
+        this.companyLevel = companyLevel;
+    }
+
+    public List<CompanyGroupPo> getParentGroup() {
+        return parentGroup;
+    }
+
+    public void setParentGroup(List<CompanyGroupPo> parentGroup) {
+        this.parentGroup = parentGroup;
+    }
+
+    public CompanyGroupPo getChildGroup() {
+        return childGroup;
+    }
+
+    public void setChildGroup(CompanyGroupPo childGroup) {
+        this.childGroup = childGroup;
+    }
 }
