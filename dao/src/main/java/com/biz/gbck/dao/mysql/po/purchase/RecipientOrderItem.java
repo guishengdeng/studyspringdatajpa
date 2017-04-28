@@ -1,6 +1,5 @@
 package com.biz.gbck.dao.mysql.po.purchase;
 
-import com.biz.gbck.enums.product.ProductUnit;
 import com.biz.support.jpa.po.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -15,14 +14,14 @@ import javax.persistence.*;
  * @see
  */
 @Entity
-@Table(name = "pur_delivery_item")
-public class DeliveryOrderItem extends BaseEntity {
+@Table(name = "pur_recipient_item")
+public class RecipientOrderItem extends BaseEntity {
 
     private static final long serialVersionUID = 8892140517297834694L;
 
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "delivery_order_id")
+    @JoinColumn(name = "recipient_order_id")
     private DeliveryOrder deliveryOrder;
 
     @Embedded

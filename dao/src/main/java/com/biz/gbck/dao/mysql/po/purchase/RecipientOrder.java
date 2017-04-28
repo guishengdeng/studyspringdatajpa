@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * 出库单
+ * 收货单
  *
  * @author lei
  * @date 2017年04月26日
@@ -19,8 +19,8 @@ import javax.persistence.Table;
  * @see
  */
 @Entity
-@Table(name = "pur_delivery_order")
-public class DeliveryOrder extends BaseEntity {
+@Table(name = "pur_recipient_order")
+public class RecipientOrder extends BaseEntity {
 
     private static final long serialVersionUID = -7749433829358520328L;
 

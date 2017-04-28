@@ -16,12 +16,6 @@ import java.util.Date;
 public class OrderShipping {
 
     /**
-     * 配送门店编码
-     */
-    @Column(length = 20)
-    private String depotCode;
-
-    /**
      * 配送物流名称
      */
     @Column(length = 50)
@@ -43,14 +37,6 @@ public class OrderShipping {
      */
     private Date expectDeliveryDate;
 
-
-    public String getDepotCode() {
-        return depotCode;
-    }
-
-    public void setDepotCode(String depotCode) {
-        this.depotCode = depotCode;
-    }
 
     public String getExpressName() {
         return expressName;
