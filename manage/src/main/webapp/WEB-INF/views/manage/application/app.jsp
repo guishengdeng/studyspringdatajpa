@@ -317,9 +317,9 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
 
                                 <div class="col-sm-9">
                                    <span class="input-icon input-icon-right">
-												<input type="number" name="maxNum" min="0" style="text-align:left"
+												<input type="number" name="minNum" min="0" style="text-align:left"
                                                        maxlength="5"
-                                                       value="<c:out value='${appVo.maxNum}'/>"
+                                                       value="<c:out value='${appVo.minNum}'/>"
                                                        id="form-field-icon-4" placeholder="最低起售数量倍数 ">
                                  </span>
                                     <span class="input-icon input-icon-right">
