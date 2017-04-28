@@ -3,10 +3,7 @@ package com.biz.gbck.dao.mysql.po.product.master;
 import com.alibaba.fastjson.JSON;
 import com.biz.gbck.dao.mysql.po.product.meta.*;
 import com.biz.gbck.dao.mysql.po.product.price.PriceGroup;
-import com.biz.gbck.dao.mysql.po.product.promotion.singleProduct.BatchSpecialOfferPromotionProduct;
-import com.biz.gbck.dao.mysql.po.product.promotion.singleProduct.MultipleQuantityPromotionProduct;
-import com.biz.gbck.dao.mysql.po.product.promotion.singleProduct.QuantitySpecialOfferPromotionProduct;
-import com.biz.gbck.dao.mysql.po.product.promotion.singleProduct.SimpleSpecialOfferPromotionProduct;
+import com.biz.gbck.dao.mysql.po.product.promotion.singleProduct.*;
 import com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder.AccountPerUnitCutPromotion;
 import com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder.MultipleIncrementGiftPromotion;
 import com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder.StairCutPromotion;
@@ -267,6 +264,12 @@ public class Product extends BaseEntity {
      */
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<QuantitySpecialOfferPromotionProduct> quantitySpecialOfferPromotionProducts;
+
+    /**
+     * 单品买赠促销商品
+     */
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<SinglePurchaseGiftPromotionProduct> singlePurchaseGiftPromotionProducts;
 
     public String getBreif() {
         return breif;
@@ -613,5 +616,13 @@ public class Product extends BaseEntity {
 
     public void setQuantitySpecialOfferPromotionProducts(List<QuantitySpecialOfferPromotionProduct> quantitySpecialOfferPromotionProducts) {
         this.quantitySpecialOfferPromotionProducts = quantitySpecialOfferPromotionProducts;
+    }
+
+    public List<SinglePurchaseGiftPromotionProduct> getSinglePurchaseGiftPromotionProducts() {
+        return singlePurchaseGiftPromotionProducts;
+    }
+
+    public void setSinglePurchaseGiftPromotionProducts(List<SinglePurchaseGiftPromotionProduct> singlePurchaseGiftPromotionProducts) {
+        this.singlePurchaseGiftPromotionProducts = singlePurchaseGiftPromotionProducts;
     }
 }

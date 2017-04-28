@@ -1,9 +1,17 @@
 spring:
+  profiles:
+    active: dev
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
+
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password:
-    url: jdbc:mysql://127.0.0.1:3306/depotnextdoor?characterEncoding=utf-8
+    url: jdbc:mysql://127.0.0.1:3306/biz
     dbcp2:
       initial-size: 5
       max-total: 10
@@ -19,15 +27,9 @@ spring:
     hibernate:
       ddl-auto: update
     database: mysql
-    open-in-view: true
-    properties:
-      hibernate:
-        enable_lazy_load_no_trans: true
   session:
     redis:
       flush-mode: immediate
-  application:
-    name: soa-promotion
 
 biz:
   soa:
@@ -48,25 +50,7 @@ biz:
     port: 6379
     name:
     password:
-  oss:
-    remoteEndpoint: oss-cn-beijing.aliyuncs.com
-    localEndpoint: oss-cn-beijing-internal.aliyuncs.com
-    accessKeyId: LTAIcBsZ7zY66tku
-    accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
-    bucketName: gbck-test
 
 server:
   session:
     timeout: 1200
-  port: 8679
-eureka:
-  client:
-    service-url:
-      defaultZone: http://peer1:7777/eureka/, http://peer2:8888/eureka/, http://peer3:9999/eureka/
-
-security:
-  basic:
-    enabled: false
-management:
-  security:
-    enabled: false

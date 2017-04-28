@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    active: dev
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+      cluster-name: depotnextdoor
+      cluster-nodes: 127.0.0.1:9300
+server:
+  port: 9800
+
+

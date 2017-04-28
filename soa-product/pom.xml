@@ -18,6 +18,12 @@
             <groupId>com.biz.gbck</groupId>
             <artifactId>service</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.biz.gbck</groupId>
+            <artifactId>soa-parent</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.biz.gbck</groupId>
             <artifactId>biz-message</artifactId>
