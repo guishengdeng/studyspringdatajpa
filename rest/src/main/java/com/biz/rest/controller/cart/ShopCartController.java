@@ -51,7 +51,7 @@ public class ShopCartController extends BaseRestController {
         ShopCartListReqVo reqVo = super.parseBizData(request, ShopCartListReqVo.class);
         try {
             ShopCartRespVo respVo = cartService.getCartInfo(reqVo);
-            return new JSONResult();
+            return new JSONResult(respVo);
         } catch (Exception e) {
             logger.error("添加购物车出错.", e);
             return new JSONResult(-1, "添加购物车出错");
