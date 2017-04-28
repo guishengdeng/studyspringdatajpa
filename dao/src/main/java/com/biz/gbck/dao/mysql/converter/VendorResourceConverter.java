@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.mysql.converter;
 
 import com.biz.core.util.JsonUtil;
-import com.biz.gbck.dao.mysql.po.vendor.VendorResource;
+import com.biz.gbck.dao.mysql.po.vendor.bbc.VendorResource;
 import java.util.Set;
 import javax.persistence.AttributeConverter;
 

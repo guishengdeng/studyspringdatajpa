@@ -11,19 +11,19 @@ import java.util.Date;
 /**
  * Created by xys on 2017/4/18.
  */
-public class AdvertisementRequestVo2AdvertisementRo implements Function<AdvertisementRequestVo,AdvertisementRo> {
+public class AdvertisementRequestVo2AdvertisementRo implements Function<AdvertisementRequestVo, AdvertisementRo> {
 
     @Override
     public AdvertisementRo apply(AdvertisementRequestVo advertisementRequestVo) {
-        if (advertisementRequestVo == null){
+        if (advertisementRequestVo == null) {
             return null;
         }
         AdvertisementRo advertisementRo = new AdvertisementRo();
-        if(advertisementRequestVo.getBeginTimestamp() != null){
+        if (advertisementRequestVo.getBeginTimestamp() != null) {
             advertisementRo.setBeginTimestamp(StringToTimestamp(advertisementRequestVo.getBeginTimestamp()));
         }
-        if(advertisementRequestVo.getEndTimestamp()!= null){
-            advertisementRo.setEndTimestamp(StringToTimestamp2(advertisementRequestVo.getEndTimestamp()));
+        if (advertisementRequestVo.getEndTimestamp() != null) {
+            advertisementRo.setEndTimestamp(StringToTimestamp(advertisementRequestVo.getEndTimestamp()));
         }
         advertisementRo.setId(advertisementRequestVo.getId());
         advertisementRo.setClickLink(advertisementRequestVo.getClickLink());
@@ -33,36 +33,16 @@ public class AdvertisementRequestVo2AdvertisementRo implements Function<Advertis
         return advertisementRo;
     }
 
-    public static Timestamp StringToTimestamp(String time)  {
+    public static Timestamp StringToTimestamp(String time) {
         try {
-            StringBuffer s=new StringBuffer();
-            s.append(time);
-            s.append("/00/00/01");
-            String str= s.toString();
-            SimpleDateFormat sdf=new SimpleDateFormat("MM/dd/yyyy/HH/mm/ss");
-            Date date =sdf.parse(str);
-            Long l=  date.getTime();
-            Timestamp aa=new Timestamp(l);
-            return aa;
-        }catch (Exception e){
-            e.printStackTrace();
-            return null;
-        }
-
-    }
-
-    public static Timestamp StringToTimestamp2(String time)  {
-        try {
-            StringBuffer s=new StringBuffer();
-            s.append(time);
-            s.append("/23/59/59");
-            String str= s.toString();
-            SimpleDateFormat sdf=new SimpleDateFormat("MM/dd/yyyy/HH/mm/ss");
-            Date date =sdf.parse(str);
-            Long l=  date.getTime();
-            Timestamp aa=new Timestamp(l);
-            return aa;
-        }catch (Exception e){
+            String first = time.replaceAll(" ", "/");
+            String second = first.replace(":", "/");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd/HH/mm/ss");
+            Date date = simpleDateFormat.parse(second);
+            Long dateTime = date.getTime();
+            Timestamp timestamp = new Timestamp(dateTime);
+            return timestamp;
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

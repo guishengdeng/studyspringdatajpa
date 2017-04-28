@@ -2,6 +2,10 @@ package com.biz.gbck.dao.mysql.po.security;
 
 import com.biz.core.model.Identifiable;
 import com.biz.gbck.dao.mysql.po.BasePo;
+import com.biz.gbck.dao.mysql.po.demo.CatPO;
+import com.biz.gbck.enums.CommonStatusEnum;
+import org.hibernate.annotations.Where;
+
 import java.util.List;
 import javax.persistence.*;
 
@@ -38,6 +42,7 @@ public class MenuItem extends BasePo<Long> implements Identifiable<Long> {
     private MainMenu mainMenu;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "menuItem")
+    @Where(clause = "status='ENABLE'")
     private List<Resource> resources;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -46,7 +51,9 @@ public class MenuItem extends BasePo<Long> implements Identifiable<Long> {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
             uniqueConstraints = {@UniqueConstraint(columnNames = {"menuitem_id", "role_id"})})
     private List<Role> roles;
-
+    @Column
+    @Enumerated(EnumType.STRING)
+    private CommonStatusEnum status=CommonStatusEnum.ENABLE;
     public MenuItem() {
 
     }
@@ -164,7 +171,18 @@ public class MenuItem extends BasePo<Long> implements Identifiable<Long> {
         this.symbol = item.symbol;
         this.icon = item.icon;
     }
+    public CommonStatusEnum getStatus() {
 
+        return status;
+    }
+
+    /**
+     * {@linkplain CatPO#status}
+     */
+    public void setStatus(CommonStatusEnum status) {
+
+        this.status = status;
+    }
     @Override
     public boolean equals(Object o) {
         return super.equals(o);

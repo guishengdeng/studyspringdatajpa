@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="localos" tagdir="/WEB-INF/tags" %>
-<localos:page title="Sorry...">
+<%@ taglib prefix="gbck" tagdir="/WEB-INF/tags" %>
+<gbck:page title="Sorry...">
     <div class="ui container">
         <table width="100%" border="0" cellpadding="0" cellspacing="0" height="100%">
             <tr>
@@ -16,4 +16,4 @@
             </tr>
         </table>
     </div>
-</localos:page>
+</gbck:page>

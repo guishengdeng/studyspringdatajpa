@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.specification;
 
-import com.biz.gbck.dao.mysql.po.product.Product;
+import com.biz.gbck.dao.mysql.po.product.bbc.Product;
 import com.biz.gbck.vo.product.backend.BackendProductListReqVo;
 import com.google.common.collect.Lists;
 import java.util.List;

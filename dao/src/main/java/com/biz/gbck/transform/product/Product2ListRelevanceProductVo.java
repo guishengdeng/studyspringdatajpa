@@ -1,8 +1,8 @@
 package com.biz.gbck.transform.product;
 
-import com.biz.gbck.dao.mysql.po.product.GeoProduct;
-import com.biz.gbck.dao.mysql.po.product.Product;
-import com.biz.gbck.dao.mysql.repository.product.GeoProductRepository;
+import com.biz.gbck.dao.mysql.po.product.bbc.GeoProduct;
+import com.biz.gbck.dao.mysql.po.product.bbc.Product;
+import com.biz.gbck.dao.mysql.repository.bbc.product.GeoProductRepository;
 import com.biz.gbck.vo.product.backend.ListRelevanceProductVo;
 import com.google.common.base.Function;
 

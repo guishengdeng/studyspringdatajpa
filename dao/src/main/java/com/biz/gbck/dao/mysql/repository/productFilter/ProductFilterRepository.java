@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.productFilter;
 
-import com.biz.gbck.dao.mysql.po.product.ProductFilter;
+import com.biz.gbck.dao.mysql.po.product.meta.ProductFilter;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

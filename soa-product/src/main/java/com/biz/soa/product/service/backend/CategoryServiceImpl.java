@@ -1,19 +1,20 @@
 package com.biz.soa.product.service.backend;
 
 import com.biz.core.page.PageResult;
-import com.biz.gbck.dao.mysql.po.product.Category;
+import com.biz.gbck.dao.mysql.po.product.meta.Category;
 import com.biz.gbck.dao.mysql.repository.category.CategoryRepository;
 import com.biz.gbck.exceptions.product.CategoryNotFoundException;
+import com.biz.gbck.transform.product.Category2CategoryListItemVo;
+import com.biz.gbck.transform.product.Category2UpdateCategoryVo;
 import com.biz.gbck.vo.product.backend.*;
 import com.biz.gbck.vo.product.event.*;
 import com.biz.service.product.backend.CategoryService;
-import com.biz.gbck.transform.product.Category2CategoryListItemVo;
-import com.biz.gbck.transform.product.Category2UpdateCategoryVo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,6 +41,7 @@ public class CategoryServiceImpl extends AbstractCategoryService implements Cate
      * 分类缓存容器
      */
     private static Map<String, Object> CATEGORY_CACHE = Maps.newHashMap();
+
     @Autowired
     private CategoryRepository categoryRepository;
 
@@ -52,8 +54,7 @@ public class CategoryServiceImpl extends AbstractCategoryService implements Cate
         category.fromVo(vo);
         //设置默认排序
         Integer idx = categoryRepository.findMaxIdx(vo.getParentCategoryId());
-        idx = idx == null ? 1 : idx + 1;
-        category.setIdx(idx);
+        category.setIdx(Optional.of(idx).orElse(0) + 1);
 
         if (logger.isDebugEnabled()) {
             logger.debug("vo:{}", vo.toString());
@@ -234,24 +235,17 @@ public class CategoryServiceImpl extends AbstractCategoryService implements Cate
         }
 
         // 如果分类集合不为空, 递归构造
-        List<CategoryTreeViewVo> treeViewVos = Lists.newArrayList();
-        for (Category category : categories) {
-            // 如果分类未被删除
-            if (!category.getDeleteFlag()) {
-                CategoryTreeViewVo categoryTreeViewVo = new CategoryTreeViewVo();
-                categoryTreeViewVo.setId(String.valueOf(category.getId()));
-                categoryTreeViewVo.setName(category.getName());
-                categoryTreeViewVo.setStatus(category.getStatus());
-                if (CollectionUtils.isNotEmpty(category.getChildren())) {
-                    List<CategoryTreeViewVo> children = this.buildCategoryTreeView(category.getChildren());
-                    categoryTreeViewVo.setChildren(children);
-                }
-                treeViewVos.add(categoryTreeViewVo);
+        return categories.stream().filter(category -> !category.getDeleteFlag()).map(category -> {
+            CategoryTreeViewVo categoryTreeViewVo = new CategoryTreeViewVo();
+            categoryTreeViewVo.setId(String.valueOf(category.getId()));
+            categoryTreeViewVo.setName(category.getName());
+            categoryTreeViewVo.setStatus(category.getStatus());
+            if (CollectionUtils.isNotEmpty(category.getChildren())) {
+                List<CategoryTreeViewVo> children = this.buildCategoryTreeView(category.getChildren());
+                categoryTreeViewVo.setChildren(children);
             }
-
-
-        }
-        return treeViewVos;
+            return categoryTreeViewVo;
+        }).collect(Collectors.toList());
     }
 
     /**
@@ -261,18 +255,15 @@ public class CategoryServiceImpl extends AbstractCategoryService implements Cate
     @Transactional
     public void saveOrUpdateSort(CategorySortVo vo) {
         if (vo != null && vo.getCategorySortListVos() != null) {
-            List<Category> categorys = Lists.newArrayList();
-            List<Long> categoryIds = Lists.newArrayList();
-            Map<Long, Integer> categoryIdAndIdx = new HashMap<>();
-            for (CategorySortListVo index : vo.getCategorySortListVos()) {
-                categoryIds.add(index.getId());
-                categoryIdAndIdx.put(index.getId(), index.getIdx());
-            }
-            categorys = categoryRepository.findAll(categoryIds);
-            for (Category category : categorys) {
-                category.setIdx(categoryIdAndIdx.get(category.getId()));
-            }
-            categoryRepository.save(categorys);
+            Map<Long, Integer> categoryId2IdxMap =
+                    vo.getCategorySortListVos().stream()
+                            .collect(Collectors.toMap(CategorySortListVo::getId, CategorySortListVo::getIdx));
+            List<Category> categories = categoryRepository.findAll(categoryId2IdxMap.keySet());
+            categories = categories.stream().map(category -> {
+                category.setIdx(categoryId2IdxMap.get(category.getId()));
+                return category;
+            }).collect(Collectors.toList());
+            categoryRepository.save(categories);
         }
     }
 
@@ -290,13 +281,10 @@ public class CategoryServiceImpl extends AbstractCategoryService implements Cate
     }
 
     private List<IdNameVo> categoryList2IdNameList(List<Category> categories) {
-        List<IdNameVo> resultList = Lists.newArrayList();
-        if (CollectionUtils.isNotEmpty(categories)) {
-            for (Category category : categories) {
-                resultList.add(new IdNameVo(String.valueOf(category.getId()), category.getName()));
-            }
-        }
-        return resultList;
+        return Optional.of(categories).orElse(Lists.newArrayList())
+                .stream()
+                .map(category -> new IdNameVo(String.valueOf(category.getId()), category.getName()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -308,15 +296,9 @@ public class CategoryServiceImpl extends AbstractCategoryService implements Cate
     @Override
     public List<IdNameVo> getTopCategories() {
         List<Category> categories = categoryRepository.findByParentIsNullAndDeleteFlagOrderByIdx(Boolean.FALSE);
-        List<IdNameVo> idNameVos = Lists.newArrayList();
-        if (CollectionUtils.isNotEmpty(categories)) {
-            for (Category category : categories) {
-                IdNameVo idNameVo = new IdNameVo(String.valueOf(category.getId()), category.getName());
-                idNameVos.add(idNameVo);
-            }
-            return idNameVos;
-        }
-        return idNameVos;
+        return Optional.of(categories).orElse(Lists.newArrayList())
+                .stream().map(category -> new IdNameVo(String.valueOf(category.getId()), category.getName()))
+                .collect(Collectors.toList());
     }
 
 }

@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.redis.repository.product;
 
 import com.biz.gbck.dao.redis.CrudRedisDao;
-import com.biz.gbck.dao.redis.ro.product.SaleTagRo;
+import com.biz.gbck.dao.redis.ro.product.meta.SaleTagRo;
 import com.google.common.collect.Maps;
 import java.io.Serializable;
 import java.util.Map;

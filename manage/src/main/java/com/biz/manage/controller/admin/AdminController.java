@@ -5,6 +5,8 @@ import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.manage.util.AuthorityUtil;
 import com.biz.service.security.interfaces.AdminService;
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -85,9 +87,8 @@ public class AdminController {
     @PreAuthorize("hasAuthority('OPT_USER_DELETE')")
     @ResponseBody
     public Boolean delete(@RequestParam("username") String username){
-       /* adminService.deleteAdmin(username);
-        return "redirect:/manage/users";*/
-       if(username!=null){
+       if(StringUtils.isNotBlank(username)){
+           adminService.deleteAdmin(username);
            return true;
        }
        return false;

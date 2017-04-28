@@ -1,7 +1,7 @@
 package com.biz.soa.product.service.backend;
 
-import com.biz.gbck.dao.mysql.po.product.Category;
-import com.biz.gbck.dao.mysql.po.product.ProductExtend;
+import com.biz.gbck.dao.mysql.po.product.meta.Category;
+import com.biz.gbck.dao.mysql.po.product.meta.ProductExtend;
 import com.biz.gbck.dao.mysql.repository.category.CategoryRepository;
 import com.biz.gbck.dao.mysql.repository.productExtend.ProductExtendRepository;
 import com.biz.gbck.exceptions.product.ProductExtendNotFoundException;

@@ -2,6 +2,7 @@ package com.biz.service.security;
 
 import com.biz.gbck.dao.mysql.po.security.Role;
 import com.biz.gbck.dao.mysql.repository.admin.RoleRepository;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.security.interfaces.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +36,16 @@ public class RoleServiceImpl extends AbstractBaseService implements RoleService 
 
     @Override
     public void delete(Long id) {
-        roleRepository.delete(id);
+        roleRepository.updateStatus(id,CommonStatusEnum.DISABLE);
     }
 
     @Override
     public void addOrUpdate(Role role) {
          roleRepository.save(role);
+    }
+
+    @Override
+    public List<Role> findByStatus(CommonStatusEnum status) {
+        return roleRepository.getByStatus(status);
     }
 }

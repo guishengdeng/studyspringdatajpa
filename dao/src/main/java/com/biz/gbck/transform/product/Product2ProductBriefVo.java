@@ -1,6 +1,6 @@
 package com.biz.gbck.transform.product;
 
-import com.biz.gbck.dao.mysql.po.product.Product;
+import com.biz.gbck.dao.mysql.po.product.bbc.Product;
 import com.biz.gbck.vo.product.backend.ProductBriefVo;
 import com.google.common.base.Function;
 

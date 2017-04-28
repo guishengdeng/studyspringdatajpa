@@ -1,6 +1,7 @@
 package com.biz.service.security.interfaces;
 
 import com.biz.gbck.dao.mysql.po.security.MenuItem;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.menu.MenuItemVo;
 import org.springframework.stereotype.Service;
 
@@ -21,4 +22,6 @@ public interface MenuItemService {
      void  delete(Long id);
      MenuItem getMenuItem(Long id);
      List<MenuItem> listMenuItems();
+
+     List<MenuItem> listByStatus(CommonStatusEnum status);
 }

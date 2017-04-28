@@ -67,12 +67,13 @@
                                     </label>
 
                                     <div class="col-sm-9">
-                                        <input ${empty mainMenu ? '' : 'readonly'} type="text"
-                                                                                id="code"
-                                                                                placeholder="代码"
-                                                                                name="code"
-                                                                                value="${mainMenu.code}"
-                                                                                class="col-xs-10 col-sm-5">
+                                        <%--${empty mainMenu ? '' : 'readonly'}--%>
+                                        <input  type="text"
+                                                id="code"
+                                                placeholder=""
+                                                name="code"
+                                                value="${mainMenu.code}"
+                                                class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>
 
@@ -82,9 +83,8 @@
                                         描述
                                     </label>
                                     <div class="col-sm-9">
-                                    <textarea id="description" type="text" name="description" placeholder="菜单描述"
-                                          maxlength="255" class="col-xs-12 col-sm-12">${mainMenu.description}
-                                    </textarea>
+                                    <input id="description" type="text" name="description" value="${mainMenu.description}"
+                                          maxlength="10" class="col-xs-10 col-sm-5"/>
 
                                     </div>
                                 </div>

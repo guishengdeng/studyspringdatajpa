@@ -1,12 +1,9 @@
 package com.biz.gbck.dao.mysql.repository.product;
 
 /**
- * 商品 Dao 接口
+ * 商品DAO接口
  *
- * @author david-liu
- * @date 2016年12月19日
- * @reviewer
- * @see
+ * Created by david-liu on 2017/04/21 11:25.
  */
 public interface ProductDao {
 }
