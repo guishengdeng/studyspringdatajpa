@@ -4,25 +4,20 @@
 <%@taglib prefix="depotnextdoor" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<depotnextdoor:page title="page.user.edit">
+<depotnextdoor:page title="广告">
     <jsp:attribute name="script">
         <script>
             $(function () {
-                $('#endTimestamp,#beginTimestamp').datetimepicker({
+                $('#beginTimestamp').datetimepicker({
+                    format: 'YYYY/MM/DD H:mm:ss'
+                }).on("dp.change", function (e) {
+                    $('#endTimestamp').data("DateTimePicker").minDate(e.date);
+                });
+                $('#endTimestamp').datetimepicker({
                     format: 'YYYY/MM/DD H:mm:ss',
-                    icons: {
-                        time: 'fa fa-clock-o',
-                        date: 'fa fa-calendar',
-                        up: 'fa fa-chevron-up',
-                        down: 'fa fa-chevron-down',
-                        previous: 'fa fa-chevron-left',
-                        next: 'fa fa-chevron-right',
-                        today: 'fa fa-arrows ',
-                        clear: 'fa fa-trash',
-                        close: 'fa fa-times'
-                    }
-                }).next().on(ace.click_event, function () {
-                    $(this).prev().focus();
+                    useCurrent: false
+                }).on("dp.change", function (e) {
+                    $('#beginTimestamp').data("DateTimePicker").maxDate(e.date);
                 });
             });
         </script>
@@ -93,25 +88,7 @@
             /**
              * 为时间控件绑定change时间，用于判断时间先后
              */
-            /*  $('#beginTimestamp').datetimepicker().on('changeDate', function () {alert(11)
 
-             //广告生效时间
-             var beginTimestamp = $('#beginTimestamp').val();
-             //广告过期时间
-             var endTimestamp = $('#endTimestamp').val();
-
-             if (beginTimestamp && endTimestamp) {
-             beginTimestamp = new Date(beginTimestamp).getTime();
-             endTimestamp = new Date(endTimestamp).getTime();
-             console.log(beginTimestamp);
-             console.log(endTimestamp);
-             if (beginTimestamp > endTimestamp) {
-             layer.msg("广告过期时间必须在广告生效时间之后！");
-             $('#endTimestamp').val('');
-             return;
-             }
-             }
-             });*/
         </script>
     </jsp:attribute>
     <jsp:body>
@@ -140,7 +117,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <h3 class="header smaller lighter blue">
-                                启动页面广告管理
+                                    ${advertisement.id == null?'新增广告':'修改广告'}
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
                                     <a href="advertisement/list.do" class="btn btn-sm btn-primary"><i
                                             class="ace-icon fa fa-angle-left"></i>

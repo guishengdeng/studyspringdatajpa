@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<depotnextdoor:page title="page.user.edit">
+<depotnextdoor:page title="活动">
     <jsp:attribute name="script">
         <script type="application/javascript">
             <c:forEach items="${admin.roles}" var="role" varStatus="status">
@@ -103,7 +103,7 @@
                 </li>
 
                 <li>
-                    <a href="promotion/list">
+                    <a href="promotions">
                         活动管理
                     </a>
                 </li>
