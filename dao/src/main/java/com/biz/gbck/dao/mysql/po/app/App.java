@@ -24,7 +24,7 @@ public class App extends BaseEntity implements Serializable {
     /*
      * 400电话
      */
-    @Column(length = 50, nullable = false)
+    @Column(length = 150, nullable = false)
     private String tel;
 
     /*
@@ -36,19 +36,19 @@ public class App extends BaseEntity implements Serializable {
     /*
      *首页遮罩图片URL
      */
-    @Column(length = 100)
+    @Column(length = 200)
     private String pictureUrl;
 
     /*
      *首页遮罩跳转URL
      */
-    @Column(length = 100)
+    @Column(length = 200)
     private String url;
 
     /*
     *红包标题
      */
-    @Column(length = 80)
+    @Column(length = 100)
     private String title;
 
     /*

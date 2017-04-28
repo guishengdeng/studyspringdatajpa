@@ -8,18 +8,18 @@
     <jsp:attribute name="script">
         <style>
             #logo_container {
-                width: 472px;
+                width: 340px;
             }
 
             #image {
                 border: 5px;
                 width: 336px;
-                height: 250px;
+                height: 200px;
             }
 
             #app_url {
                 width: 350px;
-                height: 370px;
+                height: 280px;
             }
         </style>
    <script>
@@ -90,7 +90,6 @@
                $('#image').attr('src', data.uri);
            });
        }
-
    </script>
     </jsp:attribute>
     <jsp:body>
@@ -104,7 +103,7 @@
                 </li>
 
                 <li>
-                    <a href="manage/app">
+                    <a href="app">
                         App内容管理
                     </a>
                 </li>
@@ -125,34 +124,49 @@
                             <input type="hidden" name="id" value="${appVo.id}">
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label no-padding-right" maxlength="2" for="form-field-1">
-                                    400电话 </label>
-                                <div class="col-sm-9">
-                                    <input type="text" id="form-field-1" name="tel" value="${appVo.tel}"
-                                           placeholder="例：400 999 1919" class="col-xs-10 col-sm-5  required text">
+                                <label class="control-label col-xs-12 col-sm-3 no-padding-right"
+                                       for="phone">400电话</label>
+
+                                <div class="col-xs-12 col-sm-9">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="ace-icon fa fa-phone"></i>
+                                        </span>
+                                        <input type="tel" id="phone" name="tel" value="<c:out value="${appVo.tel}"/>"
+                                               maxlength="15"
+                                               onkeyup="this.value=this.value.replace(/\D/g,'')"
+                                               onafterpaste="this.value=this.value.replace(/\D/g,'')"
+                                               aria-required="true" aria-describedby="phone-error"
+                                               placeholder="例：400 999 1919" class="valid required text"
+                                               aria-invalid="false">
+                                    </div>
                                 </div>
                             </div>
+
                             <div class="form-group">
-                                <label class="col-sm-3 control-label no-padding-right" for="form-field-2" maxlength="100">
+                                <label class="col-sm-3 control-label no-padding-right" for="form-field-2"
+                                       maxlength="100">
                                     搜索热词 </label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="form-field-2" name="hotKeyWord" value="${appVo.hotKeyWord}"
-                                           placeholder="例：茅台 五粮液 剑南春" class="col-xs-10 col-sm-5 required text">
+                                    <input type="text" id="form-field-2" name="hotKeyWord"
+                                           value=" <c:out value='${appVo.hotKeyWord}'/>"
+                                           maxlength="20"
+                                           placeholder="例：茅台 五粮液 剑南春"
+                                           class="col-xs-10 col-sm-5 required text">
                                 </div>
                             </div>
                                 <%--页遮罩图片URL--%>
                             <div class="field adv-photo row">
-                                <label class="col-sm-3 control-label no-padding-right"
-                                       for="pictureUrl">
+                                <label class="col-sm-3 control-label no-padding-right">
                                     首页遮罩图片URL
                                 </label>
                                 <div class="col-md-9" id="app_url">
                                     <img id="image" src=""/>
                                     <div class="btn btn-primary" id="logo_button">修改图片</div>
                                     <input type="file" id="logo_file" value=""/>
-                                        <%--<div></div>--%>
-                                    <input name="pictureUrl" type="" id="logo_container" placeholder="  首页遮罩图片URL"
-                                           value="${appVo.pictureUrl}" class="col-xs-10 col-sm-5" readonly>
+                                    <input name="pictureUrl" type="ime-mode:disabled" id="logo_container"
+                                           value="<c:out value='${appVo.pictureUrl}'/>" class="col-xs-10 col-sm-5"
+                                           readonly>
                                     <button id="appdelete_button" class="btn btn-primary" type="button">
                                         删除图片
                                     </button>
@@ -164,16 +178,21 @@
                                     首页遮罩跳转URL </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" id="form-field-4" name="url" value="${appVo.url}"
-                                           placeholder="提示内容" class="col-xs-10 col-sm-5 required text">
+                                    <input type="text" id="form-field-4" name="url"
+                                           onkeyup="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
+                                           onafterpaste="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
+                                           value=" <c:out value='${appVo.url}'/>"
+                                           maxlength="100" placeholder="首页遮罩跳转URL "
+                                           class="col-xs-10 col-sm-5 required text">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-5"> 红包标题 </label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="form-field-5" name="title" value="${appVo.title}"
-                                           placeholder="例：
+                                    <input type="text" id="form-field-5" name="title"
+                                           value="<c:out value='${appVo.title}'/>"
+                                           maxlength="100" placeholder="例：
 gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
                                 </div>
                             </div>
@@ -182,18 +201,20 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-6">
                                     红包提示内容 </label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="form-field-6" name="content" value="${appVo.content}"
-                                           placeholder="提示内容" class="col-xs-10 col-sm-5 required text">
+                                    <input type="text" id="form-field-6" name="content"
+                                           value="<c:out value='${appVo.content}'/>"
+                                           maxlength="100" placeholder="提示内容" class="col-xs-10 col-sm-5 required text">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label no-padding-right required text" maxlength="2"
+                                <label class="col-sm-3 control-label no-padding-right required text"
                                        for="form-field-1-1"> 红包分享出去的图标 </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" id="form-field-1-1" name="icon" value="${appVo.icon}"
-                                           placeholder="例：
+                                    <input type="text" id="form-field-1-1" name="icon"
+                                           value="<c:out value='${appVo.icon}'/>"
+                                           maxlength="100" placeholder="例：
 gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
                                 </div>
                             </div>
@@ -203,18 +224,25 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
                                     红包分享页url </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" id="form-field-1-2" name="shareUrl" value="${appVo.shareUrl}"
-                                           placeholder="红包分享页url" class="col-xs-10 col-sm-5 required text">
+                                    <input type="text" id="form-field-1-2" name="shareUrl"
+                                           onkeyup="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
+                                           onafterpaste="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
+                                           value="<c:out value='${appVo.shareUrl}'/>"
+                                           maxlength="100" placeholder="红包分享页url"
+                                           class="col-xs-10 col-sm-5 required text">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-1-3">
-                                    推荐有礼Url </label>
+                                    推荐有礼Url</label>
 
                                 <div class="col-sm-9">
                                     <input type="text" id="form-field-1-3" name="recommedUrl"
-                                           value="${appVo.recommedUrl}" placeholder="推荐有礼Url"
+                                           onkeyup="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
+                                           onafterpaste="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
+                                           value="<c:out value='${appVo.recommedUrl}'/>"
+                                           maxlength="100" placeholder="推荐有礼url"
                                            class="col-xs-10 col-sm-5 required text">
                                 </div>
                             </div>
@@ -225,7 +253,10 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
 
                                 <div class="col-sm-9">
                                     <input type="text" id="form-field-1-4" name="appDownloadUrl"
-                                           value="${appVo.appDownloadUrl}" placeholder="app下载页
+                                           onkeyup="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
+                                           onafterpaste="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
+                                           maxlength="100" value=" <c:out value='${appVo.appDownloadUrl}'/>"
+                                           placeholder="app下载页
 面" class="col-xs-10 col-sm-5 required text">
                                 </div>
                             </div>
@@ -234,7 +265,10 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-1-5"> 订单满足 多少（元）
                                     发券</label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="form-field-1-5" name="money" value="${appVo.money}"
+                                    <input type="number" min="0" id="form-field-1-5" name="money"
+                                           maxlength="6"
+                                           min="0"
+                                           value="<c:out value='${appVo.money}'/>"
                                            placeholder="888" class="col-xs-10 col-sm-5 required text">
                                 </div>
                             </div>
@@ -244,25 +278,27 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
 
                                 <div class="col-sm-9">
                                 <span class="input-icon">
-                                    <input name="tabOne" value="${appVo.tabOne}" type="text" id="form-field-icon-1"
-                                           placeholder="显示标签" class="required text">
+                                    <input name="tabOne" value="<c:out value='${appVo.tabOne}'/>" type="text"
+                                           id="form-field-icon-1"
+                                           maxlength="40" placeholder="显示标签" class="required text">
                                  </span>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <span class="input-icon input-icon-right">
-												<input name="tabTwo" value="${appVo.tabTwo}" type="text"
-                                                       id="form-field-icon-2" placeholder="搜索标签" class="required text">
+												<input name="tabTwo" value="<c:out value='${appVo.tabTwo}'/>"
+                                                       type="text"
+                                                       maxlength="40" id="form-field-icon-2" placeholder="搜索标签"
+                                                       class="required text">
                                  </span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+                                <label class="col-sm-3 control-label no-padding-right">
                                     20倍会员下单购买数量 </label>
                                 <div class="col-sm-4">
                                     <div class="control-group">
 
                                         <div class="radio inline">
                                             <label>
-                                                <input name="type" type="radio" class="ace required text" value="受限"
+                                                <input name="type" type="radio" class="ace " value="受限"
                                                        <c:if test="${appVo.type eq '受限'}">checked</c:if>>
                                                 <span class="lbl">受限</span>
                                             </label>
@@ -270,7 +306,7 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
 
                                         <div class="radio inline">
                                             <label>
-                                                <input name="type" type="radio" class="ace required text" value="不受限"
+                                                <input name="type" type="radio" class="ace" value="不受限"
                                                        <c:if test="${appVo.type eq '不受限'}">checked</c:if>>
                                                 <span class="lbl">不受限</span>
                                             </label>
@@ -280,13 +316,16 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
                                 </div>
 
                                 <div class="col-sm-9">
-                                  <span class="input-icon">
-                                  <input type="number" name="minNum" min="0" value="${appVo.minNum}"
-                                         id="form-field-icon-4" placeholder="最低起售数量倍数">
-                                  </span>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                   <span class="input-icon input-icon-right">
+												<input type="number" name="maxNum" min="0" style="text-align:left"
+                                                       maxlength="5"
+                                                       value="<c:out value='${appVo.maxNum}'/>"
+                                                       id="form-field-icon-4" placeholder="最低起售数量倍数 ">
+                                 </span>
                                     <span class="input-icon input-icon-right">
-												<input type="number" name="maxNum" min="0" value="${appVo.maxNum}"
+												<input type="number" name="maxNum" min="0"
+                                                       maxlength="5"
+                                                       value="<c:out value='${appVo.maxNum}'/>"
                                                        id="form-field-icon-3" placeholder="最大购买数量倍数">
                                  </span>
                                 </div>
