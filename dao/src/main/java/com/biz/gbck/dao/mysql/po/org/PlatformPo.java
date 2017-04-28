@@ -29,13 +29,6 @@ public class PlatformPo extends Company{
     private ProvincePo province;
 
 
-    @ManyToMany(fetch = FetchType.LAZY) @JoinTable(name = "org_admin_platform",
-            joinColumns = {@JoinColumn(name = "platform_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "username", referencedColumnName = "username")},
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"platform_id", "username"})})
-    private List<Admin> admins;
-
-
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "warehouseId")
     private WarehousePo warehouse;
 
@@ -49,14 +42,6 @@ public class PlatformPo extends Company{
 
     public void setProvince(ProvincePo province) {
         this.province = province;
-    }
-
-    public List<Admin> getAdmins() {
-        return admins;
-    }
-
-    public void setAdmins(List<Admin> admins) {
-        this.admins = admins;
     }
 
     public WarehousePo getWarehouse() {

@@ -33,13 +33,6 @@ public class PartnerPo extends Company{
     private CityPo city;
 
 
-    @ManyToMany(fetch = FetchType.LAZY) @JoinTable(name = "org_admin_partner",
-            joinColumns = {@JoinColumn(name = "partner_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "username", referencedColumnName = "username")},
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"partner_id", "username"})})
-    private List<Admin> admins;
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "platform_id")
     private PlatformPo platform;
@@ -62,14 +55,6 @@ public class PartnerPo extends Company{
 
     public void setCity(CityPo city) {
         this.city = city;
-    }
-
-    public List<Admin> getAdmins() {
-        return admins;
-    }
-
-    public void setAdmins(List<Admin> admins) {
-        this.admins = admins;
     }
 
     public PlatformPo getPlatform() {

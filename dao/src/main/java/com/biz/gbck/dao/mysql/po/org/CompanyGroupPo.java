@@ -1,6 +1,7 @@
 package com.biz.gbck.dao.mysql.po.org;
 
 import com.biz.gbck.dao.mysql.po.BasePo;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.org.CompanyLevel;
 import com.biz.support.jpa.po.BaseEntity;
 
@@ -65,6 +66,10 @@ public class CompanyGroupPo extends BasePo<Long> {
     @Column
     private CompanyLevel childrenLevel;
 
+    @Column
+    @Enumerated(EnumType.STRING)
+    private CommonStatusEnum status;
+
 
     @Override
     public Long getId() {
@@ -114,5 +119,13 @@ public class CompanyGroupPo extends BasePo<Long> {
 
     public void setChildrenLevel(CompanyLevel childrenLevel) {
         this.childrenLevel = childrenLevel;
+    }
+
+    public CommonStatusEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(CommonStatusEnum status) {
+        this.status = status;
     }
 }

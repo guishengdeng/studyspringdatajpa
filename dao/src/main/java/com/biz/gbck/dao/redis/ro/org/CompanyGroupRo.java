@@ -2,6 +2,13 @@ package com.biz.gbck.dao.redis.ro.org;
 
 import com.biz.redis.annotation.Ro;
 import com.biz.redis.bean.BaseRedisObject;
+import org.apache.commons.collections.CollectionUtils;
+import org.codelogger.utils.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author: liubin
@@ -25,7 +32,12 @@ public class CompanyGroupRo extends BaseRedisObject<Long> {
     private Long parentId;
 
 
+    private String childrenIds;
+
+
     private Integer childrenLevel;
+
+
 
 
     public String getCode() {
@@ -58,5 +70,28 @@ public class CompanyGroupRo extends BaseRedisObject<Long> {
 
     public void setChildrenLevel(Integer childrenLevel) {
         this.childrenLevel = childrenLevel;
+    }
+
+    public String getChildrenIds() {
+        return childrenIds;
+    }
+
+    public void setChildrenIds(String childrenIds) {
+        this.childrenIds = childrenIds;
+    }
+
+    public List<Long> getChildrendIdList(String childrenIds) {
+
+        List<Long> childrenIdList = new ArrayList<>();
+        if (StringUtils.isNotBlank(childrenIds)) {
+
+
+             childrenIdList = Arrays.stream(childrenIds.split(",")).map(childId -> Long.valueOf(childId)).collect(Collectors.toList());
+        }
+        return childrenIdList;
+    }
+
+    public void setChildrenIdStr(List<Long> ids) {
+
     }
 }
