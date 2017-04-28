@@ -8,7 +8,6 @@ import com.biz.gbck.dao.mysql.po.org.*;
 import com.biz.gbck.dao.mysql.po.payment.LoanApplyType;
 import com.biz.gbck.dao.mysql.po.payment.ZsgfApplyStatus;
 import com.biz.gbck.dao.mysql.po.payment.ZsgfLoanApplyPo;
-import com.biz.gbck.dao.mysql.po.ximu.CustAccrPo;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.enums.user.AuditStatus;
@@ -427,11 +426,6 @@ public class ShopServiceImpl extends CommonService  implements ShopService {
     @Override
     public void sendLoanPushMessage(Long shopId, List<UserPo> users, LoanApplyType loanApplyType) throws CommonException {
 
-    }
-
-    @Override
-    public CustAccrPo getShopCreditInfo(Long shopId) {
-        return null;
     }
 
     @Override
