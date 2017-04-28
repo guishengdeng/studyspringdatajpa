@@ -5,7 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="depotnextdoor" tagdir="/WEB-INF/tags" %>
-<depotnextdoor:page title="page.user.list">
+<depotnextdoor:page title="广告管理">
     <jsp:attribute name="script">
         <script type="application/javascript">
             <c:forEach items="${admin.roles}" var="role" varStatus="status">

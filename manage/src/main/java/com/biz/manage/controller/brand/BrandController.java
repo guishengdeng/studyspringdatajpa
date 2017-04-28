@@ -1,21 +1,23 @@
 package com.biz.manage.controller.brand;
 
-import com.alibaba.fastjson.JSON;
-import com.biz.core.page.PageResult;
-import com.biz.core.util.JsonUtil;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.exceptions.product.CategoryNotFoundException;
-import com.biz.gbck.exceptions.product.IllegalParameterException;
-import com.biz.gbck.vo.product.backend.*;
+import com.biz.gbck.vo.advertisement.frontend.request.AdvertisementRequestVo;
+import com.biz.gbck.vo.product.backend.BrandListItemVo;
+import com.biz.gbck.vo.product.backend.CategoryItemVo;
+import com.biz.gbck.vo.product.backend.CreateBrandVo;
+import com.biz.gbck.vo.product.backend.UpdateBrandVo;
 import com.biz.service.product.backend.BrandService;
 import com.biz.service.product.backend.CategoryService;
-import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -85,4 +87,19 @@ public class BrandController {
         }
         return mav;
     }
+
+    @PostMapping("save")
+    @PreAuthorize("hasAuthority('OPT_BRAND_CREATE')")
+    public ModelAndView create(CreateBrandVo brandVo) {
+        brandVo.setCategoryId(1L);
+        brandVo.setStatus(CommonStatusEnum.ENABLE);
+        try {
+            brandService.createBrand(brandVo);
+        } catch (CategoryNotFoundException e) {
+            logger.error("新增品牌失败", e.getMessage(), e);
+        }
+
+        return new ModelAndView("redirect:/product/brand.do");
+    }
+
 }

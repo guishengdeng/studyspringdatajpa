@@ -65,7 +65,6 @@ public class AdvertisementController {
     }
 
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
-    @ResponseBody
     public ModelAndView saveOrUpdate(AdvertisementRequestVo req) {
         advertisementService.saveOrUpdateAdvertisement(req);
         return new ModelAndView("redirect:/advertisement/list.do");
