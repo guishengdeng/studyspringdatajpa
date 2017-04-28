@@ -122,10 +122,9 @@
                                 </span>
                             </h3>
                                 <%-- treeview --%>
-                            <div class="pull-left" id="treeView">
-
+                            <div class="pull-left col-sm-3 no-padding" id="treeView">
                             </div>
-                            <div class="pull-left col-sm-8">
+                            <div class="pull-right col-sm-9 no-padding">
                                 <table id="category-table" class="table table-hover">
                                     <thead>
                                     <tr>
