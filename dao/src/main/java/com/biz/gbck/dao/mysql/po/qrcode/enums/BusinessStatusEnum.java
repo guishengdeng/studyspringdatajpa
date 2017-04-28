@@ -1,35 +1,37 @@
 package com.biz.gbck.dao.mysql.po.qrcode.enums;
 
-import com.biz.core.enums.EnumerableValue;
+import com.biz.core.enums.EnumerableNameAndValueAndDescription;
+import com.biz.core.enums.converter.BaseEnumNameAndValueAndDescriptionConverter;
+import com.biz.gbck.dao.mysql.po.demo.SaleStatusEnum;
 
-public enum BusinessStatusEnum implements EnumerableValue{
+public enum BusinessStatusEnum implements EnumerableNameAndValueAndDescription{
     STATUS0(0,"G7","收货");
 
-    private int value;//值
-    private String code;//编码
-    private String desc;//描述
+    private Integer value;//值
+    private String name;//编码
+    private String description;//描述
+    
+    public static class Converter extends BaseEnumNameAndValueAndDescriptionConverter<SaleStatusEnum> {
+
+    }
+    
+    BusinessStatusEnum(Integer value,String name,String description){
+        this.value=value;
+        this.name=name;
+        this.description=description;
+    }
+    @Override
     public int getValue() {
         return value;
     }
-    public void setValue(int value) {
-        this.value = value;
+    @Override
+    public String getName() {
+        // TODO Auto-generated method stub
+        return name;
     }
-    public String getCode() {
-        return code;
-    }
-    public void setCode(String code) {
-        this.code = code;
-    }
-    public String getDesc() {
-        return desc;
-    }
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-    
-    BusinessStatusEnum(int value,String code,String desc){
-        this.value=value;
-        this.code=code;
-        this.desc=desc;
+    @Override
+    public String getDescription() {
+        // TODO Auto-generated method stub
+        return description;
     }
 }
