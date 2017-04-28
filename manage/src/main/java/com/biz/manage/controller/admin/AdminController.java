@@ -2,20 +2,19 @@ package com.biz.manage.controller.admin;
 
 import com.biz.gbck.dao.mysql.po.security.Admin;
 import com.biz.gbck.enums.CommonStatusEnum;
+import com.biz.gbck.vo.admin.AdminReqVo;
 import com.biz.manage.util.AuthorityUtil;
 import com.biz.service.security.interfaces.AdminService;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -33,12 +32,21 @@ public class AdminController {
 
     @Autowired
     private Md5PasswordEncoder md5PasswordEncoder;
-
+    /**
+     * List<Admin> admins = status.isEnable() ? adminService.listEnableAdmins() : adminService.listDisableAdmins();
+     @RequestParam(value = "enabled", required = false, defaultValue = "ENABLE") CommonStatusEnum status
+     当用户访问该路径时enable参数是没有值的,所有给它一个默认值
+     */
     @GetMapping
     @PreAuthorize("hasAuthority('OPT_USER_LIST')")
-    public ModelAndView list(@RequestParam(value = "enabled", required = false, defaultValue = "ENABLE") CommonStatusEnum status) {
-        List<Admin> admins = status.isEnable() ? adminService.listEnableAdmins() : adminService.listDisableAdmins();
-        return new ModelAndView("manage/admin/list", "admins", admins).addObject("enabled", status.isEnable());
+    public ModelAndView list(@RequestParam(value = "enabled", required = false, defaultValue = "ENABLE") CommonStatusEnum status, @ModelAttribute("adminVo") AdminReqVo vo) {
+        if(vo.getStatus()==null){
+            //当第一次访问该路径时,用户默认的状态为ENABLE,然后对其进行分页
+            vo.setStatus(status);
+        }
+        //这是对查询条件的用户进行分页
+        Page<Admin> adminPage = adminService.queryAdminsByCondition(vo);
+        return new ModelAndView("manage/admin/list", "adminPage", adminPage).addObject("enabled", status.isEnable());
     }
 
     @GetMapping("/add")

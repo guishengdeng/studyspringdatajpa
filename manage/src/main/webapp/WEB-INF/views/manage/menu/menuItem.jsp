@@ -120,11 +120,11 @@
                             <table id="simple-table" class="table  table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>描述</th>
+                                    <th class="hidden-md hidden-sm hidden-xs">名称</th>
                                     <th>图标</th>
                                     <th class="hidden-md hidden-sm hidden-xs">链接</th>
-                                    <th class="hidden-md hidden-sm hidden-xs">名称</th>
                                     <th class="hidden-md hidden-sm hidden-xs">权限</th>
+                                    <th>描述</th>
                                     <th class="hidden-md hidden-sm hidden-xs">操作列表</th>
                                     <th class="hidden-md hidden-sm hidden-xs">操作</th>
                                 </tr>
@@ -132,13 +132,14 @@
                                 <tbody>
                                 <c:forEach items="${menuItems}" var="menuItem" varStatus="status">
                                     <tr id="tr-${menuItem.id}">
+                                        <td class="hidden-md hidden-sm hidden-xs">${menuItem.name}</td>
 
-                                        <td>${menuItem.description}</td>
                                         <td>${menuItem.icon}</td>
                                         <td class="hidden-md hidden-sm hidden-xs">${menuItem.link}</td>
-                                        <td class="hidden-md hidden-sm hidden-xs">${menuItem.name}</td>
+
                                         <td class="hidden-md hidden-sm hidden-xs">
                                         </td>
+                                        <td>${menuItem.description}</td>
                                         <td class="hidden-md hidden-sm hidden-xs">
                                             <a href="/manage/menuItems/detail.do?id=${menuItem.id}">操作管理</a>
                                         </td>
