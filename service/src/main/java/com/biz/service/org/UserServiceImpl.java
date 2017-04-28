@@ -32,6 +32,7 @@ import com.biz.gbck.vo.user.UserResponseVo;
 import com.biz.service.CommonService;
 import com.biz.service.org.interfaces.ShopService;
 import com.biz.service.org.interfaces.UserService;
+import com.biz.service.sms.SMSService;
 import com.biz.transformer.org.UserRoToUserVo;
 import com.biz.vo.org.*;
 import com.google.common.base.Stopwatch;
@@ -61,7 +62,7 @@ public class UserServiceImpl extends CommonService implements UserService{
 
     @Autowired private ShopService shopService;
 
-  /*  @Autowired private SMSService smsService;*/
+    @Autowired private SMSService smsService;
 
 
 
@@ -93,8 +94,8 @@ public class UserServiceImpl extends CommonService implements UserService{
             throw DepotnearbyExceptionFactory.User.ILLEGAL_INVITER_CODE;
         }
 
-        if (false) {//smsService.validateAndDisableSMSCode(userRegisterReqVo.getMobile(), SMSType.REGISTER,
-                    // userRegisterReqVo.getSmsCode()) // TODO: 17-4-27 校验短信验证码是否正确,如果正确则使该短信验证码失效
+        if (smsService.validateAndDisableSMSCode(userRegisterReqVo.getMobile(), SMSType.REGISTER,
+                userRegisterReqVo.getSmsCode())) { // TODO: 17-4-27 校验短信验证码是否正确,如果正确则使该短信验证码失效
 
             Boolean userExist = userRedisDao.getUserByMobile(userRegisterReqVo.getMobile()) != null
                     || userRepository.findByMobile(userRegisterReqVo.getMobile()) != null;
