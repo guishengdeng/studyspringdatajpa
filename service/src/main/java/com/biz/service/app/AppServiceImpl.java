@@ -9,6 +9,8 @@ import com.biz.service.IdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 
 /**
  * @author lzz
@@ -30,6 +32,7 @@ public class AppServiceImpl extends AbstractBaseService implements AppService {
     }
 
     @Override
+    @Transactional
     public void addOrUpdate(AppVo appVo) {
         AppVoToAppPo appVoToAppPo = new AppVoToAppPo();
         if (appVo.getId() == null) {

@@ -66,7 +66,7 @@ public class AppVo implements Serializable {
     /*
      *订单满足 多少（元） 发券
      */
-    @Column
+
     private Integer money;
 
     /*
