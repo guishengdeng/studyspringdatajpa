@@ -46,7 +46,7 @@
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
                                 <a href="manage/menuItems/detail.do?id=${menuitem_id}" class="btn btn-sm btn-primary"><i
                                         class="ace-icon fa fa-angle-left"></i>
-                                    返回上一级菜单
+                                    返回
                                 </a>
                             </span>
                             </h3>
@@ -65,7 +65,7 @@
 
                                     <div class="col-sm-9">
                                         <input type="text" id="link" name="name" placeholder=""
-                                               value="${resource.name}" class="required col-xs-10 col-sm-5">
+                                               value="<c:out value='${resource.name}'/>" class="required col-xs-10 col-sm-5">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -76,7 +76,7 @@
 
                                     <div class="col-sm-9">
                                         <input type="text" id="symbol" name="symbol" placeholder=""
-                                               value="${resource.symbol}" class="col-xs-10 col-sm-5">
+                                               value="<c:out value='${resource.symbol}'/>" class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -89,7 +89,7 @@
                                         <input  type="text"
                                                 id="description"
                                                 name="description"
-                                                value="${resource.description}"
+                                                value="<c:out value='${resource.description}'/> "
                                                 class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>

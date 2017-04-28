@@ -56,8 +56,9 @@
                                     </label>
 
                                     <div class="col-sm-9">
-                                        <input type="text" id="name" name="name" placeholder="菜单名称"
-                                               value="${mainMenu.name}" class="required col-xs-10 col-sm-5">
+                                        <input ${not empty mainMenu ? 'readonly' : ''}  type="text" id="name" name="name" placeholder="菜单名称"
+                                               value="<c:out value='${mainMenu.name}'/>"
+                                                class="required col-xs-10 col-sm-5">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -67,12 +68,11 @@
                                     </label>
 
                                     <div class="col-sm-9">
-                                        <%--${empty mainMenu ? '' : 'readonly'}--%>
                                         <input  type="text"
                                                 id="code"
                                                 placeholder=""
                                                 name="code"
-                                                value="${mainMenu.code}"
+                                                value="<c:out value='${mainMenu.code}'/>"
                                                 class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>
@@ -83,9 +83,8 @@
                                         描述
                                     </label>
                                     <div class="col-sm-9">
-                                    <input id="description" type="text" name="description" value="${mainMenu.description}"
+                                    <input id="description" type="text" name="description" value="<c:out value='${mainMenu.description}'/>"
                                           maxlength="10" class="col-xs-10 col-sm-5"/>
-
                                     </div>
                                 </div>
 
