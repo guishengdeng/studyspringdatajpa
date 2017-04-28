@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.sql.Timestamp;
 
 /**
  * 出库单
@@ -76,6 +77,11 @@ public class DeliveryOrder extends BaseEntity {
      */
     @Column(length = 20)
     private String operator;
+
+    /**
+     * 发货时间
+     */
+    private Timestamp deliveryTime;
 
     public String getSn() {
         return sn;

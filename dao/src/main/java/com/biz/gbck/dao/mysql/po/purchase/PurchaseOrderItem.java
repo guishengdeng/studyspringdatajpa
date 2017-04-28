@@ -30,7 +30,7 @@ public class PurchaseOrderItem extends BaseEntity {
     /**
      * 促销优惠价格
      */
-    @Column(nullable = false)
+    @Column
     private Integer freeAmount;
 
     /**

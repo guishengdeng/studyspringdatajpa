@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.sql.Timestamp;
 
 /**
  * 收货单
@@ -76,6 +77,11 @@ public class RecipientOrder extends BaseEntity {
      */
     @Column(length = 20)
     private String operator;
+
+    /**
+     * 收货时间
+     */
+    private Timestamp recipientTime;
 
     public String getSn() {
         return sn;
@@ -147,5 +153,13 @@ public class RecipientOrder extends BaseEntity {
 
     public void setOperator(String operator) {
         this.operator = operator;
+    }
+
+    public Timestamp getRecipientTime() {
+        return recipientTime;
+    }
+
+    public void setRecipientTime(Timestamp recipientTime) {
+        this.recipientTime = recipientTime;
     }
 }

@@ -13,11 +13,12 @@ import com.biz.core.enums.converter.BaseEnumValueConverter;
  * @see
  */
 public enum InOutType implements EnumerableValue {
+	OTHER(0, "其他"),
 	SALE(1, "销售"),
 	RETURN(2, "退货"),
 	INVENTORY(3, "盘点"),
-	OTHER(4, "其他");
-
+	FREE(4, "客情"),
+	WELFARE(5, "福利");
 
 
 	public static class Converter extends BaseEnumValueConverter<InOutType> {}
