@@ -95,7 +95,7 @@ public class UserServiceImpl extends CommonService implements UserService{
         }
 
         if (smsService.validateAndDisableSMSCode(userRegisterReqVo.getMobile(), SMSType.REGISTER,
-                userRegisterReqVo.getSmsCode())) { // TODO: 17-4-27 校验短信验证码是否正确,如果正确则使该短信验证码失效
+                userRegisterReqVo.getSmsCode())) {
 
             Boolean userExist = userRedisDao.getUserByMobile(userRegisterReqVo.getMobile()) != null
                     || userRepository.findByMobile(userRegisterReqVo.getMobile()) != null;
@@ -263,8 +263,8 @@ public class UserServiceImpl extends CommonService implements UserService{
                 || forgotPasswordReqVo.getPassword().length() != 32) {
             throw DepotnearbyExceptionFactory.User.ILLEGAL_PASSWORD;
         }
-        if (false) { //smsService.validateAndDisableSMSCode(forgotPasswordReqVo.getMobile(),
-                    // SMSType.FORGOT_PASSWORD,forgotPasswordReqVo.getSmsCode()) // TODO: 17-4-27 校验短信验证码是否正确,如果正确则使该短信验证码失效
+        if (smsService.validateAndDisableSMSCode(forgotPasswordReqVo.getMobile(),
+                SMSType.FORGOT_PASSWORD,forgotPasswordReqVo.getSmsCode())) {
             UserRo userRo = findUserByMobile(forgotPasswordReqVo.getMobile());
             if (userRo == null) {
                 throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
@@ -390,8 +390,8 @@ public class UserServiceImpl extends CommonService implements UserService{
 
     @Override
     public void changeMobile(UserChangeMobileReqVo reqVo) throws CommonException {
-        if (false) {//smsService.validateAndDisableSMSCode(reqVo.getMobile(), SMSType.CHANGE_MOBILE,
-                    //reqVo.getSmsCode()) // TODO: 17-4-27 校验短信验证码是否正确,如果正确则使该短信验证码失效
+        if (smsService.validateAndDisableSMSCode(reqVo.getMobile(), SMSType.CHANGE_MOBILE,
+                reqVo.getSmsCode())) {
             final UserRo userRo = userRedisDao.get(reqVo.getUserId());
             if (userRo == null) {
                 throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
