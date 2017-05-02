@@ -74,7 +74,7 @@
                                            for="idx">显示顺序
                                     </label>
                                     <div class="col-sm-9">
-                                        <input id="idx" name="idx" type="text" style="margin:0;" class="col-sm-12 ui-spinner-input"
+                                        <input id="idx" name="idx" type="number" class="required text col-xs-10 col-sm-5"
                                                autocomplete="off" role="spinbutton" aria-valuenow="10" value="<c:out value="${shopType.idx}"/>" />
                                     </div>
                                 </div>
@@ -84,7 +84,7 @@
                                     </label>
                                     <div class="col-sm-9">
                                         <textarea name="description" id="description" rows="5" cols="20"
-                                                  maxlength="40" class="required text col-xs-10 col-sm-5">
+                                                   class="required text col-xs-10 col-sm-5  ">
                                             <c:out value="${shopType.description}"/>
                                         </textarea>
                                     </div>

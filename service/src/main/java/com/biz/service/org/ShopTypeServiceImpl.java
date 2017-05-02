@@ -60,8 +60,11 @@ public class ShopTypeServiceImpl  extends CommonService implements ShopTypeServi
         List<ShopTypeRo> shopTypeRos = shopTypeRedisDao.findAll(shopTypeStatus);
         if (CollectionUtils.isEmpty(shopTypeRos)) {
             List<ShopTypePo> all = shopTypeRepository.findAllByStatus(shopTypeStatus.getValue());
-            shopTypeRos = Lists.transform(all, new ShopTypePoToShopTypeRo());
-            publishEvent(new ShopTypeSyncEvent(this));
+            if(CollectionUtils.isNotEmpty(all)){
+                shopTypeRos = Lists.transform(all, new ShopTypePoToShopTypeRo());
+                publishEvent(new ShopTypeSyncEvent(this));
+            }
+
         }
         return sortShopTypeRos(shopTypeRos);
     }

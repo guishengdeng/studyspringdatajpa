@@ -8,7 +8,18 @@
 <depotnextdoor:page title="page.user.edit">
     <jsp:attribute name="script">
         <script type="application/javascript">
-
+            function showDiv(id) {
+                $("#cat-disable-confirm-modal").modal();
+                $("#shopTypeId").val(id);
+            }
+            $(".btn-cancel-ban").click(function () {
+                $("#cat-disable-confirm-modal").modal("hide");
+            });
+            $(".btn-confirm-ban").click(function () {
+                var shopTypeId = $("#shopTypeId").val();
+                window.location.href = "shopTypes/delete.do?id="+shopTypeId +"";
+                $("#cat-disable-confirm-modal").modal("hide");
+            });
         </script>
     </jsp:attribute>
     <jsp:body>
@@ -60,10 +71,10 @@
                                         <td>${shopTypes.idx}</td>
                                         <td>${shopTypes.description}</td>
                                         <td>
-                                            <a class="ui primary find-btn" href="shopTypes/${shopTypes.id}.do">
-                                                <i class="ui icon legal"></i><span>修改</span></a>&nbsp;
-                                            <a class="ui delete-btn" onclick="deleteById(${shopTypes.id})">
-                                                <i class="minus circle icon"></i>
+                                            <a class="btn btn-xs btn-info" href="shopTypes/${shopTypes.id}.do">
+                                                <i class="ace-icon fa fa-pencil bigger-120"></i><span>修改</span></a>&nbsp;
+                                            <a class="btn btn-xs btn-danger" onclick="showDiv(${shopTypes.id})">
+                                                <i class="ace-icon fa fa-ban bigger-120"></i>
                                                 <span>禁用</span></a>
                                         </td>
                                     </tr>
@@ -77,7 +88,7 @@
                                             <button type="button" class="bootbox-close-button close"
                                                     data-dismiss="modal" aria-hidden="true">×
                                             </button>
-                                            <div class="bootbox-body">您确定要禁用活动<span
+                                            <div class="bootbox-body">您确定要删除商户类型<span
                                                     id="name-of-ban-cat"></span> ?
                                             </div>
                                         </div>
@@ -99,6 +110,6 @@
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div>
-        <input type="hidden" id="promotionsId">
+        <input type="hidden" id="shopTypeId">
     </jsp:body>
 </depotnextdoor:page>
