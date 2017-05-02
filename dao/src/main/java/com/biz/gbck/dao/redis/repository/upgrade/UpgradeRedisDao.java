@@ -1,35 +1,53 @@
 package com.biz.gbck.dao.redis.repository.upgrade;
 
-import com.biz.gbck.common.dao.redis.CommonRedisDao;
-import com.biz.gbck.common.ro.RedisKeyGenerator.Upgrade;
+import com.biz.gbck.dao.redis.CrudRedisDao;
 import com.biz.gbck.dao.redis.ro.upgrade.UpgradeRo;
 import com.biz.redis.util.RedisUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@Component
-public class UpgradeRedisDao extends CommonRedisDao {
+import static com.google.common.collect.Lists.newArrayList;
 
 
-    private final Logger logger = LoggerFactory.getLogger(UpgradeRedisDao.class);
+@Repository
+public class UpgradeRedisDao extends CrudRedisDao<UpgradeRo,String> {
 
-    public void save(UpgradeRo ro) {
-        String os = ro.getOs();
-        long score = ro.versionToSroce();
-        String setKey = Upgrade.getUpgradeSortSetKey(os);
-        zadd(setKey, score, RedisUtil.toByteArray(ro.getId()));
-        hmset(Upgrade.getUpgradeHashKey(ro.getId()), ro.toMap());
+    /**
+     *判断是否升级
+     */
+    public UpgradeRo needUpgrade(String os, String version, boolean inHourse) {
+        String setKey = getKeyByParams(os);
+        long score = UpgradeRo.versionToSroce(version);
+        UpgradeRo result = null;
+        Set<byte[]> ids =
+                super.zrevrangeByScore(setKey, String.valueOf(Long.MAX_VALUE), "(" + score);
+        if (ids != null && !ids.isEmpty()) {
+            for (byte[] idArr : ids) {
+                String id = new String(idArr);
+                UpgradeRo upgrade = getUpgradeRo(id);
+                if (upgrade != null && inHourse == upgrade.getInhourse()) {
+                    if (result == null)
+                        result = upgrade;
+                    if (upgrade.getForce()) {
+                        result.setForce(true);
+                        return result;
+                    }
+                }
+            }
+        }
+        return result;
     }
 
+    /**
+     *根据hash key 或者封装对应ro
+     */
     public UpgradeRo getUpgradeRo(String id) {
-        Map<byte[], byte[]> map = hgetAll(Upgrade.getUpgradeHashKey(id));
-        logger.debug("use key :{}", Upgrade.getUpgradeHashKey(id));
+        Map<byte[], byte[]> map = super.hgetAll(getHashKey(id));
+        logger.debug("use key :{}",id);
         if (map == null || map.isEmpty()) {
             return null;
         }
@@ -38,18 +56,13 @@ public class UpgradeRedisDao extends CommonRedisDao {
         return upgrade;
     }
 
-    public void delete(String id) {
-        UpgradeRo upgrade = getUpgradeRo(id);
-        if (upgrade != null) {
-            String setKey = Upgrade.getUpgradeSortSetKey(upgrade.getOs());
-            zrem(setKey, id);
-            del(Upgrade.getUpgradeHashKey(id));
-        }
-    }
-
+    /**
+     *查询对应系统所有ro
+     */
     public List<UpgradeRo> findAll(String os) {
-        Set<byte[]> ids = super.zRange(Upgrade.getUpgradeSortSetKey(os), 0, -1);
-        List<UpgradeRo> result = new ArrayList<UpgradeRo>();
+        String key=getKeyByParams(os);
+        Set<byte[]> ids = super.zRange(key, 0, -1);
+        List<UpgradeRo> result =newArrayList();
         if (ids != null && !ids.isEmpty()) {
             for (byte[] idArr : ids) {
                 String id = new String(idArr);
@@ -62,40 +75,24 @@ public class UpgradeRedisDao extends CommonRedisDao {
         return result;
     }
 
-
     /**
-     * 判断版是否能够升级
-     *
-     * @param os
-     * @param version
-     * @return
-     * @author gongshutao
+     *保存ro
      */
-    public UpgradeRo needUpgrade(String os, String version, boolean inHourse) {
-        String setKey = Upgrade.getUpgradeSortSetKey(os);
-        long score = UpgradeRo.versionToSroce(version);
-        logger.debug(" current score {}", score);
-        UpgradeRo result = null;
-        Set<byte[]> ids =
-            super.zrevrangeByScore(setKey, String.valueOf(Long.MAX_VALUE), "(" + score);
-        if (ids != null && !ids.isEmpty()) {
-            logger.debug(" size : {}", ids.size());
-            for (byte[] idArr : ids) {
-                String id = new String(idArr);
-                logger.debug(" id : {}", id);
-                UpgradeRo upgrade = getUpgradeRo(id);
-                logger.debug("{} is null {}", id, (upgrade == null));
-                if (upgrade != null && inHourse == upgrade.getInhourse()) {
-                    if (result == null)
-                        result = upgrade;
-                    logger.debug("result is null {}", (result == null));
-                    if (upgrade.getForce()) {
-                        result.setForce(true);
-                        return result;
-                    }
-                }
-            }
-        }
-        return result;
+    public void save(UpgradeRo ro) {
+        String os = ro.getOs();
+        long score = ro.versionToSroce();
+        String setKey = getKeyByParams(os);
+        zadd(setKey, score, RedisUtil.toByteArray(ro.getId()));
+        hmset(getHashKey(ro.getId()), ro.toMap());
     }
+
+    public void delete(String id) {
+        UpgradeRo upgrade = getUpgradeRo(id);
+        if (upgrade != null) {
+            String setKey =getKeyByParams(upgrade.getOs());
+            zrem(setKey, id);
+            del(getHashKey(id));
+        }
+    }
+
 }

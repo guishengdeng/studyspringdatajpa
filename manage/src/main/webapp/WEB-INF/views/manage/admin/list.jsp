@@ -138,6 +138,24 @@
                                 </a>
                             </span>
                             </h3>
+                            <%--用作查询的表单框--%>
+                            <form action="manage/users.do" method="get">
+                                <div class="col-md-3 inline">
+                                    <label>用户名</label>
+                                    <input name="username" value='<c:out value="${adminVo.username}" />' type="text" placeholder="用户名"  autocomplete="off">
+                                </div>
+                                <div class="col-md-2 inline">
+                                    <label>状态</label>
+                                    <depotnextdoor:statusSelect fieldName="status" selectedStatus="${adminVo.status}" withNone="true" enableLabel="启用" disableLabel="禁用"/>
+                                </div>
+
+                                <div class="inline">
+                                    <button type="submit" class="btn btn-info btn-sm">
+                                        <i class="ace-icon fa fa-search bigger-110"></i>搜索
+                                    </button>
+                                </div>
+                            </form>
+                            <div class="hr hr-18 dotted"></div>
                             <table id="simple-table" class="table  table-bordered table-hover">
                                 <thead>
                                 <tr>
@@ -152,12 +170,12 @@
                                 </thead>
 
                                 <tbody>
-                                <c:forEach items="${admins}" var="user">
+                                <c:forEach items="${adminPage.content}" var="user">
                                     <tr id="tr-${user.username}">
 
-                                        <td>${user.username}</td>
-                                        <td>${user.name}</td>
-                                        <td class="hidden-md hidden-sm hidden-xs">${user.phone}</td>
+                                        <td><c:out value="${user.username}"/></td>
+                                        <td><c:out value="${user.name}"/></td>
+                                        <td class="hidden-md hidden-sm hidden-xs"><c:out value="${user.phone}"/></td>
                                         <td class="hidden-md hidden-sm hidden-xs"></td>
                                         <td class="hidden-md hidden-sm hidden-xs">
                                             <depotnextdoor:statusLabel selectedStatus="${user.status.value}"/>
@@ -172,7 +190,7 @@
                                                     </a>
                                                 </sec:authorize>--%>
                                                    <sec:authorize access="hasAuthority('OPT_USER_DELETE')">
-                                                       <a <%--href="manage/users/delete?username=${user.username}"--%>
+                                                       <a
                                                           data-id="${user.username}"
                                                           data-name="${user.username}"
                                                           class="btn btn-minier btn-danger user-ban-btn">
@@ -267,6 +285,7 @@
                                 </c:forEach>
                                 </tbody>
                             </table>
+                            <depotnextdoor:springPagePagination url="manage/users.do" springPage="${adminPage}" />
                         </div><!-- /.span -->
                     </div><!-- /.row -->
                     <div id="user-disable-confirm-modal" role="dialog" class="modal" tabindex="-1">

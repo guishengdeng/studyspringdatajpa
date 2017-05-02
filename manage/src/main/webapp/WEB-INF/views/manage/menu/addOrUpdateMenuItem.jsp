@@ -68,7 +68,8 @@
                                     <%--必输项,否则不让提交--%>
                                     <div class="col-sm-9">
                                         <input type="text" id="name" name="name" placeholder="名称"
-                                               value="${menuItem.name}" class="required col-xs-10 col-sm-5">
+                                               value="<c:out value='${menuItem.name}'/>"
+                                                class="required col-xs-10 col-sm-5">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -78,7 +79,7 @@
                                     </label>
                                     <div class="col-sm-9">
                                         <input type="text" id="codes" name="code" placeholder=""
-                                               value="${menuItem.code}" class="col-xs-10 col-sm-5">
+                                               value="<c:out value='${menuItem.code}'/>" class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -89,7 +90,7 @@
 
                                     <div class="col-sm-9">
                                         <input type="text" id="link" name="link" placeholder=""
-                                               value="${menuItem.link}" class="col-xs-10 col-sm-5">
+                                               value="<c:out value='${menuItem.link}'/>" class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -100,7 +101,7 @@
 
                                     <div class="col-sm-9">
                                         <input type="text" id="symbol" name="symbol" placeholder=""
-                                               value="${menuItem.symbol}" class="col-xs-10 col-sm-5">
+                                               value="<c:out value='${menuItem.symbol}'/>" class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -110,7 +111,8 @@
                                     </label>
 
                                     <div class="col-sm-9">
-                                        <input  id="description" type="text" name="description" value="${menuItem.description}"
+                                        <input  id="description" type="text" name="description"
+                                                value="<c:out value='${menuItem.description}'/> "
                                                 class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>

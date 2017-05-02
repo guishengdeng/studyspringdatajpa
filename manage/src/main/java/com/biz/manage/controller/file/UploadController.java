@@ -46,10 +46,10 @@ public class UploadController {
     private static final String URI_FLAG = "uri";
 
     @Autowired
-    private OssConfig config;
+	private OssConfig config;
 
-    @Autowired
-    private OSSClient ossClient;
+	@Autowired
+	private OSSClient ossClient;
 
     @RequestMapping(value = "fileUpload", method = RequestMethod.POST)
     public JSONResult fileUpload(MultipartFile file, HttpServletRequest request) {
@@ -82,15 +82,25 @@ public class UploadController {
         }
     }
 
+    /**
+     * 预览图片
+     * @param request
+     * @return
+     */
     @PostMapping(value = "preview")
     @ResponseBody
     public JSONObject sourceUri(HttpServletRequest request) {
-        String imageName = request.getParameter(UPLOAD_STREAM_PARAM);
+        String imageName = request.getParameter(PREVIEW_PARAM);
         JSONObject json = new JSONObject();
         json.put(URI_FLAG, OssUtil.getOssResourceUri(config.getBucketName(), config.getRemoteEndpoint(), imageName));
         return json;
     }
 
+	/**
+	 * base64位 上传图片初版
+	 * @param request
+	 * @return
+	 */
     @RequestMapping(value = "uploadTest", method = RequestMethod.POST)
     @ResponseBody
     public JSONObject uploadTest(HttpServletRequest request) {

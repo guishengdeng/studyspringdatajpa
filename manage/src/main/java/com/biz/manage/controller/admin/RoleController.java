@@ -1,6 +1,7 @@
 package com.biz.manage.controller.admin;
 
 import com.biz.gbck.dao.mysql.po.security.Role;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.service.IdService;
 import com.biz.service.security.interfaces.MainMenuService;
 import com.biz.service.security.interfaces.MenuItemService;
@@ -41,8 +42,8 @@ public class RoleController {
     private MainMenuService mainMenuService;
     @GetMapping
     @PreAuthorize("hasAuthority('OPT_ROLE_LIST')")
-    public String listRoles(Model model){
-       model.addAttribute("roles",roleService.listRoles());
+    public String listRoles(Model model, @RequestParam(value = "status",required = false,defaultValue = "ENABLE")CommonStatusEnum status){
+       model.addAttribute("roles",roleService.findByStatus(status));
        return "manage/role/roleList";
     }
     @RequestMapping("/addOrUpdate")
@@ -75,6 +76,7 @@ public class RoleController {
     public Boolean delete(@RequestParam("id") Long id){
       //逻辑删除,不是物理删除。用ajax请求
        if(id!=null){
+           roleService.delete(id);
            return true;
        }
        return false;

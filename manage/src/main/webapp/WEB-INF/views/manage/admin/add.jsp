@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--这是用户--%>
-<depotnextdoor:page title="page.user.edit">
+<depotnextdoor:page title="用户列表edit">
 
     <jsp:attribute name="script">
         <script type="application/javascript">
@@ -58,17 +58,18 @@
                                             <label class="col-sm-3 control-label no-padding-right"
                                                    for="account">
                                                 用户名
-                                    </label>
+                                            </label>
 
-                                    <div class="col-sm-9">
-                                        <input ${empty admin ? '' : 'readonly'} type="text"
-                                                                                id="account"
-                                                                                placeholder="用户名"
-                                                                                name="username"
-                                                                                value="${admin.username}"
-                                                                                class="col-xs-10 col-sm-5">
-                                    </div>
-                                </div>
+                                            <div class="col-sm-9">
+                                                <input ${empty admin ? '' : 'readonly'}
+                                                        type="text"
+                                                        id="account"
+                                                        placeholder="用户名"
+                                                        name="username"
+                                                        value="${admin.username}"/>
+
+                                            </div>
+                                      </div>
                                 <c:if test="${empty admin}">
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label no-padding-right"
@@ -77,7 +78,7 @@
                                         </label>
 
                                         <div class="col-sm-9">
-                                            <input type="password" id="password" placeholder="密码"
+                                            <input type="password" id="password" placeholder="密码" value="<c:out value='${admin.password}'/> "
                                                    name="password" class="col-xs-10 col-sm-5">
                                         </div>
                                     </div>
@@ -85,22 +86,22 @@
                                 <%--由于sql语句要求一定要传入密码参数，所以，这里需要给定一个隐藏的input标签--%>
                                 <input type="hidden" value="${admin.password}"
                                        name="password" class="col-xs-10 col-sm-5">
-                                 <%--由于sql语句要求一定要传入密码参数，所以，这里需要给定一个隐藏的input标签--%>
+
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"
                                            for="name">
-                                        姓名
+                                        描述
                                     </label>
-
                                     <div class="col-sm-9">
                                         <input type="text" id="name" name="name" placeholder="姓名"
-                                               value="${admin.name}" class="col-xs-10 col-sm-5">
+                                               value="<c:out value='${admin.name}'/>"
+                                                class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>
                                 <c:if test="${not empty admin.username}">
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label no-padding-right"
-                                               for="status">
+                                               for="">
                                             启用状态
                                         </label>
                                         <div class="col-sm-9">

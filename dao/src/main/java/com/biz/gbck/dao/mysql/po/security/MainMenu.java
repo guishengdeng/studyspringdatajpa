@@ -2,6 +2,10 @@ package com.biz.gbck.dao.mysql.po.security;
 
 import com.biz.core.model.Identifiable;
 import com.biz.gbck.dao.mysql.po.BasePo;
+import com.biz.gbck.dao.mysql.po.demo.CatPO;
+import com.biz.gbck.enums.CommonStatusEnum;
+import org.hibernate.annotations.Where;
+
 import java.util.List;
 import javax.persistence.*;
 
@@ -32,8 +36,15 @@ public class MainMenu extends BasePo<Long> {
     //mappedBy出现的位置所在的类,这个类是被维护端,它只能被别人级联,不能去保存别人
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "mainMenu")
     @OrderBy(value = "code")
+    /**
+     * Where这个条件的意思是进行(MainMenu与MenuItem)关联查询的时候,我只把MenuItem中status = ENABLE的查询出来.
+     */
+    @Where(clause = "status='ENABLE'")
     private List<MenuItem> menuItems;
 
+    @Column
+    @Enumerated(EnumType.STRING)
+    private CommonStatusEnum status=CommonStatusEnum.ENABLE;
     public MainMenu() {
 
     }
@@ -107,7 +118,15 @@ public class MainMenu extends BasePo<Long> {
     public void setCompanyType(String companyType) {
         this.companyType = companyType;
     }
+    public CommonStatusEnum getStatus() {
 
+        return status;
+    }
+
+    public void setStatus(CommonStatusEnum status) {
+
+        this.status = status;
+    }
     @Override
     public boolean equals(Object o) {
         return super.equals(o);

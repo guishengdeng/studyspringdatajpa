@@ -1,6 +1,7 @@
 package com.biz.service.security.interfaces;
 
 import com.biz.gbck.dao.mysql.po.security.MainMenu;
+import com.biz.gbck.enums.CommonStatusEnum;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,4 +24,7 @@ public interface MainMenuService {
       void addOrUpdate(MainMenu mainMenu);
 
       void delete(Long id);
+
+      List<MainMenu> listByStatus(CommonStatusEnum status);
+
 }

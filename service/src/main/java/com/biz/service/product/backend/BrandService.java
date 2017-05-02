@@ -5,6 +5,7 @@ import com.biz.gbck.exceptions.product.BrandNotFoundException;
 import com.biz.gbck.exceptions.product.CategoryNotFoundException;
 import com.biz.gbck.exceptions.product.IllegalParameterException;
 import com.biz.gbck.vo.product.backend.*;
+
 import java.util.List;
 
 /**
@@ -78,4 +79,10 @@ public interface BrandService {
      * 根据随机数量，返回随机数量品牌信息
      */
     List<BrandAndVendorInfoVo> findBrandRandom(Long categoryId, Integer RandomNumber);
+
+    /**
+     * 查询所有品牌(拼页面测试)
+     * @return
+     */
+    List<BrandListItemVo> findBrands();
 }

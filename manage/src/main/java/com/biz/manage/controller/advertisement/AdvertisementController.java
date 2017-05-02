@@ -1,5 +1,6 @@
 package com.biz.manage.controller.advertisement;
 
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.advertisement.frontend.AdvertisementVo;
 import com.biz.gbck.vo.advertisement.frontend.request.AdvertisementRequestVo;
 import com.biz.service.advertisement.interfaces.AdvertisementService;
@@ -18,7 +19,7 @@ import java.util.List;
  * Created by xys on 2017/4/18.
  */
 @Controller
-@RequestMapping("manage/advertisement")
+@RequestMapping("advertisement")
 @Secured("ROLE_ADVERTISEMENT")
 public class AdvertisementController {
 
@@ -30,10 +31,8 @@ public class AdvertisementController {
     @GetMapping("list")
     @PreAuthorize("hasAuthority('OPT_ADVERTISEMENTS_LIST')")
     public ModelAndView toList() {
-        List<AdvertisementVo> advertisements = advertisementService.findAllAdvertisements();
-        ModelAndView view = new ModelAndView("manage/advertisement/list");
-
-        return view.addObject("advertisements",advertisements);
+        List<AdvertisementVo> advertisements = advertisementService.findAdvertisementByStatus(CommonStatusEnum.ENABLE.getValue());
+        return new ModelAndView("manage/advertisement/list").addObject("advertisements",advertisements);
     }
 
     /**
@@ -42,28 +41,32 @@ public class AdvertisementController {
     @GetMapping("add")
     @PreAuthorize("hasAuthority('OPT_ADVERTISEMENTS_CREATE')")
     public ModelAndView toAdd() {
-        ModelAndView view = new ModelAndView("manage/advertisement/add");
-        return view;
+        return new ModelAndView("manage/advertisement/add");
     }
 
     @RequestMapping("/edit")
     @PreAuthorize("hasAuthority('OPT_ADVERTISEMENTS_UPDATE')")
     public ModelAndView edit(@RequestParam("id") String id) {
-        ModelAndView view = new ModelAndView("manage/advertisement/add", "advertisement", advertisementService.findById(id));
-        return view;
+        return new ModelAndView("manage/advertisement/add", "advertisement", advertisementService.findById(id));
     }
 
     @RequestMapping("/delete")
     @PreAuthorize("hasAuthority('OPT_ADVERTISEMENTS_DELETE')")
     public ModelAndView delete(@RequestParam("id") String id) {
         advertisementService.delete(id);
-        return new ModelAndView("redirect:/manage/advertisement/list.do");
+        return new ModelAndView("redirect:/advertisement/list.do");
+    }
+
+    @RequestMapping("/disable")
+    @PreAuthorize("hasAuthority('OPT_ADVERTISEMENTS_DELETE')")
+    public ModelAndView disable(@RequestParam("id") String id) {
+        advertisementService.disable(id);
+        return new ModelAndView("redirect:/advertisement/list.do");
     }
 
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
-    @ResponseBody
     public ModelAndView saveOrUpdate(AdvertisementRequestVo req) {
         advertisementService.saveOrUpdateAdvertisement(req);
-        return new ModelAndView("redirect:/manage/advertisement/list.do");
+        return new ModelAndView("redirect:/advertisement/list.do");
     }
 }

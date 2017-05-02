@@ -55,7 +55,8 @@ public class PromotionService extends CommonService {
     }
 
     public List<PromotionPo> findNormal(Pageable pageable) {
-        return promotionRepository.findAllNormal(CommonStatusEnum.ENABLE.getValue());
+        List<PromotionPo> list = promotionRepository.findAllNormal(CommonStatusEnum.ENABLE.getValue());
+        return list;
     }
 
     public PromotionPo get(Long id) {

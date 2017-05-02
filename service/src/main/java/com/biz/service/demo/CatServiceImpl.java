@@ -3,12 +3,16 @@ package com.biz.service.demo;
 import com.biz.gbck.dao.mysql.po.demo.CatPO;
 import com.biz.gbck.dao.mysql.po.demo.SaleStatusEnum;
 import com.biz.gbck.dao.mysql.repository.demo.CatRepository;
+import com.biz.gbck.dao.mysql.specification.demo.CatSearchSpecification;
 import com.biz.gbck.enums.CommonStatusEnum;
+import com.biz.gbck.vo.demo.CatSearchVO;
 import com.biz.service.AbstractRepositorySupportService;
 import com.biz.service.demo.interfaces.CatService;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import com.biz.vo.demo.CatReqVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -75,6 +79,14 @@ public class CatServiceImpl extends AbstractRepositorySupportService<CatPO> impl
 	public List<CatPO> listBySaleStatus(SaleStatusEnum saleStatus) {
 
 		return catRepository.findBySaleStatus(saleStatus);
+	}
+
+	/**
+	 * 搜索猫
+	 */
+	public Page<CatPO> searchCat(CatSearchVO reqVo){
+
+		return catRepository.findAll(new CatSearchSpecification(reqVo), new PageRequest(reqVo.getPage()-1, reqVo.getPageSize()));
 	}
 
 	/**

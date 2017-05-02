@@ -5,12 +5,12 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="depotnextdoor" tagdir="/WEB-INF/tags" %>
-<depotnextdoor:page title="page.user.list">
+<depotnextdoor:page title="广告管理">
     <jsp:attribute name="script">
         <script type="application/javascript">
             <c:forEach items="${admin.roles}" var="role" varStatus="status">
-                var obj${status.count} = document.getElementById('roleId_${role.id}');
-                if (obj${status.count}) obj${status.count}.checked = true;
+            var obj${status.count} = document.getElementById('roleId_${role.id}');
+            if (obj${status.count}) obj${status.count}.checked = true;
             </c:forEach>
             function showDiv(id) {
                 $("#cat-disable-confirm-modal").modal();
@@ -21,7 +21,7 @@
             });
             $(".btn-confirm-ban").click(function () {
                 var advertisementId = $("#advertisementId").val();
-                window.location.href = "/manage/advertisement/delete?id="+advertisementId+"";
+                window.location.href = "/advertisement/delete?id=" + advertisementId + "";
                 $("#cat-disable-confirm-modal").modal("hide");
             });
         </script>
@@ -35,8 +35,11 @@
                         首页
                     </a>
                 </li>
-                <li class="active">
+                <li>
                     广告管理
+                </li>
+                <li class="active">
+                    广告列表
                 </li>
             </ul>
             <!-- /.breadcrumb -->
@@ -50,9 +53,9 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <h3 class="header smaller lighter blue">
-                                    启动页面广告管理
+                                启动页面广告管理
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
-                                    <a href="manage/advertisement/add.do" class="btn btn-sm btn-primary"><i
+                                    <a href="advertisement/add.do" class="btn btn-sm btn-primary"><i
                                             class="ace-icon glyphicon glyphicon-plus"></i>
                                         添加
                                     </a>
@@ -77,17 +80,22 @@
                                     <tr>
                                         <td>${advertisement.picturesLink}</td>
                                         <td>${advertisement.clickLink}</td>
-                                        <td><fmt:formatDate value="${advertisement.beginTimestamp}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
-                                        <td><fmt:formatDate value="${advertisement.endTimestamp}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
-                                        <td>${advertisement.residenceTime}</td>
+                                        <td><fmt:formatDate value="${advertisement.beginTimestamp}"
+                                                            pattern="yyyy/MM/dd HH:mm:ss"/></td>
+                                        <td><fmt:formatDate value="${advertisement.endTimestamp}"
+                                                            pattern="yyyy/MM/dd HH:mm:ss"/></td>
+                                        <td>
+                                            <c:out value="${advertisement.residenceTime}"></c:out></td>
                                         <td>${advertisement.priority}</td>
                                         <td>
                                             <div>
-                                                <a onclick="showDiv('${advertisement.id}')" class="btn btn-minier btn-info">
-                                                    <i class="ace-icon fa fa-pencil bigger-120">删除</i>
-                                                </a>
-                                                <a href="manage/advertisement/edit?id=${advertisement.id}" class="btn btn-minier btn-info">
+                                                <a href="advertisement/edit?id=${advertisement.id}"
+                                                   class="btn btn-xs btn-info">
                                                     <i class="ace-icon fa fa-pencil bigger-120">修改</i>
+                                                </a>
+                                                <a onclick="showDiv('${advertisement.id}')"
+                                                   class="btn btn-xs btn-danger">
+                                                    <i class="ace-icon fa fa-ban bigger-120">删除</i>
                                                 </a>
                                             </div>
                                         </td>

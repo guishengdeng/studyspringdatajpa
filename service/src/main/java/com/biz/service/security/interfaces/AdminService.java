@@ -1,8 +1,13 @@
 package com.biz.service.security.interfaces;
 
+import com.biz.gbck.dao.mysql.po.demo.CatPO;
 import com.biz.gbck.dao.mysql.po.security.Admin;
 import com.biz.gbck.dao.mysql.po.security.Role;
 import java.util.List;
+
+import com.biz.gbck.vo.admin.AdminReqVo;
+import com.biz.gbck.vo.demo.CatSearchVO;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -25,4 +30,6 @@ public interface AdminService {
     void createAdmin(Admin admin, String createBy);
 
     void deleteAdmin(String username);
+
+    Page<Admin> queryAdminsByCondition(AdminReqVo vo);
 }

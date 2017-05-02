@@ -343,4 +343,11 @@ public class BrandServiceImpl extends AbstractBrandService implements BrandServi
         //      return Lists.transform(list, new Brand2BrandAndVendorInfoVo());
         return Collections.emptyList();
     }
+
+    @Override
+    public List<BrandListItemVo> findBrands() {
+
+        //TODO
+        return null;
+    }
 }

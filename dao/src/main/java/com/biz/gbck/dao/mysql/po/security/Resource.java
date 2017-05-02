@@ -2,6 +2,9 @@ package com.biz.gbck.dao.mysql.po.security;
 
 import com.biz.core.model.Identifiable;
 import com.biz.gbck.dao.mysql.po.BasePo;
+import com.biz.gbck.dao.mysql.po.demo.CatPO;
+import com.biz.gbck.enums.CommonStatusEnum;
+
 import java.util.List;
 import javax.persistence.*;
 
@@ -34,7 +37,9 @@ public class Resource extends BasePo<Long> implements Identifiable<Long> {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
             uniqueConstraints = {@UniqueConstraint(columnNames = {"resource_id", "role_id"})})
     private List<Role> roles;
-
+    @Column
+    @Enumerated(EnumType.STRING)
+    private CommonStatusEnum status=CommonStatusEnum.ENABLE;
     public Resource() {
 
     }
@@ -95,7 +100,15 @@ public class Resource extends BasePo<Long> implements Identifiable<Long> {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
+    public CommonStatusEnum getStatus() {
 
+        return status;
+    }
+
+    public void setStatus(CommonStatusEnum status) {
+
+        this.status = status;
+    }
     public void copy(Resource res) {
         this.name = res.name;
         this.description = res.description;
