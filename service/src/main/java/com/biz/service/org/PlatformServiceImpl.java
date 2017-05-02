@@ -5,6 +5,7 @@ import com.biz.gbck.dao.mysql.repository.org.PlatformRepository;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.org.interfaces.PlatformService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
  * @author: liubin
  * @date 5/2/17 10:10
  */
+@Service
 public class PlatformServiceImpl extends AbstractBaseService implements PlatformService{
 
     @Autowired
