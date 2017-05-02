@@ -101,7 +101,7 @@ public class MenuItemController {
 
     }
     @RequestMapping("/detail")
-    @PreAuthorize("hasAuthority('OPT_MENUITEM_LIST')")
+    @PreAuthorize("hasAuthority('OPT_MENUITEM_DETAIL')")
     public String  detail(@RequestParam("id") Long id, Model model,HttpSession session){
         if(id!=null){
             MenuItem menuItem = menuItemService.getMenuItem(id);
