@@ -5,7 +5,6 @@ import com.biz.core.util.StringTool;
 import com.biz.exception.SMSException;
 import com.biz.gbck.common.com.AlidayuTemplateCode;
 import com.biz.gbck.common.com.SMSType;
-import com.biz.gbck.common.com.mo.Message;
 import com.biz.gbck.common.com.util.SmsContentTemplate;
 import com.biz.gbck.common.com.util.mq.MqMessage;
 import com.biz.gbck.common.exception.CommonException;
@@ -48,6 +47,11 @@ public class SMSService extends CommonService {
 
     @Autowired
     private ShopService shopService;
+
+   /* @Autowired
+    private MessageService messageService;*/
+
+
 
     /**
      * 发送短信
@@ -109,8 +113,8 @@ public class SMSService extends CommonService {
                                     .setUsername(username).setAlidayuTemplateCode(templateCode).build())
                             .setAlidayuTemplateCode(templateCode.getTemplateCode())
                             .setAlidayuTemplateParams(templateParam).build();
-          /*  mqService.sendMessage(Message.QUEUE.MQ_SMS_CODE, smsMessage);*/ // TODO: 17-4-28 发送消息
-        } catch (Exception e) { //CommonException
+           /* messageService.sendMessage(BizBaseQueue.MQ_SMS_CODE, SimpleBizMessage.newMessage(smsMessage));*/ // TODO: 17-4-28
+        } catch (Exception e) {
             throw new CommonException("获取验证码失败", ExceptionCode.Global.INFO_TO_USER);
         }
     }
@@ -183,8 +187,8 @@ public class SMSService extends CommonService {
                         new SmsContentTemplate.Builder().setAlidayuTemplateCode(templateCode).build())
                         .setAlidayuTemplateCode(templateCode.getTemplateCode()).build();
             }
-            // mqService.sendMessage(Message.QUEUE.MQ_SMS_CODE, smsMessage); // TODO: 17-4-28 mq 发送
-        } catch (Exception e) {  //CommonException
+            /*messageService.sendMessage(BizBaseQueue.MQ_SMS_CODE, SimpleBizMessage.newMessage(smsMessage));*/// TODO: 17-4-28
+        } catch (Exception e) {
             throw new CommonException("发送短信失败", ExceptionCode.Global.INFO_TO_USER);
         }
 
@@ -202,7 +206,7 @@ public class SMSService extends CommonService {
             smsMessage.setDestination(user.getMobile());
             smsMessage.setMessageBody(content);
             smsMessage.setAlidayuTemlateCode(templateCode);
-            // mqService.sendMessage(Message.QUEUE.MQ_SMS_CODE, smsMessage);  // TODO: 17-4-28 发送消息
+            /*messageService.sendMessage(BizBaseQueue.MQ_SMS_CODE, SimpleBizMessage.newMessage(smsMessage));*/// TODO: 17-4-28
         }
     }
 
