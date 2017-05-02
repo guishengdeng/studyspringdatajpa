@@ -177,6 +177,9 @@ public interface ShopService {
      */
     ShopTypeRo syncShopTypePoToRedis(ShopTypePo shopTypePo);
 
+    /**
+     *验证商户操作权限
+     */
     void validateShopOperateAuthority(Boolean isShopAdmin, Long requestShopId, Long shopId) throws CommonException;
 
     List<String> findDetailAuditRejectReason(Long shopId);

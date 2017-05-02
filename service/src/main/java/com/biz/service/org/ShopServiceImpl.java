@@ -1,15 +1,27 @@
 package com.biz.service.org;
 
+import com.biz.event.org.ShopDetailUpdateEvent;
 import com.biz.gbck.common.bean.PageControl;
 import com.biz.gbck.common.exception.CommonException;
+import com.biz.gbck.common.exception.DepotnearbyExceptionFactory;
 import com.biz.gbck.common.vo.statistic.DailyStatNewShopResultVo;
 import com.biz.gbck.common.vo.statistic.ShopAuditStatisticResultVo;
+import com.biz.gbck.dao.mysql.po.geo.CityPo;
+import com.biz.gbck.dao.mysql.po.geo.DistrictPo;
+import com.biz.gbck.dao.mysql.po.geo.ProvincePo;
 import com.biz.gbck.dao.mysql.po.org.*;
 import com.biz.gbck.dao.mysql.po.payment.LoanApplyType;
 import com.biz.gbck.dao.mysql.po.payment.ZsgfApplyStatus;
 import com.biz.gbck.dao.mysql.po.payment.ZsgfLoanApplyPo;
+import com.biz.gbck.dao.mysql.repository.geo.CityRepository;
+import com.biz.gbck.dao.mysql.repository.geo.DistrictRepository;
+import com.biz.gbck.dao.mysql.repository.geo.ProvinceRepository;
+import com.biz.gbck.dao.mysql.repository.org.ShopDetailRepository;
+import com.biz.gbck.dao.mysql.repository.org.ShopRepository;
+import com.biz.gbck.dao.mysql.repository.org.ShopTypeRepository;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
+import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopStatus;
 import com.biz.gbck.vo.org.ShopExportVo;
@@ -22,19 +34,21 @@ import com.biz.gbck.vo.zsgf.ZsgfLoanQueryReqVo;
 import com.biz.manage.vo.FailDetail;
 import com.biz.service.CommonService;
 import com.biz.service.org.interfaces.ShopService;
+import com.biz.service.org.interfaces.UserService;
 import com.biz.vo.org.*;
+import org.codelogger.utils.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 
 /**
@@ -44,8 +58,28 @@ import java.util.Set;
 @Transactional
 public class ShopServiceImpl extends CommonService  implements ShopService {
 
-
     private static final Logger logger = LoggerFactory.getLogger(ShopService.class);
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private ShopDetailRepository shopDetailRepository;
+
+    @Autowired
+    private ShopRepository shopRepository;
+
+    @Autowired
+    private ShopTypeRepository shopTypeRepository;
+
+    @Autowired
+    private ProvinceRepository provinceRepository;
+
+    @Autowired
+    private CityRepository cityRepository;
+
+    @Autowired
+    private DistrictRepository districtRepository;
 
 
     @Override
@@ -100,7 +134,53 @@ public class ShopServiceImpl extends CommonService  implements ShopService {
 
     @Override
     public void updateDetail(ShopUpdateDetailReqVo reqVo) throws CommonException {
+        UserRo user = userService.findUser(reqVo.getUserId());
+        validateShopOperateAuthority(user.getIsAdmin(), reqVo.getShopId(), user.getShopId());
 
+        List<ShopDetailPo> shopDetailsOfWaitForAudit = shopDetailRepository
+                .findByShopIdAndAuditStatusInOrderByCreateTimeDesc(reqVo.getShopId(),
+                        newArrayList(AuditStatus.WAIT_FOR_AUDIT.getValue(),
+                                AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue()));
+        ShopDetailPo shopDetailPo = CollectionUtils.getFirstOrNull(shopDetailsOfWaitForAudit);
+        if (shopDetailPo == null) {
+            shopDetailPo = new ShopDetailPo();
+            ShopPo shopPo = shopRepository.findOne(reqVo.getShopId());
+            shopDetailPo.setShop(shopPo);
+            shopDetailPo.setAuditStatus(
+                    Objects.equals(shopPo.getDetailAuditStatus(), AuditStatus.NORMAL.getValue()) ?
+                            AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue() :
+                            AuditStatus.WAIT_FOR_AUDIT.getValue());
+        }
+        shopDetailPo.setName(reqVo.getName());
+        shopDetailPo.setCorporateName(reqVo.getCorporateName());
+        shopDetailPo.setMobile(user.getMobile());
+        shopDetailPo.setDeliveryName(reqVo.getCorporateName());
+        shopDetailPo.setDeliveryMobile(user.getMobile());
+        ShopTypePo shopType = shopTypeRepository.findOne(reqVo.getShopTypeId());
+        if(shopType == null){
+            throw DepotnearbyExceptionFactory.ShopType.SHOP_TYPE_NOT_EXIST;
+        }
+        shopDetailPo.setShopType(shopType);
+        ProvincePo provincePo = provinceRepository.findOne(reqVo.getProvinceId());
+        if(provincePo == null){
+            throw DepotnearbyExceptionFactory.GEO.PROVINCE_NOT_EXIST;
+        }
+        shopDetailPo.setProvince(provincePo);
+        CityPo cityPo = cityRepository.findOne(reqVo.getCityId());
+        if(cityPo == null){
+            throw DepotnearbyExceptionFactory.GEO.CITY_NOT_EXIST;
+        }
+        shopDetailPo.setCity(cityPo);
+        DistrictPo districtPo = districtRepository.findOne(reqVo.getDistrictId());
+        if(districtPo == null){
+            throw DepotnearbyExceptionFactory.GEO.DISTRICT_NOT_EXIST;
+        }
+        shopDetailPo.setDistrict(districtPo);
+        shopDetailPo.setDeliveryAddress(reqVo.getDeliveryAddress());
+        ShopDetailPo savedShopDetailPo = shopDetailRepository.save(shopDetailPo);
+
+        changeShopStatusToWaitForAudit(savedShopDetailPo);
+        publishEvent(new ShopDetailUpdateEvent(this, savedShopDetailPo));
     }
 
     @Override
@@ -210,7 +290,9 @@ public class ShopServiceImpl extends CommonService  implements ShopService {
 
     @Override
     public void validateShopOperateAuthority(Boolean isShopAdmin, Long requestShopId, Long shopId) throws CommonException {
-
+        if (!Objects.equals(requestShopId, shopId) || !isShopAdmin) {
+            throw DepotnearbyExceptionFactory.GLOBAL.NO_AUTHORITY;
+        }
     }
 
     @Override
