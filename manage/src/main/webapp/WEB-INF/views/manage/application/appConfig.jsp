@@ -103,7 +103,7 @@
                 </li>
 
                 <li>
-                    <a href="app">
+                    <a href="appConfig">
                         App内容管理
                     </a>
                 </li>
@@ -345,7 +345,7 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
                                         </button>
                                     </c:if>
                                     <c:if test="${appVo.id != null}">
-                                        <a class="btn" href="${pageContext.request.contextPath}/app">
+                                        <a class="btn" href="${pageContext.request.contextPath}/appConfig">
                                             <i class="ace-icon fa fa-undo bigger-110"></i>
                                             重置
                                         </a>

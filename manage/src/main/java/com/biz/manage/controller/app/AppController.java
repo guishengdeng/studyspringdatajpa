@@ -20,24 +20,17 @@ public class AppController {
     @Autowired
     private AppService appService;
 
-    @RequestMapping("/app")
-//    @PreAuthorize("hasAuthority('OPT_APP_LIST')")
+    @RequestMapping("/appConfig")
+    @PreAuthorize("hasAuthority('OPT_APP_LIST')")
     public ModelAndView app() {
-        return new ModelAndView("manage/application/app");
-    }
-
-    @GetMapping("/find")
-//    @PreAuthorize("hasAuthority('OPT_APP_FIND')")
-    public ModelAndView find(@RequestParam("id") Long id) {
-        App app = appService.findById(id);
-        return new ModelAndView("manage/application/app").addObject("App", app);
+        return new ModelAndView("manage/application/appConfig");
     }
 
     @RequestMapping(value = "/addOrUpdate", method = RequestMethod.POST)
-//    @PreAuthorize("hasAuthority('OPT_APP_ADDORUPDATE')")
+    @PreAuthorize("hasAuthority('OPT_APP_ADDORUPDATE')")
     public ModelAndView addOrUpdate(AppVo appVo) {
         appService.addOrUpdate(appVo);
-        return new ModelAndView("manage/application/app").addObject("AppVo", appVo);
+        return new ModelAndView("manage/application/appConfig").addObject("AppVo", appVo);
     }
 
 }
