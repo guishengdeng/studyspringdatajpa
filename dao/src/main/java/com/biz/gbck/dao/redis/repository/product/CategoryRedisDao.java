@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.redis.repository.product;
 
 import com.biz.gbck.dao.redis.CrudRedisDao;
-import com.biz.gbck.dao.redis.ro.product.CategoryRo;
+import com.biz.gbck.dao.redis.ro.product.meta.CategoryRo;
 import com.biz.gbck.vo.product.backend.FieldListItemVo;
 import com.biz.gbck.vo.product.backend.ProductSalesVo;
 import com.biz.gbck.vo.product.frontend.CategoryProductSalesTopVo;

@@ -78,6 +78,13 @@
     <link rel="stylesheet" href="static-resource/ace/assets/css/bootstrap-datepicker3.min.css"/>
     <script src="static-resource/ace/assets/js/bootstrap-datepicker.min.js"></script>
 
+    <!-- <![moment]-->
+    <script src="static-resource/ace/assets/js/moment.min.js"></script>
+
+    <!-- <![datetimepicker]-->
+    <link rel="stylesheet" href="static-resource/ace/assets/css/bootstrap-datetimepicker.min.css"/>
+    <script src="static-resource/ace/assets/js/bootstrap-datetimepicker.min.js"></script>
+
     <!-- <![layer]-->
     <link rel="stylesheet" href="static-resource/layer/mobile/need/layer.css"/>
     <script src="static-resource/layer/layer.js"></script>
@@ -165,7 +172,7 @@
                     <i id="sidebar-toggle-icon" class="ace-save-state ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
                 </div>
             </div>
-            <div class="main-content localos-container">
+            <div class="main-content gbck-container">
                 <script type="text/javascript">
                     try{ace.settings.loadState('main-container')}catch(e){}
                 </script>

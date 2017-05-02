@@ -5,7 +5,7 @@ import org.apache.commons.lang.StringUtils;
 
 public class PasswordUtil {
 
-    public static final String AES_KEY = "626ededc9c3a47a2aec9eb3e9c34b464";
+    public static final String AES_KEY = "e0ab52bb342d4a449c39d21518004fa3";
 
     /**
      * aes解密

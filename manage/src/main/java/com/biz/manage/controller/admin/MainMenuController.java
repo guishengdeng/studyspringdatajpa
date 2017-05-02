@@ -3,6 +3,7 @@ package com.biz.manage.controller.admin;
 import com.biz.gbck.dao.mysql.po.security.Admin;
 import com.biz.gbck.dao.mysql.po.security.MainMenu;
 import com.biz.gbck.dao.mysql.po.security.MenuItem;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.service.IdService;
 import com.biz.service.security.MainMenuServiceImpl;
 import com.biz.service.security.interfaces.MainMenuService;
@@ -39,8 +40,8 @@ public class MainMenuController {
     private IdService idService;
     @GetMapping
     @PreAuthorize("hasAuthority('OPT_MAINMENU_LIST')")
-    public ModelAndView list(){
-        List<MainMenu> mainMenus = mainMenuService.listMainMenus();
+    public ModelAndView list(@RequestParam(value = "status" ,required = false,defaultValue = "ENABLE")CommonStatusEnum status){
+        List<MainMenu> mainMenus = mainMenuService.listByStatus(status);
         return new ModelAndView("manage/menu/menulist", "mainMenus", mainMenus);
     }
     @RequestMapping("/detail")
@@ -85,6 +86,7 @@ public class MainMenuController {
             //mainMenuService.delete(id);
             //return "redirect:/manage/mainMenus";
          if(id!=null){
+             mainMenuService.delete(id);
              return true;
          }
           return false;

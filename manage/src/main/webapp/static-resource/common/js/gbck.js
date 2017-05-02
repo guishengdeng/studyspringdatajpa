@@ -38,32 +38,4 @@ $(function () {
         window.location.href=$this.data('href');
     });
 
-    $(".btn-delete-modal").on(ace.click_event, function () {
-        var data_id = $(this).attr("data-id");
-        var data_url = $(this).attr("data-url");
-
-        bootbox.dialog({
-            message: "<span class='bigger-110'>" + localos_message.prompt_msg + "</span>", buttons: {
-                "cancel": {
-                    "label": "<i class='ace-icon fa fa-remove'></i> " + localos_message.prompt_cancel,
-                    "className": "btn-sm btn-gray",
-                }, "Confirm": {
-                    "label": "<i class='ace-icon fa fa-check'></i> " + localos_message.prompt_confirm,
-                    "className": "btn-sm btn-primary",
-                    "callback": function () {
-                        $.post(data_url, {
-                            "id": data_id
-                        }, function (result) {
-                            if (result) {
-                                $("#tr-" + data_id).remove();
-                                $("#tr-detail-" + data_id).remove();
-                            }
-                        });
-
-                    }
-                }
-            }
-        });
-    });
-
 });

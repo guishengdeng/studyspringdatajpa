@@ -45,7 +45,7 @@
                                 <input id="name" type="text" name="name"
                                        placeholder="名字"
                                        maxlength="255" minlength="1"
-                                       value="${cat.name}" class="required text col-xs-12 col-sm-12">
+                                       value='<c:out value="${cat.name}"/>' class="required text col-xs-12 col-sm-12">
 
                             </div>
                             <%--class上加上required表示为必填，网页上在提交的时候会做验证--%>
@@ -58,7 +58,7 @@
 
                             <div class="col-sm-9">
                                 <textarea id="description" type="text" name="description" placeholder="描述，你可以尝试着不填值"
-                                       maxlength="255" class="col-xs-12 col-sm-12">${cat.description}</textarea>
+                                       maxlength="255" class="col-xs-12 col-sm-12"><c:out value="${cat.description}"/></textarea>
 
                             </div>
                         </div>
@@ -79,6 +79,7 @@
                             </div>
                         </div>
 
+                        <sec:authorize access="hasAuthority('OPT_CAT_CREATE')">
                         <div class="clearfix form-actions">
                             <div class="col-md-offset-3 col-md-9">
                                 <button class="btn btn-info" type="submit" id="btn_save">
@@ -93,6 +94,7 @@
                                 </button>
                             </div>
                         </div>
+                        </sec:authorize>
                     </form>
                 </div>
             </div>

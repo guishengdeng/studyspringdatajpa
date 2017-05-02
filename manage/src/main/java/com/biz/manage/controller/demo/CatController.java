@@ -3,10 +3,12 @@ package com.biz.manage.controller.demo;
 import com.biz.gbck.dao.mysql.po.demo.CatPO;
 import com.biz.gbck.dao.mysql.po.demo.SaleStatusEnum;
 import com.biz.gbck.enums.CommonStatusEnum;
+import com.biz.gbck.vo.demo.CatSearchVO;
 import com.biz.manage.controller.BaseController;
 import com.biz.service.demo.interfaces.CatService;
 import com.biz.vo.demo.CatReqVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -32,6 +34,14 @@ public class CatController extends BaseController {
 	private CatService catService;
 
 	@GetMapping
+	@PreAuthorize("hasAuthority('OPT_CAT_LIST')")
+	public ModelAndView list(@ModelAttribute("reqVo") CatSearchVO reqVo) {
+
+		Page<CatPO> catPage = catService.searchCat(reqVo);
+		return new ModelAndView("demo/cats/searchResult", "catPage", catPage);
+	}
+
+	@GetMapping("listByStatus")
 	@PreAuthorize("hasAuthority('OPT_CAT_LIST')")
 	public ModelAndView list(@RequestParam(value = "status", required = false, defaultValue = "ENABLE") CommonStatusEnum status) {
 

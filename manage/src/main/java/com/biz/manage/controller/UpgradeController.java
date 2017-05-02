@@ -1,7 +1,7 @@
 package com.biz.manage.controller;
 
 import com.biz.gbck.dao.redis.ro.upgrade.UpgradeRo;
-import com.biz.service.UpgradeService;
+import com.biz.service.upgrade.UpgradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -54,5 +54,6 @@ public class UpgradeController {
 		upgradeService.save(upgrade);
 		return new ModelAndView("redirect:/upgrade/list.do");
 	}
+
 
 }

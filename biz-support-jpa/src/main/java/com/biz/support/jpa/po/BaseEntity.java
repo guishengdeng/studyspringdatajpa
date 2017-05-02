@@ -1,12 +1,11 @@
 package com.biz.support.jpa.po;
 
+import org.hibernate.annotations.UpdateTimestamp;
 
-import com.biz.core.model.Identifiable;
-import java.io.Serializable;
-import java.sql.Timestamp;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import org.hibernate.annotations.UpdateTimestamp;
+import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * po基类,id不会自动生成
@@ -18,7 +17,7 @@ import org.hibernate.annotations.UpdateTimestamp;
  */
 @SuppressWarnings("serial")
 @MappedSuperclass
-public class BaseEntity implements Serializable, Identifiable<Long> {
+public class BaseEntity extends BasePO<Long> implements Serializable {
 
     @Id
     private Long id;
@@ -50,21 +49,6 @@ public class BaseEntity implements Serializable, Identifiable<Long> {
 
     public void setUpdateTimestamp(Timestamp updateTimestamp) {
         this.updateTimestamp = updateTimestamp;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof BaseEntity)) return false;
-
-        BaseEntity that = (BaseEntity) o;
-
-        return id != null ? id.equals(that.id) : that.id == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
     }
 
     @Override

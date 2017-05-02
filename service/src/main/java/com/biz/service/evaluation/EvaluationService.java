@@ -6,9 +6,7 @@ import com.biz.gbck.exceptions.product.IllegalParameterException;
 import com.biz.gbck.vo.evaluation.frontend.EvaluationCountVo;
 import com.biz.gbck.vo.evaluation.frontend.EvaluationVo;
 import com.biz.gbck.vo.evaluation.frontend.VendorIdPageRequestVo;
-import com.biz.gbck.vo.product.backend.EvaluationAddVo;
 import com.biz.gbck.vo.product.backend.SearchPageVo;
-import java.util.List;
 
 /**
  * 评论service
@@ -35,20 +33,9 @@ public interface EvaluationService {
      */
     PageResult<EvaluationVo> findByVendorIdPage(VendorIdPageRequestVo vendorEvaluationQueryRequestVo) throws DepotNextDoorException;
 
-    /**
-     * 保存或更新一条评价
-     *
-     * @param evaluationAddVo 添加评价vo
-     */
-    void saveOrUpdateEvaluation(EvaluationAddVo evaluationAddVo) throws DepotNextDoorException;
-
-    void saveOrUpdateEvaluations(List<EvaluationAddVo> evaluationAddVos) throws DepotNextDoorException;
-
     PageResult<EvaluationVo> findEvaluationByProductCode(VendorIdPageRequestVo vendorEvaluationQueryRequestVo) throws IllegalParameterException;
 
     EvaluationCountVo findAllEvaluationByVendorId(VendorIdPageRequestVo vo) throws IllegalParameterException;
 
     EvaluationCountVo findEvaluationCountByProductCode(VendorIdPageRequestVo reqVo) throws IllegalParameterException;
-
-    List<EvaluationVo> findAllEvaluations();
 }

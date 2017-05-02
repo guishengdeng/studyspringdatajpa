@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.repository.extendProperty;
 
-import com.biz.gbck.dao.mysql.po.product.ExtendProperty;
+import com.biz.gbck.dao.mysql.po.product.meta.ExtendProperty;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;

@@ -6,14 +6,13 @@ import com.biz.core.notification.NotificationSendType;
 import com.biz.core.notification.NotifyType;
 import com.biz.core.notification.PushMessage;
 import com.biz.gbck.common.exception.CommonException;
-import com.biz.gbck.common.mo.Message;
 import com.biz.gbck.common.notification.NotificationPlatform;
 import com.biz.gbck.dao.mysql.po.info.NoticePo;
 import com.biz.gbck.dao.mysql.repository.notice.NoticeRepository;
-import com.biz.gbck.dao.mysql.repository.user.UserRepository;
+import com.biz.gbck.dao.mysql.repository.org.UserRepository;
 import com.biz.gbck.dao.redis.repository.notice.NoticeRedisDao;
-import com.biz.gbck.dao.redis.repository.user.UserRedisDao;
-import com.biz.gbck.dao.redis.ro.user.UserRo;
+import com.biz.gbck.dao.redis.repository.org.UserRedisDao;
+import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.transform.notice.NoticePoToNoticeRo;
 import com.biz.service.CommonService;
 import org.apache.commons.collections.CollectionUtils;
@@ -21,12 +20,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * 用户消息
@@ -49,6 +46,9 @@ public class NoticeService extends CommonService {
 
     @Autowired
     private UserRedisDao userRedisDao;
+
+   /* @Autowired
+    private MessageService messageService;*/
 
 
 
@@ -126,10 +126,9 @@ public class NoticeService extends CommonService {
      * @throws CommonException
      */
     public void sendNotification(Notification notification) throws CommonException {
-        // TODO: 17-4-21 将对象添加入mq消息队列
-        /*mqService.send(Message.QUEUE.MQ_CLIENT_PUSH_MSG, notification);*/
-    }
 
+       /* messageService.sendMessage(BizBaseQueue.MQ_CLIENT_PUSH_MSG, SimpleBizMessage.newMessage(notification));*/ // TODO: 17-4-28
+    }
 
 
 

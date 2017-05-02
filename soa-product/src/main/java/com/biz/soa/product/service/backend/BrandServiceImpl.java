@@ -1,8 +1,8 @@
 package com.biz.soa.product.service.backend;
 
 import com.biz.core.page.PageResult;
-import com.biz.gbck.dao.mysql.po.product.Brand;
-import com.biz.gbck.dao.mysql.po.product.Category;
+import com.biz.gbck.dao.mysql.po.product.meta.Brand;
+import com.biz.gbck.dao.mysql.po.product.meta.Category;
 import com.biz.gbck.dao.mysql.repository.category.CategoryRepository;
 import com.biz.gbck.exceptions.product.BrandNotFoundException;
 import com.biz.gbck.exceptions.product.CategoryNotFoundException;
@@ -342,5 +342,12 @@ public class BrandServiceImpl extends AbstractBrandService implements BrandServi
         //      List<Brand> list=brandRepository.findByDeleteFlag(categoryId, new PageRequest(0,RandomNumber));
         //      return Lists.transform(list, new Brand2BrandAndVendorInfoVo());
         return Collections.emptyList();
+    }
+
+    @Override
+    public List<BrandListItemVo> findBrands() {
+
+        //TODO
+        return null;
     }
 }

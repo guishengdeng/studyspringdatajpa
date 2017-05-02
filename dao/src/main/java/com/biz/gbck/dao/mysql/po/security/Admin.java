@@ -1,5 +1,7 @@
 package com.biz.gbck.dao.mysql.po.security;
 
+import com.biz.gbck.dao.mysql.po.org.Company;
+import com.biz.gbck.dao.mysql.po.org.CompanyGroupPo;
 import com.biz.gbck.dao.mysql.po.org.PartnerPo;
 import com.biz.gbck.dao.mysql.po.org.PlatformPo;
 import com.biz.gbck.dao.mysql.po.org.WarehousePo;
@@ -68,7 +70,7 @@ public class Admin implements Serializable, UserDetails {
      * 所拥有的权限
      */
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinTable(name = "users_roles", joinColumns = {
+    @JoinTable(name = "adm_admin_role", joinColumns = {
             @JoinColumn(name = "username", referencedColumnName = "username")}, inverseJoinColumns = {
             @JoinColumn(name = "roleId", referencedColumnName = "id")}, uniqueConstraints = {
             @UniqueConstraint(columnNames = {"username", "roleId"})})
@@ -93,26 +95,30 @@ public class Admin implements Serializable, UserDetails {
     private String createBy;
 
 
-    @ManyToMany(fetch = FetchType.LAZY) @JoinTable(name = "org_admin_platform",
-            joinColumns = {@JoinColumn(name = "username", referencedColumnName = "username")},
-            inverseJoinColumns = {@JoinColumn(name = "platform_id", referencedColumnName = "id")},
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"username", "platform_id"})})
-    private Set<PlatformPo> platformCompanies;
+    @OneToMany(mappedBy = "createdAdmin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CompanyGroupPo> companyGroupPos;
+
+//    @ManyToMany(fetch = FetchType.LAZY) @JoinTable(name = "org_admin_platform",
+//            joinColumns = {@JoinColumn(name = "username", referencedColumnName = "username")},
+//            inverseJoinColumns = {@JoinColumn(name = "platform_id", referencedColumnName = "id")},
+//            uniqueConstraints = {@UniqueConstraint(columnNames = {"username", "platform_id"})})
+//    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "platformId")
+//    private PlatformPo platform;
+
+//    @ManyToMany(fetch = FetchType.LAZY) @JoinTable(name = "org_admin_partner",
+//            joinColumns = {@JoinColumn(name = "username", referencedColumnName = "username")},
+//            inverseJoinColumns = {@JoinColumn(name = "partner_id", referencedColumnName = "id")},
+//            uniqueConstraints = {@UniqueConstraint(columnNames = {"username", "partner_id"})})
+//    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "partnerId")
+//    private PartnerPo partner;
 
 
-    @ManyToMany(fetch = FetchType.LAZY) @JoinTable(name = "org_admin_partner",
-            joinColumns = {@JoinColumn(name = "username", referencedColumnName = "username")},
-            inverseJoinColumns = {@JoinColumn(name = "partner_id", referencedColumnName = "id")},
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"username", "partner_id"})})
-    private Set<PartnerPo> partners;
+//    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "warehouseId")
+//    private WarehousePo warehouse;
 
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "companyId")
+    private Company company;
 
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "warehouseId")
-    private WarehousePo warehouse;
-
-    @Enumerated(value = EnumType.STRING)
-    @Column(nullable = true)
-    private CompanyLevel companyLevel;
 
     @Override
     public String getPassword() {
@@ -238,5 +244,13 @@ public class Admin implements Serializable, UserDetails {
 
     public void setCreateBy(String createBy) {
         this.createBy = createBy;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 }

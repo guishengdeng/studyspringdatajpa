@@ -4,6 +4,7 @@ import com.biz.gbck.dao.mysql.po.security.MainMenu;
 import com.biz.gbck.dao.mysql.po.security.MenuItem;
 import com.biz.gbck.dao.mysql.repository.admin.MainMenuRepository;
 import com.biz.gbck.dao.mysql.repository.admin.MenuItemRepository;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.menu.MenuItemVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.security.interfaces.MainMenuService;
@@ -26,8 +27,7 @@ import java.util.List;
 public class MenuItemServiceImpl extends AbstractBaseService implements MenuItemService {
     @Autowired
     private MenuItemRepository menuItemRepository;
-    @Autowired
-    private MainMenuRepository mainMenuRepository;
+
     @Override
     public void addOrUpdate(MenuItem menuItem) {
 
@@ -45,7 +45,12 @@ public class MenuItemServiceImpl extends AbstractBaseService implements MenuItem
     }
 
     @Override
+    public List<MenuItem> listByStatus(CommonStatusEnum status) {
+        return menuItemRepository.findByStatus(status);
+    }
+
+    @Override
     public void delete(Long id) {
-        menuItemRepository.delete(id);
+        menuItemRepository.updateStatus(id, CommonStatusEnum.DISABLE);
     }
 }

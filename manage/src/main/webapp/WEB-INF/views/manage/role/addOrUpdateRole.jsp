@@ -61,7 +61,7 @@
                                     <div class="col-sm-9">
                                         <input  type="text"
                                                 name="name"
-                                                value="${role.name}"
+                                                value="<c:out value='${role.name}'/> "
                                                 class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>
@@ -75,7 +75,7 @@
                                                 id="code"
                                                 placeholder=""
                                                 name="description"
-                                                value="${role.description}"
+                                                value="<c:out value='${role.description}'/> "
                                                 class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>

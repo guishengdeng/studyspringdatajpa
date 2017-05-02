@@ -1,6 +1,7 @@
 package com.biz.service.security.interfaces;
 
 import com.biz.gbck.dao.mysql.po.security.Role;
+import com.biz.gbck.enums.CommonStatusEnum;
 
 import java.util.List;
 
@@ -21,4 +22,6 @@ public interface RoleService {
     void delete(Long id);
 
     void addOrUpdate(Role role);
+
+    List<Role>  findByStatus(CommonStatusEnum status);
 }

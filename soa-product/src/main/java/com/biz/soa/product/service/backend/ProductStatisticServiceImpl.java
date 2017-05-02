@@ -1,9 +1,9 @@
 package com.biz.soa.product.service.backend;
 
-import com.biz.gbck.dao.mysql.po.product.ProductStatistic;
-import com.biz.gbck.dao.mysql.repository.productstatistic.ProductStatisticRepository;
+import com.biz.gbck.dao.mysql.po.product.meta.ProductStatistic;
+import com.biz.gbck.dao.mysql.repository.product.ProductStatisticRepository;
 import com.biz.gbck.dao.redis.repository.product.CategoryRedisDao;
-import com.biz.gbck.dao.redis.repository.product.ProductRedisDao;
+import com.biz.gbck.dao.redis.repository.product.bbc.ProductRedisDao;
 import com.biz.gbck.vo.product.backend.ProductSalesVo;
 import com.biz.gbck.vo.product.frontend.CategoryProductSalesTopVo;
 import com.biz.gbck.vo.product.frontend.ProductIdxIdentityVo;

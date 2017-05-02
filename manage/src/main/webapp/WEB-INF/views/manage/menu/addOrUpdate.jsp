@@ -56,8 +56,9 @@
                                     </label>
 
                                     <div class="col-sm-9">
-                                        <input type="text" id="name" name="name" placeholder="菜单名称"
-                                               value="${mainMenu.name}" class="required col-xs-10 col-sm-5">
+                                        <input ${not empty mainMenu ? 'readonly' : ''}  type="text" id="name" name="name" placeholder="菜单名称"
+                                               value="<c:out value='${mainMenu.name}'/>"
+                                                class="required col-xs-10 col-sm-5">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -67,12 +68,12 @@
                                     </label>
 
                                     <div class="col-sm-9">
-                                        <input ${empty mainMenu ? '' : 'readonly'} type="text"
-                                                                                id="code"
-                                                                                placeholder="代码"
-                                                                                name="code"
-                                                                                value="${mainMenu.code}"
-                                                                                class="col-xs-10 col-sm-5">
+                                        <input  type="text"
+                                                id="code"
+                                                placeholder=""
+                                                name="code"
+                                                value="<c:out value='${mainMenu.code}'/>"
+                                                class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>
 
@@ -82,10 +83,8 @@
                                         描述
                                     </label>
                                     <div class="col-sm-9">
-                                    <textarea id="description" type="text" name="description" placeholder="菜单描述"
-                                          maxlength="255" class="col-xs-12 col-sm-12">${mainMenu.description}
-                                    </textarea>
-
+                                    <input id="description" type="text" name="description" value="<c:out value='${mainMenu.description}'/>"
+                                          maxlength="10" class="col-xs-10 col-sm-5"/>
                                     </div>
                                 </div>
 

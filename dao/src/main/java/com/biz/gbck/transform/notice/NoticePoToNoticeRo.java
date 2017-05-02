@@ -13,7 +13,7 @@ import java.io.Serializable;
         NoticeRo ro = null;
         if (po != null) {
             ro = new NoticeRo();
-            ro.setId(po.getId());
+            ro.setId(po.getId().toString());
             ro.setTitle(po.getTitle());
             ro.setContent(po.getContent());
             ro.setCreateTime(po.getCreateTime());

@@ -1,7 +1,7 @@
 package com.biz.gbck.transform.product;
 
-import com.biz.gbck.dao.mysql.po.product.Brand;
-import com.biz.gbck.dao.redis.ro.product.BrandRo;
+import com.biz.gbck.dao.mysql.po.product.meta.Brand;
+import com.biz.gbck.dao.redis.ro.product.meta.BrandRo;
 import com.google.common.base.Function;
 
 /**
