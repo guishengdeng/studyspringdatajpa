@@ -1,6 +1,6 @@
 package com.biz.service;
 
-import com.biz.gbck.dao.mysql.po.BasePo;
+import com.biz.support.jpa.po.BasePO;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,7 @@ import static org.codelogger.utils.JudgeUtils.isNull;
  *
  * @author defei
  */
-public abstract class AbstractRepositorySupportService<T extends BasePo> extends AbstractBaseService implements RepositorySupportService<T> {
+public abstract class AbstractRepositorySupportService<T extends BasePO> extends AbstractBaseService implements RepositorySupportService<T> {
 
 	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -60,6 +60,7 @@ public abstract class AbstractRepositorySupportService<T extends BasePo> extends
 
 	@Override
 	public void delete(Long id) {
+
 		getRepository().delete(id);
 	}
 

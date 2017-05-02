@@ -1,8 +1,7 @@
 package com.biz.gbck.dao.mysql.po.security;
 
 import com.biz.core.model.Identifiable;
-import com.biz.gbck.dao.mysql.po.BasePo;
-import com.biz.gbck.dao.mysql.po.demo.CatPO;
+import com.biz.support.jpa.po.BasePO;
 import com.biz.gbck.enums.CommonStatusEnum;
 
 import java.util.List;
@@ -10,7 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "adm_resource")
-public class Resource extends BasePo<Long> implements Identifiable<Long> {
+public class Resource extends BasePO<Long> implements Identifiable<Long> {
 
     public final static int TYPE_MENU = 0;
     public final static int TYPE_URL = 1;
