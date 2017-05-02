@@ -1,11 +1,12 @@
 package com.biz.rest.controller.cart;
 
+import com.biz.gbck.vo.cart.*;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.service.cart.ShopCartService;
 import com.biz.support.web.handler.JSONResult;
-import com.biz.vo.cart.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,7 +55,7 @@ public class ShopCartController extends BaseRestController {
             return new JSONResult(respVo);
         } catch (Exception e) {
             logger.error("添加购物车出错.", e);
-            return new JSONResult(-1, "添加购物车出错");
+            return new JSONResult(-1, "获取购物车信息出错");
         }
     }
 
@@ -63,13 +64,13 @@ public class ShopCartController extends BaseRestController {
      */
     @RequestMapping("batchDelete")
     public JSONResult deleteCartItem(HttpServletRequest request) {
-        ShopCartItemBatchDeleteRespVo reqVo = super.parseBizData(request, ShopCartItemBatchDeleteRespVo.class);
+        ShopCartItemBatchDeleteReqVo reqVo = super.parseBizData(request, ShopCartItemBatchDeleteReqVo.class);
         try {
             cartService.deleteCartItems(reqVo);
             return new JSONResult();
         } catch (Exception e) {
             logger.error("添加购物车出错.", e);
-            return new JSONResult(-1, "添加购物车出错");
+            return new JSONResult(-1, "删除购物车商品");
         }
     }
 
@@ -84,8 +85,23 @@ public class ShopCartController extends BaseRestController {
             return new JSONResult(respVo);
         } catch (Exception e) {
             logger.error("添加购物车出错.", e);
-            return new JSONResult(-1, "添加购物车出错");
+            return new JSONResult(-1, "更新购物车数量出错");
         }
     }
+
+    @RequestMapping(value = "totalNum")
+    @ResponseBody
+    public JSONResult totalNum(HttpServletRequest request) {
+        ShopCartNumReqVo reqVo = super.parseBizData(request, ShopCartNumReqVo.class);
+        try {
+            ShopCartNumRespVo respVo = cartService.getCartNum(reqVo);
+            return new JSONResult(respVo);
+        } catch (Exception e) {
+            logger.error("取购物车数量异常", e);
+            return new JSONResult(-1, "获取购物车数量出错");
+        }
+    }
+
+
 
 }

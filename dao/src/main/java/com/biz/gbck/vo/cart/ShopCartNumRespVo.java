@@ -1,4 +1,4 @@
-package com.biz.vo.cart;
+package com.biz.gbck.vo.cart;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 

@@ -1,8 +1,7 @@
-package com.biz.vo.cart;
+package com.biz.gbck.vo.cart;
 
+import com.biz.gbck.vo.user.BaseRequestVo;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-
-import java.io.Serializable;
 
 /**
  * 修改购物车明细vo
@@ -10,9 +9,9 @@ import java.io.Serializable;
  * @author lei
  * @date 2017/01/12
  */
-public class ShopCartItemUpdateRespVo implements Serializable {
+public class ShopCartItemUpdateReqVo extends BaseRequestVo {
 
-    private static final long serialVersionUID = -8001217185262565019L;
+    private static final long serialVersionUID = -1730115632054116788L;
 
     /**
      * 商品编码

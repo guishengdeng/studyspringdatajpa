@@ -1,18 +1,18 @@
-package com.biz.vo.cart;
+package com.biz.gbck.vo.cart;
 
-import com.biz.core.util.DateUtil;
-import com.biz.gbck.vo.user.BaseRequestVo;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.sql.Timestamp;
+import java.io.Serializable;
 
 /**
- * 添加购物车明细vo
+ * 修改购物车明细vo
  *
  * @author lei
  * @date 2017/01/12
  */
-public class ShopCartItemAddReqVo extends BaseRequestVo {
+public class ShopCartItemUpdateRespVo implements Serializable {
+
+    private static final long serialVersionUID = -8001217185262565019L;
 
     /**
      * 商品编码
@@ -24,10 +24,14 @@ public class ShopCartItemAddReqVo extends BaseRequestVo {
      */
     private int quantity = 1;
 
-    /**
-     * 操作时间
-     */
-    private Timestamp operateTime = DateUtil.now();
+    public ShopCartItemUpdateRespVo() {
+    }
+
+    public ShopCartItemUpdateRespVo(String pCode, int quantity) {
+        this();
+        this.pCode = pCode;
+        this.quantity = quantity;
+    }
 
     public String getpCode() {
         return pCode;
@@ -43,14 +47,6 @@ public class ShopCartItemAddReqVo extends BaseRequestVo {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public Timestamp getOperateTime() {
-        return operateTime;
-    }
-
-    public void setOperateTime(Timestamp operateTime) {
-        this.operateTime = operateTime;
     }
 
     @Override

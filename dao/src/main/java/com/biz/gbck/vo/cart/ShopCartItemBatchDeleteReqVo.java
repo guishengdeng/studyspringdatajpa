@@ -1,9 +1,12 @@
-package com.biz.vo.cart;
+package com.biz.gbck.vo.cart;
 
 import com.biz.core.util.DateUtil;
-import java.io.Serializable;
+import com.biz.gbck.vo.user.BaseRequestVo;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.sql.Timestamp;
 import java.util.Set;
+
 import static com.google.common.collect.Sets.newHashSet;
 
 /**
@@ -11,7 +14,7 @@ import static com.google.common.collect.Sets.newHashSet;
  * @author lei
  * @date 2017/01/12
  */
-public class ShopCartItemBatchDeleteRespVo implements Serializable {
+public class ShopCartItemBatchDeleteReqVo extends BaseRequestVo {
 
     /**
      * 商品Id集合
@@ -38,5 +41,10 @@ public class ShopCartItemBatchDeleteRespVo implements Serializable {
 
     public void setOperateTime(Timestamp operateTime) {
         this.operateTime = operateTime;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

@@ -307,16 +307,17 @@ public interface DepotNextDoorExceptions {
         }
     }
 
-    /**
-     * 3000-3100
-     */
-    enum PrePaidCard implements ExceptionType {
-        CARD_ID_ERROR(3000, "未输入储值卡卡号"),
-        FAILED_TO_GET_PREPAID(3001, "未获取到储值卡信息");
 
+    /**
+     * 2500-2600
+     */
+    enum Cart implements ExceptionType {
+        ILLEGAL_PARAMETER(2501, "参数不合法"),
+        CART_ITEM_NOT_EXIST(2502, "参数不合法");
         private int code;
         private String description;
-        PrePaidCard(int code, String description) {
+
+        Cart(int code, String description) {
             this.code = code;
             this.description = description;
         }
@@ -331,4 +332,6 @@ public interface DepotNextDoorExceptions {
             return description;
         }
     }
+
+
 }
