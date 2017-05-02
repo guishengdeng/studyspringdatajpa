@@ -37,11 +37,18 @@ public class Company extends BaseEntity {
     @Column(length = 40) private String name;
 
     /**
+     * 法人名字
+     */
+    @Column(length = 40) private String corporateName;
+
+    /**
      * 公司描述
      */
     @Column(columnDefinition = "MEDIUMTEXT") private String description;
 
-
+    /**
+     * 状态
+     */
     @Column
     @Enumerated(EnumType.STRING)
     private CommonStatusEnum status;
@@ -116,5 +123,13 @@ public class Company extends BaseEntity {
 
     public void setAdmins(Set<Admin> admins) {
         this.admins = admins;
+    }
+
+    public String getCorporateName() {
+        return corporateName;
+    }
+
+    public void setCorporateName(String corporateName) {
+        this.corporateName = corporateName;
     }
 }

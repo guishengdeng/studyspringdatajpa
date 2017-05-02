@@ -36,6 +36,12 @@ public class PlatformPo extends Company{
     @OneToMany(mappedBy = "platform", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PartnerPo> partners;
 
+    /**
+     * 手机号
+     */
+    private String mobile;
+
+
     public ProvincePo getProvince() {
         return province;
     }

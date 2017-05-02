@@ -1,6 +1,7 @@
 package com.biz.gbck.dao.mysql.po.org;
 
 import com.biz.gbck.dao.mysql.po.BasePo;
+import com.biz.gbck.dao.mysql.po.security.Admin;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.org.CompanyLevel;
 import com.biz.support.jpa.po.BaseEntity;
@@ -69,6 +70,13 @@ public class CompanyGroupPo extends BasePo<Long> {
     @Column
     @Enumerated(EnumType.STRING)
     private CommonStatusEnum status;
+
+    /**
+     * 创建者
+     */
+    @ManyToOne
+    @JoinColumn(name = "admin_id")
+    private Admin createdAdmin;
 
 
     @Override

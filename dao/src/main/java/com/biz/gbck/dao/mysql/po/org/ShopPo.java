@@ -97,15 +97,7 @@ import java.util.Set;
 public class ShopPo extends Company {
 
 
-    /**
-     * 店铺名称
-     */
-    @Column(length = 40) private String name;
 
-    /**
-     * 法人名字
-     */
-    @Column(length = 40) private String corporateName;
 
     /**
      * 店铺头像
@@ -341,22 +333,6 @@ public class ShopPo extends Company {
 
     public void setShopLevel(ShopLevel shopLevel) {
         this.shopLevel = shopLevel;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCorporateName() {
-        return corporateName;
-    }
-
-    public void setCorporateName(String corporateName) {
-        this.corporateName = corporateName;
     }
 
     public String getAvatar() {

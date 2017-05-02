@@ -1,6 +1,7 @@
 package com.biz.gbck.dao.mysql.po.security;
 
 import com.biz.gbck.dao.mysql.po.org.Company;
+import com.biz.gbck.dao.mysql.po.org.CompanyGroupPo;
 import com.biz.gbck.dao.mysql.po.org.PartnerPo;
 import com.biz.gbck.dao.mysql.po.org.PlatformPo;
 import com.biz.gbck.dao.mysql.po.org.WarehousePo;
@@ -93,6 +94,9 @@ public class Admin implements Serializable, UserDetails {
     @Column(length = 50)
     private String createBy;
 
+
+    @OneToMany(mappedBy = "createdAdmin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CompanyGroupPo> companyGroupPos;
 
 //    @ManyToMany(fetch = FetchType.LAZY) @JoinTable(name = "org_admin_platform",
 //            joinColumns = {@JoinColumn(name = "username", referencedColumnName = "username")},
