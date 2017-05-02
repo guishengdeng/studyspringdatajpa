@@ -40,7 +40,7 @@ public class MainMenuController {
     private IdService idService;
     @GetMapping
     @PreAuthorize("hasAuthority('OPT_MAINMENU_LIST')")
-    public ModelAndView list(@RequestParam(value = "status" ,required = false,defaultValue = "ENABLE")CommonStatusEnum status){
+    public ModelAndView list(@RequestParam(value = "status" ,required = false,defaultValue = "ENABLE") CommonStatusEnum status){
         List<MainMenu> mainMenus = mainMenuService.listByStatus(status);
         return new ModelAndView("manage/menu/menulist", "mainMenus", mainMenus);
     }

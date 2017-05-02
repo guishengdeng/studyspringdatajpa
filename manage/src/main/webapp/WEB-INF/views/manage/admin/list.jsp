@@ -122,7 +122,8 @@
                                         添加
                                     </a>
                                 </sec:authorize>
-                                <a href="manage/users?enabled=${enabled == 'false' ? 'ENABLE' : 'DISABLE'}"
+                                    <%--href="manage/users?enabled=${enabled == 'false' ? 'ENABLE' : 'DISABLE'}--%>
+                                <a href="manage/users?status=${enabled == 'false' ? 'ENABLE' : 'DISABLE'}"
                                    class="${enabled == 'false' ? 'btn btn-sm btn-success' : 'btn btn-sm btn-danger'}">
                                     <%--btn btn-sm btn-danger--%>
                                     <c:choose>
@@ -146,7 +147,7 @@
                                 </div>
                                 <div class="col-md-2 inline">
                                     <label>状态</label>
-                                    <depotnextdoor:statusSelect fieldName="status" selectedStatus="${adminVo.status}" withNone="true" enableLabel="启用" disableLabel="禁用"/>
+                                    <depotnextdoor:statusSelect fieldName="status" selectedStatus="" withNone="true" enableLabel="启用" disableLabel="禁用"/>
                                 </div>
 
                                 <div class="inline">

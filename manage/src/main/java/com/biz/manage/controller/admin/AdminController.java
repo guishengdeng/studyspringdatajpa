@@ -36,17 +36,21 @@ public class AdminController {
      * List<Admin> admins = status.isEnable() ? adminService.listEnableAdmins() : adminService.listDisableAdmins();
      @RequestParam(value = "enabled", required = false, defaultValue = "ENABLE") CommonStatusEnum status
      当用户访问该路径时enable参数是没有值的,所有给它一个默认值
+     CommonStatusEnum status,
+     @ModelAttribute("adminVo")
+     @RequestParam(value = "enabled", required = false, defaultValue = "ENABLE") CommonStatusEnum status,
      */
     @GetMapping
     @PreAuthorize("hasAuthority('OPT_USER_LIST')")
-    public ModelAndView list(@RequestParam(value = "enabled", required = false, defaultValue = "ENABLE") CommonStatusEnum status, @ModelAttribute("adminVo") AdminReqVo vo) {
-        if(vo.getStatus()==null){
-            //当第一次访问该路径时,用户默认的状态为ENABLE,然后对其进行分页
-            vo.setStatus(status);
-        }
+    public ModelAndView list( @ModelAttribute("adminVo") AdminReqVo vo) {
         //这是对查询条件的用户进行分页
         Page<Admin> adminPage = adminService.queryAdminsByCondition(vo);
-        return new ModelAndView("manage/admin/list", "adminPage", adminPage).addObject("enabled", status.isEnable());
+       // return new ModelAndView("manage/admin/list", "adminPage", adminPage).addObject("enabled", status.isEnable());
+        Boolean flag=true;
+        if(vo.getStatus()!=null){
+            flag=vo.getStatus().isEnable();
+        }
+        return new ModelAndView("manage/admin/list", "adminPage", adminPage).addObject("enabled", flag);
     }
 
     @GetMapping("/add")
