@@ -1,8 +1,6 @@
 package com.biz.gbck.dao.mysql.po.security;
 
-import com.biz.core.model.Identifiable;
-import com.biz.gbck.dao.mysql.po.BasePo;
-import com.biz.gbck.dao.mysql.po.demo.CatPO;
+import com.biz.support.jpa.po.BasePO;
 import com.biz.gbck.enums.CommonStatusEnum;
 import org.hibernate.annotations.Where;
 
@@ -11,7 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "adm_mainmenu")
-public class MainMenu extends BasePo<Long> {
+public class MainMenu extends BasePO<Long> {
 
 
 
