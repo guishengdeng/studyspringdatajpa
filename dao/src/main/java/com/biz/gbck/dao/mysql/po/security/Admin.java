@@ -70,7 +70,7 @@ public class Admin implements Serializable, UserDetails {
      * 所拥有的权限
      */
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinTable(name = "users_roles", joinColumns = {
+    @JoinTable(name = "adm_admin_role", joinColumns = {
             @JoinColumn(name = "username", referencedColumnName = "username")}, inverseJoinColumns = {
             @JoinColumn(name = "roleId", referencedColumnName = "id")}, uniqueConstraints = {
             @UniqueConstraint(columnNames = {"username", "roleId"})})

@@ -1,7 +1,10 @@
 package com.biz.gbck.dao.mysql.po.security;
 
 import com.biz.core.model.Identifiable;
-import com.biz.gbck.dao.mysql.po.BasePo;
+import com.biz.support.jpa.po.BasePO;
+import com.biz.gbck.enums.CommonStatusEnum;
+import org.hibernate.annotations.Where;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +19,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "adm_role")
-public class Role extends BasePo<Long> implements Identifiable<Long>, Serializable {
+public class Role extends BasePO<Long> implements Identifiable<Long>, Serializable {
 
     private static final long serialVersionUID = 2033192329314085870L;
 
@@ -35,6 +38,7 @@ public class Role extends BasePo<Long> implements Identifiable<Long>, Serializab
             joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "menuitem_id", referencedColumnName = "id")},
             uniqueConstraints = {@UniqueConstraint(columnNames = {"role_id", "menuitem_id"})})
+    @Where(clause = "status='ENABLE'")
     private List<MenuItem> menuItems;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -42,7 +46,14 @@ public class Role extends BasePo<Long> implements Identifiable<Long>, Serializab
             joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "resource_id", referencedColumnName = "id")},
             uniqueConstraints = {@UniqueConstraint(columnNames = {"role_id", "resource_id"})})
+    @Where(clause = "status='ENABLE'")
     private List<Resource> resources;
+
+
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private CommonStatusEnum status=CommonStatusEnum.ENABLE;
 
     public Role() {
 
@@ -106,7 +117,13 @@ public class Role extends BasePo<Long> implements Identifiable<Long>, Serializab
     public void setResources(List<Resource> resources) {
         this.resources = resources;
     }
+    public CommonStatusEnum getStatus() {
+        return status;
+    }
 
+    public void setStatus(CommonStatusEnum status) {
+        this.status = status;
+    }
     @Override
     public boolean equals(Object o) {
         return super.equals(o);

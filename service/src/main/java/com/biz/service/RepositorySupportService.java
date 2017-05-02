@@ -1,21 +1,16 @@
 package com.biz.service;
 
-import com.biz.gbck.dao.mysql.po.BasePo;
-import com.biz.support.jpa.repository.CommonJpaRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.biz.support.jpa.po.BasePO;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.util.List;
-
-import static org.codelogger.utils.JudgeUtils.isNull;
 
 /**
  * 支持基本的JPA CRUD的service
  *
  * @author defei
  */
-public interface RepositorySupportService<T extends BasePo> extends InitializingBean {
+public interface RepositorySupportService<T extends BasePO> extends InitializingBean {
 
 	T save(final T t);
 

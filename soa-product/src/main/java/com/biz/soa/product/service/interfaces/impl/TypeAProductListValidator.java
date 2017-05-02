@@ -1,6 +1,6 @@
 package com.biz.soa.product.service.interfaces.impl;
 
-import com.biz.gbck.dao.redis.ro.product.ProductRo;
+import com.biz.gbck.dao.redis.ro.product.bbc.ProductRo;
 import com.biz.gbck.enums.product.SaleStatusEnum;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.product.frontend.interfaces.ProductPrototype;

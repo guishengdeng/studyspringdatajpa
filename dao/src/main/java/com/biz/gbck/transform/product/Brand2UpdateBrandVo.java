@@ -1,6 +1,6 @@
 package com.biz.gbck.transform.product;
 
-import com.biz.gbck.dao.mysql.po.product.Brand;
+import com.biz.gbck.dao.mysql.po.product.meta.Brand;
 import com.biz.gbck.vo.product.backend.UpdateBrandVo;
 import com.google.common.base.Function;
 

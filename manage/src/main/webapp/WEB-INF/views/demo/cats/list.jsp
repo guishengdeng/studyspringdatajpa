@@ -18,7 +18,7 @@
     </jsp:attribute>
     <jsp:attribute name="script">
         <script type="application/javascript">
-            <%--<sec:authorize access="hasRole('OPT_CAT_DELETE')">--%>
+            <sec:authorize access="hasAuthority('OPT_CAT_DELETE')">
             $(".cat-ban-btn").click(function () {
 
                 $("#id-of-cat").val($(this).data("id"));
@@ -39,7 +39,7 @@
                 }, "json");
                 $("#cat-disable-confirm-modal").modal("hide");
             });
-            <%--</sec:authorize>--%>
+            </sec:authorize>
             $(function(){
                 $("#cat-table").DataTable({
                     "lengthMenu": [[10,20,50,-1], [10, 20, 50, "所有"]],
@@ -47,9 +47,6 @@
                     "order": [[0, "asc"]]
                 });
             });
-
-            <sec:authorize access="hasRole('OPT_CAT_EDIT')">
-            </sec:authorize>
         </script>
     </jsp:attribute>
     <jsp:body>
@@ -72,7 +69,6 @@
         </div>
 
         <div class="page-content">
-            <input type="hidden" id="id-of-cat">
             <div class="row">
                 <div class="col-xs-12">
                     <!-- PAGE CONTENT BEGINS -->
@@ -96,27 +92,27 @@
                                 <c:forEach items="${cats}" var="cat">
                                     <tr id="tr-${cat.id}">
 
-                                        <td>${cat.name}</td>
-                                        <td>${cat.description}</td>
-                                        <td>${cat.saleStatus.name}</td>
-                                        <td>${cat.status eq 'ENABLE' ? '存活' : '死亡'}</td>
+                                        <td><c:out value="${cat.name}" /></td>
+                                        <td><c:out value="${cat.description}"/></td>
+                                        <td><c:out value="${cat.saleStatus.name}"/></td>
+                                        <td><c:out value="${cat.status eq 'ENABLE' ? '存活' : '死亡'}"/></td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
-                                                <%--<sec:authorize access="hasAuthority('OPT_CAT_EDIT')">--%>
+                                                <sec:authorize access="hasAuthority('OPT_CAT_CREATE')">
                                                     <a href="demo/cats/${cat.id}.do"
                                                        class="btn btn-minier btn-info">
                                                         <i class="ace-icon fa fa-pencil bigger-120"></i>
                                                     </a>
-                                                <%--</sec:authorize>--%>
-                                                <%--<sec:authorize access="hasAuthority('OPT_CAT_DELETE')">--%>
+                                                </sec:authorize>
+                                                <sec:authorize access="hasAuthority('OPT_CAT_DELETE')">
                                                     <c:if test="${param.enabled != 'false'}">
                                                         <a data-id="${cat.id}"
-                                                           data-name="${cat.name}"
+                                                           data-name='<c:out value="${cat.name}"/>'
                                                            class="btn btn-minier btn-danger cat-ban-btn">
                                                             <i class="ace-icon fa fa-ban bigger-120"></i>
                                                         </a>
                                                     </c:if>
-                                                <%--</sec:authorize>--%>
+                                                </sec:authorize>
                                             </div>
                                         </td>
                                     </tr>
@@ -125,6 +121,8 @@
                             </table>
                         </div><!-- /.span -->
                     </div><!-- /.row -->
+                    <sec:authorize access="hasAuthority('OPT_CAT_DELETE')">
+                    <input type="hidden" id="id-of-cat">
                     <div id="cat-disable-confirm-modal" role="dialog" class="modal" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -147,6 +145,7 @@
                             </div>
                         </div>
                     </div>
+                    </sec:authorize>
                     <!-- PAGE CONTENT ENDS -->
                 </div><!-- /.col -->
             </div><!-- /.row -->

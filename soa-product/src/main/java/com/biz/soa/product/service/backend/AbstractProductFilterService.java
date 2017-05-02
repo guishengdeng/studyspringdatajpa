@@ -1,10 +1,10 @@
 package com.biz.soa.product.service.backend;
 
-import com.biz.gbck.dao.mysql.po.product.ProductFilter;
+import com.biz.gbck.dao.mysql.po.product.meta.ProductFilter;
 import com.biz.gbck.dao.mysql.repository.productFilter.ProductFilterRepository;
 import com.biz.gbck.dao.redis.repository.product.ProductFilterRedisDao;
-import com.biz.service.AbstractBaseService;
 import com.biz.gbck.transform.product.ProductFilter2ProductFilterRo;
+import com.biz.service.AbstractBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -27,8 +27,6 @@ public class AbstractProductFilterService extends AbstractBaseService {
     }
 
     protected void saveProductFilter(Iterable<ProductFilter> pos) {
-        for (ProductFilter po : pos) {
-            this.saveProductFilter(po);
-        }
+        pos.forEach(this::saveProductFilter);
     }
 }

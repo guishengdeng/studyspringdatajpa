@@ -1,9 +1,7 @@
 package com.biz.gbck.dao.redis.repository.advertisement;
 
 import com.biz.gbck.dao.redis.CrudRedisDao;
-import com.biz.gbck.dao.redis.ro.activity.ActivityRo;
 import com.biz.gbck.dao.redis.ro.advertisement.AdvertisementRo;
-import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.redis.util.RedisUtil;
 import org.springframework.stereotype.Repository;
 

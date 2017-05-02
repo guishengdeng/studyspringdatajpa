@@ -1,6 +1,5 @@
 package com.biz.gbck.dao.mysql.po.org;
 
-import com.biz.gbck.dao.mysql.po.BasePo;
 import com.biz.gbck.dao.mysql.po.security.Admin;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.org.CompanyLevel;
@@ -31,10 +30,8 @@ import java.util.List;
  */
 @Entity
 @Table(name = "org_group")
-public class CompanyGroupPo extends BasePo<Long> {
+public class CompanyGroupPo extends BaseEntity {
 
-    @Id
-    private Long id;
 
     /**
      * 客户组编码
@@ -77,17 +74,6 @@ public class CompanyGroupPo extends BasePo<Long> {
     @ManyToOne
     @JoinColumn(name = "admin_id")
     private Admin createdAdmin;
-
-
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getCode() {
         return code;

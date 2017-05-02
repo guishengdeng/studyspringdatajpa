@@ -1,9 +1,9 @@
 package com.biz.gbck.dao.redis.info;
 
-import com.biz.gbck.common.dao.redis.CommonRedisDao;
+import com.biz.gbck.common.ro.RedisKeyGenerator.Promotion;
+import com.biz.gbck.dao.redis.CrudRedisDao;
 import com.biz.gbck.dao.redis.ro.info.PromotionRo;
 import com.biz.redis.util.RedisUtil;
-import com.biz.gbck.common.ro.RedisKeyGenerator.Promotion;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ import java.util.Map;
  * @author gongshutao
  */
 @Component
-public class PromotionRedisDao extends CommonRedisDao {
+public class PromotionRedisDao extends CrudRedisDao<PromotionRo, Long> {
 
     private static final Logger logger = LoggerFactory.getLogger(PromotionRedisDao.class);
 
