@@ -16,7 +16,7 @@ import java.io.Serializable;
  * @reviewer
  */
 @Entity
-@Table(name = "app_con")
+@Table(name = "app_content")
 public class App extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 9056063437136572968L;
