@@ -28,7 +28,7 @@ public class AppVoToAppPo implements Function<AppVo, App>, Serializable {
             app.setShareUrl(vo.getShareUrl());
             app.setRecommedUrl(vo.getRecommedUrl());
             app.setAppDownloadUrl(vo.getAppDownloadUrl());
-            app.setMoney(vo.getMoney());
+            app.setAmount(vo.getAmount());
             app.setTabOne(vo.getTabOne());
             app.setTabTwo(vo.getTabTwo());
             app.setMinNum(vo.getMinNum());

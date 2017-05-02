@@ -40,7 +40,6 @@ public class CatServiceImpl extends AbstractRepositorySupportService<CatPO> impl
 	 */
 	@Override
 	public CatPO save(CatReqVO vo) {
-
 		iae.throwIfNull(vo, "参数不能为空");
 		CatPO existCat = getByName(vo.getName());
 		iae.throwIfTrue(existCat != null && !Objects.equals(vo.getId(), existCat.getId()), "名字已存在");

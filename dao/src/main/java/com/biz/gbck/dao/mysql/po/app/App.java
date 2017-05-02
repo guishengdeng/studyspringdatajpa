@@ -85,7 +85,7 @@ public class App extends BaseEntity implements Serializable {
      *订单满足 多少（元） 发券
      */
     @Column
-    private Integer money;
+    private Integer amount;
 
     /*
     *首页搜索栏显示标签
@@ -198,12 +198,12 @@ public class App extends BaseEntity implements Serializable {
         this.appDownloadUrl = appDownloadUrl;
     }
 
-    public Integer getMoney() {
-        return money;
+    public Integer getAmount() {
+        return amount;
     }
 
-    public void setMoney(Integer money) {
-        this.money = money;
+    public void setAmount(Integer money) {
+        this.amount = money;
     }
 
     public String getTabOne() {

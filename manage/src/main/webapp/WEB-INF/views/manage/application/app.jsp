@@ -265,10 +265,10 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-1-5"> 订单满足 多少（元）
                                     发券</label>
                                 <div class="col-sm-9">
-                                    <input type="number" min="0" id="form-field-1-5" name="money"
+                                    <input type="number" min="0" id="form-field-1-5" name="amount"
                                            maxlength="6"
                                            min="0"
-                                           value="<c:out value='${appVo.money}'/>"
+                                           value="<c:out value='${appVo.amount}'/>"
                                            placeholder="888" class="col-xs-10 col-sm-5 required text">
                                 </div>
                             </div>
