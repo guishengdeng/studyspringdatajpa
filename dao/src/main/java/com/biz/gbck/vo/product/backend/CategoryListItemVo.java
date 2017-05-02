@@ -1,6 +1,7 @@
 package com.biz.gbck.vo.product.backend;
 
 import com.biz.gbck.enums.CommonStatusEnum;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -22,7 +23,7 @@ public class CategoryListItemVo implements Serializable {
 
     private Integer idx;
 
-    private Timestamp createTimeStamp;
+    private String createTimeStamp;
 
     private CommonStatusEnum status;
 
@@ -52,11 +53,11 @@ public class CategoryListItemVo implements Serializable {
         this.idx = idx;
     }
 
-    public Timestamp getCreateTimeStamp() {
+    public String getCreateTimeStamp() {
         return createTimeStamp;
     }
 
-    public void setCreateTimeStamp(Timestamp createTimeStamp) {
+    public void setCreateTimeStamp(String createTimeStamp) {
         this.createTimeStamp = createTimeStamp;
     }
 
