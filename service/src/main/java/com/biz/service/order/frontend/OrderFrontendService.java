@@ -1,5 +1,8 @@
 package com.biz.service.order.frontend;
 
+import com.biz.gbck.vo.IdReqVo;
+import com.biz.gbck.vo.order.OrderCreateReqVo;
+import com.biz.gbck.vo.order.OrderCreateRespVo;
 import com.biz.gbck.vo.order.OrderListReqVo;
 import com.biz.gbck.vo.order.OrderRespVo;
 
@@ -14,5 +17,10 @@ import java.util.List;
  * @see
  */
 public interface OrderFrontendService {
+
     List<OrderRespVo> listOrders(OrderListReqVo reqVo);
+
+    OrderRespVo getOrderDetail(IdReqVo reqVo);
+
+    OrderCreateRespVo createOrder(OrderCreateReqVo reqVo);
 }

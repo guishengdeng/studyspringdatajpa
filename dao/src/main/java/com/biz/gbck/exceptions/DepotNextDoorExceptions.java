@@ -335,5 +335,29 @@ public interface DepotNextDoorExceptions {
         }
     }
 
+    /**
+     * 3000-3001
+     */
+    enum Order implements ExceptionType {
+
+        ;
+
+        private int code;
+        private String description;
+
+        Order(int code, String description) {
+            this.code = code;
+            this.description = description;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+    }
+
 
 }

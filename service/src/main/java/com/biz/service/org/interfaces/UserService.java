@@ -1,22 +1,23 @@
 package com.biz.service.org.interfaces;
 
 import com.biz.gbck.common.exception.CommonException;
-import com.biz.gbck.common.model.order.PaymentType;
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import com.biz.gbck.common.vo.search.RecommendConditionVo;
 import com.biz.gbck.common.vo.search.RecommendConditionVo2;
+import com.biz.gbck.common.vo.search.SearchProductCondition;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
+import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.enums.user.AuditStatus;
-import com.biz.gbck.common.vo.search.SearchProductCondition;
 import com.biz.gbck.vo.search.SearchUserReqVo;
 import com.biz.gbck.vo.user.MemberIdRequestVo;
 import com.biz.gbck.vo.user.UserResponseVo;
 import com.biz.vo.org.*;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 /**
  * 类说明：用户service
  *
