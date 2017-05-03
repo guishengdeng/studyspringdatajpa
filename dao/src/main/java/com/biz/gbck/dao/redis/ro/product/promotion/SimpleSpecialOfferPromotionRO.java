@@ -16,7 +16,7 @@ import com.biz.redis.bean.BaseRedisObject;
  */
 @Ro(key = "pro:promotion:simpleSpecialOffer")
 @RoSortedSet(key = "list")
-public class SimpleSpecialOfferPromotionRo extends BaseRedisObject<String> {
+public class SimpleSpecialOfferPromotionRO extends BaseRedisObject<String> {
     private static final long serialVersionUID = -3587986498940399357L;
 
     /**

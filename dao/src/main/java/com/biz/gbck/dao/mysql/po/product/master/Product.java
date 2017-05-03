@@ -60,6 +60,12 @@ public class Product extends BaseEntity {
     private String breif;
 
     /**
+     * 最小起售量
+     */
+    @Column
+    private Integer minQuantity;
+
+    /**
      * 商品品牌
      */
     @ManyToOne
@@ -624,5 +630,13 @@ public class Product extends BaseEntity {
 
     public void setSinglePurchaseGiftPromotionProducts(List<SinglePurchaseGiftPromotionProduct> singlePurchaseGiftPromotionProducts) {
         this.singlePurchaseGiftPromotionProducts = singlePurchaseGiftPromotionProducts;
+    }
+
+    public Integer getMinQuantity() {
+        return minQuantity;
+    }
+
+    public void setMinQuantity(Integer minQuantity) {
+        this.minQuantity = minQuantity;
     }
 }

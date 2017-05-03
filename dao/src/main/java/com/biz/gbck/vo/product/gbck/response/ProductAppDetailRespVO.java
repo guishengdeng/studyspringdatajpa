@@ -9,7 +9,7 @@ import java.util.List;
  *
  * Created by david-liu on 2017/04/28 12:07.
  */
-public class ProductAppDetailRespVo implements Serializable {
+public class ProductAppDetailRespVO implements Serializable {
     private static final long serialVersionUID = 1967168727397108097L;
 
     /**

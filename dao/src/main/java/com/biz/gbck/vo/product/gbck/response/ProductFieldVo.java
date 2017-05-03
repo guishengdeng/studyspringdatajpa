@@ -3,16 +3,23 @@ package com.biz.gbck.vo.product.gbck.response;
 import java.io.Serializable;
 
 /**
- * 商品属性字段Vo
- *
- * Created by david-liu on 2017/04/28 09:27.
+ * 商品FieldVo
+ * Created by david-liu on 2017/05/02 10:35.
  */
 public class ProductFieldVo<T> implements Serializable {
-    private static final long serialVersionUID = 5488735707974606163L;
+    private static final long serialVersionUID = -7700589911731802898L;
 
     private T id;
 
     private String name;
+
+    public ProductFieldVo(T id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public ProductFieldVo() {
+    }
 
     public T getId() {
         return id;

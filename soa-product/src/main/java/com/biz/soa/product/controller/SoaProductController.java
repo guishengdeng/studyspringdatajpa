@@ -2,7 +2,7 @@ package com.biz.soa.product.controller;
 
 import com.biz.gbck.vo.product.gbck.request.ProductAppDetailReqVo;
 import com.biz.gbck.vo.product.gbck.request.ProductAppListReqVo;
-import com.biz.gbck.vo.product.gbck.response.ProductAppDetailRespVo;
+import com.biz.gbck.vo.product.gbck.response.ProductAppDetailRespVO;
 import com.biz.gbck.vo.product.gbck.response.ProductAppListItemVo;
 import com.biz.soa.base.SoaBaseController;
 import com.biz.soa.product.cloud.feign.PromotionClient;
@@ -31,7 +31,7 @@ public class SoaProductController extends SoaBaseController {
     }
 
     @GetMapping(value = "/app/detail")
-    public MicroServiceResult<ProductAppDetailRespVo> appProductDetail(ProductAppDetailReqVo reqVo) {
+    public MicroServiceResult<ProductAppDetailRespVO> appProductDetail(ProductAppDetailReqVo reqVo) {
         return render200(null);
     }
 

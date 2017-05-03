@@ -1,4 +1,4 @@
-package com.biz.soa.util;
+package com.biz.gbck.vo.soa;
 
 import java.io.Serializable;
 

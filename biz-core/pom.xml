@@ -10,7 +10,7 @@
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>bizp-core</artifactId>
+    <artifactId>biz-core</artifactId>
     <version>${biz-core.version}</version>
     <packaging>jar</packaging>
 

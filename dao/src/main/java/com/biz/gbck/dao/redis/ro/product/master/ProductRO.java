@@ -20,7 +20,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 @Ro(key = "product:ProductRo")
 @RoSortedSet(key = "list", score = "createTimestamp")
-public class ProductRo extends BaseRedisObject<String> {
+public class ProductRO extends BaseRedisObject<String> {
     private static final long serialVersionUID = -2204675391624489385L;
 
     /**
@@ -94,6 +94,11 @@ public class ProductRo extends BaseRedisObject<String> {
     private String saleTagIds;
 
     /**
+     * 销售标签文字
+     */
+    private String saleTags;
+
+    /**
      * 角标 ID (以逗号分割)
      */
     private String apartTagIds;
@@ -107,6 +112,11 @@ public class ProductRo extends BaseRedisObject<String> {
      * 商品重量(单位: 克)
      */
     private Integer weight;
+
+    /**
+     * 最小起售量
+     */
+    private Integer minQuantity;
 
     /**
      * Seo 标题
@@ -459,6 +469,22 @@ public class ProductRo extends BaseRedisObject<String> {
         return this.saleStatus != null && this.saleStatus == SaleStatusEnum.ON_SALE.getValue();
     }
 
+    public String getSaleTags() {
+        return saleTags;
+    }
+
+    public void setSaleTags(String saleTags) {
+        this.saleTags = saleTags;
+    }
+
+    public Integer getMinQuantity() {
+        return minQuantity;
+    }
+
+    public void setMinQuantity(Integer minQuantity) {
+        this.minQuantity = minQuantity;
+    }
+
     public ProductPropertyVo getProductProperty() {
         ProductPropertyVo vo = new ProductPropertyVo();
         vo.setProductCode(this.productCode);
@@ -475,7 +501,7 @@ public class ProductRo extends BaseRedisObject<String> {
 
     @Override
     public String toString() {
-        return "ProductRo{" +
+        return "ProductRO{" +
                 "productId=" + productId +
                 ", productCode='" + productCode + '\'' +
                 ", name='" + name + '\'' +

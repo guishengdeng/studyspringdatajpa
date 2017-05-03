@@ -5,7 +5,7 @@ import com.biz.gbck.dao.mysql.po.product.promotion.singleProduct.BatchSpecialOff
 import com.biz.gbck.dao.mysql.po.product.promotion.singleProduct.MultipleQuantityPromotion;
 import com.biz.gbck.dao.mysql.po.product.promotion.singleProduct.QuantitySpecialOfferPromotion;
 import com.biz.gbck.dao.mysql.po.product.promotion.singleProduct.SinglePurchaseGiftPromotion;
-import com.biz.gbck.dao.redis.ro.product.master.ProductRo;
+import com.biz.gbck.dao.redis.ro.product.master.ProductRO;
 import com.biz.gbck.enums.product.promotion.SingleProductPromotionTypeEnum;
 import com.biz.redis.annotation.Ro;
 import com.biz.redis.annotation.RoSortedSet;
@@ -34,7 +34,7 @@ public class SingleProductPromotionRo extends BaseRedisObject<String> {
     /**
      * 商品编码
      *
-     * @see ProductRo#productCode
+     * @see ProductRO#productCode
      */
     private String productCode;
 

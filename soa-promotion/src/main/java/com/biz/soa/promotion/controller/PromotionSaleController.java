@@ -10,7 +10,7 @@ import com.biz.gbck.vo.product.promotion.soa.singleProduct.response.ProductSimpl
 import com.biz.gbck.vo.product.promotion.soa.singleProduct.response.ProductSingleProductPromotionRespVo;
 import com.biz.gbck.vo.product.promotion.soa.singleProduct.response.ProductsSimpleSpecialOfferRespVo;
 import com.biz.soa.base.SoaBaseController;
-import com.biz.soa.util.MicroServiceResult;
+import com.biz.gbck.vo.soa.MicroServiceResult;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

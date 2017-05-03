@@ -1,4 +1,4 @@
-package com.biz.soa.product.service.interfaces.impl;
+package com.biz.soa.product.service.interfaces.impl.bbc;
 
 import com.biz.gbck.dao.redis.ro.product.bbc.ProductRo;
 import com.biz.gbck.exceptions.DepotNextDoorException;

@@ -1,8 +1,8 @@
-package com.biz.soa.product.service.interfaces.impl;
+package com.biz.soa.product.service.interfaces.impl.bbc;
 
 import com.biz.gbck.dao.redis.ro.product.bbc.PriceRo;
 import com.biz.gbck.vo.depot.DepotPromotionVo;
-import com.biz.soa.product.service.interfaces.ProductPriceGenerator;
+import com.biz.soa.product.service.interfaces.bbc.ProductPriceGenerator;
 import java.util.Date;
 import org.codelogger.utils.ValueUtils;
 

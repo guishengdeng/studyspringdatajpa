@@ -1,7 +1,7 @@
-package com.biz.soa.product.service.interfaces.impl;
+package com.biz.soa.product.service.interfaces.impl.bbc;
 
 import com.biz.gbck.dao.redis.ro.product.bbc.PriceRo;
-import com.biz.soa.product.service.interfaces.ProductPriceGenerator;
+import com.biz.soa.product.service.interfaces.bbc.ProductPriceGenerator;
 
 /**
  * A类商品价格生成器

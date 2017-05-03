@@ -1,4 +1,4 @@
-package com.biz.soa.product.service.interfaces.impl;
+package com.biz.soa.product.service.interfaces.impl.bbc;
 
 import com.biz.core.util.StringTool;
 import com.biz.gbck.dao.redis.ro.product.bbc.PriceRo;
@@ -14,7 +14,7 @@ import com.biz.gbck.vo.product.PropertyItemVo;
 import com.biz.gbck.vo.product.frontend.TypeBProductStockVo;
 import com.biz.gbck.vo.product.frontend.interfaces.ProductPrototype;
 import com.biz.gbck.vo.search.ProductIdxVo;
-import com.biz.soa.product.service.interfaces.ProductPriceGenerator;
+import com.biz.soa.product.service.interfaces.bbc.ProductPriceGenerator;
 import com.biz.soa.product.service.interfaces.ProductValidator;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;

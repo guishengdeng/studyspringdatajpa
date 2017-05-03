@@ -8,7 +8,7 @@ import com.biz.redis.bean.BaseRedisObject;
  * Created by david-liu on 2017/04/21 13:49.
  */
 @Ro(key = "product:PriceRo")
-public class PriceRo extends BaseRedisObject<String> {
+public class PriceRO extends BaseRedisObject<String> {
     private static final long serialVersionUID = -5965702705818904640L;
 
     /**
@@ -45,6 +45,11 @@ public class PriceRo extends BaseRedisObject<String> {
      * 销售价
      */
     private Integer salePrice;
+
+    /**
+     * 建议零售价
+     */
+    private Integer suggestPrice;
 
     public String getProductCode() {
         return productCode;
@@ -100,5 +105,27 @@ public class PriceRo extends BaseRedisObject<String> {
 
     public void setPriceId(Long priceId) {
         this.priceId = priceId;
+    }
+
+    public Integer getSuggestPrice() {
+        return suggestPrice;
+    }
+
+    public void setSuggestPrice(Integer suggestPrice) {
+        this.suggestPrice = suggestPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "PriceRO{" +
+                "priceId=" + priceId +
+                ", companyGroupId=" + companyGroupId +
+                ", priceGroupId=" + priceGroupId +
+                ", productCode='" + productCode + '\'' +
+                ", purchasePrice=" + purchasePrice +
+                ", dynamicAveragePrice=" + dynamicAveragePrice +
+                ", salePrice=" + salePrice +
+                ", suggestPrice=" + suggestPrice +
+                '}';
     }
 }

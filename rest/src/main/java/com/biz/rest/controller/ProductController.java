@@ -1,6 +1,6 @@
 package com.biz.rest.controller;
 
-import com.biz.gbck.vo.product.gbck.response.ProductAppDetailRespVo;
+import com.biz.gbck.vo.product.gbck.response.ProductAppDetailRespVO;
 import com.biz.gbck.vo.product.gbck.response.ProductAppListItemVo;
 import com.biz.support.web.handler.JSONResult;
 import com.google.common.collect.Lists;
@@ -19,6 +19,6 @@ public class ProductController extends BaseRestController {
 
     @RequestMapping(value = "/detail")
     public JSONResult productDetail(HttpServletRequest request, HttpServletResponse response) {
-        return new JSONResult(new ProductAppDetailRespVo());
+        return new JSONResult(new ProductAppDetailRespVO());
     }
 }

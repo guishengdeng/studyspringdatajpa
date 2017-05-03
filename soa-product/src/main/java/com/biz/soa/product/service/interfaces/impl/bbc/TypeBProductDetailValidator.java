@@ -1,4 +1,4 @@
-package com.biz.soa.product.service.interfaces.impl;
+package com.biz.soa.product.service.interfaces.impl.bbc;
 
 import com.biz.gbck.enums.product.SaleStatusEnum;
 import com.biz.gbck.exceptions.DepotNextDoorException;
