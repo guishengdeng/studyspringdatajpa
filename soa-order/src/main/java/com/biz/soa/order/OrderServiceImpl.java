@@ -1,6 +1,7 @@
-package com.biz.service.order;
+package com.biz.soa.order;
 
 import com.biz.service.AbstractBaseService;
+import com.biz.service.order.OrderService;
 
 /**
  * 订单service
