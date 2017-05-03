@@ -1,5 +1,7 @@
 package com.biz.gbck.vo.order;
 
+import com.biz.gbck.dao.mysql.po.order.OrderItem;
+
 import java.io.Serializable;
 
 /**
@@ -56,6 +58,16 @@ public class OrderItemRespVo implements Comparable<OrderItemRespVo>, Serializabl
      * 是否已经申请退货
      */
     private Boolean returnFlag = false;
+
+    public OrderItemRespVo(OrderItem orderItem) {
+        this.setId(orderItem.getId());
+        this.setProductId(orderItem.getProductId());
+        this.setProductCode(orderItem.getProductCode());
+        this.setName(orderItem.getName());
+        this.setLogo(orderItem.getLogo());
+        this.setPrice(orderItem.getPrice());
+        this.setQuantity(orderItem.getQuantity());
+    }
 
     public Long getId() {
         return id;

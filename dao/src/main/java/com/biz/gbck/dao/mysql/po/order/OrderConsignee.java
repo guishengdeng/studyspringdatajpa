@@ -17,33 +17,37 @@ public class OrderConsignee {
     /**
      * 收货人姓名
      */
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
     private String name;
 
     /**
      * 收货人手机
      */
-    @Column(length = 15)
+    @Column(length = 15, nullable = false)
     private String mobile;
 
     /**
      * 省份Id
      */
+    @Column(nullable = false)
     private Integer provinceId;
 
     /**
      * 城市id
      */
+    @Column(nullable = false)
     private Integer cityId;
 
     /**
      * 县区id
      */
+    @Column(nullable = false)
     private Integer districtId;
 
     /**
      * 收货地址
      */
+    @Column(length = 150, nullable = false)
     private String address;
 
     /**

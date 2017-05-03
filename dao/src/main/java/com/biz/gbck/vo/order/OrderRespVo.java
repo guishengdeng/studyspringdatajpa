@@ -1,10 +1,14 @@
 package com.biz.gbck.vo.order;
 
+import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.enums.order.OrderStatus;
 import com.biz.gbck.enums.order.PaymentType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.codelogger.utils.StringUtils;
 import java.sql.Timestamp;
 import java.util.List;
+
+import static com.biz.gbck.common.Constant.DEFAULT_ORDER_EXPIRE_TIME;
 
 /**
  * 订单返回Vo
@@ -19,28 +23,28 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
     /**
      * 订单id
      */
-    public Long id;
+    private Long id;
 
     /**
      * 订单编号
      */
-    public String orderCode;
+    private String orderCode;
 
     /**
      * 订单状态
      */
     @JsonIgnore
-    public OrderStatus status;
+    private OrderStatus status;
 
     /**
      * 订单状态名称
      */
-    public String statusName;
+    private String statusName;
 
     /**
      * 订单创建时间
      */
-    public Long createTime;
+    private Long createTime;
 
     @JsonIgnore
     private Timestamp createTimestamp;
@@ -48,97 +52,126 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
     /**
      * 订单总价
      */
-    public Integer orderAmount;
+    private Integer orderAmount;
 
     /**
      * 支付金额
      */
-    public Integer payAmount;
+    private Integer payAmount;
 
     /**
      * 促销优惠金额
      */
-    public Integer freeAmount;
+    private Integer freeAmount;
 
     /**
      * 优惠券抵付金额
      */
-    public Integer voucherOffsetAmount;
+    private Integer voucherOffsetAmount;
 
     /**
      * 付款期限
      */
-    public Long payLimitTime;
+    private Long payLimitTime;
 
     /**
      * 支付方式类型
      */
-    public PaymentType paymentType;
+    private PaymentType paymentType;
+
+    /**
+     * 卖家Id
+     */
+    private Long sellerId;
+
+    /**
+     * 卖家名称
+     */
+    private String sellerName;
 
     /**
      * 买家id
      */
-    public Long buyerId;
+    private Long buyerId;
 
     /**
      * 买家姓名
      */
-    public String buyerName;
+    private String buyerName;
 
     /**
      * 买家手机号
      */
-    public String buyerMobile;
+    private String buyerMobile;
 
     /**
      * 买家收货地址
      */
-    public String buyerAddress;
+    private String buyerAddress;
 
     /**
      * 判断是否可以现在支付
      */
-    public Boolean payable;
+    private Boolean payable;
 
     /**
      * 是否可以取消
      */
-    public Boolean cancelable;
+    private Boolean cancelable;
 
     /**
      * 是否显示 联系客服
      */
-    public Boolean contactable;
+    private Boolean contactable;
 
     /**
      * 是否显示 再次购买
      */
-    public Boolean isBuyAgain;
+    private Boolean isBuyAgain;
 
     /**
      * 是否可以申请售后
      */
-    public Boolean applyRefundable;
+    private Boolean applyRefundable;
 
     /**
      * 订单备注
      */
-    public String description;
+    private String description;
 
     /**
      * 提示文字
      */
-    public String hint;
+    private String hint;
 
     /**
      * 发票信息
      */
-    public String ticket;
+    private String ticket;
 
     /**
      * 订单商品明细
      */
-    public List<OrderItemRespVo> items;
+    private List<OrderItemRespVo> items;
+
+    public OrderRespVo(Order order) {
+        this.setId(order.getId());
+        this.setSellerId(order.getSellerId());
+        this.setBuyerId(order.getUserId());
+        this.setOrderCode(order.getOrderCode());
+        this.setOrderAmount(order.getOrderAmount());
+        this.setPayAmount(order.getPayAmount());
+        this.setFreeAmount(order.getFreeAmount());
+        this.setVoucherOffsetAmount(order.getVoucherFreeAmount());
+        this.setCreateTimestamp(order.getCreateTimestamp());
+        this.setCreateTime(order.getCreateTimestamp().getTime());
+        this.setStatus(order.getStatus());
+        this.setStatusName(order.getStatus().getDesc());
+        this.setDescription(order.getDescription());
+        this.setTicket(order.getInvoice() != null && StringUtils.isNotBlank(order.getInvoice().getTitle()) ? order
+                .getInvoice().getTitle() : null);
+        this.setPayLimitTime(this.getCreateTime() + DEFAULT_ORDER_EXPIRE_TIME);
+    }
 
     public Long getId() {
         return id;
@@ -234,6 +267,22 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
 
     public void setPaymentType(PaymentType paymentType) {
         this.paymentType = paymentType;
+    }
+
+    public Long getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    public String getSellerName() {
+        return sellerName;
+    }
+
+    public void setSellerName(String sellerName) {
+        this.sellerName = sellerName;
     }
 
     public Long getBuyerId() {

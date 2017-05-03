@@ -1,4 +1,4 @@
-package com.biz.soa.order.backend;
+package com.biz.soa.order.service.backend;
 
 import com.biz.service.AbstractBaseService;
 import com.biz.service.order.backend.OrderBackendService;
