@@ -1,5 +1,7 @@
 package com.biz.gbck.vo.user;
 
+import com.biz.core.asserts.BusinessAsserts;
+import com.biz.gbck.exceptions.DepotNextDoorExceptions;
 import com.biz.gbck.vo.IRequestVo;
 import com.biz.support.web.assist.ClientType;
 import com.biz.support.web.assist.ClientTypeAware;
@@ -41,6 +43,7 @@ public class BaseRequestVo implements IPAddressAware, IRequestVo, ClientTypeAwar
     private String userId;
 
     public String getUserId() {
+        BusinessAsserts.notNull(userId, DepotNextDoorExceptions.Global.ID_NOT_EXIST, "公参没有用户id");
         return userId;
     }
 

@@ -1,7 +1,11 @@
 package com.biz.soa.order;
 
+import com.biz.gbck.vo.order.OrderListReqVo;
+import com.biz.gbck.vo.order.OrderRespVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.order.OrderService;
+
+import java.util.List;
 
 /**
  * 订单service
@@ -12,4 +16,10 @@ import com.biz.service.order.OrderService;
  * @see
  */
 public class OrderServiceImpl extends AbstractBaseService implements OrderService {
+
+
+    @Override
+    public List<OrderRespVo> listOrders(OrderListReqVo reqVo) {
+        return null;
+    }
 }

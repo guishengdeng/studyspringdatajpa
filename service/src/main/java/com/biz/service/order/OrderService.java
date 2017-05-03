@@ -1,5 +1,10 @@
 package com.biz.service.order;
 
+import com.biz.gbck.vo.order.OrderListReqVo;
+import com.biz.gbck.vo.order.OrderRespVo;
+
+import java.util.List;
+
 /**
  * OrderService
  *
@@ -9,4 +14,5 @@ package com.biz.service.order;
  * @see
  */
 public interface OrderService {
+    List<OrderRespVo> listOrders(OrderListReqVo reqVo);
 }
