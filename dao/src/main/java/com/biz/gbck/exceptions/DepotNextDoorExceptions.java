@@ -1,5 +1,7 @@
 package com.biz.gbck.exceptions;
 
+import com.biz.core.exceptions.ExceptionType;
+
 /**
  * SOA 异常信息定义
  *
