@@ -17,7 +17,7 @@ import java.util.List;
  * @see
  */
 @Service
-public class OrderServiceImpl extends AbstractBaseService implements OrderFrontendService {
+public class OrderFrontendServiceImpl extends AbstractBaseService implements OrderFrontendService {
 
     @Override
     public List<OrderRespVo> listOrders(OrderListReqVo reqVo) {
