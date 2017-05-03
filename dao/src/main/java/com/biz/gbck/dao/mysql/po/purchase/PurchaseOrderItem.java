@@ -33,12 +33,6 @@ public class PurchaseOrderItem extends BaseEntity {
     @Column
     private Integer freeAmount;
 
-    /**
-     * 成本价
-     */
-    @Column(nullable = false)
-    private Integer costPrice;
-
 
     public PurchaseOrder getPurchaseOrder() {
         return purchaseOrder;
@@ -64,11 +58,4 @@ public class PurchaseOrderItem extends BaseEntity {
         this.freeAmount = freeAmount;
     }
 
-    public Integer getCostPrice() {
-        return costPrice;
-    }
-
-    public void setCostPrice(Integer costPrice) {
-        this.costPrice = costPrice;
-    }
 }
