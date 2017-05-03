@@ -164,7 +164,7 @@
                     },
                     success : function(data) {
                         if (data==true) {
-                            layer.msg("操作成功");
+                            layer.msg("操作成功",{time:1000});
                         }
                     }
                 });
