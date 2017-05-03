@@ -22,6 +22,9 @@
                     </a>
                 </li>
                 <li>
+                    APP配置
+                </li>
+                <li>
                     <a href="/upgrade/list.do">
                     升级配置列表
                     </a>

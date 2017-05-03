@@ -22,7 +22,7 @@ import com.biz.gbck.vo.zsgf.ZsgfLoanQueryReqVo;
 import com.biz.manage.vo.FailDetail;
 import com.biz.vo.org.*;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;;
+import org.springframework.data.domain.Pageable;
 
 import java.sql.Timestamp;
 import java.util.*;
