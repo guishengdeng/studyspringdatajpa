@@ -4,6 +4,7 @@ import com.biz.gbck.vo.order.OrderListReqVo;
 import com.biz.gbck.vo.order.OrderRespVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.order.frontend.OrderFrontendService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -15,8 +16,8 @@ import java.util.List;
  * @reviewer
  * @see
  */
+@Service
 public class OrderServiceImpl extends AbstractBaseService implements OrderFrontendService {
-
 
     @Override
     public List<OrderRespVo> listOrders(OrderListReqVo reqVo) {
