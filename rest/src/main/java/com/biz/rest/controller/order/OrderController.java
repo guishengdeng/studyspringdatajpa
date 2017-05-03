@@ -1,6 +1,9 @@
 package com.biz.rest.controller.order;
 
+import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.vo.IdReqVo;
+import com.biz.gbck.vo.order.OrderCreateReqVo;
+import com.biz.gbck.vo.order.OrderCreateRespVo;
 import com.biz.gbck.vo.order.OrderListReqVo;
 import com.biz.gbck.vo.order.OrderRespVo;
 import com.biz.rest.controller.BaseRestController;
@@ -24,7 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/order")
 public class OrderController extends BaseRestController {
 
-
     @Autowired
     private OrderFrontendService orderService;
 
@@ -42,6 +44,14 @@ public class OrderController extends BaseRestController {
         IdReqVo reqVo = super.parseBizData(request, IdReqVo.class);
         OrderRespVo orderRespVo = orderService.getOrderDetail(reqVo);
         return new JSONResult(orderRespVo);
+    }
+
+    @RequestMapping("/createOrderNoPay")
+    public JSONResult createOrderNoPay(HttpServletRequest request) {
+        OrderCreateReqVo reqVo = super.parseBizData(request, OrderCreateReqVo.class);
+        reqVo.setPaymentType(PaymentType.PAY_ON_DELIVERY.getValue());
+        OrderCreateRespVo respVo = orderService.createOrder(reqVo);
+        return new JSONResult(respVo);
     }
 
 

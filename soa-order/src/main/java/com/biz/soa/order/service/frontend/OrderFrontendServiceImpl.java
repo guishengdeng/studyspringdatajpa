@@ -6,6 +6,8 @@ import com.biz.gbck.dao.mysql.repository.order.OrderRepository;
 import com.biz.gbck.dao.redis.repository.order.OrderRedisDao;
 import com.biz.gbck.enums.order.OrderShowStatus;
 import com.biz.gbck.vo.IdReqVo;
+import com.biz.gbck.vo.order.OrderCreateReqVo;
+import com.biz.gbck.vo.order.OrderCreateRespVo;
 import com.biz.gbck.vo.order.OrderListReqVo;
 import com.biz.gbck.vo.order.OrderRespVo;
 import com.biz.service.AbstractBaseService;
@@ -50,6 +52,12 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
         SystemAsserts.notNull(reqVo);
         Order order = orderRepository.findOne(reqVo.getId());
         return CollectionUtils.getFirstNotNullValue(this.buildOrderVos(newArrayList(order)));
+    }
+
+    @Override
+    public OrderCreateRespVo createOrder(OrderCreateReqVo reqVo) {
+        //TODO 创建订单 货到付款
+        return null;
     }
 
     private List<OrderRespVo> buildOrderVos(List<Order> orders) {
