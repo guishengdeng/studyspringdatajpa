@@ -288,7 +288,19 @@ public class UserServiceImpl extends CommonService implements UserService{
 
     @Override
     public UserRo findUser(Long userId) throws CommonException {
-        return null;
+        if (userId == null) {
+            return null;
+        }
+        UserRo userRo = userRedisDao.get(userId);
+        if (userRo == null) {
+            logger.debug("Find User by mobile:{} from mysql.", userId);
+            UserPo userPo = userRepository.findOne(userId);
+            userRo = syncUserPoToRedis(userPo);
+        }
+        if (userRo == null) {
+            throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
+        }
+        return userRo;
     }
 
     @Override

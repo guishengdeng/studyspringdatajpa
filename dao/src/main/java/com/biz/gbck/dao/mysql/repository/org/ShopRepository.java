@@ -36,12 +36,12 @@ public interface ShopRepository extends CommonJpaRepository<ShopPo, Long>, ShopD
 //    @Query("Update ShopPo Set status=:status where id=:id") void updateShopStatusById(
 //            @Param("id") Long id, @Param("status") Integer status);
 //
-//    @Modifying
-//    @Query("UPDATE ShopPo SET deliveryName = :deliveryName WHERE id = :shopId")
-//    void updateDeliveryName(@Param("shopId") Long shopId,
-//                            @Param("deliveryName") String deliveryName);
-//
-//
+    @Modifying
+    @Query("UPDATE ShopPo SET deliveryName = :deliveryName WHERE id = :shopId")
+    void updateDeliveryName(@Param("shopId") Long shopId,
+                            @Param("deliveryName") String deliveryName);
+
+
 //    List<ShopPo> findByDepotId(String depotId);
 //
 //    List<ShopPo> findByAssartDepotId(String depotId);
