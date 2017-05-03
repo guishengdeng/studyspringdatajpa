@@ -1,9 +1,9 @@
-package com.biz.soa.order;
+package com.biz.soa.order.frontend;
 
 import com.biz.gbck.vo.order.OrderListReqVo;
 import com.biz.gbck.vo.order.OrderRespVo;
 import com.biz.service.AbstractBaseService;
-import com.biz.service.order.OrderService;
+import com.biz.service.order.frontend.OrderFrontendService;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @reviewer
  * @see
  */
-public class OrderServiceImpl extends AbstractBaseService implements OrderService {
+public class OrderServiceImpl extends AbstractBaseService implements OrderFrontendService {
 
 
     @Override

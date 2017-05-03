@@ -1,9 +1,8 @@
 package com.biz.rest.controller.order;
 
-import com.biz.gbck.vo.cart.ShopCartItemBatchDeleteReqVo;
 import com.biz.gbck.vo.order.OrderListReqVo;
 import com.biz.rest.controller.BaseRestController;
-import com.biz.service.order.OrderService;
+import com.biz.service.order.frontend.OrderFrontendService;
 import com.biz.support.web.handler.JSONResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +24,7 @@ public class OrderController extends BaseRestController {
 
 
     @Autowired
-    private OrderService orderService;
+    private OrderFrontendService orderService;
 
     //订单列表
     @RequestMapping("/list")

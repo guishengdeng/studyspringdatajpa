@@ -1,4 +1,4 @@
-package com.biz.service.order;
+package com.biz.service.order.frontend;
 
 import com.biz.gbck.vo.order.OrderListReqVo;
 import com.biz.gbck.vo.order.OrderRespVo;
@@ -13,6 +13,6 @@ import java.util.List;
  * @reviewer
  * @see
  */
-public interface OrderService {
+public interface OrderFrontendService {
     List<OrderRespVo> listOrders(OrderListReqVo reqVo);
 }
