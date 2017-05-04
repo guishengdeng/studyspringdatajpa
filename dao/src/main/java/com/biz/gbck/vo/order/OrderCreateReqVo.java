@@ -20,6 +20,8 @@ import static com.google.common.collect.Lists.newArrayList;
  */
 public class OrderCreateReqVo extends BaseRequestVo {
 
+    private static final long serialVersionUID = 3219213157240534433L;
+
     /**
      * 优惠券
      */
