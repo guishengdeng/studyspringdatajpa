@@ -21,29 +21,6 @@ import static com.google.common.collect.Lists.newArrayList;
 public class OrderCreateReqVo extends BaseRequestVo {
 
     /**
-     * 订单总金额
-     */
-    @NotNull(message = "订单总金额不能为空")
-    private Integer orderAmount;
-
-    /**
-     * 免额金额
-     */
-    private Integer freeAmount = 0;
-
-    /**
-     * 优惠券减免金额
-     */
-    @NotNull(message = "优惠券减免金额不能为空")
-    private Integer voucherOffsetAmount = 0;
-
-    /**
-     * 买家备注
-     */
-    @Size(max = 255, message = "备注超出长度限制")
-    private String description;
-
-    /**
      * 优惠券
      */
     private List<Long> usedCoupons = newArrayList();
@@ -52,12 +29,6 @@ public class OrderCreateReqVo extends BaseRequestVo {
      * 促销Id
      */
     private Long promotionId;
-
-    /**
-     * 需要用户付款金额
-     */
-    @NotNull(message = "用户付款金额不能为空")
-    private Integer payAmount;
 
     /**
      * 发票类型{@link InvoiceType}
@@ -80,30 +51,11 @@ public class OrderCreateReqVo extends BaseRequestVo {
     @NotNull(message = "请至少选择一个商品")
     private List<OrderCreateItemReqVo> items;
 
-
-    public Integer getOrderAmount() {
-        return orderAmount;
-    }
-
-    public void setOrderAmount(Integer orderAmount) {
-        this.orderAmount = orderAmount;
-    }
-
-    public Integer getFreeAmount() {
-        return freeAmount;
-    }
-
-    public void setFreeAmount(Integer freeAmount) {
-        this.freeAmount = freeAmount;
-    }
-
-    public Integer getVoucherOffsetAmount() {
-        return voucherOffsetAmount;
-    }
-
-    public void setVoucherOffsetAmount(Integer voucherOffsetAmount) {
-        this.voucherOffsetAmount = voucherOffsetAmount;
-    }
+    /**
+     * 买家备注
+     */
+    @Size(max = 255, message = "备注超出长度限制")
+    private String description;
 
     public String getDescription() {
         return description;
@@ -127,14 +79,6 @@ public class OrderCreateReqVo extends BaseRequestVo {
 
     public void setPromotionId(Long promotionId) {
         this.promotionId = promotionId;
-    }
-
-    public Integer getPayAmount() {
-        return payAmount;
-    }
-
-    public void setPayAmount(Integer payAmount) {
-        this.payAmount = payAmount;
     }
 
     public Integer getInvoiceType() {

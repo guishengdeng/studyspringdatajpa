@@ -15,11 +15,6 @@ public class OrderCreateItemReqVo implements IRequestVo {
     private static final long serialVersionUID = -5741991657192871333L;
 
     /**
-     * 商品Id
-     */
-    private Long productId;
-
-    /**
      * 商品编码
      */
     private String pCode;
@@ -34,13 +29,6 @@ public class OrderCreateItemReqVo implements IRequestVo {
      */
     private Integer price;
 
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
 
     public String getpCode() {
         return pCode;
