@@ -18,7 +18,7 @@ public class ShopSearchVo {
 	/**
 	 * 商户类型
 	 */
-	private String shopTypeName;
+	private ShopTypePo shopType;
 
 	/**
 	 * 公司名称
@@ -51,12 +51,12 @@ public class ShopSearchVo {
 		this.id = id;
 	}
 
-	public String getShopTypeName() {
-		return shopTypeName;
+	public ShopTypePo getShopType() {
+		return shopType;
 	}
 
-	public void setShopTypeName(String shopTypeName) {
-		this.shopTypeName = shopTypeName;
+	public void setShopType(ShopTypePo shopType) {
+		this.shopType = shopType;
 	}
 
 	public String getName() {

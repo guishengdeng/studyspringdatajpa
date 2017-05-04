@@ -18,6 +18,15 @@
                     alert("请输入标准的版本号！")
                 }
             }
+            function verifyMd5(){
+                var md5=$("#md5").val();
+                var md5Reg= /^([a-fA-F0-9]{32,32})$/;
+                if (!md5Reg.test(md5)) {
+                    $("#md5").val("")
+                    alert("请输入正确的MD5！")
+                }
+
+            }
         </script>
     </jsp:attribute>
     <jsp:body>
@@ -117,7 +126,7 @@
                                            for="md5">MD5
                                     </label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="md5" id="md5" size="50" class="required text col-xs-10 col-sm-5">
+                                        <input type="text" name="md5" id="md5" size="50" class="required text col-xs-10 col-sm-5" onblur="verifyMd5()">
                                     </div>
                                 </div>
                                 <div class="form-group">

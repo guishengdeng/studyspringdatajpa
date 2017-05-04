@@ -73,6 +73,8 @@ public class ShopController extends BaseController {
         ModelAndView mav = new ModelAndView("/org/shop/auditList");
         Page<ShopPo> shopSearchResVoPage = shopService.findShopAuditDataOfWaitForAudit(vo);
         mav.addObject("shopSearchResVoPage", shopSearchResVoPage);
+        mav.addObject("shopTypes", shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL));
+        mav.addObject("vo", vo);
         return mav;
     }
 

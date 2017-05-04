@@ -45,22 +45,18 @@ public class ShopSearchSpecification implements Specification<ShopPo> {
 			predicates.add(criteriaBuilder.like(root.get("mobile").as(String.class), sqlName));
 		}
 
-		if(StringUtils.isNotBlank(reqVo.getShopTypeName())){
-			Predicate predicate = criteriaBuilder.equal(root.get("shopType").get("name"),reqVo.getShopTypeName());
+		if(reqVo.getShopType() != null){
+			Predicate predicate = criteriaBuilder.equal(root.get("shopType"),reqVo.getShopType());
 			predicates.add(predicate);
 		}
 
 		if (reqVo.getAuditStatus() != null) {
-			Predicate predicate1 = criteriaBuilder.equal(root.get("detailAuditStatus"), reqVo.getAuditStatus());
-			predicates.add(predicate1);
-			Predicate predicate2 = criteriaBuilder.equal(root.get("qualificationAuditStatus"), reqVo.getAuditStatus());
-			predicates.add(predicate2);
+			Predicate detailPredicate = criteriaBuilder.equal(root.get("detailAuditStatus"), reqVo.getAuditStatus());
+			predicates.add(detailPredicate);
+			Predicate qualificationPredicate = criteriaBuilder.equal(root.get("qualificationAuditStatus"), reqVo.getAuditStatus());
+			predicates.add(qualificationPredicate);
 
 		}
-
-
-
-
 
 		criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
 		return criteriaQuery.getRestriction();
