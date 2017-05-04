@@ -16,9 +16,8 @@ public class SaleTag2UpdateSaleTagVo implements Function<SaleTag, UpdateSaleTagV
         UpdateSaleTagVo resp = new UpdateSaleTagVo();
         resp.setId(input.getId());
         resp.setName(input.getName());
-        resp.setLogo(input.getLogo());
+        resp.setShowName(input.getShowName());
         resp.setIdx(input.getIdx());
-        resp.setRawHtml(input.getRawHtml());
         resp.setDescription(input.getDescription());
         resp.setStatus(input.getStatus());
         resp.setCategoryId(input.getCategory().getId());

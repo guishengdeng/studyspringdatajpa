@@ -2,6 +2,10 @@ package com.biz.gbck.vo.product.backend;
 
 import com.biz.gbck.enums.CommonStatusEnum;
 
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 /**
  * @author 江南
  * @usage
@@ -23,27 +27,32 @@ public class UpdateSaleTagVo implements ISaleTagVo {
     private String name;
 
     /**
-     * 销售标签 Logo
+     * 前台展示
      */
-    private String logo;
+    private String showName;
 
+    /**
+     * 标签
+     */
+    private String tag;
     /**
      * 销售标签显示顺序
      */
     private Integer idx;
 
-    /**
-     * 销售标签富文本信息
-     */
-    private String rawHtml;
 
     /**
-     * 销售标签描述信息
+     * 描述(后台备注)
      */
     private String description;
 
     /**
-     * 销售标签状态
+     * 启用状态
+     */
+    private String saleStatus;
+
+    /**
+     * 状态(是否删除状态)
      */
     private CommonStatusEnum status;
 
@@ -81,12 +90,13 @@ public class UpdateSaleTagVo implements ISaleTagVo {
         this.name = name;
     }
 
-    public String getLogo() {
-        return logo;
+    @Override
+    public String getShowName() {
+        return showName;
     }
 
-    public void setLogo(String logo) {
-        this.logo = logo;
+    public void setShowName(String showName) {
+        this.showName = showName;
     }
 
     public Integer getIdx() {
@@ -97,12 +107,13 @@ public class UpdateSaleTagVo implements ISaleTagVo {
         this.idx = idx;
     }
 
-    public String getRawHtml() {
-        return rawHtml;
+    @Override
+    public String getTag() {
+        return tag;
     }
 
-    public void setRawHtml(String rawHtml) {
-        this.rawHtml = rawHtml;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public String getDescription() {
@@ -128,4 +139,13 @@ public class UpdateSaleTagVo implements ISaleTagVo {
     public void setVendorId(String vendorId) {
         this.vendorId = vendorId;
     }
+
+    public String getSaleStatus() {
+        return saleStatus;
+    }
+
+    public void setSaleStatus(String saleStatus) {
+        this.saleStatus = saleStatus;
+    }
+
 }

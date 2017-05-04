@@ -4,10 +4,10 @@ import com.biz.gbck.enums.CommonStatusEnum;
 import java.io.Serializable;
 
 /**
- * @author 江南
+ * @author lzz
  * @usage
  * @reviewer
- * @since 2016/12/23
+ * @since 2017/5/3
  */
 public interface ISaleTagVo extends Serializable {
 
@@ -15,13 +15,15 @@ public interface ISaleTagVo extends Serializable {
 
     String getName();
 
-    String getLogo();
+    String getShowName();
+
+    String getTag();
 
     Integer getIdx();
 
-    String getRawHtml();
-
     String getDescription();
+
+    String getSaleStatus();
 
     CommonStatusEnum getStatus();
 

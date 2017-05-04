@@ -4,6 +4,7 @@ import com.biz.gbck.dao.mysql.po.product.master.Product;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.product.backend.ISaleTagVo;
 import com.biz.support.jpa.po.BaseEntity;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
@@ -29,28 +30,33 @@ public class SaleTag extends BaseEntity implements Serializable {
     private String name;
 
     /**
-     * 标签 Logo
-     */
-    @Column
-    private String logo;
-
-    /**
      * 显示顺序
      */
     @Column(nullable = false)
     private Integer idx;
 
     /**
-     * 富文本
+     * 前台展示
      */
-    @Column(columnDefinition = "TEXT")
-    private String rawHtml;
+    @Column
+    private String showName;
 
     /**
-     * 描述
+     * 标签
+     */
+    @Column
+    private String tag;
+    /**
+     * 描述(后台备注)
      */
     @Column
     private String description;
+
+    /**
+     * 启用或禁用状态
+     */
+    @Column
+    private String saleStatus;
 
     /**
      * 状态
@@ -65,10 +71,6 @@ public class SaleTag extends BaseEntity implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")})
     private List<Product> products;
 
-    /**
-     * 删除标识(true: 已删除, false: 未删除)
-     */
-    private Boolean deleteFlag = Boolean.FALSE;
 
     /**
      * 分类
@@ -93,14 +95,6 @@ public class SaleTag extends BaseEntity implements Serializable {
         this.name = name;
     }
 
-    public String getLogo() {
-        return logo;
-    }
-
-    public void setLogo(String logo) {
-        this.logo = logo;
-    }
-
     public Integer getIdx() {
         return idx;
     }
@@ -109,12 +103,12 @@ public class SaleTag extends BaseEntity implements Serializable {
         this.idx = idx;
     }
 
-    public String getRawHtml() {
-        return rawHtml;
+    public String getTag() {
+        return tag;
     }
 
-    public void setRawHtml(String rawHtml) {
-        this.rawHtml = rawHtml;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public String getDescription() {
@@ -123,6 +117,14 @@ public class SaleTag extends BaseEntity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getSaleStatus() {
+        return saleStatus;
+    }
+
+    public void setSaleStatus(String saleStatus) {
+        this.saleStatus = saleStatus;
     }
 
     public CommonStatusEnum getStatus() {
@@ -141,13 +143,12 @@ public class SaleTag extends BaseEntity implements Serializable {
         this.products = products;
     }
 
-
-    public Boolean getDeleteFlag() {
-        return deleteFlag;
+    public String getShowName() {
+        return showName;
     }
 
-    public void setDeleteFlag(Boolean deleteFlag) {
-        this.deleteFlag = deleteFlag;
+    public void setShowName(String showName) {
+        this.showName = showName;
     }
 
     public void fromVo(ISaleTagVo iSaleTagVo) {
@@ -156,9 +157,9 @@ public class SaleTag extends BaseEntity implements Serializable {
         }
         this.setName(iSaleTagVo.getName());
         this.setIdx(iSaleTagVo.getIdx());
+        this.setSaleStatus(iSaleTagVo.getSaleStatus());
         this.setStatus(iSaleTagVo.getStatus());
         this.setDescription(iSaleTagVo.getDescription());
-        this.setLogo(iSaleTagVo.getLogo());
-        this.setRawHtml(iSaleTagVo.getRawHtml());
+        this.setShowName(iSaleTagVo.getShowName());
     }
 }
