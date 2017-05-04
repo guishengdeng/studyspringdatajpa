@@ -16,7 +16,7 @@ public interface RepositorySupportService<T extends BasePO> extends Initializing
 
 	T get(final Long id);
 
-	List<T> findByIds(final Iterable<Long> ids);
+	List<T> getByIds(final Iterable<Long> ids);
 
 	List<T> findAll();
 
@@ -24,6 +24,7 @@ public interface RepositorySupportService<T extends BasePO> extends Initializing
 
 	Boolean exist(final Long id);
 
+	@Deprecated
 	void delete(final Long id);
 
 	void remove(final Long id);
