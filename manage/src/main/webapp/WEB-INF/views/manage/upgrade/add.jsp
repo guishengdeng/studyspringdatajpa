@@ -101,7 +101,7 @@
                                            for="url">URL
                                     </label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="url" id="url" size="50" class="required text col-xs-10 col-sm-5">
+                                        <input type="text" name="url" id="url" size="50" pattern="https?://[-a-zA-Z0-9:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?" class="required regExp text col-xs-10 col-sm-5">
                                     </div>
                                 </div>
                                 <div class="form-group">
