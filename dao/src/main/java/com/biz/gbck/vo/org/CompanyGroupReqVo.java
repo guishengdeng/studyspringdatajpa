@@ -23,6 +23,8 @@ public class CompanyGroupReqVo {
     @NotBlank(message = "编码不能为空")
     private String code;
 
+    private String description;
+
     private List<Long> childrenIds;
 
     public Long getId() {
@@ -57,4 +59,11 @@ public class CompanyGroupReqVo {
         this.childrenIds = childrenIds;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

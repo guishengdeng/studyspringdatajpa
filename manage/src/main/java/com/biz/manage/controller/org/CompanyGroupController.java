@@ -36,20 +36,20 @@ public class CompanyGroupController extends BaseController {
     @PreAuthorize("hasAuthority('OPT_COMPANY_GROUP_LIST')")
     public ModelAndView list() {
         List<CompanyGroupPo> companyGroups = companyGroupService.findByStatus(CommonStatusEnum.ENABLE);
-        return new ModelAndView("", "companyGroups", companyGroups);
+        return new ModelAndView("org/companyGroup/list", "companyGroups", companyGroups);
     }
 
-    @GetMapping(value = "/add")
+    @GetMapping(value = "/new")
     @PreAuthorize("hasAuthority('OPT_COMPANY_GROUP_EDIT')")
     public ModelAndView add() {
-        return new ModelAndView("");
+        return new ModelAndView("org/companyGroup/detail");
     }
 
 
-    @GetMapping(value = "/edit")
+    @GetMapping(value = "/edit/{id}")
     @PreAuthorize("hasAuthority('OPT_COMPANY_GROUP_LIST')")
     public ModelAndView edit(@PathVariable Long id) {
-        return new ModelAndView("", "companyGroup", companyGroupService.findOne(id));
+        return new ModelAndView("org/companyGroup/detail", "companyGroup", companyGroupService.findOne(id));
     }
 
     @PostMapping(value = "/save")

@@ -22,7 +22,7 @@ import com.biz.gbck.vo.zsgf.ZsgfLoanQueryReqVo;
 import com.biz.manage.vo.FailDetail;
 import com.biz.vo.org.*;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;;
+import org.springframework.data.domain.Pageable;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -177,6 +177,9 @@ public interface ShopService {
      */
     ShopTypeRo syncShopTypePoToRedis(ShopTypePo shopTypePo);
 
+    /**
+     *验证商户操作权限
+     */
     void validateShopOperateAuthority(Boolean isShopAdmin, Long requestShopId, Long shopId) throws CommonException;
 
     List<String> findDetailAuditRejectReason(Long shopId);

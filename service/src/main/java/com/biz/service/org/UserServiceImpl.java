@@ -9,7 +9,6 @@ import com.biz.gbck.common.com.SMSType;
 import com.biz.gbck.common.com.transformer.UserPoToUserRo;
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.common.exception.DepotnearbyExceptionFactory;
-import com.biz.gbck.common.model.order.PaymentType;
 import com.biz.gbck.common.org.UserStatus;
 import com.biz.gbck.common.spring.DepotnearbyTransactionManager;
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
@@ -24,6 +23,7 @@ import com.biz.gbck.dao.redis.repository.org.ShopRedisDao;
 import com.biz.gbck.dao.redis.repository.org.UserRedisDao;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
+import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopStatus;
 import com.biz.gbck.vo.search.SearchUserReqVo;
@@ -288,7 +288,19 @@ public class UserServiceImpl extends CommonService implements UserService{
 
     @Override
     public UserRo findUser(Long userId) throws CommonException {
-        return null;
+        if (userId == null) {
+            return null;
+        }
+        UserRo userRo = userRedisDao.get(userId);
+        if (userRo == null) {
+            logger.debug("Find User by mobile:{} from mysql.", userId);
+            UserPo userPo = userRepository.findOne(userId);
+            userRo = syncUserPoToRedis(userPo);
+        }
+        if (userRo == null) {
+            throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
+        }
+        return userRo;
     }
 
     @Override
