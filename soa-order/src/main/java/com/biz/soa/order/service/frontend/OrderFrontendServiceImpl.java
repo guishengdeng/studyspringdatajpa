@@ -6,10 +6,10 @@ import com.biz.gbck.dao.mysql.repository.order.OrderRepository;
 import com.biz.gbck.dao.redis.repository.order.OrderRedisDao;
 import com.biz.gbck.enums.order.OrderShowStatus;
 import com.biz.gbck.vo.IdReqVo;
-import com.biz.gbck.vo.order.OrderCreateReqVo;
-import com.biz.gbck.vo.order.OrderCreateRespVo;
-import com.biz.gbck.vo.order.OrderListReqVo;
-import com.biz.gbck.vo.order.OrderRespVo;
+import com.biz.gbck.vo.order.req.OrderCreateReqVo;
+import com.biz.gbck.vo.order.resp.OrderCreateRespVo;
+import com.biz.gbck.vo.order.req.OrderListReqVo;
+import com.biz.gbck.vo.order.resp.OrderRespVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.order.frontend.OrderFrontendService;
 import com.biz.soa.builder.OrderRespVoBuilder;
@@ -38,6 +38,8 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
     @Autowired
     private OrderRepository orderRepository;
 
+    /*****************public begin*********************/
+
     @Override
     public List<OrderRespVo> listOrders(OrderListReqVo reqVo) {
         SystemAsserts.notNull(reqVo);
@@ -55,10 +57,17 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
     }
 
     @Override
+    public void cancelOrder(IdReqVo reqVo) {
+        //TODO 取消订单
+    }
+
+    @Override
     public OrderCreateRespVo createOrder(OrderCreateReqVo reqVo) {
         //TODO 创建订单 货到付款
         return null;
     }
+    /*****************public end*********************/
+
 
     private List<OrderRespVo> buildOrderVos(List<Order> orders) {
         List<OrderRespVo> orderRespVos = newArrayList();

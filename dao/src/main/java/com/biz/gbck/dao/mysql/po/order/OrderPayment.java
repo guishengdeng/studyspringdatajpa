@@ -37,13 +37,13 @@ public class OrderPayment extends BaseEntity {
      * 付款状态
      */
     @Column(nullable = false)
-    protected PaymentStatus payStatus = PaymentStatus.UN_PAY;
+    private PaymentStatus payStatus = PaymentStatus.UN_PAY;
 
     /**
      * 支付金额
      */
     @Column(nullable = false)
-    protected Integer payAmount = 0;
+    private Integer payAmount = 0;
 
     // 微信／支付宝／其他 支付回调后 获取到的交易单编号
     private String tradeNo;
@@ -52,7 +52,7 @@ public class OrderPayment extends BaseEntity {
      * 订单名称(支付单使用)
      */
     @Column(length = 50)
-    protected String subject;
+    private String subject;
 
     /**
      * 付款单详情(支付单使用)
@@ -61,7 +61,7 @@ public class OrderPayment extends BaseEntity {
     protected String detail;
 
     /**
-     * 支付成功时间(支付回调时间
+     * 支付成功时间(支付回调时间）
      */
     private Date successDate;
 

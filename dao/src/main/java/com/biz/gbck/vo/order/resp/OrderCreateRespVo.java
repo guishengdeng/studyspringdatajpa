@@ -1,6 +1,4 @@
-package com.biz.gbck.vo.order;
-
-import com.biz.gbck.vo.user.BaseRequestVo;
+package com.biz.gbck.vo.order.resp;
 
 /**
  * 创建订单返回Vo
@@ -10,7 +8,7 @@ import com.biz.gbck.vo.user.BaseRequestVo;
  * @reviewer
  * @see
  */
-public class OrderCreateRespVo extends BaseRequestVo {
+public class OrderCreateRespVo {
 
     private Long orderId;
 

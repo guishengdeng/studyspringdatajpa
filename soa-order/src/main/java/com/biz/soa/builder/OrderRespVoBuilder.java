@@ -3,8 +3,8 @@ package com.biz.soa.builder;
 import com.biz.core.asserts.SystemAsserts;
 import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.dao.mysql.po.order.OrderItem;
-import com.biz.gbck.vo.order.OrderItemRespVo;
-import com.biz.gbck.vo.order.OrderRespVo;
+import com.biz.gbck.vo.order.resp.OrderItemRespVo;
+import com.biz.gbck.vo.order.resp.OrderRespVo;
 import com.google.common.collect.Lists;
 
 import java.util.List;

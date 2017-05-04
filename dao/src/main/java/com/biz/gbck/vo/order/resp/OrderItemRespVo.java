@@ -1,4 +1,4 @@
-package com.biz.gbck.vo.order;
+package com.biz.gbck.vo.order.resp;
 
 import com.biz.gbck.dao.mysql.po.order.OrderItem;
 

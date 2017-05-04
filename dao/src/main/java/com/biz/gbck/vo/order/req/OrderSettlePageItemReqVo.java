@@ -1,16 +1,17 @@
-package com.biz.gbck.vo.order;
+package com.biz.gbck.vo.order.req;
 
 import com.biz.gbck.vo.IRequestVo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * 订单返回Vo
+ * 订单商品明细Vo
  *
  * @author lei
  * @date 2017年05月03日
  * @reviewer
  * @see
  */
-public class OrderCreateItemReqVo implements IRequestVo {
+public class OrderSettlePageItemReqVo implements IRequestVo {
 
     private static final long serialVersionUID = -5741991657192871333L;
 
@@ -27,6 +28,7 @@ public class OrderCreateItemReqVo implements IRequestVo {
     /**
      * 商品价格
      */
+    @JsonIgnore
     private Integer price;
 
 

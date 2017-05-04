@@ -1,4 +1,4 @@
-package com.biz.gbck.vo.order;
+package com.biz.gbck.vo.order.req;
 
 import com.biz.gbck.enums.order.OrderStatus;
 import com.biz.gbck.vo.user.BaseRequestVo;

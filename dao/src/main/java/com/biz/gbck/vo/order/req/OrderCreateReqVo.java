@@ -1,4 +1,4 @@
-package com.biz.gbck.vo.order;
+package com.biz.gbck.vo.order.req;
 
 import com.biz.gbck.enums.order.InvoiceType;
 import com.biz.gbck.enums.order.PaymentType;
@@ -78,7 +78,7 @@ public class OrderCreateReqVo extends BaseRequestVo {
      * 订单明细
      */
     @NotNull(message = "请至少选择一个商品")
-    private List<OrderCreateItemReqVo> items;
+    private List<OrderSettlePageItemReqVo> items;
 
 
     public Integer getOrderAmount() {
@@ -161,11 +161,11 @@ public class OrderCreateReqVo extends BaseRequestVo {
         this.paymentType = paymentType;
     }
 
-    public List<OrderCreateItemReqVo> getItems() {
+    public List<OrderSettlePageItemReqVo> getItems() {
         return items;
     }
 
-    public void setItems(List<OrderCreateItemReqVo> items) {
+    public void setItems(List<OrderSettlePageItemReqVo> items) {
         this.items = items;
     }
 }
