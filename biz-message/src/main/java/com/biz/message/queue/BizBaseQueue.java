@@ -170,7 +170,21 @@ public enum BizBaseQueue implements QueueDefinition {
     /**
      * 商品销量消息队列
      */
-    MQ_PRODUCT_SALE_STATS_QUEUE("productSaleStatsQueue", true, QueueType.queue);
+    MQ_PRODUCT_SALE_STATS_QUEUE("productSaleStatsQueue", true, QueueType.queue),
+
+
+
+/**-------------------------------------depotnearby--------------------------------------------*/
+    /**
+     * 短信校验码队列
+     */
+    MQ_SMS_CODE ("smsqueue__________",true, QueueType.queue),  // TODO: 17-4-28 正式队列没有下划线
+
+    /**
+     * 后台通知消息队列
+     */
+    MQ_CLIENT_PUSH_MSG ("clientPushMessageQueue_______", true, QueueType.queue); // TODO: 17-4-28 正式队列没有下划线
+
 
     private final String signature;
     private final boolean automaticCreation;

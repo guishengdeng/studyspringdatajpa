@@ -71,7 +71,7 @@
                                 猫列表 <span class="inline help-block">(数据库翻页查询)</span>
                             </h3>
                             <form action="demo/cats.do" method="get">
-                                <div class="col-md-2 inline">
+                                <div class="col-md-3 inline">
                                     <label>名字</label>
                                     <input name="name" value='<c:out value="${reqVo.name}" />' type="text" placeholder="名字"  autocomplete="off">
                                 </div>

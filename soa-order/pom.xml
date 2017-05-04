@@ -13,5 +13,17 @@
     <artifactId>soa-order</artifactId>
     <version>1.0.1-SNAPSHOT</version>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.biz.gbck</groupId>
+            <artifactId>service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.biz.gbck</groupId>
+            <artifactId>biz-message</artifactId>
+            <version>${biz-message.version}</version>
+        </dependency>
+    </dependencies>
+
 
 </project>

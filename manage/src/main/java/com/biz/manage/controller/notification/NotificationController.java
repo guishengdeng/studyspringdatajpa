@@ -1,10 +1,6 @@
 package com.biz.manage.controller.notification;
 
-/*import com.depotnearby.common.po.admin.Admin;
-import com.depotnearby.exception.CommonException;
-import com.depotnearby.security.AuthorityUtil;
-import com.depotnearby.service.NotificationService;
-import com.depotnearby.vo.notify.NotifyVo;*/
+
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.security.Admin;
 import com.biz.manage.util.AuthorityUtil;
@@ -51,5 +47,7 @@ public class NotificationController {
         }
         return new ModelAndView("notification/add").addObject("errMsg", errMsg);
     }
+
+
 
 }

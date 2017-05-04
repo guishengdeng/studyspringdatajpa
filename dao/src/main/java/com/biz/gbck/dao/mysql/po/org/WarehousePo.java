@@ -19,10 +19,6 @@ import java.util.List;
 @Table(name = "org_warehouse")
 public class WarehousePo extends Company {
 
-
-    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Admin> admins;
-
     @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PlatformPo> platforms;
 

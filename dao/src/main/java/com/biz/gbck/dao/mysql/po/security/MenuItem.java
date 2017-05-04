@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.mysql.po.security;
 
 import com.biz.core.model.Identifiable;
-import com.biz.gbck.dao.mysql.po.BasePo;
+import com.biz.support.jpa.po.BasePO;
 import com.biz.gbck.dao.mysql.po.demo.CatPO;
 import com.biz.gbck.enums.CommonStatusEnum;
 import org.hibernate.annotations.Where;
@@ -11,7 +11,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "adm_menuitem")
-public class MenuItem extends BasePo<Long> implements Identifiable<Long> {
+public class MenuItem extends BasePO<Long> implements Identifiable<Long> {
 
     private static final long serialVersionUID = -5767627457894527720L;
 

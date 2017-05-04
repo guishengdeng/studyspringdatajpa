@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,6 +51,7 @@ public class CatServiceImpl extends AbstractRepositorySupportService<CatPO> impl
 		catPO.setDescription(vo.getDescription());
 		catPO.setSaleStatus(vo.getSaleStatus());
 		catPO.setStatus(vo.getStatus());
+		catPO.setUpdateTimestamp(new Timestamp(System.currentTimeMillis()));
 		return super.save(catPO);
 	}
 
