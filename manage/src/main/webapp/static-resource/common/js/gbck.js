@@ -43,6 +43,16 @@ $(function () {
     });
 
 });
+$.validator.addMethod("regExp", function (value, element) {
+    var pattern = $(element).attr("pattern");
+    return pattern && new RegExp(pattern).test(value);
+});
+$.validator.addClassRules({
+    regExp: {
+        regExp: "Just do it"
+    }
+});
+jQuery.validator.messages.regExp = '格式不正确';
 (function ($) {
     $.extend($.validator.messages, {
         required: "必填字段",
