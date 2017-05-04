@@ -33,19 +33,21 @@
             </h3>
             <div class="row">
                 <div class="col-xs-12">
-                    <form id="contact-form" action="goodsmanagement/addOrUpdate.do" method="post" class="form-horizontal"
+                    <form id="contact-form" action="goodsmanagement/addOrUpdate.do" method="post"
+                          class="form-horizontal"
                           role="form">
                         <input type="hidden" name="id" id="id" value="${saleTag.id}"/>
                         <div class="form-group">
                             <label class="col-sm-2 control-label no-padding-right" for="name">
-                               标签名
+                                标签名
                             </label>
 
                             <div class="col-sm-9">
                                 <input id="name" type="text" name="name"
                                        placeholder="标签名"
                                        maxlength="50" minlength="1"
-                                       value='<c:out value="${saleTag.name}"/>' class="required text col-xs-12 col-sm-12">
+                                       value='<c:out value="${saleTag.name}"/>'
+                                       class="required text col-xs-12 col-sm-12">
 
                             </div>
                                 <%--class上加上required表示为必填，网页上在提交的时候会做验证--%>
@@ -59,7 +61,8 @@
                                 <input id="showName" type="text" name="showName"
                                        placeholder="前台展示"
                                        maxlength="100" minlength="1"
-                                       value='<c:out value="${saleTag.showName}"/>' class="required text col-xs-12 col-sm-12">
+                                       value='<c:out value="${saleTag.showName}"/>'
+                                       class="required text col-xs-12 col-sm-12">
 
                             </div>
                                 <%--class上加上required表示为必填，网页上在提交的时候会做验证--%>
@@ -74,7 +77,8 @@
                                 <input id="tag" type="text" name="tag"
                                        placeholder="标签"
                                        maxlength="50" minlength="1"
-                                       value='<c:out value="${saleTag.tag}"/>' class="required text col-xs-12 col-sm-12">
+                                       value='<c:out value="${saleTag.tag}"/>'
+                                       class="required text col-xs-12 col-sm-12">
 
                             </div>
                                 <%--class上加上required表示为必填，网页上在提交的时候会做验证--%>
@@ -82,14 +86,15 @@
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label no-padding-right" for="name">
-                               品牌排序
+                                品牌排序
                             </label>
 
                             <div class="col-sm-9">
                                 <input id="" type="number" name="idx"
                                        placeholder="标签名"
                                        minlength="1" min="0"
-                                       value='<c:out value="${saleTag.idx}"/>' class="required text col-xs-12 col-sm-12">
+                                       value='<c:out value="${saleTag.idx}"/>'
+                                       class="required text col-xs-12 col-sm-12">
 
                             </div>
                                 <%--class上加上required表示为必填，网页上在提交的时候会做验证--%>
@@ -102,7 +107,8 @@
 
                             <div class="col-sm-9">
                                 <textarea id="description" type="text" name="description" placeholder="后台备注"
-                                          maxlength="255" class="col-xs-12 col-sm-12"><c:out value="${saleTag.description}"/></textarea>
+                                          maxlength="255" class="col-xs-12 col-sm-12"><c:out
+                                        value="${saleTag.description}"/></textarea>
 
                             </div>
                         </div>
