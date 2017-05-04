@@ -16,4 +16,6 @@ public interface IProductStockService {
 
     ProductStockVO productStock(ProductCodeSellerIdStockReqVO reqVO);
 
+    List<ProductStockVO> productStocks(List<ProductCodeSellerIdStockReqVO> reqVOS);
+
 }

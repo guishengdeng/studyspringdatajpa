@@ -1,18 +1,12 @@
 package com.biz.soa.product.service.frontend;
 
 import com.alibaba.fastjson.JSON;
-import com.biz.gbck.dao.redis.ro.product.master.ProductRO;
-import com.biz.gbck.dao.redis.ro.product.price.PriceRO;
-import com.biz.gbck.dao.redis.ro.product.promotion.SimpleSpecialOfferPromotionRO;
-import com.biz.gbck.vo.price.PriceGroupProductCodePriceReqVO;
 import com.biz.gbck.vo.product.gbck.request.ProductAppDetailReqVo;
 import com.biz.gbck.vo.product.gbck.request.ProductAppListReqVo;
 import com.biz.gbck.vo.product.gbck.response.ProductAppDetailRespVO;
 import com.biz.gbck.vo.product.gbck.response.ProductItemVO;
 import com.biz.gbck.vo.search.ProductSearchResultEntityVo;
 import com.biz.gbck.vo.search.ProductSearchResultVo;
-import com.biz.gbck.vo.stock.ProductCodeSellerIdStockReqVO;
-import com.biz.gbck.vo.stock.ProductStockVO;
 import com.biz.service.product.frontend.ProductService;
 import com.biz.soa.product.vo.ProductPrototype;
 import com.google.common.base.Preconditions;
@@ -59,13 +53,6 @@ public class ProductServiceImpl extends AbstractProductService implements Produc
         if (logger.isDebugEnabled()) {
             logger.debug("product detail reqVo: {}", reqVo);
         }
-
-        String productCode = reqVo.getProductCode();
-        ProductRO productRO = productRedisDao.findOne(productCode);
-        PriceRO priceRO = priceService.productPrice(new PriceGroupProductCodePriceReqVO(reqVo.getPriceGroupId(), reqVo.getProductCode(), reqVo.getSellerId()));
-        ProductStockVO stockVO = stockService.productStock(new ProductCodeSellerIdStockReqVO(reqVo.getProductCode(), reqVo.getSellerId()));
-        SimpleSpecialOfferPromotionRO simpleSpecialOfferPromotionRO = simpleSpecialOfferPromotionRedisDao.findOne(String.format("%s%s", reqVo.getPriceGroupId(), reqVo.getProductCode()));
-        ProductPrototype productPrototype = new ProductPrototype(reqVo.getPriceGroupId(), productRO, priceRO, stockVO, simpleSpecialOfferPromotionRO);
-        return productPrototype.toAppDetailRespVO();
+        return this.getProductPrototype(reqVo.getProductCode(), reqVo.getPriceGroupId(), reqVo.getSellerId()).toAppDetailRespVO();
     }
 }

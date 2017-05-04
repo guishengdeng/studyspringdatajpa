@@ -2,7 +2,7 @@ package com.biz.soa.base;
 
 import com.biz.core.exceptions.BusinessException;
 import com.biz.core.exceptions.FunctionExceptions;
-import com.biz.soa.util.MicroServiceResult;
+import com.biz.gbck.vo.soa.MicroServiceResult;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

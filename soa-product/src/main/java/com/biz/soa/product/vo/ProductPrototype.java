@@ -7,10 +7,14 @@ import com.biz.gbck.dao.redis.ro.product.promotion.SimpleSpecialOfferPromotionRO
 import com.biz.gbck.vo.product.gbck.response.ProductAppDetailRespVO;
 import com.biz.gbck.vo.product.gbck.response.ProductFieldVo;
 import com.biz.gbck.vo.product.gbck.response.ProductItemVO;
+import com.biz.gbck.vo.search.ProductIdxVO;
 import com.biz.gbck.vo.stock.ProductStockVO;
 import com.biz.soa.product.service.interfaces.ProductPriceGenerator;
 import com.biz.soa.product.service.interfaces.impl.DepotNextDoorPriceGenerator;
+import com.google.common.collect.Lists;
 import java.io.Serializable;
+import java.util.Optional;
+import org.codelogger.utils.ValueUtils;
 
 /**
  * 商品原型数据VO
@@ -103,6 +107,9 @@ public class ProductPrototype implements Serializable {
 
     public ProductAppDetailRespVO toAppDetailRespVO() {
         ProductAppDetailRespVO respVO = new ProductAppDetailRespVO();
+        if (ValueUtils.getValue(this.stockVO.getStock()) <= 0) {
+            return null;
+        }
         respVO.setProductCode(this.productRO.getProductCode());
         respVO.setProductName(this.productRO.getName());
         respVO.setBrief(this.productRO.getBreif());
@@ -116,5 +123,33 @@ public class ProductPrototype implements Serializable {
         respVO.setImages(StringTool.split(this.productRO.getImages(), ","));
         respVO.setIntroImages(StringTool.split(this.productRO.getIntroImages(), ","));
         return respVO;
+    }
+
+    public ProductIdxVO toProductIdxVO() {
+        ProductIdxVO idxVO = new ProductIdxVO();
+        idxVO.setId(String.format("%s%s", this.productRO.getProductCode(), this.priceGroupId));
+        idxVO.setProductId(this.productRO.getProductId());
+        idxVO.setPriceGroup(this.priceGroupId);
+        idxVO.setStock(this.stockVO.getStock());
+        idxVO.setSalePrice(this.priceGenerator.getSalePrice());
+        idxVO.setDynamicAveragePrice(this.priceGenerator.getDynamicAveragePrice());
+        idxVO.setName(this.productRO.getName());
+        idxVO.setSubTitle(this.productRO.getSubTitle());
+        idxVO.setProductCode(this.productRO.getProductCode());
+        idxVO.setI18nCode(this.productRO.getI18nCode());
+        idxVO.setBrand(String.valueOf(this.productRO.getBrandId()));
+        idxVO.setCategory(String.valueOf(this.productRO.getCategoryId()));
+        StringBuilder propertyStringBuilder = new StringBuilder();
+        Optional.ofNullable(this.productRO.getProperties()).orElse(Lists.newArrayList())
+                .forEach(propertyItemVo -> propertyStringBuilder.append(String.format("%s_%s", propertyItemVo.getPropertyId(), propertyItemVo.getPropertyValue())).append(','));
+        idxVO.setProperties(propertyStringBuilder.toString());
+        idxVO.setSaleTags(this.productRO.getSaleTagIds());
+        idxVO.setApartTags(this.productRO.getApartTagIds());
+        idxVO.setControlByQRCode(this.productRO.getControlByQRCode());
+        idxVO.setCircularFlow(this.productRO.getCircularFlow());
+        idxVO.setRapidProduct(this.productRO.getRapidProduct());
+        idxVO.setSaleStatus(this.productRO.getSaleStatus());
+        idxVO.setSalesVolume(this.productRO.getSalesVolume());
+        return idxVO;
     }
 }

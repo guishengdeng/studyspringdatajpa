@@ -1,6 +1,8 @@
 package com.biz.gbck.vo.price;
 
 import java.io.Serializable;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * 通过商品价格组ID, 商品
@@ -13,11 +15,13 @@ public class PriceGroupProductCodePriceReqVO implements Serializable {
     /**
      * 价格组ID
      */
+    @NotNull(message = "价格组ID不能为空")
     private Long priceGroupId;
 
     /**
      * 商品编码
      */
+    @NotEmpty(message = "商品编码不能为空")
     private String productCode;
 
     /**

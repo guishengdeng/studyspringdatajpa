@@ -8,7 +8,7 @@ import com.biz.gbck.vo.product.ProductPropertyVo;
 import com.biz.gbck.vo.product.backend.CascadeVo;
 import com.biz.gbck.vo.product.backend.ProductDetailVo;
 import com.biz.gbck.vo.product.frontend.*;
-import com.biz.gbck.vo.search.SearchProductConditionVo;
+import com.biz.gbck.vo.search.bbc.SearchProductConditionVo;
 import com.biz.gbck.vo.user.UserProductsReqVo;
 import java.io.Serializable;
 import java.util.List;

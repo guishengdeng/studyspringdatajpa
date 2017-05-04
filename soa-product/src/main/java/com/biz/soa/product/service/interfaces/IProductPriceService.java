@@ -3,6 +3,7 @@ package com.biz.soa.product.service.interfaces;
 import com.biz.gbck.dao.redis.ro.product.price.PriceRO;
 import com.biz.gbck.vo.price.PriceGroupProductCodePriceReqVO;
 import com.biz.gbck.vo.price.PriceGroupProductCodesPriceReqVO;
+import com.biz.gbck.vo.price.PriceGroupsProductCodePriceReqVO;
 import java.util.List;
 
 /**
@@ -15,4 +16,6 @@ public interface IProductPriceService {
     List<PriceRO> productPrices(PriceGroupProductCodesPriceReqVO reqVo);
 
     PriceRO productPrice(PriceGroupProductCodePriceReqVO reqVO);
+
+    List<PriceRO> productPrices(PriceGroupsProductCodePriceReqVO reqVO);
 }

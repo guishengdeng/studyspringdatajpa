@@ -2,6 +2,7 @@ package com.biz.search.es;
 
 import com.biz.core.util.StringUtil;
 import com.biz.gbck.enums.product.SaleStatusEnum;
+import com.biz.gbck.vo.product.frontend.UpdateProductIncrIndicesReqVo;
 import com.biz.gbck.vo.product.gbck.request.ProductAppListReqVo;
 import com.biz.gbck.vo.product.gbck.response.ProductSearchFieldVo;
 import com.biz.gbck.vo.search.ProductSearchResultEntityVo;
@@ -96,6 +97,16 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
         }
 
         return searchResultVo;
+    }
+
+    @Override
+    public void updateTotalIndices() {
+
+    }
+
+    @Override
+    public void updateIncrIndices(UpdateProductIncrIndicesReqVo reqVo) {
+
     }
 
     private SortBuilder getSort(String sort) {

@@ -1,143 +1,112 @@
-package com.biz.search.es.entity;
+package com.biz.gbck.vo.search;
 
 import java.io.Serializable;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldIndex;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
- * 商品{@code ElasticSearch Entity}
- *
- * @author david-liu
- * @date 2017年04月12日
- * @reviewer
+ * 商品索引Vo
+ * Created by david-liu on 2017/05/03 10:41.
  */
-@Document(indexName = "depotnextdoor_products", type = "product")
-public class ProductEsEntity implements Serializable {
-
-    private static final long serialVersionUID = -7782509752271841542L;
+public class ProductIdxVO implements Serializable {
+    private static final long serialVersionUID = -9127902471785824831L;
 
     /**
-     * ID(商品编码 + 价格组ID)
+     * ProductEsEntity id: 商品编码 + 价格组ID
      */
-    @Id
-    @Field(type = FieldType.String, index = FieldIndex.not_analyzed, store = true)
     private String id;
 
     /**
-     * 商品Id
+     * 商品ID
      */
-    @Field(type = FieldType.Long, index = FieldIndex.not_analyzed, store = true)
     private Long productId;
 
     /**
      * 价格组ID
      */
-    @Field(type = FieldType.Long, index = FieldIndex.not_analyzed, store = true)
     private Long priceGroup;
 
     /**
      * 库存
      */
-    @Field(type = FieldType.Integer, index = FieldIndex.not_analyzed, store = true)
     private Integer stock;
 
     /**
      * 售价
      */
-    @Field(type = FieldType.Integer, index = FieldIndex.not_analyzed, store = true)
     private Integer salePrice;
 
     /**
      * 移动平均价
      */
-    @Field(type = FieldType.Integer, index = FieldIndex.not_analyzed, store = true)
     private Integer dynamicAveragePrice;
 
     /**
-     * 名称
+     * 商品名称
      */
-    @Field(type = FieldType.String, index = FieldIndex.not_analyzed, store = true)
     private String name;
 
     /**
-     * 子标题
+     * 商品副标题
      */
-    @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
     private String subTitle;
 
     /**
      * 商品编码
      */
-    @Field(type = FieldType.String, analyzer = "ik", searchAnalyzer = "ik_smart", store = true)
     private String productCode;
 
     /**
      * 商品国际通行码
      */
-    @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
     private String i18nCode;
 
     /**
-     * 品牌
+     * 品牌ID
      */
-    @Field(type = FieldType.String, store = true)
     private String brand;
 
     /**
-     * 分类
+     * 分类ID
      */
-    @Field(type = FieldType.String, store = true)
     private String category;
 
     /**
-     * 扩展属性
+     * 商品属性
      */
-    @Field(type = FieldType.String, analyzer = "ik", searchAnalyzer = "ik_smart", store = true)
     private String properties;
 
     /**
-     * 销售标签
+     * 商品销售标签
      */
-    @Field(type = FieldType.String, analyzer = "ik", searchAnalyzer = "ik_smart", store = true)
     private String saleTags;
 
     /**
-     * 角标
+     * 商品角标
      */
-    @Field(type = FieldType.String, analyzer = "ik", searchAnalyzer = "ik_smart", store = true)
     private String apartTags;
 
     /**
-     * 是否二维码管控
+     * 商品是否二维码管控
      */
-    @Field(type = FieldType.Boolean, index = FieldIndex.not_analyzed, store = true)
     private Boolean isControlByQRCode;
 
     /**
-     * 是否是流通商品
+     * 商品是否是流通商品
      */
-    @Field(type = FieldType.Boolean, index = FieldIndex.not_analyzed, store = true)
     private Boolean isCircularFlow;
 
     /**
-     * 是否是组合商品
+     * 商品是否是组合商品
      */
-    @Field(type = FieldType.Boolean, index = FieldIndex.not_analyzed, store = true)
     private Boolean isRapidProduct;
 
     /**
-     * 是否上架
+     * 上下架状态
      */
-    @Field(type = FieldType.Integer, index = FieldIndex.not_analyzed, store = true)
     private Integer saleStatus;
 
     /**
      * 销量
      */
-    @Field(type = FieldType.Integer, index = FieldIndex.not_analyzed, store = true)
     private Integer salesVolume;
 
     public String getId() {
@@ -146,6 +115,46 @@ public class ProductEsEntity implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public Long getPriceGroup() {
+        return priceGroup;
+    }
+
+    public void setPriceGroup(Long priceGroup) {
+        this.priceGroup = priceGroup;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    public Integer getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(Integer salePrice) {
+        this.salePrice = salePrice;
+    }
+
+    public Integer getDynamicAveragePrice() {
+        return dynamicAveragePrice;
+    }
+
+    public void setDynamicAveragePrice(Integer dynamicAveragePrice) {
+        this.dynamicAveragePrice = dynamicAveragePrice;
     }
 
     public String getName() {
@@ -252,51 +261,11 @@ public class ProductEsEntity implements Serializable {
         this.saleStatus = saleStatus;
     }
 
-    public Long getPriceGroup() {
-        return priceGroup;
-    }
-
-    public void setPriceGroup(Long priceGroup) {
-        this.priceGroup = priceGroup;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public Integer getSalePrice() {
-        return salePrice;
-    }
-
-    public void setSalePrice(Integer salePrice) {
-        this.salePrice = salePrice;
-    }
-
-    public Integer getDynamicAveragePrice() {
-        return dynamicAveragePrice;
-    }
-
-    public void setDynamicAveragePrice(Integer dynamicAveragePrice) {
-        this.dynamicAveragePrice = dynamicAveragePrice;
-    }
-
     public Integer getSalesVolume() {
         return salesVolume;
     }
 
     public void setSalesVolume(Integer salesVolume) {
         this.salesVolume = salesVolume;
-    }
-
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
     }
 }
