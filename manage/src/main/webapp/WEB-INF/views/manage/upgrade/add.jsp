@@ -10,6 +10,14 @@
             var obj${status.count} = document.getElementById('roleId_${role.id}');
             if (obj${status.count}) obj${status.count}.checked = true;
             </c:forEach>
+            function verify(){
+                var version=$("#version").val();
+                var myReg = /^(\d+[.]+\d+[.]+\d+)$/;
+                if (!myReg.test(version)) {
+                    $("#version").val("")
+                    alert("请输入标准的版本号！")
+                }
+            }
         </script>
     </jsp:attribute>
     <jsp:body>
@@ -48,7 +56,7 @@
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
                                 <a href="/upgrade/list.do" class="btn btn-sm btn-primary"><i
                                         class="ace-icon fa fa-angle-left"></i>
-                                    返回
+                                    返回gst
                                 </a>
                             </span>
                             </h3>
@@ -59,8 +67,8 @@
                                            for="version">版本号
                                     </label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="version" id="version" maxlength="20"
-                                               placeholder="版本号" class="required text col-xs-10 col-sm-5"/>
+                                        <input type="text" name="version" id="version" maxlength="20" onblur="verify()"
+                                               placeholder="例：1.1.11" class="required text col-xs-10 col-sm-5"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
