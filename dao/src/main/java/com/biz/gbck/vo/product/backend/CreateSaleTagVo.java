@@ -1,5 +1,6 @@
 package com.biz.gbck.vo.product.backend;
 
+import com.biz.gbck.dao.mysql.po.tag.SaleStatusEnum;
 import com.biz.gbck.enums.CommonStatusEnum;
 
 /**
@@ -42,11 +43,11 @@ public class CreateSaleTagVo implements ISaleTagVo {
     private String description;
 
     /**
-     * 启用状态
+     * 标签的启用禁用状态
      */
-    private String saleStatus;
+    private SaleStatusEnum saleStatus;
     /**
-     * 销售标签状态
+     * 状态（删除状态）
      */
     private CommonStatusEnum status;
 
@@ -118,11 +119,13 @@ public class CreateSaleTagVo implements ISaleTagVo {
         this.description = description;
     }
 
-    public String getSaleStatus() {
+
+    @Override
+    public SaleStatusEnum getSaleStatus() {
         return saleStatus;
     }
 
-    public void setSaleStatus(String saleStatus) {
+    public void setSaleStatus(SaleStatusEnum saleStatus) {
         this.saleStatus = saleStatus;
     }
 

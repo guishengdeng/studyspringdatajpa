@@ -26,6 +26,12 @@ public class SaleTagSpecification implements Specification<SaleTagSearchVo> {
     public Predicate toPredicate(Root<SaleTagSearchVo> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = Lists.newArrayList();
 
+        if (saleTagSearchVo.getStatus() != null) {
+            // 分类ID
+            Predicate predicate = criteriaBuilder.equal(root.get("status"), saleTagSearchVo.getStatus());
+            predicates.add(predicate);
+        }
+
         if (saleTagSearchVo.getSaleStatus() != null) {
             // 审核状态
             Predicate predicate = criteriaBuilder.equal(root.get("saleStatus"), saleTagSearchVo.getSaleStatus());

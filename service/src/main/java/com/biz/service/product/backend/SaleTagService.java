@@ -1,12 +1,9 @@
 package com.biz.service.product.backend;
 
-import com.biz.gbck.dao.mysql.po.product.meta.SaleTag;
+import com.biz.gbck.dao.mysql.po.tag.SaleTag;
 import com.biz.gbck.enums.CommonStatusEnum;
-import com.biz.gbck.exceptions.product.CategoryNotFoundException;
-import com.biz.gbck.exceptions.product.SaleTagNotFoundException;
 import com.biz.gbck.vo.product.backend.*;
 import org.springframework.data.domain.Page;
-import sun.rmi.runtime.Log;
 
 import java.util.List;
 
@@ -22,7 +19,7 @@ public interface SaleTagService {
 
   List<SaleTag> listByStatus(CommonStatusEnum status);
 
-  void addOrUpdateSaleTag(CreateSaleTagVo vo);
+  void addOrUpdateSaleTag(SaleTagVo vo);
 
   SaleTag findById(Long id);
 

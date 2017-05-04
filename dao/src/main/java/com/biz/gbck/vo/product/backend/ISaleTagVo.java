@@ -1,5 +1,6 @@
 package com.biz.gbck.vo.product.backend;
 
+import com.biz.gbck.dao.mysql.po.tag.SaleStatusEnum;
 import com.biz.gbck.enums.CommonStatusEnum;
 import java.io.Serializable;
 
@@ -23,7 +24,7 @@ public interface ISaleTagVo extends Serializable {
 
     String getDescription();
 
-    String getSaleStatus();
+    SaleStatusEnum getSaleStatus();
 
     CommonStatusEnum getStatus();
 

@@ -1,5 +1,6 @@
 package com.biz.gbck.vo.product.backend;
 
+import com.biz.gbck.dao.mysql.po.tag.SaleStatusEnum;
 import com.biz.gbck.enums.CommonStatusEnum;
 
 import javax.validation.constraints.Max;
@@ -19,13 +20,17 @@ public class SaleTagSearchVo {
     /**
      * 启用状态
      */
-    private String saleStatus;
+    private SaleStatusEnum saleStatus;
 
+    /**
+     * （删除）状态
+     */
+    private CommonStatusEnum status;
     @Min(1)
-    private Integer page=1;
+    private Integer page = 1;
 
     @Max(100)
-    private Integer pageSize=5;
+    private Integer pageSize = 5;
 
     public String getName() {
         return name;
@@ -35,12 +40,20 @@ public class SaleTagSearchVo {
         this.name = name;
     }
 
-    public String getSaleStatus() {
+    public SaleStatusEnum getSaleStatus() {
         return saleStatus;
     }
 
-    public void setSaleStatus(String saleStatus) {
+    public void setSaleStatus(SaleStatusEnum saleStatus) {
         this.saleStatus = saleStatus;
+    }
+
+    public CommonStatusEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(CommonStatusEnum status) {
+        this.status = status;
     }
 
     public Integer getPage() {

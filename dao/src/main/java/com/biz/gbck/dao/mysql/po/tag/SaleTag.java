@@ -1,6 +1,7 @@
-package com.biz.gbck.dao.mysql.po.product.meta;
+package com.biz.gbck.dao.mysql.po.tag;
 
 import com.biz.gbck.dao.mysql.po.product.master.Product;
+import com.biz.gbck.dao.mysql.po.product.meta.Category;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.product.backend.ISaleTagVo;
 import com.biz.support.jpa.po.BaseEntity;
@@ -12,8 +13,8 @@ import javax.persistence.*;
 /**
  * 商品销售标签
  *
- * @author david-liu
- * @date 2016年12月15日
+ * @author lzz
+ * @date 2017年5月4日
  * @reviewer
  * @see
  */
@@ -26,7 +27,7 @@ public class SaleTag extends BaseEntity implements Serializable {
     /**
      * 标签名称
      */
-    @Column(length = 50, nullable = false)
+    @Column(length = 150, nullable = false)
     private String name;
 
     /**
@@ -53,13 +54,14 @@ public class SaleTag extends BaseEntity implements Serializable {
     private String description;
 
     /**
-     * 启用或禁用状态
+     * 标签的启用或禁用状态
      */
     @Column
-    private String saleStatus;
+    @Convert(converter = SaleStatusEnum.Converter.class)
+    private SaleStatusEnum saleStatus;
 
     /**
-     * 状态
+     * 状态（删除或没被删除）
      */
     @Column
     @Enumerated(value = EnumType.STRING)
@@ -119,11 +121,11 @@ public class SaleTag extends BaseEntity implements Serializable {
         this.description = description;
     }
 
-    public String getSaleStatus() {
+    public SaleStatusEnum getSaleStatus() {
         return saleStatus;
     }
 
-    public void setSaleStatus(String saleStatus) {
+    public void setSaleStatus(SaleStatusEnum saleStatus) {
         this.saleStatus = saleStatus;
     }
 

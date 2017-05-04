@@ -14,6 +14,11 @@
             #cat-table .operate, #cat-table .status{
                 min-width: 80px;
             }
+            #saleTageAdd{
+                position:absolute;
+                top: 20px;
+                right: 12px;
+            }
         </style>
     </jsp:attribute>
     <jsp:attribute name="script">
@@ -29,12 +34,12 @@
                 $("#cat-disable-confirm-modal").modal("hide");
             });
             $(".btn-confirm-ban").click(function () {
-                var catId = $("#id-of-cat").val();
-                $.post("demo/cats/delete.do", {
-                    "id": catId
+                var saleTagId = $("#id-of-cat").val();
+                $.post("goodsmanagement/delete.do", {
+                    "id": saleTagId
                 }, function (result) {
                     if (result) {
-                        $("#tr-" + catId).remove();
+                        $("#tr-" + saleTagId).remove();
                     }
                 }, "json");
                 $("#cat-disable-confirm-modal").modal("hide");
@@ -43,7 +48,6 @@
         </script>
     </jsp:attribute>
     <jsp:body>
-        <jsp:include page="component/navigations.jsp"/>
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
                 <li>
@@ -70,19 +74,24 @@
                             <h3 class="header smaller lighter blue">
                                 销售标签 <span class="inline help-block">(数据库翻页查询)</span>
                             </h3>
-                            <form action="demo/cats.do" method="get">
-                                <div class="col-md-2 inline">
+                            <form action="goodsmanagement/search.do" method="get">
+                                <div class="col-md-3 inline">
                                     <label>名字</label>
-                                    <input name="name" value='<c:out value="${reqVo.name}" />' type="text" placeholder="名字"  autocomplete="off">
+                                    <input name="name" value='<c:out value="${saleTagSearch.name}" />' type="text" placeholder="名字"  autocomplete="off">
                                 </div>
                                 <div class="col-md-2 inline">
                                     <label>启用状态</label>
-                                    <gbck:saleStatusSelect fieldName="saleStatus" selectedStatus="${reqVo.saleStatus}" withNone="true"/>
+                                    <gbck:commonStatusSelect fieldName="saleStatus" selectedStatus="${saleTagSearch.saleStatus}" withNone="true" enableLabel="启用" disableLabel="禁用"/>
                                 </div>
                                 <div class="inline">
                                     <button type="submit" class="btn btn-info btn-sm">
                                         <i class="ace-icon fa fa-search bigger-110"></i>搜索
                                     </button>
+                                </div>
+                                <div>
+                                <a  class="btn btn-info btn-sm" id="saleTageAdd" href="goodsmanagement/tag.do">
+                                    添加标签
+                                </a>
                                 </div>
                             </form>
                             <div class="hr hr-18 dotted"></div>
@@ -100,13 +109,13 @@
                                 </thead>
 
                                 <tbody>
-                                <c:forEach items="${saleTags}" var="saleTag">
+                                <c:forEach items="${page.content}" var="saleTag">
                                     <tr id="tr-${saleTag.id}">
 
                                         <td><c:out value="${saleTag.id}"/></td>
                                         <td><c:out value="${saleTag.name}"/></td>
                                         <td><c:out value="${saleTag.description}"/></td>
-                                        <td><c:out value="${saleTag.saleStatus}"/></td>
+                                        <td><c:out value="${saleTag.saleStatus eq 'ENABLE' ? '启用':'禁用'}"/></td>
                                         <td><c:out value="${saleTag.idx}"/></td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
@@ -131,7 +140,7 @@
                                 </c:forEach>
                                 </tbody>
                             </table>
-                            <gbck:springPagePagination url="demo/cats.do" springPage="${catPage}" />
+                            <gbck:springPagePagination url="goodsmanagement/search.do" springPage="${page}" />
                         </div><!-- /.span -->
                     </div><!-- /.row -->
                     <sec:authorize access="hasAuthority('OPT_CAT_DELETE')">

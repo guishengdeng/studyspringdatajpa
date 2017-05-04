@@ -1,22 +1,18 @@
 package com.biz.service.product.backend;
 
-import com.biz.gbck.dao.mysql.po.product.meta.SaleTag;
+import com.biz.gbck.dao.mysql.po.tag.SaleTag;
 import com.biz.gbck.dao.mysql.repository.saleTag.SaleTagRepository;
-import com.biz.gbck.dao.mysql.specification.demo.CatSearchSpecification;
 import com.biz.gbck.enums.CommonStatusEnum;
-import com.biz.gbck.vo.product.backend.CreateSaleTagVo;
 import com.biz.gbck.vo.product.backend.SaleTagSearchVo;
 import com.biz.gbck.vo.product.backend.SaleTagSpecification;
+import com.biz.gbck.vo.product.backend.SaleTagVo;
 import com.biz.service.AbstractBaseService;
-import com.biz.service.AbstractRepositorySupportService;
-import com.biz.support.jpa.repository.CommonJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 import static org.codelogger.utils.ExceptionUtils.iae;
 
@@ -39,7 +35,7 @@ public class SaleTagServiceImpl extends AbstractBaseService implements SaleTagSe
     }
 
     @Override
-    public void addOrUpdateSaleTag(CreateSaleTagVo vo) {
+    public void addOrUpdateSaleTag(SaleTagVo vo) {
         iae.throwIfNull(vo, "参数不能为空");
         SaleTag saleTag = new SaleTag();
         if (vo.getId() == null) {
@@ -67,9 +63,12 @@ public class SaleTagServiceImpl extends AbstractBaseService implements SaleTagSe
         saleTagRepository.updateStatus(id, CommonStatusEnum.DISABLE);
     }
 
+    //分页
     @Override
     public Page<SaleTag> searchSaleTag(SaleTagSearchVo saleTagSearchVo) {
-        return saleTagRepository.findAll(new SaleTagSpecification(saleTagSearchVo), new PageRequest(saleTagSearchVo.getPage()-1, saleTagSearchVo.getPageSize()));
+
+        saleTagSearchVo.setStatus(CommonStatusEnum.ENABLE);
+        return saleTagRepository.findAll(new SaleTagSpecification(saleTagSearchVo), new PageRequest(saleTagSearchVo.getPage() - 1, saleTagSearchVo.getPageSize()));
     }
 
 

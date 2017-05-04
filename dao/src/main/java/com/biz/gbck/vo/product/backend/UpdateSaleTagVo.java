@@ -1,5 +1,6 @@
 package com.biz.gbck.vo.product.backend;
 
+import com.biz.gbck.dao.mysql.po.tag.SaleStatusEnum;
 import com.biz.gbck.enums.CommonStatusEnum;
 
 import javax.persistence.Column;
@@ -49,7 +50,7 @@ public class UpdateSaleTagVo implements ISaleTagVo {
     /**
      * 启用状态
      */
-    private String saleStatus;
+    private SaleStatusEnum saleStatus;
 
     /**
      * 状态(是否删除状态)
@@ -140,12 +141,12 @@ public class UpdateSaleTagVo implements ISaleTagVo {
         this.vendorId = vendorId;
     }
 
-    public String getSaleStatus() {
+    @Override
+    public SaleStatusEnum getSaleStatus() {
         return saleStatus;
     }
 
-    public void setSaleStatus(String saleStatus) {
+    public void setSaleStatus(SaleStatusEnum saleStatus) {
         this.saleStatus = saleStatus;
     }
-
 }

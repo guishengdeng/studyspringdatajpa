@@ -44,7 +44,7 @@
                             <div class="col-sm-9">
                                 <input id="name" type="text" name="name"
                                        placeholder="标签名"
-                                       maxlength="255" minlength="1"
+                                       maxlength="50" minlength="1"
                                        value='<c:out value="${saleTag.name}"/>' class="required text col-xs-12 col-sm-12">
 
                             </div>
@@ -58,7 +58,7 @@
                             <div class="col-sm-9">
                                 <input id="showName" type="text" name="showName"
                                        placeholder="前台展示"
-                                       maxlength="255" minlength="1"
+                                       maxlength="100" minlength="1"
                                        value='<c:out value="${saleTag.showName}"/>' class="required text col-xs-12 col-sm-12">
 
                             </div>
@@ -73,7 +73,7 @@
                             <div class="col-sm-9">
                                 <input id="tag" type="text" name="tag"
                                        placeholder="标签"
-                                       maxlength="255" minlength="1"
+                                       maxlength="50" minlength="1"
                                        value='<c:out value="${saleTag.tag}"/>' class="required text col-xs-12 col-sm-12">
 
                             </div>
@@ -88,7 +88,7 @@
                             <div class="col-sm-9">
                                 <input id="" type="number" name="idx"
                                        placeholder="标签名"
-                                       maxlength="255" minlength="1" min="0"
+                                       minlength="1" min="0"
                                        value='<c:out value="${saleTag.idx}"/>' class="required text col-xs-12 col-sm-12">
 
                             </div>
@@ -113,16 +113,16 @@
                             </label>
                             <div class="radio inline">
                                 <label>
-                                    <input name="saleStatus" type="radio" class="ace " value="启用"
-                                           <c:if test="${saleTag.saleStatus eq '启用'}">checked</c:if>>
+                                    <input name="saleStatus" type="radio" class="ace " value="ENABLE"
+                                           <c:if test="${saleTag.saleStatus eq 'ENABLE'}">checked</c:if>>
                                     <span class="lbl">启用</span>
                                 </label>
                             </div>
 
                             <div class="radio inline">
                                 <label>
-                                    <input name="saleStatus" type="radio" class="ace " value="禁用"
-                                           <c:if test="${saleTag.saleStatus eq '禁用'}">checked</c:if>>
+                                    <input name="saleStatus" type="radio" class="ace " value="DISABLE"
+                                           <c:if test="${saleTag.saleStatus eq 'DISABLE'}">checked</c:if>>
                                     <span class="lbl">禁用</span>
                                 </label>
                             </div>

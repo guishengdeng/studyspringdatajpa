@@ -1,8 +1,7 @@
 package com.biz.gbck.dao.mysql.repository.saleTag;
 
-import com.biz.gbck.dao.mysql.po.product.meta.SaleTag;
+import com.biz.gbck.dao.mysql.po.tag.SaleTag;
 import com.biz.gbck.enums.CommonStatusEnum;
-import com.biz.support.jpa.repository.CommonJpaRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;

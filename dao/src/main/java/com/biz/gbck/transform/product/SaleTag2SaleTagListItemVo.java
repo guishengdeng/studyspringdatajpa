@@ -1,6 +1,6 @@
 package com.biz.gbck.transform.product;
 
-import com.biz.gbck.dao.mysql.po.product.meta.SaleTag;
+import com.biz.gbck.dao.mysql.po.tag.SaleTag;
 import com.biz.gbck.vo.product.backend.SaleTagListItemVo;
 import com.google.common.base.Function;
 
