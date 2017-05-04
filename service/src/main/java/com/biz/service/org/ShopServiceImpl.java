@@ -22,16 +22,15 @@ import com.biz.gbck.dao.mysql.repository.org.ShopDetailRepository;
 import com.biz.gbck.dao.mysql.repository.org.ShopQualificationRepository;
 import com.biz.gbck.dao.mysql.repository.org.ShopRepository;
 import com.biz.gbck.dao.mysql.repository.org.ShopTypeRepository;
+import com.biz.gbck.dao.mysql.specification.demo.CatSearchSpecification;
+import com.biz.gbck.dao.mysql.specification.org.ShopSearchSpecification;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopStatus;
 import com.biz.gbck.transform.org.ShopPoToShopDetailPo;
-import com.biz.gbck.vo.org.ShopExportVo;
-import com.biz.gbck.vo.org.ShopsInfoExportVo;
-import com.biz.gbck.vo.org.User20VIPVo;
-import com.biz.gbck.vo.org.UserVo;
+import com.biz.gbck.vo.org.*;
 import com.biz.gbck.vo.search.SearchShopReqVo;
 import com.biz.gbck.vo.search.ShopQueryReqVo;
 import com.biz.gbck.vo.zsgf.ZsgfLoanQueryReqVo;
@@ -46,6 +45,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -351,8 +351,9 @@ public class ShopServiceImpl extends CommonService  implements ShopService {
     }
 
     @Override
-    public ShopAuditDataMap findShopAuditDataOfWaitForAudit() {
-        return null;
+    public Page<ShopPo> findShopAuditDataOfWaitForAudit(ShopSearchVo reqVo) {
+        reqVo.setAuditStatus( AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue());
+        return shopRepository.findAll(new ShopSearchSpecification(reqVo), new PageRequest(reqVo.getPage()-1, reqVo.getPageSize()));
     }
 
     @Override

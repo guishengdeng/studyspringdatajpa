@@ -12,10 +12,7 @@ import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopStatus;
-import com.biz.gbck.vo.org.ShopExportVo;
-import com.biz.gbck.vo.org.ShopsInfoExportVo;
-import com.biz.gbck.vo.org.User20VIPVo;
-import com.biz.gbck.vo.org.UserVo;
+import com.biz.gbck.vo.org.*;
 import com.biz.gbck.vo.search.SearchShopReqVo;
 import com.biz.gbck.vo.search.ShopQueryReqVo;
 import com.biz.gbck.vo.zsgf.ZsgfLoanQueryReqVo;
@@ -156,7 +153,7 @@ public interface ShopService {
     /**
      * 获取所有待审核商户
      */
-    ShopAuditDataMap findShopAuditDataOfWaitForAudit();
+    Page<ShopPo> findShopAuditDataOfWaitForAudit(ShopSearchVo reqVo);
 
     /**
      * 获取单个商户待审核信息
