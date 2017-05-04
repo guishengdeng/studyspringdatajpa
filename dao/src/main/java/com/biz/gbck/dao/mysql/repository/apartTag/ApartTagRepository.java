@@ -1,4 +1,4 @@
-package com.biz.gbck.dao.mysql.repository.aparttag;
+package com.biz.gbck.dao.mysql.repository.apartTag;
 
 import com.biz.gbck.dao.mysql.po.product.meta.ApartTag;
 import java.util.List;

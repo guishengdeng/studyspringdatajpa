@@ -1,13 +1,14 @@
-server:
-  port: 8900
 spring:
-  application:
-    name: depotnextdoor-product
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password:
-    url: jdbc:mysql://127.0.0.1:3306/depotnextdoor
+    password: root
+    url: jdbc:mysql://127.0.0.1:3306/gbck
     dbcp2:
       initial-size: 5
       max-total: 10
@@ -23,6 +24,13 @@ spring:
     hibernate:
       ddl-auto: update
     database: mysql
+    open-in-view: true
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+  session:
+    redis:
+      flush-mode: immediate
 
 biz:
   soa:
@@ -31,8 +39,8 @@ biz:
     url: zookeeper://127.0.0.1:2181
     soaIdx:
       path: /biz/gbck/boot/soaIdx
-    #redis:
-    #  path: /biz/gbck/boot/redis
+    redis:
+      path: /biz/gbck/boot/redis
   redis:
     maxTotal: 120
     maxIdle: 10
@@ -43,20 +51,14 @@ biz:
     port: 6379
     name:
     password:
-  amqp:
-    username: guest
-    password: guest
-    port: 5672
-    maxRetry: 3
-    retryElapse: 1000
-security:
-  basic:
-    enabled: false
-management:
-  security:
-    enabled: false
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:7777/eureka/, http://localhost:8888/eureka/, http://localhost:9999/eureka/
+  oss:
+    remoteEndpoint: oss-cn-beijing.aliyuncs.com
+    localEndpoint: oss-cn-beijing-internal.aliyuncs.com
+    accessKeyId: LTAIcBsZ7zY66tku
+    accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
+    bucketName: gbck-test
+
+server:
+  session:
+    timeout: 1200
 

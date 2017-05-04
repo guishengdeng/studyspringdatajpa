@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>biz-support-web</artifactId>
-    <version>${biz-support-web.version}</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <dependencies>

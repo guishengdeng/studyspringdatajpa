@@ -36,6 +36,7 @@
         <module>soa-order</module><!-- 订单模块(包含订单和购物车) !! 这只是暂定的, 如果有必要, 可以拆成2个模块 -->
         <module>soa-center</module><!-- 服务注册中心 -->
         <module>soa-parent</module>
+        <module>biz-soa-feign</module>
 
         <module>notice</module>
         <module>dao</module>
@@ -112,6 +113,7 @@
 
         <maven-shade-plugin.version>2.2</maven-shade-plugin.version>
         <apache.commons.beanutils.version>1.9.3</apache.commons.beanutils.version>
+        <biz.soa.feign.version>1.0.1-SNAPSHOT</biz.soa.feign.version>
     </properties>
 
     <dependencies>
@@ -173,10 +175,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.biz.gbck</groupId>
-            <artifactId>biz-core</artifactId>
         </dependency>
     </dependencies>
 
@@ -410,6 +408,12 @@
                 <groupId>com.biz.gbck</groupId>
                 <artifactId>soa-parent</artifactId>
                 <version>${soa.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.biz.gbck</groupId>
+                <artifactId>biz-soa-feign</artifactId>
+                <version>${biz.soa.feign.version}</version>
             </dependency>
         </dependencies>
 

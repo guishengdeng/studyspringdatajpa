@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>soa-promotion</artifactId>
-    <version>${soa.promotion.version}</version>
+    <version>1.0-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
