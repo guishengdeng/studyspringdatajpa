@@ -121,9 +121,9 @@
                             <table id="simple-table" class="table  table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>描述</th>
                                         <th>名称</th>
                                         <th class="hidden-md hidden-sm hidden-xs">权限</th>
+                                        <th>描述</th>
                                         <th class="hidden-md hidden-sm hidden-xs">操作</th>
                                     </tr>
                                 </thead>
@@ -131,9 +131,9 @@
                                 <tbody>
                                 <c:forEach items="${resources}" var="resource" varStatus="status">
                                     <tr id="tr-${resource.id}">
-                                        <td>${resource.description}</td>
                                         <td>${resource.name}</td>
                                         <td class="hidden-md hidden-sm hidden-xs"></td>
+                                        <td>${resource.description}</td>
                                         <td class="hidden-md hidden-sm hidden-xs">
                                             <div class="hidden-sm hidden-xs btn-group">
                                                 <sec:authorize access="hasAuthority('OPT_RESOURCE_DELETE')">

@@ -1,12 +1,9 @@
 package com.biz.manage.controller.admin;
 
 import com.biz.gbck.dao.mysql.po.security.Admin;
-import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.admin.AdminReqVo;
 import com.biz.manage.util.AuthorityUtil;
 import com.biz.service.security.interfaces.AdminService;
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,7 +42,6 @@ public class AdminController {
     public ModelAndView list( @ModelAttribute("adminVo") AdminReqVo vo) {
         //这是对查询条件的用户进行分页
         Page<Admin> adminPage = adminService.queryAdminsByCondition(vo);
-       // return new ModelAndView("manage/admin/list", "adminPage", adminPage).addObject("enabled", status.isEnable());
         Boolean flag=true;
         if(vo.getStatus()!=null){
             flag=vo.getStatus().isEnable();

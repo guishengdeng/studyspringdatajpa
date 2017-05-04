@@ -56,7 +56,8 @@
                                     </label>
 
                                     <div class="col-sm-9">
-                                        <input ${not empty mainMenu ? 'readonly' : ''}  type="text" id="name" name="name" placeholder="菜单名称"
+                                        <%--${not empty mainMenu ? 'readonly' : ''} --%>
+                                        <input  type="text" id="name" name="name" placeholder="菜单名称"
                                                value="<c:out value='${mainMenu.name}'/>"
                                                 class="required col-xs-10 col-sm-5">
                                     </div>
@@ -76,7 +77,16 @@
                                                 class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>
-
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right"
+                                           for="icon">
+                                        图标
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input id="icon" type="text" name="icon" value="<c:out value='${mainMenu.icon}'/>"
+                                               maxlength="10" class="col-xs-10 col-sm-5"/>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"
                                            for="description">

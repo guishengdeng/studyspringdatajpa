@@ -74,6 +74,16 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"
+                                           for="icon">
+                                        图标
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="icon" name="icon" placeholder=""
+                                               value="<c:out value='${menuItem.icon}'/>" class="col-xs-10 col-sm-5">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right"
                                            for="codes">
                                         序号
                                     </label>
