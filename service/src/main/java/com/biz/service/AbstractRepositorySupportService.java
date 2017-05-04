@@ -1,5 +1,6 @@
 package com.biz.service;
 
+import com.biz.core.exceptions.MethodNotSupportException;
 import com.biz.support.jpa.po.BasePO;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import org.slf4j.Logger;
@@ -38,7 +39,7 @@ public abstract class AbstractRepositorySupportService<T extends BasePO> extends
 		return id == null ? null : getRepository().findOne(id);
 	}
 
-	public List<T> findByIds(final Iterable<Long> ids) {
+	public List<T> getByIds(final Iterable<Long> ids) {
 
 		return getRepository().findAll(ids);
 	}
@@ -59,13 +60,14 @@ public abstract class AbstractRepositorySupportService<T extends BasePO> extends
 	}
 
 	@Override
+	@Deprecated
 	public void delete(Long id) {
 
 		getRepository().delete(id);
 	}
 
-	public void remove(final Long id) {
+	public void remove(final Long id) throws MethodNotSupportException {
 
-		getRepository().delete(id);
+		throw new MethodNotSupportException();
 	}
 }
