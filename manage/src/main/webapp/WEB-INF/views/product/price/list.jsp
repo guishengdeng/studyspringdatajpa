@@ -164,17 +164,17 @@
                     },
                     success : function(data) {
                         if (data==true) {
-                            layer.msg("操作成功");
+                            layer.msg("操作成功",{time:1000});
                         }
                     }
                 });
             }
             
-            //单个更新数据信息
+            //单个更新数据信息(小于0  设为0)
             function singleupdatedatas(obj){
             	var idstr=$(obj).attr("data-id");
             	var price=parseFloat($("#price_"+idstr).val());
-            	if(isNaN(price))price=0;
+            	if(isNaN(price)||price<0)price=0;
             	
             	var updateinfos=new Array();
             	var info={
@@ -186,14 +186,14 @@
             	return updateinfos;
             }
             
-            //批量更新数据信息
+            //批量更新数据信息(小于0  设为0)
             function multiupdatedatas(){
             	var updateinfos=new Array();
             	//获取选中项
                 $("#page-table > tbody > tr input[type=checkbox]:checked").each(function(){
                 	var idstr=$(this).attr("data-id");
                     var price=parseFloat($("#price_"+idstr).val());
-                    if(isNaN(price))price=0;
+                    if(isNaN(price)||price<0)price=0;
 
                     var info={
                        id:idstr,

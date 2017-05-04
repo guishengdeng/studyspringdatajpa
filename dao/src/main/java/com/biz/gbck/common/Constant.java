@@ -1,5 +1,6 @@
 package com.biz.gbck.common;
 
+import com.biz.core.util.DateUtil;
 import com.biz.gbck.enums.product.GeoLevelEnum;
 
 /**
@@ -57,4 +58,7 @@ public class Constant {
      * 全部B类商品编码集合key
      */
     public static final String TYPE_B_PRODUCT_CODES_SET_KEY = "BProductCodesSetKey";
+
+    //默认订单过期时间
+    public static final long DEFAULT_ORDER_EXPIRE_TIME = DateUtil.HOUR * 2 * 60 * 60 * 1000;
 }

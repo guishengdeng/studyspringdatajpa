@@ -13,10 +13,12 @@ import com.biz.core.enums.converter.BaseEnumValueConverter;
  * @see
  */
 public enum OrderStatus implements EnumerableValue {
+
+	CANCELED(1, "已取消"),
 	CREATED(10, "新创建"),
 	PRE_PAY(20, "待支付"),
 	ORDERED(30, "待发货"),
-	DELIVERED(40, "已发货"),
+	DELIVERED(40, "待收货"),
 	FINISHED(50, "已完成"),
 
 	APPLY_RETURN(60,"申请退货"),

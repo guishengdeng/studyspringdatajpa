@@ -283,7 +283,7 @@
 
 <!-- ace scripts -->
 <script src="static-resource/ace/assets/js/ace-elements.min.js"></script>
-<%--<script src="static-resource/ace/assets/js/ace.min.js"></script>--%>
+<script src="static-resource/ace/assets/js/ace.min.js"></script>
 
 <!-- support for jquery validator -->
 <script src="static-resource/ace/assets/js/jquery.validate.min.js"></script>

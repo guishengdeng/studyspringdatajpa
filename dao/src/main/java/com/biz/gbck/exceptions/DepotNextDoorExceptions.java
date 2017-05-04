@@ -1,5 +1,7 @@
 package com.biz.gbck.exceptions;
 
+import com.biz.core.exceptions.ExceptionType;
+
 /**
  * SOA 异常信息定义
  *
@@ -328,6 +330,30 @@ public interface DepotNextDoorExceptions {
         }
 
         @Override
+        public String getDescription() {
+            return description;
+        }
+    }
+
+    /**
+     * 3000-3001
+     */
+    enum Order implements ExceptionType {
+
+        ;
+
+        private int code;
+        private String description;
+
+        Order(int code, String description) {
+            this.code = code;
+            this.description = description;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
         public String getDescription() {
             return description;
         }
