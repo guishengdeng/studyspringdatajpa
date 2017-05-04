@@ -35,4 +35,9 @@ public class SoaProductController extends SoaBaseController {
         return render200(null);
     }
 
+    @GetMapping(value = "/test")
+    public String getTestString() {
+        return "I am a test String";
+    }
+
 }
