@@ -45,9 +45,9 @@
                                 审核状态
                                 <select name="auditStatus" style="width: 100px;height: 30px;">
                                     <option value="" selected >全部</option>
-                                    <option <c:if test="${vo.auditStatus==30}">selected</c:if>
+                                    <option <c:if test="${vo.auditStatus==30 && vo.auditStatusTwo == null}">selected</c:if>
                                             value="30" >审核通过</option>
-                                    <option  <c:if test="${vo.auditStatus==0}">selected</c:if>
+                                    <option  <c:if test="${vo.auditStatus==0 && vo.auditStatusTwo == null}">selected</c:if>
                                             value="0"  >审核未通过</option>
                                 </select>
                                     商户ID <input name="id" type="text" placeholder="商户ID"  value="<c:out value="${vo.id}"/>" autocomplete="off"  style="width: 100px;height: 30px;">&nbsp;
