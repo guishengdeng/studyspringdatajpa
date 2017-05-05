@@ -33,6 +33,7 @@ public class SaleTagController {
         Page<SaleTag> page = saleTagService.searchSaleTag(saleTagSearchVo);
         return new ModelAndView("goodsmanagement/searchSaleTag", "page", page);
     }
+
     //修改或添加页面
     @RequestMapping("/tag")
     @PreAuthorize("hasAuthority('OPT_SALETAG_ADD')")
