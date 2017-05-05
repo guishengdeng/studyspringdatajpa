@@ -100,7 +100,7 @@
                                 <thead>
                                 <tr>
                                     <th class="name">编号</th>
-                                    <th>标签名</th>
+                                    <th class="name">标签名</th>
                                     <th class="status">后台备注</th>
                                     <th class="status">是否启用</th>
                                     <th class="status">排序</th>
@@ -113,7 +113,7 @@
                                     <tr id="tr-${saleTag.id}">
 
                                         <td><c:out value="${saleTag.id}"/></td>
-                                        <td><c:out value="${saleTag.name}"/></td>
+                                        <td class="name"><c:out value="${saleTag.name}"/></td>
                                         <td><c:out value="${saleTag.description}"/></td>
                                         <td><c:out value="${saleTag.saleStatus eq 'ENABLE' ? '启用':'禁用'}"/></td>
                                         <td><c:out value="${saleTag.idx}"/></td>
