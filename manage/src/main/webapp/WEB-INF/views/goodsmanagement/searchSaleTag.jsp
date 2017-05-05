@@ -8,14 +8,16 @@
 <gbck:page title="销售标签">
     <jsp:attribute name="css">
         <style type="text/css">
-            #tag-table .name{
+            #tag-table .name {
                 min-width: 150px;
             }
-            #tag-table .operate, #tag-table .status{
+
+            #tag-table .operate, #tag-table .status {
                 min-width: 80px;
             }
-            #saleTageAdd{
-                position:absolute;
+
+            #saleTageAdd {
+                position: absolute;
                 top: 20px;
                 right: 12px;
             }
@@ -77,11 +79,14 @@
                             <form action="goodsmanagement/search.do" method="get">
                                 <div class="col-md-3 inline">
                                     <label>名字</label>
-                                    <input name="name" value='<c:out value="${saleTagSearch.name}" />' type="text" placeholder="名字"  autocomplete="off">
+                                    <input name="name" value='<c:out value="${saleTagSearch.name}" />' type="text"
+                                           placeholder="名字" autocomplete="off">
                                 </div>
                                 <div class="col-md-2 inline">
                                     <label>启用状态</label>
-                                    <gbck:commonStatusSelect fieldName="saleStatus" selectedStatus="${saleTagSearch.saleStatus}" withNone="true" enableLabel="启用" disableLabel="禁用"/>
+                                    <gbck:commonStatusSelect fieldName="saleStatus"
+                                                             selectedStatus="${saleTagSearch.saleStatus}"
+                                                             withNone="true" enableLabel="启用" disableLabel="禁用"/>
                                 </div>
                                 <div class="inline">
                                     <button type="submit" class="btn btn-info btn-sm">
@@ -89,9 +94,9 @@
                                     </button>
                                 </div>
                                 <div>
-                                <a  class="btn btn-info btn-sm" id="saleTageAdd" href="goodsmanagement/tag.do">
-                                    添加标签
-                                </a>
+                                    <a class="btn btn-info btn-sm" id="saleTageAdd" href="goodsmanagement/tag.do">
+                                        添加标签
+                                    </a>
                                 </div>
                             </form>
                             <div class="hr hr-18 dotted"></div>
@@ -140,7 +145,7 @@
                                 </c:forEach>
                                 </tbody>
                             </table>
-                            <gbck:springPagePagination url="goodsmanagement/search.do" springPage="${page}" />
+                            <gbck:springPagePagination url="goodsmanagement/search.do" springPage="${page}"/>
                         </div><!-- /.span -->
                     </div><!-- /.row -->
                     <sec:authorize access="hasAuthority('OPT_CAT_DELETE')">

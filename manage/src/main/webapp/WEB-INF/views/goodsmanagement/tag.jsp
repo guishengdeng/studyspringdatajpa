@@ -90,8 +90,10 @@
                             </label>
 
                             <div class="col-sm-9">
-                                <input id="" type="number" name="idx"
+                                <input id="tag_table_num" type="number" name="idx"
                                        placeholder="标签名"
+                                       onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                       onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                                        minlength="1" min="0"
                                        value='<c:out value="${saleTag.idx}"/>'
                                        class="required text col-xs-12 col-sm-12">
