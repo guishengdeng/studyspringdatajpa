@@ -1,13 +1,15 @@
 package com.biz.rest.controller.order;
 
 import com.biz.gbck.enums.order.PaymentType;
+import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.IdReqVo;
 import com.biz.gbck.vo.order.req.OrderCreateReqVo;
+import com.biz.gbck.vo.order.req.OrderCreateWechatReqVo;
 import com.biz.gbck.vo.order.req.OrderListReqVo;
 import com.biz.gbck.vo.order.req.OrderSettlePageReqVo;
-import com.biz.gbck.vo.order.resp.OrderCreateRespVo;
 import com.biz.gbck.vo.order.resp.OrderRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
+import com.biz.gbck.vo.payment.resp.PaymentResponseVo;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.service.order.frontend.OrderFrontendService;
 import com.biz.support.web.handler.JSONResult;
@@ -69,25 +71,25 @@ public class OrderController extends BaseRestController {
     public JSONResult comfirmNoPay(HttpServletRequest request) {
         OrderCreateReqVo reqVo = super.parseBizData(request, OrderCreateReqVo.class);
         reqVo.setPaymentType(PaymentType.PAY_ON_DELIVERY.getValue());
-        OrderCreateRespVo respVo = orderService.createOrder(reqVo);
+        PaymentResponseVo respVo = orderService.confirmOrder(reqVo);
         return new JSONResult(respVo);
     }
 
     //支付宝结算
     @RequestMapping("/confirmAlipay")
-    public JSONResult comfirmAlipay(HttpServletRequest request) {
+    public JSONResult comfirmAlipay(HttpServletRequest request) throws DepotNextDoorException {
         OrderCreateReqVo reqVo = super.parseBizData(request, OrderCreateReqVo.class);
         reqVo.setPaymentType(PaymentType.ALIPAY.getValue());
-        OrderCreateRespVo respVo = orderService.createOrder(reqVo);
+        PaymentResponseVo respVo = orderService.confirmAlipayOrder(reqVo);
         return new JSONResult(respVo);
     }
 
     //微信结算
     @RequestMapping("/confirmWechat")
-    public JSONResult comfirmWechat(HttpServletRequest request) {
-        OrderCreateReqVo reqVo = super.parseBizData(request, OrderCreateReqVo.class);
+    public JSONResult comfirmWechat(HttpServletRequest request) throws DepotNextDoorException {
+        OrderCreateWechatReqVo reqVo = super.parseBizData(request, OrderCreateWechatReqVo.class);
         reqVo.setPaymentType(PaymentType.WECHAT.getValue());
-        OrderCreateRespVo respVo = orderService.createOrder(reqVo);
+        PaymentResponseVo respVo = orderService.confirmWechatOrder(reqVo);
         return new JSONResult(respVo);
     }
 

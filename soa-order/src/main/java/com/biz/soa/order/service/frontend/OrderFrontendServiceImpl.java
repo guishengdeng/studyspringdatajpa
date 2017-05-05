@@ -5,16 +5,19 @@ import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.dao.mysql.repository.order.OrderRepository;
 import com.biz.gbck.dao.redis.repository.order.OrderRedisDao;
 import com.biz.gbck.enums.order.OrderShowStatus;
+import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.IdReqVo;
 import com.biz.gbck.vo.order.req.OrderCreateReqVo;
-import com.biz.gbck.vo.order.req.OrderSettlePageReqVo;
-import com.biz.gbck.vo.order.resp.OrderCreateRespVo;
+import com.biz.gbck.vo.order.req.OrderCreateWechatReqVo;
 import com.biz.gbck.vo.order.req.OrderListReqVo;
+import com.biz.gbck.vo.order.req.OrderSettlePageReqVo;
 import com.biz.gbck.vo.order.resp.OrderRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
+import com.biz.gbck.vo.payment.resp.PaymentResponseVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.order.frontend.OrderFrontendService;
 import com.biz.soa.builder.OrderRespVoBuilder;
+import com.biz.soa.order.service.payment.PaymentService;
 import org.codelogger.utils.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +42,9 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private PaymentService paymentService;
 
     /*****************public begin*********************/
 
@@ -69,10 +75,35 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
     }
 
     @Override
-    public OrderCreateRespVo createOrder(OrderCreateReqVo reqVo) {
-        //TODO 创建订单 货到付款
-        return null;
+    public PaymentResponseVo confirmOrder(OrderCreateReqVo reqVo) {
+        Order order = this.createOrder(reqVo);
+        return paymentService.noNeedPay(order);
     }
+
+
+    @Override
+    public PaymentResponseVo confirmWechatOrder(OrderCreateWechatReqVo reqVo) throws DepotNextDoorException {
+        Order order = this.createOrder(reqVo);
+        return paymentService.wechatUnifiedOrder(reqVo, order);
+    }
+
+    @Override
+    public PaymentResponseVo confirmAlipayOrder(OrderCreateReqVo reqVo) throws DepotNextDoorException  {
+        Order order = this.createOrder(reqVo);
+        return paymentService.getAlipaySign(order);
+    }
+
+
+    @Override
+    public Order getOrder(Long id) {
+        return orderRepository.findOne(id);
+    }
+
+    @Override
+    public void saveOrder(Order order) {
+        orderRepository.save(order);
+    }
+
     /*****************public end*********************/
 
 
@@ -85,4 +116,14 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
         }
         return orderRespVos;
     }
+
+    /**
+     * 创建订单
+     */
+    private Order createOrder(OrderCreateReqVo reqVo) {
+        //TODO 创建订单
+        return null;
+    }
+
+
 }

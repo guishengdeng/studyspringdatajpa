@@ -2,7 +2,6 @@ package com.biz.gbck.vo.order.req;
 
 import com.biz.gbck.enums.order.InvoiceType;
 import com.biz.gbck.enums.order.PaymentType;
-import com.biz.gbck.vo.user.BaseRequestVo;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -18,7 +17,7 @@ import static com.google.common.collect.Lists.newArrayList;
  * @reviewer
  * @see
  */
-public class OrderCreateReqVo extends BaseRequestVo {
+public class OrderCreateReqVo extends OrderSettlePageReqVo {
 
     /**
      * 订单总金额

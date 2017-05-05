@@ -4,7 +4,10 @@ import com.biz.gbck.enums.order.OrderStatus;
 import com.biz.gbck.enums.order.PaymentStatus;
 import com.biz.gbck.enums.order.PaymentType;
 import com.biz.support.jpa.po.BaseEntity;
+import com.sun.tools.corba.se.idl.constExpr.Times;
+
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -94,6 +97,11 @@ public class Order extends BaseEntity {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @OrderBy(value = "id asc")
     private List<OrderPayment> payments;
+
+    /**
+     * 过期时间
+     */
+    private Timestamp expireTimestamp;
 
 
     //订单明细
@@ -273,5 +281,17 @@ public class Order extends BaseEntity {
 
     public void setShipping(OrderShipping shipping) {
         this.shipping = shipping;
+    }
+
+    public Timestamp getExpireTimestamp() {
+        return expireTimestamp;
+    }
+
+    public void setExpireTimestamp(Timestamp expireTimestamp) {
+        this.expireTimestamp = expireTimestamp;
+    }
+
+    public boolean canPay() {
+        return this.status == OrderStatus.PRE_PAY && this.payStatus == PaymentStatus.CREATE_PAYMENT;
     }
 }

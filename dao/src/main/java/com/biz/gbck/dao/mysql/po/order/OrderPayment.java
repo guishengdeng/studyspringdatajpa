@@ -37,6 +37,7 @@ public class OrderPayment extends BaseEntity {
      * 付款状态
      */
     @Column(nullable = false)
+    @Convert(converter = PaymentStatus.Converter.class)
     private PaymentStatus payStatus = PaymentStatus.UN_PAY;
 
     /**

@@ -336,16 +336,41 @@ public interface DepotNextDoorExceptions {
     }
 
     /**
-     * 3000-3001
+     * 3000-3100
      */
     enum Order implements ExceptionType {
 
-        ;
+        ORDER_NOT_EXIST(3001, "订单不存在"),
+        ORDER_PAYED(3002, "订单已经支付");
 
         private int code;
         private String description;
 
         Order(int code, String description) {
+            this.code = code;
+            this.description = description;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+    }
+
+    /**
+     * 3100-3200
+     */
+    enum Payment implements ExceptionType {
+
+        PAYMENT_ERROR(3100, "支付单异常");
+
+        private int code;
+        private String description;
+
+        Payment(int code, String description) {
             this.code = code;
             this.description = description;
         }
