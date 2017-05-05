@@ -26,6 +26,7 @@
         <module>biz-support-jpa</module>
         <module>biz-support-web</module>
         <module>biz-support-es</module>
+        <module>third-party-pay</module>
 
         <!-- SOA模块 -->
         <module>soa-product</module><!-- 商品模块 -->
@@ -52,6 +53,7 @@
         <biz-support-jpa.version>1.0-SNAPSHOT</biz-support-jpa.version>
         <biz-support-web.version>1.0-SNAPSHOT</biz-support-web.version>
         <biz-support-es.version>1.0-SNAPSHOT</biz-support-es.version>
+        <biz-third-party-pay.version>1.0-SNAPSHOT</biz-third-party-pay.version>
 
 
         <dao.version>1.0-SNAPSHOT</dao.version>
@@ -79,6 +81,7 @@
         <apache.commons.io.veriosn>1.3.2</apache.commons.io.veriosn>
         <apache.commons.configuration.version>1.10</apache.commons.configuration.version>
         <apache.commons.collections.version>3.2.2</apache.commons.collections.version>
+        <apache.commons.httpclient.version>3.1</apache.commons.httpclient.version>
         <org.slf4j.api.version>1.7.22</org.slf4j.api.version>
         <apache.curator.framework.version>2.6.0</apache.curator.framework.version>
         <springframework.core.version>4.3.7.RELEASE</springframework.core.version>
@@ -246,6 +249,11 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-pool2</artifactId>
                 <version>${apache.commons.pool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-httpclient</groupId>
+                <artifactId>commons-httpclient</artifactId>
+                <version>${apache.commons.httpclient.version}</version>
             </dependency>
 
             <dependency>
