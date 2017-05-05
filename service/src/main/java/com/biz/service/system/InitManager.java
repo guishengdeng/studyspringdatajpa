@@ -165,6 +165,7 @@ public class InitManager {
 		CatPO catPO = new CatPO();
 		catPO.setId(id);
 		catPO.setName(name);
+		catPO.setHomepage("https://www.baidu.com/s?wd=" + name);
 		catPO.setDescription(description);
 		catPO.setSaleStatus(saleStatus);
 		catPO.setStatus(commonStatus);
