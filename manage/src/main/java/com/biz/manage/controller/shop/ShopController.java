@@ -87,16 +87,16 @@ public class ShopController extends BaseController {
     @PreAuthorize("hasAuthority('OPT_SHOP_AUDITLIST')")
     public ModelAndView listShopOfCompleteForAudit(ShopSearchVo vo)
             throws CommonException {
+        ModelAndView mav = new ModelAndView("/org/shop/completeAuditList");
+        mav.addObject("vo", vo);
         logger.debug("Received /shops/auditList GET request.");
        if(vo.getAuditStatus() == null){
            vo.setAuditStatus( AuditStatus.NORMAL.getValue());
            vo.setAuditStatusTwo( AuditStatus.AUDIT_FAILED.getValue());
        }
-        ModelAndView mav = new ModelAndView("/org/shop/completeAuditList");
         Page<ShopPo> shopSearchResVoPage = shopService.findShopAuditDataOfWaitForAudit(vo);
         mav.addObject("shopSearchResVoPage", shopSearchResVoPage);
         mav.addObject("shopTypes", shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL));
-        mav.addObject("vo", vo);
         return mav;
     }
 
