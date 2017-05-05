@@ -30,7 +30,7 @@ public class QueueDefinitionScanFilter implements TypeFilter {
     static final List<Class<Enum<?>>> container = new ArrayList<>();
     private Logger logger = LoggerFactory.getLogger(getClass());
     private Set<String> filteringInterfaces = Sets.newHashSet(
-            "com.bozhi.message.QueueDefinition"
+            "com.biz.message.QueueDefinition"
     );
     private String enumClassName = "java.lang.Enum";
 
