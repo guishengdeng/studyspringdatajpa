@@ -153,7 +153,7 @@ public interface ShopService {
     /**
      * 获取所有商户
      */
-    Page<ShopPo> findShopAuditDataOfWaitForAudit(ShopSearchVo reqVo);
+    Page<ShopDetailPo> findShopAuditDataOfWaitForAudit(ShopSearchVo reqVo);
 
 
     /**

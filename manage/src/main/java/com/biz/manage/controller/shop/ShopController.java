@@ -72,7 +72,7 @@ public class ShopController extends BaseController {
         logger.debug("Received /shops/auditList GET request.");
         vo.setAuditStatus( AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue());
         ModelAndView mav = new ModelAndView("/org/shop/auditList");
-        Page<ShopPo> shopSearchResVoPage = shopService.findShopAuditDataOfWaitForAudit(vo);
+        Page<ShopDetailPo> shopSearchResVoPage = shopService.findShopAuditDataOfWaitForAudit(vo);
         mav.addObject("shopSearchResVoPage", shopSearchResVoPage);
         mav.addObject("shopTypes", shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL));
         mav.addObject("vo", vo);
@@ -94,7 +94,7 @@ public class ShopController extends BaseController {
            vo.setAuditStatus( AuditStatus.NORMAL.getValue());
            vo.setAuditStatusTwo( AuditStatus.AUDIT_FAILED.getValue());
        }
-        Page<ShopPo> shopSearchResVoPage = shopService.findShopAuditDataOfWaitForAudit(vo);
+        Page<ShopDetailPo> shopSearchResVoPage = shopService.findShopAuditDataOfWaitForAudit(vo);
         mav.addObject("shopSearchResVoPage", shopSearchResVoPage);
         mav.addObject("shopTypes", shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL));
         return mav;

@@ -642,8 +642,8 @@ public class ShopServiceImpl extends CommonService  implements ShopService {
     }
 
     @Override
-    public Page<ShopPo> findShopAuditDataOfWaitForAudit(ShopSearchVo reqVo) {
-        return shopRepository.findAll(new ShopSearchSpecification(reqVo), new PageRequest(reqVo.getPage()-1, reqVo.getPageSize()));
+    public Page<ShopDetailPo> findShopAuditDataOfWaitForAudit(ShopSearchVo reqVo) {
+        return shopDetailRepository.findAll(new ShopSearchSpecification(reqVo), new PageRequest(reqVo.getPage()-1, reqVo.getPageSize()));
     }
 
     @Override

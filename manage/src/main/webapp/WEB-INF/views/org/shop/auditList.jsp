@@ -89,18 +89,18 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach items="${shopSearchResVoPage.content}" var="shop">
-                                    <tr id="tr-${shop.id}">
-                                        <td><c:out value="${shop.id}"/></td>
-                                        <td><c:out value="${shop.name}"/></td>
-                                        <td><c:out value="${shop.shopType.name}"/></td>
-                                        <td><c:out value="${shop.shopAddress}"/></td>
-                                        <td><c:out value="${shop.mobile}"/></td>
-                                        <td>${shop.detailAuditStatus==25?"待审核":null}</td>
-                                        <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${shop.createTime}"/></td>
+                                <c:forEach items="${shopSearchResVoPage.content}" var="shopDetail">
+                                    <tr id="tr-${shopDetail.id}">
+                                        <td><c:out value="${shopDetail.shop.id}"/></td>
+                                        <td><c:out value="${shopDetail.name}"/></td>
+                                        <td><c:out value="${shopDetail.shopType.name}"/></td>
+                                        <td><c:out value="${shopDetail.shopAddress}"/></td>
+                                        <td><c:out value="${shopDetail.mobile}"/></td>
+                                        <td>${shopDetail.auditStatus==25?"待审核":null}</td>
+                                        <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${shopDetail.createTime}"/></td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
-                                                <a href="#"
+                                                <a href="/shops/audit.do?shopId=<c:out value="${shopDetail.id}"/>"
                                                    class="btn btn-minier btn-info btn ">
                                                     <i class="ace-icon fa fa-pencil bigger-120"></i>
                                                     审核

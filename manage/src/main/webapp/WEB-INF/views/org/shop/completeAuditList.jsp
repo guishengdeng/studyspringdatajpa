@@ -108,23 +108,23 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach items="${shopSearchResVoPage.content}" var="shop">
-                                    <tr id="tr_${shop.id}">
-                                        <td><c:out value="${shop.id}"/></td>
-                                        <td><c:out value="${shop.name}"/></td>
-                                        <td><c:out value="${shop.shopType.name}"/></td>
-                                        <td><c:out value="${shop.shopAddress}"/></td>
-                                        <td><c:out value="${shop.mobile}"/></td>
-                                        <td style="color:${shop.status eq "ENABLE"?"green":"red"}" id="id_${shop.id}">${shop.status eq "ENABLE"?"启用":"禁用"}</td>
-                                        <td style="color:${shop.detailAuditStatus==30?"green":"red"}">${shop.detailAuditStatus==30?"审核通过":"审核未通过"}</td>
+                                <c:forEach items="${shopSearchResVoPage.content}" var="shopDetail">
+                                    <tr id="tr_${shopDetail.id}">
+                                        <td><c:out value="${shopDetail.shop.id}"/></td>
+                                        <td><c:out value="${shopDetail.name}"/></td>
+                                        <td><c:out value="${shopDetail.shopType.name}"/></td>
+                                        <td><c:out value="${shopDetail.shopAddress}"/></td>
+                                        <td><c:out value="${shopDetail.mobile}"/></td>
+                                        <td style="color:${shopDetail.shop.status eq "ENABLE"?"green":"red"}" id="id_${shopDetail.id}">${shopDetail.shop.status eq "ENABLE"?"启用":"禁用"}</td>
+                                        <td style="color:${shopDetail.auditStatus==30?"green":"red"}">${shopDetail.auditStatus==30?"审核通过":"审核未通过"}</td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
                                                 <a class="btn btn-xs btn-info" href="#">
                                                     <i class="ace-icon fa fa-pencil bigger-120"></i><span>编辑</span>
                                                 </a>&nbsp;
                                                 <a class="btn btn-xs btn-danger">
-                                                    <i id="but_${shop.id}" class="ace-icon fa fa-lock bigger-120"></i>
-                                                    <span id="butName_${shop.id}">禁用</span>
+                                                    <i id="but_${shopDetail.id}" class="ace-icon fa fa-lock bigger-120"></i>
+                                                    <span id="butName_${shopDetail.id}">禁用</span>
                                                 </a>
                                             </div>
                                         </td>

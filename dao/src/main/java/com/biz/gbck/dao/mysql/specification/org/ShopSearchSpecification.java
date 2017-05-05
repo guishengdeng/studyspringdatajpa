@@ -1,21 +1,18 @@
 package com.biz.gbck.dao.mysql.specification.org;
 
-import com.biz.gbck.dao.mysql.po.org.ShopPo;
-import com.biz.gbck.vo.demo.CatSearchVO;
+import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
 import com.biz.gbck.vo.org.ShopSearchVo;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
-import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.Metamodel;
 import java.util.List;
 
 /**
  *商户查询规范条件
  */
-public class ShopSearchSpecification implements Specification<ShopPo>{
+public class ShopSearchSpecification implements Specification<ShopDetailPo>{
 
 	private ShopSearchVo reqVo;
 
@@ -25,13 +22,13 @@ public class ShopSearchSpecification implements Specification<ShopPo>{
 	}
 
 	@Override
-	public Predicate toPredicate(Root<ShopPo> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+	public Predicate toPredicate(Root<ShopDetailPo> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
 
 		List<Predicate> predicates = Lists.newArrayList();
 		CriteriaBuilder cb;
 
 		if (reqVo.getId() != null) {
-			Predicate predicate = criteriaBuilder.equal(root.get("id"), reqVo.getId());
+			Predicate predicate = criteriaBuilder.equal(root.get("shop").get("id"), reqVo.getId());
 			predicates.add(predicate);
 		}
 
@@ -51,18 +48,12 @@ public class ShopSearchSpecification implements Specification<ShopPo>{
 		}
 
 		if (reqVo.getAuditStatus() != null) {
-		    CriteriaBuilder.In in = criteriaBuilder.in(root.get("detailAuditStatus"));
+		    CriteriaBuilder.In in = criteriaBuilder.in(root.get("auditStatus"));
 			in.value(reqVo.getAuditStatus());
 			if(reqVo.getAuditStatusTwo() != null){
 				in.value(reqVo.getAuditStatusTwo());
 			}
 			predicates.add(in);
-			CriteriaBuilder.In inTwo = criteriaBuilder.in(root.get("qualificationAuditStatus"));
-			inTwo.value(reqVo.getAuditStatus());
-			if(reqVo.getAuditStatusTwo() != null){
-				inTwo.value(reqVo.getAuditStatusTwo());
-			}
-			predicates.add(inTwo);
 		}
 
 
