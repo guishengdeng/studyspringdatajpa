@@ -21,7 +21,7 @@ import java.util.List;
  * @see
  */
 @Repository
-public interface SaleTagRepository extends JpaRepository<SaleTag, Long> , SaleTagDao,JpaSpecificationExecutor{
+public interface SaleTagRepository extends JpaRepository<SaleTag, Long> , SaleTagDao,JpaSpecificationExecutor<SaleTag>{
 
     List<SaleTag> findByStatus(CommonStatusEnum status);
 

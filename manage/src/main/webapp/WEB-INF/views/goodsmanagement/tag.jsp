@@ -33,7 +33,7 @@
             </h3>
             <div class="row">
                 <div class="col-xs-12">
-                    <form id="contact-form" action="goodsmanagement/addOrUpdate.do" method="post"
+                    <form id="contact-form" action="goodsmanagement/AddOrUpdate.do" method="post"
                           class="form-horizontal"
                           role="form">
                         <input type="hidden" name="id" id="id" value="${saleTag.id}"/>
