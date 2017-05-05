@@ -1,4 +1,4 @@
-package com.biz.vo.org;
+package com.biz.gbck.vo.org;
 
 import com.biz.gbck.common.model.InitGlobalParamsWithToken;
 import com.biz.gbck.common.vo.WithoutBindRequestParams;

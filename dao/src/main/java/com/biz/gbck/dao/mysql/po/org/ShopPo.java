@@ -302,10 +302,10 @@ public class ShopPo extends Company {
      */
     private Long channelUserId;
 
-//    /**
-//     * 渠道，参看{@linkplain com.depotnearby.common.shop.ShopChannel}. 数据为其value
-//     */
-//    private Integer channel;
+    /**
+     * 渠道，参看{@linkplain com.depotnearby.common.shop.ShopChannel}. 数据为其value
+     */
+    private Integer channel;
 
     /**
      * 父店铺
@@ -590,5 +590,21 @@ public class ShopPo extends Company {
 
     public void setPaymentPassword(String paymentPassword) {
         this.paymentPassword = paymentPassword;
+    }
+
+    public Integer getChannel() {
+        return channel;
+    }
+
+    public void setChannel(Integer channel) {
+        this.channel = channel;
+    }
+
+    public PartnerPo getPartner() {
+        return partner;
+    }
+
+    public void setPartner(PartnerPo partner) {
+        this.partner = partner;
     }
 }

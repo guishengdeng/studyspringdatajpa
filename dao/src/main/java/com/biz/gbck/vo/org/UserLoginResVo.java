@@ -1,4 +1,4 @@
-package com.biz.vo.org;
+package com.biz.gbck.vo.org;
 
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import org.codelogger.utils.StringUtils;

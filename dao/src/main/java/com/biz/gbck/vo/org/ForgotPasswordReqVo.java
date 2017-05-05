@@ -1,4 +1,4 @@
-package com.biz.vo.org;
+package com.biz.gbck.vo.org;
 
 /**
  * Created by defei on 3/16/16.

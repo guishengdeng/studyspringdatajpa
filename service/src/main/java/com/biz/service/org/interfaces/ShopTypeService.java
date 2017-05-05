@@ -4,8 +4,9 @@ import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.org.ShopTypePo;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.enums.user.ShopTypeStatus;
-import com.biz.vo.org.ShopTypeCreateReqVo;
-import com.biz.vo.org.ShopTypeUpdateReqVo;
+import com.biz.gbck.vo.org.ShopTypeCreateReqVo;
+import com.biz.gbck.vo.org.ShopTypeUpdateReqVo;
+
 import java.util.List;
 
 

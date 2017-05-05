@@ -9,7 +9,7 @@ import com.biz.rest.util.RestUtil;
 import com.biz.service.org.interfaces.UserService;
 import com.biz.support.web.handler.JSONResult;
 import com.biz.support.web.util.HttpServletHelper;
-import com.biz.vo.org.*;
+import com.biz.gbck.vo.org.*;
 import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
