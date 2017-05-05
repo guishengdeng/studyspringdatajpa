@@ -48,6 +48,7 @@ public class CatServiceImpl extends AbstractRepositorySupportService<CatPO> impl
 		CatPO catPO = vo.getId() == null ? new CatPO() : get(vo.getId());
 		catPO.setId(vo.getId());
 		catPO.setName(vo.getName());
+		catPO.setHomepage(vo.getHomepage());
 		catPO.setDescription(vo.getDescription());
 		catPO.setSaleStatus(vo.getSaleStatus());
 		catPO.setStatus(vo.getStatus());
