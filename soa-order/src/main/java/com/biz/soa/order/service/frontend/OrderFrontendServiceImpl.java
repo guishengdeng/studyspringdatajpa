@@ -7,9 +7,11 @@ import com.biz.gbck.dao.redis.repository.order.OrderRedisDao;
 import com.biz.gbck.enums.order.OrderShowStatus;
 import com.biz.gbck.vo.IdReqVo;
 import com.biz.gbck.vo.order.req.OrderCreateReqVo;
+import com.biz.gbck.vo.order.req.OrderSettlePageReqVo;
 import com.biz.gbck.vo.order.resp.OrderCreateRespVo;
 import com.biz.gbck.vo.order.req.OrderListReqVo;
 import com.biz.gbck.vo.order.resp.OrderRespVo;
+import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.order.frontend.OrderFrontendService;
 import com.biz.soa.builder.OrderRespVoBuilder;
@@ -59,6 +61,11 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
     @Override
     public void cancelOrder(IdReqVo reqVo) {
         //TODO 取消订单
+    }
+
+    @Override
+    public OrderSettlePageRespVo settle(OrderSettlePageReqVo reqVo) {
+        return null;
     }
 
     @Override

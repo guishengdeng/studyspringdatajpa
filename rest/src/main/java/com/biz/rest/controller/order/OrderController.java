@@ -73,6 +73,24 @@ public class OrderController extends BaseRestController {
         return new JSONResult(respVo);
     }
 
+    //支付宝结算
+    @RequestMapping("/confirmAlipay")
+    public JSONResult comfirmAlipay(HttpServletRequest request) {
+        OrderCreateReqVo reqVo = super.parseBizData(request, OrderCreateReqVo.class);
+        reqVo.setPaymentType(PaymentType.ALIPAY.getValue());
+        OrderCreateRespVo respVo = orderService.createOrder(reqVo);
+        return new JSONResult(respVo);
+    }
+
+    //微信结算
+    @RequestMapping("/confirmWechat")
+    public JSONResult comfirmWechat(HttpServletRequest request) {
+        OrderCreateReqVo reqVo = super.parseBizData(request, OrderCreateReqVo.class);
+        reqVo.setPaymentType(PaymentType.WECHAT.getValue());
+        OrderCreateRespVo respVo = orderService.createOrder(reqVo);
+        return new JSONResult(respVo);
+    }
+
 
 
 }
