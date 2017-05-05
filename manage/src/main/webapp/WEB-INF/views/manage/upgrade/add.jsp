@@ -10,23 +10,6 @@
             var obj${status.count} = document.getElementById('roleId_${role.id}');
             if (obj${status.count}) obj${status.count}.checked = true;
             </c:forEach>
-            function verify(){
-                var version=$("#version").val();
-                var myReg = /^(\d+[.]+\d+[.]+\d+)$/;
-                if (!myReg.test(version)) {
-                    $("#version").val("")
-                    alert("请输入标准的版本号！")
-                }
-            }
-            function verifyMd5(){
-                var md5=$("#md5").val();
-                var md5Reg= /^([a-fA-F0-9]{32,32})$/;
-                if (!md5Reg.test(md5)) {
-                    $("#md5").val("")
-                    alert("请输入正确的MD5！")
-                }
-
-            }
         </script>
     </jsp:attribute>
     <jsp:body>
@@ -65,7 +48,7 @@
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
                                 <a href="/upgrade/list.do" class="btn btn-sm btn-primary"><i
                                         class="ace-icon fa fa-angle-left"></i>
-                                    返回gst
+                                    返回
                                 </a>
                             </span>
                             </h3>
@@ -76,8 +59,8 @@
                                            for="version">版本号
                                     </label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="version" id="version" maxlength="20" onblur="verify()"
-                                               placeholder="例：1.1.11" class="required text col-xs-10 col-sm-5"/>
+                                        <input type="text" name="version" id="version" maxlength="20"  pattern="\d+[.]\d+[.]\d+"
+                                               placeholder="例：1.1.11" class="required text col-xs-10 col-sm-5 regExp"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -126,7 +109,8 @@
                                            for="md5">MD5
                                     </label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="md5" id="md5" size="50" class="required text col-xs-10 col-sm-5" onblur="verifyMd5()">
+                                        <input type="text" name="md5" id="md5" size="50" class="required text col-xs-10 col-sm-5 regExp"
+                                               pattern="^([a-fA-F0-9]{32,32})$" >
                                     </div>
                                 </div>
                                 <div class="form-group">

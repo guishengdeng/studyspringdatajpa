@@ -103,10 +103,7 @@
                                                 <a href="#"
                                                    class="btn btn-minier btn-info btn ">
                                                     <i class="ace-icon fa fa-pencil bigger-120"></i>
-                                                </a>
-                                                <a
-                                                        class="btn btn-minier btn-danger cat-ban-btn">
-                                                    <i class="ace-icon fa fa-ban bigger-120"></i>
+                                                    审核
                                                 </a>
                                             </div>
                                         </td>
