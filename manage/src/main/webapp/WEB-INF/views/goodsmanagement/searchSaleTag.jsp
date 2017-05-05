@@ -5,13 +5,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="gbck" tagdir="/WEB-INF/tags" %>
-<gbck:page title="猫">
+<gbck:page title="销售标签">
     <jsp:attribute name="css">
         <style type="text/css">
-            #cat-table .name{
+            #tag-table .name{
                 min-width: 150px;
             }
-            #cat-table .operate, #cat-table .status{
+            #tag-table .operate, #tag-table .status{
                 min-width: 80px;
             }
             #saleTageAdd{
@@ -57,10 +57,10 @@
                     </a>
                 </li>
                 <li>
-                    示例管理
+                    商品管理
                 </li>
                 <li class="active">
-                    猫列表
+                    销售标签
                 </li>
             </ul>
         </div>
@@ -96,7 +96,7 @@
                             </form>
                             <div class="hr hr-18 dotted"></div>
 
-                            <table id="cat-table" class="table table-hover">
+                            <table id="tag-table" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
                                     <th class="name">编号</th>

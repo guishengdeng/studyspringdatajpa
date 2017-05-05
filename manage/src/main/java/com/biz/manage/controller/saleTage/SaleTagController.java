@@ -6,6 +6,7 @@ import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.product.backend.CreateSaleTagVo;
 import com.biz.gbck.vo.product.backend.SaleTagSearchVo;
 import com.biz.gbck.vo.product.backend.SaleTagVo;
+import com.biz.manage.controller.BaseController;
 import com.biz.service.product.backend.SaleTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,7 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @Secured("ROLE_SALETAG")
 @RequestMapping("goodsmanagement")
-public class SaleTagController {
+public class SaleTagController extends BaseController {
 
     @Autowired
     private SaleTagService saleTagService;
@@ -42,7 +43,7 @@ public class SaleTagController {
     }
 
     //添加修改标签
-    @RequestMapping("/addOrUpdate")
+    @RequestMapping("/AddOrUpdate")
     @PreAuthorize("hasAuthority('OPT_SALETAG_ADD')")
     public ModelAndView addOrUpdate(SaleTagVo vo) {
         saleTagService.addOrUpdateSaleTag(vo);

@@ -1,5 +1,6 @@
 package com.biz.gbck.vo.product.backend;
 
+import com.biz.gbck.dao.mysql.po.tag.SaleTag;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
@@ -14,7 +15,7 @@ import java.util.List;
  * 标签搜索翻页
  * Created by lzz on 2017/5/4.
  */
-public class SaleTagSpecification implements Specification<SaleTagSearchVo> {
+public class SaleTagSpecification implements Specification<SaleTag> {
 
     private SaleTagSearchVo saleTagSearchVo;
 
@@ -23,7 +24,7 @@ public class SaleTagSpecification implements Specification<SaleTagSearchVo> {
     }
 
     @Override
-    public Predicate toPredicate(Root<SaleTagSearchVo> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+    public Predicate toPredicate(Root<SaleTag> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = Lists.newArrayList();
 
         if (saleTagSearchVo.getStatus() != null) {
