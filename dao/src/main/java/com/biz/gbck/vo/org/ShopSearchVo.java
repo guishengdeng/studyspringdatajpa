@@ -35,6 +35,11 @@ public class ShopSearchVo {
 	 */
 	private Integer auditStatus;
 
+	/**
+	 * 资质状态Two
+	 */
+	private Integer auditStatusTwo;
+
 
 	@Min(1)
 	private Integer page = 1;
@@ -81,6 +86,14 @@ public class ShopSearchVo {
 
 	public void setAuditStatus(Integer auditStatus) {
 		this.auditStatus = auditStatus;
+	}
+
+	public Integer getAuditStatusTwo() {
+		return auditStatusTwo;
+	}
+
+	public void setAuditStatusTwo(Integer auditStatusTwo) {
+		this.auditStatusTwo = auditStatusTwo;
 	}
 
 	/**

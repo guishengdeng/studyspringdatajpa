@@ -151,9 +151,10 @@ public interface ShopService {
     void changeDeliveryName(UserChangeDeliveryNameReqVo reqVo) throws CommonException;
 
     /**
-     * 获取所有待审核商户
+     * 获取所有商户
      */
     Page<ShopPo> findShopAuditDataOfWaitForAudit(ShopSearchVo reqVo);
+
 
     /**
      * 获取单个商户待审核信息

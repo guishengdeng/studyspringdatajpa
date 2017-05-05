@@ -352,7 +352,6 @@ public class ShopServiceImpl extends CommonService  implements ShopService {
 
     @Override
     public Page<ShopPo> findShopAuditDataOfWaitForAudit(ShopSearchVo reqVo) {
-        reqVo.setAuditStatus( AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue());
         return shopRepository.findAll(new ShopSearchSpecification(reqVo), new PageRequest(reqVo.getPage()-1, reqVo.getPageSize()));
     }
 

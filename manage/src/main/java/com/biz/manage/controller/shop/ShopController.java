@@ -70,7 +70,29 @@ public class ShopController extends BaseController {
             throws CommonException {
 
         logger.debug("Received /shops/auditList GET request.");
+        vo.setAuditStatus( AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue());
         ModelAndView mav = new ModelAndView("/org/shop/auditList");
+        Page<ShopPo> shopSearchResVoPage = shopService.findShopAuditDataOfWaitForAudit(vo);
+        mav.addObject("shopSearchResVoPage", shopSearchResVoPage);
+        mav.addObject("shopTypes", shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL));
+        mav.addObject("vo", vo);
+        return mav;
+    }
+
+    /**
+     * 列出所以已审核的商户
+     */
+    @GetMapping
+    @RequestMapping(value = "completeAuditList")
+    @PreAuthorize("hasAuthority('OPT_SHOP_AUDITLIST')")
+    public ModelAndView listShopOfCompleteForAudit(ShopSearchVo vo)
+            throws CommonException {
+        logger.debug("Received /shops/auditList GET request.");
+       if(vo.getAuditStatus() == null){
+           vo.setAuditStatus( AuditStatus.NORMAL.getValue());
+           vo.setAuditStatusTwo( AuditStatus.AUDIT_FAILED.getValue());
+       }
+        ModelAndView mav = new ModelAndView("/org/shop/completeAuditList");
         Page<ShopPo> shopSearchResVoPage = shopService.findShopAuditDataOfWaitForAudit(vo);
         mav.addObject("shopSearchResVoPage", shopSearchResVoPage);
         mav.addObject("shopTypes", shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL));

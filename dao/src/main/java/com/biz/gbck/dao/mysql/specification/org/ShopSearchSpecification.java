@@ -7,16 +7,15 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
 import java.util.List;
 
 /**
  *商户查询规范条件
  */
-public class ShopSearchSpecification implements Specification<ShopPo> {
+public class ShopSearchSpecification implements Specification<ShopPo>{
 
 	private ShopSearchVo reqVo;
 
@@ -29,6 +28,7 @@ public class ShopSearchSpecification implements Specification<ShopPo> {
 	public Predicate toPredicate(Root<ShopPo> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
 
 		List<Predicate> predicates = Lists.newArrayList();
+		CriteriaBuilder cb;
 
 		if (reqVo.getId() != null) {
 			Predicate predicate = criteriaBuilder.equal(root.get("id"), reqVo.getId());
@@ -51,12 +51,20 @@ public class ShopSearchSpecification implements Specification<ShopPo> {
 		}
 
 		if (reqVo.getAuditStatus() != null) {
-			Predicate detailPredicate = criteriaBuilder.equal(root.get("detailAuditStatus"), reqVo.getAuditStatus());
-			predicates.add(detailPredicate);
-			Predicate qualificationPredicate = criteriaBuilder.equal(root.get("qualificationAuditStatus"), reqVo.getAuditStatus());
-			predicates.add(qualificationPredicate);
-
+		    CriteriaBuilder.In in = criteriaBuilder.in(root.get("detailAuditStatus"));
+			in.value(reqVo.getAuditStatus());
+			if(reqVo.getAuditStatusTwo() != null){
+				in.value(reqVo.getAuditStatusTwo());
+			}
+			predicates.add(in);
+			CriteriaBuilder.In inTwo = criteriaBuilder.in(root.get("qualificationAuditStatus"));
+			inTwo.value(reqVo.getAuditStatus());
+			if(reqVo.getAuditStatusTwo() != null){
+				inTwo.value(reqVo.getAuditStatusTwo());
+			}
+			predicates.add(inTwo);
 		}
+
 
 		criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
 		return criteriaQuery.getRestriction();
