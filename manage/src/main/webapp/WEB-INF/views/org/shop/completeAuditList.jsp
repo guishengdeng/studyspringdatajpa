@@ -115,8 +115,8 @@
                                         <td><c:out value="${shop.shopType.name}"/></td>
                                         <td><c:out value="${shop.shopAddress}"/></td>
                                         <td><c:out value="${shop.mobile}"/></td>
-                                        <td id="id_${shop.id}">${shop.status eq "ENABLE"?"启用":"禁用"}</td>
-                                        <td>${shop.detailAuditStatus==30?"审核通过":"审核未通过"}</td>
+                                        <td style="color:${shop.status eq "ENABLE"?"green":"red"}" id="id_${shop.id}">${shop.status eq "ENABLE"?"启用":"禁用"}</td>
+                                        <td style="color:${shop.detailAuditStatus==30?"green":"red"}">${shop.detailAuditStatus==30?"审核通过":"审核未通过"}</td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
                                                 <a class="btn btn-xs btn-info" href="#">
