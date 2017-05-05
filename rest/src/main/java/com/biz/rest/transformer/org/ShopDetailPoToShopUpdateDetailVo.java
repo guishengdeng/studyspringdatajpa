@@ -4,7 +4,7 @@ package com.biz.rest.transformer.org;
 import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
 import com.biz.gbck.enums.user.AuditRejectReason;
 import com.biz.gbck.enums.user.AuditStatus;
-import com.biz.vo.org.ShopUpdateDetailVo;
+import com.biz.gbck.vo.org.ShopUpdateDetailVo;
 import com.google.common.base.Function;
 import org.codelogger.utils.CollectionUtils;
 

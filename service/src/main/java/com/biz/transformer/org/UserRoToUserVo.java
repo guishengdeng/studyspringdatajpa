@@ -2,7 +2,7 @@ package com.biz.transformer.org;
 
 
 import com.biz.gbck.dao.redis.ro.org.UserRo;
-import com.biz.vo.org.UserLoginResVo;
+import com.biz.gbck.vo.org.UserLoginResVo;
 import com.google.common.base.Function;
 
 import java.io.Serializable;

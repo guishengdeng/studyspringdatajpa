@@ -10,7 +10,7 @@ import org.codelogger.utils.ValueUtils;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
 
-//import com.bozhi.message.MessageListener;
+//import com.biz.message.MessageListener;
 
 public class AmqpMessageService extends AbstractBaseMessageService {
 
