@@ -134,67 +134,10 @@ public class ShopController extends BaseController {
         modelAndView.addObject("auditStatusList", auditStatusList)
                 .addObject("auditRejectReasons", auditRejectReasons).addObject("emp", null)
                 .addObject("shopTypes", shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL));
-/*shopAuditVo.getShop()==null? null: depotEmployeeService.getDepotEmployeeById(shopAuditVo.getShop().getInviterCode())*/
-
-         /** 查找商户经纬度*/
-        if (shopAuditVo.getShopDetail() != null) {
-            String depotId=getNearDepot(shopAuditVo.getShopDetail());
-            modelAndView.addObject("depotId", depotId);
-        }
-
+     /*shopAuditVo.getShop()==null? null: depotEmployeeService.getDepotEmployeeById(shopAuditVo.getShop().getInviterCode())*/
         return modelAndView;
     }
 
-    private String getNearDepot(ShopDetailPo shopDetailPo){
-        String depotId = "";
-           /* String address = geoService
-                    .buildAddress(shopDetailPo.getProvince(), shopDetailPo.getCity(), shopDetailPo.getDistrict(), shopDetailPo.getDeliveryAddress());
-            String longitude; //经度
-            String latitude ; //纬度
-            try {
-                Pair<String, String> o = GetLatAndLongByBaidu.getCoordinate(address);
-                longitude = o.getKey();
-                latitude = o.getValue();
-            } catch (Exception e) {
-                latitude = null;
-                longitude = null;
-            }
-            modelAndView.addObject("longitude", longitude);
-            modelAndView.addObject("latitude", latitude);
-
-            DistrictPo district = shopDetailPo.getDistrict();
-            if (district != null) {
-                DepotPo onlineDepot = shopService.getOnlineDepotByShopId(shopId, district.getId());
-                if (onlineDepot != null) {
-                    modelAndView.addObject("depotId", onlineDepot.getId());
-                } else {
-                    //筛选最近门店
-                    List<DepotPo> depots = depotService.findAll();
-                    Double distance = 0.00;
-                    if (depots.size() != 0) {
-                        if (longitude != null && latitude != null) {
-                            for (DepotPo depotPo : depots) {
-                                if (depotPo.getDepotType() == DepotType.DEPOT_TYPE_OFFLINE) {
-                                    if (depotPo.getDepotLongitude() != null && depotPo.getDepotLatitude() != null) {
-                                        Double distanceOne = GetLatAndLongByBaidu
-                                                .Distance(Double.parseDouble(longitude), (Double.parseDouble(latitude)),
-                                                        depotPo.getDepotLongitude().doubleValue(), depotPo.getDepotLatitude().doubleValue());
-                                        if (distance == 0.00) {
-                                            distance = distanceOne;
-                                        }
-                                        if (distanceOne < distance) {
-                                            distance = distanceOne;
-                                            depotId = depotPo.getId();
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }*/
-        return depotId;
-    }
 
     @RequestMapping(value = "isBusinessLicenceIdExist", method = RequestMethod.GET)
     @ResponseBody

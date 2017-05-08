@@ -3,6 +3,7 @@ package com.biz.service.org;
 import com.alibaba.fastjson.JSONObject;
 import com.biz.core.util.DateUtil;
 import com.biz.core.util.StringTool;
+import com.biz.event.org.ShopAuditEvent;
 import com.biz.event.org.ShopDetailUpdateEvent;
 import com.biz.event.org.ShopQualificationUpdateEvent;
 import com.biz.gbck.common.bean.PageControl;
@@ -453,54 +454,52 @@ public class ShopServiceImpl extends CommonService  implements ShopService {
 
     @Override
     public void auditShop(ShopAuditReqVo reqVo) throws CommonException {
-//        ShopPo shop;
-//        if (reqVo.getAuditStatus() == AuditStatus.NORMAL) {
-//            reqVo.setAuditStatus(AuditStatus.NORMAL);
-//        } else {
-//            reqVo.setAuditStatus(AuditStatus.AUDIT_FAILED);
-//        }
-//        this.updateShopType(reqVo);
-//        this.auditUpdateShopPo(reqVo); //修改shopPo dylan
-//        ShopDetailPo shopDetailPo = auditShopDetail(reqVo);
-//        ShopQualificationPo shopQualificationPo = auditShopQualification(reqVo);
-//        //发布事件
-//        publishEvent(new ShopAuditEvent(this, shopDetailPo, shopQualificationPo));
-//
-//        if (reqVo.getShopDetailId() != null) {
-//            shop = shopDetailRepository.findOne(reqVo.getShopDetailId()).getShop();
-//        } else {
-//            shop = shopQualificationRepository.findOne(reqVo.getShopQualificationId()).getShop();
-//        }
-//        String mobile = shop.getMobile();
-//        //        smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_DETAIL_FAILED);
-//        if (reqVo.getAuditStatus() == AuditStatus.NORMAL) {
-//            logger.debug("send message to [{}],", mobile);
-//            smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_SUCCESS, null);
-//        } else if (reqVo.getAuditStatus() == AuditStatus.AUDIT_FAILED) {
-//            for (String reason : reqVo.getAuditRejectReasons()) {
-//                if (AuditRejectReason.DETAIL_INVALID.getValue().toString().equals(reason)) {
-//                    logger.debug("send message to [{}],", mobile);
-//                    smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_DETAIL_FAILED, null);
-//                } else if (AuditRejectReason.BUSINESS_LICENCE_PHOTO_NOT_CLEAR.getValue().toString()
-//                        .equals(reason)) {
-//                    smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_LICENCE_PHOTO_FAILED, null);
-//                } else if (AuditRejectReason.SHOP_PHOTO_INVALID.getValue().toString()
-//                        .equals(reason)) {
-//                    smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_PHOTO_FAILED, null);
-//                } else if (AuditRejectReason.BUSINESS_LICENCE_ID_EXIST.getValue().toString()
-//                        .equals(reason)) {
-//                    smsService
-//                            .SMSMsg(mobile, AlidayuTemplateCode.AUDIT_LICENCE_NUMBER_FAILED, null);
-//                } else if (AuditRejectReason.BUSINESS_LICENCE_TYPE_INVALID.getValue().toString()
-//                        .equals(reason)) {
-//                    smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_COMPANY_TYPE_FAILED, null);
-//                } else if (AuditRejectReason.BUSINESS_LICENCE_SCOP_INVALID.getValue().toString()
-//                        .equals(reason)) {
-//                    smsService
-//                            .SMSMsg(mobile, AlidayuTemplateCode.AUDIT_COMPANY_MANAGE_FAILED, null);
-//                }
-//            }
-//        }
+        ShopPo shop;
+        if (reqVo.getAuditStatus() == AuditStatus.NORMAL) {
+            reqVo.setAuditStatus(AuditStatus.NORMAL);
+        } else {
+            reqVo.setAuditStatus(AuditStatus.AUDIT_FAILED);
+        }
+       /* this.updateShopType(reqVo);
+        this.auditUpdateShopPo(reqVo);*/ //修改shopPo dylan
+        ShopDetailPo shopDetailPo = auditShopDetail(reqVo); //修改商户详情
+        ShopQualificationPo shopQualificationPo = auditShopQualification(reqVo); //修改商户资质
+        publishEvent(new ShopAuditEvent(this, shopDetailPo, shopQualificationPo)); //发布事件
+
+        if (reqVo.getShopDetailId() != null) {
+            shop = shopDetailRepository.findOne(reqVo.getShopDetailId()).getShop();
+        } else {
+            shop = shopQualificationRepository.findOne(reqVo.getShopQualificationId()).getShop();
+        }
+        String mobile = shop.getMobile();
+      /* 消息发送  if (reqVo.getAuditStatus() == AuditStatus.NORMAL) {
+            logger.debug("send message to [{}],", mobile);
+            smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_SUCCESS, null);
+        } else if (reqVo.getAuditStatus() == AuditStatus.AUDIT_FAILED) {
+            for (String reason : reqVo.getAuditRejectReasons()) {
+                if (AuditRejectReason.DETAIL_INVALID.getValue().toString().equals(reason)) {
+                    logger.debug("send message to [{}],", mobile);
+                    smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_DETAIL_FAILED, null);
+                } else if (AuditRejectReason.BUSINESS_LICENCE_PHOTO_NOT_CLEAR.getValue().toString()
+                        .equals(reason)) {
+                    smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_LICENCE_PHOTO_FAILED, null);
+                } else if (AuditRejectReason.SHOP_PHOTO_INVALID.getValue().toString()
+                        .equals(reason)) {
+                    smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_PHOTO_FAILED, null);
+                } else if (AuditRejectReason.BUSINESS_LICENCE_ID_EXIST.getValue().toString()
+                        .equals(reason)) {
+                    smsService
+                            .SMSMsg(mobile, AlidayuTemplateCode.AUDIT_LICENCE_NUMBER_FAILED, null);
+                } else if (AuditRejectReason.BUSINESS_LICENCE_TYPE_INVALID.getValue().toString()
+                        .equals(reason)) {
+                    smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_COMPANY_TYPE_FAILED, null);
+                } else if (AuditRejectReason.BUSINESS_LICENCE_SCOP_INVALID.getValue().toString()
+                        .equals(reason)) {
+                    smsService
+                            .SMSMsg(mobile, AlidayuTemplateCode.AUDIT_COMPANY_MANAGE_FAILED, null);
+                }
+            }
+        }*/
     }
 
     @Override

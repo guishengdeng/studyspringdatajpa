@@ -66,7 +66,7 @@
                                     <div class="col-xs-6 col-sm-4 col-md-3">
                                         商户类型:
 											<span class="input-icon">
-												<input type="text" value="${shopDetail.shopType.id}" >
+												<input type="text" value="${shopDetail.shopType.name}" >
 											</span>
                                     </div>
                                     <div class="col-xs-6 col-sm-4 col-md-3">
@@ -87,7 +87,7 @@
                                     <div class="col-xs-6 col-sm-4 col-md-3">
                                         推荐人_:
 											<span class="input-icon">
-												<input type="text" value="${emp.name}">
+												<input type="text" value="还没有返回推荐人！">
 											</span>
                                     </div>
                                     <div class="col-xs-6 col-sm-4 col-md-3">
