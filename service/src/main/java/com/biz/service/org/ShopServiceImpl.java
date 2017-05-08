@@ -3,6 +3,7 @@ package com.biz.service.org;
 import com.alibaba.fastjson.JSONObject;
 import com.biz.core.util.DateUtil;
 import com.biz.core.util.StringTool;
+import com.biz.event.org.ShopAuditEvent;
 import com.biz.event.org.ShopDetailUpdateEvent;
 import com.biz.event.org.ShopQualificationUpdateEvent;
 import com.biz.gbck.common.bean.PageControl;
@@ -28,6 +29,7 @@ import com.biz.gbck.dao.mysql.repository.org.ShopQualificationRepository;
 import com.biz.gbck.dao.mysql.repository.org.ShopRepository;
 import com.biz.gbck.dao.mysql.repository.org.ShopTypeRepository;
 import com.biz.gbck.dao.mysql.repository.org.UserRepository;
+import com.biz.gbck.dao.mysql.specification.org.ShopSearchSpecification;
 import com.biz.gbck.dao.redis.repository.org.ShopRedisDao;
 import com.biz.gbck.dao.redis.repository.org.UserRedisDao;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
@@ -49,6 +51,7 @@ import com.biz.gbck.vo.org.ShopExportVo;
 import com.biz.gbck.vo.org.ShopsInfoExportVo;
 import com.biz.gbck.vo.org.User20VIPVo;
 import com.biz.gbck.vo.org.UserVo;
+import com.biz.gbck.vo.org.*;
 import com.biz.gbck.vo.search.SearchShopReqVo;
 import com.biz.gbck.vo.search.SearchUserReqVo;
 import com.biz.gbck.vo.search.ShopQueryReqVo;
@@ -568,54 +571,52 @@ public class ShopServiceImpl extends CommonService  implements ShopService {
 
     @Override
     public void auditShop(ShopAuditReqVo reqVo) throws CommonException {
-//        ShopPo shop;
-//        if (reqVo.getAuditStatus() == AuditStatus.NORMAL) {
-//            reqVo.setAuditStatus(AuditStatus.NORMAL);
-//        } else {
-//            reqVo.setAuditStatus(AuditStatus.AUDIT_FAILED);
-//        }
-//        this.updateShopType(reqVo);
-//        this.auditUpdateShopPo(reqVo); //修改shopPo dylan
-//        ShopDetailPo shopDetailPo = auditShopDetail(reqVo);
-//        ShopQualificationPo shopQualificationPo = auditShopQualification(reqVo);
-//        //发布事件
-//        publishEvent(new ShopAuditEvent(this, shopDetailPo, shopQualificationPo));
-//
-//        if (reqVo.getShopDetailId() != null) {
-//            shop = shopDetailRepository.findOne(reqVo.getShopDetailId()).getShop();
-//        } else {
-//            shop = shopQualificationRepository.findOne(reqVo.getShopQualificationId()).getShop();
-//        }
-//        String mobile = shop.getMobile();
-//        //        smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_DETAIL_FAILED);
-//        if (reqVo.getAuditStatus() == AuditStatus.NORMAL) {
-//            logger.debug("send message to [{}],", mobile);
-//            smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_SUCCESS, null);
-//        } else if (reqVo.getAuditStatus() == AuditStatus.AUDIT_FAILED) {
-//            for (String reason : reqVo.getAuditRejectReasons()) {
-//                if (AuditRejectReason.DETAIL_INVALID.getValue().toString().equals(reason)) {
-//                    logger.debug("send message to [{}],", mobile);
-//                    smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_DETAIL_FAILED, null);
-//                } else if (AuditRejectReason.BUSINESS_LICENCE_PHOTO_NOT_CLEAR.getValue().toString()
-//                        .equals(reason)) {
-//                    smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_LICENCE_PHOTO_FAILED, null);
-//                } else if (AuditRejectReason.SHOP_PHOTO_INVALID.getValue().toString()
-//                        .equals(reason)) {
-//                    smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_PHOTO_FAILED, null);
-//                } else if (AuditRejectReason.BUSINESS_LICENCE_ID_EXIST.getValue().toString()
-//                        .equals(reason)) {
-//                    smsService
-//                            .SMSMsg(mobile, AlidayuTemplateCode.AUDIT_LICENCE_NUMBER_FAILED, null);
-//                } else if (AuditRejectReason.BUSINESS_LICENCE_TYPE_INVALID.getValue().toString()
-//                        .equals(reason)) {
-//                    smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_COMPANY_TYPE_FAILED, null);
-//                } else if (AuditRejectReason.BUSINESS_LICENCE_SCOP_INVALID.getValue().toString()
-//                        .equals(reason)) {
-//                    smsService
-//                            .SMSMsg(mobile, AlidayuTemplateCode.AUDIT_COMPANY_MANAGE_FAILED, null);
-//                }
-//            }
-//        }
+        ShopPo shop;
+        if (reqVo.getAuditStatus() == AuditStatus.NORMAL) {
+            reqVo.setAuditStatus(AuditStatus.NORMAL);
+        } else {
+            reqVo.setAuditStatus(AuditStatus.AUDIT_FAILED);
+        }
+       /* this.updateShopType(reqVo);
+        this.auditUpdateShopPo(reqVo);*/ //修改shopPo dylan
+        ShopDetailPo shopDetailPo = auditShopDetail(reqVo); //修改商户详情
+        ShopQualificationPo shopQualificationPo = auditShopQualification(reqVo); //修改商户资质
+        publishEvent(new ShopAuditEvent(this, shopDetailPo, shopQualificationPo)); //发布事件
+
+        if (reqVo.getShopDetailId() != null) {
+            shop = shopDetailRepository.findOne(reqVo.getShopDetailId()).getShop();
+        } else {
+            shop = shopQualificationRepository.findOne(reqVo.getShopQualificationId()).getShop();
+        }
+        String mobile = shop.getMobile();
+      /* 消息发送  if (reqVo.getAuditStatus() == AuditStatus.NORMAL) {
+            logger.debug("send message to [{}],", mobile);
+            smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_SUCCESS, null);
+        } else if (reqVo.getAuditStatus() == AuditStatus.AUDIT_FAILED) {
+            for (String reason : reqVo.getAuditRejectReasons()) {
+                if (AuditRejectReason.DETAIL_INVALID.getValue().toString().equals(reason)) {
+                    logger.debug("send message to [{}],", mobile);
+                    smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_DETAIL_FAILED, null);
+                } else if (AuditRejectReason.BUSINESS_LICENCE_PHOTO_NOT_CLEAR.getValue().toString()
+                        .equals(reason)) {
+                    smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_LICENCE_PHOTO_FAILED, null);
+                } else if (AuditRejectReason.SHOP_PHOTO_INVALID.getValue().toString()
+                        .equals(reason)) {
+                    smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_PHOTO_FAILED, null);
+                } else if (AuditRejectReason.BUSINESS_LICENCE_ID_EXIST.getValue().toString()
+                        .equals(reason)) {
+                    smsService
+                            .SMSMsg(mobile, AlidayuTemplateCode.AUDIT_LICENCE_NUMBER_FAILED, null);
+                } else if (AuditRejectReason.BUSINESS_LICENCE_TYPE_INVALID.getValue().toString()
+                        .equals(reason)) {
+                    smsService.SMSMsg(mobile, AlidayuTemplateCode.AUDIT_COMPANY_TYPE_FAILED, null);
+                } else if (AuditRejectReason.BUSINESS_LICENCE_SCOP_INVALID.getValue().toString()
+                        .equals(reason)) {
+                    smsService
+                            .SMSMsg(mobile, AlidayuTemplateCode.AUDIT_COMPANY_MANAGE_FAILED, null);
+                }
+            }
+        }*/
     }
 
     @Override
@@ -757,40 +758,8 @@ public class ShopServiceImpl extends CommonService  implements ShopService {
     }
 
     @Override
-    public ShopAuditDataMap findShopAuditDataOfWaitForAudit() {
-        List<ShopDetailPo> shopsOfDetailWaitForAudit = shopDetailRepository
-                .findByAuditStatusInOrderByCreateTimeDesc(
-                        newArrayList(AuditStatus.WAIT_FOR_AUDIT.getValue(),
-                                AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue()));
-
-        List<ShopQualificationPo> shopsOfQualificationWaitForAudit = shopQualificationRepository
-                .findByAuditStatusInOrderByIdDesc(newArrayList(AuditStatus.WAIT_FOR_AUDIT.getValue(),
-                        AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue()));
-
-        ShopAuditDataMap shopAuditDataMap =
-                new ShopAuditDataMap(shopsOfDetailWaitForAudit, shopsOfQualificationWaitForAudit);
-        List<Long> shopNeedToRemove = newArrayList();
-        for (Map.Entry<Long, ShopAuditVo> shopAuditVoEntry : shopAuditDataMap.entrySet()) {
-
-            Long shopId = shopAuditVoEntry.getKey();
-            if (shopAuditVoEntry.getValue().getShopQualification() == null
-                    && shopAuditVoEntry.getValue().getShopDetail() != null && !Objects
-                    .equals(shopAuditVoEntry.getValue().getShopDetail().getAuditStatus(),
-                            AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue())) {
-                shopNeedToRemove.add(shopId);
-                continue;
-            }
-            if (shopAuditVoEntry.getValue().getShopDetail() == null) {
-                List<ShopDetailPo> shopDetails =
-                        shopDetailRepository.findByShopIdOrderByIdDesc(shopId);
-                shopAuditVoEntry.getValue()
-                        .setShopDetail(CollectionUtils.getFirstOrNull(shopDetails));
-            }
-        }
-        for (Long shopId : shopNeedToRemove) {
-            shopAuditDataMap.remove(shopId);
-        }
-        return shopAuditDataMap;
+    public Page<ShopDetailPo> findShopAuditDataOfWaitForAudit(ShopSearchVo reqVo) {
+        return shopDetailRepository.findAll(new ShopSearchSpecification(reqVo), new PageRequest(reqVo.getPage()-1, reqVo.getPageSize()));
     }
 
     @Override

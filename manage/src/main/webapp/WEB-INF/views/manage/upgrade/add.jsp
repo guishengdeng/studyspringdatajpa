@@ -59,8 +59,8 @@
                                            for="version">版本号
                                     </label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="version" id="version" maxlength="20"
-                                               placeholder="版本号" class="required text col-xs-10 col-sm-5"/>
+                                        <input type="text" name="version" id="version" maxlength="20"  pattern="\d+[.]\d+[.]\d+"
+                                               placeholder="例：1.1.11" class="required text col-xs-10 col-sm-5 regExp"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -109,7 +109,8 @@
                                            for="md5">MD5
                                     </label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="md5" id="md5" size="50" class="required text col-xs-10 col-sm-5">
+                                        <input type="text" name="md5" id="md5" size="50" class="required text col-xs-10 col-sm-5 regExp"
+                                               pattern="^([a-fA-F0-9]{32,32})$" >
                                     </div>
                                 </div>
                                 <div class="form-group">

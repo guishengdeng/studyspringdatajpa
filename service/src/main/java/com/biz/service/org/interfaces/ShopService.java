@@ -13,20 +13,7 @@ import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopStatus;
-import com.biz.gbck.vo.org.ChangePaymentPwdReqVo;
-import com.biz.gbck.vo.org.SearchShopRespVo;
-import com.biz.gbck.vo.org.ShopAuditDataMap;
-import com.biz.gbck.vo.org.ShopAuditReqVo;
-import com.biz.gbck.vo.org.ShopChangeDeliveryAddressReqVo;
-import com.biz.gbck.vo.org.ShopDetailOrQualificationGetReqVo;
-import com.biz.gbck.vo.org.ShopEditVo;
-import com.biz.gbck.vo.org.ShopExportVo;
-import com.biz.gbck.vo.org.ShopUpdateDetailReqVo;
-import com.biz.gbck.vo.org.ShopUpdateQualificationReqVo;
-import com.biz.gbck.vo.org.ShopsInfoExportVo;
-import com.biz.gbck.vo.org.User20VIPVo;
-import com.biz.gbck.vo.org.UserChangeDeliveryNameReqVo;
-import com.biz.gbck.vo.org.UserVo;
+import com.biz.gbck.vo.org.*;
 import com.biz.gbck.vo.search.SearchShopReqVo;
 import com.biz.gbck.vo.search.ShopQueryReqVo;
 import com.biz.gbck.vo.zsgf.ZsgfLoanQueryReqVo;
@@ -164,9 +151,10 @@ public interface ShopService {
     void changeDeliveryName(UserChangeDeliveryNameReqVo reqVo) throws CommonException;
 
     /**
-     * 获取所有待审核商户
+     * 获取所有商户
      */
-    ShopAuditDataMap findShopAuditDataOfWaitForAudit();
+    Page<ShopDetailPo> findShopAuditDataOfWaitForAudit(ShopSearchVo reqVo);
+
 
     /**
      * 获取单个商户待审核信息
