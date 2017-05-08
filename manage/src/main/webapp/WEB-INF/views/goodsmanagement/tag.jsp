@@ -29,7 +29,8 @@
         </div>
         <div class="page-content">
             <h3 class="header smaller lighter blue">
-                添加标签
+                <c:if test="${saleTag.id==null}">添加标签</c:if>
+                <c:if test="${saleTag.id!=null}">修改标签</c:if>
             </h3>
             <div class="row">
                 <div class="col-xs-12">
