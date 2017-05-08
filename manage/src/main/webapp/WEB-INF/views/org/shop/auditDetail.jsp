@@ -105,25 +105,11 @@
                                     </div>
                                 </div>
                                 <br>
-                                <div class="row">
-                                    <div class="box1 col-md-6">
-                                        智选分类标签:
-											<span class="input-icon">
-												<input style="width: 500px" class="form-control" type="text"
-                                                       value="">
-											</span>
-                                    </div>
-                                    <div class="box1 col-md-6">
-                                        智选价格标签:
-											<span class="input-icon">
-												<input style="width: 500px" class="form-control" type="text">
-											</span>
-                                    </div>
-                                </div>
                                 <br>
                                 <div class="row">
                                     <div class="col-sm-9">
                                         <div class="box1 col-md-6">
+                                            注册地址:
                                             <manage:geo provinceFieldName="provinceId" cityFieldName="cityId"
                                                         districtFieldName="districtId"
                                                         provinceId="${shopDetail.province.id}"

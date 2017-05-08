@@ -5,13 +5,11 @@
 <%@ attribute name="cityId" required="false" type="java.lang.Integer" %>
 <%@ attribute name="fieldClasses" required="false" type="java.lang.String" %>
 <%@ attribute name="multipe" required="false" type="java.lang.Boolean" description="是否支持多选" %>
-<div class="${empty fieldClasses ? 'five wide field' : fieldClasses} city-selector">
-    <label>市</label>
     <select name="${fieldName}" class="search" ${multipe ? 'multiple' : ''} >
         <option value="">请选择</option>
         <depot:city provinceId="${provinceId}" cityId="${cityId}"/>
     </select>
-</div>
+市
 <script type="application/javascript">
     $(function () {
         $(".city-selector select").dropdown({
