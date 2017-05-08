@@ -1,14 +1,17 @@
 package com.biz.gbck.vo.order.resp;
 
+import com.biz.core.util.JsonUtil;
 import com.biz.gbck.dao.mysql.po.order.Order;
-import com.biz.gbck.enums.order.OrderStatus;
+import com.biz.gbck.enums.order.InvoiceType;
 import com.biz.gbck.enums.order.PaymentType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.codelogger.utils.StringUtils;
+
 import java.sql.Timestamp;
 import java.util.List;
 
 import static com.biz.gbck.common.Constant.DEFAULT_ORDER_EXPIRE_TIME;
+import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * 订单返回Vo
@@ -33,8 +36,7 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
     /**
      * 订单状态
      */
-    @JsonIgnore
-    private OrderStatus status;
+    private Integer status;
 
     /**
      * 订单状态名称
@@ -75,9 +77,9 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
     private Long payLimitTime;
 
     /**
-     * 支付方式类型
+     * 支付方式类型{@link PaymentType}
      */
-    private PaymentType paymentType;
+    private Integer paymentType;
 
     /**
      * 卖家Id
@@ -112,27 +114,27 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
     /**
      * 判断是否可以现在支付
      */
-    private Boolean payable;
+    private Boolean payable = false;
 
     /**
      * 是否可以取消
      */
-    private Boolean cancelable;
+    private Boolean cancelable = false;
 
     /**
      * 是否显示 联系客服
      */
-    private Boolean contactable;
+    private Boolean contactable = true;
 
     /**
      * 是否显示 再次购买
      */
-    private Boolean isBuyAgain;
+    private Boolean isBuyAgain = false;
 
     /**
      * 是否可以申请售后
      */
-    private Boolean applyRefundable;
+    private Boolean applyRefundable = false;
 
     /**
      * 订单备注
@@ -145,16 +147,25 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
     private String hint;
 
     /**
-     * 发票信息
+     * 发票类型{@link InvoiceType}
      */
-    private String ticket;
+    private Integer invoiceType;
+
+    /**
+     * 发票抬头
+     */
+    private String invoiceTitle;
 
     /**
      * 订单商品明细
      */
     private List<OrderItemRespVo> items;
 
+    public OrderRespVo() {
+    }
+
     public OrderRespVo(Order order) {
+        this();
         this.setId(order.getId());
         this.setSellerId(order.getSellerId());
         this.setBuyerId(order.getUserId());
@@ -165,11 +176,13 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
         this.setVoucherOffsetAmount(order.getVoucherFreeAmount());
         this.setCreateTimestamp(order.getCreateTimestamp());
         this.setCreateTime(order.getCreateTimestamp().getTime());
-        this.setStatus(order.getStatus());
-        this.setStatusName(order.getStatus().getDesc());
+        this.setStatus(order.getStatus().getValue());
+        this.setPaymentType(order.getPaymentType().getValue());
         this.setDescription(order.getDescription());
-        this.setTicket(order.getInvoice() != null && StringUtils.isNotBlank(order.getInvoice().getTitle()) ? order
-                .getInvoice().getTitle() : null);
+        this.setInvoiceType(order.getInvoice() != null ? order.getInvoice().getInvoiceType().getValue() : InvoiceType
+                .NO.getValue());
+        this.setInvoiceTitle(order.getInvoice() != null && StringUtils.isNotBlank(order.getInvoice().getTitle()) ?
+                order.getInvoice().getTitle() : null);
         this.setPayLimitTime(this.getCreateTime() + DEFAULT_ORDER_EXPIRE_TIME);
     }
 
@@ -189,11 +202,11 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
         this.orderCode = orderCode;
     }
 
-    public OrderStatus getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(OrderStatus status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -261,11 +274,11 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
         this.payLimitTime = payLimitTime;
     }
 
-    public PaymentType getPaymentType() {
+    public Integer getPaymentType() {
         return paymentType;
     }
 
-    public void setPaymentType(PaymentType paymentType) {
+    public void setPaymentType(Integer paymentType) {
         this.paymentType = paymentType;
     }
 
@@ -373,12 +386,20 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
         this.hint = hint;
     }
 
-    public String getTicket() {
-        return ticket;
+    public Integer getInvoiceType() {
+        return invoiceType;
     }
 
-    public void setTicket(String ticket) {
-        this.ticket = ticket;
+    public void setInvoiceType(Integer invoiceType) {
+        this.invoiceType = invoiceType;
+    }
+
+    public String getInvoiceTitle() {
+        return invoiceTitle;
+    }
+
+    public void setInvoiceTitle(String invoiceTitle) {
+        this.invoiceTitle = invoiceTitle;
     }
 
     public List<OrderItemRespVo> getItems() {
@@ -394,5 +415,12 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
         return o.createTimestamp.compareTo(this.createTimestamp);
     }
 
+
+    public static void main(String[] args) {
+        OrderRespVo vo = new OrderRespVo();
+        vo.setItems(newArrayList(new OrderItemRespVo()));
+        JsonUtil.printObjectJsonDemo(vo);
+        System.out.println(JsonUtil.obj2Json(vo));
+    }
 
 }

@@ -54,8 +54,10 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
     @Override
     public List<OrderRespVo> listOrders(OrderListReqVo reqVo) {
         SystemAsserts.notNull(reqVo);
+        OrderShowStatus status = OrderShowStatus.valueOf(reqVo.getStatus());
+        SystemAsserts.notNull("status", "订单状态不合法");
         List<Long> orderIds = orderRedisDao.findOrderIdsByUserIdWithPeriod(Long.valueOf(reqVo
-                .getUserId()), OrderShowStatus.valueOf(reqVo.getStatus()), reqVo.getPage(), reqVo.getSize());
+                .getUserId()), status, reqVo.getPage(), reqVo.getSize());
         List<Order> orders = orderRepository.findAll(orderIds);
         return this.buildOrderVos(orders);
     }

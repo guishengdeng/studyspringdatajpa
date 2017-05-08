@@ -1,6 +1,7 @@
 package com.biz.gbck.vo.order.resp;
 
 import com.biz.gbck.dao.mysql.po.order.OrderItem;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 
@@ -17,6 +18,7 @@ public class OrderItemRespVo implements Comparable<OrderItemRespVo>, Serializabl
     private static final long serialVersionUID = -7211038111581086451L;
 
     //Id
+    @JsonIgnore
     private Long id;
 
     /**
@@ -59,7 +61,12 @@ public class OrderItemRespVo implements Comparable<OrderItemRespVo>, Serializabl
      */
     private Boolean returnFlag = false;
 
+
+    public OrderItemRespVo() {
+    }
+
     public OrderItemRespVo(OrderItem orderItem) {
+        this();
         this.setId(orderItem.getId());
         this.setProductId(orderItem.getProductId());
         this.setProductCode(orderItem.getProductCode());

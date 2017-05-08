@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 订单controller
@@ -38,8 +39,8 @@ public class OrderController extends BaseRestController {
     @RequestMapping("/list")
     public JSONResult allTypeOrders(HttpServletRequest request){
         OrderListReqVo reqVo = super.parseBizData(request, OrderListReqVo.class);
-        orderService.listOrders(reqVo);
-        return new JSONResult();
+        List<OrderRespVo> respVos = orderService.listOrders(reqVo);
+        return new JSONResult(respVos);
     }
 
     //订单详情
