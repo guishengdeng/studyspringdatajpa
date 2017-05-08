@@ -9,6 +9,7 @@ import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.order.PaymentException;
 import com.biz.gbck.vo.IdReqVo;
+import com.biz.gbck.vo.PageRespVo;
 import com.biz.gbck.vo.order.req.OrderCreateReqVo;
 import com.biz.gbck.vo.order.req.OrderCreateWechatReqVo;
 import com.biz.gbck.vo.order.req.OrderListReqVo;
@@ -52,14 +53,16 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
     /*****************public begin*********************/
 
     @Override
-    public List<OrderRespVo> listOrders(OrderListReqVo reqVo) {
+    public PageRespVo listOrders(OrderListReqVo reqVo) {
         SystemAsserts.notNull(reqVo);
         OrderShowStatus status = OrderShowStatus.valueOf(reqVo.getStatus());
         SystemAsserts.notNull("status", "订单状态不合法");
         List<Long> orderIds = orderRedisDao.findOrderIdsByUserIdWithPeriod(Long.valueOf(reqVo
                 .getUserId()), status, reqVo.getPage(), reqVo.getSize());
         List<Order> orders = orderRepository.findAll(orderIds);
-        return this.buildOrderVos(orders);
+        List<OrderRespVo> orderRespVos = this.buildOrderVos(orders);
+
+        return new PageRespVo(reqVo.getPage(), orderRespVos);
     }
 
     @Override

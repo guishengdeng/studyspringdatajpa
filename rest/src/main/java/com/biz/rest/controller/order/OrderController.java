@@ -3,6 +3,7 @@ package com.biz.rest.controller.order;
 import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.IdReqVo;
+import com.biz.gbck.vo.PageRespVo;
 import com.biz.gbck.vo.order.req.OrderCreateReqVo;
 import com.biz.gbck.vo.order.req.OrderCreateWechatReqVo;
 import com.biz.gbck.vo.order.req.OrderListReqVo;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * 订单controller
@@ -39,8 +39,8 @@ public class OrderController extends BaseRestController {
     @RequestMapping("/list")
     public JSONResult allTypeOrders(HttpServletRequest request){
         OrderListReqVo reqVo = super.parseBizData(request, OrderListReqVo.class);
-        List<OrderRespVo> respVos = orderService.listOrders(reqVo);
-        return new JSONResult(respVos);
+        PageRespVo pageRespVo = orderService.listOrders(reqVo);
+        return new JSONResult(pageRespVo);
     }
 
     //订单详情
