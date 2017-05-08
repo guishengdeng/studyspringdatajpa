@@ -37,9 +37,15 @@ public class Company extends BaseEntity {
     @Column(length = 40) private String name;
 
     /**
-     * 法人名字
+     * 法人名字(联系人)
      */
     @Column(length = 40) private String corporateName;
+
+    /**
+     * 联系电话
+     */
+    @Column(length = 40)
+    private String mobile;
 
     /**
      * 公司描述
@@ -131,5 +137,13 @@ public class Company extends BaseEntity {
 
     public void setCorporateName(String corporateName) {
         this.corporateName = corporateName;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }

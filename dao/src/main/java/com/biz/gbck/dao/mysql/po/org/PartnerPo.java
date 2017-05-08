@@ -41,6 +41,62 @@ public class PartnerPo extends Company{
     private List<ShopPo> shopPos;
 
 
+    /**
+     * 经营品类
+     */
+    private String category;
+
+    /**
+     * 注册资金
+     */
+    private String capital;
+
+    /**
+     * 经营规模
+     */
+    private String businessScale;
+
+    /**
+     * 意向销售区域
+     */
+    private String intentionSaleArea;
+
+    /**
+     * 目前销售区域
+     */
+    private String currentSaleArea;
+
+    /**
+     * 团队人数
+     */
+    private String teamSize;
+
+    /**
+     * 车辆数量
+     */
+    private String vehicleSize;
+
+    /**
+     * 仓库面积
+     */
+    private String storageSpace;
+
+    /**
+     * 客户数量
+     */
+    private String customerNumber;
+
+    /**
+     * 营业执照
+     */
+    private String businessLicense;
+
+    /**
+     * 酒水通行证
+     */
+    private String winePermit;
+
+
     public ProvincePo getProvince() {
         return province;
     }
@@ -71,5 +127,94 @@ public class PartnerPo extends Company{
 
     public void setShopPos(List<ShopPo> shopPos) {
         this.shopPos = shopPos;
+    }
+
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getCapital() {
+        return capital;
+    }
+
+    public void setCapital(String capital) {
+        this.capital = capital;
+    }
+
+    public String getBusinessScale() {
+        return businessScale;
+    }
+
+    public void setBusinessScale(String businessScale) {
+        this.businessScale = businessScale;
+    }
+
+    public String getIntentionSaleArea() {
+        return intentionSaleArea;
+    }
+
+    public void setIntentionSaleArea(String intentionSaleArea) {
+        this.intentionSaleArea = intentionSaleArea;
+    }
+
+    public String getCurrentSaleArea() {
+        return currentSaleArea;
+    }
+
+    public void setCurrentSaleArea(String currentSaleArea) {
+        this.currentSaleArea = currentSaleArea;
+    }
+
+    public String getTeamSize() {
+        return teamSize;
+    }
+
+    public void setTeamSize(String teamSize) {
+        this.teamSize = teamSize;
+    }
+
+    public String getVehicleSize() {
+        return vehicleSize;
+    }
+
+    public void setVehicleSize(String vehicleSize) {
+        this.vehicleSize = vehicleSize;
+    }
+
+    public String getStorageSpace() {
+        return storageSpace;
+    }
+
+    public void setStorageSpace(String storageSpace) {
+        this.storageSpace = storageSpace;
+    }
+
+    public String getCustomerNumber() {
+        return customerNumber;
+    }
+
+    public void setCustomerNumber(String customerNumber) {
+        this.customerNumber = customerNumber;
+    }
+
+    public String getBusinessLicense() {
+        return businessLicense;
+    }
+
+    public void setBusinessLicense(String businessLicense) {
+        this.businessLicense = businessLicense;
+    }
+
+    public String getWinePermit() {
+        return winePermit;
+    }
+
+    public void setWinePermit(String winePermit) {
+        this.winePermit = winePermit;
     }
 }
