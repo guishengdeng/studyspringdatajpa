@@ -290,46 +290,6 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
                                  </span>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label no-padding-right">
-                                    20倍会员下单购买数量 </label>
-                                <div class="col-sm-4">
-                                    <div class="control-group">
-
-                                        <div class="radio inline">
-                                            <label>
-                                                <input name="type" type="radio" class="ace " value="受限"
-                                                       <c:if test="${appVo.type eq '受限'}">checked</c:if>>
-                                                <span class="lbl">受限</span>
-                                            </label>
-                                        </div>
-
-                                        <div class="radio inline">
-                                            <label>
-                                                <input name="type" type="radio" class="ace" value="不受限"
-                                                       <c:if test="${appVo.type eq '不受限'}">checked</c:if>>
-                                                <span class="lbl">不受限</span>
-                                            </label>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-9">
-                                   <span class="input-icon input-icon-right">
-												<input type="number" name="minNum" min="0" style="text-align:left"
-                                                       maxlength="5"
-                                                       value="<c:out value='${appVo.minNum}'/>"
-                                                       id="form-field-icon-4" placeholder="最低起售数量倍数 ">
-                                 </span>
-                                    <span class="input-icon input-icon-right">
-												<input type="number" name="maxNum" min="0"
-                                                       maxlength="5"
-                                                       value="<c:out value='${appVo.maxNum}'/>"
-                                                       id="form-field-icon-3" placeholder="最大购买数量倍数">
-                                 </span>
-                                </div>
-                            </div>
 
                             <div class="clearfix form-actions">
                                 <div class="col-md-offset-3 col-md-9">

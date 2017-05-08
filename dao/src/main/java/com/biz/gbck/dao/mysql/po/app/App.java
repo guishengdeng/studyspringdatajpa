@@ -96,27 +96,6 @@ public class App extends BaseEntity implements Serializable {
     @Column(length = 150)
     private String tabTwo;
 
-    /*
-     *20倍会员下单购买数量受限
-     */
-    @Column(length = 50)
-    private double minNum;
-
-    @Column(length = 50)
-    private double maxNum;
-
-    /*
-     *受限类型
-     */
-    @Column(nullable = false)
-    private String type;
-
-    /*
-     *提示
-     */
-    @Column
-    private boolean point;
-
 
     public String getTel() {
         return tel;
@@ -222,35 +201,4 @@ public class App extends BaseEntity implements Serializable {
         this.tabTwo = tabTwo;
     }
 
-    public double getMinNum() {
-        return minNum;
-    }
-
-    public void setMinNum(double minNum) {
-        this.minNum = minNum;
-    }
-
-    public double getMaxNum() {
-        return maxNum;
-    }
-
-    public void setMaxNum(double maxNum) {
-        this.maxNum = maxNum;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public boolean isPoint() {
-        return point;
-    }
-
-    public void setPoint(boolean point) {
-        this.point = point;
-    }
 }

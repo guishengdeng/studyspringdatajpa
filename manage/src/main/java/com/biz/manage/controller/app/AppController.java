@@ -2,6 +2,7 @@ package com.biz.manage.controller.app;
 
 import com.biz.gbck.dao.mysql.po.app.App;
 import com.biz.gbck.vo.app.AppVo;
+import com.biz.manage.controller.BaseController;
 import com.biz.service.app.AppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -17,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping
 @Secured("ROLE_SALETAG")
-public class AppController {
+public class AppController extends BaseController {
 
     @Autowired
     private AppService appService;

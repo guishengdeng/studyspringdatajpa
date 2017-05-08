@@ -31,10 +31,6 @@ public class AppVoToAppPo implements Function<AppVo, App>, Serializable {
             app.setAmount(vo.getAmount());
             app.setTabOne(vo.getTabOne());
             app.setTabTwo(vo.getTabTwo());
-            app.setMinNum(vo.getMinNum());
-            app.setMaxNum(vo.getMaxNum());
-            app.setType(vo.getType());
-            app.setPoint(vo.isPoint());
         }
         return app;
     }

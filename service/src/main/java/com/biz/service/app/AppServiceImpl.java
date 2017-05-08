@@ -54,10 +54,6 @@ public class AppServiceImpl extends AbstractBaseService implements AppService {
             app.setAmount(appVo.getAmount());
             app.setTabOne(appVo.getTabOne());
             app.setTabTwo(appVo.getTabTwo());
-            app.setMinNum(appVo.getMinNum());
-            app.setMaxNum(appVo.getMaxNum());
-            app.setType(appVo.getType());
-            app.setPoint(appVo.isPoint());
             appRepository.save(app);
         } else {
             //id不为空且数据库中没有找到相对应的数据（异常处理）

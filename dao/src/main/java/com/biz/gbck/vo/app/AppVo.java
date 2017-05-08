@@ -73,25 +73,7 @@ public class AppVo implements Serializable {
     *首页搜索栏显示标签
      */
     private String tabOne;
-
     private String tabTwo;
-
-    /*
-     *20倍会员下单购买数量受限
-     */
-    private double minNum;
-
-    private double maxNum;
-
-    /*
-     *受限类型
-     */
-    private String type;
-
-    /*
-     *提示
-     */
-    private boolean point;
 
     public Long getId() {
         return id;
@@ -204,38 +186,5 @@ public class AppVo implements Serializable {
     public void setTabTwo(String tabTwo) {
         this.tabTwo = tabTwo;
     }
-
-    public double getMinNum() {
-        return minNum;
-    }
-
-    public void setMinNum(double minNum) {
-        this.minNum = minNum;
-    }
-
-    public double getMaxNum() {
-        return maxNum;
-    }
-
-    public void setMaxNum(double maxNum) {
-        this.maxNum = maxNum;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public boolean isPoint() {
-        return point;
-    }
-
-    public void setPoint(boolean point) {
-        this.point = point;
-    }
-
 
 }

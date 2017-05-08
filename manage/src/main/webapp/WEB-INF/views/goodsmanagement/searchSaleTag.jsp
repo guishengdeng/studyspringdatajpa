@@ -76,27 +76,27 @@
                             <h3 class="header smaller lighter blue">
                                 销售标签 <span class="inline help-block">(数据库翻页查询)</span>
                             </h3>
+                            <div>
+                                <a class="btn btn-info btn-sm" id="saleTageAdd" href="goodsmanagement/tag.do">
+                                    添加标签
+                                </a>
+                            </div>
                             <form action="goodsmanagement/search.do" method="get">
                                 <div class="col-md-3 inline">
                                     <label>名字</label>
-                                    <input name="name" value='<c:out value="${saleTagSearch.name}" />' type="text"
+                                    <input name="name" value="<c:out value='${saleTagSearch.name}'/>" type="text"
                                            placeholder="名字" autocomplete="off">
                                 </div>
                                 <div class="col-md-2 inline">
                                     <label>启用状态</label>
                                     <gbck:commonStatusSelect fieldName="saleStatus"
-                                                             selectedStatus="${saleTagSearch.saleStatus}"
+                                                             selectedStatus="${saleTag.saleStatus}"
                                                              withNone="true" enableLabel="启用" disableLabel="禁用"/>
                                 </div>
                                 <div class="inline">
                                     <button type="submit" class="btn btn-info btn-sm">
                                         <i class="ace-icon fa fa-search bigger-110"></i>搜索
                                     </button>
-                                </div>
-                                <div>
-                                    <a class="btn btn-info btn-sm" id="saleTageAdd" href="goodsmanagement/tag.do">
-                                        添加标签
-                                    </a>
                                 </div>
                             </form>
                             <div class="hr hr-18 dotted"></div>
