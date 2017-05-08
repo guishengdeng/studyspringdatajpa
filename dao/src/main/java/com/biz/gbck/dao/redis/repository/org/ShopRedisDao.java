@@ -1,7 +1,11 @@
 package com.biz.gbck.dao.redis.repository.org;
 
+import com.biz.gbck.common.ro.RedisKeyGenerator;
 import com.biz.gbck.dao.redis.CrudRedisDao;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
+import com.biz.redis.util.RedisUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.codelogger.utils.MapUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -16,38 +20,45 @@ import static com.google.common.collect.Lists.newArrayList;
 @Component
 public class ShopRedisDao extends CrudRedisDao<ShopRo,String> {
 
-    /*public void save(ShopRo shopRo) {
-
-        hmset(RedisKeyGenerator.Shop.getShopHashKey(), shopRo.toMap());
+    public void save(ShopRo shopRo) {
+        super.save(shopRo);
         if (shopRo.getChannel() != null && shopRo.getChannelUserId() != null) {
-            String channelAndChannelUserIdToShopIdHashKey = RedisKeyGenerator.Shop
-                .getChannelAndChannelUserIdToShopIdHashKey(shopRo.getChannel(),
-                    shopRo.getChannelUserId());
-            set(channelAndChannelUserIdToShopIdHashKey, RedisUtil.toByteArray(shopRo.getId()));
+            String key = this.getChannelAndChannelUserIdToShopIdHashKey(shopRo.getChannel(), shopRo.getChannelUserId());
+            set(key, RedisUtil.toByteArray(shopRo.getId()));
         }
-        zadd(RedisKeyGenerator.Shop.getAllShopSortSetKey(), shopRo.getCreateTime().getTime(),
-            RedisUtil.toByteArray(shopRo.getId()));
+
+        zadd(this.getAllShopSortSetKey(), shopRo.getCreateTime().getTime(), RedisUtil.toByteArray(shopRo.getId()));
     }
 
-    public ShopRo findOne(Long shopId) {
 
-        if (shopId == null) {
-            return null;
-        }
-        String shopHashKey = RedisKeyGenerator.Shop.getShopHashKey(shopId);
-        Map<byte[], byte[]> map = hgetAll(shopHashKey);
-        if (MapUtils.isNotEmpty(map)) {
-            ShopRo shopRo = new ShopRo();
-            shopRo.fromMap(map);
-            return shopRo;
-        } else
-            return null;
+    private String getChannelAndChannelUserIdToShopIdHashKey(Integer channel, Long channelUserId) {
+        return getKeyByParams(channel, channelUserId);
     }
+
+    private String getAllShopSortSetKey() {
+        return "global:all_shopIds";
+    }
+
+
+//    public ShopRo findOne(Long shopId) {
+//
+//        if (shopId == null) {
+//            return null;
+//        }
+//        String shopHashKey = RedisKeyGenerator.Shop.getShopHashKey(shopId);
+//        Map<byte[], byte[]> map = hgetAll(shopHashKey);
+//        if (MapUtils.isNotEmpty(map)) {
+//            ShopRo shopRo = new ShopRo();
+//            shopRo.fromMap(map);
+//            return shopRo;
+//        } else
+//            return null;
+//    }
 
     public void delete(ShopRo shopRo) {
-
-        del(RedisKeyGenerator.Shop.getShopHashKey(shopRo.getId()));
-        zrem(RedisKeyGenerator.Shop.getAllShopSortSetKey(), RedisUtil.toByteArray(shopRo.getId()));
+        super.delete(shopRo);
+//        del(RedisKeyGenerator.Shop.getShopHashKey(shopRo.getId()));
+        zrem(this.getAllShopSortSetKey(), RedisUtil.toByteArray(shopRo.getId()));
     }
 
     public ShopRo findByChannelAndChannelUserId(Integer channel, Long channelUserId) {
@@ -55,10 +66,9 @@ public class ShopRedisDao extends CrudRedisDao<ShopRo,String> {
         if (channel == null || channelUserId == null) {
             return null;
         } else {
-            String channelAndChannelUserIdToShopIdHashKey = RedisKeyGenerator.Shop
-                .getChannelAndChannelUserIdToShopIdHashKey(channel, channelUserId);
+            String channelAndChannelUserIdToShopIdHashKey = this.getChannelAndChannelUserIdToShopIdHashKey(channel, channelUserId);
             byte[] bytes = get(channelAndChannelUserIdToShopIdHashKey);
-            return bytes == null ? null : findOne(RedisUtil.byteArrayToLong(bytes));
+            return bytes == null ? null : super.findOne(String.valueOf(RedisUtil.byteArrayToLong(bytes)));
         }
     }
 
@@ -76,22 +86,29 @@ public class ShopRedisDao extends CrudRedisDao<ShopRo,String> {
         }
         oldBlackList.removeAll(newBlackList);
         for (String n : newBlackList) {
-            zadd(RedisKeyGenerator.Shop.getBlackListShopKey(), System.currentTimeMillis(),
+            zadd(this.getBlackListShopKey(), System.currentTimeMillis(),
                     RedisUtil.toByteArray(n));
         }
 
     }
 
+    /**
+     * 商户黑名单
+     */
+    private static String getBlackListShopKey() {
+        return "global:black_list_shop";
+    }
+
     public void deleteBlackList(List<String> shopIds) {
         for (String shopId : shopIds) {
-            zrem(RedisKeyGenerator.Shop.getBlackListShopKey(), RedisUtil.toByteArray(shopId));
+            zrem(this.getBlackListShopKey(), RedisUtil.toByteArray(shopId));
         }
     }
 
     public List<String> getBlackList () {
 
         String[] blackList = RedisUtil.bytesSetToStringArray(
-                zRange(RedisKeyGenerator.Shop.getBlackListShopKey(), 0, -1));
+                zRange(this.getBlackListShopKey(), 0, -1));
         if (blackList == null) {
             return newArrayList();
         } else {
@@ -100,9 +117,8 @@ public class ShopRedisDao extends CrudRedisDao<ShopRo,String> {
     }
 
     public boolean getShopCanOrder(String shopId) {
-        return zscore(RedisKeyGenerator.Shop.getBlackListShopKey(),
-                RedisUtil.toByteArray(shopId)) == null;
+        return zscore(this.getBlackListShopKey(), RedisUtil.toByteArray(shopId)) == null;
     }
-*/
+
 }
 

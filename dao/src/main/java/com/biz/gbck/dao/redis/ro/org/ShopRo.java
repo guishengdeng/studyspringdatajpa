@@ -212,6 +212,11 @@ public class ShopRo extends BaseRedisObject<String> implements Serializable {
 
     private Long channelUserId;
 
+    /**
+     * 合作者Id
+     */
+    private Long partnerId;
+
 
     public String getName() {
         return name;
@@ -540,4 +545,11 @@ public class ShopRo extends BaseRedisObject<String> implements Serializable {
         this.paymentPassword = paymentPassword;
     }
 
+    public Long getPartnerId() {
+        return partnerId;
+    }
+
+    public void setPartnerId(Long partnerId) {
+        this.partnerId = partnerId;
+    }
 }

@@ -34,7 +34,7 @@ import com.biz.service.org.interfaces.ShopService;
 import com.biz.service.org.interfaces.UserService;
 import com.biz.service.sms.SMSService;
 import com.biz.transformer.org.UserRoToUserVo;
-import com.biz.vo.org.*;
+import com.biz.gbck.vo.org.*;
 import com.google.common.base.Stopwatch;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

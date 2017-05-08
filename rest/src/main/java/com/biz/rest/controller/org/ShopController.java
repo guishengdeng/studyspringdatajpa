@@ -14,7 +14,7 @@ import com.biz.rest.vo.org.SimpleShopQualification;
 import com.biz.service.org.interfaces.ShopService;
 import com.biz.service.org.interfaces.ShopTypeService;
 import com.biz.support.web.handler.JSONResult;
-import com.biz.vo.org.*;
+import com.biz.gbck.vo.org.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
