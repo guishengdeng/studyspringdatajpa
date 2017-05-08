@@ -39,8 +39,9 @@ public class PartnerServiceImpl implements PartnerService{
         partnerRepository.save(new PartnerRegisterReqVo2PartnerPo().apply(reqVo));
     }
 
-    private boolean validAccountIsExist(String username) {
-        Assert.isTrue(StringUtils.isBlank(username), "用户名不能为空");
-        return StringUtils.isBlank(username) || adminRepository.findOne(username) == null;
+    @Override
+    public boolean validAccountIsExist(String username) {
+        Assert.isTrue(StringUtils.isNoneBlank(username), "用户名不能为空");
+        return adminRepository.findOne(username) != null;
     }
 }

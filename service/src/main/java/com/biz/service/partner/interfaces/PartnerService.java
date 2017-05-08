@@ -9,4 +9,6 @@ import com.biz.vo.partner.PartnerRegisterReqVo;
 public interface PartnerService {
 
     void createPartner(PartnerRegisterReqVo reqVo) throws PartnerExceptions;
+
+    boolean validAccountIsExist(String username);
 }
