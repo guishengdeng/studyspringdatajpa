@@ -4,6 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="manage" tagdir="/WEB-INF/tags" %>
 <depotnextdoor:page title="page.user.edit">
     <jsp:attribute name="script">
         <script type="application/javascript">
@@ -123,7 +124,12 @@
                                 <div class="row">
                                     <div class="col-sm-9">
                                         <div class="box1 col-md-6">
-                                            注册地址:
+                                            <manage:geo provinceFieldName="provinceId" cityFieldName="cityId"
+                                                        districtFieldName="districtId"
+                                                        provinceId="${shopDetail.province.id}"
+                                                        cityId="${shopDetail.city.id}"
+                                                        districtId="${shopDetail.district.id}"/>
+                                           <%-- 注册地址:
 											<span class="input-icon">
 												<input type="text" value="${shopDetail.province.id}"
                                                        style="width: 100px">
@@ -134,7 +140,7 @@
 											<span class="input-icon">
 												<input type="text" value="${shopDetail.district.id}"
                                                        style="width: 100px">
-											</span>区
+											</span>区--%>
                                         </div>
                                         <div class="box1 col-md-6">
                                             详细地址:
