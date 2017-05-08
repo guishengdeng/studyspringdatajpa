@@ -156,7 +156,8 @@ public class ShopServiceImpl extends CommonService  implements ShopService {
         } else {
             shopPo = new UserPoToShopPo().apply(userPo);
             assert shopPo != null;
-            shopPo.setId(idPool.getNextId(IdType.SHOP));
+            //shopPo.setId(idPool.getNextId(IdType.SHOP));
+            shopPo.setId(idService.nextId());
         }
         shopPo.setCorporateName(corporateName);
         if (inviterCode != null) {

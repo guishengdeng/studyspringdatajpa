@@ -40,7 +40,7 @@ import java.util.Map;
 /**
  * Created by J on 2016/3/28.
  */
-@Repository("shopRepositoryImp")
+@Repository("shopRepositoryImpl")
 public class ShopRepositoryImpl extends CommonJpaRepositoryBean<ShopPo, Long> implements ShopDao {
 
 

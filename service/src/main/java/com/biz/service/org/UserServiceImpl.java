@@ -177,8 +177,8 @@ public class UserServiceImpl extends CommonService implements UserService{
             throw DepotnearbyExceptionFactory.User.USER_EXIST;
         }
         if (userPo.getId() == null) {
-            Long userId = idPool.getNextId(IdType.USER);
-            userPo.setId(userId);
+            //Long userId = idPool.getNextId(IdType.USER);
+            userPo.setId(idService.nextId());
         }
         userPo.setCreateTime(DateUtil.now());
         return saveUser(userPo);

@@ -5,6 +5,7 @@ import com.biz.gbck.dao.mysql.po.geo.ProvincePo;
 import com.biz.gbck.dao.mysql.po.security.Admin;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -39,6 +40,18 @@ public class PartnerPo extends Company{
 
     @OneToMany(mappedBy = "partner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ShopPo> shopPos;
+
+    /**
+     * 联系人2
+     */
+    @Column(length = 40) private String contactName;
+
+    /**
+     * 联系电话2
+     */
+    @Column(length = 40)
+    private String mobile2;
+
 
 
     /**
@@ -216,5 +229,21 @@ public class PartnerPo extends Company{
 
     public void setWinePermit(String winePermit) {
         this.winePermit = winePermit;
+    }
+
+    public String getContactName() {
+        return contactName;
+    }
+
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
+    }
+
+    public String getMobile2() {
+        return mobile2;
+    }
+
+    public void setMobile2(String mobile2) {
+        this.mobile2 = mobile2;
     }
 }
