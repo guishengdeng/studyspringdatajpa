@@ -109,7 +109,7 @@
                                         智选分类标签:
 											<span class="input-icon">
 												<input style="width: 500px" class="form-control" type="text"
-                                                       value="${shopDetail.mobile}">
+                                                       value="">
 											</span>
                                     </div>
                                     <div class="box1 col-md-6">
@@ -157,27 +157,6 @@
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <div class="col-xs-6 col-sm-4 col-md-3">
-                                        开发门店:
-											<span class="input-icon">
-												<input type="text" value="${shopDetail.name}">
-											</span>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-4 col-md-3">
-                                        价格门店:
-											<span class="input-icon">
-												<input type="text" value="${shopDetail.shopType.id}">
-											</span>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-4 col-md-3">
-                                        送门店:
-											<span class="input-icon">
-												<input type="text" value="${shopDetail.corporateName}">
-											</span>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="row">
                                     <div class="box1 col-md-6">
                                         附加的支付方式 :
 											<span class="input-icon">
@@ -188,7 +167,8 @@
                                     <div class="box1 col-md-6">
                                         详情提交审核时间:
 											<span class="input-icon">
-												<input style="width: 500px" class="form-control" type="text" readonly="readonly">
+												<input style="width: 500px" class="form-control" type="text" readonly="readonly"
+                                                       value="<fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${shopDetail.createTime}"/>">
 											</span>
                                     </div>
                                 </div>

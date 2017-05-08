@@ -100,7 +100,7 @@
                                         <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${shopDetail.createTime}"/></td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
-                                                <a href="/shops/audit.do?shopId=<c:out value="${shopDetail.id}"/>"
+                                                <a href="/shops/audit.do?shopId=<c:out value="${shopDetail.shop.id}"/>"
                                                    class="btn btn-minier btn-info btn ">
                                                     <i class="ace-icon fa fa-pencil bigger-120"></i>
                                                     审核
