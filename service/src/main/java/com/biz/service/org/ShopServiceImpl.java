@@ -1025,12 +1025,12 @@ public class ShopServiceImpl extends CommonService  implements ShopService {
         if(StringUtils.isBlank(depotId)){
             return newArrayList();
         }
-        return shopRepository.findByDepotId(depotId);
+        return null;//shopRepository.findByDepotId(depotId);
     }
 
 
     public List<ShopPo> findByAssartDepotId(String depotId) {
-        return shopRepository.findByAssartDepotId(depotId);
+        return null;//shopRepository.findByAssartDepotId(depotId);
     }
 
     public List<ShopPo> findByShopIds(Set<Long> shopIds) {

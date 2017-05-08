@@ -21,6 +21,9 @@ public class CatPO extends BaseEntity {
 	@Column(length = 255, unique = false)
 	private String description;
 
+	@Column(length = 255, nullable = false)
+	private String homepage;
+
 	@Column
 	@Convert(converter = SaleStatusEnum.Converter.class)
 	private SaleStatusEnum saleStatus;
@@ -78,6 +81,22 @@ public class CatPO extends BaseEntity {
 	public void setSaleStatus(SaleStatusEnum saleStatus) {
 
 		this.saleStatus = saleStatus;
+	}
+
+	/**
+	 * {@linkplain CatPO#homepage}
+	 */
+	public String getHomepage() {
+
+		return homepage;
+	}
+
+	/**
+	 * {@linkplain CatPO#homepage}
+	 */
+	public void setHomepage(String homepage) {
+
+		this.homepage = homepage;
 	}
 
 	/**

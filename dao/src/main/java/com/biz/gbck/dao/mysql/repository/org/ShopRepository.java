@@ -43,9 +43,9 @@ public interface ShopRepository extends CommonJpaRepository<ShopPo, Long>, ShopD
                             @Param("deliveryName") String deliveryName);
 
 
-    List<ShopPo> findByDepotId(String depotId);
+//    List<ShopPo> findByDepotId(String depotId);
 
-    List<ShopPo> findByAssartDepotId(String depotId);
+//    List<ShopPo> findByAssartDepotId(String depotId);
 
     List<ShopPo> findByIdIn(Set<Long> shopIds);
 

@@ -69,6 +69,11 @@
                         <div class="col-xs-12">
                             <h3 class="header smaller lighter blue">
                                 猫列表 <span class="inline help-block">(数据库翻页查询)</span>
+                                <span class="hidden-sm hidden-xs btn-group pull-right">
+                                    <a href="demo/cats/new.do" class="btn btn-sm btn-primary"><i class="ace-icon glyphicon glyphicon-plus"></i>
+                                        添加
+                                    </a>
+                            </span>
                             </h3>
                             <form action="demo/cats.do" method="get">
                                 <div class="col-md-3 inline">
@@ -95,6 +100,7 @@
                                 <thead>
                                 <tr>
                                     <th class="name">名字</th>
+                                    <th>主页</th>
                                     <th>描述</th>
                                     <th class="status">销售状态</th>
                                     <th class="status">生命体征</th>
@@ -107,6 +113,9 @@
                                     <tr id="tr-${cat.id}">
 
                                         <td><c:out value="${cat.name}" /></td>
+                                        <td>
+                                            <a href="<c:out value="${cat.homepage}"/>" target="_blank"><c:out value="${cat.homepage}"/></a>
+                                        </td>
                                         <td><c:out value="${cat.description}"/></td>
                                         <td><c:out value="${cat.saleStatus.name}"/></td>
                                         <td><c:out value="${cat.status eq 'ENABLE' ? '存活' : '死亡'}"/></td>

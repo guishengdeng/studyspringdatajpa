@@ -50,6 +50,21 @@
                             </div>
                             <%--class上加上required表示为必填，网页上在提交的时候会做验证--%>
                         </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label no-padding-right" for="name">
+                                主页
+                            </label>
+
+                            <div class="col-sm-9">
+                                <input id="homepage" type="text" name="homepage"
+                                       placeholder="主页"
+                                       maxlength="255" minlength="1"
+                                       pattern="https?://[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?[^\x00-\x7F]+\ *(?:[^\x00-\x7F]| )*"
+                                       value='<c:out value="${cat.homepage}"/>' class="regExp text col-xs-12 col-sm-12">
+
+                            </div>
+                            <%--class上加上required表示为必填，网页上在提交的时候会做验证--%>
+                        </div>
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label no-padding-right" for="description">
