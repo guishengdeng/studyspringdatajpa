@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotNull;
 
-public class PaymentRequestVo extends BaseRequestVo implements IPaymentReqVo {
+public class PaymentReqVo extends BaseRequestVo implements IPaymentReqVo {
 	
 	private static final long serialVersionUID = 2407334255953666845L;
 	

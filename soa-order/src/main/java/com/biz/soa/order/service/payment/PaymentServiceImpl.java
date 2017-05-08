@@ -24,7 +24,7 @@ import com.biz.pay.wechat.lang.PropertyCollector;
 import com.biz.pay.wechat.req.UnifiedOrder;
 import com.biz.pay.wechat.res.OrderNotifyResponse;
 import com.biz.pay.wechat.res.OrderQueryResponse;
-import com.biz.pay.wechat.res.UnifiedOrderResponse;
+import com.biz.pay.wechat.res.WechatPayRespVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.order.frontend.OrderFrontendService;
 import org.apache.commons.collections.CollectionUtils;
@@ -64,7 +64,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 
 	@Override
 	@Transactional
-	public UnifiedOrderResponseVo wechatUnifiedOrder(IUnifiedPaymentReqVo req, Order order) throws PaymentException {
+	public WechatPayResp wechatUnifiedOrder(IUnifiedPaymentReqVo req, Order order) throws PaymentException {
 		Long orderId = order.getId();
 		if (logger.isDebugEnabled()) {
 			logger.debug("getOrderId {}", orderId);
@@ -77,12 +77,12 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 			String timeExpire = DateUtils.formatDate(payment.getExpireTimestamp(), TIME_EXPIRE_DATE_FORMATER);
 			UnifiedOrder unifiedOrder = weChatPayFactory.newUnifiedOrder(appid, payment.getId().toString(), payment.getSubject(),
 					payment.getPayAmount(), req.getIp(), req.getTradeType(), timeExpire, req.getOpenid());
-			UnifiedOrderResponse unifiedOrderResponse = unifiedOrder.execute();
+			WechatPayRespVo unifiedOrderResponse = unifiedOrder.execute();
 			if (logger.isDebugEnabled()) {
 				logger.debug("Get response from wechat: {}", unifiedOrderResponse.getProperties());
 			}
 			if (unifiedOrderResponse.isProcessSuccess()) {
-				UnifiedOrderResponseVo resp = new UnifiedOrderResponseVo();
+				WechatPayResp resp = new WechatPayResp();
 
 				resp.setAppid(unifiedOrderResponse.getAppId());
 				resp.setPartnerid(unifiedOrderResponse.getMchId());
@@ -171,7 +171,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 
 
 	@Transactional
-	public AlipaySignResponseVo getAlipaySign(Order order) throws PaymentException {
+	public AlipaySignRespVo getAlipaySign(Order order) throws PaymentException {
 		Timers timers = Timers.createAndBegin(logger.isDebugEnabled());
 		OrderPayment payment = this.getPayablePayment(order, ALIPAY);
 		timers.record("生成或获取支付单");
@@ -187,12 +187,12 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 		}
 		timers.record("计算签名");
 		timers.print("use time alipay-sign");
-		return new AlipaySignResponseVo(params, order.getId(), order.getOrderCode());
+		return new AlipaySignRespVo(params, order.getId(), order.getOrderCode());
 	}
 
 	@Override
 	@Transactional
-	public AlipaySignResponseVo getWapAlipaySign(Long orderId) throws PaymentException {
+	public AlipaySignRespVo getWapAlipaySign(Long orderId) throws PaymentException {
 		if (logger.isDebugEnabled()) {
 			logger.debug("getOrderId --------->{}", orderId);
 		}
@@ -202,12 +202,12 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 
 	@Override
 	@Transactional
-	public PaymentResponseVo noNeedPay(Order order) {
+	public PaymentRespVo noNeedPay(Order order) {
 		OrderPayment payment = getPayablePayment(order, PaymentType.PAY_ON_DELIVERY);
 		payment.setPayStatus(PaymentStatus.PAYED);
 		payment.setSuccessDate(new Date(System.currentTimeMillis()));
 		confirmPaid(order.getId(), payment);
-		return new PaymentResponseVo(order.getId(), order.getOrderCode());
+		return new PaymentRespVo(order.getId(), order.getOrderCode());
 	}
 
 	/*
@@ -447,7 +447,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 
 	@Override
 	@Transactional
-	public PaymentQueryResultResponseVo query(IdReqVo reqVo) throws PaymentException {
+	public PaymentQueryResultResponseVo queryPaid(IdReqVo reqVo) throws PaymentException {
 		// 查询订单
 		Long orderId = reqVo.getId();
 		Order order = orderFrontendService.getOrder(orderId);
@@ -527,19 +527,19 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 	}
 
 	@Override
-	public UnifiedOrderResponseVo wechatUnifiedOrder(IUnifiedPaymentReqVo req, Long orderId) throws PaymentException {
+	public WechatPayResp wechatUnifiedOrder(IUnifiedPaymentReqVo req, Long orderId) throws PaymentException {
 		Order order = orderFrontendService.getOrder(orderId);
 		return this.wechatUnifiedOrder(req, order);
 	}
 
 	@Override
-	public AlipaySignResponseVo getAlipaySign(Long orderId) throws PaymentException {
+	public AlipaySignRespVo getAlipaySign(Long orderId) throws PaymentException {
 		Order order = orderFrontendService.getOrder(orderId);
 		return this.getAlipaySign(order);
 	}
 
 	@Override
-	public PaymentResponseVo noNeedPay(Long orderId) {
+	public PaymentRespVo noNeedPay(Long orderId) {
 		Order order = orderFrontendService.getOrder(orderId);
 		return this.noNeedPay(order);
 	}

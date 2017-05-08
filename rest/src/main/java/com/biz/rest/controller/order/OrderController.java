@@ -9,7 +9,7 @@ import com.biz.gbck.vo.order.req.OrderListReqVo;
 import com.biz.gbck.vo.order.req.OrderSettlePageReqVo;
 import com.biz.gbck.vo.order.resp.OrderRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
-import com.biz.gbck.vo.payment.resp.PaymentResponseVo;
+import com.biz.gbck.vo.payment.resp.PaymentRespVo;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.service.order.frontend.OrderFrontendService;
 import com.biz.support.web.handler.JSONResult;
@@ -67,29 +67,29 @@ public class OrderController extends BaseRestController {
     }
 
     //货到付款结算
-    @RequestMapping("/confirmNoPay")
-    public JSONResult comfirmNoPay(HttpServletRequest request) {
+    @RequestMapping("/createOrderNoPay")
+    public JSONResult createOrderNoPay(HttpServletRequest request) {
         OrderCreateReqVo reqVo = super.parseBizData(request, OrderCreateReqVo.class);
         reqVo.setPaymentType(PaymentType.PAY_ON_DELIVERY.getValue());
-        PaymentResponseVo respVo = orderService.confirmOrder(reqVo);
+        PaymentRespVo respVo = orderService.confirmOrder(reqVo);
         return new JSONResult(respVo);
     }
 
     //支付宝结算
-    @RequestMapping("/confirmAlipay")
-    public JSONResult comfirmAlipay(HttpServletRequest request) throws DepotNextDoorException {
+    @RequestMapping("/createOrderAlipay")
+    public JSONResult createOrderAlipay(HttpServletRequest request) throws DepotNextDoorException {
         OrderCreateReqVo reqVo = super.parseBizData(request, OrderCreateReqVo.class);
         reqVo.setPaymentType(PaymentType.ALIPAY.getValue());
-        PaymentResponseVo respVo = orderService.confirmAlipayOrder(reqVo);
+        PaymentRespVo respVo = orderService.confirmAlipayOrder(reqVo);
         return new JSONResult(respVo);
     }
 
     //微信结算
-    @RequestMapping("/confirmWechat")
-    public JSONResult comfirmWechat(HttpServletRequest request) throws DepotNextDoorException {
+    @RequestMapping("/createOrderWechat")
+    public JSONResult createOrderWechat(HttpServletRequest request) throws DepotNextDoorException {
         OrderCreateWechatReqVo reqVo = super.parseBizData(request, OrderCreateWechatReqVo.class);
         reqVo.setPaymentType(PaymentType.WECHAT.getValue());
-        PaymentResponseVo respVo = orderService.confirmWechatOrder(reqVo);
+        PaymentRespVo respVo = orderService.confirmWechatOrder(reqVo);
         return new JSONResult(respVo);
     }
 

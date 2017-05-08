@@ -9,7 +9,7 @@ import com.biz.gbck.vo.order.req.OrderListReqVo;
 import com.biz.gbck.vo.order.req.OrderSettlePageReqVo;
 import com.biz.gbck.vo.order.resp.OrderRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
-import com.biz.gbck.vo.payment.resp.PaymentResponseVo;
+import com.biz.gbck.vo.payment.resp.PaymentRespVo;
 
 import java.util.List;
 
@@ -29,13 +29,13 @@ public interface OrderFrontendService {
 
     void cancelOrder(IdReqVo reqVo);
 
-    PaymentResponseVo confirmOrder(OrderCreateReqVo reqVo);
+    PaymentRespVo confirmOrder(OrderCreateReqVo reqVo);
 
     OrderSettlePageRespVo settle(OrderSettlePageReqVo reqVo);
 
-    PaymentResponseVo confirmWechatOrder(OrderCreateWechatReqVo reqVo) throws DepotNextDoorException;
+    PaymentRespVo confirmWechatOrder(OrderCreateWechatReqVo reqVo) throws DepotNextDoorException;
 
-    PaymentResponseVo confirmAlipayOrder(OrderCreateReqVo reqVo) throws DepotNextDoorException ;
+    PaymentRespVo confirmAlipayOrder(OrderCreateReqVo reqVo) throws DepotNextDoorException ;
 
     Order getOrder(Long id);
 

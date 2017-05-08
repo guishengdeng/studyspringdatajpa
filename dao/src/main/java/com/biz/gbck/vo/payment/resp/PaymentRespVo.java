@@ -6,13 +6,13 @@ import com.biz.pay.wechat.lang.SignIgnore;
 import java.io.Serializable;
 
 /**
- * 支付结果resp
- * @author yanweijin
- * @since 2016年8月30日
+ * 支付结果 返回vo
+ * @author lei
+ * @since 2017年5月7日
  * @usage 
  * @reviewer
  */
-public class PaymentResponseVo implements Serializable {
+public class PaymentRespVo implements Serializable {
 
 	private static final long serialVersionUID = -4855253604707200872L;
 	
@@ -22,11 +22,11 @@ public class PaymentResponseVo implements Serializable {
 	@SignIgnore
 	private String orderCode;
 
-	public PaymentResponseVo(Long orderId, String orderCode) {
+	public PaymentRespVo(Long orderId, String orderCode) {
 		this.orderId = orderId;
 		this.orderCode = orderCode;
 	}
-	public PaymentResponseVo() {
+	public PaymentRespVo() {
 	}
 
 	public Long getOrderId() {

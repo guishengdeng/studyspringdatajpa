@@ -5,7 +5,7 @@ import java.util.Objects;
 import com.biz.pay.wechat.lang.Keys;
 import com.biz.pay.wechat.lang.TradeState;
 
-public class OrderQueryResponse extends WechatPayResponseBase {
+public class OrderQueryResponse extends BaseWechatPayRespVo {
 
 	private static final long serialVersionUID = -4709792443891928690L;
 

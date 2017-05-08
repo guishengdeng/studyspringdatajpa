@@ -1,20 +1,5 @@
 package com.biz.pay.wechat.res;
 
-import static com.biz.pay.wechat.lang.Keys.*;
-import static java.lang.String.format;
-import static org.codelogger.utils.StringUtils.isBlank;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.Serializable;
-import java.util.Objects;
-import java.util.Properties;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.apache.commons.lang3.ArrayUtils;
-
 import com.biz.pay.wechat.WeChatPayFactory;
 import com.biz.pay.wechat.exceptions.SignIncorrectException;
 import com.biz.pay.wechat.exceptions.WechatResponseParseException;
@@ -22,8 +7,21 @@ import com.biz.pay.wechat.lang.PropertyCollector;
 import com.biz.pay.wechat.lang.ResultCode;
 import com.biz.pay.wechat.lang.ReturnCode;
 import com.biz.pay.wechat.lang.TradeType;
+import org.apache.commons.lang3.ArrayUtils;
 
-public abstract class WechatPayResponseBase implements Serializable {
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.util.Objects;
+import java.util.Properties;
+
+import static com.biz.pay.wechat.lang.Keys.*;
+import static java.lang.String.format;
+import static org.codelogger.utils.StringUtils.isBlank;
+
+public abstract class BaseWechatPayRespVo implements Serializable {
 
 	private static final long serialVersionUID = 3470857600550538913L;
 	protected Properties properties;
@@ -32,7 +30,7 @@ public abstract class WechatPayResponseBase implements Serializable {
         return null;
     }
 
-    public WechatPayResponseBase(String responseXml)
+    public BaseWechatPayRespVo(String responseXml)
         throws IllegalArgumentException, WechatResponseParseException {
         if (isBlank(responseXml)) {
             throw new IllegalArgumentException("Argument responseXml can not be blank.");

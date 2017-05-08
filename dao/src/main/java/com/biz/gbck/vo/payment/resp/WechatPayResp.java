@@ -4,7 +4,7 @@ import com.biz.pay.wechat.lang.SignIgnore;
 import com.biz.pay.wechat.lang.SignProperty;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class UnifiedOrderResponseVo extends PaymentResponseVo {
+public class WechatPayResp extends PaymentRespVo {
 
 	@SignIgnore
 	private static final long serialVersionUID = 7007522300900273155L;

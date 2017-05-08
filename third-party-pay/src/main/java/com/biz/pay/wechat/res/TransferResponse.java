@@ -6,7 +6,7 @@ import static org.codelogger.utils.StringUtils.isBlank;
 
 import java.util.Date;
 
-public class TransferResponse extends WechatPayResponseBase {
+public class TransferResponse extends BaseWechatPayRespVo {
 
 	private static final long serialVersionUID = -8770000914872002696L;
 

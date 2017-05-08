@@ -9,7 +9,7 @@ import java.util.Date;
 import com.biz.pay.wechat.lang.CheckName;
 import com.biz.pay.wechat.lang.TransferStatus;
 
-public class TransferQueryResponse extends WechatPayResponseBase {
+public class TransferQueryResponse extends BaseWechatPayRespVo {
 
 	private static final long serialVersionUID = -4700538276248684204L;
 

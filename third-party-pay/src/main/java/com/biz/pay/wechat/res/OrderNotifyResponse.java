@@ -1,24 +1,13 @@
 package com.biz.pay.wechat.res;
 
-import static com.biz.pay.wechat.lang.Keys.ATTACH;
-import static com.biz.pay.wechat.lang.Keys.BANK_TYPE;
-import static com.biz.pay.wechat.lang.Keys.CASH_FEE;
-import static com.biz.pay.wechat.lang.Keys.CASH_FEE_TYPE;
-import static com.biz.pay.wechat.lang.Keys.COUPON_COUNT;
-import static com.biz.pay.wechat.lang.Keys.COUPON_FEE_0;
-import static com.biz.pay.wechat.lang.Keys.COUPON_ID_0;
-import static com.biz.pay.wechat.lang.Keys.FEE_TYPE;
-import static com.biz.pay.wechat.lang.Keys.TIME_END;
-import static com.biz.pay.wechat.lang.Keys.TIME_END_DATE_FORMATER;
-import static com.biz.pay.wechat.lang.Keys.TOTAL_FEE;
-import static com.biz.pay.wechat.lang.Keys.TRANSACTION_ID;
-import static org.codelogger.utils.StringUtils.isBlank;
+import org.codelogger.utils.DateUtils;
 
 import java.util.Date;
 
-import org.codelogger.utils.DateUtils;
+import static com.biz.pay.wechat.lang.Keys.*;
+import static org.codelogger.utils.StringUtils.isBlank;
 
-public class OrderNotifyResponse extends WechatPayResponseBase {
+public class OrderNotifyResponse extends BaseWechatPayRespVo {
 
 	private static final long serialVersionUID = 950804369816025712L;
 	

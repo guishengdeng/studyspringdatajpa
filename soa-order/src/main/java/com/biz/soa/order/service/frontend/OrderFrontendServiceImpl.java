@@ -13,7 +13,7 @@ import com.biz.gbck.vo.order.req.OrderListReqVo;
 import com.biz.gbck.vo.order.req.OrderSettlePageReqVo;
 import com.biz.gbck.vo.order.resp.OrderRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
-import com.biz.gbck.vo.payment.resp.PaymentResponseVo;
+import com.biz.gbck.vo.payment.resp.PaymentRespVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.order.frontend.OrderFrontendService;
 import com.biz.soa.builder.OrderRespVoBuilder;
@@ -75,20 +75,20 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
     }
 
     @Override
-    public PaymentResponseVo confirmOrder(OrderCreateReqVo reqVo) {
+    public PaymentRespVo confirmOrder(OrderCreateReqVo reqVo) {
         Order order = this.createOrder(reqVo);
         return paymentService.noNeedPay(order);
     }
 
 
     @Override
-    public PaymentResponseVo confirmWechatOrder(OrderCreateWechatReqVo reqVo) throws DepotNextDoorException {
+    public PaymentRespVo confirmWechatOrder(OrderCreateWechatReqVo reqVo) throws DepotNextDoorException {
         Order order = this.createOrder(reqVo);
         return paymentService.wechatUnifiedOrder(reqVo, order);
     }
 
     @Override
-    public PaymentResponseVo confirmAlipayOrder(OrderCreateReqVo reqVo) throws DepotNextDoorException  {
+    public PaymentRespVo confirmAlipayOrder(OrderCreateReqVo reqVo) throws DepotNextDoorException  {
         Order order = this.createOrder(reqVo);
         return paymentService.getAlipaySign(order);
     }
