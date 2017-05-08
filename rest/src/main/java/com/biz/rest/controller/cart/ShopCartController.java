@@ -62,7 +62,7 @@ public class ShopCartController extends BaseRestController {
     /**
      * 添加购物车
      */
-    @RequestMapping("batchDelete")
+    @RequestMapping("delete")
     public JSONResult deleteCartItem(HttpServletRequest request) {
         ShopCartItemBatchDeleteReqVo reqVo = super.parseBizData(request, ShopCartItemBatchDeleteReqVo.class);
         try {

@@ -88,12 +88,12 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
             logger.debug("Delete shop cart items with quantity : {}", reqVo);
         }
 
-        if (reqVo == null || reqVo.getUserId() == null || CollectionUtils.isEmpty(reqVo.getpCodes())) {
+        if (reqVo == null || reqVo.getUserId() == null || CollectionUtils.isEmpty(reqVo.getProductCodes())) {
             logger.warn("购物车参数不合法");
             throw new IllegalParameterException("参数不合法");
         }
 
-        shopCartItemRedisDao.deleteByUserIdAndProductCodes(Long.valueOf(reqVo.getUserId()), reqVo.getpCodes());
+        shopCartItemRedisDao.deleteByUserIdAndProductCodes(Long.valueOf(reqVo.getUserId()), reqVo.getProductCodes());
     }
 
 
@@ -113,7 +113,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
             reqVo.setQuantity(MAX_SHOP_CART_PRODUCT_QUANTITY);
         }
         ShopCartItemRo shopCartItemRo = shopCartItemRedisDao.findByUserIdAndProductCode(Long.valueOf(reqVo.getUserId
-                ()), reqVo.getpCode());
+                ()), reqVo.getProductCode());
         if (shopCartItemRo != null) {
             shopCartItemRo.setQuantity(reqVo.getQuantity());
             shopCartItemRo.setSelected(true);
@@ -121,7 +121,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         } else {
             throw new CartItemNotExistException("购物车商品不存在");
         }
-        return new ShopCartItemUpdateRespVo(reqVo.getpCode(), reqVo.getQuantity());
+        return new ShopCartItemUpdateRespVo(reqVo.getProductCode(), reqVo.getQuantity());
     }
 
     @Override

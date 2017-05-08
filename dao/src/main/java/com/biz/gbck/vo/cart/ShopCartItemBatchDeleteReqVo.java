@@ -19,7 +19,7 @@ public class ShopCartItemBatchDeleteReqVo extends BaseRequestVo {
     /**
      * 商品Id集合
      */
-    private Set<String> pCodes = newHashSet();
+    private Set<String> productCodes = newHashSet();
 
     /**
      * 操作时间
@@ -27,12 +27,12 @@ public class ShopCartItemBatchDeleteReqVo extends BaseRequestVo {
     private Timestamp operateTime = DateUtil.now();
 
 
-    public Set<String> getpCodes() {
-        return pCodes;
+    public Set<String> getProductCodes() {
+        return productCodes;
     }
 
-    public void setpCodes(Set<String> pCodes) {
-        this.pCodes = pCodes;
+    public void setProductCodes(Set<String> productCodes) {
+        this.productCodes = productCodes;
     }
 
     public Timestamp getOperateTime() {
