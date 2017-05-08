@@ -34,6 +34,7 @@ import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.enums.CommonStatusEnum;
+import com.biz.gbck.enums.IdType;
 import com.biz.gbck.enums.user.AuditRejectReason;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopStatus;
@@ -42,6 +43,7 @@ import com.biz.gbck.transform.org.ShopPoToSearchShopRespVo;
 import com.biz.gbck.transform.org.ShopPoToShopDetailPo;
 import com.biz.gbck.transform.org.ShopPoToShopRo;
 import com.biz.gbck.transform.org.ShopTypePoToShopTypeRo;
+import com.biz.gbck.transform.org.UserPoToShopPo;
 import com.biz.gbck.vo.org.SearchShopRespVo;
 import com.biz.gbck.vo.org.ShopExportVo;
 import com.biz.gbck.vo.org.ShopsInfoExportVo;
@@ -139,19 +141,134 @@ public class ShopServiceImpl extends CommonService  implements ShopService {
     @Autowired
     private UserRedisDao userRedisDao;
 
+    @Autowired
+    private IdPool idPool;
+
     @Override
     public ShopRo createShop(Long userId, String corporateName, String inviterCode) {
-        return null;
+        UserPo userPo = userService.findUserById(userId);
+        ShopPo shopPo;
+        if (userPo.getShop() != null) {
+            shopPo = userPo.getShop();
+        } else {
+            shopPo = new UserPoToShopPo().apply(userPo);
+            assert shopPo != null;
+            shopPo.setId(idPool.getNextId(IdType.SHOP));
+        }
+        shopPo.setCorporateName(corporateName);
+        if (inviterCode != null) {
+            shopPo.setInviterCode(inviterCode);
+//            DepotEmployeePo employeePo = depotEmployeeService.getDepotEmployeeById(inviterCode);
+//            if (employeePo != null) {
+//                shopPo.setDepot(employeePo.getDepot());
+//                shopPo.setAssartDepot(employeePo.getDepot());
+//                shopPo.setDeliveryDepot(employeePo.getDepot());
+//            }else {
+//                DepotPo depotPo=depotService.findDepotByMcuCode(inviterCode);//dylan.hou 2016/10/12
+//                if (depotPo != null) {
+//                    shopPo.setDepot(depotPo);
+//                    shopPo.setAssartDepot(depotPo);
+//                    shopPo.setDeliveryDepot(depotPo);
+//                }
+//            }
+
+
+        }
+        ShopPo savedShopPo = shopRepository.save(shopPo);
+        return syncShopPoToRedis(savedShopPo);
     }
 
     @Override
     public ShopRo createShopByAdmin(ShopEditVo shopEditVo, String admin) throws CommonException {
-        return null;
+        logger.info("Create shop[{}] info by[{}]", shopEditVo.getShopId(), admin);
+        UserPo userPo = userRepository.findByMobile(shopEditVo.getMobile());
+        if(userPo == null){
+            userPo = userRepository.findByAccount(shopEditVo.getMobile());
+        }
+        if (userPo != null) {
+            throw DepotnearbyExceptionFactory.User.USER_EXIST;
+        }
+        UserCreateVo userCreateVo = new UserCreateVo();
+        userCreateVo.setName(shopEditVo.getName());
+        userCreateVo.setMobile(shopEditVo.getMobile());
+        userCreateVo.setOriginalPassword("00000000");
+        userCreateVo.setPassword(StringTool.encodedByMD5(userCreateVo.getOriginalPassword()));
+        UserRo user = userService.createUser(userCreateVo, admin);
+
+        ShopRo shopRo = createShop(Long.valueOf(user.getId()), shopEditVo.getCorporateName(), null);
+
+        userPo = userService.findUserById(Long.valueOf(user.getId()));
+        userPo.setShop(findShopPo(Long.valueOf(shopRo.getId())));
+        userPo.setIsAdmin(true);
+        userService.saveUser(userPo);
+        shopEditVo.setShopId(Long.valueOf(shopRo.getId()));
+        adminNewShop(shopEditVo, admin);
+        ShopPo shopPo = findShopPo(Long.valueOf(shopRo.getId()));
+        shopPo.setDetailAuditStatus(AuditStatus.NORMAL.getValue());
+        shopPo.setQualificationAuditStatus(AuditStatus.NORMAL.getValue());
+        save(shopPo);
+        return syncShopPoToRedis(shopPo);
     }
 
     @Override
     public ShopRo adminNewShop(ShopEditVo shopEditVo, String loginUsername) {
-        return null;
+        logger.info("Update shop[{}] info by[{}]", shopEditVo.getShopId(), loginUsername);
+        ShopPo shopPo = shopRepository.findOne(shopEditVo.getShopId());  //shopId
+        shopPo.setSupportPaymentIds(shopEditVo.getSupportPaymentIds());  //支持付款类型
+        shopPo.setName(shopEditVo.getName());                            //店铺名称
+
+        shopPo.setCorporateName(shopEditVo.getCorporateName());          //法人名字
+        shopPo.setShopType(shopTypeRepository.findOne(shopEditVo.getShopTypeId())); //店铺类型ID
+        shopPo.setMobile(shopEditVo.getMobile());                        //手机号
+        shopPo.setDeliveryMobile(shopEditVo.getMobile());                //收货人电话（手机号）
+        shopPo.setDeliveryName(shopEditVo.getCorporateName());           //收货人名字（法人名字）
+        shopPo.setDeliveryAddress(shopEditVo.getDeliveryAddress());     //收货地址
+       /* shopPo.setTel(shopEditVo.getTel()); */                            //店铺电话
+        shopPo.setProvince(provinceRepository.findOne(shopEditVo.getProvinceId())); //省
+        shopPo.setCity(cityRepository.findOne(shopEditVo.getCityId()));             //市
+        shopPo.setDistrict(districtRepository.findOne(shopEditVo.getDistrictId())); //县
+        //shopPo.setDepot(depotRepository.findOne(shopEditVo.getDepotId()));          //价格门店
+//        String assartDepotId = shopEditVo.getAssartDepotId();
+//        if (StringUtils.isNotBlank(assartDepotId)) {
+//            shopPo.setAssartDepot(depotRepository.findOne(assartDepotId));        //开发门店
+//        }
+//        String deliveryDepotId = shopEditVo.getDeliveryDepotId();
+//        if (StringUtils.isNotBlank(deliveryDepotId)) {
+//            shopPo.setDeliveryDepot(depotRepository.findOne(deliveryDepotId));    //配送门店
+//        }
+        shopPo.setShopPhoto(shopEditVo.getShopPhoto()); //门头照片
+//        shopPo.setPriceTags(priceTagService.findByIds(shopEditVo.getPriceTagIds()));//智选价格
+//        shopPo.setSaleAreas(saleAreaRepository.findAll(shopEditVo.getSaleAreaIds())); //销售区域
+//        shopPo.setBusinessTags(businessTagService.findByIds(shopEditVo.getBusinessTagIds()));//智选分类
+
+        shopPo.setBusinessLicence(
+                isNotBlank(shopEditVo.getBusinessLicence()) ? shopEditVo.getBusinessLicence() : null); //营业执照
+        shopPo.setBusinessLicenceName(
+                isNotBlank(shopEditVo.getBusinessLicenceName()) ?         //营业执照名称
+                        shopEditVo.getBusinessLicenceName() : null);
+        shopPo.setBusinessLicenceId(isNotBlank(shopEditVo.getBusinessLicenceId()) ?      //营业执照ID
+                shopEditVo.getBusinessLicenceId() : null);
+
+        shopPo.setLiquorSellLicence(isNotBlank(shopEditVo.getLiquorSellLicence()) ?
+                shopEditVo.getLiquorSellLicence() :
+                null); //酒类流通许可证
+        shopPo
+                .setLiquorSellLicenceId(isNotBlank(shopEditVo.getLiquorSellLicenceId()) ?    //酒类流通许可证ID
+                        shopEditVo.getLiquorSellLicenceId() : null);
+        shopPo.setCorporateIdPhoto(
+                isNotBlank(shopEditVo.getCorporateIdPhoto()) ? shopEditVo.getCorporateIdPhoto() : null); //法人身份证
+        shopPo.setCorporateId(isNotBlank(shopEditVo.getCorporateId()) ?
+                shopEditVo.getCorporateId() :
+                null);    //法人身份证ID
+        shopPo.setDetailAuditStatus(shopEditVo.getDetailAuditStatus());        //详情审核状态
+        shopPo.setQualificationAuditStatus(shopEditVo.getDetailAuditStatus()); //资质审核详情
+//        DepotEmployeePo employeePo =
+//                depotEmployeeService.getDepotEmployeeById(shopEditVo.getInviterCode());
+//        if (employeePo != null) {
+//            shopPo.setInviterCode(employeePo.getId());
+//        }
+        ShopPo savedShopPo = shopRepository.save(shopPo);
+        return syncShopPoToRedis(savedShopPo);
     }
 
     @Override

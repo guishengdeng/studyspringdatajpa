@@ -183,7 +183,7 @@ public interface UserService {
     /**
      * 同步UserPo到redis数据库
      */
-    UserRo syncUserPoToRedis(UserPo userPo);
+    //UserRo syncUserPoToRedis(UserPo userPo);
 
     List<UserPo> searchUsers(SearchUserReqVo vo) ;
 
@@ -212,5 +212,5 @@ public interface UserService {
      */
      void registerFailedUsers();
 
-   UserResponseVo findByMemberIdCondition(MemberIdRequestVo memberIdRequestVo); //刘伟引入的
+   //UserResponseVo findByMemberIdCondition(MemberIdRequestVo memberIdRequestVo); //刘伟引入的
 }

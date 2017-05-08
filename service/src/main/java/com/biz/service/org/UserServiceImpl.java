@@ -1,14 +1,19 @@
 package com.biz.service.org;
 
 import com.biz.core.codec.PasswordUtil;
+import com.biz.core.transaction.BizTransactionManager;
+import com.biz.core.util.DateUtil;
 import com.biz.core.util.StringTool;
 import com.biz.event.org.AutoLoginEvent;
 import com.biz.event.org.UserLoginEvent;
 import com.biz.event.org.UserRegisterEvent;
 import com.biz.gbck.common.com.SMSType;
+import com.biz.gbck.common.com.mo.Message;
 import com.biz.gbck.common.com.transformer.UserPoToUserRo;
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.common.exception.DepotnearbyExceptionFactory;
+import com.biz.gbck.common.exception.ExceptionCode;
+import com.biz.gbck.common.model.geo.IArea;
 import com.biz.gbck.common.org.UserStatus;
 import com.biz.gbck.common.spring.DepotnearbyTransactionManager;
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
@@ -23,9 +28,13 @@ import com.biz.gbck.dao.redis.repository.org.ShopRedisDao;
 import com.biz.gbck.dao.redis.repository.org.UserRedisDao;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
+import com.biz.gbck.enums.IdType;
 import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.enums.user.AuditStatus;
+import com.biz.gbck.enums.user.ShopChannel;
 import com.biz.gbck.enums.user.ShopStatus;
+import com.biz.gbck.vo.mq.MQMessage;
+import com.biz.gbck.vo.oms.OMSCreateMemberVo;
 import com.biz.gbck.vo.search.SearchUserReqVo;
 import com.biz.gbck.vo.user.MemberIdRequestVo;
 import com.biz.gbck.vo.user.UserResponseVo;
@@ -40,13 +49,21 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import static java.lang.String.format;
 
 
 @Service
@@ -54,26 +71,34 @@ public class UserServiceImpl extends CommonService implements UserService{
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
 
-    @Autowired private UserRedisDao userRedisDao;
+    @Autowired
+    private UserRedisDao userRedisDao;
 
-    @Autowired private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    @Autowired private ShopRedisDao shopRedisDao;
+    @Autowired
+    private ShopRedisDao shopRedisDao;
 
-    @Autowired private ShopService shopService;
+    @Autowired
+    private ShopService shopService;
 
-    @Autowired private SMSService smsService;
+    @Autowired
+    private SMSService smsService;
+
+    @Autowired
+    private IdPool idPool;
 
 
 
     @Override
     public List<Long> findAdminUserIdsByShopId(Long shopId, Boolean isAdmin) {
-        return null;
+        return userRepository.findUserIdByShopIdAndAdminStatus(shopId, isAdmin);
     }
 
     @Override
     public List<UserPo> findAdminUsersByShopId(Long shopId, Boolean isAdmin) {
-        return null;
+        return userRepository.findUsersByShopIdAndAdminStatus(shopId, isAdmin);
     }
 
     @Override
@@ -90,7 +115,8 @@ public class UserServiceImpl extends CommonService implements UserService{
         if (StringUtils.isBlank(userRegisterReqVo.getPassword())) {
             throw DepotnearbyExceptionFactory.User.ILLEGAL_PASSWORD;
         }
-        if(StringUtils.isNotBlank(userRegisterReqVo.getInviterCode()) && !userRegisterReqVo.getInviterCode().matches("(\\d+)|([A-Z\\d]+)")) {
+        if(StringUtils.isNotBlank(userRegisterReqVo.getInviterCode())
+                && !userRegisterReqVo.getInviterCode().matches("(\\d+)|([A-Z\\d]+)")) {
             throw DepotnearbyExceptionFactory.User.ILLEGAL_INVITER_CODE;
         }
 
@@ -116,16 +142,16 @@ public class UserServiceImpl extends CommonService implements UserService{
             UserRo userRo = createUser(userPo);
 
             //创建商铺
-            ShopRo shopRo =
-                    shopService.createShop(Long.parseLong(userRo.getId()), null, userRegisterReqVo.getInviterCode()); // TODO: 17-4-27 shop 创建没实现
-            userPo.setShop(shopService.findShopPo(Long.parseLong(shopRo.getId()))); // TODO: 17-4-27 shop 创建没实现
+            ShopRo shopRo = shopService.createShop(Long.parseLong(userRo.getId()), null, userRegisterReqVo.getInviterCode());
+            userPo.setShop(shopService.findShopPo(Long.parseLong(shopRo.getId())));
             userRepository.save(userPo);
             userRo.setShopId(Long.parseLong(shopRo.getId()));
             userRedisDao.save(userRo);
 
             UserRegisterEvent registerEvent =
                     new UserRegisterEvent(this, userRo, userRegisterReqVo);
-            publishEvent(registerEvent);
+            BizTransactionManager.publishEvent(registerEvent, true);
+            //publishEvent(registerEvent);
 
             UserLoginResVo userLoginResVo = new UserRoToUserVo().apply(userRo);
             assert userLoginResVo != null;
@@ -138,17 +164,30 @@ public class UserServiceImpl extends CommonService implements UserService{
 
     @Override
     public UserRo createUser(UserCreateVo userCreateVo, String admin) throws CommonException {
-        return null;
+        UserPo userPo = userCreateVo.toUserPo();
+        UserRo user = createUser(userPo);
+        //TODO 记录创建日志
+        return user;
     }
 
     @Override
     public UserRo createUser(UserPo userPo) throws CommonException {
-        return null;
+        UserRo user = userRedisDao.getUserByMobile(userPo.getMobile());
+        if (user != null) {
+            throw DepotnearbyExceptionFactory.User.USER_EXIST;
+        }
+        if (userPo.getId() == null) {
+            Long userId = idPool.getNextId(IdType.USER);
+            userPo.setId(userId);
+        }
+        userPo.setCreateTime(DateUtil.now());
+        return saveUser(userPo);
     }
 
     @Override
     public UserRo saveUser(UserPo userPo) {
-        return null;
+        UserPo savedUserPo = userRepository.save(userPo);
+        return syncUserPoToRedis(savedUserPo);
     }
 
     @Override
@@ -184,10 +223,10 @@ public class UserServiceImpl extends CommonService implements UserService{
          if(!Objects.equals(userLoginResVo.getDetailAuditStatus(), AuditStatus.NORMAL.getValue()) || !Objects
                 .equals(userLoginResVo.getQualificationAuditStatus(), AuditStatus.NORMAL.getValue())){
             ShopPo shopPo = shopService.findShopPo(Long.parseLong(shopRo.getId())); // TODO: 17-4-27 根据商户id获取shopPo
-            if(shopPo.getShopLevel() == ShopLevel.VIP_20){
+//            if(shopPo.getShopLevel() == ShopLevel.VIP_20){
                 userLoginResVo.setDetailAuditStatus(AuditStatus.NORMAL.getValue());
                 userLoginResVo.setQualificationAuditStatus(AuditStatus.NORMAL.getValue());
-            }
+//            }
         }
        /*userLoginResVo.setLuckMoneyCount(voucherService.getUserUseableVoucherCount(userRo.getId()));*/// TODO: 17-4-27 获取用户可用优惠券数量
        /* userLoginResVo.setShowActivityRedPoint(promotionService.showRedPoint(userRo.getId()));*/ // TODO: 17-4-27 是否显示红点，有消息显示
@@ -198,8 +237,7 @@ public class UserServiceImpl extends CommonService implements UserService{
                         PaymentType.XIMU)) || !allPaymentTypeIsInExcludePaymentTypes(shopRo,
                 PaymentType.XIMU));
         userLoginResVo.setShowPaymentButton(showPaymentButton);*/ // TODO: 17-4-27   是否显示记我账上
-       if (Objects
-                .equals(userLoginResVo.getDetailAuditStatus(), AuditStatus.AUDIT_FAILED.getValue())) {
+       if (Objects.equals(userLoginResVo.getDetailAuditStatus(), AuditStatus.AUDIT_FAILED.getValue())) {
             List<String> detailAuditRejectReason =
                     shopService.findDetailAuditRejectReason(Long.parseLong(shopRo.getId()));
             userLoginResVo.setDetailRejectReasons(detailAuditRejectReason);
@@ -231,7 +269,8 @@ public class UserServiceImpl extends CommonService implements UserService{
             throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
         } else {
             if (userLoginReqVo.getPassword().equalsIgnoreCase(userRo.getPassword())) {
-                publishEvent(new UserLoginEvent(this, userRo, userLoginReqVo));
+                BizTransactionManager.publishEvent(new UserLoginEvent(this, userRo, userLoginReqVo), true);
+//                publishEvent(new UserLoginEvent(this, userRo, userLoginReqVo));
                 if (Objects.equals(userRo.getStatus(), UserStatus.NORMAL.getValue())) {
                     return buildRespVo(userRo);
                 } else {
@@ -246,7 +285,8 @@ public class UserServiceImpl extends CommonService implements UserService{
     @Override
     public UserLoginResVo autoLogin(AutoLoginReqVo autoLoginReqVo) throws CommonException {
         UserRo userRo = this.findUser(autoLoginReqVo.getUserId());
-        publishEvent(new AutoLoginEvent(this, userRo, autoLoginReqVo));
+        BizTransactionManager.publishEvent(new AutoLoginEvent(this, userRo, autoLoginReqVo), true);
+        //publishEvent(new AutoLoginEvent(this, userRo, autoLoginReqVo));
         return buildRespVo(userRo);
     }
 
@@ -332,76 +372,212 @@ public class UserServiceImpl extends CommonService implements UserService{
 
     @Override
     public UserPo findUserPoByAccount(String mobile) {
-        return null;
+        return userRepository.findByAccount(mobile);
     }
 
     @Override
     public void disableUser(Long userId) {
-
+        userRepository.disableUser(userId);
+        final UserPo userPo = userRepository.findOne(userId);
+        DepotnearbyTransactionManager.doWhenTransactionalSuccess(
+                new DepotnearbyTransactionManager.Task() {
+                    @Override public void justDoIt() {
+                        syncUserPoToRedis(userPo);
+                    }
+                });
     }
 
     @Override
     public void destroyUserById(Long userId, String handler) {
-
+        logger.info("Destroy user[{}] by admin[{}]", userId, handler);
+        if (userId == null) {
+            return;
+        }
+        UserPo userPo = userRepository.findOne(userId);
+        if (userPo != null) {
+            String newMobile = "0" + userPo.getMobile().substring(1);
+            userPo.setMobile(newMobile);
+            userPo.setAccount(null);
+            userPo.setStatus(UserStatus.DISABLED.getValue());
+            userRepository.save(userPo);
+        }
+        UserRo userRo = userRedisDao.get(userId);
+        if (userRo != null) {
+            userRedisDao.delete(userRo);
+        }
     }
 
-    @Override
+    /**
+     * 查找商户所有员工
+     */
     public List<Long> findUserIdsByShopId(Long shopId) {
-        return null;
+        return userRepository.findUserIdsByShopId(shopId);
     }
 
-    @Override
+    /**
+     * 获取某区域下的所有 userId（后台使用 ，不要求高并发）
+     *
+     * @param areaType IArea.LEVEL_*
+     */
     public List<Long> findUserIdByAreaId(Integer areaType, Integer areaId) throws CommonException {
-        return null;
+
+        switch (areaType) {
+            case IArea.LEVEL_PROVINCE:
+                return userRepository.findUserIdsByProvince(areaId);
+            case IArea.LEVEL_CITY:
+                return userRepository.findUserIdsByCity(areaId);
+            case IArea.LEVEL_DISTRICT:
+                return userRepository.findUserIdsByDistrict(areaId);
+            default:
+                throw DepotnearbyExceptionFactory.GLOBAL.PARAMETER_ERROR;
+        }
     }
 
-    @Override
+    /**
+     * 获取某个商户类型的用户Ids（后台使用 ，不要求高并发）
+     */
     public List<Long> findUserIdByShopType(Long shopTypeId) {
-        return null;
+
+        return userRepository.findUserIdsByShopType(shopTypeId);
     }
 
-    @Override
-    public List<Long> findUserIdByAreaAndUserType(Integer areaType, Integer areaId, Integer shopTypeId) throws CommonException {
-        return null;
+    /**
+     * 获取区域下的 某个商户类型的用户Id（后台使用 ，不要求高并发）
+     */
+    public List<Long> findUserIdByAreaAndUserType(Integer areaType, Integer areaId,
+                                                  Integer shopTypeId) throws CommonException {
+
+        switch (areaType) {
+            case IArea.LEVEL_PROVINCE:
+                return userRepository.findUserIdsByProvinceAndShopType(areaId, shopTypeId);
+            case IArea.LEVEL_CITY:
+                return userRepository.findUserIdsByCityAndShopType(areaId, shopTypeId);
+            case IArea.LEVEL_DISTRICT:
+                return userRepository.findUserIdsByDistrictAndShopType(areaId, shopTypeId);
+            default:
+                throw DepotnearbyExceptionFactory.GLOBAL.PARAMETER_ERROR;
+        }
     }
 
-    @Override
+    /**
+     * 获取所有用户Id（后台使用 ，不要求高并发）
+     */
     public List<Long> findAllUserId() {
-        return null;
+
+        return userRepository.findAllUserIds();
     }
 
-    @Override
-    public List<Long> findAllUserIdByAuditStatus(AuditStatus auditStatus) {
-        return null;
+    /**
+     * 根据店铺审核状态查询所有userId
+     */
+    public List<Long> findAllUserIdByAuditStatus(AuditStatus auditStatus){
+
+        return userRepository.findAllUserIds(auditStatus.getValue());
     }
 
-    @Override
-    public List<UserPo> findAllUserByAuditStatus(AuditStatus auditStatus) {
-        return null;
+    /**
+     * 根据店铺审核状态查询所有userPo
+     */
+    public List<UserPo> findAllUserByAuditStatus(AuditStatus auditStatus){
+
+        return userRepository.findAllUserByAuditStatus(auditStatus.getValue());
     }
 
-    @Override
+    /**
+     * 获取用户所属店铺的价格店铺
+     */
     public String getDepotIdByUserId(Long userId) throws CommonException {
-        return null;
+        if (userId == null || userId == 0L)
+            throw new CommonException("必须登录才能使用此功能！", ExceptionCode.Global.INFO_TO_USER);
+        UserRo userRo = findUser(userId);
+        Long shopId = userRo.getShopId();
+        ShopRo shopRo = shopService.findShop(shopId);
+        if (shopRo == null) {
+            throw new CommonException("您的账号异常！请联系客服解决", ExceptionCode.Global.INFO_TO_USER);
+        }
+        return shopRo.getDepotId();
     }
 
-    @Override
+
     public void bindSearchParam(SearchProductCondition condition) throws CommonException {
+        Long userId = condition.getUserId();
+        if (userId != null && userId > 0L) {
+            UserRo userRo = findUser(userId);
+            if (userRo == null)
+                throw new CommonException("您的账号异常！请联系客服解决", ExceptionCode.Global.INFO_TO_USER);
 
+            Long shopId = userRo.getShopId();
+            ShopRo shopRo = shopService.findShop(shopId);
+            if (shopRo == null)
+                throw new CommonException("您的账号信息异常！请联系客服解决", ExceptionCode.Global.INFO_TO_USER);
+            condition.setSaleAreaIds(StringTool.strToIntArray(shopRo.getSaleAreas()));
+            if (StringUtils.isBlank(shopRo.getDepotId()))
+                throw new CommonException("您的账号异常，未指定门店！请联系客服解决",
+                        ExceptionCode.Global.INFO_TO_USER);
+            condition.setDepotId(shopRo.getDepotId());
+        }
     }
 
-    @Override
     public RecommendConditionVo getRecommendConditionVo(Long userId) throws CommonException {
-        return null;
+        if (userId == null || userId == 0L)
+            throw new CommonException("必须登录才能使用此功能！", ExceptionCode.Global.INFO_TO_USER);
+        UserRo userRo = findUser(userId);
+        Long shopId = userRo.getShopId();
+        ShopRo shopRo = shopService.findShop(shopId);
+        if (shopRo == null) {
+            throw new CommonException("您的账号异常！请联系客服解决", ExceptionCode.Global.INFO_TO_USER);
+        }
+        RecommendConditionVo vo = new RecommendConditionVo();
+        vo.setUserId(userId);
+        vo.setBusinessTags(shopRo.getBusinessTags());
+        vo.setPriceTagss(shopRo.getPriceTags());
+        vo.setSaleAreas(shopRo.getSaleAreas());
+        vo.setDepotId(shopRo.getDepotId());
+        return vo;
     }
 
-    @Override
     public RecommendConditionVo2 getRecommendConditionVo2(Long userId) throws CommonException {
-        return null;
+        if (userId == null || userId == 0L)
+            throw new CommonException("必须登录才能使用此功能！", ExceptionCode.Global.INFO_TO_USER);
+        UserRo userRo = findUser(userId);
+        Long shopId = userRo.getShopId();
+        ShopRo shopRo = shopService.findShop(shopId);
+        if (shopRo == null) {
+            throw new CommonException("您的账号异常！请联系客服解决", ExceptionCode.Global.INFO_TO_USER);
+        }
+
+        RecommendConditionVo2 vo = new RecommendConditionVo2();
+        vo.setUserId(userId);
+        vo.setBusinessTags(shopRo.getBusinessTags());
+        if (StringUtils.isNotBlank(shopRo.getPriceTags())) {
+//            List<Integer> ids = StringTool.strToIntArray(shopRo.getPriceTags());
+//            List<PriceTagRo> tags = priceTagRedisDao.findByIds(ids);
+//            Map<Integer, List<Integer>> maps = new HashMap<Integer, List<Integer>>();
+//            for (PriceTagRo ro : tags) {
+//                if (ro != null) {
+//                    List<Integer> idList = null;
+//                    idList = maps.get(ro.getCategoryId());
+//                    if (idList == null) {
+//                        idList = new ArrayList<Integer>();
+//                        maps.put(ro.getCategoryId(), idList);
+//                    }
+//                    idList.add(ro.getId());
+//                }
+//            }
+//            vo.setPriceTagMap(maps);
+        }
+        vo.setSaleAreas(shopRo.getSaleAreas());
+        vo.setDepotId(shopRo.getDepotId());
+        return vo;
     }
 
-    @Override
-    public void changeMobile(UserChangeMobileReqVo reqVo) throws CommonException {
+
+
+    /**
+     * 更改手机号
+     */
+    @Transactional public void changeMobile(final UserChangeMobileReqVo reqVo) throws CommonException {
+
         if (smsService.validateAndDisableSMSCode(reqVo.getMobile(), SMSType.CHANGE_MOBILE,
                 reqVo.getSmsCode())) {
             final UserRo userRo = userRedisDao.get(reqVo.getUserId());
@@ -429,13 +605,45 @@ public class UserServiceImpl extends CommonService implements UserService{
         }
     }
 
-    @Override
+    /**
+     * 通过手机号重置密码
+     *
+     * @param mobile 手机号
+     * @throws CommonException
+     */
+    @Transactional
     public void resetPassword(String mobile, String rawPassword, String handler) throws CommonException {
 
+        if (!StringTool.isMobileValid(mobile)) {
+            throw DepotnearbyExceptionFactory.GLOBAL.PARAMETER_ERROR;
+        }
+        UserRo userRo = userRedisDao.getUserByMobile(mobile);
+        UserPo userPo;
+        if (userRo == null) {
+            userPo = userRepository.findByMobile(mobile);
+        } else {
+            userPo = findUserById(Long.valueOf(userRo.getId()));
+        }
+
+        if (userPo == null) {
+            throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
+        }
+        logger.info("Update user[{}] password by [{}]", mobile, handler);
+        userPo.setOriginalPassword(rawPassword);
+        userPo.setPassword(StringTool.encodedByMD5(userPo.getOriginalPassword()));
+        final UserPo savedUserPo = userRepository.save(userPo);
+        DepotnearbyTransactionManager.doWhenTransactionalSuccess(new DepotnearbyTransactionManager.Task() {
+            @Override public void justDoIt() {
+                syncUserPoToRedis(savedUserPo);
+            }
+        });
     }
 
-    @Override
-    public void changeAvatar(UserChangeAvatarReqVo reqVo) throws CommonException {
+    /**
+     * 修改用户头像
+     */
+    @Transactional public void changeAvatar(UserChangeAvatarReqVo reqVo) throws CommonException {
+
         UserRo userRo = userRedisDao.get(reqVo.getUserId());
         if (userRo == null) {
             throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
@@ -450,18 +658,66 @@ public class UserServiceImpl extends CommonService implements UserService{
                 });
     }
 
-    @Override
     public Long findUserIdByBaidu(Long baiduUserId, String mobile, Integer geoCode) throws CommonException {
-        return null;
+
+        if (baiduUserId == null) {
+            throw new CommonException("Argument baiduUserId can not be null.");
+        }
+
+        if(geoCode == null){
+            throw new CommonException("Argument geoCode can not be null.");
+        }
+
+        logger.debug("Get userId by nuomi userId: {}", baiduUserId);
+        Long userId = userRedisDao.getUserIdByShopChannelAndChannelUserId(ShopChannel.BAI_DU_NUO_MI,
+                baiduUserId);
+        ShopPo shopPo = shopService.findShopOrCreateByBaiduUserIdAndBaiduGeoCode(baiduUserId, geoCode);
+        if (shopPo == null) {
+            throw new CommonException(
+                    format("Create baidu user[%s] shop failed.", baiduUserId));
+        }
+        UserRo userRo = userRedisDao.get(userId);
+        if (userId == null || userRo == null || !Objects.equals(userRo.getShopId(), shopPo.getId()) ||
+                !userRepository.exists(userId)) {
+            UserPo userPo = new UserPo();
+            userPo.setId(userId);
+            userPo.setName("百度用户" + baiduUserId);
+            userPo.setMobile("");
+            userPo.setShop(shopPo);
+            userPo.setStatus(UserStatus.DISABLED.getValue());
+            userPo.setIsAdmin(false);
+            userPo.setPassword("");
+            userPo.setOriginalPassword("");
+            userRo = createUser(userPo);
+            userRedisDao.mapShopChannelAndChannelIdToUser(ShopChannel.BAI_DU_NUO_MI, baiduUserId, Long.valueOf(userRo.getId()));
+            userRedisDao.mapShopChannelAndChannelMobileToChannelUserId(ShopChannel.BAI_DU_NUO_MI, mobile, baiduUserId);
+            userId = Long.valueOf(userRo.getId());
+        }
+        logger.debug("Got userId: {} by nuomi userId: {}", userId, baiduUserId);
+        return userId;
     }
 
-    @Override
     public void syncAllUserFromMysqlToRedis(Integer pageSize) {
 
+        logger.debug("Sync all user from mysql to redis begin.");
+        Integer startPage = 0;
+        Page<UserPo> userPage = null;
+        while (userPage == null || userPage.hasNext()) {
+            logger.debug("Sync page {} of users...", startPage);
+            Pageable page = new PageRequest(startPage++, pageSize);
+            userPage = userRepository.findAll(page);
+            List<UserPo> content = userPage.getContent();
+            for (UserPo userPo : content) {
+                syncUserPoToRedis(userPo);
+            }
+        }
+        logger.debug("Sync all user from mysql to redis begin.");
     }
 
-    @Override
-    public UserRo syncUserPoToRedis(UserPo userPo) {
+    /**
+     * 同步UserPo到redis数据库
+     */
+    private UserRo syncUserPoToRedis(UserPo userPo) {
         UserRo userRo = null;
         if (userPo != null) {
             userRo = new UserPoToUserRo().apply(userPo);
@@ -470,43 +726,44 @@ public class UserServiceImpl extends CommonService implements UserService{
         return userRo;
     }
 
-    @Override
     public List<UserPo> searchUsers(SearchUserReqVo vo) {
-        return null;
+        return userRepository.searchUser(vo);
     }
 
-    @Override
+    @Transactional
     public void updateUserStatus(Long id, Integer status) {
-
+        userRepository.updateUserStatusById(id, status);
     }
 
-    @Override
     public UserPo findUserById(Long id) {
-        return null;
+        return userRepository.findOne(id);
     }
 
-    @Override
     public List<UserPo> findAllUserPo() {
-        return null;
+        return userRepository.findAll();
     }
 
-    @Override
-    public void removeUserRoByMobile(String mobile) {
-
+    public void removeUserRoByMobile(String mobile){
+        userRedisDao.removeMapMobileToUser(mobile);
     }
 
-    @Override
     public boolean canUserCreateOrder(String mobile) {
-        return false;
+        return userRedisDao.getUserCanOrder(mobile);
     }
 
-    @Override
+    /**
+     * 从redis查找所有列入黑名单的用户号码
+     */
     public List<String> getBlockList() {
-        return null;
+        return userRedisDao.getBlackList();
     }
 
-    @Override
-    public void changePwd(ChangePwdVo changePwdVo) throws CommonException {
+    public void updateBlackList(String blackList) {
+        String[] mobiles = blackList.split("\n");
+        userRedisDao.updateBlackList(mobiles);
+    }
+
+    @Transactional public void changePwd(final ChangePwdVo changePwdVo) throws CommonException {
         UserRo userRo = userRedisDao.get(changePwdVo.getUserId());
         if (userRo == null) {
             throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
@@ -526,24 +783,41 @@ public class UserServiceImpl extends CommonService implements UserService{
         }else{
             throw DepotnearbyExceptionFactory.User.PWD_NOT_MATCH;
         }
+
     }
 
-    @Override
     public boolean validateUserLoginPwd(Long userId, String md5Password) throws CommonException {
         UserRo userRo = findUser(userId);
         return StringUtils.equals(StringUtils.trim(md5Password), userRo.getPassword());
     }
 
-    @Override
-    public void registerFailedUsers() {
 
-    }
-
-    /*
-    六位i引入，是否可删除
+    /**
+     * 注册失败到OMS用户列表, 定时任务
      */
-    @Override
-    public UserResponseVo findByMemberIdCondition(MemberIdRequestVo memberIdRequestVo) {
-        return null;
+    public void registerFailedUsers() {
+        List<UserRo> users = userRedisDao.getSyncFailedUsers();
+        int size = users.size();
+        logger.debug("开始批量放失败的用户信息到OMS同步MQ队列. size: {}", size);
+        int count = 0;
+        for (UserRo userRo : users) {
+            if (userRo != null) {
+                try {
+                    OMSCreateMemberVo omsMemberCreateVo = new OMSCreateMemberVo();
+                    omsMemberCreateVo.setUserId(Long.valueOf(userRo.getId()));
+                    omsMemberCreateVo.setName(userRo.getName());
+                    //omsMemberCreateVo.setChannelCode(IOms.CHANNEL_CODE);
+                    omsMemberCreateVo.setMobile(userRo.getMobile());
+                    omsMemberCreateVo.setPassword(userRo.getPassword());
+                    omsMemberCreateVo.setOriginalPwd(userRo.getOriginalPassword());
+                    MQMessage msg = new MQMessage(Message.QUEUE.MQ_OMS_MEMBER_CREATE_QUEUE, omsMemberCreateVo, TimeUnit.SECONDS.toMillis(10), 5, null);
+                    //mqService.sendMessage(msg);
+                    logger.debug("开始批量注册失败的用户信息到队列成功. 完成: {}/{}, vo: {}", ++count, size, omsMemberCreateVo);
+                } catch (Exception e) {
+                    logger.error("Sync member to oms queue failed. userRo: {}", userRo, e);
+                }
+            }
+        }
+        logger.debug("批量注册用户信息到老系统成功. size: {}", size);
     }
 }

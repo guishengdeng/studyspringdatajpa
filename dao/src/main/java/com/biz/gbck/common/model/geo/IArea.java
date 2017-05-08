@@ -1,4 +1,4 @@
-package com.biz.gbck.model.geo;
+package com.biz.gbck.common.model.geo;
 
 import java.math.BigDecimal;
 import java.util.List;
