@@ -7,6 +7,13 @@
 <%@ taglib prefix="depotnextdoor" tagdir="/WEB-INF/tags" %>
 
 <depotnextdoor:page title="资源列表" >
+     <jsp:attribute name="css">
+        <style type="text/css">
+            #simple-table .description,#simple-table .operate,#simple-table .name{
+                max-width: 90px;
+            }
+        </style>
+    </jsp:attribute>
     <jsp:attribute name="script">
         <script type="application/javascript">
             <%--<sec:authorize access="hasRole('OPT_MAINMENU_DELETE')"--%>
@@ -62,7 +69,13 @@
         </div>
         <%----%>
         <div class="profile-user-info profile-user-info-striped">
+            <div class="profile-info-row">
+                <div class="profile-info-name"> 名称 </div>
 
+                <div class="profile-info-value">
+                    <span class="editable" id="login">${menuItem.name}</span>
+                </div>
+            </div>
             <div class="profile-info-row">
                 <div class="profile-info-name"> 描述 </div>
 
@@ -71,13 +84,13 @@
                 </div>
             </div>
 
-            <div class="profile-info-row">
+           <%-- <div class="profile-info-row">
                 <div class="profile-info-name"> 图标 </div>
 
                 <div class="profile-info-value">
                     <span class="editable" id="signup">${menuItem.icon}</span>
                 </div>
-            </div>
+            </div>--%>
             <div class="profile-info-row">
                 <div class="profile-info-name"> 链接 </div>
 
@@ -85,13 +98,7 @@
                     <span class="editable" id="link">${menuItem.link}</span>
                 </div>
             </div>
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 名称 </div>
 
-                <div class="profile-info-value">
-                    <span class="editable" id="login">${menuItem.name}</span>
-                </div>
-            </div>
             <div class="profile-info-row">
                 <div class="profile-info-name"> 权限 </div>
 
@@ -121,10 +128,10 @@
                             <table id="simple-table" class="table  table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>名称</th>
-                                        <th class="hidden-md hidden-sm hidden-xs">权限</th>
-                                        <th>描述</th>
-                                        <th class="hidden-md hidden-sm hidden-xs">操作</th>
+                                        <th class="name">名称</th>
+                                        <th>权限</th>
+                                        <th class="description">描述</th>
+                                        <th class="operate">操作</th>
                                     </tr>
                                 </thead>
 
@@ -132,7 +139,7 @@
                                 <c:forEach items="${resources}" var="resource" varStatus="status">
                                     <tr id="tr-${resource.id}">
                                         <td>${resource.name}</td>
-                                        <td class="hidden-md hidden-sm hidden-xs"></td>
+                                        <td><%--<c:out value="${resource.symbol}"/>--%></td>
                                         <td>${resource.description}</td>
                                         <td class="hidden-md hidden-sm hidden-xs">
                                             <div class="hidden-sm hidden-xs btn-group">

@@ -19,6 +19,7 @@ public interface MainMenuRepository extends CommonJpaRepository<MainMenu, Long>,
 
     List<MainMenu> findByOrderByCodeAscNameAsc();
 
+    @Query("FROM MainMenu mm WHERE mm.status = ?1 order by mm.code asc")
     List<MainMenu> findByStatus(CommonStatusEnum status);
 
     @Transactional

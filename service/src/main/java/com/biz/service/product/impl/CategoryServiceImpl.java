@@ -301,4 +301,9 @@ public class CategoryServiceImpl extends AbstractCategoryService implements Cate
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Category findById(Long id) {
+        return categoryRepository.findOne(id);
+    }
+
 }

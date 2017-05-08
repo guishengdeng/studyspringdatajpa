@@ -1,6 +1,7 @@
 package com.biz.service.product.backend;
 
 
+import com.biz.gbck.dao.mysql.po.product.meta.ProductExtend;
 import com.biz.gbck.exceptions.product.IllegalParameterException;
 import com.biz.gbck.exceptions.product.ProductExtendNotFoundException;
 import com.biz.gbck.vo.product.backend.*;
@@ -24,7 +25,7 @@ public interface ProductExtendService {
     /**
      * 增加一个分类下的属性
      */
-    void createCategoryProperty(CreateCategoryPropertyVo createCategoryPropertyVo) throws ProductExtendNotFoundException;
+    void createCategoryProperty(CreateCategoryPropertyVo createCategoryPropertyVo);
 
 
     /**
@@ -57,4 +58,17 @@ public interface ProductExtendService {
      */
     List<AllProductExtendVo> findAllProductExtend();
 
+
+    /**
+     * 根据分类id，返回与之相关的扩展属性
+     */
+    List<ProductExtend> findByCategoryId(Long id);
+
+
+    /**
+     * 根据id查询扩展属性
+     */
+    ProductExtend findOne(Long id);
+
+    List<ProductExtend> findAll();
 }

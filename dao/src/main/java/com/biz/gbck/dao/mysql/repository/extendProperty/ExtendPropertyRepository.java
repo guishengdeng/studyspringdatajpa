@@ -4,6 +4,7 @@ import com.biz.gbck.dao.mysql.po.product.meta.ExtendProperty;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -27,5 +28,7 @@ public interface ExtendPropertyRepository extends CommonJpaRepository<ExtendProp
     @Query("SELECT MAX(ep.idx) FROM ExtendProperty ep where ep.productExtend.id = ?1")
     Integer findMaxIdx(Long productExtendId);
 
+    @Query("SELECT ep FROM  ExtendProperty ep WHERE ep.productExtend.id = :productExtendId order by ep.idx asc , ep.value asc")
+    List <ExtendProperty> findByProductExtendId(@Param("productExtendId") Long id);
 
 }

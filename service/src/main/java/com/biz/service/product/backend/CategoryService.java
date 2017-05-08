@@ -1,6 +1,7 @@
 package com.biz.service.product.backend;
 
 import com.biz.core.page.PageResult;
+import com.biz.gbck.dao.mysql.po.product.meta.Category;
 import com.biz.gbck.exceptions.product.CategoryNotFoundException;
 import com.biz.gbck.vo.product.backend.*;
 import java.util.List;
@@ -106,4 +107,6 @@ public interface CategoryService {
      * 获取到最顶层的分类
      */
     List<IdNameVo> getTopCategories();
+
+    Category findById(Long id);
 }

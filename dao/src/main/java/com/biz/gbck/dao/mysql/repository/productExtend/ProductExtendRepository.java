@@ -28,5 +28,6 @@ public interface ProductExtendRepository extends CommonJpaRepository<ProductExte
     @Query("SELECT MAX(pe.idx) FROM ProductExtend pe where pe.category.id = ?1")
     Integer findMaxIdx(Long categoryId);
 
+    @Query("FROM ProductExtend pe WHERE pe.category.id = ?1 order by pe.idx asc ,pe.name asc ")
     List<ProductExtend> findByCategoryId(Long categoryId);
 }

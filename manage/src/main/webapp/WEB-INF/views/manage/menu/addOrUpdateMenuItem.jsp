@@ -42,7 +42,7 @@
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
                                 <a href="manage/mainMenus/detail.do?id=${mainmenu_id}" class="btn btn-sm btn-primary"><i
                                         class="ace-icon fa fa-angle-left"></i>
-                                    返回上一级
+                                    返回
                                 </a>
                             </span>
                             </h3>
