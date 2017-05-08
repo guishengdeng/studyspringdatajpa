@@ -13,6 +13,7 @@ import com.biz.vo.demo.CatReqVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -49,6 +50,7 @@ public class CatServiceImpl extends AbstractRepositorySupportService<CatPO> impl
 		CatPO catPO = vo.getId() == null ? new CatPO() : get(vo.getId());
 		catPO.setId(vo.getId());
 		catPO.setName(vo.getName());
+		catPO.setHomepage(vo.getHomepage());
 		catPO.setDescription(vo.getDescription());
 		catPO.setSaleStatus(vo.getSaleStatus());
 		catPO.setStatus(vo.getStatus());
@@ -88,7 +90,7 @@ public class CatServiceImpl extends AbstractRepositorySupportService<CatPO> impl
 	 */
 	public Page<CatPO> searchCat(CatSearchVO reqVo){
 
-		return catRepository.findAll(new CatSearchSpecification(reqVo), new PageRequest(reqVo.getPage()-1, reqVo.getPageSize()));
+		return catRepository.findAll(new CatSearchSpecification(reqVo), new PageRequest(reqVo.getPage()-1, reqVo.getPageSize(), Sort.Direction.ASC, "name"));
 	}
 
 	/**

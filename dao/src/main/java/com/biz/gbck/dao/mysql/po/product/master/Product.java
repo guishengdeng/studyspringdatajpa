@@ -60,6 +60,12 @@ public class Product extends BaseEntity {
     private String breif;
 
     /**
+     * 最小起售量
+     */
+    @Column
+    private Integer minQuantity;
+
+    /**
      * 商品品牌
      */
     @ManyToOne
@@ -218,39 +224,12 @@ public class Product extends BaseEntity {
     private List<ProductActionLog> actionLogs;
 
     /**
-     * 简单特价
-     */
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<SimpleSpecialOfferPromotion> specialOfferPromotions;
-
-    /**
-     * 批量特价
-     */
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<BatchSpecialOfferPromotion> batchSpecialOfferPromotions;
-
-    /**
-     * 单品买赠
-     */
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<SinglePurchaseGiftPromotion> singlePurchaseGiftPromotions;
-
-    /**
-     * 倍数特价
-     */
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<MultipleQuantityPromotion> multipleQuantityPromotions;
-
-    /**
-     * 数量特价
-     */
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<QuantitySpecialOfferPromotion> quantitySpecialOfferPromotions;
-
-    /**
      * 倍增满减
      */
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany
+    @JoinTable(name = "pro_promotion_account_per_unit_cut_product",
+            joinColumns = {@JoinColumn(name = "promotion_id", referencedColumnName = "id")}
+            , inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")})
     private List<AccountPerUnitCutPromotion> accountPerUnitCutPromotions;
 
     /**
@@ -267,6 +246,36 @@ public class Product extends BaseEntity {
      */
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MultipleIncrementGiftPromotion> multipleIncrementGiftPromotions;
+
+    /**
+     * 简单特价商品
+     */
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<SimpleSpecialOfferPromotionProduct> simpleSpecialOfferPromotionProducts;
+
+    /**
+     * 批量特价商品
+     */
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<BatchSpecialOfferPromotionProduct> batchSpecialOfferPromotionProducts;
+
+    /**
+     * 倍数特价商品
+     */
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<MultipleQuantityPromotionProduct> multipleQuantityPromotionProducts;
+
+    /**
+     * 数量特价商品
+     */
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<QuantitySpecialOfferPromotionProduct> quantitySpecialOfferPromotionProducts;
+
+    /**
+     * 单品买赠促销商品
+     */
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<SinglePurchaseGiftPromotionProduct> singlePurchaseGiftPromotionProducts;
 
     public String getBreif() {
         return breif;
@@ -559,30 +568,6 @@ public class Product extends BaseEntity {
         this.actionLogs = actionLogs;
     }
 
-    public List<SimpleSpecialOfferPromotion> getSpecialOfferPromotions() {
-        return specialOfferPromotions;
-    }
-
-    public void setSpecialOfferPromotions(List<SimpleSpecialOfferPromotion> specialOfferPromotions) {
-        this.specialOfferPromotions = specialOfferPromotions;
-    }
-
-    public List<BatchSpecialOfferPromotion> getBatchSpecialOfferPromotions() {
-        return batchSpecialOfferPromotions;
-    }
-
-    public void setBatchSpecialOfferPromotions(List<BatchSpecialOfferPromotion> batchSpecialOfferPromotions) {
-        this.batchSpecialOfferPromotions = batchSpecialOfferPromotions;
-    }
-
-    public List<SinglePurchaseGiftPromotion> getSinglePurchaseGiftPromotions() {
-        return singlePurchaseGiftPromotions;
-    }
-
-    public void setSinglePurchaseGiftPromotions(List<SinglePurchaseGiftPromotion> singlePurchaseGiftPromotions) {
-        this.singlePurchaseGiftPromotions = singlePurchaseGiftPromotions;
-    }
-
     public List<StairCutPromotion> getStairCutPromotions() {
         return stairCutPromotions;
     }
@@ -607,11 +592,51 @@ public class Product extends BaseEntity {
         this.multipleIncrementGiftPromotions = multipleIncrementGiftPromotions;
     }
 
-    public List<MultipleQuantityPromotion> getMultipleQuantityPromotions() {
-        return multipleQuantityPromotions;
+    public List<SimpleSpecialOfferPromotionProduct> getSimpleSpecialOfferPromotionProducts() {
+        return simpleSpecialOfferPromotionProducts;
     }
 
-    public void setMultipleQuantityPromotions(List<MultipleQuantityPromotion> multipleQuantityPromotions) {
-        this.multipleQuantityPromotions = multipleQuantityPromotions;
+    public void setSimpleSpecialOfferPromotionProducts(List<SimpleSpecialOfferPromotionProduct> simpleSpecialOfferPromotionProducts) {
+        this.simpleSpecialOfferPromotionProducts = simpleSpecialOfferPromotionProducts;
+    }
+
+    public List<BatchSpecialOfferPromotionProduct> getBatchSpecialOfferPromotionProducts() {
+        return batchSpecialOfferPromotionProducts;
+    }
+
+    public void setBatchSpecialOfferPromotionProducts(List<BatchSpecialOfferPromotionProduct> batchSpecialOfferPromotionProducts) {
+        this.batchSpecialOfferPromotionProducts = batchSpecialOfferPromotionProducts;
+    }
+
+    public List<MultipleQuantityPromotionProduct> getMultipleQuantityPromotionProducts() {
+        return multipleQuantityPromotionProducts;
+    }
+
+    public void setMultipleQuantityPromotionProducts(List<MultipleQuantityPromotionProduct> multipleQuantityPromotionProducts) {
+        this.multipleQuantityPromotionProducts = multipleQuantityPromotionProducts;
+    }
+
+    public List<QuantitySpecialOfferPromotionProduct> getQuantitySpecialOfferPromotionProducts() {
+        return quantitySpecialOfferPromotionProducts;
+    }
+
+    public void setQuantitySpecialOfferPromotionProducts(List<QuantitySpecialOfferPromotionProduct> quantitySpecialOfferPromotionProducts) {
+        this.quantitySpecialOfferPromotionProducts = quantitySpecialOfferPromotionProducts;
+    }
+
+    public List<SinglePurchaseGiftPromotionProduct> getSinglePurchaseGiftPromotionProducts() {
+        return singlePurchaseGiftPromotionProducts;
+    }
+
+    public void setSinglePurchaseGiftPromotionProducts(List<SinglePurchaseGiftPromotionProduct> singlePurchaseGiftPromotionProducts) {
+        this.singlePurchaseGiftPromotionProducts = singlePurchaseGiftPromotionProducts;
+    }
+
+    public Integer getMinQuantity() {
+        return minQuantity;
+    }
+
+    public void setMinQuantity(Integer minQuantity) {
+        this.minQuantity = minQuantity;
     }
 }

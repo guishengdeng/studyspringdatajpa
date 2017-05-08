@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.mysql.po.product.promotion;
 
-import com.biz.gbck.enums.product.PromotionOrientEnum;
-import com.biz.gbck.enums.product.PromotionRoundEnum;
+import com.biz.gbck.enums.product.promotion.PromotionOrientEnum;
+import com.biz.gbck.enums.product.promotion.PromotionRoundEnum;
 import com.biz.support.jpa.converter.ListLongConverter;
 import com.biz.support.jpa.converter.ListStringConverter;
 import com.biz.support.jpa.po.BaseEntity;
@@ -49,6 +49,12 @@ public class ProductPromotion extends BaseEntity {
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private PromotionRoundEnum promotionRound;
+
+    /**
+     * 循环日(促销生效的日期)
+     */
+    @Column
+    private String roundCycle;
 
     /**
      * 活动开始时间(可选, 如果设置了代表当天活动生效的开始时间)
@@ -128,6 +134,20 @@ public class ProductPromotion extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     @Convert(converter = ListStringConverter.class)
     private String excludeProducts;
+
+    /**
+     * 能参与促销的分类
+     */
+    @Column(columnDefinition = "TEXT")
+    @Convert(converter = ListLongConverter.class)
+    private String orientedCategories;
+
+    /**
+     * 不能参与促销的分类
+     */
+    @Column(columnDefinition = "TEXT")
+    @Convert(converter = ListLongConverter.class)
+    private String excludeCategories;
 
     public Long getCompanyId() {
         return companyId;
@@ -263,5 +283,29 @@ public class ProductPromotion extends BaseEntity {
 
     public void setExcludeProducts(String excludeProducts) {
         this.excludeProducts = excludeProducts;
+    }
+
+    public String getOrientedCategories() {
+        return orientedCategories;
+    }
+
+    public void setOrientedCategories(String orientedCategories) {
+        this.orientedCategories = orientedCategories;
+    }
+
+    public String getExcludeCategories() {
+        return excludeCategories;
+    }
+
+    public void setExcludeCategories(String excludeCategories) {
+        this.excludeCategories = excludeCategories;
+    }
+
+    public String getRoundCycle() {
+        return roundCycle;
+    }
+
+    public void setRoundCycle(String roundCycle) {
+        this.roundCycle = roundCycle;
     }
 }

@@ -10,10 +10,10 @@ import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.enums.user.AuditStatus;
-import com.biz.gbck.vo.search.SearchUserReqVo;
+import com.biz.gbck.vo.search.bbc.SearchUserReqVo;
 import com.biz.gbck.vo.user.MemberIdRequestVo;
 import com.biz.gbck.vo.user.UserResponseVo;
-import com.biz.vo.org.*;
+import com.biz.gbck.vo.org.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

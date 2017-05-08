@@ -4,6 +4,8 @@ import com.biz.gbck.dao.mysql.po.product.meta.Category;
 import com.biz.gbck.vo.product.backend.CategoryListItemVo;
 import com.google.common.base.Function;
 
+import java.text.SimpleDateFormat;
+
 /**
  * 转换器(Category ---> CategoryListItemVo)
  *
@@ -20,7 +22,8 @@ public class Category2CategoryListItemVo implements Function<Category, CategoryL
         categoryListItemVo.setId(String.valueOf(category.getId()));
         categoryListItemVo.setName(category.getName());
         categoryListItemVo.setIdx(category.getIdx());
-        categoryListItemVo.setCreateTimeStamp(category.getCreateTimestamp());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        categoryListItemVo.setCreateTimeStamp(simpleDateFormat.format(category.getCreateTimestamp()));
         categoryListItemVo.setStatus(category.getStatus());
         if ((category.getChildren()).size() == 0) {
             categoryListItemVo.setShowDel("true");

@@ -26,6 +26,8 @@ spring:
   session:
     redis:
       flush-mode: immediate
+  application:
+    name: soa-promotion
 
 biz:
   soa:
@@ -56,4 +58,15 @@ biz:
 server:
   session:
     timeout: 1200
+  port: 8679
+eureka:
+  client:
+    service-url:
+      defaultZone: http://peer1:7777/eureka/, http://peer2:8888/eureka/, http://peer3:9999/eureka/
 
+security:
+  basic:
+    enabled: false
+management:
+  security:
+    enabled: false

@@ -5,7 +5,7 @@ import com.biz.gbck.enums.product.DeliverType;
 import com.biz.gbck.enums.product.ProductShowStatus;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.product.frontend.TypeBProductStockVo;
-import com.biz.gbck.vo.search.ProductIdxVo;
+import com.biz.gbck.vo.search.bbc.ProductIdxVo;
 import java.io.Serializable;
 import java.util.List;
 

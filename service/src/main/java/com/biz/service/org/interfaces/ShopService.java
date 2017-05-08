@@ -10,17 +10,27 @@ import com.biz.gbck.dao.mysql.po.payment.ZsgfApplyStatus;
 import com.biz.gbck.dao.mysql.po.payment.ZsgfLoanApplyPo;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopStatus;
+import com.biz.gbck.vo.org.ChangePaymentPwdReqVo;
+import com.biz.gbck.vo.org.SearchShopRespVo;
+import com.biz.gbck.vo.org.ShopAuditDataMap;
+import com.biz.gbck.vo.org.ShopAuditReqVo;
+import com.biz.gbck.vo.org.ShopChangeDeliveryAddressReqVo;
+import com.biz.gbck.vo.org.ShopDetailOrQualificationGetReqVo;
+import com.biz.gbck.vo.org.ShopEditVo;
 import com.biz.gbck.vo.org.ShopExportVo;
+import com.biz.gbck.vo.org.ShopUpdateDetailReqVo;
+import com.biz.gbck.vo.org.ShopUpdateQualificationReqVo;
 import com.biz.gbck.vo.org.ShopsInfoExportVo;
 import com.biz.gbck.vo.org.User20VIPVo;
+import com.biz.gbck.vo.org.UserChangeDeliveryNameReqVo;
 import com.biz.gbck.vo.org.UserVo;
 import com.biz.gbck.vo.search.SearchShopReqVo;
 import com.biz.gbck.vo.search.ShopQueryReqVo;
 import com.biz.gbck.vo.zsgf.ZsgfLoanQueryReqVo;
 import com.biz.manage.vo.FailDetail;
-import com.biz.vo.org.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -170,23 +180,23 @@ public interface ShopService {
     /**
      * 同步ShopPo到redis数据库
      */
-    ShopRo syncShopPoToRedis(ShopPo shopPo);
+    //ShopRo syncShopPoToRedis(ShopPo shopPo);
 
     /**
      * 同步ShopTypePo到redis数据库
      */
-    ShopTypeRo syncShopTypePoToRedis(ShopTypePo shopTypePo);
+    //ShopTypeRo syncShopTypePoToRedis(ShopTypePo shopTypePo);
 
     /**
      *验证商户操作权限
      */
-    void validateShopOperateAuthority(Boolean isShopAdmin, Long requestShopId, Long shopId) throws CommonException;
+    //void validateShopOperateAuthority(Boolean isShopAdmin, Long requestShopId, Long shopId) throws CommonException;
 
     List<String> findDetailAuditRejectReason(Long shopId);
 
     List<String> findQualificationAuditRejectReason(Long shopId);
 
-    Boolean updateShopStatus(Long id, ShopStatus shopStatus);
+    Boolean updateShopStatus(Long id, CommonStatusEnum shopStatus);
 
     ShopPo save(ShopPo shopPo);
 
@@ -207,7 +217,7 @@ public interface ShopService {
     void destroyShopAndItUsers(Long shopId, String handler)
             throws CommonException;
 
-    void dispatchInviteVoucher(Long shopId);
+    //void dispatchInviteVoucher(Long shopId);
 
 
     List<SearchShopRespVo> findshopListByUserlist(List<UserPo> users);
@@ -290,11 +300,11 @@ public interface ShopService {
     void sendLoanNotice(Long shopId, LoanApplyType loanApplyType)
             throws CommonException;
 
-    void sendLoanShortMessage(Long shopId, List<UserPo> users, LoanApplyType loanApplyType)
-            throws CommonException;
+//    void sendLoanShortMessage(Long shopId, List<UserPo> users, LoanApplyType loanApplyType)
+//            throws CommonException;
 
-    void sendLoanPushMessage(Long shopId, List<UserPo> users, LoanApplyType loanApplyType)
-            throws CommonException;
+//    void sendLoanPushMessage(Long shopId, List<UserPo> users, LoanApplyType loanApplyType)
+//            throws CommonException;
 
 
 

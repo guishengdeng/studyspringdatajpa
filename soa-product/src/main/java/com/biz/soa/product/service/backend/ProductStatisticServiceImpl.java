@@ -32,7 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @date 2017年02月28日
  * @reviewer
  */
-@Service
+//@Service
 public class ProductStatisticServiceImpl extends AbstractBaseService implements ProductStatisticService {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductStatisticServiceImpl.class);

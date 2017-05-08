@@ -2,7 +2,7 @@ package com.biz.event.org;
 
 
 import com.biz.gbck.dao.redis.ro.org.UserRo;
-import com.biz.vo.org.UserLoginReqVo;
+import com.biz.gbck.vo.org.UserLoginReqVo;
 
 /**
  * 登录事件

@@ -335,6 +335,22 @@ public class BrandServiceImpl extends AbstractBrandService implements BrandServi
         return brands;
     }
 
+    private Page<Brand> buildCategoryNotDeleteBrandsCascadeChildren2(Category category, BrandSearchVo brandSearchVo) {
+        List<BrandListItemVo> vos = Lists.newArrayList();
+        logger.debug("获取选中分类的子分类");
+        Set<Category> categorySet = getAllChildCategory(category);
+        categorySet.add(category);
+        List<Long> categoryIds = Lists.newArrayList();
+        for (Category index : categorySet) {
+            categoryIds.add(index.getId());
+        }
+        logger.debug("需要查询的分类ID集合[{}]");
+        Page<Brand> brands = brandRepository.findByCategoriesIdInAndNameLikeAndDeleteFlag(categoryIds,
+                "%" + brandSearchVo.getName() + "%", Boolean.FALSE,
+                new PageRequest(brandSearchVo.getPage() - 1, brandSearchVo.getPageSize()));
+        return brands;
+    }
+
     /**
      * 根据随机数量查询随机数量的品牌
      */
@@ -349,5 +365,44 @@ public class BrandServiceImpl extends AbstractBrandService implements BrandServi
     public List<BrandListItemVo> findBrands() {
         List<Brand> bands = brandRepository.findAll();
         return Lists.transform(bands, new Brand2BrandListItemVo(""));
+    }
+
+    @Override
+    public Page<Brand> searchBrand(BrandSearchVo reqVo, Long categoryId,
+                                 Boolean cascadeChildCategory) throws IllegalParameterException, CategoryNotFoundException{
+
+        Category category = categoryRepository.findByIdAndDeleteFlag(categoryId, Boolean.FALSE);
+
+        if (categoryId != null && category == null) {
+            throw new CategoryNotFoundException("分类不存在/分类已被删除");
+        }
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("vo: {}, categoryId: {}, show child category brand: {}", reqVo, categoryId,
+                    cascadeChildCategory);
+        }
+
+        Page<Brand> brandPage;
+        PageRequest pageRequest = new PageRequest(reqVo.getPage()-1, reqVo.getPageSize());
+        if (cascadeChildCategory != null && cascadeChildCategory) {
+            // 查询当前分类和它的子分类的所有品牌, 结果需要分页
+            brandPage = this.buildCategoryNotDeleteBrandsCascadeChildren2(category, reqVo);
+        } else {
+            //不查询子分类
+            if (categoryId == null || StringUtils.isNotBlank(reqVo.getName())) {
+                if (StringUtils.isNotBlank(reqVo.getName())) {
+                    brandPage = brandRepository.findByDeleteFlagAndNameLike(Boolean.FALSE,
+                            "%" + reqVo.getName() + "%", pageRequest);
+                } else {
+                    brandPage = brandRepository.findByDeleteFlag(Boolean.FALSE, pageRequest);
+                }
+
+            } else {
+                // 查询当前分类下的所有品牌, 结果不需要分页
+                brandPage = brandRepository.findByCategoriesIdAndNameLikeAndDeleteFlag(categoryId,
+                        "%" + reqVo.getName() + "%", Boolean.FALSE, pageRequest);
+            }
+        }
+        return brandPage;
     }
 }
