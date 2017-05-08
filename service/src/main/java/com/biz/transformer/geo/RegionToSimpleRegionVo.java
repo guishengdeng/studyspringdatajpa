@@ -1,9 +1,9 @@
 package com.biz.transformer.geo;
 
+import com.biz.gbck.common.model.geo.IArea;
 import com.biz.gbck.dao.mysql.po.geo.AbstractAreaWithCode;
 import com.biz.gbck.dao.mysql.po.geo.CityPo;
 import com.biz.gbck.dao.mysql.po.geo.DistrictPo;
-import com.biz.gbck.model.geo.IArea;
 import com.biz.gbck.vo.geo.SimpleRegionVo;
 import com.google.common.base.Function;
 

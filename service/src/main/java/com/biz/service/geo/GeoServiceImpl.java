@@ -2,9 +2,9 @@ package com.biz.service.geo;
 
 import com.biz.core.util.CollectionUtil;
 import com.biz.gbck.common.exception.DepotnearbyExceptionFactory;
+import com.biz.gbck.common.model.geo.IArea;
 import com.biz.gbck.dao.mysql.po.geo.*;
 import com.biz.gbck.dao.mysql.repository.geo.*;
-import com.biz.gbck.model.geo.IArea;
 import com.biz.gbck.transform.geo.*;
 import com.biz.gbck.vo.common.request.LocationDecodeRequestVo;
 import com.biz.gbck.vo.common.response.*;

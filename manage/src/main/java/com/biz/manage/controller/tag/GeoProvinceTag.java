@@ -1,7 +1,7 @@
 package com.biz.manage.controller.tag;
 
 
-import com.biz.gbck.model.geo.IArea;
+import com.biz.gbck.common.model.geo.IArea;
 import com.biz.gbck.vo.geo.SimpleRegionVo;
 import com.biz.service.geo.interfaces.GeoService;
 import com.biz.util.SpringContextUtil;
