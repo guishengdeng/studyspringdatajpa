@@ -4,7 +4,7 @@ import com.biz.gbck.exceptions.order.PaymentException;
 import com.biz.gbck.vo.IdReqVo;
 import com.biz.gbck.vo.payment.req.WechatOrderReqVo;
 import com.biz.gbck.vo.payment.resp.AlipaySignRespVo;
-import com.biz.gbck.vo.payment.resp.PaymentQueryResultResponseVo;
+import com.biz.gbck.vo.payment.resp.PaymentQueryResultRespVo;
 import com.biz.gbck.vo.payment.resp.WechatPayResp;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.soa.order.service.payment.PaymentService;
@@ -31,16 +31,16 @@ public class PaymentController extends BaseRestController {
     private PaymentService paymentService;
 
     //查询支付状态
-    @RequestMapping("/queryPay")
-    public JSONResult allTypeOrders(HttpServletRequest request) throws PaymentException {
+    @RequestMapping("/queryPaid")
+    public JSONResult queryPaid(HttpServletRequest request) throws PaymentException {
         IdReqVo reqVo = super.parseBizData(request, IdReqVo.class);
-        PaymentQueryResultResponseVo paidResultRespVo = paymentService.queryPaid(reqVo);
+        PaymentQueryResultRespVo paidResultRespVo = paymentService.queryPaid(reqVo);
         return new JSONResult(paidResultRespVo);
     }
 
     //支付宝继续支付
     @RequestMapping("/alipay")
-    public JSONResult orderDetail(HttpServletRequest request) throws PaymentException {
+    public JSONResult alipay(HttpServletRequest request) throws PaymentException {
         IdReqVo reqVo = super.parseBizData(request, IdReqVo.class);
         AlipaySignRespVo responseVo = paymentService.getAlipaySign(reqVo.getId());
         return new JSONResult(responseVo);
@@ -48,7 +48,7 @@ public class PaymentController extends BaseRestController {
 
     //微信继续支付
     @RequestMapping("/wechat")
-    public JSONResult cancelOrder(HttpServletRequest request) throws PaymentException {
+    public JSONResult wecaht(HttpServletRequest request) throws PaymentException {
         WechatOrderReqVo reqVo = super.parseBizData(request, WechatOrderReqVo.class);
         WechatPayResp respVo = paymentService.wechatPay(reqVo, reqVo.getOrderId());
         return new JSONResult(respVo);

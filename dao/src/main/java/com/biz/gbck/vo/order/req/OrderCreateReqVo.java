@@ -1,5 +1,6 @@
 package com.biz.gbck.vo.order.req;
 
+import com.biz.core.util.JsonUtil;
 import com.biz.gbck.enums.order.InvoiceType;
 import com.biz.gbck.enums.order.PaymentType;
 
@@ -72,12 +73,6 @@ public class OrderCreateReqVo extends OrderSettlePageReqVo {
      * 支付方式{@link PaymentType}
      */
     private Integer paymentType;
-
-    /**
-     * 订单明细
-     */
-    @NotNull(message = "请至少选择一个商品")
-    private List<OrderSettlePageItemReqVo> items;
 
 
     public Integer getOrderAmount() {
@@ -160,11 +155,10 @@ public class OrderCreateReqVo extends OrderSettlePageReqVo {
         this.paymentType = paymentType;
     }
 
-    public List<OrderSettlePageItemReqVo> getItems() {
-        return items;
+    public static void main(String[] args) {
+        OrderCreateReqVo obj = new OrderCreateReqVo();
+        JsonUtil.printObjectJsonDemo(obj);
+        System.out.println(JsonUtil.obj2Json(obj));
     }
 
-    public void setItems(List<OrderSettlePageItemReqVo> items) {
-        this.items = items;
-    }
 }

@@ -1,7 +1,5 @@
 package com.biz.gbck.vo.payment.resp;
 
-import com.biz.gbck.enums.order.PaymentType;
-
 import java.io.Serializable;
 
 /**
@@ -11,7 +9,7 @@ import java.io.Serializable;
  * @usage 
  * @reviewer
  */
-public class PaymentQueryResultResponseVo implements Serializable {
+public class PaymentQueryResultRespVo implements Serializable {
 
 	private static final long serialVersionUID = -3750929034079312384L;
 
@@ -19,18 +17,19 @@ public class PaymentQueryResultResponseVo implements Serializable {
 	private Long orderId;
 	
 	private String orderCode;
+
 	//支付金额
 	private Integer payAmount;
+
 	//支付方式
-	private PaymentType paymentType;
-	//是否开启分享有礼
-	private boolean enableShare = false;
-	//分享有礼url
-	private String shareUrl;
-	//分享有礼标签,用于回调时判断
-	private String shareTag;
+	private Integer paymentType;
+
+	//支付时间
+	private Long paidTime;
+
 	//是否支付成功
-	private boolean success = true;
+	private boolean paid = true;
+
 	//查询结果文本
 	private String message;
 
@@ -58,44 +57,28 @@ public class PaymentQueryResultResponseVo implements Serializable {
 		this.payAmount = payAmount;
 	}
 
-	public PaymentType getPaymentType() {
+	public Integer getPaymentType() {
 		return paymentType;
 	}
 
-	public void setPaymentType(PaymentType paymentType) {
+	public void setPaymentType(Integer paymentType) {
 		this.paymentType = paymentType;
 	}
 
-	public boolean isEnableShare() {
-		return enableShare;
+	public Long getPaidTime() {
+		return paidTime;
 	}
 
-	public void setEnableShare(boolean enableShare) {
-		this.enableShare = enableShare;
+	public void setPaidTime(Long paidTime) {
+		this.paidTime = paidTime;
 	}
 
-	public String getShareUrl() {
-		return shareUrl;
+	public boolean isPaid() {
+		return paid;
 	}
 
-	public void setShareUrl(String shareUrl) {
-		this.shareUrl = shareUrl;
-	}
-
-	public String getShareTag() {
-		return shareTag;
-	}
-
-	public void setShareTag(String shareTag) {
-		this.shareTag = shareTag;
-	}
-
-	public boolean isSuccess() {
-		return success;
-	}
-
-	public void setSuccess(boolean success) {
-		this.success = success;
+	public void setPaid(boolean paid) {
+		this.paid = paid;
 	}
 
 	public String getMessage() {

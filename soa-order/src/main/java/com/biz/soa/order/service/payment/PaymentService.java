@@ -74,7 +74,7 @@ public interface PaymentService {
 	
 	void wechatTradeNotify(WechatPayNotifyRespVo notifyRes);
 
-	PaymentQueryResultResponseVo queryPaid(IdReqVo req) throws PaymentException;
+	PaymentQueryResultRespVo queryPaid(IdReqVo req) throws PaymentException;
 	
 	void confirmPaid(Long orderId, OrderPayment payment);
 

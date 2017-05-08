@@ -447,7 +447,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 
 	@Override
 	@Transactional
-	public PaymentQueryResultResponseVo queryPaid(IdReqVo reqVo) throws PaymentException {
+	public PaymentQueryResultRespVo queryPaid(IdReqVo reqVo) throws PaymentException {
 		// 查询订单
 		Long orderId = reqVo.getId();
 		Order order = orderFrontendService.getOrder(orderId);
@@ -456,8 +456,8 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 			logger.debug("payment Id : {}", payment.getId());
 		}
 		PaymentType paymentType = payment.getPaymentType();
-		PaymentQueryResultResponseVo resp = new PaymentQueryResultResponseVo();
-		resp.setPaymentType(paymentType);
+		PaymentQueryResultRespVo resp = new PaymentQueryResultRespVo();
+		resp.setPaymentType(paymentType.getValue());
 		resp.setOrderId(orderId);
 		resp.setOrderCode(order.getOrderCode());
 		resp.setPayAmount(payment.getPayAmount());
@@ -470,10 +470,10 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 							logger.info("order alipay success save tradeNo:[{}]", paidRespVo.getTradeNo());
 							this.savePaymentTradeNo(payment.getId(), paidRespVo.getTradeNo());
 						}
-						resp.setSuccess(true);
+						resp.setPaid(true);
 						resp.setMessage("您的订单已经成功提交");
 					} else {
-						resp.setSuccess(false);
+						resp.setPaid(false);
 						resp.setMessage("您的订单未成功提交");
 					}
 				} catch (PaymentException e) {
@@ -488,10 +488,10 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 							logger.info("order wechatpay success save tradeNo:[{}]", paidRespVo.getTradeNo());
 							this.savePaymentTradeNo(payment.getId(), paidRespVo.getTradeNo());
 						}
-						resp.setSuccess(true);
+						resp.setPaid(true);
 						resp.setMessage("您的订单已经成功提交");
 					} else {
-						resp.setSuccess(false);
+						resp.setPaid(false);
 						resp.setMessage("您的订单未成功提交");
 					}
 				} catch (PaymentException e) {
@@ -499,14 +499,14 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 				}
 				break;
 			case PAY_ON_DELIVERY:
-				resp.setSuccess(true);
+				resp.setPaid(true);
 				resp.setMessage("您的订单已经成功提交");
 				break;
 			default:
 				throw new PaymentException("不支持的支付方式:" + paymentType);
 		}
 
-		if (resp.isSuccess()) {
+		if (resp.isPaid()) {
 			this.confirmPaid(orderId, payment);
 		}
 

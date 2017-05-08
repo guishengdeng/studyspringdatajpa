@@ -1,19 +1,21 @@
 package com.biz.gbck.vo.order.resp;
 
 import com.biz.gbck.enums.order.PaymentType;
-import com.biz.gbck.vo.user.BaseRequestVo;
 
+import java.io.Serializable;
 import java.util.List;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 /**
- * 订单结算请求Vo
+ * 订单结算返回Vo
  *
  * @author lei
  * @date 2017年05月03日
  * @reviewer
  * @see
  */
-public class OrderSettlePageRespVo extends BaseRequestVo {
+public class OrderSettlePageRespVo implements Serializable {
 
     private static final long serialVersionUID = -8415628255360674537L;
 
@@ -26,12 +28,17 @@ public class OrderSettlePageRespVo extends BaseRequestVo {
     private Integer freight = 0;
 
     /**
+     * 付款期限
+     */
+    private Long payLimitTime;
+
+    /**
      * 商品明细
      */
-    private List<OrderItemRespVo> items;
+    private List<OrderItemRespVo> items = newArrayList();
 
     // 促销列表
-    private List<OrderPromotionRespVo> promotions;
+    private List<OrderPromotionRespVo> promotions = newArrayList();
 
     // 可用优惠卷数量
     private Integer coupons = 0;
@@ -39,17 +46,12 @@ public class OrderSettlePageRespVo extends BaseRequestVo {
     /**
      * 可用支付方式 {@link PaymentType}
      */
-    private List<Integer> paymentTypes;
+    private List<Integer> paymentTypes = newArrayList();;
 
     /**
      * 是否有效
      */
     private boolean valid = true;
-
-    /**
-     * 卖家名称
-     */
-    private String sellerName;
 
     /**
      * 买家姓名
@@ -114,12 +116,12 @@ public class OrderSettlePageRespVo extends BaseRequestVo {
         this.valid = valid;
     }
 
-    public String getSellerName() {
-        return sellerName;
+    public Long getPayLimitTime() {
+        return payLimitTime;
     }
 
-    public void setSellerName(String sellerName) {
-        this.sellerName = sellerName;
+    public void setPayLimitTime(Long payLimitTime) {
+        this.payLimitTime = payLimitTime;
     }
 
     public String getBuyerName() {
