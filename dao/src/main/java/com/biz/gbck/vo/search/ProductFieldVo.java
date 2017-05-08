@@ -2,7 +2,6 @@ package com.biz.gbck.vo.search;
 
 import java.io.Serializable;
 import java.util.List;
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
  * 商品过滤字段vo
@@ -56,6 +55,10 @@ public class ProductFieldVo implements Serializable {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return "ProductFieldVo{" +
+                "field='" + field + '\'' +
+                ", label='" + label + '\'' +
+                ", items=" + items +
+                '}';
     }
 }
