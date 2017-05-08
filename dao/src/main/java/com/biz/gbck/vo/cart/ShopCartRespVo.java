@@ -1,5 +1,6 @@
 package com.biz.gbck.vo.cart;
 
+import com.biz.core.util.JsonUtil;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -35,11 +36,6 @@ public class ShopCartRespVo implements Serializable {
      */
     private int totalPrice = 0;
 
-    /**
-     * 节省金额
-     */
-    private int savedPrice = 0;
-
     public List<ShopCartItemRespVo> getItems() {
         return items;
     }
@@ -64,14 +60,6 @@ public class ShopCartRespVo implements Serializable {
         this.cartNum = cartNum;
     }
 
-    public int getSavedPrice() {
-        return savedPrice;
-    }
-
-    public void setSavedPrice(int savedPrice) {
-        this.savedPrice = savedPrice;
-    }
-
     public int getTotalPrice() {
         return totalPrice;
     }
@@ -83,5 +71,14 @@ public class ShopCartRespVo implements Serializable {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    }
+
+
+    public static void main(String[] args) {
+        ShopCartItemRespVo cartItemRespVo = new ShopCartItemRespVo();
+        ShopCartRespVo respVo = new ShopCartRespVo();
+        respVo.setItems(newArrayList(cartItemRespVo));
+        JsonUtil.printObjectJsonDemo(respVo);
+        System.out.println(JsonUtil.obj2Json(respVo));
     }
 }
