@@ -20,8 +20,7 @@ import java.util.List;
  * Created by defei on 3/11/16.
  */
 @Repository("userRepositoryImpl")
-public class UserRepositoryImpl extends CommonManageAbleDao
-    implements UserDao {
+public class UserRepositoryImpl extends CommonManageAbleDao implements UserDao {
 
     public List<UserPo> searchUser(SearchUserReqVo vo) {
         List<Predicate> predicates = new ArrayList<>();

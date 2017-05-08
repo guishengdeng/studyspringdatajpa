@@ -34,23 +34,26 @@ public class Company extends BaseEntity {
     /**
      * 公司名称
      */
-    @Column(length = 40) private String name;
+    @Column(length = 40)
+    private String name;
 
     /**
      * 法人名字(联系人)
      */
-    @Column(length = 40) private String corporateName;
+    @Column(length = 40)
+    private String corporateName;
+
+    /**
+     * 公司描述
+     */
+    @Column(columnDefinition = "MEDIUMTEXT")
+    private String description;
 
     /**
      * 联系电话
      */
     @Column(length = 40)
     private String mobile;
-
-    /**
-     * 公司描述
-     */
-    @Column(columnDefinition = "MEDIUMTEXT") private String description;
 
     /**
      * 状态
