@@ -7,7 +7,7 @@ import java.util.Date;
 import static com.biz.pay.wechat.lang.Keys.*;
 import static org.codelogger.utils.StringUtils.isBlank;
 
-public class OrderNotifyResponse extends BaseWechatPayRespVo {
+public class WechatPayNotifyRespVo extends BaseWechatPayRespVo {
 
 	private static final long serialVersionUID = 950804369816025712L;
 	
@@ -17,7 +17,7 @@ public class OrderNotifyResponse extends BaseWechatPayRespVo {
         return ignoreParams;
     }
 
-    public OrderNotifyResponse(String responseXml, String... ignoreParams) {
+    public WechatPayNotifyRespVo(String responseXml, String... ignoreParams) {
         super(responseXml);
         this.ignoreParams = ignoreParams;
     }

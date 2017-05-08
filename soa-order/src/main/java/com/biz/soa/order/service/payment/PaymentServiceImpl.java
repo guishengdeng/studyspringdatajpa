@@ -22,7 +22,7 @@ import com.biz.pay.alipay.util.AlipaySubmit;
 import com.biz.pay.wechat.WeChatPayFactory;
 import com.biz.pay.wechat.lang.PropertyCollector;
 import com.biz.pay.wechat.req.UnifiedOrder;
-import com.biz.pay.wechat.res.OrderNotifyResponse;
+import com.biz.pay.wechat.res.WechatPayNotifyRespVo;
 import com.biz.pay.wechat.res.OrderQueryResponse;
 import com.biz.pay.wechat.res.WechatPayRespVo;
 import com.biz.service.AbstractBaseService;
@@ -299,7 +299,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 
 	@Override
 	@Transactional
-	public void wechatTradeNotify(OrderNotifyResponse notifyRes) {
+	public void wechatTradeNotify(WechatPayNotifyRespVo notifyRes) {
 		OrderPayment payment = paymentRepository.findOne(Long.valueOf(notifyRes.getOutTradeNo()));
 		logger.debug("save wechat payment notify to db log.");
 		if (notifyRes.isProcessSuccess()) {

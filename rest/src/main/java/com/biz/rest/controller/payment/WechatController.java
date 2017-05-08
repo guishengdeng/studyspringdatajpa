@@ -5,7 +5,7 @@ import com.biz.message.MessageService;
 import com.biz.pay.wechat.lang.Keys;
 import com.biz.pay.wechat.lang.ReturnCode;
 import com.biz.pay.wechat.lang.XmlBuilder;
-import com.biz.pay.wechat.res.OrderNotifyResponse;
+import com.biz.pay.wechat.res.WechatPayNotifyRespVo;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.soa.order.service.payment.PaymentService;
 import org.apache.commons.collections.KeyValue;
@@ -23,15 +23,15 @@ import java.util.List;
 import static com.google.common.collect.Lists.newArrayList;
 
 /**
- * 支付相关 controller
+ * 支付相关 微信支付通知
  *
  * @author lei
- * @date 2017年04月25日
+ * @date 2017年05月8日
  * @reviewer
  * @see
  */
 @RestController
-@RequestMapping("/payemnt")
+@RequestMapping("/wechatPay")
 public class WechatController extends BaseRestController {
 
     public static final String UTF_8 = "utf-8";
@@ -58,7 +58,7 @@ public class WechatController extends BaseRestController {
             String msg = ReturnCode.FAIL.toString();
             try {
                 //		        messageService.sendMessage(PaymentRollBackQueue.WECHATNOTITY_QUEUE, SimpleBizMessage.newMessage(message));
-                OrderNotifyResponse notifyRes = new OrderNotifyResponse(message.getXmlBody(), "xml");
+                WechatPayNotifyRespVo notifyRes = new WechatPayNotifyRespVo(message.getXmlBody(), "xml");
                 //开始处理逻辑
                 Long paymentId = Long.valueOf(notifyRes.getOutTradeNo());
                 if (paymentService.queryWechatPaid(notifyRes.getTransactionId(), paymentId,notifyRes.getAppId()).isPaid()) {
@@ -88,7 +88,7 @@ public class WechatController extends BaseRestController {
     }
 
     private WechatNotifyMessage getWechatNotifyMessage(String notifyXml) throws Exception {
-        OrderNotifyResponse unifiedOrderResponse = new OrderNotifyResponse(notifyXml, "xml");
+        WechatPayNotifyRespVo unifiedOrderResponse = new WechatPayNotifyRespVo(notifyXml, "xml");
         logger.debug("response data:'{}' to wechat.", unifiedOrderResponse.getProperties());
         return new WechatNotifyMessage(notifyXml);
     }

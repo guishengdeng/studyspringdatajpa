@@ -6,7 +6,7 @@ import com.biz.gbck.exceptions.order.PaymentException;
 import com.biz.gbck.vo.IdReqVo;
 import com.biz.gbck.vo.payment.req.IWechatPaymentReqVo;
 import com.biz.gbck.vo.payment.resp.*;
-import com.biz.pay.wechat.res.OrderNotifyResponse;
+import com.biz.pay.wechat.res.WechatPayNotifyRespVo;
 
 import java.util.Map;
 
@@ -72,7 +72,7 @@ public interface PaymentService {
 	 */
 	void aliNotify(Map<String, String> map);
 	
-	void wechatTradeNotify(OrderNotifyResponse notifyRes);
+	void wechatTradeNotify(WechatPayNotifyRespVo notifyRes);
 
 	PaymentQueryResultResponseVo queryPaid(IdReqVo req) throws PaymentException;
 	
