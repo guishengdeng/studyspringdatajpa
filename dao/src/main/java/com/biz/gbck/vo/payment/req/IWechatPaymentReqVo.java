@@ -2,7 +2,7 @@ package com.biz.gbck.vo.payment.req;
 
 import com.biz.pay.wechat.lang.TradeType;
 
-public interface IUnifiedPaymentReqVo extends IPaymentReqVo {
+public interface IWechatPaymentReqVo extends IPaymentReqVo {
 
 	String getIp();
 

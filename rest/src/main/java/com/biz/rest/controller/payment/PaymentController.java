@@ -50,7 +50,7 @@ public class PaymentController extends BaseRestController {
     @RequestMapping("/wechat")
     public JSONResult cancelOrder(HttpServletRequest request) throws PaymentException {
         WechatOrderReqVo reqVo = super.parseBizData(request, WechatOrderReqVo.class);
-        WechatPayResp respVo = paymentService.wechatUnifiedOrder(reqVo, reqVo.getOrderId());
+        WechatPayResp respVo = paymentService.wechatPay(reqVo, reqVo.getOrderId());
         return new JSONResult(respVo);
     }
 

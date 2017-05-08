@@ -12,7 +12,7 @@ import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.exceptions.DepotNextDoorExceptions;
 import com.biz.gbck.exceptions.order.PaymentException;
 import com.biz.gbck.vo.IdReqVo;
-import com.biz.gbck.vo.payment.req.IUnifiedPaymentReqVo;
+import com.biz.gbck.vo.payment.req.IWechatPaymentReqVo;
 import com.biz.gbck.vo.payment.resp.*;
 import com.biz.pay.alipay.AlipayFactory;
 import com.biz.pay.alipay.IAlipayPayment;
@@ -64,7 +64,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 
 	@Override
 	@Transactional
-	public WechatPayResp wechatUnifiedOrder(IUnifiedPaymentReqVo req, Order order) throws PaymentException {
+	public WechatPayResp wechatPay(IWechatPaymentReqVo req, Order order) throws PaymentException {
 		Long orderId = order.getId();
 		if (logger.isDebugEnabled()) {
 			logger.debug("getOrderId {}", orderId);
@@ -527,9 +527,9 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 	}
 
 	@Override
-	public WechatPayResp wechatUnifiedOrder(IUnifiedPaymentReqVo req, Long orderId) throws PaymentException {
+	public WechatPayResp wechatPay(IWechatPaymentReqVo req, Long orderId) throws PaymentException {
 		Order order = orderFrontendService.getOrder(orderId);
-		return this.wechatUnifiedOrder(req, order);
+		return this.wechatPay(req, order);
 	}
 
 	@Override

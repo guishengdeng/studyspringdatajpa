@@ -4,7 +4,7 @@ import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.dao.mysql.po.order.OrderPayment;
 import com.biz.gbck.exceptions.order.PaymentException;
 import com.biz.gbck.vo.IdReqVo;
-import com.biz.gbck.vo.payment.req.IUnifiedPaymentReqVo;
+import com.biz.gbck.vo.payment.req.IWechatPaymentReqVo;
 import com.biz.gbck.vo.payment.resp.*;
 import com.biz.pay.wechat.res.OrderNotifyResponse;
 
@@ -16,12 +16,12 @@ public interface PaymentService {
 	 * 微信统一下单
 	 * @throws PaymentException
 	 */
-	WechatPayResp wechatUnifiedOrder(IUnifiedPaymentReqVo req, Long orderId) throws PaymentException;
+	WechatPayResp wechatPay(IWechatPaymentReqVo req, Long orderId) throws PaymentException;
 	/**
 	 * 微信统一下单
 	 * @throws PaymentException
 	 */
-	WechatPayResp wechatUnifiedOrder(IUnifiedPaymentReqVo req, Order order) throws PaymentException;
+	WechatPayResp wechatPay(IWechatPaymentReqVo req, Order order) throws PaymentException;
 
 	/**
 	 * 微信验证订单是否支付成功

@@ -68,10 +68,10 @@ public class OrderController extends BaseRestController {
 
     //货到付款结算
     @RequestMapping("/createOrderNoPay")
-    public JSONResult createOrderNoPay(HttpServletRequest request) {
+    public JSONResult createOrderNoPay(HttpServletRequest request) throws DepotNextDoorException {
         OrderCreateReqVo reqVo = super.parseBizData(request, OrderCreateReqVo.class);
         reqVo.setPaymentType(PaymentType.PAY_ON_DELIVERY.getValue());
-        PaymentRespVo respVo = orderService.confirmOrder(reqVo);
+        PaymentRespVo respVo = orderService.createPrePayOrder(reqVo);
         return new JSONResult(respVo);
     }
 
@@ -80,7 +80,7 @@ public class OrderController extends BaseRestController {
     public JSONResult createOrderAlipay(HttpServletRequest request) throws DepotNextDoorException {
         OrderCreateReqVo reqVo = super.parseBizData(request, OrderCreateReqVo.class);
         reqVo.setPaymentType(PaymentType.ALIPAY.getValue());
-        PaymentRespVo respVo = orderService.confirmAlipayOrder(reqVo);
+        PaymentRespVo respVo = orderService.createPrePayOrder(reqVo);
         return new JSONResult(respVo);
     }
 
@@ -89,7 +89,7 @@ public class OrderController extends BaseRestController {
     public JSONResult createOrderWechat(HttpServletRequest request) throws DepotNextDoorException {
         OrderCreateWechatReqVo reqVo = super.parseBizData(request, OrderCreateWechatReqVo.class);
         reqVo.setPaymentType(PaymentType.WECHAT.getValue());
-        PaymentRespVo respVo = orderService.confirmWechatOrder(reqVo);
+        PaymentRespVo respVo = orderService.createPrePayOrder(reqVo);
         return new JSONResult(respVo);
     }
 

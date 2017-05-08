@@ -5,7 +5,9 @@ import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.dao.mysql.repository.order.OrderRepository;
 import com.biz.gbck.dao.redis.repository.order.OrderRedisDao;
 import com.biz.gbck.enums.order.OrderShowStatus;
+import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.exceptions.DepotNextDoorException;
+import com.biz.gbck.exceptions.order.PaymentException;
 import com.biz.gbck.vo.IdReqVo;
 import com.biz.gbck.vo.order.req.OrderCreateReqVo;
 import com.biz.gbck.vo.order.req.OrderCreateWechatReqVo;
@@ -22,6 +24,7 @@ import org.codelogger.utils.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
@@ -74,25 +77,23 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
         return null;
     }
 
+    /**
+     * 创建订单
+     */
+    @Transactional
     @Override
-    public PaymentRespVo confirmOrder(OrderCreateReqVo reqVo) {
+    public PaymentRespVo createPrePayOrder(OrderCreateReqVo reqVo) throws DepotNextDoorException {
         Order order = this.createOrder(reqVo);
-        return paymentService.noNeedPay(order);
+        if (PaymentType.PAY_ON_DELIVERY.getValue() == reqVo.getPaymentType()) {
+            paymentService.noNeedPay(order);
+        } else if (PaymentType.ALIPAY.getValue() == reqVo.getPaymentType()) {
+            return paymentService.getAlipaySign(order);
+        } else if (PaymentType.WECHAT.getValue() == reqVo.getPaymentType()) {
+            return paymentService.wechatPay((OrderCreateWechatReqVo)reqVo, order);
+        }
+
+        throw new PaymentException("无效的支付方式");
     }
-
-
-    @Override
-    public PaymentRespVo confirmWechatOrder(OrderCreateWechatReqVo reqVo) throws DepotNextDoorException {
-        Order order = this.createOrder(reqVo);
-        return paymentService.wechatUnifiedOrder(reqVo, order);
-    }
-
-    @Override
-    public PaymentRespVo confirmAlipayOrder(OrderCreateReqVo reqVo) throws DepotNextDoorException  {
-        Order order = this.createOrder(reqVo);
-        return paymentService.getAlipaySign(order);
-    }
-
 
     @Override
     public Order getOrder(Long id) {
@@ -121,7 +122,7 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
      * 创建订单
      */
     private Order createOrder(OrderCreateReqVo reqVo) {
-        //TODO 创建订单
+            //TODO
         return null;
     }
 

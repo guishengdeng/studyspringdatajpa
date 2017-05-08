@@ -2,7 +2,7 @@ package com.biz.gbck.vo.payment.req;
 
 import com.biz.pay.wechat.lang.TradeType;
 
-public class WechatOrderReqVo extends PaymentReqVo implements IUnifiedPaymentReqVo {
+public class WechatOrderReqVo extends PaymentReqVo implements IWechatPaymentReqVo {
 
 	private static final long serialVersionUID = -6282141856411916345L;
 

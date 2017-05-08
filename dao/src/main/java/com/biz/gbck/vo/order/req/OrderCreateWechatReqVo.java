@@ -1,6 +1,6 @@
 package com.biz.gbck.vo.order.req;
 
-import com.biz.gbck.vo.payment.req.IUnifiedPaymentReqVo;
+import com.biz.gbck.vo.payment.req.IWechatPaymentReqVo;
 import com.biz.pay.wechat.lang.TradeType;
 
 import javax.validation.constraints.NotNull;
@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
  * @reviewer
  * @see
  */
-public class OrderCreateWechatReqVo extends OrderCreateReqVo implements IUnifiedPaymentReqVo {
+public class OrderCreateWechatReqVo extends OrderCreateReqVo implements IWechatPaymentReqVo {
 
     private static final long serialVersionUID = -1915622859110331952L;
 

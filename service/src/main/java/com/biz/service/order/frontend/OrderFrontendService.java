@@ -4,7 +4,6 @@ import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.IdReqVo;
 import com.biz.gbck.vo.order.req.OrderCreateReqVo;
-import com.biz.gbck.vo.order.req.OrderCreateWechatReqVo;
 import com.biz.gbck.vo.order.req.OrderListReqVo;
 import com.biz.gbck.vo.order.req.OrderSettlePageReqVo;
 import com.biz.gbck.vo.order.resp.OrderRespVo;
@@ -29,13 +28,9 @@ public interface OrderFrontendService {
 
     void cancelOrder(IdReqVo reqVo);
 
-    PaymentRespVo confirmOrder(OrderCreateReqVo reqVo);
-
     OrderSettlePageRespVo settle(OrderSettlePageReqVo reqVo);
 
-    PaymentRespVo confirmWechatOrder(OrderCreateWechatReqVo reqVo) throws DepotNextDoorException;
-
-    PaymentRespVo confirmAlipayOrder(OrderCreateReqVo reqVo) throws DepotNextDoorException ;
+    PaymentRespVo createPrePayOrder(OrderCreateReqVo reqVo) throws DepotNextDoorException;
 
     Order getOrder(Long id);
 
