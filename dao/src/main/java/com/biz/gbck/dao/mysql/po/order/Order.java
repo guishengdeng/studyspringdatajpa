@@ -4,8 +4,6 @@ import com.biz.gbck.enums.order.OrderStatus;
 import com.biz.gbck.enums.order.PaymentStatus;
 import com.biz.gbck.enums.order.PaymentType;
 import com.biz.support.jpa.po.BaseEntity;
-import com.sun.tools.corba.se.idl.constExpr.Times;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
