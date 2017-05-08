@@ -18,6 +18,11 @@ public class SaleTagSearchVo {
     private String name;
 
     /**
+     * 排序
+     */
+    private Integer idx;
+
+    /**
      * 启用状态
      */
     private SaleStatusEnum saleStatus;
@@ -38,6 +43,14 @@ public class SaleTagSearchVo {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getIdx() {
+        return idx;
+    }
+
+    public void setIdx(Integer idx) {
+        this.idx = idx;
     }
 
     public SaleStatusEnum getSaleStatus() {

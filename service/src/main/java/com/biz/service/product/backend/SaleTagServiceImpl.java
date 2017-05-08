@@ -10,6 +10,7 @@ import com.biz.service.AbstractBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -68,7 +69,8 @@ public class SaleTagServiceImpl extends AbstractBaseService implements SaleTagSe
     public Page<SaleTag> searchSaleTag(SaleTagSearchVo saleTagSearchVo) {
 
         saleTagSearchVo.setStatus(CommonStatusEnum.ENABLE);
-        return saleTagRepository.findAll(new SaleTagSpecification(saleTagSearchVo), new PageRequest(saleTagSearchVo.getPage() - 1, saleTagSearchVo.getPageSize()));
+        return saleTagRepository.findAll(new SaleTagSpecification(saleTagSearchVo), new PageRequest(saleTagSearchVo.getPage() - 1, saleTagSearchVo.getPageSize(),
+                new Sort(Sort.Direction.ASC,"idx")));
     }
 
 

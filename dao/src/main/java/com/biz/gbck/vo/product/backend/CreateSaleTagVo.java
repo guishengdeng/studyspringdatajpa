@@ -32,6 +32,7 @@ public class CreateSaleTagVo implements ISaleTagVo {
      * 标签
      */
     private String tag;
+
     /**
      * 销售标签显示顺序
      */
@@ -46,6 +47,7 @@ public class CreateSaleTagVo implements ISaleTagVo {
      * 标签的启用禁用状态
      */
     private SaleStatusEnum saleStatus;
+
     /**
      * 状态（删除状态）
      */
