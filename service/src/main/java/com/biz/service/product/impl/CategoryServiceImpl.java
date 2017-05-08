@@ -3,24 +3,28 @@ package com.biz.service.product.impl;
 import com.biz.core.page.PageResult;
 import com.biz.gbck.dao.mysql.po.product.meta.Category;
 import com.biz.gbck.dao.mysql.repository.category.CategoryRepository;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.exceptions.product.CategoryNotFoundException;
 import com.biz.gbck.transform.product.Category2CategoryListItemVo;
+import com.biz.gbck.transform.product.Category2CategoryRespVo;
+import com.biz.gbck.transform.product.Category2CategoryTreeViewVo;
 import com.biz.gbck.transform.product.Category2UpdateCategoryVo;
 import com.biz.gbck.vo.product.backend.*;
 import com.biz.gbck.vo.product.event.*;
 import com.biz.service.product.backend.CategoryService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * 分类 ServiceImpl(后台用)
@@ -52,10 +56,14 @@ public class CategoryServiceImpl extends AbstractCategoryService implements Cate
         Category category = new Category();
         category.setId(idService.nextId());
         category.fromVo(vo);
+        if (category.getStatus() == null) {
+            category.setStatus(CommonStatusEnum.ENABLE);
+        }
         //设置默认排序
-        Integer idx = categoryRepository.findMaxIdx(vo.getParentCategoryId());
-        category.setIdx(Optional.of(idx).orElse(0) + 1);
-
+        if (vo.getParentCategoryId() != null) {
+            Integer idx = categoryRepository.findMaxIdx(vo.getParentCategoryId());
+            category.setIdx(idx == null ? 1 : idx + 1);
+        }
         if (logger.isDebugEnabled()) {
             logger.debug("vo:{}", vo.toString());
         }
@@ -142,17 +150,35 @@ public class CategoryServiceImpl extends AbstractCategoryService implements Cate
     }
 
     @Override
-    public BootstrapTablePageResult<CategoryListItemVo> listCategories(SearchPageVo searchPageVo, Long categoryId) {
+    public List<CategoryListItemVo> listCategories() {
         List<Category> list;
-        if (categoryId != null) {
-            list = categoryRepository.findByParentIdAndSeoKeywordsLikeAndDeleteFlag(categoryId, searchPageVo.getSearchValue(), Boolean.FALSE);
-        } else {
-            list = categoryRepository.findByParentIsNullAndDeleteFlagOrderByIdx(Boolean.FALSE);
+        list = categoryRepository.findByDeleteFlag(Boolean.FALSE);
+        return Lists.transform(list, new Category2CategoryListItemVo());
+    }
+
+    /**
+     * 列出所有的分类
+     *
+     * @param id 某个id分类下的全部分类
+     * @return List<CategoryListItemVo>
+     */
+    @Override
+    public List<CategoryListItemVo> listCategories(Long id) {
+        List<CategoryListItemVo> list = Lists.newArrayList();
+        Category category = categoryRepository.findByIdAndDeleteFlag(id, Boolean.FALSE);
+        List<Category> categories = Lists.newArrayList();
+        getAllChildrenCategories(categories, category);
+        list.addAll(Lists.transform(categories, new Category2CategoryListItemVo()));
+        return list;
+    }
+
+    private static void getAllChildrenCategories(List<Category> list, Category category) {
+        if (!category.getDeleteFlag()) {
+            list.add(category);
         }
-        BootstrapTablePageResult<CategoryListItemVo> pageResult = new BootstrapTablePageResult<>();
-        pageResult.setRows(Lists.transform(list, new Category2CategoryListItemVo()));
-        pageResult.setTotal(list.size());
-        return pageResult;
+        for (int i = 0; i < category.getChildren().size(); i++) {
+            getAllChildrenCategories(list, category.getChildren().get(i));
+        }
     }
 
     @Override
@@ -183,7 +209,8 @@ public class CategoryServiceImpl extends AbstractCategoryService implements Cate
             if (logger.isDebugEnabled()) {
                 logger.debug("parent category id: {}", parentCategoryId);
             }
-            categories = categoryRepository.findByParentIdAndSeoKeywordsLikeAndDeleteFlag(parentCategoryId, null, Boolean.FALSE);
+            categories = categoryRepository.findByParentIdAndSeoKeywordsLikeAndDeleteFlag(parentCategoryId, null,
+                    Boolean.FALSE);
         }
         if (CollectionUtils.isNotEmpty(categories)) {
             if (logger.isDebugEnabled()) {
@@ -227,25 +254,15 @@ public class CategoryServiceImpl extends AbstractCategoryService implements Cate
      */
     private List<CategoryTreeViewVo> buildCategoryTreeView(List<Category> categories) {
         // 如果分类集合为空, 返回空集合
-        if (CollectionUtils.isEmpty(categories)) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("there is no category");
+        List<CategoryTreeViewVo> categoryTreeViewVos = Lists.newArrayList();
+        for (Category category : categories) {
+            CategoryTreeViewVo categoryTreeViewVo = new Category2CategoryTreeViewVo().apply(category);
+            assert categoryTreeViewVo != null;
+            if (categoryTreeViewVo.getId() != null) {
+                categoryTreeViewVos.add(categoryTreeViewVo);
             }
-            return Lists.newArrayList();
         }
-
-        // 如果分类集合不为空, 递归构造
-        return categories.stream().filter(category -> !category.getDeleteFlag()).map(category -> {
-            CategoryTreeViewVo categoryTreeViewVo = new CategoryTreeViewVo();
-            categoryTreeViewVo.setId(String.valueOf(category.getId()));
-            categoryTreeViewVo.setName(category.getName());
-            categoryTreeViewVo.setStatus(category.getStatus());
-            if (CollectionUtils.isNotEmpty(category.getChildren())) {
-                List<CategoryTreeViewVo> children = this.buildCategoryTreeView(category.getChildren());
-                categoryTreeViewVo.setChildren(children);
-            }
-            return categoryTreeViewVo;
-        }).collect(Collectors.toList());
+        return categoryTreeViewVos;
     }
 
     /**
@@ -255,9 +272,8 @@ public class CategoryServiceImpl extends AbstractCategoryService implements Cate
     @Transactional
     public void saveOrUpdateSort(CategorySortVo vo) {
         if (vo != null && vo.getCategorySortListVos() != null) {
-            Map<Long, Integer> categoryId2IdxMap =
-                    vo.getCategorySortListVos().stream()
-                            .collect(Collectors.toMap(CategorySortListVo::getId, CategorySortListVo::getIdx));
+            Map<Long, Integer> categoryId2IdxMap = vo.getCategorySortListVos().stream().collect(Collectors.toMap
+                    (CategorySortListVo::getId, CategorySortListVo::getIdx));
             List<Category> categories = categoryRepository.findAll(categoryId2IdxMap.keySet());
             categories = categories.stream().map(category -> {
                 category.setIdx(categoryId2IdxMap.get(category.getId()));
@@ -275,16 +291,16 @@ public class CategoryServiceImpl extends AbstractCategoryService implements Cate
     @Override
     public PageResult<IdNameVo> findCategoryByName(SearchPageVo searchPageVo) {
         PageRequest pageRequest = new PageRequest(searchPageVo.getPageIndex(), searchPageVo.getPageSize());
-        Page<Category> pageCategory = categoryRepository.findByNameLikeAndDeleteFlag("%" + searchPageVo.getSearchValue() + "%", Boolean.FALSE, pageRequest);
+        Page<Category> pageCategory = categoryRepository.findByNameLikeAndDeleteFlag("%" + searchPageVo
+                .getSearchValue() + "%", Boolean.FALSE, pageRequest);
         List<IdNameVo> resultList = categoryList2IdNameList(pageCategory.getContent());
-        return new PageResult<>(searchPageVo.getPageIndex(), searchPageVo.getPageSize(), (int) pageCategory.getTotalElements(), resultList);
+        return new PageResult<>(searchPageVo.getPageIndex(), searchPageVo.getPageSize(), (int) pageCategory
+                .getTotalElements(), resultList);
     }
 
     private List<IdNameVo> categoryList2IdNameList(List<Category> categories) {
-        return Optional.of(categories).orElse(Lists.newArrayList())
-                .stream()
-                .map(category -> new IdNameVo(String.valueOf(category.getId()), category.getName()))
-                .collect(Collectors.toList());
+        return Optional.of(categories).orElse(Lists.newArrayList()).stream().map(category -> new IdNameVo(String
+                .valueOf(category.getId()), category.getName())).collect(Collectors.toList());
     }
 
     @Override
@@ -296,9 +312,20 @@ public class CategoryServiceImpl extends AbstractCategoryService implements Cate
     @Override
     public List<IdNameVo> getTopCategories() {
         List<Category> categories = categoryRepository.findByParentIsNullAndDeleteFlagOrderByIdx(Boolean.FALSE);
-        return Optional.of(categories).orElse(Lists.newArrayList())
-                .stream().map(category -> new IdNameVo(String.valueOf(category.getId()), category.getName()))
-                .collect(Collectors.toList());
+        return Optional.of(categories).orElse(Lists.newArrayList()).stream().map(category -> new IdNameVo(String
+                .valueOf(category.getId()), category.getName())).collect(Collectors.toList());
+    }
+
+    /**
+     * 根据id查询Category的详细信息,并转化为CategoryRespVo
+     *
+     * @param id 分类id
+     * @return CategoryRespVo
+     */
+    @Override
+    public CategoryRespVo findById(Long id) {
+        Category category = categoryRepository.findByIdAndDeleteFlag(id, Boolean.FALSE);
+        return new Category2CategoryRespVo().apply(category);
     }
 
 }
