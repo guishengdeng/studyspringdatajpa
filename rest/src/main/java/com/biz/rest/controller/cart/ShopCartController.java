@@ -89,7 +89,7 @@ public class ShopCartController extends BaseRestController {
         }
     }
 
-    @RequestMapping(value = "totalNum")
+    @RequestMapping("totalNum")
     @ResponseBody
     public JSONResult totalNum(HttpServletRequest request) {
         ShopCartNumReqVo reqVo = super.parseBizData(request, ShopCartNumReqVo.class);

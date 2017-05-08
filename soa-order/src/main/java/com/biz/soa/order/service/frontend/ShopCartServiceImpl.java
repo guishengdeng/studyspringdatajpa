@@ -35,13 +35,13 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
 
     @Override
     public void addCartItem(ShopCartItemAddReqVo reqVo) throws DepotNextDoorException {
-        if (reqVo == null || reqVo.getUserId() == null || StringUtils.isBlank(reqVo.getpCode()) || ValueUtils
+        if (reqVo == null || reqVo.getUserId() == null || StringUtils.isBlank(reqVo.getProductCode()) || ValueUtils
                 .getValue(reqVo.getQuantity()) <= 0) {
             logger.warn("购物车参数不合法");
             throw new IllegalParameterException("参数不合法");
         }
         Long userId = Long.valueOf(reqVo.getUserId());
-        String pCode = reqVo.getpCode();
+        String pCode = reqVo.getProductCode();
         int quantity = reqVo.getQuantity();
 
         //TODO 数量校验
