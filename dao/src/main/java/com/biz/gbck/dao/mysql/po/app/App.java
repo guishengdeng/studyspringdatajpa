@@ -96,7 +96,6 @@ public class App extends BaseEntity implements Serializable {
     @Column(length = 150)
     private String tabTwo;
 
-
     public String getTel() {
         return tel;
     }
