@@ -35,6 +35,12 @@ import java.util.List;
     @OneToMany
     private List<PartnerPo> partnerPos;
 
+    public ProvincePo() {
+    }
+
+    public ProvincePo(Integer id) {
+        this.setId(id);
+    }
 
     public List<CityPo> getCities() {
         return cities;
