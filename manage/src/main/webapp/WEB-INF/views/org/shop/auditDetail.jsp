@@ -115,18 +115,6 @@
                                                         provinceId="${shopDetail.province.id}"
                                                         cityId="${shopDetail.city.id}"
                                                         districtId="${shopDetail.district.id}"/>
-                                           <%-- 注册地址:
-											<span class="input-icon">
-												<input type="text" value="${shopDetail.province.id}"
-                                                       style="width: 100px">
-											</span>省
-											<span class="input-icon">
-												<input type="text" value="${shopDetail.city.id}" style="width: 100px">
-											</span>市
-											<span class="input-icon">
-												<input type="text" value="${shopDetail.district.id}"
-                                                       style="width: 100px">
-											</span>区--%>
                                         </div>
                                         <div class="box1 col-md-6">
                                             详细地址:
