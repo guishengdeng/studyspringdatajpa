@@ -39,6 +39,17 @@ import java.math.BigDecimal;
     @JsonIgnore
     @Column(length = 255) protected String description;
 
+    @JsonIgnore
+    @Column
+    protected Integer baiducode;
+
+    @JsonIgnore
+    @Column(length = 50)
+    protected String post;
+
+    @Column
+    protected String prefix;
+
     public Integer getId() {
         return id;
     }
@@ -117,6 +128,30 @@ import java.math.BigDecimal;
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getBaiducode() {
+        return baiducode;
+    }
+
+    public void setBaiducode(Integer baiducode) {
+        this.baiducode = baiducode;
+    }
+
+    public String getPost() {
+        return post;
+    }
+
+    public void setPost(String post) {
+        this.post = post;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 
     // double minX, double maxX, double minY, double maxY

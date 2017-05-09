@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>biz-support-es</artifactId>
-    <version>${biz-support-es.version}</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <dependencies>

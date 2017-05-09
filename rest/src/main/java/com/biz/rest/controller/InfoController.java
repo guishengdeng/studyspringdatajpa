@@ -6,19 +6,14 @@ import com.biz.rest.vo.PromotionVo;
 import com.biz.service.info.PromotionService;
 import com.biz.support.web.handler.JSONResult;
 import com.google.common.collect.Lists;
-import org.codelogger.utils.CollectionUtils;
-import org.codelogger.utils.ValueUtils;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-
-import static com.google.common.collect.Lists.newArrayList;
 
 
 /**
@@ -34,7 +29,7 @@ import static com.google.common.collect.Lists.newArrayList;
     private static Logger logger = LoggerFactory.getLogger(InfoController.class);
 
 
-    @Autowired
+    @Autowired(required = false)
     private PromotionService promotionService;
 
 

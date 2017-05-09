@@ -43,6 +43,14 @@ import java.util.Set;
 //        uniqueConstraints = {@UniqueConstraint(columnNames = {"city_id", "company_id"})})
 //    private Set<CompanyPo> companies;
 
+    public CityPo() {
+
+    }
+
+    public CityPo(Integer id) {
+        this.setId(id);
+    }
+
     public ProvincePo getProvince() {
         return province;
     }

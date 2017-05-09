@@ -4,11 +4,12 @@ import com.biz.core.asserts.SystemAsserts;
 import com.biz.redis.ShardedJedisCurdCommonRedisDao;
 import com.biz.redis.bean.BaseRedisObject;
 import com.biz.redis.util.RedisUtil;
+import redis.clients.jedis.ShardedJedis;
+import redis.clients.jedis.ShardedJedisPipeline;
+
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
-import redis.clients.jedis.ShardedJedis;
-import redis.clients.jedis.ShardedJedisPipeline;
 
 /**
  * 请继承此类
@@ -40,6 +41,19 @@ public class CrudRedisDao<T extends BaseRedisObject<ID>, ID extends Serializable
         if (set == null) return target;
         set.forEach(bs -> target.add(RedisUtil.byteArrayToLong(bs)));
         return target;
+    }
+
+    /**
+     * 以timstamp为score,将id放入sorted-set
+     * @author yanweijin
+     * @date 2016年8月20日
+     * @param key
+     * @param timestamp
+     * @param id
+     * @return
+     */
+    protected boolean zadd(String key, Date timestamp, Integer id){
+        return zadd(key, timestamp.getTime(), RedisUtil.toByteArray(id));
     }
 
     /**

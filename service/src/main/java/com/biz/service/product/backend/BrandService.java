@@ -1,10 +1,12 @@
 package com.biz.service.product.backend;
 
 import com.biz.core.page.PageResult;
+import com.biz.gbck.dao.mysql.po.product.meta.Brand;
 import com.biz.gbck.exceptions.product.BrandNotFoundException;
 import com.biz.gbck.exceptions.product.CategoryNotFoundException;
 import com.biz.gbck.exceptions.product.IllegalParameterException;
 import com.biz.gbck.vo.product.backend.*;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -85,4 +87,7 @@ public interface BrandService {
      * @return
      */
     List<BrandListItemVo> findBrands();
+
+    Page<Brand> searchBrand(BrandSearchVo reqVo,Long categoryId,
+                            Boolean cascadeChildCategory) throws IllegalParameterException, CategoryNotFoundException;
 }

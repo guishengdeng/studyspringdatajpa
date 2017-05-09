@@ -29,6 +29,14 @@ public class ProductSearchResultEntityVo implements Serializable {
      */
     private Integer type;
 
+    public ProductSearchResultEntityVo() {
+    }
+
+    public ProductSearchResultEntityVo(Long productId, String productCode) {
+        this.productId = productId;
+        this.productCode = productCode;
+    }
+
     public Long getProductId() {
         return productId;
     }

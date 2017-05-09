@@ -4,14 +4,12 @@ import com.biz.gbck.dao.mysql.po.product.meta.ExtendProperty;
 import com.biz.gbck.exceptions.product.ExtendPropertyNotFoundException;
 import com.biz.gbck.vo.product.backend.CreateExtendPropertyVo;
 import com.biz.gbck.vo.product.backend.ExtendPropertySortVo;
-import com.biz.gbck.vo.product.backend.PropertySortVo;
 import com.biz.service.product.backend.CategoryService;
 import com.biz.service.product.backend.ExtendPropertyService;
 import com.biz.service.product.backend.ProductExtendService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -19,8 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * ExtendPropertyController
@@ -56,7 +52,7 @@ public class ExtendPropertyController {
         session.setAttribute("currJson",json);
         session.setAttribute("extendProperties",extendPropertyService.findByProductExtendId(productExtendId));
         session.setAttribute("productExtend",productExtendService.findOne(productExtendId));
-        session.setAttribute("category",categoryService.findById(productExtendService.findOne(productExtendId).getCategory().getId()));
+        session.setAttribute("category",categoryService.findCategory(productExtendService.findOne(productExtendId).getCategory().getId()));
         return new ModelAndView("manage/extendproperty/list").addObject("productExtendId", productExtendId);
 
     }

@@ -1,19 +1,23 @@
 package com.biz.soa.product.service.interfaces;
 
+import com.biz.gbck.dao.redis.ro.product.price.PriceRO;
+import com.biz.gbck.dao.redis.ro.product.promotion.SimpleSpecialOfferPromotionRO;
+
 /**
- * 商品价格生成器
- * <pre>
- *     将商品的取价逻辑抽象出来
- * </pre>
+ * 商品价格生成策略
  *
- * @author david-liu
- * @date 2017年02月14日
- * @reviewer
+ * Created by david-liu on 2017/05/02 14:39.
  */
 public interface ProductPriceGenerator {
+    Integer getSalePrice();
 
-    Integer doGetFinalPrice(Integer userLevel);
+    Integer getSuggestPrice();
 
-    Integer doGetMarketPrice();
+    Integer getDynamicAveragePrice();
 
+    Integer getPurchasePrice();
+
+    void setPriceRO(PriceRO priceRO);
+
+    void setSimpleSpecialOfferPromotionRO(SimpleSpecialOfferPromotionRO simpleSpecialOfferPromotionRO);
 }

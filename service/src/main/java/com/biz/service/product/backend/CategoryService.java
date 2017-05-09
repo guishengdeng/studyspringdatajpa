@@ -4,6 +4,7 @@ import com.biz.core.page.PageResult;
 import com.biz.gbck.dao.mysql.po.product.meta.Category;
 import com.biz.gbck.exceptions.product.CategoryNotFoundException;
 import com.biz.gbck.vo.product.backend.*;
+
 import java.util.List;
 
 /**
@@ -57,11 +58,17 @@ public interface CategoryService {
     /**
      * 列出所有的分类
      *
-     * @param searchPageVo 分页参数
-     * @return 商品分类列表
+     * @return List<CategoryListItemVo>
      */
-    //todo add category id
-    BootstrapTablePageResult<CategoryListItemVo> listCategories(SearchPageVo searchPageVo, Long categoryId);
+    List<CategoryListItemVo> listCategories();
+
+    /**
+     * 列出所有的分类
+     *
+     * @param id 某个分类下的全部分类
+     * @return CategoryListItemVo
+     */
+    List<CategoryListItemVo> listCategories(Long id);
 
     /**
      * 将所有的分类信息缓存到内存当中去
@@ -108,5 +115,15 @@ public interface CategoryService {
      */
     List<IdNameVo> getTopCategories();
 
-    Category findById(Long id);
+
+    Category findCategory(Long id);
+
+    /**
+     * 根据id查询Category的详细信息,并转化为CategoryRespVo
+     *
+     * @param id 分类id
+     * @return CategoryRespVo
+     */
+    CategoryRespVo findById(Long id);
+
 }
