@@ -67,7 +67,8 @@ public class ShopCartController extends BaseRestController {
         ShopCartItemBatchDeleteReqVo reqVo = super.parseBizData(request, ShopCartItemBatchDeleteReqVo.class);
         try {
             cartService.deleteCartItems(reqVo);
-            return new JSONResult();
+            ShopCartRespVo respVo = cartService.getCartInfo(new ShopCartListReqVo());
+            return new JSONResult(respVo);
         } catch (Exception e) {
             logger.error("添加购物车出错.", e);
             return new JSONResult(-1, "删除购物车商品");
@@ -81,7 +82,8 @@ public class ShopCartController extends BaseRestController {
     public JSONResult updateCartItemQuantity(HttpServletRequest request) {
         ShopCartItemUpdateReqVo reqVo = super.parseBizData(request, ShopCartItemUpdateReqVo.class);
         try {
-            ShopCartItemUpdateRespVo respVo = cartService.updateCartItemQuantity(reqVo);
+            cartService.updateCartItemQuantity(reqVo);
+            ShopCartRespVo respVo = cartService.getCartInfo(new ShopCartListReqVo());
             return new JSONResult(respVo);
         } catch (Exception e) {
             logger.error("添加购物车出错.", e);

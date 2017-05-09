@@ -1,5 +1,6 @@
 package com.biz.gbck.dao.mysql.po.order;
 
+import com.biz.gbck.enums.order.ItemType;
 import com.biz.support.jpa.po.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
@@ -64,6 +65,12 @@ public class OrderItem extends BaseEntity {
     @Column(nullable = false)
     private Integer costPrice;
 
+    /**
+     * 商品类型
+     */
+    @Enumerated
+    private ItemType itemType = ItemType.NORMAL;
+
 
     public Order getOrder() {
         return order;
@@ -127,5 +134,13 @@ public class OrderItem extends BaseEntity {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public ItemType getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
     }
 }

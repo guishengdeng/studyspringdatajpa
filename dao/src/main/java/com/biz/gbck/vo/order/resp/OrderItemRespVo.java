@@ -1,12 +1,13 @@
 package com.biz.gbck.vo.order.resp;
 
 import com.biz.gbck.dao.mysql.po.order.OrderItem;
+import com.biz.gbck.enums.order.ItemType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 
 /**
- * 订单列表请求Vo
+ * 订单列表明细Vo
  *
  * @author lei
  * @date 2017年05月03日
@@ -55,6 +56,11 @@ public class OrderItemRespVo implements Comparable<OrderItemRespVo>, Serializabl
      * 数量
      */
     private Integer quantity;
+
+    /**
+     * 商品类型
+     */
+    private ItemType itemType = ItemType.NORMAL;
 
     /**
      * 是否已经申请退货
@@ -138,6 +144,14 @@ public class OrderItemRespVo implements Comparable<OrderItemRespVo>, Serializabl
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public ItemType getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
     }
 
     public Boolean getReturnFlag() {

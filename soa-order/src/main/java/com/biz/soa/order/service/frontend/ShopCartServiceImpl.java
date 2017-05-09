@@ -98,7 +98,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
 
 
     @Override
-    public ShopCartItemUpdateRespVo updateCartItemQuantity(ShopCartItemUpdateReqVo reqVo) throws
+    public void updateCartItemQuantity(ShopCartItemUpdateReqVo reqVo) throws
             DepotNextDoorException {
         if (logger.isDebugEnabled()) {
             logger.debug("Update shop cart count updateVo: {}", reqVo);
@@ -121,7 +121,6 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         } else {
             throw new CartItemNotExistException("购物车商品不存在");
         }
-        return new ShopCartItemUpdateRespVo(reqVo.getProductId(), reqVo.getQuantity());
     }
 
     @Override

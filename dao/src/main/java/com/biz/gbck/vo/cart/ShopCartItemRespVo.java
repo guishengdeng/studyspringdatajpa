@@ -42,14 +42,14 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
     private String logo;
 
     /**
-     * 标签
+     * 箱规
      */
-    private List<String> tags;
+    private String standard;
 
     /**
-     * 优惠标签
+     * 促销标签
      */
-    private List<String> coupons;
+    private List<String> promotionTags;
 
     /**
      * 市场价
@@ -72,6 +72,16 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
     private Integer minQuantity;
 
     /**
+     * 最大销售数量
+     */
+    private Integer maxQuantity;
+
+    /**
+     * 状态
+     */
+    private Integer status;
+
+    /**
      * 库存数量
      */
     private Integer stock = 0;
@@ -92,12 +102,6 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
      * 是否选中
      */
     private boolean selected = false;
-
-    /**
-     * 是否可买
-     */
-    private boolean canBuy = true;
-
 
     public String getName() {
         return name;
@@ -137,6 +141,14 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
 
     public void setLogo(String logo) {
         this.logo = logo;
+    }
+
+    public String getStandard() {
+        return standard;
+    }
+
+    public void setStandard(String standard) {
+        this.standard = standard;
     }
 
     public Integer getMarketPrice() {
@@ -203,28 +215,28 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
         this.selected = selected;
     }
 
-    public boolean isCanBuy() {
-        return canBuy;
+    public Integer getMaxQuantity() {
+        return maxQuantity;
     }
 
-    public void setCanBuy(boolean canBuy) {
-        this.canBuy = canBuy;
+    public void setMaxQuantity(Integer maxQuantity) {
+        this.maxQuantity = maxQuantity;
     }
 
-    public List<String> getTags() {
-        return tags;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setTags(List<String> tags) {
-        this.tags = tags;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
-    public List<String> getCoupons() {
-        return coupons;
+    public List<String> getPromotionTags() {
+        return promotionTags;
     }
 
-    public void setCoupons(List<String> coupons) {
-        this.coupons = coupons;
+    public void setPromotionTags(List<String> promotionTags) {
+        this.promotionTags = promotionTags;
     }
 
     @Override

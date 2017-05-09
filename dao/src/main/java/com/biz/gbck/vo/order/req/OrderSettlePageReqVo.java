@@ -2,7 +2,6 @@ package com.biz.gbck.vo.order.req;
 
 import com.biz.gbck.vo.user.BaseRequestVo;
 
-import javax.validation.constraints.Size;
 import java.util.List;
 
 /**
@@ -16,16 +15,15 @@ import java.util.List;
 public class OrderSettlePageReqVo extends BaseRequestVo {
 
     /**
-     * 结算明细
+     * 优惠券id集合
      */
-    @Size(min = 1, message = "请至少选择一个商品")
-    private List<OrderSettlePageItemReqVo> items;
+    private List<Long> usedCoupons;
 
-    public List<OrderSettlePageItemReqVo> getItems() {
-        return items;
+    public List<Long> getUsedCoupons() {
+        return usedCoupons;
     }
 
-    public void setItems(List<OrderSettlePageItemReqVo> items) {
-        this.items = items;
+    public void setUsedCoupons(List<Long> usedCoupons) {
+        this.usedCoupons = usedCoupons;
     }
 }

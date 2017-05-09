@@ -36,6 +36,9 @@ public class OrderPromotionRespVo extends BaseRequestVo {
      */
     private Boolean available;
 
+    // 本促销是否与优惠卷冲突
+    private boolean useCoupon = true;
+
     public Long getId() {
         return id;
     }
@@ -66,6 +69,14 @@ public class OrderPromotionRespVo extends BaseRequestVo {
 
     public void setAvailable(Boolean available) {
         this.available = available;
+    }
+
+    public boolean isUseCoupon() {
+        return useCoupon;
+    }
+
+    public void setUseCoupon(boolean useCoupon) {
+        this.useCoupon = useCoupon;
     }
 }
 
