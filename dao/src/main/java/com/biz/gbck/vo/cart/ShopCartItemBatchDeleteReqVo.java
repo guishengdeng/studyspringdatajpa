@@ -19,15 +19,15 @@ public class ShopCartItemBatchDeleteReqVo extends BaseRequestVo {
     /**
      * 商品Id集合
      */
-    private Set<String> productCodes = newHashSet();
+    private Set<String> productIds = newHashSet();
 
 
-    public Set<String> getProductCodes() {
-        return productCodes;
+    public Set<String> getProductIds() {
+        return productIds;
     }
 
-    public void setProductCodes(Set<String> productCodes) {
-        this.productCodes = productCodes;
+    public void setProductIds(Set<String> productIds) {
+        this.productIds = productIds;
     }
 
     @Override
