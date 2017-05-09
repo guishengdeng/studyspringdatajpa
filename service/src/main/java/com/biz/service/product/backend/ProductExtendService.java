@@ -25,7 +25,7 @@ public interface ProductExtendService {
     /**
      * 增加一个分类下的属性
      */
-    void createCategoryProperty(CreateCategoryPropertyVo createCategoryPropertyVo);
+    Boolean createCategoryProperty(CreateCategoryPropertyVo createCategoryPropertyVo) throws ProductExtendNotFoundException;
 
 
     /**
@@ -71,4 +71,11 @@ public interface ProductExtendService {
     ProductExtend findOne(Long id);
 
     List<ProductExtend> findAll();
+
+    /**
+     * 将po转化成vo
+     * @param list
+     * @return
+     */
+    public List<ProductExtendVo> productExtend2ProductExtendVo(List<ProductExtend> list);
 }

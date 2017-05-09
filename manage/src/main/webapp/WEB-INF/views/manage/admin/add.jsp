@@ -62,6 +62,7 @@
 
                                             <div class="col-sm-9">
                                                 <input ${empty admin ? '' : 'readonly'}
+                                                        class="required col-xs-10 col-sm-5"
                                                         type="text"
                                                         id="account"
                                                         placeholder="用户名"
@@ -79,7 +80,7 @@
 
                                         <div class="col-sm-9">
                                             <input type="password" id="password" placeholder="密码" value="<c:out value='${admin.password}'/> "
-                                                   name="password" class="col-xs-10 col-sm-5">
+                                                   name="password" class="required col-xs-10 col-sm-5">
                                         </div>
                                     </div>
                                 </c:if>
