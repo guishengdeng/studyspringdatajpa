@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
  * @see
  */
 @RestController
-@RequestMapping("/payemnt")
+@RequestMapping("/payment")
 public class PaymentController extends BaseRestController {
 
     @Autowired

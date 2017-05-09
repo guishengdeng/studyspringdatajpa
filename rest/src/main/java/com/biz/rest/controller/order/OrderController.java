@@ -4,10 +4,7 @@ import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.IdReqVo;
 import com.biz.gbck.vo.PageRespVo;
-import com.biz.gbck.vo.order.req.OrderCreateReqVo;
-import com.biz.gbck.vo.order.req.OrderCreateWechatReqVo;
-import com.biz.gbck.vo.order.req.OrderListReqVo;
-import com.biz.gbck.vo.order.req.OrderSettlePageReqVo;
+import com.biz.gbck.vo.order.req.*;
 import com.biz.gbck.vo.order.resp.OrderRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
 import com.biz.gbck.vo.payment.resp.PaymentRespVo;
@@ -61,7 +58,7 @@ public class OrderController extends BaseRestController {
 
     //结算
     @RequestMapping("/settle")
-    public JSONResult createOrder(HttpServletRequest request) {
+    public JSONResult settle(HttpServletRequest request) {
         OrderSettlePageReqVo reqVo = super.parseBizData(request, OrderSettlePageReqVo.class);
         OrderSettlePageRespVo respVo = orderService.settle(reqVo);
         return new JSONResult(respVo);
@@ -93,6 +90,16 @@ public class OrderController extends BaseRestController {
         PaymentRespVo respVo = orderService.createPrePayOrder(reqVo);
         return new JSONResult(respVo);
     }
+
+    //申请退货
+    @RequestMapping("/applyReturn")
+    public JSONResult applyReturn(HttpServletRequest request){
+        OrderApplyReturnReqVo reqVo = super.parseBizData(request, OrderApplyReturnReqVo.class);
+        orderService.applyReturn(reqVo);
+        return new JSONResult();
+    }
+
+
 
 
 
