@@ -11,6 +11,8 @@ import com.biz.support.web.handler.JSONResult;
 import java.io.IOException;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
+
+import org.codelogger.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +61,26 @@ public class UploadController {
                     ());
             OssUtil.putObject(ossClient, req);
             return new JSONResult(0, "上传成功");
+        } catch (Exception e) {
+            logger.error("上传失败", e);
+            return new JSONResult(1, "上传失败");
+        }
+    }
+
+    /**
+     * 上传文件 并且返回文件名
+     * @param file
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "uploadAndGetFileName", method = RequestMethod.POST)
+    @ResponseBody
+    public JSONResult uploadAndGetFileName(MultipartFile file, HttpServletRequest request) {
+        try {
+            final String key = StringUtils.getRandomString(32);
+            PutObjectRequest req = new PutObjectRequest(config.getBucketName(), key, file.getInputStream());
+            OssUtil.putObject(ossClient, req);
+            return new JSONResult(key);
         } catch (Exception e) {
             logger.error("上传失败", e);
             return new JSONResult(1, "上传失败");
