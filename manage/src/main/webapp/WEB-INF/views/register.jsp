@@ -257,8 +257,7 @@
                                                 </label>
                                                 <div class="upload-pic-dev">
                                                     <input type="file" id="businessLicense" class="upload-input" accept="image/jpeg;"/>
-                                                    <img id="businessLicense-img" src="" class="preview-img"/>
-                                                    +
+                                                    <img id="businessLicense-img" src="/static-resource/common/image/jiahao.png" class="preview-img"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -270,8 +269,7 @@
                                                 </label>
                                                 <div class="upload-pic-dev">
                                                     <input type="file" class="upload-input" id="winePermit" accept="image/jpeg;"/>
-                                                    <img id="winePermit-img" src="" class="preview-img"/>
-                                                    +
+                                                    <img id="winePermit-img" src="/static-resource/common/image/jiahao.png" class="preview-img"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -537,8 +535,16 @@
                     layer.msg("注册资金不能为空");
                     return false;
                 }
+                if(!Common.validIsNumber(capital)) {
+                    layer.msg("注册资金只能是数字");
+                    return false;
+                }
                 if (businessScale === '') {
                     layer.msg("经营规模不能为空");
+                    return false;
+                }
+                if(!Common.validIsNumber(businessScale)) {
+                    layer.msg("经营规模只能是数字");
                     return false;
                 }
                 Partner.reqVo.name = name;
@@ -572,8 +578,16 @@
                     layer.msg("团队人数不能为空");
                     return false;
                 }
+                if(!Common.validIsNumber(teamSize)) {
+                    layer.msg("团队人数只能是数字");
+                    return false;
+                }
                 if (vehicleSize === '') {
                     layer.msg("车辆数量不能为空");
+                    return false;
+                }
+                if(!Common.validIsNumber(vehicleSize)) {
+                    layer.msg("车辆数量只能是数字");
                     return false;
                 }
                 if (storageSpace === '') {
@@ -582,6 +596,10 @@
                 }
                 if (customerNumber === '') {
                     layer.msg("客户数量不能为空");
+                    return false;
+                }
+                if(!Common.validIsNumber(customerNumber)) {
+                    layer.msg("客户数量只能是数字");
                     return false;
                 }
                 Partner.reqVo.intentionSaleArea = intentionSaleArea;
@@ -639,6 +657,9 @@
                     }
                 });
                 return fileName;
+            },
+            validIsNumber: function(value) {
+                return !isNaN(value);
             }
         };
     </script>
@@ -693,5 +714,6 @@
     .preview-img {
         width: 100%;
         height: 100%;
+        margin-bottom: 9px;
     }
 </style>
