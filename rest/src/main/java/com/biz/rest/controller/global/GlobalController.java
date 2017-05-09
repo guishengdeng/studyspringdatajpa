@@ -1,12 +1,9 @@
 package com.biz.rest.controller.global;
-import com.biz.gbck.common.exception.CommonException;
-import com.biz.gbck.common.exception.ExceptionCode;
 import com.biz.gbck.dao.redis.ro.upgrade.UpgradeRo;
-import com.biz.gbck.vo.config.AppConfigVo;
-import com.biz.service.upgrade.CacheService;
+/*import com.biz.gbck.vo.config.AppConfigVo;
+import com.biz.service.upgrade.CacheServiceImpl;*/
 import com.biz.service.upgrade.UpgradeService;
 import com.biz.support.web.handler.JSONResult;
-import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -29,16 +25,16 @@ public class GlobalController  { //extends BaseController
     @Autowired
     private UpgradeService upgradeService;
 
-    @Autowired
-    private CacheService cacheService;
+   /* @Autowired
+    private CacheServiceImpl cacheServiceImpl;*/
 
-    @RequestMapping("/init")
+  /*  @RequestMapping("/init")
     public JSONResult init(HttpServletRequest request) {
         Map result = new HashMap();
-        AppConfigVo config = cacheService.getAppConfigVo();
+        AppConfigVo config = cacheServiceImpl.getAppConfigVo();
         result.putAll(config.getMap());
         return new JSONResult(result);
-    }
+    }*/
 
     @RequestMapping("upgrade")
     public JSONResult upgrade(
