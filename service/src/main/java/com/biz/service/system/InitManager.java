@@ -72,6 +72,7 @@ public class InitManager {
 			MainMenu demoMainMenu = new MainMenu();
 			demoMainMenu.setName("示例演示");
 			demoMainMenu.setCode(0);
+			demoMainMenu.setIcon("file-code-o");
 			demoMainMenu = mainMenuRepository.save(demoMainMenu);
 
 			//Menu Item
