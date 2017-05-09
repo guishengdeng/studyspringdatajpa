@@ -30,7 +30,7 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 @Secured("ROLE_CATEGORY")
-@RequestMapping("manage/categories")
+@RequestMapping("product/categories")
 public class CategoryControllers {
 
     @Autowired
