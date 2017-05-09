@@ -139,20 +139,17 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-3 control-label no-padding-right"><b>*</b>经营品类 </label>
-                                            <div style="width: 44%">
-                                                <select id="category">
-                                                    <option value="">===请选择===</option>
-                                                    <option value="AL">Alabama</option>
-                                                    <option value="AK">Alaska</option>
-                                                </select>
+                                            <label class="col-sm-3 control-label no-padding-right"><b>*</b>经营品类</label>
+                                            <div class="col-sm-16">
+                                                <input type="text" id="category" placeholder="经营品类"
+                                                       class="col-xs-10 col-sm-5" maxlength="20">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label no-padding-right"><b>*</b>注册资金</label>
 
-                                            <div class="input-group" style="width: 10%">
+                                            <div class="input-group" style="width: 19%">
                                                 <input class="form-control input-mask-product col-xs-10 col-sm-5"
                                                        id="capital" name="capital" type="text">
                                                 <span class="input-group-addon"><i class="ace-icon fa">万</i></span>
@@ -162,7 +159,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label no-padding-right"><b>*</b>经营规模</label>
 
-                                            <div class="input-group" style="width: 16%">
+                                            <div class="input-group" style="width: 21%">
                                                 <input class="form-control input-mask-product col-xs-10 col-sm-5"
                                                        id="businessScale" name="businessScale" type="text">
                                                 <span class="input-group-addon"><i class="ace-icon fa">万/年</i></span>
@@ -347,22 +344,61 @@
                 businessLicense: null,
                 winePermit: null
             },
-            uploadPic: function () {
-                Partner.reqVo.businessLicense = Common.mutipartFileUpload($("#businessLicense"), "正在上传营业执照");
-                console.log(Partner.reqVo.businessLicense);
+            uploadLicence: function () {
+                var businessLicense = new FormData();
+                businessLicense.append('file', $('#businessLicense')[0].files[0]);
+                Partner.reqVo.businessLicense = Common.mutipartFileUpload(businessLicense, "正在上传营业执照");
+                if(!Partner.reqVo.businessLicense) {
+                    layer.msg("上传营业执照失败");
+                    return false;
+                }
+
+                var winePermit = new FormData();
+                winePermit.append('file', $('#winePermit')[0].files[0]);
+                Partner.reqVo.winePermit = Common.mutipartFileUpload(winePermit, "正在上传酒水通行证");
+                if(!Partner.reqVo.winePermit) {
+                    layer.msg("上传酒水通行证失败");
+                    return false;
+                }
+                return true;
+            },
+            submitForm: function() {
+                var status = false;
+                $.ajax({
+                    url: '/partner/register.do',
+                    type: 'POST',
+                    data: Partner.reqVo,
+                    async: false,
+                    success: function(data) {
+                        if(data.code === 0) {
+                            status = true;
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function(e) {
+                        layer.msg("提交失败;请稍后重试");
+                    }
+                });
+                return status;
             },
             regiEvent: function () {
                 $("#next-btn").click(function () {
                     var INDEX = Number(Partner.stepIndex);
+                    if (INDEX + 1 == 5) {
+                        if(Partner.uploadLicence() === false) {
+                            return false;
+                        }
+                        if(Partner.submitForm() === false) {
+                            return false;
+                        }
+                        $("#footer-dev").remove();
+                    }
                     if (!Partner.valid()) {
                         return false;
                     }
                     if (INDEX == 1) {
                         $("#pre-btn").removeAttr("disabled");
-                    }
-                    if (INDEX + 1 == 5) {
-                        $("#footer-dev").remove();
-                        Partner.uploadPic();
                     }
                     $(".steps").children().eq(INDEX).addClass("active");
                     $("#form-" + INDEX).addClass("hide");
@@ -415,18 +451,17 @@
             valid: function () {
                 var INDEX = Number(Partner.stepIndex);
                 if (INDEX == 1) {
-//                    return Partner.validAccountInfo();
-                    return true;
+                    return Partner.validAccountInfo();
                 }
                 if (INDEX == 2) {
-//                    return Partner.validBasicInfo();
-                    return true;
+                    return Partner.validBasicInfo();
                 }
                 if (INDEX == 3) {
-//                    return Partner.validDetailInfo();
-                    return true;
+                    return Partner.validDetailInfo();
                 }
-                return true;
+                if(INDEX == 4) {
+                    return Partner.validLicencePic();
+                }
             },
             validAccountInfo: function () {
                 var username = $("#username").val();
@@ -555,11 +590,18 @@
                 Partner.reqVo.vehicleSize = vehicleSize;
                 Partner.reqVo.storageSpace = storageSpace;
                 Partner.reqVo.customerNumber = customerNumber;
-                console.log(Partner.reqVo);
                 return true;
             },
-            validForm4: function () {
-
+            validLicencePic: function () {
+                if(!Partner.reqVo.businessLicense) {
+                    layer.msg("营业执照不能为空");
+                    return false;
+                }
+                if(!Partner.reqVo.winePermit) {
+                    layer.msg("酒水许可证不能为空");
+                    return false;
+                }
+                return true;
             },
             checkPhone: function (phone) {
                 if (!(/^1[34578]\d{9}$/.test(phone))) {
@@ -573,22 +615,24 @@
         var Common = {
             /**
              *
-             * @param fileObj 文件框对象
+             * @param 模拟表单对象
              * @param msg 上传前提示
              * @returns {*}
              */
-            mutipartFileUpload: function(fileObj, msg) {
+            mutipartFileUpload: function(formData, msg) {
                 layer.msg(msg);
                 var fileName;
                 $.ajax({
-                    url: '/upload/preview.do',
+                    url: '/upload/uploadAndGetFileName.do',
                     type: 'POST',
-                    data: {"image_name": new FormData(fileObj)},
+                    data: formData,
                     processData: false,
                     contentType: false,
                     async:false,
                     success: function (data) {
-                        fileName = data.image_name;
+                        if(data.code === 0) {
+                            fileName = data.data;
+                        }
                     },
                     error: function (e) {
                         console.log(e);

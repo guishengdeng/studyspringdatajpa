@@ -24,6 +24,7 @@ public class PartnerRegisterReqVo2PartnerPo implements Function<PartnerRegisterR
         Admin admin = new Admin();
         admin.setUsername(input.getUsername());
         admin.setPassword(input.getPassword());
+        admin.setName(input.getUsername());
         Set<Admin> admins = new HashSet<>();
         admins.add(admin);
         result.setAdmins(admins);

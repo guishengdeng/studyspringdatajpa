@@ -1,9 +1,11 @@
 package com.biz.service.partner;
 
 import com.biz.gbck.common.exception.ExceptionCode;
+import com.biz.gbck.dao.mysql.po.org.PartnerPo;
 import com.biz.gbck.dao.mysql.repository.admin.AdminRepository;
 import com.biz.gbck.dao.mysql.repository.org.PartnerRepository;
 import com.biz.gbck.exceptions.partner.PartnerExceptions;
+import com.biz.service.IdService;
 import com.biz.service.partner.interfaces.PartnerService;
 import com.biz.transformer.partner.PartnerRegisterReqVo2PartnerPo;
 import com.biz.vo.partner.PartnerRegisterReqVo;
@@ -28,6 +30,9 @@ public class PartnerServiceImpl implements PartnerService{
     @Autowired
     private AdminRepository adminRepository;
 
+    @Autowired
+    private IdService idService;
+
     @Override
     public void createPartner(PartnerRegisterReqVo reqVo) throws PartnerExceptions {
         if(reqVo == null) {
@@ -36,7 +41,9 @@ public class PartnerServiceImpl implements PartnerService{
         if(validAccountIsExist(reqVo.getUsername())) {
             throw new PartnerExceptions(ExceptionCode.Partner.IS_EXISTS, "账户已存在");
         }
-        partnerRepository.save(new PartnerRegisterReqVo2PartnerPo().apply(reqVo));
+        PartnerPo partnerPo = new PartnerRegisterReqVo2PartnerPo().apply(reqVo);
+        partnerPo.setId(idService.nextId());
+        partnerRepository.save(partnerPo);
     }
 
     @Override
