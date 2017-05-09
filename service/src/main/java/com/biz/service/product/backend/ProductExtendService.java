@@ -25,7 +25,7 @@ public interface ProductExtendService {
     /**
      * 增加一个分类下的属性
      */
-    Boolean createCategoryProperty(CreateCategoryPropertyVo createCategoryPropertyVo) throws ProductExtendNotFoundException;
+    void createCategoryProperty(CreateCategoryPropertyVo createCategoryPropertyVo);
 
 
     /**
@@ -78,4 +78,11 @@ public interface ProductExtendService {
      * @return
      */
     public List<ProductExtendVo> productExtend2ProductExtendVo(List<ProductExtend> list);
+
+    /**
+     * 根据用户传入的categoryid和属性名来进行判断。如果用户输入
+     * 的属性名和根据categoryid查询出来的扩展属性的属性名相等,则返回fasle
+     * 说明用户输入的属性名已存在,否则则返回true,（ajax请求）返回true之后,在发送一次请求。同步请求
+     */
+    Boolean  isExistProductExtendName(CreateCategoryPropertyVo vo) throws ProductExtendNotFoundException;
 }

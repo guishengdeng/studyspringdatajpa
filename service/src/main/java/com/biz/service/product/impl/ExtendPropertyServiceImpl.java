@@ -46,6 +46,27 @@ public class ExtendPropertyServiceImpl extends AbstractBaseService  implements E
         return null;
     }
 
+    @Override
+    public Boolean isExistExtendPropertyValue(CreateExtendPropertyVo vo) throws ExtendPropertyNotFoundException {
+        ExtendProperty extendProperty = extendPropertyRepository.findExtendPropertyByCondition(vo.getProductExtendId(),vo.getValue());
+        List<ExtendProperty> list = extendPropertyRepository.findByProductExtendId(vo.getProductExtendId());
+        if(extendProperty != null){
+
+             if(vo.getId() !=null){
+                 for(ExtendProperty item : list){
+                      if(vo.getId().equals(item.getId()) && vo.getValue().equals(item.getValue())){
+                          return  Boolean.TRUE;
+                      }
+                      if(vo.getValue().equals(item.getValue())){
+                          return  Boolean.FALSE;
+                      }
+                 }
+             }
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+    }
+
     /**
      *  添加或修改扩展属性值
      * @param
@@ -53,7 +74,7 @@ public class ExtendPropertyServiceImpl extends AbstractBaseService  implements E
      */
     @Override
     @Transactional
-    public Boolean createExtendProperty(CreateExtendPropertyVo vo) throws ExtendPropertyNotFoundException {
+    public void createExtendProperty(CreateExtendPropertyVo vo)  {
            if(vo.getId() == null){
                vo.setId(idService.nextId());
                Integer idx = extendPropertyRepository.findMaxIdx(vo.getProductExtendId());
@@ -65,24 +86,12 @@ public class ExtendPropertyServiceImpl extends AbstractBaseService  implements E
                vo.setIdx(idx);
            }
            //将vo转化成po
-           CreateExtendPropertyVo2ExtendProperty  c2p = new CreateExtendPropertyVo2ExtendProperty();
-           List<ExtendProperty> currExtendProperties = extendPropertyRepository.findByProductExtendId(vo.getProductExtendId());
-           //扩展属性值,做重复校验
-           if(currExtendProperties != null){
-               for(ExtendProperty item : currExtendProperties ){
-                    if(item.getValue().equals(vo.getValue()) && item.getId() == vo.getId() ){
-                             //说明此时用户要修改的是除属性值以外的字段,在这里即修改的是：是否启用那个字段
-                             ExtendProperty extendProperty = c2p.apply(vo);
-                             extendProperty.setProductExtend(productExtendRepository.findOne(vo.getProductExtendId()));
-                             extendPropertyRepository.save(extendProperty);
-                             return Boolean.TRUE;
-                    }
-               }
-           }
-            ExtendProperty extendProperty = c2p.apply(vo);
-            extendProperty.setProductExtend(productExtendRepository.findOne(vo.getProductExtendId()));
-            extendPropertyRepository.save(extendProperty);
-            return Boolean.TRUE;
+         CreateExtendPropertyVo2ExtendProperty  c2p = new CreateExtendPropertyVo2ExtendProperty();
+         ExtendProperty extendProperty = c2p.apply(vo);
+         extendProperty.setProductExtend(productExtendRepository.findOne(vo.getProductExtendId()));
+         extendPropertyRepository.save(extendProperty);
+
+
     }
 
     @Override

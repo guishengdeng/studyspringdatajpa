@@ -86,11 +86,20 @@ public class ExtendPropertyController {
     @ResponseBody
     public boolean  addOrUpdate(CreateExtendPropertyVo vo){
         try {
-            return  extendPropertyService.createExtendProperty(vo);
+
+            return  extendPropertyService.isExistExtendPropertyValue(vo);
         } catch (ExtendPropertyNotFoundException e) {
             return false;
 
         }
+    }
+    @RequestMapping("/again")
+    @PreAuthorize("hasAuthority('OPT_EXTENDPROPERTY_ADD')")
+    public ModelAndView  again(CreateExtendPropertyVo vo){
+
+        extendPropertyService.createExtendProperty(vo);
+        return new ModelAndView("redirect:detail/" + vo.getProductExtendId() + ".do");
+
     }
 
 

@@ -32,7 +32,7 @@ public interface ExtendPropertyService {
      *
      * @param createExtendPropertyVo 添加属性值VO
      */
-    Boolean createExtendProperty(CreateExtendPropertyVo createExtendPropertyVo) throws ExtendPropertyNotFoundException;
+    void createExtendProperty(CreateExtendPropertyVo createExtendPropertyVo) ;
 
     /**
      * 修改一个属性值
@@ -74,4 +74,6 @@ public interface ExtendPropertyService {
      * 根据id查询扩展属性
      */
     ExtendProperty  findById(Long id);
+
+    Boolean  isExistExtendPropertyValue(CreateExtendPropertyVo vo) throws ExtendPropertyNotFoundException;
 }

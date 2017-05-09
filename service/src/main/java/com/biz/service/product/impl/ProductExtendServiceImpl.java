@@ -13,6 +13,7 @@ import com.biz.service.AbstractBaseService;
 import com.biz.service.IdService;
 import com.biz.service.product.backend.ProductExtendService;
 import com.google.common.collect.Lists;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,38 +49,24 @@ public class ProductExtendServiceImpl extends AbstractBaseService implements Pro
      */
     @Override
     @Transactional
-    public Boolean createCategoryProperty(CreateCategoryPropertyVo createCategoryPropertyVo )  {
-        if(createCategoryPropertyVo.getId() == null){
-            createCategoryPropertyVo.setId(idService.nextId());
-            Integer idx = productExtendRepository.findMaxIdx(createCategoryPropertyVo.getCategoryId());
+    public  void createCategoryProperty(CreateCategoryPropertyVo vo )  {
+        if(vo.getId() == null){
+            vo.setId(idService.nextId());
+            Integer idx = productExtendRepository.findMaxIdx(vo.getCategoryId());
             if (idx == null) {
                 idx = 1;
             } else {
                 idx += 1;
             }
-            createCategoryPropertyVo.setIdx(idx);
+            vo.setIdx(idx);
         }
         //将vo转化成po
         CreateCategoryPropertyVo2ProductExtend c2p = new CreateCategoryPropertyVo2ProductExtend();
-        List<ProductExtend> currProductExtends = productExtendRepository.findByCategoryId(createCategoryPropertyVo.getCategoryId());
-        //扩展属性,做重复校验
-        if(currProductExtends != null){
-            for(ProductExtend item : currProductExtends ){
-                if(item.getName().equals(createCategoryPropertyVo.getName()) && item.getId() == createCategoryPropertyVo.getId() ){
-                    //说明此时用户要修改的是除属性值以外的字段,在这里即修改的是：是否启用那个字段
-                    ProductExtend productExtend = c2p.apply(createCategoryPropertyVo);
-                    Category category = categoryRepository.findOne(createCategoryPropertyVo.getCategoryId());
-                    productExtend.setCategory(category);
-                    productExtendRepository.save(productExtend);
-                    return Boolean.TRUE;
-                }
-            }
-        }
-        ProductExtend productExtend = c2p.apply(createCategoryPropertyVo);
-        Category category = categoryRepository.findOne(createCategoryPropertyVo.getCategoryId());
+        ProductExtend productExtend = c2p.apply(vo);
+        Category category = categoryRepository.findOne(vo.getCategoryId());
         productExtend.setCategory(category);
         productExtendRepository.save(productExtend);
-        return Boolean.TRUE;
+
     }
 
     @Override
@@ -164,5 +151,31 @@ public class ProductExtendServiceImpl extends AbstractBaseService implements Pro
             voLists.add(vo);
         }
          return voLists ;
+    }
+    /**
+     * 根据用户传入的categoryid和属性名来进行判断。如果用户输入
+     * 的属性名和根据categoryid查询出来的扩展属性的属性名相等,则返回fasle
+     * 说明用户输入的属性名已存在,否则则返回true,（ajax请求）返回true之后,在发送一次请求。同步请求
+     */
+    @Override
+    public Boolean isExistProductExtendName(CreateCategoryPropertyVo vo) throws ProductExtendNotFoundException{
+
+         ProductExtend productExtend = productExtendRepository.existProductExtend(vo.getCategoryId(),vo.getName());
+         List<ProductExtend> list = productExtendRepository.findByCategoryId(vo.getCategoryId());
+         if(productExtend != null){
+               if(vo.getId() != null){//说明执行的是修改操作
+                   for(ProductExtend item : list){
+                       //说明用户可能修改是否禁用状态这一选项,其余的则不修改.
+                       if(vo.getId().equals(item.getId()) && vo.getName().equals(item.getName())){
+                           return Boolean.TRUE;
+                       }
+                       if(vo.getName().equals(item.getName())){
+                           return Boolean.FALSE;
+                       }
+                   }
+               }
+             return Boolean.FALSE;
+         }
+        return Boolean.TRUE;
     }
 }

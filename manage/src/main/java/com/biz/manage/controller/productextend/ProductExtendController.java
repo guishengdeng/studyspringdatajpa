@@ -68,12 +68,20 @@ public class ProductExtendController {
     @ResponseBody
     public Boolean addOrUpdate(CreateCategoryPropertyVo vo){
         try {
-            return productExtendService.createCategoryProperty(vo);
+            return productExtendService.isExistProductExtendName(vo);
         } catch (ProductExtendNotFoundException e) {
             return false;
         }
         //return new ModelAndView("redirect:/manage/categories/"+vo.getCategoryId()+".do");
     }
+    @RequestMapping("/again")
+    @PreAuthorize("hasAuthority('OPT_PRODUCTEXTEND_ADD')")
+    public ModelAndView again(CreateCategoryPropertyVo vo){
+        productExtendService.createCategoryProperty(vo);
+        return new ModelAndView("redirect:/product/categories/"+vo.getCategoryId()+".do");
+    }
+
+
 
     @RequestMapping("/change")
     @PreAuthorize("hasAuthority('OPT_EXTENDPROPERTY_DETAIL')")

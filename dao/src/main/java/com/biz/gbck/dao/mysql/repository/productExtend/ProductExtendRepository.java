@@ -30,4 +30,7 @@ public interface ProductExtendRepository extends CommonJpaRepository<ProductExte
 
     @Query("FROM ProductExtend pe WHERE pe.category.id = ?1 order by pe.idx asc ,pe.name asc ")
     List<ProductExtend> findByCategoryId(Long categoryId);
+
+    @Query("FROM ProductExtend pe WHERE pe.category.id = ?1 and pe.name = ?2 ")
+    ProductExtend  existProductExtend(Long categoryId,String name);
 }

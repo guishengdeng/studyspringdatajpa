@@ -103,7 +103,7 @@
                                             <ul class="nav nav-tabs" id="myTab">
                                                 <c:forEach items="${categories}" var="category" varStatus="status">
                                                     <li class="<c:if test="${category.id==categoryId}">active</c:if>">
-                                                        <a  href="manage/categories/${category.id}.do">
+                                                        <a  href="product/categories/${category.id}.do">
                                                                 ${category.name}
                                                         </a>
                                                     </li>

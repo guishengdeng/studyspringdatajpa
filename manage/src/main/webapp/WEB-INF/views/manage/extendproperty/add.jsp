@@ -8,7 +8,7 @@
     <jsp:attribute name="script">
          <script type="application/javascript">
                 $('#addOrUpdate').on('click',function(){
-                     var value = $('#extendPropertyValue').val();
+                    /* var value = $('#extendPropertyValue').val();
                      var id = $('#id').val();
                      var curr_extendProperties = $('#extendProperties').html();
                      var productExtendId = $('#productExtendId').val();
@@ -26,7 +26,27 @@
                              return false;//不让用户提交
                          }
                      }
-                        commonAjaxReq($('#extendProperty_form').serialize(),productExtendId);
+                        commonAjaxReq($('#extendProperty_form').serialize(),productExtendId);*/
+                    var value = $('#extendPropertyValue').val();
+                    var data = $('#extendProperty_form').serialize();
+                    if(value == ""){
+                        layer.msg("属性值不能为空");
+                        return false;//不让用户提交
+                    }
+                    $.ajax({
+                        method : "POST",
+                        url : "product/extendProperty/addOrUpdate.do",
+                        data : data,
+                        dataType : "json"
+                    }).done(function(returnResult){
+                        if(returnResult){
+                            document.extendPropertyForm.action = "product/extendProperty/again.do";
+                            document.extendPropertyForm.submit();
+                        }else{
+                            layer.msg("属性值已存在,请重新输入");
+                            return false;//不让用户提交
+                        }
+                    });
 
                 });
                 function commonAjaxReq(data,productExtendId){
@@ -105,7 +125,7 @@
                             </span>
                             </h3>
                             <%--product/extendProperty/addOrUpdate.do--%>
-                            <form action="" method="post"
+                            <form action="" method="post" name="extendPropertyForm"
                                   class="form-horizontal" role="form" id="extendProperty_form">
                                 <input type="hidden" name="productExtendId" id="productExtendId" value="${productExtendId}"/>
                                 <input type="hidden" name="id" id="id" value="${extendProperty.id}"/>

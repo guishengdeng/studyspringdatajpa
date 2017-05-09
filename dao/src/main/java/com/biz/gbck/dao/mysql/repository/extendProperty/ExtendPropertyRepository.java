@@ -31,4 +31,6 @@ public interface ExtendPropertyRepository extends CommonJpaRepository<ExtendProp
     @Query("SELECT ep FROM  ExtendProperty ep WHERE ep.productExtend.id = :productExtendId order by ep.idx asc , ep.value asc")
     List <ExtendProperty> findByProductExtendId(@Param("productExtendId") Long id);
 
+    @Query("SELECT ep FROM  ExtendProperty ep WHERE ep.productExtend.id = :productExtendId and ep.value = :val ")
+    ExtendProperty findExtendPropertyByCondition(@Param("productExtendId") Long id,@Param("val") String value);
 }
