@@ -10,6 +10,33 @@
             var obj${status.count} = document.getElementById('roleId_${role.id}');
             if (obj${status.count}) obj${status.count}.checked = true;
             </c:forEach>
+
+            /**
+             * 验证版本号码是否存在
+             */
+            function verify() {
+                var version = $("#version").val();
+                var os= $("#os").val();
+                if(version == null || version == undefined || version =="" ||
+                        os == null || os == undefined || os ==""
+                ){
+                    return;
+                }
+                $.ajax({
+                    url: '/upgrade/verify.do',
+                    data: {"version": version, "os": os},
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (data) {
+                        if(data.data.model.verify == true){
+                            $("#version").val("");
+                            alert("该版本号码已经存在");
+                        }
+                    }, error: function () {
+                        alert("系统异常！");
+                    }
+                });
+            }
         </script>
     </jsp:attribute>
     <jsp:body>
@@ -60,7 +87,7 @@
                                     </label>
                                     <div class="col-sm-9">
                                         <input type="text" name="version" id="version" maxlength="20"  pattern="\d+[.]\d+[.]\d+"
-                                               placeholder="例：1.1.11" class="required text col-xs-10 col-sm-5 regExp"/>
+                                               placeholder="例：1.1.11" class="required text col-xs-10 col-sm-5 regExp" onblur="verify() "/>
                                     </div>
                                 </div>
                                 <div class="form-group">

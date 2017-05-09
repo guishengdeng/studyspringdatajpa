@@ -2,12 +2,14 @@ package com.biz.manage.controller;
 
 import com.biz.gbck.dao.redis.ro.upgrade.UpgradeRo;
 import com.biz.service.upgrade.UpgradeService;
+import com.biz.support.web.handler.JSONResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.biz.gbck.vo.upgrade.AddUpgradeVo;
 
@@ -53,6 +55,18 @@ public class UpgradeController {
 	public ModelAndView save_add(AddUpgradeVo upgrade) {
 		upgradeService.save(upgrade);
 		return new ModelAndView("redirect:/upgrade/list.do");
+	}
+
+	/**
+	 * 判断给的版本号码是否存在
+	 */
+	@RequestMapping("/verify")
+	@ResponseBody
+	public JSONResult verifyVersion(@RequestParam("version") String version, @RequestParam("os") String os){
+		boolean verify = upgradeService.verifyVersion(version,os);
+		ModelAndView mm=new ModelAndView();
+		mm.addObject("verify",verify);
+		return new JSONResult(mm);
 	}
 
 
