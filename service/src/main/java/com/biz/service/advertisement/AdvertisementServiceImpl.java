@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.biz.gbck.transform.advertisement.AdvertisementRequestVo2AdvertisementRo.StringToTimestamp;
+import static org.codelogger.utils.ExceptionUtils.iae;
 
 /**
  * Created by xys on 2017/4/18.
@@ -33,7 +34,7 @@ public class AdvertisementServiceImpl extends AbstractBaseService implements Adv
 
     @Override
     public void saveOrUpdateAdvertisement(AdvertisementRequestVo req) {
-        //TODO 定义异常信息
+        iae.throwIfNull(req, "参数不能为空");
         String advertisementId = req.getId();
         AdvertisementRo ro;
         //如果没有id 则进行保存操作

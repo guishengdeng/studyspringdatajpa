@@ -2,7 +2,7 @@ package com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder;
 
 import com.biz.gbck.dao.mysql.po.product.meta.Category;
 import com.biz.gbck.dao.mysql.po.product.promotion.ProductPromotion;
-import com.biz.gbck.enums.product.WholeOrderPromotionLimitEnum;
+import com.biz.gbck.enums.product.promotion.WholeOrderPromotionLimitEnum;
 import javax.persistence.*;
 
 /**

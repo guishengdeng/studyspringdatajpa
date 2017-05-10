@@ -86,25 +86,12 @@
 											</span>
                                     </div>
                                     <div class="col-xs-6 col-sm-4 col-md-3">
-                                        推荐人_:
+                                        上级城市合伙人:
 											<span class="input-icon">
-												<input type="text" value="还没有返回推荐人！">
-											</span>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-4 col-md-3">
-                                        商户经度:
-											<span class="input-icon">
-												<input type="text" value="${longitude}" readonly="readonly">
-											</span>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-4 col-md-3">
-                                        商户纬度:
-											<span class="input-icon">
-												<input type="text" value="${latitude}" readonly="readonly">
+												<input type="text" value="这是个死参数" readonly="readonly">
 											</span>
                                     </div>
                                 </div>
-                                <br>
                                 <br>
                                 <div class="row">
                                     <div class="col-sm-9">
@@ -116,13 +103,16 @@
                                                         cityId="${shopDetail.city.id}"
                                                         districtId="${shopDetail.district.id}"/>
                                         </div>
-                                        <div class="box1 col-md-6">
-                                            详细地址:
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        详细地址:
 											<span class="input-icon">
-												<input type="text" value="${shopDetail.deliveryAddress}"
-                                                       style="width: 485px">
+												<input style="width: 1100px" class="form-control" type="text"
+                                                       value="${shopDetail.deliveryAddress}" readonly="readonly">
 											</span>
-                                        </div>
                                     </div>
                                 </div>
                                 <br>
@@ -137,19 +127,10 @@
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <div class="box1 col-md-6">
-                                        附加的支付方式 :
-											<span class="input-icon">
-												<input style="width: 500px" class="form-control" type="text"
-                                                       value="${shopDetail.mobile}">
-											</span>
-                                    </div>
-                                    <div class="box1 col-md-6">
+                                    <div class="col-sm-9">
                                         详情提交审核时间:
-											<span class="input-icon">
 												<input style="width: 500px" class="form-control" type="text" readonly="readonly"
                                                        value="<fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${shopDetail.createTime}"/>">
-											</span>
                                     </div>
                                 </div>
                                 <br>
@@ -258,16 +239,12 @@
                                     </c:forEach>
                                 </div>
                                 <div class="ui error message"></div>
-
-
                                     <%--  <c:if test="${canAudit}">--%>
                                 <div class="clearfix form-actions">
-                                    <div class="col-md-offset-3 col-md-9">
-                                        <button class="btn btn-info" type="submit">
-                                            <i class="ace-icon fa fa-check bigger-110"></i>
-                                            提交
-                                        </button>
-                                    </div>
+                                    <button class="btn btn-info pull-left " type="submit">
+                                        <i class="ace-icon fa fa-check bigger-110 pull-left"></i>
+                                        提交
+                                    </button>
                                 </div>
                                     <%-- </c:if>--%>
                             </form>

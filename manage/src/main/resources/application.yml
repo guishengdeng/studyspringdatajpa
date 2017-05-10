@@ -1,0 +1,56 @@
+spring:
+  profiles:
+    active: local
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password:
+    url: jdbc:mysql://127.0.0.1:3306/biz
+    dbcp2:
+      initial-size: 5
+      max-total: 10
+      min-idle: 1
+      time-between-eviction-runs-millis: 360000
+      test-on-borrow: true
+      test-on-return: false
+      test-while-idle: true
+      validation-query: SELECT 1
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database: mysql
+  session:
+    redis:
+      flush-mode: immediate
+
+biz:
+  soa:
+    idx: 1
+  zookeeper:
+    url: zookeeper://127.0.0.1:2181
+    soaIdx:
+      path: /biz/gbck/boot/soaIdx
+    #redis:
+    #  path: /biz/gbck/boot/redis
+  redis:
+    maxTotal: 120
+    maxIdle: 10
+    timeBetweenEvictionRunsMillis: 30000
+    minEvictableIdleTimeMillis: 30000
+    testOnBorrow: true
+    host: 127.0.0.1
+    port: 6379
+    name:
+    password:
+
+server:
+  session:
+    timeout: 1200

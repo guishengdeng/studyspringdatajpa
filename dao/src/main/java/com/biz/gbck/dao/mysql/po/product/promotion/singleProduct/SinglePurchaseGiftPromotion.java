@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.mysql.po.product.promotion.singleProduct;
 
-import com.biz.gbck.dao.mysql.po.product.master.Product;
 import com.biz.gbck.dao.mysql.po.product.promotion.ProductPromotion;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -18,59 +18,16 @@ public class SinglePurchaseGiftPromotion extends ProductPromotion {
     private static final long serialVersionUID = -5342738534723353991L;
 
     /**
-     * 商品
+     * 单品买赠促销商品信息
      */
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @OneToMany(mappedBy = "singlePurchaseGiftPromotion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<SinglePurchaseGiftPromotionProduct> singlePurchaseGiftPromotionProductList;
 
-    /**
-     * 促销价
-     */
-    @Column(nullable = false)
-    private Integer promotionPrice;
-
-    /**
-     * 达标数量
-     */
-    @Column(nullable = false)
-    private Integer quantityLimit;
-
-    /**
-     * 赠送数量
-     */
-    @Column(nullable = false)
-    private Integer giftQuantity;
-
-    public Product getProduct() {
-        return product;
+    public List<SinglePurchaseGiftPromotionProduct> getSinglePurchaseGiftPromotionProductList() {
+        return singlePurchaseGiftPromotionProductList;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Integer getPromotionPrice() {
-        return promotionPrice;
-    }
-
-    public void setPromotionPrice(Integer promotionPrice) {
-        this.promotionPrice = promotionPrice;
-    }
-
-    public Integer getQuantityLimit() {
-        return quantityLimit;
-    }
-
-    public void setQuantityLimit(Integer quantityLimit) {
-        this.quantityLimit = quantityLimit;
-    }
-
-    public Integer getGiftQuantity() {
-        return giftQuantity;
-    }
-
-    public void setGiftQuantity(Integer giftQuantity) {
-        this.giftQuantity = giftQuantity;
+    public void setSinglePurchaseGiftPromotionProductList(List<SinglePurchaseGiftPromotionProduct> singlePurchaseGiftPromotionProductList) {
+        this.singlePurchaseGiftPromotionProductList = singlePurchaseGiftPromotionProductList;
     }
 }

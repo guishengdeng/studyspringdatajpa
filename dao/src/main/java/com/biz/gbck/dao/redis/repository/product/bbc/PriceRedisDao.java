@@ -6,7 +6,6 @@ import com.google.common.collect.Lists;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
-import org.springframework.stereotype.Repository;
 
 
 /**

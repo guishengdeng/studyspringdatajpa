@@ -6,14 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -26,6 +19,10 @@ import java.util.List;
     private Integer status;
     @JsonIgnore
     @ManyToOne(optional = true) @JoinColumn(name = "cityId") private CityPo city;
+
+    @JsonIgnore
+    @Column(nullable=false, name = "provinceid")
+    private Integer provinceId;
 
     @JsonIgnore
     @OneToMany(mappedBy = "district", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -78,6 +75,12 @@ import java.util.List;
         return businesses;
     }
 
+    public Integer getProvinceId() {
+        return provinceId;
+    }
 
+    public void setProvinceId(Integer provinceId) {
+        this.provinceId = provinceId;
+    }
 
 }

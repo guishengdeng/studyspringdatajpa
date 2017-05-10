@@ -53,7 +53,7 @@ import com.biz.gbck.vo.org.User20VIPVo;
 import com.biz.gbck.vo.org.UserVo;
 import com.biz.gbck.vo.org.*;
 import com.biz.gbck.vo.search.SearchShopReqVo;
-import com.biz.gbck.vo.search.SearchUserReqVo;
+import com.biz.gbck.vo.search.bbc.SearchUserReqVo;
 import com.biz.gbck.vo.search.ShopQueryReqVo;
 import com.biz.gbck.vo.zsgf.ZsgfLoanQueryReqVo;
 import com.biz.manage.vo.FailDetail;
