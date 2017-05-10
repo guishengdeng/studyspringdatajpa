@@ -1,9 +1,11 @@
-package com.biz.gbck.dao.mysql.po.product.meta;
+package com.biz.gbck.dao.mysql.po.tag;
 
 import com.biz.gbck.dao.mysql.po.product.master.Product;
+import com.biz.gbck.dao.mysql.po.product.meta.Category;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.product.backend.ISaleTagVo;
 import com.biz.support.jpa.po.BaseEntity;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
@@ -11,8 +13,8 @@ import javax.persistence.*;
 /**
  * 商品销售标签
  *
- * @author david-liu
- * @date 2016年12月15日
+ * @author lzz
+ * @date 2017年5月4日
  * @reviewer
  * @see
  */
@@ -25,14 +27,8 @@ public class SaleTag extends BaseEntity implements Serializable {
     /**
      * 标签名称
      */
-    @Column(length = 50, nullable = false)
+    @Column(length = 150, nullable = false)
     private String name;
-
-    /**
-     * 标签 Logo
-     */
-    @Column
-    private String logo;
 
     /**
      * 显示顺序
@@ -41,19 +37,31 @@ public class SaleTag extends BaseEntity implements Serializable {
     private Integer idx;
 
     /**
-     * 富文本
+     * 前台展示
      */
-    @Column(columnDefinition = "TEXT")
-    private String rawHtml;
+    @Column
+    private String showName;
 
     /**
-     * 描述
+     * 标签
+     */
+    @Column
+    private String tag;
+    /**
+     * 描述(后台备注)
      */
     @Column
     private String description;
 
     /**
-     * 状态
+     * 标签的启用或禁用状态
+     */
+    @Column
+    @Convert(converter = SaleStatusEnum.Converter.class)
+    private SaleStatusEnum saleStatus;
+
+    /**
+     * 状态（删除或没被删除）
      */
     @Column
     @Enumerated(value = EnumType.STRING)
@@ -65,10 +73,6 @@ public class SaleTag extends BaseEntity implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")})
     private List<Product> products;
 
-    /**
-     * 删除标识(true: 已删除, false: 未删除)
-     */
-    private Boolean deleteFlag = Boolean.FALSE;
 
     /**
      * 分类
@@ -93,14 +97,6 @@ public class SaleTag extends BaseEntity implements Serializable {
         this.name = name;
     }
 
-    public String getLogo() {
-        return logo;
-    }
-
-    public void setLogo(String logo) {
-        this.logo = logo;
-    }
-
     public Integer getIdx() {
         return idx;
     }
@@ -109,12 +105,12 @@ public class SaleTag extends BaseEntity implements Serializable {
         this.idx = idx;
     }
 
-    public String getRawHtml() {
-        return rawHtml;
+    public String getTag() {
+        return tag;
     }
 
-    public void setRawHtml(String rawHtml) {
-        this.rawHtml = rawHtml;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public String getDescription() {
@@ -123,6 +119,14 @@ public class SaleTag extends BaseEntity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public SaleStatusEnum getSaleStatus() {
+        return saleStatus;
+    }
+
+    public void setSaleStatus(SaleStatusEnum saleStatus) {
+        this.saleStatus = saleStatus;
     }
 
     public CommonStatusEnum getStatus() {
@@ -141,13 +145,12 @@ public class SaleTag extends BaseEntity implements Serializable {
         this.products = products;
     }
 
-
-    public Boolean getDeleteFlag() {
-        return deleteFlag;
+    public String getShowName() {
+        return showName;
     }
 
-    public void setDeleteFlag(Boolean deleteFlag) {
-        this.deleteFlag = deleteFlag;
+    public void setShowName(String showName) {
+        this.showName = showName;
     }
 
     public void fromVo(ISaleTagVo iSaleTagVo) {
@@ -156,9 +159,9 @@ public class SaleTag extends BaseEntity implements Serializable {
         }
         this.setName(iSaleTagVo.getName());
         this.setIdx(iSaleTagVo.getIdx());
+        this.setSaleStatus(iSaleTagVo.getSaleStatus());
         this.setStatus(iSaleTagVo.getStatus());
         this.setDescription(iSaleTagVo.getDescription());
-        this.setLogo(iSaleTagVo.getLogo());
-        this.setRawHtml(iSaleTagVo.getRawHtml());
+        this.setShowName(iSaleTagVo.getShowName());
     }
 }
