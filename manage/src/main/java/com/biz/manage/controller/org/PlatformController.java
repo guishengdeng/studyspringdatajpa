@@ -1,6 +1,8 @@
 package com.biz.manage.controller.org;
 
+import com.biz.gbck.dao.mysql.po.org.PartnerPo;
 import com.biz.gbck.dao.mysql.po.org.PlatformPo;
+import com.biz.gbck.vo.platform.PartnerSearchVo;
 import com.biz.gbck.vo.platform.PlatformSearchVo;
 import com.biz.service.org.interfaces.PlatformService;
 import org.slf4j.Logger;
@@ -32,10 +34,10 @@ public class PlatformController {
      */
     @GetMapping
     @RequestMapping(value = "platformList")
-    @PreAuthorize("hasAuthority('OPT_SHOP_AUDITLIST')")
+    @PreAuthorize("hasAuthority('OPT_PLATFORM_LIST')")
     public ModelAndView platformList(PlatformSearchVo vo) {
         logger.debug("Received /platform/platformList GET request.");
-        ModelAndView mav = new ModelAndView("/platform/platformList");
+        ModelAndView mav = new ModelAndView("org/platform/platformList");
         Page<PlatformPo> platformSearchResVoPage = platformService.findPlatformList(vo);
         mav.addObject("platformSearchResVoPage", platformSearchResVoPage);
         mav.addObject("vo", vo);
@@ -43,8 +45,22 @@ public class PlatformController {
     }
 
     /**
-     * 根据平台公司id查询对应合伙人列表
+     * 查询合伙人
      */
+    @GetMapping
+    @RequestMapping(value = "partnerList")
+    @PreAuthorize("hasAuthority('OPT_PLATFORM_LIST')")
+    public ModelAndView findPartnerList(PartnerSearchVo vo) {
+        logger.debug("Received /platform/partnerList GET request.");
+        ModelAndView mav = new ModelAndView("org/platform/partnerList");
+        Page<PartnerPo> partnerSearchResVoPage = platformService.findPartnerList(vo);
+        mav.addObject("partnerSearchResVoPage", partnerSearchResVoPage);
+        mav.addObject("vo", vo);
+        return mav;
+    }
+
+
+
     @GetMapping(value = "/add")
     @PreAuthorize("hasAuthority('OPT_PLATFORM_EDIT')")
     public ModelAndView add() {
@@ -57,6 +73,7 @@ public class PlatformController {
     public ModelAndView edit(@PathVariable Long id) {
         return new ModelAndView("", "companyGroup", platformService.findOne(id));
     }
+
 //
 //    @PostMapping(value = "/save")
 //    @PreAuthorize("hasAuthority('OPT_COMPANY_GROUP_EDIT')")

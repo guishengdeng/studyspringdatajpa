@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.mysql.specification.platform;
 
-import com.biz.gbck.dao.mysql.po.org.PlatformPo;
-import com.biz.gbck.vo.platform.PlatformSearchVo;
+import com.biz.gbck.dao.mysql.po.org.PartnerPo;
+import com.biz.gbck.vo.platform.PartnerSearchVo;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
@@ -13,19 +13,19 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 /**
- *平台公司查询规范条件
+ *合伙人查询规范条件
  */
-public class PlatformSearchSpecification implements Specification<PlatformPo>{
+public class PartnerSearchSpecification implements Specification<PartnerPo>{
 
-	private PlatformSearchVo reqVo;
+	private PartnerSearchVo reqVo;
 
-	public PlatformSearchSpecification(PlatformSearchVo reqVo) {
+	public PartnerSearchSpecification(PartnerSearchVo reqVo) {
 
 		this.reqVo = reqVo;
 	}
 
 	@Override
-	public Predicate toPredicate(Root<PlatformPo> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+	public Predicate toPredicate(Root<PartnerPo> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
 
 		List<Predicate> predicates = Lists.newArrayList();
 		CriteriaBuilder cb;

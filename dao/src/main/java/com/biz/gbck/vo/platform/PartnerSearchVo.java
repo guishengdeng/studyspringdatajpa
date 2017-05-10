@@ -8,7 +8,7 @@ import javax.validation.constraints.Min;
  * 用于查询平台公司列表
  * Created by dylan on 2017-05-04
  */
-public class PlatformSearchVo {
+public class PartnerSearchVo {
 
 	/**
 	 * 合伙人ID
@@ -24,6 +24,11 @@ public class PlatformSearchVo {
 	 * 手机号码
 	 */
 	private String mobile;
+
+	/**
+	 * 平台公司ID
+	 */
+	private Long platformId;
 
 
 	@Min(1)
@@ -57,9 +62,16 @@ public class PlatformSearchVo {
 		this.mobile = mobile;
 	}
 
+	public Long getPlatformId() {
+		return platformId;
+	}
+
+	public void setPlatformId(Long platformId) {
+		this.platformId = platformId;
+	}
 
 	/**
-	 * {@linkplain PlatformSearchVo#page}
+	 * {@linkplain PartnerSearchVo#page}
 	 */
 	public Integer getPage() {
 
@@ -67,7 +79,7 @@ public class PlatformSearchVo {
 	}
 
 	/**
-	 * {@linkplain PlatformSearchVo#page}
+	 * {@linkplain PartnerSearchVo#page}
 	 */
 	public void setPage(Integer page) {
 
@@ -75,7 +87,7 @@ public class PlatformSearchVo {
 	}
 
 	/**
-	 * {@linkplain PlatformSearchVo#pageSize}
+	 * {@linkplain PartnerSearchVo#pageSize}
 	 */
 	public Integer getPageSize() {
 
@@ -83,7 +95,7 @@ public class PlatformSearchVo {
 	}
 
 	/**
-	 * {@linkplain PlatformSearchVo#pageSize}
+	 * {@linkplain PartnerSearchVo#pageSize}
 	 */
 	public void setPageSize(Integer pageSize) {
 

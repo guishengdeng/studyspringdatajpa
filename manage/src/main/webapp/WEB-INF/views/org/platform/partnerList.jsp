@@ -40,10 +40,15 @@
                         <div class="col-xs-12">
                             <h3 class="header smaller lighter blue">
                                 平台公司
+                                <a href="/platform/platformList.do" class="btn btn-sm btn-primary pull-right"><i
+                                        class="ace-icon fa fa-angle-left"></i>
+                                    返回
+                                </a>
                             </h3>
-                            <form action="/shops/completeAuditList.do" method="get">
-                                    平台公司ID<input name="id" type="text" placeholder="商户ID"  value="<c:out value="${vo.id}"/>" autocomplete="off"  style="width: 100px;height: 30px;">&nbsp;
-                                    法人名称<input name="name" type="text" placeholder="商户名称" value="<c:out value="${vo.name}"/>"  autocomplete="off" style="width: 100px;height: 30px;">&nbsp;
+                            <form action="/platform/partnerList.do" method="get">
+                                <input type="hidden" value="<c:out value="${vo.platformId}"/>" />
+                                    合伙人ID<input name="id" type="text" placeholder="平台公司ID"  value="<c:out value="${vo.id}"/>" autocomplete="off"  style="width: 100px;height: 30px;">&nbsp;
+                                    合伙人姓名<input name="corporateName" type="text" placeholder="法人姓名" value="<c:out value="${vo.corporateName}"/>"  autocomplete="off" style="width: 100px;height: 30px;">&nbsp;
                                     法人手机<input name="mobile" type="text" placeholder="手机号码" value="<c:out value="${vo.mobile}"/>" autocomplete="off" style="width: 100px;height: 30px;">&nbsp;
                                 <div class="inline "><div class="inline pull-right"><i style="color:white;">_</i></div>
                                     <button type="submit" class="btn btn-info btn-sm" style="height: 30px;">
@@ -51,16 +56,7 @@
                                     </button>
                                 </div>
                             </form>
-                            <div class="inline pull-right">
-                                <button type="submit" class="btn btn-info btn-sm">
-                                    <i class="ace-icon fa   fa-lock bigger-110"></i>一键禁用
-                                </button>
-                            </div>
-                            <div class="inline pull-right">
-                                <button type="submit" class="btn btn-info btn-sm">
-                                    <i class="ace-icon fa  fa-unlock bigger-110"></i>一键启用
-                                </button>
-                            </div><div class="inline pull-right"><i style="color:white;">_</i></div>
+                           <div class="inline pull-right"><i style="color:white;">_</i></div>
                             <div class="inline pull-right">
                                 <from id="downDate">
                                     <button type="submit" class="btn btn-success btn-sm">
@@ -80,35 +76,51 @@
                             <table class="table table-striped table-bordered table-hover audit-table">
                                 <thead>
                                 <tr>
-
-                                    <th>商户ID</th>
-                                    <th>商户名称</th>
-                                    <th>商户类型</th>
-                                    <th>商铺地址</th>
-                                    <th>手机</th>
-                                    <th>商户状态</th>
-                                    <th>审核状态</th>
+                                    <th class="p-checkbox"><span class="pointer select-all">全选</span>/
+                                        <span class="pointer select-inverted">反选</span></th>
+                                    <th>城市合伙人ID</th>
+                                    <th>城市合伙人名称</th>
+                                    <th>省份</th>
+                                    <th>城市</th>
+                                    <th>状态</th>
+                                    <th>上级平台</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach items="${shopSearchResVoPage.content}" var="shopDetail">
-                                    <tr id="tr_${shopDetail.id}">
-                                        <td><c:out value="${shopDetail.shop.id}"/></td>
-                                        <td><c:out value="${shopDetail.name}"/></td>
-                                        <td><c:out value="${shopDetail.shopType.name}"/></td>
-                                        <td><c:out value="${shopDetail.shopAddress}"/></td>
-                                        <td><c:out value="${shopDetail.mobile}"/></td>
-                                        <td style="color:${shopDetail.shop.status eq "ENABLE"?"green":"red"}" id="id_${shopDetail.id}">${shopDetail.shop.status eq "ENABLE"?"启用":"禁用"}</td>
-                                        <td style="color:${shopDetail.auditStatus==30?"green":"red"}">${shopDetail.auditStatus==30?"审核通过":"审核未通过"}</td>
+                                <tr >
+                                    <td class="p-checkbox" style="width:65px">
+                                        <input type="checkbox" class="ui checkbox" name="group" value="${partner.id}"/>
+                                    </td>
+                                    <td><c:out value="H13542"/></td>
+                                    <td><c:out value="合伙人店铺"/></td>
+                                    <td><c:out value="四川"/></td>
+                                    <td><c:out value="成都"/></td>
+                                    <td style="color:red" id="id_${partner.id}">禁用</td>
+                                    <td><c:out value="凤凰隔"/></td>
+                                    <td>
+                                        <div class="hidden-sm hidden-xs btn-group">
+                                            <a class="btn btn-xs btn-info" href="">
+                                                <i class="ace-icon fa fa-pencil bigger-120"></i><span>详情</span>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <c:forEach items="${partnerSearchResVoPage.content}" var="partner">
+                                    <tr >
+                                        <td class="p-checkbox" style="width:65px">
+                                            <input type="checkbox" class="ui checkbox" name="group" value="${partner.id}"/>
+                                        </td>
+                                        <td><c:out value="${partner.id}"/></td>
+                                        <td><c:out value="${partner.name}"/></td>
+                                        <td><c:out value="${partner.province.name}"/></td>
+                                        <td><c:out value="${partner.city.name}"/></td>
+                                        <td style="color:${partner.status eq "ENABLE"?"green":"red"}" id="id_${partner.id}">${partner.status eq "ENABLE"?"启用":"禁用"}</td>
+                                        <td><c:out value="${partner.platform.name}"/></td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
-                                                <a class="btn btn-xs btn-info" href="#">
-                                                    <i class="ace-icon fa fa-pencil bigger-120"></i><span>编辑</span>
-                                                </a>&nbsp;
-                                                <a class="btn btn-xs btn-danger">
-                                                    <i id="but_${shopDetail.id}" class="ace-icon fa fa-lock bigger-120"></i>
-                                                    <span id="butName_${shopDetail.id}">禁用</span>
+                                                <a class="btn btn-xs btn-info" href="">
+                                                    <i class="ace-icon fa fa-pencil bigger-120"></i><span>详情</span>
                                                 </a>
                                             </div>
                                         </td>
@@ -116,7 +128,7 @@
                                 </c:forEach>
                                 </tbody>
                             </table>
-                            <gbck:springPagePagination url="/shops/completeAuditList.do" springPage="${shopSearchResVoPage}"/>
+                            <gbck:springPagePagination url="/platform/partnerList.do" springPage="${partnerSearchResVoPage}"/>
                             <br><br><br>
                         </div>
                     </div>
