@@ -141,7 +141,7 @@
                                         附加的支付方式 :
 											<span class="input-icon">
 												<input style="width: 500px" class="form-control" type="text"
-                                                       value="${shopDetail.mobile}">
+                                                       value="">
 											</span>
                                     </div>
                                     <div class="box1 col-md-6">
