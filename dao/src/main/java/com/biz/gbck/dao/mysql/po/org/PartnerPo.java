@@ -3,18 +3,10 @@ package com.biz.gbck.dao.mysql.po.org;
 import com.biz.gbck.dao.mysql.po.geo.CityPo;
 import com.biz.gbck.dao.mysql.po.geo.ProvincePo;
 import com.biz.gbck.dao.mysql.po.security.Admin;
+import com.biz.gbck.enums.partner.ApprovalStatus;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -52,8 +44,13 @@ public class PartnerPo extends Company{
     @Column(length = 40)
     private String mobile2;
 
-
-
+    @Column
+    @Enumerated(EnumType.STRING)
+    private ApprovalStatus approvalStatus = ApprovalStatus.UNDER_REVIEW;
+    /**
+     * 审核时间
+     */
+    private Timestamp operatorTime;
     /**
      * 经营品类
      */
@@ -108,7 +105,10 @@ public class PartnerPo extends Company{
      * 酒水通行证
      */
     private String winePermit;
-
+    /**
+     * 操作人
+     */
+    private String operator;
 
     public ProvincePo getProvince() {
         return province;
@@ -245,5 +245,29 @@ public class PartnerPo extends Company{
 
     public void setMobile2(String mobile2) {
         this.mobile2 = mobile2;
+    }
+
+    public ApprovalStatus getApprovalStatus() {
+        return approvalStatus;
+    }
+
+    public void setApprovalStatus(ApprovalStatus approvalStatus) {
+        this.approvalStatus = approvalStatus;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
+    public Timestamp getOperatorTime() {
+        return operatorTime;
+    }
+
+    public void setOperatorTime(Timestamp operatorTime) {
+        this.operatorTime = operatorTime;
     }
 }
