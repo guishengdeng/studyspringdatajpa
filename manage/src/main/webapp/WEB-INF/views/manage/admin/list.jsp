@@ -161,7 +161,7 @@
                                 <thead>
                                 <tr>
                                     <th>用户名</th>
-                                    <th>名字</th>
+                                    <th>角色</th>
                                     <th class="hidden-md hidden-sm hidden-xs">联系电话</th>
                                     <th class="hidden-md hidden-sm hidden-xs">角色</th>
                                     <th class="hidden-md hidden-sm hidden-xs">状态</th>

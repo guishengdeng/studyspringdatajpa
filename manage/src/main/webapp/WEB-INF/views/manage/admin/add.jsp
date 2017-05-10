@@ -85,8 +85,8 @@
                                     </div>
                                 </c:if>
                                 <%--由于sql语句要求一定要传入密码参数，所以，这里需要给定一个隐藏的input标签--%>
-                                <input type="hidden" value="${admin.password}"
-                                       name="password" class="col-xs-10 col-sm-5">
+                                <%--<input type="hidden" value="${admin.password}"
+                                       name="password" class="col-xs-10 col-sm-5">--%>
 
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"

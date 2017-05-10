@@ -7,6 +7,7 @@
 <depotnextdoor:page title="扩展属性edit">
     <jsp:attribute name="script">
          <script type="application/javascript">
+             $('#curr').hide();
              $('#addOrUpdate').on('click',function(){
                  /*var value = $('#productExtendValue').val();
                  var id = $('#id').val();
@@ -41,6 +42,8 @@
                  change(value);
                  //满足条件后,放行,让用户提交数据
                  commonAjaxReq(requestFormData,selectedCategoryId)*/
+
+                 change();
                  var data = $('#productExtend_form').serialize();
                  var selectedCategoryId = $('#selectedCategoryId').val();
                  var productExtendValue = $ ('#productExtendValue').val();
@@ -59,13 +62,11 @@
                      dataType : "json"
                  }).done(function(result){
                      if(result){
-                         alert(result);
                          //layer.msg("输入的值不存在,可以输入");
                          document.productExtendForm.action = "product/categoryProperty/again.do";
                          document.productExtendForm.submit();
                          //window.location.href = "/product/categories/"+selectedCategoryId+".do"
                      }else{
-                         alert(result)
                          layer.msg("你输入的属性名已存在");
                          return false;
                      }
@@ -86,8 +87,13 @@
                      }
                  });
              }
-             function change(productExtendValue){
+             function change(){
+                 //点击下拉列表,获取说选中的分类id
                  var selectedCategoryId = $('#selectedCategoryId').val();
+                 if(selectedCategoryId == "不限"){
+                     layer.msg("请手动选择分类,谢谢。")
+                     return false;
+                 }
                  $.ajax({
                      method : "POST",
                      url : "product/categoryProperty/change.do",
@@ -96,20 +102,13 @@
                          },
                      dataType : "json"
                  }).done(function(data){
-                     console.log()
-                     //$("#list").empty();
+                     $("#list").empty();
+                     $('#curr').show();
                      for(var i=0;i<data.currJson.length;i++){
                          var name = data.currJson[i].name;
-
-                         $("#list").append('<input type="text" value="'+name+'"/>');
-
-                         console.log(data.currJson[i].name);
-                         if(name == productExtendValue){
-                             layer.msg("你输入的值已存在");
-                             return false;
-                         }
+                         $("#list").append('<input type="text" readonly="readonly"  value="'+name+'"/>');
+                         console.log(data.currJson);
                      }
-
                  });
              }
          </script>
@@ -165,6 +164,15 @@
 
                                     <div class="col-md-6">
                                         <depotnextdoor:categorySelect selectedStatus="${categoryId}" fieldName="categoryId"  categories="${categories}" id="selectedCategoryId" change="change()" withNone="true" noneLabel="不限"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" id="curr">
+                                        当前分类所属的扩展属性
+                                    </label>
+
+                                    <div class="col-md-6" id="list">
+
                                     </div>
                                 </div>
                                 <div class="form-group">

@@ -132,6 +132,15 @@
                                 <input type="hidden" name="idx" value="${extendProperty.idx}"/>
                                 <input type="hidden" id="cmd" value="${cmd}"/>
                                 <div  id="extendProperties" style="display: none">${currJson}</div>
+                                <%--<div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="extendPropertyValue">
+                                        当前属性名所属的属性值
+                                    </label>
+
+                                    <div class="col-sm-9">
+                                        <input type="text"  name="value" id="extendPropertyValue" placeholder="属性值：容量,体积等" class="required col-xs-10 col-sm-5" value="<c:out value='${extendProperty.value}'/>">
+                                    </div>
+                                </div>--%>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right" for="extendPropertyValue">
                                         属性值
@@ -141,6 +150,7 @@
                                         <input type="text"  name="value" id="extendPropertyValue" placeholder="属性值：容量,体积等" class="required col-xs-10 col-sm-5" value="<c:out value='${extendProperty.value}'/>">
                                     </div>
                                 </div>
+
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"
                                            >

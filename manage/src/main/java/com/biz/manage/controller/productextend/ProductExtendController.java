@@ -72,7 +72,6 @@ public class ProductExtendController {
         } catch (ProductExtendNotFoundException e) {
             return false;
         }
-        //return new ModelAndView("redirect:/manage/categories/"+vo.getCategoryId()+".do");
     }
     @RequestMapping("/again")
     @PreAuthorize("hasAuthority('OPT_PRODUCTEXTEND_ADD')")
@@ -88,6 +87,7 @@ public class ProductExtendController {
     @ResponseBody
     public Map<String , Object> change(@RequestParam("id") Long categoryId){
         Map<String,Object> map = new HashMap<String,Object>();
+        //业务层将po转化成vo
         map.put("currJson",productExtendService.productExtend2ProductExtendVo(productExtendService.findByCategoryId(categoryId)));
         return map ;
     }
