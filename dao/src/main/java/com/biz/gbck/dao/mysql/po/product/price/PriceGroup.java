@@ -22,6 +22,12 @@ public class PriceGroup extends BaseEntity {
     private Long companyGroupId;
 
     /**
+     * 上级采购方ID
+     */
+    @Column(nullable = false)
+    private Long sellerId;
+
+    /**
      * 商品信息
      */
     @JoinColumn(name = "product_id")
@@ -70,5 +76,13 @@ public class PriceGroup extends BaseEntity {
 
     public void setActionLogs(List<PriceActionLog> actionLogs) {
         this.actionLogs = actionLogs;
+    }
+
+    public Long getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
     }
 }

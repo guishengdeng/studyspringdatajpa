@@ -1,6 +1,7 @@
 package com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder;
 
 import com.biz.gbck.dao.mysql.po.product.master.Product;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -19,9 +20,11 @@ public class AccountPerUnitCutPromotion extends WholeOrderPromotion {
     /**
      * 商品信息
      */
-    @JoinColumn(name = "product_id")
-    @ManyToOne
-    private Product product;
+    @ManyToMany
+    @JoinTable(name = "pro_promotion_account_per_unit_cut_product",
+            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")}
+            , inverseJoinColumns = {@JoinColumn(name = "promotion_id", referencedColumnName = "id")})
+    private List<Product> products;
 
     /**
      * 每满多少钱
@@ -35,12 +38,12 @@ public class AccountPerUnitCutPromotion extends WholeOrderPromotion {
     @Column(nullable = false)
     private Integer cutAccount;
 
-    public Product getProduct() {
-        return product;
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     public Integer getPerUnitAccount() {

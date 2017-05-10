@@ -31,10 +31,13 @@
         <!-- SOA模块 -->
         <module>soa-product</module><!-- 商品模块 -->
         <module>soa-stock</module><!-- 库存模块 -->
-        <module>soa-user</module> <!-- 用户模块 -->
+        <module>soa-org</module> <!-- 用户、组织模块 -->
         <module>soa-promotion</module><!-- 促销模块 -->
         <module>soa-purchase</module> <!-- 采购模块 -->
         <module>soa-order</module><!-- 订单模块(包含订单和购物车) !! 这只是暂定的, 如果有必要, 可以拆成2个模块 -->
+        <module>soa-center</module><!-- 服务注册中心 -->
+        <module>soa-parent</module>
+        <module>biz-soa-feign</module>
 
         <module>notice</module>
         <module>dao</module>
@@ -66,6 +69,7 @@
         <soa.promotion.version>1.0-SNAPSHOT</soa.promotion.version>
         <soa.product.version>1.0-SNAPSHOT</soa.product.version>
         <soa.base.version>1.0-SNAPSHOT</soa.base.version>
+        <soa.parent.version>1.0.1-SNAPSHOT</soa.parent.version>
 
         <current.project.version>1.0-SNAPSHOT</current.project.version>
 
@@ -96,6 +100,7 @@
         </springframework.security.config.verison>
         <springframework.security.taglibs.version>4.2.1.RELEASE
         </springframework.security.taglibs.version>
+        <springframework.cloud.version>Dalston.RELEASE</springframework.cloud.version>
         <mysql.connector.version>5.1.6</mysql.connector.version>
         <c3p0.version>0.9.2.1</c3p0.version>
         <jstl.version>1.2</jstl.version>
@@ -111,6 +116,7 @@
 
         <maven-shade-plugin.version>2.2</maven-shade-plugin.version>
         <apache.commons.beanutils.version>1.9.3</apache.commons.beanutils.version>
+        <biz.soa.feign.version>1.0.1-SNAPSHOT</biz.soa.feign.version>
     </properties>
 
     <dependencies>
@@ -168,6 +174,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
     </dependencies>
 
@@ -392,6 +402,26 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
                 <version>${springframework.context.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${springframework.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.biz.gbck</groupId>
+                <artifactId>soa-parent</artifactId>
+                <version>${soa.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.biz.gbck</groupId>
+                <artifactId>biz-soa-feign</artifactId>
+                <version>${biz.soa.feign.version}</version>
             </dependency>
         </dependencies>
 
