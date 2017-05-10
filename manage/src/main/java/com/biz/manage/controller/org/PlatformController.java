@@ -32,8 +32,7 @@ public class PlatformController {
     /**
      * 进入平台公司列表
      */
-    @GetMapping
-    @RequestMapping(value = "platformList")
+    @GetMapping("platformList")
     @PreAuthorize("hasAuthority('OPT_PLATFORM_LIST')")
     public ModelAndView platformList(PlatformSearchVo vo) {
         logger.debug("Received /platform/platformList GET request.");
@@ -47,8 +46,7 @@ public class PlatformController {
     /**
      * 查询合伙人
      */
-    @GetMapping
-    @RequestMapping(value = "partnerList")
+    @GetMapping("partnerList")
     @PreAuthorize("hasAuthority('OPT_PLATFORM_LIST')")
     public ModelAndView findPartnerList(PartnerSearchVo vo) {
         logger.debug("Received /platform/partnerList GET request.");
@@ -59,6 +57,15 @@ public class PlatformController {
         return mav;
     }
 
+    @GetMapping("partnerEdit")
+    @PreAuthorize("hasAuthority('OPT_PLATFORM_LIST')")
+    public ModelAndView partnerEdit( Long id) {
+        logger.debug("Received /platform/partnerEdit GET request.");
+        ModelAndView mav = new ModelAndView("org/platform/partnerEdit");
+        PartnerPo partnerPo=platformService.findPartnerById(id);
+        mav.addObject("partner",partnerPo);
+        return mav;
+    }
 
 
     @GetMapping(value = "/add")

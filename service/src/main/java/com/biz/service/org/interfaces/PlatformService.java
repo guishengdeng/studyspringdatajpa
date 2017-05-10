@@ -22,4 +22,6 @@ public interface PlatformService {
     Page<PlatformPo> findPlatformList(PlatformSearchVo vo);
 
     Page<PartnerPo> findPartnerList(PartnerSearchVo reqVo);
+
+    PartnerPo findPartnerById(Long id);
 }

@@ -28,7 +28,12 @@
                     商户中心
                 </li>
                 <li class="active">
+                    <a href="/platform/platformList.do">
                     平台公司
+                    </a>
+                </li>
+                <li class="active">
+                    合伙人
                 </li>
             </ul>
         </div>
@@ -39,7 +44,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <h3 class="header smaller lighter blue">
-                                平台公司
+                                合伙人
                                 <a href="/platform/platformList.do" class="btn btn-sm btn-primary pull-right"><i
                                         class="ace-icon fa fa-angle-left"></i>
                                     返回
@@ -100,7 +105,7 @@
                                     <td><c:out value="凤凰隔"/></td>
                                     <td>
                                         <div class="hidden-sm hidden-xs btn-group">
-                                            <a class="btn btn-xs btn-info" href="">
+                                            <a class="btn btn-xs btn-info" href="/platform/partnerEdit.do?id=<c:out value="${partner.id}"/>">
                                                 <i class="ace-icon fa fa-pencil bigger-120"></i><span>详情</span>
                                             </a>
                                         </div>
@@ -119,7 +124,7 @@
                                         <td><c:out value="${partner.platform.name}"/></td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
-                                                <a class="btn btn-xs btn-info" href="">
+                                                <a class="btn btn-xs btn-info" href="/platform/partnerEdit.do?id=<c:out value="${partner.id}"/>">
                                                     <i class="ace-icon fa fa-pencil bigger-120"></i><span>详情</span>
                                                 </a>
                                             </div>

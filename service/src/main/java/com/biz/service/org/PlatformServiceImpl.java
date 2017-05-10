@@ -51,4 +51,9 @@ public class PlatformServiceImpl extends AbstractBaseService implements Platform
     public Page<PartnerPo> findPartnerList(PartnerSearchVo reqVo) {
         return partnerRepository.findAll(new PartnerSearchSpecification(reqVo), new PageRequest(reqVo.getPage()-1, reqVo.getPageSize()));
     }
+
+    @Override
+    public PartnerPo findPartnerById(Long id) {
+        return partnerRepository.findOne(id);
+    }
 }
