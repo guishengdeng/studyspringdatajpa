@@ -91,18 +91,6 @@
 												<input type="text" value="还没有返回推荐人！">
 											</span>
                                     </div>
-                                    <div class="col-xs-6 col-sm-4 col-md-3">
-                                        商户经度:
-											<span class="input-icon">
-												<input type="text" value="${longitude}" readonly="readonly">
-											</span>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-4 col-md-3">
-                                        商户纬度:
-											<span class="input-icon">
-												<input type="text" value="${latitude}" readonly="readonly">
-											</span>
-                                    </div>
                                 </div>
                                 <br>
                                 <br>
