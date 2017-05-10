@@ -45,8 +45,8 @@
                         <div class="col-xs-12">
                             <h3 class="header smaller lighter blue">
                                 城市合伙人详情
-                                <span class="hidden-sm hidden-xs btn-group pull-right">
-                                <a href="/platform/partnerList.do?platformId=<c:out value="${partner.platform.id}"/>">
+                                <a href="/platform/partnerList.do?platformId=<c:out value="${partner.platform.id}"/>"
+                                   class="btn btn-sm btn-primary pull-right">
                                     <i class="ace-icon fa fa-angle-left"></i>
                                     返回
                                 </a>
