@@ -1,6 +1,9 @@
 package com.biz.service.org.interfaces;
 
 import com.biz.gbck.dao.mysql.po.org.PlatformPo;
+import com.biz.gbck.vo.org.ShopSearchVo;
+import com.biz.gbck.vo.platform.PlatformSearchVo;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -13,4 +16,6 @@ public interface PlatformService {
     List<PlatformPo> findAll();
 
     PlatformPo findOne(Long id);
+
+    Page<PlatformPo> findPlatformList(PlatformSearchVo vo);
 }

@@ -1,9 +1,12 @@
 package com.biz.manage.controller.org;
 
 import com.biz.gbck.dao.mysql.po.org.PlatformPo;
-import com.biz.manage.controller.BaseController;
+import com.biz.gbck.vo.platform.PlatformSearchVo;
 import com.biz.service.org.interfaces.PlatformService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -12,28 +15,36 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-
 /**
- * @author: liubin
- * @date 5/2/17 10:27
+ * 平台公司
+ * Created by dylan on 17-5-8.
  */
 @Controller
-@RequestMapping(value = "/platform")
-@Secured(value = "ROLE_PLATFORM")
-public class PlatformController extends BaseController {
-
+@RequestMapping("/platform")
+@Secured("ROLE_PLATFORM")
+public class PlatformController {
+    private static final Logger logger = LoggerFactory.getLogger(PlatformController.class);
     @Autowired
     private PlatformService platformService;
 
-    @GetMapping(value = "/list")
-    @PreAuthorize("hasAuthority('OPT_PLATFORM_LIST')")
-    public ModelAndView list() {
-        List<PlatformPo> platformPos = platformService.findAll();
-        return new ModelAndView("", "platformPos", platformPos);
+    /**
+     * 进入平台公司列表
+     */
+    @GetMapping
+    @RequestMapping(value = "platformList")
+    @PreAuthorize("hasAuthority('OPT_SHOP_AUDITLIST')")
+    public ModelAndView platformList(PlatformSearchVo vo) {
+        logger.debug("Received /platform/platformList GET request.");
+        ModelAndView mav = new ModelAndView("/platform/platformList");
+        Page<PlatformPo> platformSearchResVoPage = platformService.findPlatformList(vo);
+        mav.addObject("platformSearchResVoPage", platformSearchResVoPage);
+        mav.addObject("vo", vo);
+        return mav;
     }
 
-
+    /**
+     * 根据平台公司id查询对应合伙人列表
+     */
     @GetMapping(value = "/add")
     @PreAuthorize("hasAuthority('OPT_PLATFORM_EDIT')")
     public ModelAndView add() {
@@ -55,9 +66,6 @@ public class PlatformController extends BaseController {
 //
 //        return new ModelAndView("redirect:/companyGroup/list.do");
 //    }
-
-
-
 
 
 
