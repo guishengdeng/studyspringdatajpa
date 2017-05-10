@@ -1,4 +1,4 @@
-package com.biz.service.geo;
+package com.biz.service.geo.interfaces;
 
 /**
  * 导入Geo信息服务

@@ -1,12 +1,13 @@
 package com.biz.gbck.vo.product.backend;
 
+import com.biz.gbck.dao.mysql.po.tag.SaleStatusEnum;
 import com.biz.gbck.enums.CommonStatusEnum;
 
 /**
- * @author 江南
+ * @author lzz
  * @usage
  * @reviewer
- * @since 2016/12/23
+ * @since 2017/5/3
  */
 public class CreateSaleTagVo implements ISaleTagVo {
 
@@ -23,9 +24,14 @@ public class CreateSaleTagVo implements ISaleTagVo {
     private String name;
 
     /**
-     * 销售标签 Logo
+     * 前台展示
      */
-    private String logo;
+    private String showName;
+
+    /**
+     * 标签
+     */
+    private String tag;
 
     /**
      * 销售标签显示顺序
@@ -33,17 +39,17 @@ public class CreateSaleTagVo implements ISaleTagVo {
     private Integer idx;
 
     /**
-     * 销售标签富文本信息
-     */
-    private String rawHtml;
-
-    /**
      * 销售标签描述信息
      */
     private String description;
 
     /**
-     * 销售标签状态
+     * 标签的启用禁用状态
+     */
+    private SaleStatusEnum saleStatus;
+
+    /**
+     * 状态（删除状态）
      */
     private CommonStatusEnum status;
 
@@ -81,12 +87,22 @@ public class CreateSaleTagVo implements ISaleTagVo {
         this.name = name;
     }
 
-    public String getLogo() {
-        return logo;
+    @Override
+    public String getShowName() {
+        return showName;
     }
 
-    public void setLogo(String logo) {
-        this.logo = logo;
+    public void setShowName(String showName) {
+        this.showName = showName;
+    }
+
+    @Override
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public Integer getIdx() {
@@ -97,20 +113,22 @@ public class CreateSaleTagVo implements ISaleTagVo {
         this.idx = idx;
     }
 
-    public String getRawHtml() {
-        return rawHtml;
-    }
-
-    public void setRawHtml(String rawHtml) {
-        this.rawHtml = rawHtml;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+
+    @Override
+    public SaleStatusEnum getSaleStatus() {
+        return saleStatus;
+    }
+
+    public void setSaleStatus(SaleStatusEnum saleStatus) {
+        this.saleStatus = saleStatus;
     }
 
     public CommonStatusEnum getStatus() {

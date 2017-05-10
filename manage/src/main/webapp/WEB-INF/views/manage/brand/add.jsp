@@ -92,8 +92,10 @@
             </h3>
             <div class="row">
                 <div class="col-xs-12">
-                    <form id="contact-form" action="product/brand/save.do" method="post" class="form-horizontal"
-                          role="form">
+                    <form id="contact-form"
+                          <%--<c:if test="${brand.id == null}">action="/product/brand/save.do"</c:if>--%>
+                          <%--<c:if test="${brand.id != null}">action="/product/brand/edit.do"</c:if>--%>
+                          method="post" class="form-horizontal" role="form">
                         <input type="hidden" name="id" id="id" value="${brand.id}"/>
                         <div class="form-group">
                             <label class="col-sm-2 control-label no-padding-right" for="name">
