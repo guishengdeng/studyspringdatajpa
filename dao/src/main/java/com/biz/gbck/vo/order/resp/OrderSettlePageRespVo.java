@@ -46,7 +46,7 @@ public class OrderSettlePageRespVo implements Serializable {
     /**
      * 可用支付方式 {@link PaymentType}
      */
-    private List<Integer> paymentTypes = newArrayList();;
+    private List<Integer> paymentTypes = newArrayList();
 
     /**
      * 是否有效

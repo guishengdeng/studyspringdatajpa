@@ -21,16 +21,10 @@ public class OrderRespVoBuilder {
 
     private OrderRespVo respVo;
 
-    public static OrderRespVoBuilder createBuider(Order order) {
+    public static OrderRespVoBuilder createBuilder(Order order) {
         OrderRespVoBuilder builder = new OrderRespVoBuilder();
         builder.respVo = new OrderRespVo(order);
         return builder;
-    }
-
-    public OrderRespVoBuilder setSellerInfo(String sellerName) {
-        SystemAsserts.notNull(sellerName, "发货人名称不能为空");
-        this.respVo.setSellerName(sellerName);
-        return this;
     }
 
     public OrderRespVoBuilder setBuyerInfo(String buyerName, String buyerMobile, String address) {

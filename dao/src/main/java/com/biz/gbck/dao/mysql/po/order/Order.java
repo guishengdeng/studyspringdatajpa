@@ -1,9 +1,11 @@
 package com.biz.gbck.dao.mysql.po.order;
 
+import com.biz.core.util.DateUtil;
 import com.biz.gbck.enums.order.OrderStatus;
 import com.biz.gbck.enums.order.PaymentStatus;
 import com.biz.gbck.enums.order.PaymentType;
 import com.biz.support.jpa.po.BaseEntity;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
@@ -31,6 +33,12 @@ public class Order extends BaseEntity {
      */
     @Column(nullable = false)
     private Long sellerId;
+
+    /**
+     * 平台公司Id
+     */
+    @Column(nullable = false)
+    private Long companyId;
 
 
     //用户(买家) id
@@ -129,12 +137,25 @@ public class Order extends BaseEntity {
      */
     private Integer totalWeight = 0;
 
+    /**
+     * 冗余退货单Id
+     */
+    private Long orderReturnId;
+
     public String getOrderCode() {
         return orderCode;
     }
 
     public void setOrderCode(String orderCode) {
         this.orderCode = orderCode;
+    }
+
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
     }
 
     public Long getSellerId() {
@@ -289,7 +310,59 @@ public class Order extends BaseEntity {
         this.expireTimestamp = expireTimestamp;
     }
 
-    public boolean canPay() {
-        return this.status == OrderStatus.PRE_PAY && this.payStatus == PaymentStatus.CREATE_PAYMENT;
+    public Long getOrderReturnId() {
+        return orderReturnId;
+    }
+
+    public void setOrderReturnId(Long orderReturnId) {
+        this.orderReturnId = orderReturnId;
+    }
+
+    /**
+     * 是否可支付
+     * @return
+     */
+    public boolean isPayable() {
+        return this.status == OrderStatus.PRE_PAY && this.payStatus == PaymentStatus.CREATE_PAYMENT && DateUtil
+                .isBefore(expireTimestamp);
+    }
+
+    /**
+     * 是否可取消
+     * @param isAdmin 是否管理人员
+     * @return
+     */
+    public boolean isCancelable(boolean isAdmin) {
+        switch (this.status) {
+            case CREATED:
+                return true;
+            case PRE_PAY:
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * 是否可联系客服
+     *
+     * @return
+     */
+    public boolean isContactable() {
+        return status == OrderStatus.ORDERED || status == OrderStatus.DELIVERED || status == OrderStatus.FINISHED ||
+                payStatus == PaymentStatus.PAYED;
+    }
+
+    /**
+     * 是否可以再次购买
+     */
+    public boolean isBuyAgain() {
+        return status == OrderStatus.FINISHED;
+    }
+
+    /**
+     * 是否可以申请售后
+     */
+    public boolean isReturnable() {
+        return status == OrderStatus.FINISHED;
     }
 }

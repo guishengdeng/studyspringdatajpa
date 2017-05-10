@@ -1,6 +1,7 @@
 package com.biz.gbck.dao.mysql.po.order;
 
 import com.biz.gbck.enums.order.ItemType;
+import com.biz.gbck.vo.order.resp.IProduct;
 import com.biz.support.jpa.po.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
@@ -15,7 +16,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "ord_order_item")
-public class OrderItem extends BaseEntity {
+public class OrderItem extends BaseEntity implements IProduct {
 
     private static final long serialVersionUID = 8892140517297834694L;
 

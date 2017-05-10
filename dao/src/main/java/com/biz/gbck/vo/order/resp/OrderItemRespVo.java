@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @reviewer
  * @see
  */
-public class OrderItemRespVo implements Comparable<OrderItemRespVo>, Serializable {
+public class OrderItemRespVo implements IProduct, Comparable<OrderItemRespVo>, Serializable {
 
     private static final long serialVersionUID = -7211038111581086451L;
 

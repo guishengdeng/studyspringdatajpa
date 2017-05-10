@@ -154,4 +154,12 @@ public class DeliveryOrder extends BaseEntity {
     public void setOperator(String operator) {
         this.operator = operator;
     }
+
+    public Timestamp getDeliveryTime() {
+        return deliveryTime;
+    }
+
+    public void setDeliveryTime(Timestamp deliveryTime) {
+        this.deliveryTime = deliveryTime;
+    }
 }

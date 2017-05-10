@@ -53,7 +53,8 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         } else {
             shopCartItemRo = new ShopCartItemRo();
             shopCartItemRo.setUserId(userId);
-            shopCartItemRo.setProductCode(productId);
+            shopCartItemRo.setProductId(productId);
+            shopCartItemRo.setSelected(true);
         }
         shopCartItemRo.setQuantity(quantity);
         shopCartItemRedisDao.save(shopCartItemRo);

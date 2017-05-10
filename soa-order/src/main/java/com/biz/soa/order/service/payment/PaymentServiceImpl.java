@@ -373,7 +373,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 	}
 
 	private void updateOrderPayState(final Order order,final OrderPayment payment,final Integer payAmount){
-		if (order.canPay()) {
+		if (order.isPayable()) {
 			order.setStatus(OrderStatus.DELIVERED);
 			order.setPayStatus(PaymentStatus.PAYED);
 			order.setPaymentType(payment.getPaymentType());

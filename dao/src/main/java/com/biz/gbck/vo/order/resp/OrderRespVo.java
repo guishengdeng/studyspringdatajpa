@@ -41,7 +41,7 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
     /**
      * 订单状态名称
      */
-    private String statusName;
+    private String statusDesc;
 
     /**
      * 订单创建时间
@@ -80,21 +80,6 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
      * 支付方式类型{@link PaymentType}
      */
     private Integer paymentType;
-
-    /**
-     * 卖家Id
-     */
-    private Long sellerId;
-
-    /**
-     * 卖家名称
-     */
-    private String sellerName;
-
-    /**
-     * 买家id
-     */
-    private Long buyerId;
 
     /**
      * 买家姓名
@@ -167,8 +152,6 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
     public OrderRespVo(Order order) {
         this();
         this.setId(order.getId());
-        this.setSellerId(order.getSellerId());
-        this.setBuyerId(order.getUserId());
         this.setOrderCode(order.getOrderCode());
         this.setOrderAmount(order.getOrderAmount());
         this.setPayAmount(order.getPayAmount());
@@ -177,6 +160,7 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
         this.setCreateTimestamp(order.getCreateTimestamp());
         this.setCreateTime(order.getCreateTimestamp().getTime());
         this.setStatus(order.getStatus().getValue());
+        this.setStatusDesc(order.getStatus().getDesc());
         this.setPaymentType(order.getPaymentType().getValue());
         this.setDescription(order.getDescription());
         this.setInvoiceType(order.getInvoice() != null ? order.getInvoice().getInvoiceType().getValue() : InvoiceType
@@ -184,6 +168,13 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
         this.setInvoiceTitle(order.getInvoice() != null && StringUtils.isNotBlank(order.getInvoice().getTitle()) ?
                 order.getInvoice().getTitle() : null);
         this.setPayLimitTime(this.getCreateTime() + DEFAULT_ORDER_EXPIRE_TIME);
+
+        this.setPayable(order.isPayable());
+        this.setCancelable(order.isCancelable(false));
+        this.setContactable(order.isContactable());
+        this.setBuyAgain(order.isBuyAgain());
+        this.setApplyRefundable(order.isReturnable());
+
     }
 
     public Long getId() {
@@ -210,12 +201,12 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
         this.status = status;
     }
 
-    public String getStatusName() {
-        return statusName;
+    public String getStatusDesc() {
+        return statusDesc;
     }
 
-    public void setStatusName(String statusName) {
-        this.statusName = statusName;
+    public void setStatusDesc(String statusDesc) {
+        this.statusDesc = statusDesc;
     }
 
     public Long getCreateTime() {
@@ -280,30 +271,6 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
 
     public void setPaymentType(Integer paymentType) {
         this.paymentType = paymentType;
-    }
-
-    public Long getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(Long sellerId) {
-        this.sellerId = sellerId;
-    }
-
-    public String getSellerName() {
-        return sellerName;
-    }
-
-    public void setSellerName(String sellerName) {
-        this.sellerName = sellerName;
-    }
-
-    public Long getBuyerId() {
-        return buyerId;
-    }
-
-    public void setBuyerId(Long buyerId) {
-        this.buyerId = buyerId;
     }
 
     public String getBuyerName() {
