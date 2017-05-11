@@ -61,7 +61,7 @@
 
         <dao.version>1.0-SNAPSHOT</dao.version>
         <manage.version>1.0-SNAPSHOT</manage.version>
-        <rest.version>1.0-SNAPSHOT</rest.version>
+        <rest.version>1.0.1-SNAPSHOT</rest.version>
         <service.version>1.0-SNAPSHOT</service.version>
         <search.version>1.0-SNAPSHOT</search.version>
         <notice.version>1.0-SNAPSHOT</notice.version>
