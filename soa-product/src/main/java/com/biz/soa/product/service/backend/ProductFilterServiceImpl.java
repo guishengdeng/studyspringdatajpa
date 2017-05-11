@@ -4,10 +4,10 @@ import com.biz.gbck.dao.mysql.po.product.meta.ProductFilter;
 import com.biz.gbck.dao.mysql.repository.category.CategoryRepository;
 import com.biz.gbck.dao.mysql.repository.productFilter.ProductFilterRepository;
 import com.biz.gbck.exceptions.product.ProductFilterNotFoundException;
-import com.biz.gbck.vo.product.backend.*;
-import com.biz.service.product.backend.ProductFilterService;
 import com.biz.gbck.transform.product.CreateProductFilterVo2ProductFilter;
 import com.biz.gbck.transform.product.ProductFilter2ProductFilterListItemVo;
+import com.biz.gbck.vo.product.backend.*;
+import com.biz.service.product.backend.ProductFilterService;
 import com.google.common.collect.Lists;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +46,7 @@ public class ProductFilterServiceImpl extends AbstractProductFilterService imple
         List<ProductFilter> list = productFilterRepository.findByCategoryIdAndLabelLikeAndDeleteFlag(categoryId, searchPageVo.getSearchValue(), Boolean.FALSE);
         BootstrapTablePageResult<ProductFilterListItemVo> pageResult = new BootstrapTablePageResult<>();
         pageResult.setRows(Lists.transform(list, new ProductFilter2ProductFilterListItemVo()));
-        pageResult.setTotal((int) list.size());
+        pageResult.setTotal(list.size());
         return pageResult;
     }
 
@@ -62,15 +62,7 @@ public class ProductFilterServiceImpl extends AbstractProductFilterService imple
     @Override
     public UpdateProductFilterVo getUpdateProductFilterVo(Long id) throws ProductFilterNotFoundException {
         ProductFilter productFilter = productFilterRepository.findOne(id);
-        UpdateProductFilterVo vo = new UpdateProductFilterVo();
-        vo.setId(productFilter.getId().toString());
-        vo.setField(productFilter.getField());
-        vo.setHasMore(productFilter.getHasMore());
-        vo.setLabel(productFilter.getLabel());
-        vo.setShowImage(productFilter.getShowImage());
-        vo.setStatus(productFilter.getStatus());
-        vo.setUsePrefix(productFilter.getUsePrefix());
-        return vo;
+        return productFilter.toUpdateProductFilterVo();
     }
 
     /**
