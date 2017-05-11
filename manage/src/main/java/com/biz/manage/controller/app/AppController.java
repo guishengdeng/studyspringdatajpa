@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -34,7 +36,9 @@ public class AppController extends BaseController {
 
     @RequestMapping(value = "/addOrUpdate", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('OPT_APP_ADDORUPDATE')")
-    public ModelAndView addOrUpdate(AppVo appVo) {
+    public ModelAndView addOrUpdate(@Valid AppVo appVo,BindingResult result) {
+
+        error(result);
         appService.addOrUpdate(appVo);
         return new ModelAndView("manage/application/appConfig").addObject("appVo", appVo);
     }

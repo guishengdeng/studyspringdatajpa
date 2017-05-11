@@ -149,10 +149,11 @@
                                     搜索热词 </label>
                                 <div class="col-sm-9">
                                     <input type="text" id="form-field-2" name="hotKeyWord"
+                                           onkeyup="this.value=this.value.replace(/\s+/g,'')"
                                            value=" <c:out value='${appVo.hotKeyWord}'/>"
                                            maxlength="20"
                                            placeholder="例：茅台 五粮液 剑南春"
-                                           class="col-xs-10 col-sm-5 required text">
+                                           class="col-xs-10 col-sm-5 valid required text">
                                 </div>
                             </div>
                                 <%--页遮罩图片URL--%>
@@ -173,17 +174,16 @@
                                 </div>
                             </div>
                                 <%--页遮罩图片URL--%>
-                            <div class="form-group">
+                            <div class="form-group ">
                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-4">
                                     首页遮罩跳转URL </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" id="form-field-4" name="url"
+                                    <input type="text" id="form-field-4" name="url"  class="col-xs-10 col-sm-5 required text"
                                            onkeyup="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
                                            onafterpaste="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
                                            value=" <c:out value='${appVo.url}'/>"
-                                           maxlength="100" placeholder="首页遮罩跳转URL "
-                                           class="col-xs-10 col-sm-5 required text">
+                                           maxlength="100" placeholder="首页遮罩跳转URL ">
                                 </div>
                             </div>
 

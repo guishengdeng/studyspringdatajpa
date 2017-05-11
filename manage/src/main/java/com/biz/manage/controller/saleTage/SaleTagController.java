@@ -11,8 +11,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 /**
  * 商品管理的销售标签
@@ -43,7 +46,9 @@ public class SaleTagController extends BaseController {
     //添加修改标签
     @RequestMapping("/AddOrUpdate")
     @PreAuthorize("hasAuthority('OPT_SALETAG_ADD')")
-    public ModelAndView addOrUpdate(SaleTagVo vo) {
+    public ModelAndView addOrUpdate(@Valid SaleTagVo vo, BindingResult result) {
+
+        error(result);
         saleTagService.addOrUpdateSaleTag(vo);
         return new ModelAndView("redirect:search");
     }
