@@ -12,8 +12,71 @@
             var obj${status.count} = document.getElementById('roleId_${role.id}');
             if (obj${status.count}) obj${status.count}.checked = true;
             </c:forEach>
+
+
+            jQuery(function($) {
+                var $overflow = '';
+                var colorbox_params = {
+                    rel: 'colorbox',
+                    reposition:true,
+                    scalePhotos:true,
+                    scrolling:false,
+                    previous:'<i class="ace-icon fa fa-arrow-left"></i>',
+                    next:'<i class="ace-icon fa fa-arrow-right"></i>',
+                    close:'&times;',
+                    current:'{current} of {total}',
+                    maxWidth:'100%',
+                    maxHeight:'100%',
+                    onOpen:function(){
+                        $overflow = document.body.style.overflow;
+                        document.body.style.overflow = 'hidden';
+                    },
+                    onClosed:function(){
+                        document.body.style.overflow = $overflow;
+                    },
+                    onComplete:function(){
+                        $.colorbox.resize();
+                    }
+                };
+
+                $('.ace-thumbnails [data-rel="colorbox"]').colorbox(colorbox_params);
+                $("#cboxLoadingGraphic").html("<i class='ace-icon fa fa-spinner orange fa-spin'></i>");
+
+            })
+        </script>
+        <script src="/static-resource/ace/assets/js/jquery.colorbox.min.js"></script>
+        <link rel="stylesheet" href="/static-resource/ace/assets/css/colorbox.min.css" />
+        <link rel="stylesheet" href="/static-resource/ace/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+        <script>
+            function showHidden(){
+                var auditStatus=$("#auditStatus").val();
+                if(auditStatus == "NORMAL"){
+                    $("#hiddenDiv").addClass("hiddenDiv");
+                }
+                if(auditStatus == "AUDIT_FAILED"){
+                    $("#hiddenDiv").removeClass("hiddenDiv");
+                }else{
+                    $("#hiddenDiv").addClass("hiddenDiv");
+                }
+
+            }
+            var businessIdIsExist = false;
+            $('.ui.checkbox').checkbox();
+
+            function subForm() {
+
+            }
+
+
         </script>
     </jsp:attribute>
+    <jsp:attribute name="css">
+        <style>
+            .hiddenDiv{
+                display:none;
+            }
+        </style>
+     </jsp:attribute>
     <jsp:body>
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
@@ -41,7 +104,6 @@
 
             <div class="row">
                 <div class="col-xs-12">
-                    <!-- PAGE CONTENT BEGINS -->
                     <div class="row">
                         <div class="col-xs-12">
                             <h3 class="header smaller lighter blue">
@@ -54,24 +116,25 @@
                             </span>
                             </h3>
                             <c:set var="shopDetail" value="${auditData.shopDetail}"/>
-                            <form action="shops/audit.do?shopId=${shopDetail.shop.id}" method="post"
-                                  class="form-horizontal" role="form">
+                            <form action="ashops/audit.do?shopId=${shopDetail.shop.id}" method="post"
+                                  class="form-horizontal" role="form" id="auditId">
                                 <input name="shopId" type="hidden" value="${shopDetail.shop.id}">
+                                <input type="hidden" name="shopDetailId" value="${shopDetail.id}">
                                 <div class="row">
                                     <div class="col-xs-6 col-sm-4 col-md-3">
-                                        商铺名称:
+                                        <span>商铺名称:</span>
 											<span class="input-icon">
 												<input type="text" value="${shopDetail.name}" readonly="readonly">
 											</span>
                                     </div>
                                     <div class="col-xs-6 col-sm-4 col-md-3">
-                                        商户类型:
+                                        <span>商户类型:</span>
 											<span class="input-icon">
 												<input type="text" value="${shopDetail.shopType.name}" >
 											</span>
                                     </div>
                                     <div class="col-xs-6 col-sm-4 col-md-3">
-                                        法人姓名:
+                                        <span>法人姓名:</span>
 											<span class="input-icon">
 												<input type="text" value="${shopDetail.corporateName}" readonly="readonly">
 											</span>
@@ -80,13 +143,13 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-xs-6 col-sm-4 col-md-3">
-                                        商铺手机:
+                                        <span>商铺手机:</span>
 											<span class="input-icon">
 												<input type="text" value="${shopDetail.mobile}" readonly="readonly">
 											</span>
                                     </div>
                                     <div class="col-xs-6 col-sm-4 col-md-3">
-                                        上级城市合伙人:
+                                        <span>城市合伙人:</span>
 											<span class="input-icon">
 												<input type="text" value="这是个死参数" readonly="readonly">
 											</span>
@@ -96,7 +159,7 @@
                                 <div class="row">
                                     <div class="col-sm-9">
                                         <div class="box1 col-md-6">
-                                            注册地址:
+                                            <span>注册地址:</span>
                                             <manage:geo provinceFieldName="provinceId" cityFieldName="cityId"
                                                         districtFieldName="districtId"
                                                         provinceId="${shopDetail.province.id}"
@@ -108,7 +171,7 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-sm-9">
-                                        详细地址:
+                                        <span>详细地址:</span>
 											<span class="input-icon">
 												<input style="width: 1100px" class="form-control" type="text"
                                                        value="${shopDetail.deliveryAddress}" readonly="readonly">
@@ -118,7 +181,7 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-sm-9">
-                                        修改原因:
+                                        <span>修改原因:</span>
 											<span class="input-icon">
 												<input style="width: 1100px" class="form-control" type="text"
                                                        value="${shopDetail.reason}" readonly="readonly">
@@ -128,7 +191,7 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-sm-9">
-                                        详情提交审核时间:
+                                        <span>提交审核时间:</span>
 												<input style="width: 500px" class="form-control" type="text" readonly="readonly"
                                                        value="<fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${shopDetail.createTime}"/>">
                                     </div>
@@ -137,30 +200,61 @@
                                 <c:set var="shopQualification" value="${auditData.shopQualification}"/>
                                     <%--<c:if test="${shopQualification != null && shopQualification.auditStatus != 30}">--%>
                                 <div class="ui raised segment">
-                                    <span class="label label-success arrowed " >商户资质</span>
-                                    <br><br>
+                                    <span>商户资质:</span>
                                     <div>
                                         <input type="hidden" name="shopQualificationId"
                                                value="${shopQualification.id}"/>
-
-                                        <div class="field">
-                                            <label>门头照片</label>
-                                            <div class="field">
-                                                <img width="150" height="150" alt="150x150"
-                                                     src="/static-resource/ace/assets/images/gallery/thumb-2.jpg">
-                                            </div>
-                                            <div class="p-div"></div>
-                                        </div><br>
-                                        <div class="field">
-                                            <label>营业执照</label>
-                                            <div class="field">
-                                                <img width="150" height="150" alt="150x150"
-                                                     src="/static-resource/ace/assets/images/gallery/thumb-2.jpg">
-                                            </div>
-                                            <div class="field p-div"></div>
-                                        </div>
-                                        <br>
                                         <div class="row">
+                                            <div class="col-xs-12">
+                                                <div>
+                                                    <ul class="ace-thumbnails clearfix">
+                                                        <li>
+                                                            <a href="/static-resource/ace/assets/images/gallery/image-1.jpg" title="Photo Title" data-rel="colorbox">
+                                                                <img width="150" height="150" alt="150x150" src="/static-resource/ace/assets/images/gallery/thumb-1.jpg" />
+                                                            </a>
+
+                                                            <div class="tags">
+                                                            <span class="label-holder">
+                                                                <span class="label label-info">门头照片</span>
+                                                            </span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/static-resource/ace/assets/images/gallery/image-1.jpg" title="Photo Title" data-rel="colorbox">
+                                                                <img width="150" height="150" alt="150x150" src="/static-resource/ace/assets/images/gallery/thumb-1.jpg" />
+                                                            </a>
+
+                                                            <div class="tags">
+                                                            <span class="label-holder">
+                                                                <span class="label label-info">营业执照</span>
+                                                            </span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/static-resource/ace/assets/images/gallery/image-1.jpg" title="Photo Title" data-rel="colorbox">
+                                                                <img width="150" height="150" alt="150x150" src="/static-resource/ace/assets/images/gallery/thumb-1.jpg" />
+                                                            </a>
+
+                                                            <div class="tags">
+                                                            <span class="label-holder">
+                                                                <span class="label label-info">酒类流通许可证</span>
+                                                            </span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/static-resource/ace/assets/images/gallery/image-1.jpg" title="Photo Title" data-rel="colorbox">
+                                                                <img width="150" height="150" alt="150x150" src="/static-resource/ace/assets/images/gallery/thumb-1.jpg" />
+                                                            </a>
+
+                                                            <div class="tags">
+                                                            <span class="label-holder">
+                                                                <span class="label label-info">法人身份证</span>
+                                                            </span>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
                                             <div class="col-xs-6 col-sm-4 col-md-3">
                                                 <label>营业执照名称:</label>
                                                 <input type="text" name="businessLicenceName"
@@ -171,89 +265,48 @@
                                                 <input type="text" name="businessLicenceId"
                                                        value="${shopQualification.businessLicenceId}">
                                             </div>
-                                        </div>
-                                        <br>
-                                        <div class="ui divider"></div>
-                                        <div class="field liquorSellLicence-container">
-                                            <label>酒类流通许可证</label>
                                             <div class="field">
-                                                <img width="150" height="150" alt="150x150"
-                                                     src="/static-resource/ace/assets/images/gallery/thumb-2.jpg">
-                                            </div>
-                                            <div class="p-div"></div>
-                                        </div>
-                                        <div class="field">
-                                            <label>酒类流通许可证ID:</label>
-                                            <input type="text" name="liquorSellLicenceId"
-                                                   value="${shopQualification.liquorSellLicenceId}">
-                                        </div><br>
-                                        <div class="ui divider"></div>
-                                        <div class="field corporate-container">
-                                            <label>法人身份证</label>
-                                            <div class="field">
-                                                <img width="150" height="150" alt="150x150"
-                                                     src="/static-resource/ace/assets/images/gallery/thumb-2.jpg">
-                                            </div>
-                                            <div class="field p-div"></div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-xs-6 col-sm-4 col-md-3">
-                                                <label>法人身份证ID:</label>
-                                                <input type="text" name="corporateId"
-                                                       value="${shopQualification.corporateId}">
-                                            </div>
-                                            <div class="col-xs-6 col-sm-4 col-md-3">
-                                                <label>提交审核时间:</label>
-                                                <input type="text" readonly="readonly" id="qualificationCreateTime"
-                                                       value="<fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${shopQualification.createTime}"/>">
+                                                <label>酒类流通许可证ID:</label>
+                                                <input type="text" name="liquorSellLicenceId"
+                                                       value="${shopQualification.liquorSellLicenceId}">
                                             </div>
                                         </div>
                                         <br>
                                     </div>
                                 </div>
-                                审核结果:
                                 <div class="row ">
-                                    <select name="auditStatus" class="search audit-select col-xs-6 col-sm-4 col-md-3">
+                                    审核结果:
+                                    <select name="auditStatus" class="search audit-select" id="auditStatus" onchange="showHidden()">
                                         <option value="">请选择</option>
-                                        <c:forEach var="currentAuditStatus"
-                                                   items="${auditStatusList}">
+                                        <c:forEach var="currentAuditStatus" items="${auditStatusList}">
                                             <option value="${currentAuditStatus.name()}" ${shopQualification.auditStatus == currentAuditStatus.value ? "selected" :""}>${currentAuditStatus.description}</option>
                                         </c:forEach>
                                     </select>
-                                </div>
-                                <div class="inline fields reject-reason-container">
-                                    <label>未通过原因:</label>
-                                    <c:forEach var="auditRejectReason"
-                                               items="${auditRejectReasons}">
-                                        <div class="field">
-                                            <div class="ui checkbox">
-                                                <input type="checkbox"
-                                                       name="auditRejectReasons"
-                                                       value="${auditRejectReason.value}"
-                                                       tabindex="0"
-                                                       class="hidden">
-                                                <label>${auditRejectReason.description}</label>
-                                            </div>
-                                        </div>
+                                </div><br>
+                                <div class="reject-reason-container hiddenDiv" id="hiddenDiv">
+                                   未通过原因:&nbsp;
+                                    <c:forEach var="auditRejectReason" items="${auditRejectReasons}">
+                                        <label>
+                                            <input name="auditRejectReasons" class="ace ace-checkbox-2" type="checkbox"
+                                                   value="${auditRejectReason.value}"/>
+                                            <span class="lbl">${auditRejectReason.description};</span>&nbsp;
+                                        </label>
                                     </c:forEach>
                                 </div>
                                 <div class="ui error message"></div>
                                     <%--  <c:if test="${canAudit}">--%>
                                 <div class="clearfix form-actions">
-                                    <button class="btn btn-info pull-left " type="submit">
+                                    <button class="btn btn-info pull-left " onclick="subForm()">
                                         <i class="ace-icon fa fa-check bigger-110 pull-left"></i>
                                         提交
                                     </button>
                                 </div>
                                     <%-- </c:if>--%>
                             </form>
-                        </div><!-- /.span -->
-                    </div><!-- /.row -->
-
-                    <!-- PAGE CONTENT ENDS -->
-                </div><!-- /.col -->
-            </div><!-- /.row -->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </jsp:body>
 </depotnextdoor:page>
