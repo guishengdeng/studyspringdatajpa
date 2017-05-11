@@ -95,7 +95,7 @@ public class ExtendPropertyController {
     }
     @RequestMapping("/again")
     @PreAuthorize("hasAuthority('OPT_EXTENDPROPERTY_ADD')")
-    public ModelAndView  again(CreateExtendPropertyVo vo){
+    public ModelAndView  again(CreateExtendPropertyVo vo) throws ExtendPropertyNotFoundException {
 
         extendPropertyService.createExtendProperty(vo);
         return new ModelAndView("redirect:detail/" + vo.getProductExtendId() + ".do");

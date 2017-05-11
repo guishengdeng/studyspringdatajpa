@@ -32,7 +32,7 @@ public interface ExtendPropertyService {
      *
      * @param createExtendPropertyVo 添加属性值VO
      */
-    void createExtendProperty(CreateExtendPropertyVo createExtendPropertyVo) ;
+    void createExtendProperty(CreateExtendPropertyVo createExtendPropertyVo) throws ExtendPropertyNotFoundException;
 
     /**
      * 修改一个属性值

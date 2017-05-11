@@ -5,6 +5,7 @@ import com.biz.gbck.dao.mysql.po.product.meta.ExtendProperty;
 import com.biz.gbck.dao.mysql.po.product.meta.ProductExtend;
 import com.biz.gbck.dao.mysql.repository.category.CategoryRepository;
 import com.biz.gbck.dao.mysql.repository.productExtend.ProductExtendRepository;
+import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.product.IllegalParameterException;
 import com.biz.gbck.exceptions.product.ProductExtendNotFoundException;
 import com.biz.gbck.transform.product.CreateCategoryPropertyVo2ProductExtend;
@@ -40,7 +41,7 @@ public class ProductExtendServiceImpl extends AbstractBaseService implements Pro
     private CategoryRepository categoryRepository;
 
     @Override
-    public BootstrapTablePageResult<CategoryPropertyListItemVo> listCategoryProperties(SearchPageVo searchPageVo, Long categoryId) throws IllegalParameterException, ProductExtendNotFoundException {
+    public BootstrapTablePageResult<CategoryPropertyListItemVo> listCategoryProperties(SearchPageVo searchPageVo, Long categoryId) throws DepotNextDoorException {
         return null;
     }
     /**
@@ -70,12 +71,12 @@ public class ProductExtendServiceImpl extends AbstractBaseService implements Pro
     }
 
     @Override
-    public EditCategoryPropertyVo getEditCategoryPropertyVo(Long productExtendId) throws ProductExtendNotFoundException {
+    public EditCategoryPropertyVo getEditCategoryPropertyVo(Long productExtendId) throws DepotNextDoorException {
         return null;
     }
 
     @Override
-    public void editCategoryProperty(EditCategoryPropertyVo editCategoryPropertyVo) throws ProductExtendNotFoundException {
+    public void editCategoryProperty(EditCategoryPropertyVo editCategoryPropertyVo) throws DepotNextDoorException {
 
     }
 
@@ -86,7 +87,7 @@ public class ProductExtendServiceImpl extends AbstractBaseService implements Pro
      * @throws ProductExtendNotFoundException
      */
     @Override
-    public boolean deleteProductExtend(Long productExtendId) throws ProductExtendNotFoundException {
+    public boolean deleteProductExtend(Long productExtendId) throws DepotNextDoorException {
         return false;
     }
 
@@ -158,7 +159,7 @@ public class ProductExtendServiceImpl extends AbstractBaseService implements Pro
      * 说明用户输入的属性名已存在,否则则返回true,（ajax请求）返回true之后,在发送一次请求。同步请求
      */
     @Override
-    public Boolean isExistProductExtendName(CreateCategoryPropertyVo vo) throws ProductExtendNotFoundException{
+    public Boolean isExistProductExtendName(CreateCategoryPropertyVo vo) throws DepotNextDoorException {
 
          ProductExtend productExtend = productExtendRepository.existProductExtend(vo.getCategoryId(),vo.getName());
          List<ProductExtend> list = productExtendRepository.findByCategoryId(vo.getCategoryId());

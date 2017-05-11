@@ -1,5 +1,6 @@
 package com.biz.manage.controller.productextend;
 
+import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.product.ProductExtendNotFoundException;
 import com.biz.gbck.vo.product.backend.CreateCategoryPropertyVo;
 import com.biz.gbck.vo.product.backend.PropertySortVo;
@@ -66,7 +67,7 @@ public class ProductExtendController {
     @RequestMapping("/addOrUpdate")
     @PreAuthorize("hasAuthority('OPT_PRODUCTEXTEND_ADD')")
     @ResponseBody
-    public Boolean addOrUpdate(CreateCategoryPropertyVo vo){
+    public Boolean addOrUpdate(CreateCategoryPropertyVo vo) throws DepotNextDoorException {
         try {
             return productExtendService.isExistProductExtendName(vo);
         } catch (ProductExtendNotFoundException e) {
@@ -75,7 +76,7 @@ public class ProductExtendController {
     }
     @RequestMapping("/again")
     @PreAuthorize("hasAuthority('OPT_PRODUCTEXTEND_ADD')")
-    public ModelAndView again(CreateCategoryPropertyVo vo){
+    public ModelAndView again(CreateCategoryPropertyVo vo) throws DepotNextDoorException {
         productExtendService.createCategoryProperty(vo);
         return new ModelAndView("redirect:/product/categories/"+vo.getCategoryId()+".do");
     }
