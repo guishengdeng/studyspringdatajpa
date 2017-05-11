@@ -5,6 +5,7 @@ import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
 import com.biz.gbck.dao.mysql.po.org.ShopPo;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.user.AuditRejectReason;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopTypeStatus;
@@ -31,9 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.data.domain.Page;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -71,6 +70,7 @@ public class ShopController extends BaseController {
 
         logger.debug("Received /shops/auditList GET request.");
         vo.setAuditStatus( AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue());
+        vo.setAuditStatusTwo(AuditStatus.WAIT_FOR_AUDIT.getValue());
         ModelAndView mav = new ModelAndView("/org/shop/auditList");
         Page<ShopDetailPo> shopSearchResVoPage = shopService.findShopAuditDataOfWaitForAudit(vo);
         mav.addObject("shopSearchResVoPage", shopSearchResVoPage);
@@ -230,19 +230,35 @@ public class ShopController extends BaseController {
     }*/
 
     /**
-     * 更新店铺状态
+     * 更新店铺状态(单个)
      */
-   /* @RequestMapping(value = "toggleShopStatus", method = RequestMethod.POST)
+    @RequestMapping(value = "toggleShopStatus", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('OPT_SHOP_UPDATE')")
     @ResponseBody
-    public Boolean updateShopStatus(
-            @RequestParam("shopId") Long shopId) {
-        Integer status = shopService.findShopPo(shopId).getStatus();
+    public Boolean updateShopStatus( Long shopId) {
+        CommonStatusEnum status = shopService.findShopPo(shopId).getStatus();
         return shopService.updateShopStatus(shopId,
-                Objects.equals(status, ShopStatus.NORMAL.getValue()) ?
-                        ShopStatus.DISABLED :
-                        ShopStatus.NORMAL);
-    }*/
+                Objects.equals(status,CommonStatusEnum.ENABLE) ?
+                        CommonStatusEnum.DISABLE :
+                        CommonStatusEnum.ENABLE);
+    }
+
+    /**
+     * 更新店铺状态(多个)
+     */
+    @RequestMapping(value = "toggleShopsStatus", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('OPT_SHOP_UPDATE')")
+    @ResponseBody
+    public Boolean updateShopsStatus( @RequestParam("shopIds") ArrayList<Long> shopIds,
+                                      @RequestParam("status") CommonStatusEnum status) {
+        if(CollectionUtils.isNotEmpty(shopIds)){
+            for(Long shopId:shopIds){
+                shopService.updateShopStatus(shopId,status);
+            }
+            return true;
+        }
+        return false;
+    }
 
     /**
      * 某门店管理的所有店铺
