@@ -22,8 +22,8 @@ public enum OrderStatus implements EnumerableValue {
 	FINISHED(50, "已完成"),
 
 	APPLY_RETURN(60,"申请退货"),
-	RETURNING(65,"退货中"),
-	RETURN_REJECT(70,"退货审核不通过"),
+	RETURN_REJECT(65,"退货审核不通过"),
+	RETURNING(70,"退货中"),
 	REFUNDED(80,"退款完成");
 
 

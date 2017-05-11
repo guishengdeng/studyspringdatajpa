@@ -387,6 +387,12 @@
             </dependency>
 
             <dependency>
+                <groupId>com.biz.gbck</groupId>
+                <artifactId>third-party-pay</artifactId>
+                <version>${biz-third-party-pay.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-expression</artifactId>
                 <version>${springframework.expression.version}</version>
