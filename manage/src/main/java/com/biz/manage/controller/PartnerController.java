@@ -5,15 +5,20 @@ import com.biz.gbck.exceptions.partner.PartnerExceptions;
 import com.biz.service.partner.interfaces.PartnerService;
 import com.biz.support.web.handler.JSONResult;
 import com.biz.vo.partner.PartnerRegisterReqVo;
+import com.biz.vo.partner.PartnerSearchReqVo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -37,6 +42,19 @@ public class PartnerController {
     @GetMapping("register")
     public String register() {
         return "register";
+    }
+
+    /**
+     * 合伙人审核页面
+     * @return
+     */
+    @RequestMapping("list")
+    @PreAuthorize("hasAuthority('OPT_PARTNER_LIST')")
+    public ModelAndView list(PartnerSearchReqVo partnerSearchReqVo, HttpServletRequest request) {
+        ModelAndView result = new ModelAndView("manage/partner/list");
+        result.addObject("condition", partnerSearchReqVo);
+        result.addObject("partners", partnerService.findAllByCondition(partnerSearchReqVo));
+        return result;
     }
 
     /**
