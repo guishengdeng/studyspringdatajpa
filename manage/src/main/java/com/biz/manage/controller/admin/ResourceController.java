@@ -2,6 +2,7 @@ package com.biz.manage.controller.admin;
 
 import com.biz.gbck.dao.mysql.po.security.Resource;
 import com.biz.gbck.enums.CommonStatusEnum;
+import com.biz.manage.controller.BaseController;
 import com.biz.service.IdService;
 import com.biz.service.security.interfaces.MenuItemService;
 import com.biz.service.security.interfaces.ResourceService;
@@ -10,12 +11,14 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 /**
  * ResourceController
@@ -29,7 +32,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 @Secured("ROLE_RESOURCE")
 @RequestMapping("manage/resources")
-public class ResourceController {
+public class ResourceController extends BaseController {
      @Autowired
      private ResourceService resourceService;
      @Autowired
@@ -59,10 +62,11 @@ public class ResourceController {
     }
     @RequestMapping("/addOrUpdate")
     @PreAuthorize("hasAuthority('OPT_RESOURCE_EDIT')")
-    public String addOrUpdate(Resource resource, Model model, HttpSession session){
+    public String addOrUpdate(@Valid Resource resource, BindingResult result , HttpSession session){
         if(resource.getId()==null)
             resource.setId(idService.nextId());
         Long menuItem_id = (Long)session.getAttribute("menuitem_id");
+        error(result);
         resourceService.addOrUpdate(resource);
         return "redirect:../menuItems/detail.do?id="+menuItem_id;
     }
@@ -75,5 +79,12 @@ public class ResourceController {
             return true;
         }
         return false;
+    }
+    @RequestMapping("/isExist")
+    @PreAuthorize("hasAuthority('OPT_RESOURCE_ADD')")
+    @ResponseBody
+    public Boolean isExist(Resource resource){
+
+        return resourceService.isExist(resource);
     }
 }

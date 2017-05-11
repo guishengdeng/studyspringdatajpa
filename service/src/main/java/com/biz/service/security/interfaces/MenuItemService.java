@@ -24,4 +24,6 @@ public interface MenuItemService {
      List<MenuItem> listMenuItems();
 
      List<MenuItem> listByStatus(CommonStatusEnum status);
+
+     Boolean  isExist(MenuItem mm);
 }

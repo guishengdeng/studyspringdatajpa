@@ -1,6 +1,7 @@
 package com.biz.gbck.dao.mysql.repository.category;
 
 import com.biz.gbck.dao.mysql.po.product.meta.Category;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -43,4 +44,8 @@ public interface CategoryRepository extends CommonJpaRepository<Category, Long>,
     Category findByName(String name);
 
     List<Category> findCategoryByName(String name);
+
+    List<Category> findCategoryByStatus(CommonStatusEnum status);
+
+
 }

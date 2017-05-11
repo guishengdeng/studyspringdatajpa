@@ -5,7 +5,10 @@ import com.biz.support.jpa.po.BaseEntity;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * 商品扩展属性值
@@ -25,6 +28,8 @@ public class ExtendProperty extends BaseEntity implements Serializable {
      * 属性值
      */
     @Column(length = 50, nullable = false)
+    @NotNull(message = "属性值不能为空")
+    @NotBlank(message = "属性值不能为空")
     private String value;
 
     /**
