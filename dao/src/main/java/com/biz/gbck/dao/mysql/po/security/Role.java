@@ -4,11 +4,13 @@ import com.biz.core.model.Identifiable;
 import com.biz.support.jpa.po.BasePO;
 import com.biz.gbck.enums.CommonStatusEnum;
 import org.hibernate.annotations.Where;
+import org.hibernate.validator.constraints.NotBlank;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * 管理员角色
@@ -28,6 +30,8 @@ public class Role extends BasePO<Long> implements Identifiable<Long>, Serializab
     private Long id;
 
     @Column(length = 50, nullable = false)
+    @NotNull(message = "名称不能为空")
+    @NotBlank(message = "名称不能为空")
     private String name;
 
     @Column

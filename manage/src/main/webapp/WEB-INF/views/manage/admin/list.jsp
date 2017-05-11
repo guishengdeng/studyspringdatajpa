@@ -122,7 +122,8 @@
                                         添加
                                     </a>
                                 </sec:authorize>
-                                <a href="manage/users?enabled=${enabled == 'false' ? 'ENABLE' : 'DISABLE'}"
+                                    <%--href="manage/users?enabled=${enabled == 'false' ? 'ENABLE' : 'DISABLE'}--%>
+                                <a href="manage/users?status=${enabled == 'false' ? 'ENABLE' : 'DISABLE'}"
                                    class="${enabled == 'false' ? 'btn btn-sm btn-success' : 'btn btn-sm btn-danger'}">
                                     <%--btn btn-sm btn-danger--%>
                                     <c:choose>
@@ -146,7 +147,7 @@
                                 </div>
                                 <div class="col-md-2 inline">
                                     <label>状态</label>
-                                    <depotnextdoor:statusSelect fieldName="status" selectedStatus="${adminVo.status}" withNone="true" enableLabel="启用" disableLabel="禁用"/>
+                                    <depotnextdoor:statusSelect fieldName="status" selectedStatus="" withNone="true" enableLabel="启用" disableLabel="禁用"/>
                                 </div>
 
                                 <div class="inline">
@@ -160,9 +161,9 @@
                                 <thead>
                                 <tr>
                                     <th>用户名</th>
-                                    <th>名字</th>
+                                    <th>昵称</th>
                                     <th class="hidden-md hidden-sm hidden-xs">联系电话</th>
-                                    <th class="hidden-md hidden-sm hidden-xs">角色</th>
+
                                     <th class="hidden-md hidden-sm hidden-xs">状态</th>
                                     <%--center--%>
                                     <th class="hidden-md hidden-sm hidden-xs">操作</th>
@@ -172,11 +173,9 @@
                                 <tbody>
                                 <c:forEach items="${adminPage.content}" var="user">
                                     <tr id="tr-${user.username}">
-
                                         <td><c:out value="${user.username}"/></td>
                                         <td><c:out value="${user.name}"/></td>
                                         <td class="hidden-md hidden-sm hidden-xs"><c:out value="${user.phone}"/></td>
-                                        <td class="hidden-md hidden-sm hidden-xs"></td>
                                         <td class="hidden-md hidden-sm hidden-xs">
                                             <depotnextdoor:statusLabel selectedStatus="${user.status.value}"/>
                                         </td>
@@ -204,7 +203,7 @@
                                                         <i class="ace-icon fa fa-pencil bigger-120"></i>
                                                     </a>
                                                 </sec:authorize>
-                                                <sec:authorize access="hasAuthority('OPT_USER_DELETE')">
+                                              <%--  <sec:authorize access="hasAuthority('OPT_USER_DELETE')">
                                                     <c:if test="${param.enabled != 'false'}">
                                                         <a data-id="${user.username}"
                                                            data-name="${user.username}"
@@ -212,7 +211,7 @@
                                                             <i class="ace-icon fa fa-ban bigger-120"></i>
                                                         </a>
                                                     </c:if>
-                                                </sec:authorize>
+                                                </sec:authorize>--%>
                                             </div>
                                             <div class="hidden-md hidden-lg">
                                                 <div class="inline pos-rel">

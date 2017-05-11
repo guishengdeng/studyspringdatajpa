@@ -10,6 +10,7 @@ public class CreateExtendPropertyVo2ExtendProperty implements Function<CreateExt
     public ExtendProperty apply(CreateExtendPropertyVo createVo) {
         ExtendProperty extendProperty = new ExtendProperty();
         extendProperty.setId(Long.valueOf(createVo.getId()));
+        extendProperty.setIdx(createVo.getIdx());
         extendProperty.setValue(createVo.getValue());
         extendProperty.setStatus(createVo.getStatus());
         return extendProperty;

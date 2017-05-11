@@ -12,7 +12,6 @@
 
 	<artifactId>third-party-pay</artifactId>
 	<version>${biz-third-party-pay.version}</version>
-	<packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>

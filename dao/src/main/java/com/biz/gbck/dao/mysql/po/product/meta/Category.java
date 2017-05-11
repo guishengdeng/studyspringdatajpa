@@ -247,7 +247,7 @@ public class Category extends BaseEntity implements Serializable {
         this.setSeoDescription(categoryVo.getSeoDescription());
     }
 
-    @Override
+   /* @Override
     public String toString() {
         return "Category{" +
                 "name='" + name + '\'' +
@@ -264,5 +264,5 @@ public class Category extends BaseEntity implements Serializable {
                 ", seoDescription='" + seoDescription + '\'' +
                 ", deleteFlag=" + deleteFlag +
                 '}';
-    }
+    }*/
 }

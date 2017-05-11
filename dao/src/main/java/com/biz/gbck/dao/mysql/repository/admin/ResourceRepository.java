@@ -21,5 +21,7 @@ public interface ResourceRepository extends CommonJpaRepository<Resource, Long>,
     void  updateStatus(@Param("id") Long id,@Param("status") CommonStatusEnum statusEnum);
 
     List<Resource> getByStatus(CommonStatusEnum status);
+
+    Resource findByMenuItemIdAndName(Long id,String name);
 }
 

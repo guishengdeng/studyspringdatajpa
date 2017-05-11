@@ -3,9 +3,11 @@ package com.biz.gbck.dao.mysql.po.security;
 import com.biz.support.jpa.po.BasePO;
 import com.biz.gbck.enums.CommonStatusEnum;
 import org.hibernate.annotations.Where;
+import org.hibernate.validator.constraints.NotBlank;
 
 import java.util.List;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "adm_mainmenu")
@@ -21,12 +23,16 @@ public class MainMenu extends BasePO<Long> {
     private Integer code;
 
     @Column(length = 200)
+    @NotNull(message = "名称不能为空")
+    @NotBlank(message = "名称不能为空")
     private String name;
 
     @Column
     private String description;
 
     @Column(length = 20)
+    @NotNull(message = "图标不能为空")
+    @NotBlank(message = "图标不能为空")
     private String icon = "fa fa-list";
 
     @Column(length = 200)

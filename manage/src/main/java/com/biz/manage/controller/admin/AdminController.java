@@ -1,12 +1,11 @@
 package com.biz.manage.controller.admin;
 
 import com.biz.gbck.dao.mysql.po.security.Admin;
-import com.biz.gbck.enums.CommonStatusEnum;
+import com.biz.gbck.exceptions.product.AdminNotFoundException;
 import com.biz.gbck.vo.admin.AdminReqVo;
+import com.biz.manage.controller.BaseController;
 import com.biz.manage.util.AuthorityUtil;
 import com.biz.service.security.interfaces.AdminService;
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,8 +13,11 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 /**
  * @author david-liu
@@ -25,7 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("manage/users")
 @Secured("ROLE_USER")
-public class AdminController {
+public class AdminController extends BaseController{
 
     @Autowired
     private AdminService adminService;
@@ -36,17 +38,20 @@ public class AdminController {
      * List<Admin> admins = status.isEnable() ? adminService.listEnableAdmins() : adminService.listDisableAdmins();
      @RequestParam(value = "enabled", required = false, defaultValue = "ENABLE") CommonStatusEnum status
      当用户访问该路径时enable参数是没有值的,所有给它一个默认值
+     CommonStatusEnum status,
+     @ModelAttribute("adminVo")
+     @RequestParam(value = "enabled", required = false, defaultValue = "ENABLE") CommonStatusEnum status,
      */
     @GetMapping
     @PreAuthorize("hasAuthority('OPT_USER_LIST')")
-    public ModelAndView list(@RequestParam(value = "enabled", required = false, defaultValue = "ENABLE") CommonStatusEnum status, @ModelAttribute("adminVo") AdminReqVo vo) {
-        if(vo.getStatus()==null){
-            //当第一次访问该路径时,用户默认的状态为ENABLE,然后对其进行分页
-            vo.setStatus(status);
-        }
+    public ModelAndView list( @ModelAttribute("adminVo") AdminReqVo vo) {
         //这是对查询条件的用户进行分页
         Page<Admin> adminPage = adminService.queryAdminsByCondition(vo);
-        return new ModelAndView("manage/admin/list", "adminPage", adminPage).addObject("enabled", status.isEnable());
+        Boolean flag=true;
+        if(vo.getStatus()!=null){
+            flag=vo.getStatus().isEnable();
+        }
+        return new ModelAndView("manage/admin/list", "adminPage", adminPage).addObject("enabled", flag);
     }
 
     @GetMapping("/add")
@@ -75,19 +80,18 @@ public class AdminController {
 
     @RequestMapping("/save_add")
     @PreAuthorize("hasAuthority('OPT_USER_ADD')")
-    public ModelAndView save_add(Admin admin, @RequestParam("password") String pwd) {
+    public ModelAndView save_add(@Valid Admin admin, @RequestParam("password") String pwd, BindingResult result) {
         admin.setPassword(md5PasswordEncoder.encodePassword(pwd, admin.getUsername()));
         String creator = AuthorityUtil.getLoginUsername();
+        error(result);
         adminService.createAdmin(admin, creator);
         return new ModelAndView("redirect:/manage/users");
     }
-    //add by denggguisheng------start
     @RequestMapping("/save_edit")
     @PreAuthorize("hasAuthority('OPT_USER_EDIT')")
-    public String save_edit(Admin admin){
-        //获得当前登陆用户名
+    public String save_edit(Admin admin,BindingResult result){
         String creator=AuthorityUtil.getLoginUsername();
-        //这里的添加和修改其实调用的都是一个方法
+        error(result);
         adminService.createAdmin(admin,creator);
         return "redirect:/manage/users";
     }
@@ -100,5 +104,18 @@ public class AdminController {
            return true;
        }
        return false;
+    }
+    @RequestMapping("/isExist")
+    @PreAuthorize("hasAuthority('OPT_USER_ADD')")
+    @ResponseBody
+    public Boolean isExist(@RequestParam("username") String username,String cmd){
+        try {
+
+            return adminService.isExistAdmin(username,cmd);
+        } catch (AdminNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 }
