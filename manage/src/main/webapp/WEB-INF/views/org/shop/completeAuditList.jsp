@@ -8,10 +8,100 @@
 <%@ taglib prefix="gbck" tagdir="/WEB-INF/tags" %>
 <depotnextdoor:page title="page.user.edit">
     <jsp:attribute name="css">
-
+        <style>
+            .col_red{
+                color: red;
+            }
+            .col_green{
+                color: green;
+            }
+        </style>
     </jsp:attribute>
     <jsp:attribute name="script">
         <script type="application/javascript">
+            $('.audit-table').DataTable({
+                paging: false,
+                info: false,
+                order: [[9, "asc"]],
+                "columnDefs": [{"targets": [0,6], "orderable": false}],
+            });
+
+            function updateShopStatus(shopId) {
+                if(shopId ==null || shopId == undefined || shopId== ""){
+                    alert("没有商户id我怎么禁用启用");
+                    return;
+                }
+                $.ajax({
+                    url: '/shops/toggleShopStatus.do',
+                    data: {"shopId": shopId},
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (data) {
+                        if(data==true){
+                            var status=$("#span_"+shopId+"").html();
+                            if(status=="启用"){
+                                $("#span_"+shopId+"").html("禁用");
+                                $("#butName_"+shopId+"").html("启用");
+                                $("#shop_"+shopId+"").addClass("col_red").removeClass("col_green");
+                                $("#but_"+shopId+"").addClass("fa-unlock").removeClass("fa-lock");
+                                $("#a_"+shopId+"").addClass("btn-success").removeClass("btn-danger");
+                            }else{
+                                $("#span_"+shopId+"").html("启用");
+                                $("#butName_"+shopId+"").html("禁用");
+                                $("#shop_"+shopId+"").addClass("col_green").removeClass("col_red");
+                                $("#but_"+shopId+"").addClass("fa-lock").removeClass("fa-unlock");
+                                $("#a_"+shopId+"").addClass("btn-danger").removeClass("btn-success");
+                            }
+                        }
+                    }, error: function () {
+                        alert("系统异常！");
+                    }
+                });
+            }
+
+            /**
+             * 选择id集合
+             * @returns {*}
+             */
+            function selectIds() {
+                var chk_value = new Array();
+                $('input[name="shop_ids"]:checked').each(function () {
+                    chk_value.push($(this).val());
+                });
+                if (chk_value.length == 0) {
+                    alert('你还没有选择任何内容！');
+                    return false;
+                }
+                return chk_value;
+            }
+
+            /**
+             * 多个修改上下架
+             */
+            function updateSelectStatus(status) {
+                var shopIds = selectIds();
+                if (shopIds == null || shopIds.length == null) {
+                    return false;
+                }
+                $.ajax({
+                    url: '/shops/toggleShopsStatus.do',
+                    type: 'POST',
+                    data: {"shopIds": '' + shopIds + '', "status": status},
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data==true) {
+                            alert("修改成功");
+                            window.location.href = "/shops/completeAuditList.do";
+                        } else {
+                            alert("修改失败")
+                        }
+                    },
+                    error: function () {
+                        alert("系统异常！");
+                    }
+                });
+
+            }
 
         </script>
     </jsp:attribute>
@@ -68,12 +158,12 @@
                                 </div>
                             </form>
                             <div class="inline pull-right">
-                                <button type="submit" class="btn btn-info btn-sm">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="updateSelectStatus('DISABLE')">
                                     <i class="ace-icon fa   fa-lock bigger-110"></i>一键禁用
                                 </button>
                             </div>
                             <div class="inline pull-right">
-                                <button type="submit" class="btn btn-info btn-sm">
+                                <button type="submit" class="btn btn-info btn-sm" onclick="updateSelectStatus('ENABLE')">
                                     <i class="ace-icon fa  fa-unlock bigger-110"></i>一键启用
                                 </button>
                             </div><div class="inline pull-right"><i style="color:white;">_</i></div>
@@ -96,7 +186,8 @@
                             <table class="table table-striped table-bordered table-hover audit-table">
                                 <thead>
                                 <tr>
-
+                                    <th style="width:80px" class="p-checkbox"><span class="pointer select-all">全选</span>/
+                                        <span class="pointer select-inverted">反选</span></th>
                                     <th>商户ID</th>
                                     <th>商户名称</th>
                                     <th>商户类型</th>
@@ -105,29 +196,35 @@
                                     <th>商户状态</th>
                                     <th>审核状态</th>
                                     <th>操作</th>
+                                    <th style="display: none">排序</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <c:forEach items="${shopSearchResVoPage.content}" var="shopDetail">
                                     <tr id="tr_${shopDetail.id}">
+                                        <td style="width:80px">
+                                            <input  name="shop_ids" class="ace" type="checkbox" value="<c:out value='${shopDetail.shop.id}'/>"/>
+                                            <span class="lbl"></span>
+                                        </td>
                                         <td><c:out value="${shopDetail.shop.id}"/></td>
                                         <td><c:out value="${shopDetail.name}"/></td>
                                         <td><c:out value="${shopDetail.shopType.name}"/></td>
                                         <td><c:out value="${shopDetail.shopAddress}"/></td>
                                         <td><c:out value="${shopDetail.mobile}"/></td>
-                                        <td style="color:${shopDetail.shop.status eq "ENABLE"?"green":"red"}" id="id_${shopDetail.id}">${shopDetail.shop.status eq "ENABLE"?"启用":"禁用"}</td>
+                                        <td class="${shopDetail.shop.status eq "ENABLE"?"col_green":"col_red"}" id="shop_${shopDetail.shop.id}"><span id="span_${shopDetail.shop.id}">${shopDetail.shop.status eq "ENABLE"?"启用":"禁用"}</span></td>
                                         <td style="color:${shopDetail.auditStatus==30?"green":"red"}">${shopDetail.auditStatus==30?"审核通过":"审核未通过"}</td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
                                                 <a class="btn btn-xs btn-info" href="#">
                                                     <i class="ace-icon fa fa-pencil bigger-120"></i><span>编辑</span>
                                                 </a>&nbsp;
-                                                <a class="btn btn-xs btn-danger">
-                                                    <i id="but_${shopDetail.id}" class="ace-icon fa fa-lock bigger-120"></i>
-                                                    <span id="butName_${shopDetail.id}">禁用</span>
+                                                <a class="btn btn-xs btn-danger" id="a_${shopDetail.shop.id}" onclick="updateShopStatus('${shopDetail.shop.id}')">
+                                                    <i id="but_${shopDetail.shop.id}" class="ace-icon fa fa-lock bigger-120"></i>
+                                                    <span id="butName_${shopDetail.shop.id}">禁用</span>
                                                 </a>
                                             </div>
                                         </td>
+                                        <td style="display: none"><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${shopDetail.createTime}"/></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>

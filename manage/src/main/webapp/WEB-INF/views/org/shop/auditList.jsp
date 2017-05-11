@@ -12,11 +12,13 @@
     </jsp:attribute>
     <jsp:attribute name="script">
         <script type="application/javascript">
-          /*  $('.audit-table').DataTable({
-                "lengthMenu": [[100, 50, 25, -1], [100, 25, 50, "所有"]],
-                "columnDefs": [{"targets": [2, 5], "orderable": false}],
-                "order": [[4, "asc"]]
-            });*/
+          $('.audit-table').DataTable({
+              paging: false,
+              info: false,
+              order: [[6, "asc"]],
+              "columnDefs": [{"targets": [7], "orderable": false}],
+          });
+
         </script>
     </jsp:attribute>
     <jsp:body>
@@ -69,9 +71,9 @@
                                 </button>
                             </div>
                             <div class="inline pull-right">
-                                <button type="submit" class="btn btn-success btn-sm">
+                                <a type="submit" class="btn btn-success btn-sm">
                                     <i class="ace-icon fa glyphicon-plus bigger-110"></i>新增商户
-                                </button>
+                                </a>
                             </div>
                             <div class="hr hr-18 dotted"></div>
                             <table class="table table-striped table-bordered table-hover audit-table">
@@ -96,7 +98,7 @@
                                         <td><c:out value="${shopDetail.shopType.name}"/></td>
                                         <td><c:out value="${shopDetail.shopAddress}"/></td>
                                         <td><c:out value="${shopDetail.mobile}"/></td>
-                                        <td>${shopDetail.auditStatus==25?"待审核":null}</td>
+                                        <td>${shopDetail.auditStatus==25 || shopDetail.auditStatus==20?"待审核":null}</td>
                                         <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${shopDetail.createTime}"/></td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
