@@ -3,9 +3,12 @@ package com.biz.gbck.dao.mysql.po.security;
 import com.biz.core.model.Identifiable;
 import com.biz.support.jpa.po.BasePO;
 import com.biz.gbck.enums.CommonStatusEnum;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
 
 import java.util.List;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "adm_resource")
@@ -19,9 +22,15 @@ public class Resource extends BasePO<Long> implements Identifiable<Long> {
     private Long id;
 
     @Column(length = 50, nullable = false)
+    @NotNull(message = "名字不能为空")
+    @NotBlank(message = "名字不能为空")
     private String name;
 
     @Column(columnDefinition = "MEDIUMTEXT")
+    @NotBlank(message = "权限不能为空")
+    //^(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+));?)+$
+    //
+    @URL(regexp = "(((ROLE_[A-Z]{1,20})|(OPT(_[A-Z]{1,15})+));?)+", message = "无效的权限")
     private String symbol;
 
     @Column

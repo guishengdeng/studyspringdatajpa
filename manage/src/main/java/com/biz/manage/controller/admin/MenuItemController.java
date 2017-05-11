@@ -112,4 +112,13 @@ public class MenuItemController {
         session.setAttribute("menuitem_id",id);
         return "manage/resource/resourceList";
     }
+
+    @RequestMapping("/isExist")
+    @PreAuthorize("hasAuthority('OPT_MENUITEM_ADD')")
+    @ResponseBody
+    public Boolean isExist(MenuItem menuItem){
+
+        return menuItemService.isExist(menuItem);
+    }
+
 }

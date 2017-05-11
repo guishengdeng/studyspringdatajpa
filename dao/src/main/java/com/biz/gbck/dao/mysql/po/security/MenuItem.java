@@ -5,9 +5,12 @@ import com.biz.support.jpa.po.BasePO;
 import com.biz.gbck.dao.mysql.po.demo.CatPO;
 import com.biz.gbck.enums.CommonStatusEnum;
 import org.hibernate.annotations.Where;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
 
 import java.util.List;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "adm_menuitem")
@@ -24,18 +27,23 @@ public class MenuItem extends BasePO<Long> implements Identifiable<Long> {
     private Integer code;
 
     @Column(length = 200, nullable = false)
+    @NotNull(message = "名字不能为空")
     private String name;
 
     @Column(length = 20)
+    @NotNull(message = "图标不能为空")
     private String icon = "fa fa-list";
 
     @Column(length = 200)
+    @NotNull(message = "连接地址不能为空")
     private String link;
 
     @Column
     private String description;
 
     @Column(columnDefinition = "MEDIUMTEXT")
+    @NotBlank(message = "权限不能为空")
+    @URL(regexp = "^(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+));?)+$", message = "无效的权限")
     private String symbol;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -91,4 +91,10 @@ public class MainMenuController {
          }
           return false;
     }
+    @RequestMapping("/isExist")
+    @PreAuthorize("hasAuthority('OPT_MAINMENU_ADD')")
+    @ResponseBody
+    public Boolean isExist(MainMenu mainMenu){
+        return mainMenuService.isExistMainMenu(mainMenu);
+    }
 }

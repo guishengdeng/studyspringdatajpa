@@ -5,6 +5,46 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--这是用户--%>
 <depotnextdoor:page title="子菜单edit">
+    <jsp:attribute name="script">
+        <script type="application/javascript">
+            $('#confirm').on("click",function(){
+                var data = $('#menuItem_form').serialize();
+                var name = $('#name').val();
+                var icon = $('#icon').val();
+                var link = $('#link').val();
+                var symbol = $('#symbol').val();
+                if(name == ""){
+                    layer.msg("子菜单名称不能为空");
+                    return false;
+                }
+                if(icon == ""){
+                    layer.msg("图标不能为空");
+                    return false;
+                }
+                if(link == ""){
+                    layer.msg("链接不能为空");
+                    return false;
+                }
+                if(symbol == ""){
+                    layer.msg("权限不能为空");
+                    return false;
+                }
+                $.ajax({
+                    method : "POST",
+                    url : "manage/menuItems/isExist.do",
+                    data : data
+                }).done(function(returnResult){
+                    if(returnResult){
+                        document.menuItemForm.action = "manage/menuItems/addOrUpdate.do";
+                        document.menuItemForm.submit();
+                    }else{
+                        layer.msg("该子菜单名称已存在,请重新输入");
+                        return false;
+                    }
+                });
+            });
+        </script>
+    </jsp:attribute>
 
     <jsp:body>
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
@@ -47,8 +87,8 @@
                             </span>
                             </h3>
 
-                            <form action="manage/menuItems/addOrUpdate.do" method="post"
-                                  class="form-horizontal" role="form">
+                            <form action="" method="post"
+                                  class="form-horizontal" role="form" id="menuItem_form" name="menuItemForm">
                                 <input type="hidden" name="id" value="${menuItem.id}">
                                 <input type="hidden" name="cmd" id="cmd" value="${cmd}">
                                 <input type="hidden" name="mainMenu.id" id="id" value="${mainmenu_id}">
@@ -79,7 +119,7 @@
                                     </label>
                                     <div class="col-sm-9">
                                         <input type="text" id="icon" name="icon" placeholder=""
-                                               value="<c:out value='${menuItem.icon}'/>" class="col-xs-10 col-sm-5">
+                                               value="<c:out value='${menuItem.icon}'/>" class="required col-xs-10 col-sm-5">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -100,7 +140,8 @@
 
                                     <div class="col-sm-9">
                                         <input type="text" id="link" name="link" placeholder=""
-                                               value="<c:out value='${menuItem.link}'/>" class="col-xs-10 col-sm-5">
+                                               value="<c:out value='${menuItem.link}'/>" class="regExp required text col-xs-10 col-sm-5">
+                                        <p class="help-block">例如:manage/menuitem.do</p>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -110,8 +151,9 @@
                                     </label>
 
                                     <div class="col-sm-9">
-                                        <input type="text" id="symbol" name="symbol" placeholder=""
-                                               value="<c:out value='${menuItem.symbol}'/>" class="col-xs-10 col-sm-5">
+                                        <input type="text" id="symbol" name="symbol" placeholder="" pattern="^(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+));?)+$"
+                                               value="<c:out value='${menuItem.symbol}'/>" class="regExp required text col-xs-10 col-sm-5">
+                                        <p class="help-block">例如:OPT_XXX_XXX或者ROLE_XXX</p>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -130,7 +172,7 @@
                                 <sec:authorize access="hasAnyAuthority('OPT_MENUITEM_ADD', 'OPT_MENUITEM_EDIT')">
                                     <div class="clearfix form-actions">
                                         <div class="col-md-offset-3 col-md-9">
-                                            <button class="btn btn-info" type="submit">
+                                            <button class="btn btn-info" type="button" id="confirm">
                                                 <i class="ace-icon fa fa-check bigger-110"></i>
                                                 提交
                                             </button>

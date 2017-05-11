@@ -76,4 +76,11 @@ public class ResourceController {
         }
         return false;
     }
+    @RequestMapping("/isExist")
+    @PreAuthorize("hasAuthority('OPT_RESOURCE_ADD')")
+    @ResponseBody
+    public Boolean isExist(Resource resource){
+
+        return resourceService.isExist(resource);
+    }
 }

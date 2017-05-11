@@ -1,6 +1,7 @@
 package com.biz.manage.controller.admin;
 
 import com.biz.gbck.dao.mysql.po.security.Admin;
+import com.biz.gbck.exceptions.product.AdminNotFoundException;
 import com.biz.gbck.vo.admin.AdminReqVo;
 import com.biz.manage.util.AuthorityUtil;
 import com.biz.service.security.interfaces.AdminService;
@@ -81,13 +82,10 @@ public class AdminController {
         adminService.createAdmin(admin, creator);
         return new ModelAndView("redirect:/manage/users");
     }
-    //add by denggguisheng------start
     @RequestMapping("/save_edit")
     @PreAuthorize("hasAuthority('OPT_USER_EDIT')")
     public String save_edit(Admin admin){
-        //获得当前登陆用户名
         String creator=AuthorityUtil.getLoginUsername();
-        //这里的添加和修改其实调用的都是一个方法
         adminService.createAdmin(admin,creator);
         return "redirect:/manage/users";
     }
@@ -100,5 +98,18 @@ public class AdminController {
            return true;
        }
        return false;
+    }
+    @RequestMapping("/isExist")
+    @PreAuthorize("hasAuthority('OPT_USER_ADD')")
+    @ResponseBody
+    public Boolean isExist(@RequestParam("username") String username,String cmd){
+        try {
+
+            return adminService.isExistAdmin(username,cmd);
+        } catch (AdminNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 }

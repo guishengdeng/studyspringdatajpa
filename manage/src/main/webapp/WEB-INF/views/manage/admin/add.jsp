@@ -8,6 +8,40 @@
 
     <jsp:attribute name="script">
         <script type="application/javascript">
+             $('#confirm').on("click",function(){
+                 var data = $('#admin_form').serialize();
+                 var cmd = $('#cmd').val();
+                 var username = $('#username').val();
+                 var password = $('#password').val();
+                  if(cmd == "add"){
+                      if(username == ""){
+                          layer.msg("用户名不能为空");
+                          return false;
+                      }
+                      if(password == ""){
+                          layer.msg("密码不能为空");
+                          return false;
+                      }
+                  }
+
+                 $.ajax({
+                     method : "POST",
+                     url : "manage/users/isExist.do",
+                     data : {"username":username,"cmd":cmd}
+                 }).done(function(returnResult){
+                     if(returnResult){
+
+                         document.adminForm.action = "manage/users/save_"+cmd+".do";
+                         document.adminForm.submit();
+                     }else{
+
+                         layer.msg("该用户已注册");
+                         return false;
+                     }
+                 });
+             });
+        </script>
+        <script type="application/javascript">
             <c:forEach items="${admin.roles}" var="role" varStatus="status">
             var obj${status.count} = document.getElementById('roleId_${role.id}');
             if (obj${status.count})
@@ -52,11 +86,12 @@
                                 </a>
                             </span>
                             </h3>
-                            <form action="manage/users/save_${cmd}.do" method="post"
+                            <form action= method="post" id="admin_form" name="adminForm"
                                                  class="form-horizontal" role="form">
+                                         <input type="hidden" id="cmd" value="<c:out value="${cmd}"/>"/>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label no-padding-right"
-                                                   for="account">
+                                                   for="username">
                                                 用户名
                                             </label>
 
@@ -64,7 +99,7 @@
                                                 <input ${empty admin ? '' : 'readonly'}
                                                         class="required col-xs-10 col-sm-5"
                                                         type="text"
-                                                        id="account"
+                                                        id="username"
                                                         placeholder="用户名"
                                                         name="username"
                                                         value="${admin.username}"/>
@@ -80,7 +115,7 @@
 
                                         <div class="col-sm-9">
                                             <input type="password" id="password" placeholder="密码" value="<c:out value='${admin.password}'/> "
-                                                   name="password" class="required col-xs-10 col-sm-5">
+                                                   name="password" class="required col-xs-10 col-sm-5" maxlength="16" minlength="6">
                                         </div>
                                     </div>
                                 </c:if>
@@ -106,16 +141,8 @@
                                             启用状态
                                         </label>
                                         <div class="col-sm-9">
-                                            <label class="checkbox-inline">
-                                                <input type="radio"
-                                                       name="status" ${admin.status.value == 1 ? 'checked' :''}
-                                                       value="ENABLE"> 启用
-                                            </label>
-                                            <label class="checkbox-inline">
-                                                <input type="radio"
-                                                       name="status" ${admin.status.value == 0 ? '' :'checked'}
-                                                       value="DISABLE"> 禁用
-                                            </label>
+                                                <depotnextdoor:commonStatusRadio fieldName="status" selectedStatus="${admin.status}" inline="true" enableLabel="启用" disableLabel="启用"/>
+
                                         </div>
                                     </div>
                                 </c:if>
@@ -138,7 +165,7 @@
                                 <sec:authorize access="hasAnyAuthority('OPT_USER_ADD', 'OPT_USER_EDIT')">
                                     <div class="clearfix form-actions">
                                         <div class="col-md-offset-3 col-md-9">
-                                            <button class="btn btn-info" type="submit">
+                                            <button class="btn btn-info" type="button" id="confirm">
                                                 <i class="ace-icon fa fa-check bigger-110"></i>
                                                 提交
                                             </button>

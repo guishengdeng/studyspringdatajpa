@@ -5,7 +5,36 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--这是用户--%>
 <depotnextdoor:page title="主菜单edit">
-
+    <jsp:attribute name="script">
+         <script type="application/javascript">
+             $('#confirm').on("click",function(){
+                 var data = $('#mainMenu_form').serialize();
+                 var name = $('#name').val();
+                 var icon = $('#icon').val();
+                 if(name == ""){
+                     layer.msg("菜单名称不能为空");
+                     return false;
+                 }
+                 if(icon == ""){
+                     layer.msg("图标不能为空");
+                     return false;
+                 }
+                 $.ajax({
+                     method : "POST",
+                     url : "manage/mainMenus/isExist.do",
+                     data : data
+                 }).done(function(returnResult){
+                     if(returnResult){
+                         document.mainMenuForm.action = "manage/mainMenus/addOrUpdate.do";
+                         document.mainMenuForm.submit();
+                     }else{
+                         layer.msg("该菜单名称已存在,请重新输入");
+                         return false;
+                     }
+                 });
+             });
+         </script>
+    </jsp:attribute>
     <jsp:body>
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
@@ -44,8 +73,8 @@
                             </span>
                             </h3>
                             <%--${cmd}--%>
-                            <form action="manage/mainMenus/addOrUpdate.do" method="post"
-                                  class="form-horizontal" role="form">
+                            <form action="" method="post"
+                                  class="form-horizontal" role="form" id="mainMenu_form" name="mainMenuForm">
                                 <c:if test="${not empty mainMenu}">
                                     <input type="hidden" name="id" value="${mainMenu.id}">
                                 </c:if>
@@ -59,7 +88,7 @@
                                         <%--${not empty mainMenu ? 'readonly' : ''} --%>
                                         <input  type="text" id="name" name="name" placeholder="菜单名称"
                                                value="<c:out value='${mainMenu.name}'/>"
-                                                class="required col-xs-10 col-sm-5">
+                                                class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -83,8 +112,8 @@
                                         图标
                                     </label>
                                     <div class="col-sm-9">
-                                        <input id="icon" type="text" name="icon" value="<c:out value='${mainMenu.icon}'/>"
-                                               maxlength="10" class="col-xs-10 col-sm-5"/>
+                                        <input id="icon" type="text" name="icon"  placeholder="图标" value="<c:out value='${mainMenu.icon}'/>"
+                                               maxlength="10" class="required col-xs-10 col-sm-5"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -101,7 +130,7 @@
                                 <sec:authorize access="hasAnyAuthority('OPT_MAINMENU_ADD', 'OPT_MAINMENU_EDIT')">
                                     <div class="clearfix form-actions">
                                         <div class="col-md-offset-3 col-md-9">
-                                            <button class="btn btn-info" type="submit">
+                                            <button class="btn btn-info" type="button" id="confirm">
                                                 <i class="ace-icon fa fa-check bigger-110"></i>
                                                 提交
                                             </button>

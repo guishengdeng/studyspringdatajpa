@@ -9,41 +9,7 @@
          <script type="application/javascript">
              $('#curr').hide();
              $('#addOrUpdate').on('click',function(){
-                 /*var value = $('#productExtendValue').val();
-                 var id = $('#id').val();
-                 var productExtendValue = $ ('#productExtendValue').val();
-                 var curr_productExtend = $('#productExtend').html();
-                 var selectedCategoryId = $('#selectedCategoryId').val();
-                 var clickedCategoryId = $('#clickedCategoryId').val();
-                 var requestFormData = $('#productExtend_form').serialize();
-                 curr_productExtend = JSON.parse(curr_productExtend);
-                 if(selectedCategoryId == clickedCategoryId){
-                     for (var index = 0;index < curr_productExtend.length ;index++){
-                         var  productExtends = curr_productExtend[index].name;
-                         var  curr_id = curr_productExtend[index].id;
-                         if (value == productExtends ){
-                             if(curr_id == id){
-                                 commonAjaxReq(requestFormData,selectedCategoryId);
-                                 return true; //放行
-                             }
-                             layer.msg("您输入的值已存在,请重新输入");
-                             return false;//不让用户提交
-                         }
-                     }
-                 }
-                 if(selectedCategoryId == "不限"){
-                     layer.msg("请选择分类");
-                     return false;
-                 }
-                 if( productExtendValue =="" ){
-                     layer.msg("请输入属性名");
-                     return false;
-                 }
-                 change(value);
-                 //满足条件后,放行,让用户提交数据
-                 commonAjaxReq(requestFormData,selectedCategoryId)*/
-
-                 change();
+                     change();
                  var data = $('#productExtend_form').serialize();
                  var selectedCategoryId = $('#selectedCategoryId').val();
                  var productExtendValue = $ ('#productExtendValue').val();
@@ -72,21 +38,7 @@
                      }
                  });
              });
-             function commonAjaxReq(data,categoryId){
-                 $.ajax({
-                     method : "POST",
-                     url : "product/categoryProperty/addOrUpdate.do",
-                     data : data,
-                     dataType : "json"
-                 }).done(function(result){
-                     if(result){
-                         layer.msg("what you do is successful");
-                         window.location.href = "/product/categories/"+categoryId+".do"
-                     }else{
-                         layer.msg("what you do is failed");
-                     }
-                 });
-             }
+
              function change(){
                  //点击下拉列表,获取说选中的分类id
                  var selectedCategoryId = $('#selectedCategoryId').val();
@@ -157,15 +109,19 @@
                                 <input type="hidden"  id="clickedCategoryId" value="${categoryId}"/>
                                 <input type="hidden" name="id" id="id" value="${property.id}"/>
                                 <input type="hidden" name="idx" value="${property.idx}"/>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label no-padding-right">
-                                        分类
-                                    </label>
+                                <input type="hidden" id="cmd" value="${cmd}"/>
+                                <%--<input type="hidden" name="categroyId" value="${categoryId}"/>--%>
+                                <%--<c:if test="${empty property}">--%>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">
+                                            分类
+                                        </label>
 
-                                    <div class="col-md-6">
-                                        <depotnextdoor:categorySelect selectedStatus="${categoryId}" fieldName="categoryId"  categories="${categories}" id="selectedCategoryId" change="change()" withNone="true" noneLabel="不限"/>
+                                        <div class="col-md-6">
+                                            <depotnextdoor:categorySelect selectedStatus="${categoryId}" fieldName="categoryId"  categories="${categories}" id="selectedCategoryId" change="change()" withNone="true" noneLabel="不限"/>
+                                        </div>
                                     </div>
-                                </div>
+                                <%--</c:if>--%>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right" id="curr">
                                         当前分类所属的扩展属性

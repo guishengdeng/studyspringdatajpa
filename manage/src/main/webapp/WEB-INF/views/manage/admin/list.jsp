@@ -205,7 +205,7 @@
                                                         <i class="ace-icon fa fa-pencil bigger-120"></i>
                                                     </a>
                                                 </sec:authorize>
-                                                <sec:authorize access="hasAuthority('OPT_USER_DELETE')">
+                                              <%--  <sec:authorize access="hasAuthority('OPT_USER_DELETE')">
                                                     <c:if test="${param.enabled != 'false'}">
                                                         <a data-id="${user.username}"
                                                            data-name="${user.username}"
@@ -213,7 +213,7 @@
                                                             <i class="ace-icon fa fa-ban bigger-120"></i>
                                                         </a>
                                                     </c:if>
-                                                </sec:authorize>
+                                                </sec:authorize>--%>
                                             </div>
                                             <div class="hidden-md hidden-lg">
                                                 <div class="inline pos-rel">

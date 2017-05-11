@@ -4,7 +4,40 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <depotnextdoor:page title="page.user.edit">
-
+    <jsp:attribute name="script">
+        <script type="application/javascript">
+            $('#confirm').on("click",function(){
+                var data = $('#resource_form').serialize();
+                var name = $('#name').val();
+                var symbol = $('#symbol').val().trim();
+                if(name == ""){
+                    layer.msg("名称不能为空");
+                    return false;
+                }
+                if(symbol == ""){
+                    layer.msg("权限不能为空");
+                    return false;
+                }
+              /*  var reg =/(((ROLE_[A-Z]+)|(OPT(_[A-Z]+_[A-Z]+))+);?)+/;
+                var result = new RegExp(reg);
+                alert(result.test(symbol)+"-------");
+                return ;*/
+                $.ajax({
+                    method : "POST",
+                    url : "manage/resources/isExist.do",
+                    data : data
+                }).done(function(returnResult){
+                    if(returnResult){
+                        document.resourceForm.action = "manage/resources/addOrUpdate.do";
+                        document.resourceForm.submit();
+                    }else{
+                        layer.msg("该子菜单名称已存在,请重新输入");
+                        return false;
+                    }
+                });
+            });
+        </script>
+    </jsp:attribute>
     <jsp:body>
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
@@ -51,20 +84,20 @@
                             </span>
                             </h3>
 
-                            <form action="manage/resources/addOrUpdate.do" method="post"
-                                  class="form-horizontal" role="form">
+                            <form action="" method="post"
+                                  class="form-horizontal" role="form" id="resource_form" name="resourceForm">
                                     <%--menuitem_id该参数来自于MenuItemController的detail方法--%>
                                     <input type="hidden" name="menuItem.id" value="${menuitem_id}">
                                     <input type="hidden" name="id" value="${resource.id}">
 
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right"
-                                           for="link">
+                                           for="name">
                                         名称
                                     </label>
 
                                     <div class="col-sm-9">
-                                        <input type="text" id="link" name="name" placeholder=""
+                                        <input type="text" id="name" name="name" placeholder=""
                                                value="<c:out value='${resource.name}'/>" class="required col-xs-10 col-sm-5">
                                     </div>
                                 </div>
@@ -73,10 +106,10 @@
                                            for="symbol">
                                         权限
                                     </label>
-
                                     <div class="col-sm-9">
-                                        <input type="text" id="symbol" name="symbol" placeholder=""
-                                               value="<c:out value='${resource.symbol}'/>" class="col-xs-10 col-sm-5">
+                                        <input type="text" id="symbol" name="symbol" placeholder="请输入权限" pattern="(((ROLE_[A-Z]{1,20})|(OPT(_[A-Z]{1,15})+));?)+"
+                                               value="<c:out value='${resource.symbol}'/>" class="regExp text col-xs-10 col-sm-5">
+                                        <p class="help-block">例如:OPT_XXX_XXX或者ROLE_XXX</p>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -97,7 +130,7 @@
                                 <sec:authorize access="hasAnyAuthority('OPT_MENUITEM_ADD', 'OPT_MENUITEM_EDIT')">
                                     <div class="clearfix form-actions">
                                         <div class="col-md-offset-3 col-md-9">
-                                            <button class="btn btn-info" type="submit">
+                                            <button class="btn btn-info" type="button" id="confirm">
                                                 <i class="ace-icon fa fa-check bigger-110"></i>
                                                 提交
                                             </button>

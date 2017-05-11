@@ -14,6 +14,6 @@
     </c:if>
     <c:forEach items="${categories}" var="catetory" varStatus="varStatus">
          <%--如何在点击修改时,选中其对应的分类,并且将其设为只读--%>
-        <option value="${catetory.id}" <c:if test="${selectedStatus == catetory.id}">selected </c:if>>${catetory.name} </option>
+        <option value="${catetory.id}" <c:if test="${selectedStatus == catetory.id}">selected </c:if> >${catetory.name} </option>
     </c:forEach>
 </select>
