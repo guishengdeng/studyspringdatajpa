@@ -1,10 +1,13 @@
 package com.biz.gbck.dao.mysql.po.order;
 
+import com.biz.core.util.DateUtil;
 import com.biz.gbck.enums.order.OrderStatus;
 import com.biz.gbck.enums.order.PaymentStatus;
 import com.biz.gbck.enums.order.PaymentType;
 import com.biz.support.jpa.po.BaseEntity;
+
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -31,6 +34,12 @@ public class Order extends BaseEntity {
     @Column(nullable = false)
     private Long sellerId;
 
+    /**
+     * 平台公司Id
+     */
+    @Column(nullable = false)
+    private Long companyId;
+
 
     //用户(买家) id
     @Column(nullable = false)
@@ -56,18 +65,13 @@ public class Order extends BaseEntity {
      * 优惠券抵付金额
      */
     @Column(nullable = false)
-    private Integer voucherFreeAmount = 0;
+    private Integer voucherAmount = 0;
 
     /**
      * 支付金额
      */
     @Column(nullable = false)
     private Integer payAmount = 0;
-
-    //订单应付款(orderAmount + freightAmount - voucherFreeAmount)
-    @Column(nullable = false)
-    private Integer payable = 0;
-
 
     /**
      * 订单状态
@@ -94,6 +98,17 @@ public class Order extends BaseEntity {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @OrderBy(value = "id asc")
     private List<OrderPayment> payments;
+
+    /**
+     * 付款单详情(支付单使用)
+     */
+    @Column
+    private String subject;
+
+    /**
+     * 过期时间
+     */
+    private Timestamp expireTimestamp;
 
 
     //订单明细
@@ -123,12 +138,25 @@ public class Order extends BaseEntity {
      */
     private Integer totalWeight = 0;
 
+    /**
+     * 冗余退货单Id
+     */
+    private Long orderReturnId;
+
     public String getOrderCode() {
         return orderCode;
     }
 
     public void setOrderCode(String orderCode) {
         this.orderCode = orderCode;
+    }
+
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
     }
 
     public Long getSellerId() {
@@ -171,12 +199,12 @@ public class Order extends BaseEntity {
         this.freeAmount = freeAmount;
     }
 
-    public Integer getVoucherFreeAmount() {
-        return voucherFreeAmount;
+    public Integer getVoucherAmount() {
+        return voucherAmount;
     }
 
-    public void setVoucherFreeAmount(Integer voucherFreeAmount) {
-        this.voucherFreeAmount = voucherFreeAmount;
+    public void setVoucherAmount(Integer voucherFreeAmount) {
+        this.voucherAmount = voucherFreeAmount;
     }
 
     public Integer getPayAmount() {
@@ -185,14 +213,6 @@ public class Order extends BaseEntity {
 
     public void setPayAmount(Integer payAmount) {
         this.payAmount = payAmount;
-    }
-
-    public Integer getPayable() {
-        return payable;
-    }
-
-    public void setPayable(Integer payable) {
-        this.payable = payable;
     }
 
     public OrderStatus getStatus() {
@@ -229,6 +249,14 @@ public class Order extends BaseEntity {
 
     public List<OrderItem> getItems() {
         return items;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     public void setItems(List<OrderItem> items) {
@@ -273,5 +301,69 @@ public class Order extends BaseEntity {
 
     public void setShipping(OrderShipping shipping) {
         this.shipping = shipping;
+    }
+
+    public Timestamp getExpireTimestamp() {
+        return expireTimestamp;
+    }
+
+    public void setExpireTimestamp(Timestamp expireTimestamp) {
+        this.expireTimestamp = expireTimestamp;
+    }
+
+    public Long getOrderReturnId() {
+        return orderReturnId;
+    }
+
+    public void setOrderReturnId(Long orderReturnId) {
+        this.orderReturnId = orderReturnId;
+    }
+
+    /**
+     * 是否可支付
+     * @return
+     */
+    public boolean isPayable() {
+        return this.status == OrderStatus.PRE_PAY && this.payStatus == PaymentStatus.CREATE_PAYMENT && DateUtil
+                .isBefore(expireTimestamp);
+    }
+
+    /**
+     * 是否可取消
+     * @param isAdmin 是否管理人员
+     * @return
+     */
+    public boolean isCancelable(boolean isAdmin) {
+        switch (this.status) {
+            case CREATED:
+                return true;
+            case PRE_PAY:
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * 是否可联系客服
+     *
+     * @return
+     */
+    public boolean isContactable() {
+        return status == OrderStatus.ORDERED || status == OrderStatus.DELIVERED || status == OrderStatus.FINISHED ||
+                payStatus == PaymentStatus.PAYED;
+    }
+
+    /**
+     * 是否可以再次购买
+     */
+    public boolean isBuyAgain() {
+        return status == OrderStatus.FINISHED;
+    }
+
+    /**
+     * 是否可以申请售后
+     */
+    public boolean isReturnable() {
+        return status == OrderStatus.FINISHED;
     }
 }

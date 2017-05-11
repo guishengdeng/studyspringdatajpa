@@ -1,5 +1,6 @@
 package com.biz.gbck.dao.redis.repository.order;
 
+import com.biz.core.asserts.SystemAsserts;
 import com.biz.gbck.dao.redis.CrudRedisDao;
 import com.biz.gbck.dao.redis.ro.order.OrderRo;
 import com.biz.gbck.enums.order.OrderShowStatus;
@@ -8,6 +9,7 @@ import org.codelogger.utils.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -29,14 +31,17 @@ public class OrderRedisDao extends CrudRedisDao<OrderRo, Long> {
             return;
         }
 
-        super.save(ro);
-
         Long id = ro.getId();
         Long userId = ro.getUserId();
         OrderShowStatus status = ro.getStatus();
 
+        this.clean(id, userId, status);
+        super.save(ro);
+
         if (status == null) {
-            logger.debug("订单状态为空");
+            if (logger.isDebugEnabled()) {
+                logger.debug("订单状态为空. order: {}", ro);
+            }
         } else if (status == OrderShowStatus.PRE_PAY) { //待付款过期
             super.zadd(this.orderExpireSortedSetKey(), ro.getExpireTimestamp(), id);
         } else {
@@ -49,6 +54,20 @@ public class OrderRedisDao extends CrudRedisDao<OrderRo, Long> {
         //orderCode ==> id
         super.set(this.orderCodeToIdMappingKey(ro.getOrderCode()), RedisUtil.toByteArray(id));
 
+    }
+
+    /**
+     * 移除冗余状态
+     */
+    private void clean(Long orderId, Long userId, OrderShowStatus status) {
+        OrderRo orderRo = super.findOne(orderId);
+        if (orderRo != null && orderRo.getStatus() != status) {
+            SystemAsserts.isTrue(Objects.equals(userId, orderRo.getUserId()), "订单所在用户不匹配");
+            super.zrem(this.orderPeriodSortedSetKey(userId, orderRo.getStatus()), RedisUtil.toByteArray(orderRo.getId()));
+            if (status != OrderShowStatus.PRE_PAY) { //移出待支付
+                super.zrem(this.orderExpireSortedSetKey(), RedisUtil.toByteArray(orderId));
+            }
+        }
     }
 
 
@@ -114,10 +133,8 @@ public class OrderRedisDao extends CrudRedisDao<OrderRo, Long> {
     }
 
     /**
-     * 根据订单
-     *
+     * 根据订单编码获取id
      * @param orderCode
-     * @return
      */
     public Long getOrderIdByOrderCode(String orderCode) {
         if (StringUtils.isNotBlank(orderCode)) {

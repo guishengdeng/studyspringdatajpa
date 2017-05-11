@@ -14,6 +14,8 @@ public enum OrderShowStatus {
     ALL,
     //待支付
     PRE_PAY,
+    //待发货
+    ORDERED,
     //待收货
     DELIVERED,
     //已完成
@@ -22,10 +24,12 @@ public enum OrderShowStatus {
     CANCELED;
 
     public static OrderShowStatus valueOf(Integer status) {
-        if (status == null || status == 0) {
+        if (status == 0) {
             return ALL;
         } else if (status == OrderStatus.PRE_PAY.getValue()) {
             return PRE_PAY;
+        } else if(status == OrderStatus.ORDERED.getValue()) {
+            return ORDERED;
         } else if ( status == OrderStatus.DELIVERED.getValue()) {
             return DELIVERED;
         } else if (status == OrderStatus.FINISHED.getValue()) {

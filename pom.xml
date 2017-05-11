@@ -31,7 +31,7 @@
         <!-- SOA模块 -->
         <module>soa-product</module><!-- 商品模块 -->
         <module>soa-stock</module><!-- 库存模块 -->
-        <module>soa-user</module> <!-- 用户模块 -->
+        <module>soa-org</module> <!-- 用户、组织模块 -->
         <module>soa-promotion</module><!-- 促销模块 -->
         <module>soa-purchase</module> <!-- 采购模块 -->
         <module>soa-order</module><!-- 订单模块(包含订单和购物车) !! 这只是暂定的, 如果有必要, 可以拆成2个模块 -->
@@ -384,6 +384,12 @@
                 <groupId>com.biz.gbck</groupId>
                 <artifactId>biz-support-es</artifactId>
                 <version>${biz-support-es.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.biz.gbck</groupId>
+                <artifactId>third-party-pay</artifactId>
+                <version>${biz-third-party-pay.version}</version>
             </dependency>
 
             <dependency>

@@ -1,5 +1,6 @@
 package com.biz.gbck.vo.cart;
 
+import com.biz.core.util.JsonUtil;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -23,22 +24,28 @@ public class ShopCartRespVo implements Serializable {
     /**
      * 购物车总数
      */
-    private int cartNum = 0;
+    private Integer cartNum = 0;
 
     /**
-     * 选中数量
+     * 总金额
      */
-    private int selectedNum = 0;
+    private Integer orderAmount = 0;
 
     /**
-     * 购物车待支付金额
+     * 促销优惠免额
      */
-    private int totalPrice = 0;
+    private Integer freeAmount = 0;
 
     /**
-     * 节省金额
+     * 优惠券优惠金额
      */
-    private int savedPrice = 0;
+    private Integer voucherAmount = 0;
+
+    /**
+     * 优惠券优惠金额
+     */
+    private Integer payAmount = 0;
+
 
     public List<ShopCartItemRespVo> getItems() {
         return items;
@@ -48,40 +55,57 @@ public class ShopCartRespVo implements Serializable {
         this.items = items;
     }
 
-    public int getSelectedNum() {
-        return selectedNum;
-    }
-
-    public void setSelectedNum(int selectedNum) {
-        this.selectedNum = selectedNum;
-    }
-
-    public int getCartNum() {
+    public Integer getCartNum() {
         return cartNum;
     }
 
-    public void setCartNum(int cartNum) {
+    public void setCartNum(Integer cartNum) {
         this.cartNum = cartNum;
     }
 
-    public int getSavedPrice() {
-        return savedPrice;
+    public Integer getOrderAmount() {
+        return orderAmount;
     }
 
-    public void setSavedPrice(int savedPrice) {
-        this.savedPrice = savedPrice;
+    public void setOrderAmount(Integer orderAmount) {
+        this.orderAmount = orderAmount;
     }
 
-    public int getTotalPrice() {
-        return totalPrice;
+    public Integer getFreeAmount() {
+        return freeAmount;
     }
 
-    public void setTotalPrice(int totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setFreeAmount(Integer freeAmount) {
+        this.freeAmount = freeAmount;
+    }
+
+    public Integer getVoucherAmount() {
+        return voucherAmount;
+    }
+
+    public void setVoucherAmount(Integer voucherAmount) {
+        this.voucherAmount = voucherAmount;
+    }
+
+    public Integer getPayAmount() {
+        return payAmount;
+    }
+
+    public void setPayAmount(Integer payAmount) {
+        this.payAmount = payAmount;
     }
 
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    }
+
+
+    public static void main(String[] args) {
+        ShopCartItemRespVo cartItemRespVo = new ShopCartItemRespVo();
+        ShopCartRespVo respVo = new ShopCartRespVo();
+        respVo.setItems(newArrayList(cartItemRespVo));
+        JsonUtil.printObjectJsonDemo(respVo);
+        System.out.println(JsonUtil.obj2Json(respVo));
     }
 }

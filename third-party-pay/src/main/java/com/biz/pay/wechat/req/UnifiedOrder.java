@@ -10,9 +10,9 @@ import java.util.TreeSet;
 import org.apache.commons.lang3.StringUtils;
 
 import com.biz.pay.wechat.lang.TradeType;
-import com.biz.pay.wechat.res.UnifiedOrderResponse;
+import com.biz.pay.wechat.res.WechatPayRespVo;
 
-public class UnifiedOrder extends WechatPayRequestBase<UnifiedOrderResponse> {
+public class UnifiedOrder extends WechatPayRequestBase<WechatPayRespVo> {
 
 	public static final String API_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 
@@ -111,8 +111,8 @@ public class UnifiedOrder extends WechatPayRequestBase<UnifiedOrderResponse> {
 	}
 
 	@Override
-	protected UnifiedOrderResponse parseResponse(String responseXml) {
-		return new UnifiedOrderResponse(responseXml);
+	protected WechatPayRespVo parseResponse(String responseXml) {
+		return new WechatPayRespVo(responseXml);
 	}
 
 }

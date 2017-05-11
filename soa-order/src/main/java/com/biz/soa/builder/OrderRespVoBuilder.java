@@ -3,8 +3,8 @@ package com.biz.soa.builder;
 import com.biz.core.asserts.SystemAsserts;
 import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.dao.mysql.po.order.OrderItem;
-import com.biz.gbck.vo.order.OrderItemRespVo;
-import com.biz.gbck.vo.order.OrderRespVo;
+import com.biz.gbck.vo.order.resp.OrderItemRespVo;
+import com.biz.gbck.vo.order.resp.OrderRespVo;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -21,16 +21,10 @@ public class OrderRespVoBuilder {
 
     private OrderRespVo respVo;
 
-    public static OrderRespVoBuilder createBuider(Order order) {
+    public static OrderRespVoBuilder createBuilder(Order order) {
         OrderRespVoBuilder builder = new OrderRespVoBuilder();
         builder.respVo = new OrderRespVo(order);
         return builder;
-    }
-
-    public OrderRespVoBuilder setSellerInfo(String sellerName) {
-        SystemAsserts.notNull(sellerName, "发货人名称不能为空");
-        this.respVo.setSellerName(sellerName);
-        return this;
     }
 
     public OrderRespVoBuilder setBuyerInfo(String buyerName, String buyerMobile, String address) {

@@ -16,19 +16,19 @@ public class ShopCartItemUpdateReqVo extends BaseRequestVo {
     /**
      * 商品编码
      */
-    private String pCode;
+    private String productId;
 
     /**
      * 数量
      */
     private int quantity = 1;
 
-    public String getpCode() {
-        return pCode;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setpCode(String pCode) {
-        this.pCode = pCode;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public int getQuantity() {

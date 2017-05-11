@@ -36,7 +36,7 @@ public interface ShopCartService {
      * 购物车数量更新
      * @param reqVo
      */
-    ShopCartItemUpdateRespVo updateCartItemQuantity(ShopCartItemUpdateReqVo reqVo) throws DepotNextDoorException;
+    void updateCartItemQuantity(ShopCartItemUpdateReqVo reqVo) throws DepotNextDoorException;
 
 
     /**
