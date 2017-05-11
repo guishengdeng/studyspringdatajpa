@@ -3,6 +3,7 @@ package com.biz.soa.order.service.frontend;
 import com.biz.core.asserts.SystemAsserts;
 import com.biz.core.util.Timers;
 import com.biz.gbck.dao.mysql.po.order.Order;
+import com.biz.gbck.dao.mysql.po.order.OrderItem;
 import com.biz.gbck.dao.mysql.repository.order.OrderRepository;
 import com.biz.gbck.dao.redis.repository.order.OrderRedisDao;
 import com.biz.gbck.enums.order.OrderShowStatus;
@@ -18,6 +19,7 @@ import com.biz.gbck.vo.order.req.*;
 import com.biz.gbck.vo.order.resp.OrderRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
 import com.biz.gbck.vo.payment.resp.PaymentRespVo;
+import com.biz.gbck.vo.stock.UpdatePartnerLockStockReqVO;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.SequenceService;
 import com.biz.service.order.frontend.OrderFrontendService;
@@ -61,7 +63,7 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
     @Autowired
     private StockService stockService;
 
-  /*****************public begin*********************/
+    /*****************public begin*********************/
 
     @Override
     public PageRespVo listOrders(OrderListReqVo reqVo) {
@@ -102,6 +104,7 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
 
     @Override
     public OrderSettlePageRespVo settle(OrderSettlePageReqVo reqVo) {
+        //TODO 各种计算
         return OrderSettlePageRespVoBuilder.createBuilder().setItems(null).setFreight(null)
                 .setCoupons(null).setPayLimitTime(null).setPaymentTyps(null).setPromtions(null).setBuyerInfo(null,
                         null, null).build();
@@ -158,20 +161,32 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
     /**
      * 创建订单
      */
-    private Order createOrder(OrderCreateReqVo reqVo) {
+    private Order createOrder(OrderCreateReqVo reqVo) throws DepotNextDoorException {
         Timers timers = Timers.createAndBegin(logger.isDebugEnabled());
         long id = idService.nextId();
         String orderCode = sequenceService.generateOrderCode();
-        //TODO
+        //TODO 各种计算 统计
         Order order = OrderBuilder.createBuilder(reqVo).build(id, orderCode);
-        //TODO 锁定库存
+        //TODO 跟传入参数校验
         this.lockStock(order);
         timers.print("创建订单用时");
         return order;
     }
 
-    private void lockStock(Order order) {
-        //TODO
+    //锁定库存
+    private void lockStock(Order order) throws DepotNextDoorException {
+        List<UpdatePartnerLockStockReqVO> lockStockReqVOS = newArrayList();
+        for (OrderItem orderItem : order.getItems()) {
+            UpdatePartnerLockStockReqVO lockStockReqVO = new UpdatePartnerLockStockReqVO(order.getOrderCode(),
+                    orderItem.getProductId(), order.getSellerId(), orderItem.getQuantity());
+            lockStockReqVOS.add(lockStockReqVO);
+        }
+        try {
+            stockService.updateLockStocks(lockStockReqVOS);
+        } catch (Exception e) {
+            logger.error("锁定库存出错", e);
+            throw e;
+        }
     }
 
     private Order updateOrderStatus(Order order, OrderStatus newStatus) {

@@ -28,6 +28,7 @@ public class OrderItem extends BaseEntity implements IProduct {
     /**
      * 商品Id
      */
+    @Column(nullable = false)
     private Long productId;
 
     /**

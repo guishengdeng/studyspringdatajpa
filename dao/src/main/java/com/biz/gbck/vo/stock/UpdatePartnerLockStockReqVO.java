@@ -12,6 +12,13 @@ import java.io.Serializable;
 public class UpdatePartnerLockStockReqVO implements Serializable {
     private static final long serialVersionUID = 1740147389692009015L;
 
+    public static final int DEFAULT_ALIVE_TIME = 24 * 60; //默认失效时间
+
+    /**
+     * 订单编号
+     */
+    private String orderCode;
+
     /**
      * 商品id(必选)
      */
@@ -27,6 +34,28 @@ public class UpdatePartnerLockStockReqVO implements Serializable {
      */
     private int quantity = 0;
 
+    /**
+     * 有效时间(分钟)
+     */
+    private int aliveTime = DEFAULT_ALIVE_TIME;
+
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
+    }
+
+    public UpdatePartnerLockStockReqVO() {
+    }
+
+    public UpdatePartnerLockStockReqVO(String orderCode, Long productId, Long partnerId, int quantity) {
+        this.orderCode = orderCode;
+        this.productId = productId;
+        this.partnerId = partnerId;
+        this.quantity = quantity;
+    }
 
     public Long getProductId() {
         return productId;
@@ -50,6 +79,14 @@ public class UpdatePartnerLockStockReqVO implements Serializable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getAliveTime() {
+        return aliveTime;
+    }
+
+    public void setAliveTime(int aliveTime) {
+        this.aliveTime = aliveTime;
     }
 
     @Override
