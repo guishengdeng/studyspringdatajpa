@@ -17,7 +17,7 @@
                 height: 200px;
             }
 
-            #app_url {
+            #app_pictureUrl {
                 width: 350px;
                 height: 280px;
             }
@@ -150,7 +150,7 @@
                                 <div class="col-sm-9">
                                     <input type="text" id="form-field-2" name="hotKeyWord"
                                            onkeyup="this.value=this.value.replace(/\s+/g,'')"
-                                           value=" <c:out value='${appVo.hotKeyWord}'/>"
+                                           value="<c:out value='${appVo.hotKeyWord}'/>"
                                            maxlength="20"
                                            placeholder="例：茅台 五粮液 剑南春"
                                            class="col-xs-10 col-sm-5 valid required text">
@@ -161,12 +161,12 @@
                                 <label class="col-sm-3 control-label no-padding-right">
                                     首页遮罩图片URL
                                 </label>
-                                <div class="col-md-9" id="app_url">
+                                <div class="col-md-9" id="app_pictureUrl">
                                     <img id="image" src=""/>
                                     <div class="btn btn-primary" id="logo_button">修改图片</div>
                                     <input type="file" id="logo_file" value=""/>
                                     <input name="pictureUrl" type="ime-mode:disabled" id="logo_container"
-                                           value="<c:out value='${appVo.pictureUrl}'/>" class="col-xs-10 col-sm-5"
+                                           value="<c:out value="${appVo.pictureUrl}"/>" class="col-xs-10 col-sm-5"
                                            readonly>
                                     <button id="appdelete_button" class="btn btn-primary" type="button">
                                         删除图片
@@ -175,15 +175,13 @@
                             </div>
                                 <%--页遮罩图片URL--%>
                             <div class="form-group ">
-                                <label class="col-sm-3 control-label no-padding-right" for="form-field-4">
+                                <label class="col-sm-3 control-label no-padding-right" for="app_url">
                                     首页遮罩跳转URL </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" id="form-field-4" name="url"  class="col-xs-10 col-sm-5 required text"
-                                           onkeyup="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
-                                           onafterpaste="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
-                                           value=" <c:out value='${appVo.url}'/>"
-                                           maxlength="100" placeholder="首页遮罩跳转URL ">
+                                    <input type="text" id="app_url" name="url"  class="col-xs-10 col-sm-5 required text"
+                                           value="<c:out value="${appVo.url}"/>"
+                                           maxlength="100" placeholder="首页遮罩跳转URL "/>
                                 </div>
                             </div>
 
@@ -255,7 +253,7 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
                                     <input type="text" id="form-field-1-4" name="appDownloadUrl"
                                            onkeyup="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
                                            onafterpaste="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
-                                           maxlength="100" value=" <c:out value='${appVo.appDownloadUrl}'/>"
+                                           maxlength="100" value="<c:out value="${appVo.appDownloadUrl}"/>"
                                            placeholder="app下载页
 面" class="col-xs-10 col-sm-5 required text">
                                 </div>

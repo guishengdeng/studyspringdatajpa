@@ -14,7 +14,6 @@ public class AppVo implements Serializable {
 
     private static final long serialVersionUID = -1447542223691552413L;
 
-    @NotNull
     private Long id;
 
     /*

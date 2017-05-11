@@ -43,20 +43,20 @@ public class AppServiceImpl extends AbstractBaseService implements AppService {
             appRepository.save(appVoToAppPo.apply(appVo));
         } else if (appVo.getId() != null && Objects.equals(appVo.getId(), app.getId())) {
             app.setId(appVo.getId());
-            app.setTel(appVo.getTel());
-            app.setPictureUrl(appVo.getPictureUrl());
-            app.setUrl(appVo.getUrl());
-            app.setHotKeyWord(appVo.getHotKeyWord());
-            app.setContent(appVo.getContent());
-            app.setTel(appVo.getTel());
-            app.setTitle(appVo.getTitle());
-            app.setIcon(appVo.getIcon());
-            app.setShareUrl(appVo.getShareUrl());
-            app.setRecommedUrl(appVo.getRecommedUrl());
-            app.setAppDownloadUrl(appVo.getAppDownloadUrl());
+            app.setTel(appVo.getTel().trim());
+            app.setPictureUrl(appVo.getPictureUrl().trim());
+            app.setUrl(appVo.getUrl().trim());
+            app.setHotKeyWord(appVo.getHotKeyWord().trim());
+            app.setContent(appVo.getContent().trim());
+            app.setTel(appVo.getTel().trim());
+            app.setTitle(appVo.getTitle().trim());
+            app.setIcon(appVo.getIcon().trim());
+            app.setShareUrl(appVo.getShareUrl().trim());
+            app.setRecommedUrl(appVo.getRecommedUrl().trim());
+            app.setAppDownloadUrl(appVo.getAppDownloadUrl().trim());
             app.setAmount(appVo.getAmount());
-            app.setTabOne(appVo.getTabOne());
-            app.setTabTwo(appVo.getTabTwo());
+            app.setTabOne(appVo.getTabOne().trim());
+            app.setTabTwo(appVo.getTabTwo().trim());
             appRepository.save(app);
         } else {
             //id不为空且数据库中没有找到相对应的数据（异常处理）
