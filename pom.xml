@@ -70,6 +70,7 @@
         <soa.product.version>1.0-SNAPSHOT</soa.product.version>
         <soa.base.version>1.0-SNAPSHOT</soa.base.version>
         <soa.parent.version>1.0.1-SNAPSHOT</soa.parent.version>
+        <soa.order.version>1.0.1-SNAPSHOT</soa.order.version>
 
         <current.project.version>1.0-SNAPSHOT</current.project.version>
 
@@ -428,6 +429,11 @@
                 <groupId>com.biz.gbck</groupId>
                 <artifactId>biz-soa-feign</artifactId>
                 <version>${biz.soa.feign.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.biz.gbck</groupId>
+                <artifactId>soa-order</artifactId>
+                <version>${soa.order.version}</version>
             </dependency>
         </dependencies>
 
