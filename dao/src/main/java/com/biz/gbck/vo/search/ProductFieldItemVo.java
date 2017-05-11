@@ -51,4 +51,13 @@ public class ProductFieldItemVo implements Serializable {
     public void setCount(Integer count) {
         this.count = count;
     }
+
+    @Override
+    public String toString() {
+        return "ProductFieldItemVo{" +
+                "value='" + value + '\'' +
+                ", title='" + title + '\'' +
+                ", count=" + count +
+                '}';
+    }
 }

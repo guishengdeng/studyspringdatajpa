@@ -1,9 +1,9 @@
 package com.biz.service.product.frontend;
 
-import com.biz.gbck.vo.search.ProductIdxIdentityVo;
+import com.biz.gbck.vo.search.bbc.ProductIdxIdentityVo;
 import com.biz.gbck.vo.search.ProductSearchResultEntityVo;
 import com.biz.gbck.vo.search.ProductSearchResultVo;
-import com.biz.gbck.vo.search.SearchProductConditionVo;
+import com.biz.gbck.vo.search.bbc.SearchProductConditionVo;
 import java.io.Serializable;
 
 /**

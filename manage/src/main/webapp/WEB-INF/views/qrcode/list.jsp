@@ -106,8 +106,6 @@
                                 </div>
                             </form>
                             <div class="hr hr-18 dotted"></div>
-                            
-                            
                             <table id="qrcode-table" class="table table-hover">
                                 <thead>
                                 <tr>

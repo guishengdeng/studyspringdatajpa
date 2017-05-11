@@ -13,7 +13,7 @@ import com.biz.gbck.enums.oss.OssType;
 import com.biz.gbck.enums.product.GeoLevelEnum;
 import com.biz.gbck.vo.depot.DepotResponseVo;
 import com.biz.gbck.vo.oms.event.InvalidOmsMessageVo;
-import com.biz.gbck.vo.search.ProductIdxIdentityVo;
+import com.biz.gbck.vo.search.bbc.ProductIdxIdentityVo;
 import com.biz.gbck.vo.stock.MnsFullDepotStockVo;
 import com.biz.gbck.vo.stock.MnsStockChangeVo;
 import com.biz.gbck.vo.warehouse.WarehouseResponseVo;

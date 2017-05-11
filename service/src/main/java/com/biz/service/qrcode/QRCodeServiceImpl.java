@@ -1,27 +1,23 @@
 package com.biz.service.qrcode;
 
-import java.util.List;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
-
 import com.biz.gbck.dao.mysql.po.qrcode.QRCodePO;
 import com.biz.gbck.dao.mysql.repository.qrcode.QRCodeRepository;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.qrcode.QRCodeSearchVO;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.qrcode.interfaces.QRCodeService;
-import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
+import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
 
 @Service
 public class QRCodeServiceImpl extends AbstractBaseService implements QRCodeService {

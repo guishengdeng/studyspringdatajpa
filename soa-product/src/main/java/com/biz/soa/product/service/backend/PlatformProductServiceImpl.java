@@ -37,7 +37,7 @@ import org.springframework.stereotype.Service;
  * @reviewer
  * @see
  */
-@Service
+//@Service
 public class PlatformProductServiceImpl extends AbstractBaseService implements PlatformProductService, Serializable {
 
     private static final long serialVersionUID = 6067042018498593447L;
