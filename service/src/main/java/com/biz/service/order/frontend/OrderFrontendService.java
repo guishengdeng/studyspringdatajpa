@@ -1,12 +1,16 @@
 package com.biz.service.order.frontend;
 
+import com.biz.gbck.dao.mysql.po.order.Order;
+import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.IdReqVo;
-import com.biz.gbck.vo.order.OrderCreateReqVo;
-import com.biz.gbck.vo.order.OrderCreateRespVo;
-import com.biz.gbck.vo.order.OrderListReqVo;
-import com.biz.gbck.vo.order.OrderRespVo;
-
-import java.util.List;
+import com.biz.gbck.vo.PageRespVo;
+import com.biz.gbck.vo.order.req.OrderApplyReturnReqVo;
+import com.biz.gbck.vo.order.req.OrderCreateReqVo;
+import com.biz.gbck.vo.order.req.OrderListReqVo;
+import com.biz.gbck.vo.order.req.OrderSettlePageReqVo;
+import com.biz.gbck.vo.order.resp.OrderRespVo;
+import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
+import com.biz.gbck.vo.payment.resp.PaymentRespVo;
 
 /**
  * OrderService
@@ -18,9 +22,19 @@ import java.util.List;
  */
 public interface OrderFrontendService {
 
-    List<OrderRespVo> listOrders(OrderListReqVo reqVo);
+    PageRespVo listOrders(OrderListReqVo reqVo);
 
     OrderRespVo getOrderDetail(IdReqVo reqVo);
 
-    OrderCreateRespVo createOrder(OrderCreateReqVo reqVo);
+    void cancelOrder(IdReqVo reqVo);
+
+    OrderSettlePageRespVo settle(OrderSettlePageReqVo reqVo);
+
+    PaymentRespVo createPrePayOrder(OrderCreateReqVo reqVo) throws DepotNextDoorException;
+
+    Order getOrder(Long id);
+
+    void saveOrder(Order order);
+
+    void applyReturn(OrderApplyReturnReqVo reqVo);
 }

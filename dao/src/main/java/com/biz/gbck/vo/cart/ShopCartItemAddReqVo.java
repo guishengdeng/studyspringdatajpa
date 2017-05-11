@@ -17,7 +17,7 @@ public class ShopCartItemAddReqVo extends BaseRequestVo {
     /**
      * 商品编码
      */
-    private String pCode;
+    private String productId;
 
     /**
      * 数量
@@ -29,12 +29,12 @@ public class ShopCartItemAddReqVo extends BaseRequestVo {
      */
     private Timestamp operateTime = DateUtil.now();
 
-    public String getpCode() {
-        return pCode;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setpCode(String pCode) {
-        this.pCode = pCode;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public int getQuantity() {

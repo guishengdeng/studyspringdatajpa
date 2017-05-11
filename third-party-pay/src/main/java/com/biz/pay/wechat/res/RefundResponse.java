@@ -4,7 +4,7 @@ import static com.biz.pay.wechat.lang.Keys.*;
 
 import com.biz.pay.wechat.lang.RefundChannel;
 
-public class RefundResponse extends WechatPayResponseBase {
+public class RefundResponse extends BaseWechatPayRespVo {
 
 	private static final long serialVersionUID = 2598297178486496872L;
 

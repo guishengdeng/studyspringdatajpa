@@ -1,11 +1,13 @@
 package com.biz.gbck.vo.cart;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.codelogger.utils.BeanUtils;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * 购物车明细vo
@@ -40,9 +42,19 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
     private String logo;
 
     /**
+     * 箱规
+     */
+    private String standard;
+
+    /**
+     * 促销标签
+     */
+    private List<String> promotionTags;
+
+    /**
      * 市场价
      */
-    private Integer costPrice;
+    private Integer marketPrice;
 
     /**
      * 售价
@@ -54,27 +66,42 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
      */
     private Integer quantity;
 
+    /**
+     * 最小起售数量
+     */
+    private Integer minQuantity;
+
+    /**
+     * 最大销售数量
+     */
+    private Integer maxQuantity;
+
+    /**
+     * 状态
+     */
+    private Integer status;
+
+    /**
+     * 库存数量
+     */
+    private Integer stock = 0;
 
     /**
      * 创建时间
      */
+    @JsonIgnore
     private Timestamp createTime;
 
     /**
      * 最后更新时间
      */
+    @JsonIgnore
     private Timestamp updateTime;
 
     /**
      * 是否选中
      */
     private boolean selected = false;
-
-    /**
-     * 是否可买
-     */
-    private boolean canBuy = true;
-
 
     public String getName() {
         return name;
@@ -116,12 +143,20 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
         this.logo = logo;
     }
 
-    public Integer getCostPrice() {
-        return costPrice;
+    public String getStandard() {
+        return standard;
     }
 
-    public void setCostPrice(Integer costPrice) {
-        this.costPrice = costPrice;
+    public void setStandard(String standard) {
+        this.standard = standard;
+    }
+
+    public Integer getMarketPrice() {
+        return marketPrice;
+    }
+
+    public void setMarketPrice(Integer marketPrice) {
+        this.marketPrice = marketPrice;
     }
 
     public Integer getPrice() {
@@ -130,6 +165,22 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    public Integer getMinQuantity() {
+        return minQuantity;
+    }
+
+    public void setMinQuantity(Integer minQuantity) {
+        this.minQuantity = minQuantity;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
     public Integer getQuantity() {
@@ -164,12 +215,28 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
         this.selected = selected;
     }
 
-    public boolean isCanBuy() {
-        return canBuy;
+    public Integer getMaxQuantity() {
+        return maxQuantity;
     }
 
-    public void setCanBuy(boolean canBuy) {
-        this.canBuy = canBuy;
+    public void setMaxQuantity(Integer maxQuantity) {
+        this.maxQuantity = maxQuantity;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public List<String> getPromotionTags() {
+        return promotionTags;
+    }
+
+    public void setPromotionTags(List<String> promotionTags) {
+        this.promotionTags = promotionTags;
     }
 
     @Override
