@@ -154,8 +154,8 @@
                                         <button type="button" class="bootbox-close-button close"
                                                 data-dismiss="modal" aria-hidden="true">×
                                         </button>
-                                        <div class="bootbox-body">您确定要杀死猫<span
-                                                id="name-of-ban-cat"></span> ?
+                                        <div class="bootbox-body">您确定要删除<span
+                                                id="name-of-ban-cat"></span>吗 ?
                                         </div>
                                     </div>
                                     <div class="modal-footer">
