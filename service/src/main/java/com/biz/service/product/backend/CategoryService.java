@@ -1,6 +1,7 @@
 package com.biz.service.product.backend;
 
 import com.biz.core.page.PageResult;
+import com.biz.gbck.dao.mysql.po.product.meta.Category;
 import com.biz.gbck.exceptions.product.CategoryNotFoundException;
 import com.biz.gbck.vo.product.backend.*;
 
@@ -121,4 +122,6 @@ public interface CategoryService {
      * @return CategoryRespVo
      */
     CategoryRespVo findById(Long id);
+
+	List<Category> findAll();
 }

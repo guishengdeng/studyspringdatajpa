@@ -328,4 +328,12 @@ public class CategoryServiceImpl extends AbstractCategoryService implements Cate
         return new Category2CategoryRespVo().apply(category);
     }
 
+    /**
+     * 查询所有分类
+     */
+	@Override
+	public List<Category> findAll() {
+		return categoryRepository.findAll();
+	}
+
 }
