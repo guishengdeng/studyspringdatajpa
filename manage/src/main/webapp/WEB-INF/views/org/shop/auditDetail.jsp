@@ -12,8 +12,60 @@
             var obj${status.count} = document.getElementById('roleId_${role.id}');
             if (obj${status.count}) obj${status.count}.checked = true;
             </c:forEach>
+
+
+            jQuery(function($) {
+                var $overflow = '';
+                var colorbox_params = {
+                    rel: 'colorbox',
+                    reposition:true,
+                    scalePhotos:true,
+                    scrolling:false,
+                    previous:'<i class="ace-icon fa fa-arrow-left"></i>',
+                    next:'<i class="ace-icon fa fa-arrow-right"></i>',
+                    close:'&times;',
+                    current:'{current} of {total}',
+                    maxWidth:'100%',
+                    maxHeight:'100%',
+                    onOpen:function(){
+                        $overflow = document.body.style.overflow;
+                        document.body.style.overflow = 'hidden';
+                    },
+                    onClosed:function(){
+                        document.body.style.overflow = $overflow;
+                    },
+                    onComplete:function(){
+                        $.colorbox.resize();
+                    }
+                };
+
+                $('.ace-thumbnails [data-rel="colorbox"]').colorbox(colorbox_params);
+                $("#cboxLoadingGraphic").html("<i class='ace-icon fa fa-spinner orange fa-spin'></i>");
+
+            })
+        </script>
+        <script src="/static-resource/ace/assets/js/jquery.colorbox.min.js"></script>
+        <link rel="stylesheet" href="/static-resource/ace/assets/css/colorbox.min.css" />
+        <link rel="stylesheet" href="/static-resource/ace/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+        <script>
+            function showHidden(){
+                var auditStatus=$("#auditStatus").val();
+                if(auditStatus == "NORMAL"){
+                    $("#hiddenDiv").addClass("hiddenDiv");
+                }
+                if(auditStatus == "AUDIT_FAILED"){
+                    $("#hiddenDiv").removeClass("hiddenDiv");
+                }
+            }
         </script>
     </jsp:attribute>
+    <jsp:attribute name="css">
+        <style>
+            .hiddenDiv{
+                display:none;
+            }
+        </style>
+     </jsp:attribute>
     <jsp:body>
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
@@ -142,25 +194,57 @@
                                     <div>
                                         <input type="hidden" name="shopQualificationId"
                                                value="${shopQualification.id}"/>
-
-                                        <div class="field">
-                                            <label>门头照片</label>
-                                            <div class="field">
-                                                <img width="150" height="150" alt="150x150"
-                                                     src="/static-resource/ace/assets/images/gallery/thumb-2.jpg">
-                                            </div>
-                                            <div class="p-div"></div>
-                                        </div><br>
-                                        <div class="field">
-                                            <label>营业执照</label>
-                                            <div class="field">
-                                                <img width="150" height="150" alt="150x150"
-                                                     src="/static-resource/ace/assets/images/gallery/thumb-2.jpg">
-                                            </div>
-                                            <div class="field p-div"></div>
-                                        </div>
-                                        <br>
                                         <div class="row">
+                                            <div class="col-xs-12">
+                                                <div>
+                                                    <ul class="ace-thumbnails clearfix">
+                                                        <li>
+                                                            <a href="/static-resource/ace/assets/images/gallery/image-1.jpg" title="Photo Title" data-rel="colorbox">
+                                                                <img width="150" height="150" alt="150x150" src="/static-resource/ace/assets/images/gallery/thumb-1.jpg" />
+                                                            </a>
+
+                                                            <div class="tags">
+                                                            <span class="label-holder">
+                                                                <span class="label label-info">门头照片</span>
+                                                            </span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/static-resource/ace/assets/images/gallery/image-1.jpg" title="Photo Title" data-rel="colorbox">
+                                                                <img width="150" height="150" alt="150x150" src="/static-resource/ace/assets/images/gallery/thumb-1.jpg" />
+                                                            </a>
+
+                                                            <div class="tags">
+                                                            <span class="label-holder">
+                                                                <span class="label label-info">营业执照</span>
+                                                            </span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/static-resource/ace/assets/images/gallery/image-1.jpg" title="Photo Title" data-rel="colorbox">
+                                                                <img width="150" height="150" alt="150x150" src="/static-resource/ace/assets/images/gallery/thumb-1.jpg" />
+                                                            </a>
+
+                                                            <div class="tags">
+                                                            <span class="label-holder">
+                                                                <span class="label label-info">酒类流通许可证</span>
+                                                            </span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/static-resource/ace/assets/images/gallery/image-1.jpg" title="Photo Title" data-rel="colorbox">
+                                                                <img width="150" height="150" alt="150x150" src="/static-resource/ace/assets/images/gallery/thumb-1.jpg" />
+                                                            </a>
+
+                                                            <div class="tags">
+                                                            <span class="label-holder">
+                                                                <span class="label label-info">法人身份证</span>
+                                                            </span>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
                                             <div class="col-xs-6 col-sm-4 col-md-3">
                                                 <label>营业执照名称:</label>
                                                 <input type="text" name="businessLicenceName"
@@ -171,71 +255,32 @@
                                                 <input type="text" name="businessLicenceId"
                                                        value="${shopQualification.businessLicenceId}">
                                             </div>
-                                        </div>
-                                        <br>
-                                        <div class="ui divider"></div>
-                                        <div class="field liquorSellLicence-container">
-                                            <label>酒类流通许可证</label>
                                             <div class="field">
-                                                <img width="150" height="150" alt="150x150"
-                                                     src="/static-resource/ace/assets/images/gallery/thumb-2.jpg">
-                                            </div>
-                                            <div class="p-div"></div>
-                                        </div>
-                                        <div class="field">
-                                            <label>酒类流通许可证ID:</label>
-                                            <input type="text" name="liquorSellLicenceId"
-                                                   value="${shopQualification.liquorSellLicenceId}">
-                                        </div><br>
-                                        <div class="ui divider"></div>
-                                        <div class="field corporate-container">
-                                            <label>法人身份证</label>
-                                            <div class="field">
-                                                <img width="150" height="150" alt="150x150"
-                                                     src="/static-resource/ace/assets/images/gallery/thumb-2.jpg">
-                                            </div>
-                                            <div class="field p-div"></div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-xs-6 col-sm-4 col-md-3">
-                                                <label>法人身份证ID:</label>
-                                                <input type="text" name="corporateId"
-                                                       value="${shopQualification.corporateId}">
-                                            </div>
-                                            <div class="col-xs-6 col-sm-4 col-md-3">
-                                                <label>提交审核时间:</label>
-                                                <input type="text" readonly="readonly" id="qualificationCreateTime"
-                                                       value="<fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${shopQualification.createTime}"/>">
+                                                <label>酒类流通许可证ID:</label>
+                                                <input type="text" name="liquorSellLicenceId"
+                                                       value="${shopQualification.liquorSellLicenceId}">
                                             </div>
                                         </div>
                                         <br>
                                     </div>
                                 </div>
-                                审核结果:
                                 <div class="row ">
-                                    <select name="auditStatus" class="search audit-select col-xs-6 col-sm-4 col-md-3">
+                                    审核结果:
+                                    <select name="auditStatus" class="search audit-select" id="auditStatus" onchange="showHidden()">
                                         <option value="">请选择</option>
-                                        <c:forEach var="currentAuditStatus"
-                                                   items="${auditStatusList}">
+                                        <c:forEach var="currentAuditStatus" items="${auditStatusList}">
                                             <option value="${currentAuditStatus.name()}" ${shopQualification.auditStatus == currentAuditStatus.value ? "selected" :""}>${currentAuditStatus.description}</option>
                                         </c:forEach>
                                     </select>
-                                </div>
-                                <div class="inline fields reject-reason-container">
-                                    <label>未通过原因:</label>
-                                    <c:forEach var="auditRejectReason"
-                                               items="${auditRejectReasons}">
-                                        <div class="field">
-                                            <div class="ui checkbox">
-                                                <input type="checkbox"
+                                </div><br>
+                                <div class="reject-reason-container hiddenDiv" id="hiddenDiv">
+                                   未通过原因:&nbsp;
+                                    <c:forEach var="auditRejectReason" items="${auditRejectReasons}">
+                                                <input type="checkbox" id="auditRejectReasonsId"
                                                        name="auditRejectReasons"
                                                        value="${auditRejectReason.value}"
-                                                       tabindex="0"
-                                                       class="hidden">
+                                                       tabindex="0">
                                                 <label>${auditRejectReason.description}</label>
-                                            </div>
-                                        </div>
                                     </c:forEach>
                                 </div>
                                 <div class="ui error message"></div>
@@ -248,12 +293,10 @@
                                 </div>
                                     <%-- </c:if>--%>
                             </form>
-                        </div><!-- /.span -->
-                    </div><!-- /.row -->
-
-                    <!-- PAGE CONTENT ENDS -->
-                </div><!-- /.col -->
-            </div><!-- /.row -->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </jsp:body>
 </depotnextdoor:page>
