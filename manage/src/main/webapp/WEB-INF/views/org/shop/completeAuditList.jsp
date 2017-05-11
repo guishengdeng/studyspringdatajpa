@@ -23,7 +23,7 @@
                 paging: false,
                 info: false,
                 order: [[9, "asc"]],
-                "columnDefs": [{"targets": [0,6], "orderable": false}],
+                "columnDefs": [{"targets": [0,4,8], "orderable": false}],
             });
 
             function updateShopStatus(shopId) {
@@ -102,6 +102,17 @@
                 });
 
             }
+
+            $("span.select-inverted").click(function () {
+                $("input[type='checkbox']").each(function () {
+                    this.checked = this.checked ? false : true;
+                })
+            });
+            $("span.select-all").click(function () {
+                $("input[type='checkbox']").each(function () {
+                    this.checked = true;
+                })
+            });
 
         </script>
     </jsp:attribute>
