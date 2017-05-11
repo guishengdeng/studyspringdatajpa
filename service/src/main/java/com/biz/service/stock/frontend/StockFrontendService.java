@@ -9,7 +9,8 @@ import java.util.List;
  *
  * @date 2016年12月15日
  */
-public interface StockService {
+@Deprecated
+public interface StockFrontendService {
 
     /**
      * 单个商品门店、全省、全国库存查询

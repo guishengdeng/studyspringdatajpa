@@ -65,18 +65,13 @@ public class Order extends BaseEntity {
      * 优惠券抵付金额
      */
     @Column(nullable = false)
-    private Integer voucherFreeAmount = 0;
+    private Integer voucherAmount = 0;
 
     /**
      * 支付金额
      */
     @Column(nullable = false)
     private Integer payAmount = 0;
-
-    //订单应付款(orderAmount + freightAmount - voucherFreeAmount)
-    @Column(nullable = false)
-    private Integer payable = 0;
-
 
     /**
      * 订单状态
@@ -103,6 +98,12 @@ public class Order extends BaseEntity {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @OrderBy(value = "id asc")
     private List<OrderPayment> payments;
+
+    /**
+     * 付款单详情(支付单使用)
+     */
+    @Column
+    private String subject;
 
     /**
      * 过期时间
@@ -198,12 +199,12 @@ public class Order extends BaseEntity {
         this.freeAmount = freeAmount;
     }
 
-    public Integer getVoucherFreeAmount() {
-        return voucherFreeAmount;
+    public Integer getVoucherAmount() {
+        return voucherAmount;
     }
 
-    public void setVoucherFreeAmount(Integer voucherFreeAmount) {
-        this.voucherFreeAmount = voucherFreeAmount;
+    public void setVoucherAmount(Integer voucherFreeAmount) {
+        this.voucherAmount = voucherFreeAmount;
     }
 
     public Integer getPayAmount() {
@@ -212,14 +213,6 @@ public class Order extends BaseEntity {
 
     public void setPayAmount(Integer payAmount) {
         this.payAmount = payAmount;
-    }
-
-    public Integer getPayable() {
-        return payable;
-    }
-
-    public void setPayable(Integer payable) {
-        this.payable = payable;
     }
 
     public OrderStatus getStatus() {
@@ -256,6 +249,14 @@ public class Order extends BaseEntity {
 
     public List<OrderItem> getItems() {
         return items;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     public void setItems(List<OrderItem> items) {

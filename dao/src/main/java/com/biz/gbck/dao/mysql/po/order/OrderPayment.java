@@ -52,14 +52,8 @@ public class OrderPayment extends BaseEntity {
     /**
      * 订单名称(支付单使用)
      */
-    @Column(length = 50)
-    private String subject;
-
-    /**
-     * 付款单详情(支付单使用)
-     */
     @Column
-    protected String detail;
+    private String subject;
 
     /**
      * 支付成功时间(支付回调时间）
@@ -126,14 +120,6 @@ public class OrderPayment extends BaseEntity {
 
     public void setSubject(String subject) {
         this.subject = subject;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
     }
 
     public Date getSuccessDate() {

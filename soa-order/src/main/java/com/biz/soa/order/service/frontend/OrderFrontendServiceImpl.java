@@ -21,6 +21,7 @@ import com.biz.gbck.vo.payment.resp.PaymentRespVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.SequenceService;
 import com.biz.service.order.frontend.OrderFrontendService;
+import com.biz.service.stock.frontend.StockFrontendService;
 import com.biz.soa.builder.OrderBuilder;
 import com.biz.soa.builder.OrderRespVoBuilder;
 import com.biz.soa.builder.OrderSettlePageRespVoBuilder;
@@ -57,7 +58,10 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
     @Autowired
     private PaymentService paymentService;
 
-    /*****************public begin*********************/
+    @Autowired
+    private StockFrontendService stockService;
+
+  /*****************public begin*********************/
 
     @Override
     public PageRespVo listOrders(OrderListReqVo reqVo) {
@@ -160,8 +164,14 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
         String orderCode = sequenceService.generateOrderCode();
         //TODO
         Order order = OrderBuilder.createBuilder(reqVo).build(id, orderCode);
+        //TODO 锁定库存
+        this.lockStock(order);
         timers.print("创建订单用时");
         return order;
+    }
+
+    private void lockStock(Order order) {
+        stockService.updateDepotLockStock();
     }
 
     private Order updateOrderStatus(Order order, OrderStatus newStatus) {

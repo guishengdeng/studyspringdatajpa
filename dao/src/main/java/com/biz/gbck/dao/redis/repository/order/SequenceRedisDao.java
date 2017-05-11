@@ -19,8 +19,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class SequenceRedisDao extends SimpleDataRedisDao {
 
-    private static final String DATE_FMT_PATTERN = "yyyyMMdd";
-
     private final int EXPIRED_TIME = 25 * 60 * 60;//25小时,单位: 秒
 
     private final SyncUtil syncUtil = new SyncUtil(16);

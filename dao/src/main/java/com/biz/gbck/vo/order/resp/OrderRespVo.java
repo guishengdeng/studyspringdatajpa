@@ -156,7 +156,7 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
         this.setOrderAmount(order.getOrderAmount());
         this.setPayAmount(order.getPayAmount());
         this.setFreeAmount(order.getFreeAmount());
-        this.setVoucherOffsetAmount(order.getVoucherFreeAmount());
+        this.setVoucherOffsetAmount(order.getVoucherAmount());
         this.setCreateTimestamp(order.getCreateTimestamp());
         this.setCreateTime(order.getCreateTimestamp().getTime());
         this.setStatus(order.getStatus().getValue());
