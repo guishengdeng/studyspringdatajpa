@@ -21,7 +21,7 @@ import com.biz.gbck.vo.payment.resp.PaymentRespVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.SequenceService;
 import com.biz.service.order.frontend.OrderFrontendService;
-import com.biz.service.stock.frontend.StockFrontendService;
+import com.biz.service.stock.StockService;
 import com.biz.soa.builder.OrderBuilder;
 import com.biz.soa.builder.OrderRespVoBuilder;
 import com.biz.soa.builder.OrderSettlePageRespVoBuilder;
@@ -59,7 +59,7 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
     private PaymentService paymentService;
 
     @Autowired
-    private StockFrontendService stockService;
+    private StockService stockService;
 
   /*****************public begin*********************/
 
@@ -171,7 +171,7 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
     }
 
     private void lockStock(Order order) {
-        stockService.updateDepotLockStock();
+        //TODO
     }
 
     private Order updateOrderStatus(Order order, OrderStatus newStatus) {

@@ -34,7 +34,7 @@ public class StockServiceImpl extends AbstractBaseService implements StockServic
 
     @Override
     public PartnerStockRespVO getStock(PartnerStockReqVO reqVo) throws DepotNextDoorException {
-
+        return null;
     }
 
     @Override
