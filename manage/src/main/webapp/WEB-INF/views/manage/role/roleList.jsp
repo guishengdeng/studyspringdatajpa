@@ -56,14 +56,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <h3 class="header smaller lighter blue">
-                                <c:choose>
-                                    <c:when test="${param.enabled == 'false'}">
-                                        禁用
-                                    </c:when>
-                                    <c:otherwise>
-                                        正常
-                                    </c:otherwise>
-                                </c:choose>
+                                角色列表
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
                                     <%--当用户用户该权限是才显示该添加按钮--%>
                                 <sec:authorize access="hasAuthority('OPT_ROLE_ADD')">
@@ -76,8 +69,8 @@
                             <table id="simple-table" class="table  table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>描述</th>
                                     <th>名称</th>
+                                    <th>描述</th>
                                     <th class="hidden-md hidden-sm hidden-xs">操作</th>
                                 </tr>
                                 </thead>
@@ -85,8 +78,8 @@
                                 <tbody>
                                 <c:forEach items="${roles}" var="role" varStatus="status">
                                     <tr id="tr-${role.id}">
-                                        <td>${role.description}</td>
                                         <td>${role.name}</td>
+                                        <td>${role.description}</td>
                                         <td class="hidden-md hidden-sm hidden-xs">
                                             <div class="hidden-sm hidden-xs btn-group">
                                                 <sec:authorize access="hasAuthority('OPT_ROLE_DELETE')">

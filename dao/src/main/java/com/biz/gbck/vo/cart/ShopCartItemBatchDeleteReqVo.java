@@ -1,10 +1,8 @@
 package com.biz.gbck.vo.cart;
 
-import com.biz.core.util.DateUtil;
 import com.biz.gbck.vo.user.BaseRequestVo;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.sql.Timestamp;
 import java.util.Set;
 
 import static com.google.common.collect.Sets.newHashSet;
@@ -16,31 +14,20 @@ import static com.google.common.collect.Sets.newHashSet;
  */
 public class ShopCartItemBatchDeleteReqVo extends BaseRequestVo {
 
+    private static final long serialVersionUID = -7024451311062313823L;
+
     /**
      * 商品Id集合
      */
-    private Set<String> pCodes = newHashSet();
-
-    /**
-     * 操作时间
-     */
-    private Timestamp operateTime = DateUtil.now();
+    private Set<String> productIds = newHashSet();
 
 
-    public Set<String> getpCodes() {
-        return pCodes;
+    public Set<String> getProductIds() {
+        return productIds;
     }
 
-    public void setpCodes(Set<String> pCodes) {
-        this.pCodes = pCodes;
-    }
-
-    public Timestamp getOperateTime() {
-        return operateTime;
-    }
-
-    public void setOperateTime(Timestamp operateTime) {
-        this.operateTime = operateTime;
+    public void setProductIds(Set<String> productIds) {
+        this.productIds = productIds;
     }
 
     @Override

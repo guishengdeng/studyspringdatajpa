@@ -1,7 +1,15 @@
 package com.biz.pay.wechat.req;
 
-import static com.biz.pay.wechat.lang.Keys.*;
-import static com.google.common.collect.Lists.newArrayList;
+import com.biz.pay.wechat.exceptions.HttpException;
+import com.biz.pay.wechat.lang.Signer;
+import com.biz.pay.wechat.lang.SimpleHttpClient;
+import com.biz.pay.wechat.lang.XmlBuilder;
+import com.biz.pay.wechat.res.BaseWechatPayRespVo;
+import org.apache.commons.collections.KeyValue;
+import org.apache.commons.collections.keyvalue.DefaultKeyValue;
+import org.apache.http.entity.ContentType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,19 +17,11 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.TreeSet;
 
-import org.apache.commons.collections.KeyValue;
-import org.apache.commons.collections.keyvalue.DefaultKeyValue;
-import org.apache.http.entity.ContentType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static com.biz.pay.wechat.lang.Keys.KEY;
+import static com.biz.pay.wechat.lang.Keys.SIGN;
+import static com.google.common.collect.Lists.newArrayList;
 
-import com.biz.pay.wechat.exceptions.HttpException;
-import com.biz.pay.wechat.lang.Signer;
-import com.biz.pay.wechat.lang.SimpleHttpClient;
-import com.biz.pay.wechat.lang.XmlBuilder;
-import com.biz.pay.wechat.res.WechatPayResponseBase;
-
-public abstract class WechatPayRequestBase<T extends WechatPayResponseBase> {
+public abstract class WechatPayRequestBase<T extends BaseWechatPayRespVo> {
 
 	private static final Logger logger = LoggerFactory.getLogger(WechatPayRequestBase.class);
 	public static final String UTF_8 = "utf-8";

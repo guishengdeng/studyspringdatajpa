@@ -31,7 +31,7 @@ public class OrderRo extends BaseRedisObject<Long> {
     /**
      * 退货单Id
      */
-    private Long returnOrderId;
+    private Long orderReturnId;
 
     /**
      * 展示状态
@@ -59,12 +59,12 @@ public class OrderRo extends BaseRedisObject<Long> {
         this.orderCode = orderCode;
     }
 
-    public Long getReturnOrderId() {
-        return returnOrderId;
+    public Long getOrderReturnId() {
+        return orderReturnId;
     }
 
-    public void setReturnOrderId(Long returnOrderId) {
-        this.returnOrderId = returnOrderId;
+    public void setOrderReturnId(Long orderReturnId) {
+        this.orderReturnId = orderReturnId;
     }
 
     public OrderShowStatus getStatus() {

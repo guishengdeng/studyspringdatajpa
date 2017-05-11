@@ -35,25 +35,26 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
 
     @Override
     public void addCartItem(ShopCartItemAddReqVo reqVo) throws DepotNextDoorException {
-        if (reqVo == null || reqVo.getUserId() == null || StringUtils.isBlank(reqVo.getpCode()) || ValueUtils
+        if (reqVo == null || reqVo.getUserId() == null || StringUtils.isBlank(reqVo.getProductId()) || ValueUtils
                 .getValue(reqVo.getQuantity()) <= 0) {
             logger.warn("购物车参数不合法");
             throw new IllegalParameterException("参数不合法");
         }
         Long userId = Long.valueOf(reqVo.getUserId());
-        String pCode = reqVo.getpCode();
+        String productId = reqVo.getProductId();
         int quantity = reqVo.getQuantity();
 
         //TODO 数量校验
-        ShopCartItemRo shopCartItemRo = shopCartItemRedisDao.findByUserIdAndProductCode(Long.valueOf(reqVo
-                .getUserId()), pCode);
+        ShopCartItemRo shopCartItemRo = shopCartItemRedisDao.findByUserIdAndProductId(Long.valueOf(reqVo
+                .getUserId()), productId);
 
         if (shopCartItemRo != null) {
             quantity =  shopCartItemRo.getQuantity() + quantity;
         } else {
             shopCartItemRo = new ShopCartItemRo();
             shopCartItemRo.setUserId(userId);
-            shopCartItemRo.setProductCode(pCode);
+            shopCartItemRo.setProductId(productId);
+            shopCartItemRo.setSelected(true);
         }
         shopCartItemRo.setQuantity(quantity);
         shopCartItemRedisDao.save(shopCartItemRo);
@@ -88,17 +89,17 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
             logger.debug("Delete shop cart items with quantity : {}", reqVo);
         }
 
-        if (reqVo == null || reqVo.getUserId() == null || CollectionUtils.isEmpty(reqVo.getpCodes())) {
+        if (reqVo == null || reqVo.getUserId() == null || CollectionUtils.isEmpty(reqVo.getProductIds())) {
             logger.warn("购物车参数不合法");
             throw new IllegalParameterException("参数不合法");
         }
 
-        shopCartItemRedisDao.deleteByUserIdAndProductCodes(Long.valueOf(reqVo.getUserId()), reqVo.getpCodes());
+        shopCartItemRedisDao.deleteByUserIdAndProductIds(Long.valueOf(reqVo.getUserId()), reqVo.getProductIds());
     }
 
 
     @Override
-    public ShopCartItemUpdateRespVo updateCartItemQuantity(ShopCartItemUpdateReqVo reqVo) throws
+    public void updateCartItemQuantity(ShopCartItemUpdateReqVo reqVo) throws
             DepotNextDoorException {
         if (logger.isDebugEnabled()) {
             logger.debug("Update shop cart count updateVo: {}", reqVo);
@@ -112,8 +113,8 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         if (reqVo.getQuantity() > MAX_SHOP_CART_PRODUCT_QUANTITY) {
             reqVo.setQuantity(MAX_SHOP_CART_PRODUCT_QUANTITY);
         }
-        ShopCartItemRo shopCartItemRo = shopCartItemRedisDao.findByUserIdAndProductCode(Long.valueOf(reqVo.getUserId
-                ()), reqVo.getpCode());
+        ShopCartItemRo shopCartItemRo = shopCartItemRedisDao.findByUserIdAndProductId(Long.valueOf(reqVo.getUserId
+                ()), reqVo.getProductId());
         if (shopCartItemRo != null) {
             shopCartItemRo.setQuantity(reqVo.getQuantity());
             shopCartItemRo.setSelected(true);
@@ -121,7 +122,6 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         } else {
             throw new CartItemNotExistException("购物车商品不存在");
         }
-        return new ShopCartItemUpdateRespVo(reqVo.getpCode(), reqVo.getQuantity());
     }
 
     @Override

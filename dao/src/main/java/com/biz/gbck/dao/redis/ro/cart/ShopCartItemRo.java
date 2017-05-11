@@ -15,8 +15,13 @@ public class ShopCartItemRo extends BaseRedisObject<String> {
 
     private static final long serialVersionUID = -2165506334491450615L;
 
-    //userId:productCode
+    //userId:productId
     private String id;
+
+    /**
+     * 商品id
+     */
+    private String productId;
 
     /**
      * 商品编码
@@ -47,6 +52,14 @@ public class ShopCartItemRo extends BaseRedisObject<String> {
     @Override
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public String getProductCode() {

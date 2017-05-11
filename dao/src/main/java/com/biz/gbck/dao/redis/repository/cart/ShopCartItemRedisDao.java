@@ -29,7 +29,7 @@ public class ShopCartItemRedisDao extends CrudRedisDao<ShopCartItemRo, String> {
      */
     @Override
     public void save(ShopCartItemRo ro) {
-        ro.setId(getId(ro.getUserId(), ro.getProductCode()));
+        ro.setId(getId(ro.getUserId(), ro.getProductId()));
         ro.setUpdateTimestamp(DateUtil.now());
         super.save(ro);
     }
@@ -51,18 +51,18 @@ public class ShopCartItemRedisDao extends CrudRedisDao<ShopCartItemRo, String> {
      * 批量移除购物车商品
      *
      * @param userId     用户Id
-     * @param productCodes 商品编码集合
+     * @param productIds 商品id集合
      */
-    public void deleteByUserIdAndProductCodes(Long userId, Collection<String> productCodes) {
-        if (userId == null || CollectionUtils.isEmpty(productCodes)) {
+    public void deleteByUserIdAndProductIds(Long userId, Collection<String> productIds) {
+        if (userId == null || CollectionUtils.isEmpty(productIds)) {
             return;
         }
         List<String> ids = newArrayList();
         List<String> idKeys = newArrayList();
-        for (String productCode : productCodes) {
-            if (productCode != null) {
-                ids.add(getId(userId, productCode));
-                idKeys.add(super.getHashKey(getId(userId, productCode)));
+        for (String productId : productIds) {
+            if (productId != null) {
+                ids.add(getId(userId, productId));
+                idKeys.add(super.getHashKey(getId(userId, productId)));
             }
         }
         super.pipeDelete(idKeys);
@@ -70,13 +70,13 @@ public class ShopCartItemRedisDao extends CrudRedisDao<ShopCartItemRo, String> {
     }
 
     /**
-     * 生成id (userId:productCode)
+     * 生成id (userId:productId)
      * @param userId
-     * @param productCode
+     * @param productId
      * @return
      */
-    private String getId(Long userId, String productCode) {
-        return String.format("%s:%s", userId, productCode);
+    private String getId(Long userId, String productId) {
+        return String.format("%s:%s", userId, productId);
     }
 
     /**
@@ -84,8 +84,8 @@ public class ShopCartItemRedisDao extends CrudRedisDao<ShopCartItemRo, String> {
      * @param userId
      * @return
      */
-    public ShopCartItemRo findByUserIdAndProductCode(Long userId, String productCode) {
-        return findOne(getId(userId, productCode));
+    public ShopCartItemRo findByUserIdAndProductId(Long userId, String productId) {
+        return findOne(getId(userId, productId));
     }
 
     /**

@@ -11,6 +11,7 @@ public class CreateExtendPropertyVo implements IExtendPropertyVo {
      */
     private Long id;
 
+    private Integer idx;
     /**
      * 属性值
      */
@@ -60,4 +61,11 @@ public class CreateExtendPropertyVo implements IExtendPropertyVo {
         this.productExtendId = productExtendId;
     }
 
+    public Integer getIdx() {
+        return idx;
+    }
+
+    public void setIdx(Integer idx) {
+        this.idx = idx;
+    }
 }

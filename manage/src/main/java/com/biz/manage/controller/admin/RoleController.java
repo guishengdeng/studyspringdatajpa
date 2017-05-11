@@ -2,6 +2,7 @@ package com.biz.manage.controller.admin;
 
 import com.biz.gbck.dao.mysql.po.security.Role;
 import com.biz.gbck.enums.CommonStatusEnum;
+import com.biz.manage.controller.BaseController;
 import com.biz.service.IdService;
 import com.biz.service.security.interfaces.MainMenuService;
 import com.biz.service.security.interfaces.MenuItemService;
@@ -12,10 +13,13 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.validation.Valid;
 
 /**
  * RoleController
@@ -29,11 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("manage/roles")
 @Secured("ROLE_ROLE")
 @Controller
-public class RoleController {
-    @Autowired
-    private ResourceService resourceService;
-    @Autowired
-    private MenuItemService menuItemService;
+public class RoleController extends BaseController{
     @Autowired
     private RoleService roleService;
     @Autowired
@@ -48,9 +48,10 @@ public class RoleController {
     }
     @RequestMapping("/addOrUpdate")
     @PreAuthorize("hasAuthority('OPT_ROLE_EDIT')")
-    public String addOrUpdate(Role role){
+    public String addOrUpdate(@Valid Role role, BindingResult result){
         if(role.getId()==null)
             role.setId(idService.nextId());
+        error(result);
         roleService.addOrUpdate(role);
         return "redirect:/manage/roles";
     }
@@ -64,7 +65,7 @@ public class RoleController {
     @RequestMapping("/edit")
     @PreAuthorize("hasAuthority('OPT_ROLE_EDIT')")
     public String edit(Model model, @RequestParam("id") Long id){
-        Role role = id!=null?roleService.getRole(id):null;
+        Role role = id != null ? roleService.getRole(id) : null;
         model.addAttribute("role",role);
         model.addAttribute("cmd","edit");
         model.addAttribute("mainmenus",mainMenuService.listMainMenus());

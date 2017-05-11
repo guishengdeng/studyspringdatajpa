@@ -34,6 +34,29 @@ public class MainMenuServiceImpl extends AbstractBaseService implements MainMenu
     }
 
     /**
+     * 这里用的是po作为请求参数
+     * @param
+     * @return
+     */
+    @Override
+    public Boolean isExistMainMenu(MainMenu mainMenu) {
+         MainMenu item = mainMenuRepository.findByName(mainMenu.getName());
+         List<MainMenu> list = mainMenuRepository.findByOrderByCodeAscNameAsc();
+         if(item != null){
+             if(mainMenu.getId() != null){
+                  for(MainMenu mm :list){
+                       if(mainMenu.getId().equals(mm.getId()) && mainMenu.getName().equals(mm.getName())){
+                           return Boolean.TRUE;
+                       }
+                  }
+             }
+             return Boolean.FALSE;
+         }
+        return Boolean.TRUE;
+
+    }
+
+    /**
      * 由于这里执行的是逻辑删除，所以需要把当前对象的status字段设置为DISABLE
      * @param id
      */
