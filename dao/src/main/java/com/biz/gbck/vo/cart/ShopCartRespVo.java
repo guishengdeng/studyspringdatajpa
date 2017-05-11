@@ -95,6 +95,18 @@ public class ShopCartRespVo implements Serializable {
         this.payAmount = payAmount;
     }
 
+    //选中明细,结算
+    public List<ShopCartItemRespVo> getSelectedItems() {
+        List<ShopCartItemRespVo> selectedItems = newArrayList();
+        for (ShopCartItemRespVo item : items) {
+            if (item.isSelected()) {
+                selectedItems.add(item);
+            }
+        }
+        return selectedItems;
+    }
+
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);

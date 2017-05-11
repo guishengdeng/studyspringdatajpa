@@ -62,10 +62,10 @@ public class OrderItem extends BaseEntity implements IProduct {
     private Integer price;
 
     /**
-     * 成本价
+     * 市场价
      */
     @Column(nullable = false)
-    private Integer costPrice;
+    private Integer marketPrice;
 
     /**
      * 商品类型
@@ -106,12 +106,12 @@ public class OrderItem extends BaseEntity implements IProduct {
         this.price = price;
     }
 
-    public Integer getCostPrice() {
-        return costPrice;
+    public Integer getMarketPrice() {
+        return marketPrice;
     }
 
-    public void setCostPrice(Integer costPrice) {
-        this.costPrice = costPrice;
+    public void setMarketPrice(Integer costPrice) {
+        this.marketPrice = costPrice;
     }
 
     public String getName() {

@@ -14,6 +14,9 @@ import com.biz.gbck.exceptions.order.PaymentException;
 import com.biz.gbck.transform.order.Order2OrderRo;
 import com.biz.gbck.vo.IdReqVo;
 import com.biz.gbck.vo.PageRespVo;
+import com.biz.gbck.vo.cart.ShopCartItemRespVo;
+import com.biz.gbck.vo.cart.ShopCartListReqVo;
+import com.biz.gbck.vo.cart.ShopCartRespVo;
 import com.biz.gbck.vo.order.event.UserOrderCancelEvent;
 import com.biz.gbck.vo.order.req.*;
 import com.biz.gbck.vo.order.resp.OrderRespVo;
@@ -22,6 +25,7 @@ import com.biz.gbck.vo.payment.resp.PaymentRespVo;
 import com.biz.gbck.vo.stock.UpdatePartnerLockStockReqVO;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.SequenceService;
+import com.biz.service.cart.ShopCartService;
 import com.biz.service.order.frontend.OrderFrontendService;
 import com.biz.service.stock.StockService;
 import com.biz.soa.builder.OrderBuilder;
@@ -62,6 +66,9 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
 
     @Autowired
     private StockService stockService;
+
+    @Autowired
+    private ShopCartService shopCartService;
 
     /*****************public begin*********************/
 
@@ -165,9 +172,23 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
         Timers timers = Timers.createAndBegin(logger.isDebugEnabled());
         long id = idService.nextId();
         String orderCode = sequenceService.generateOrderCode();
-        //TODO 各种计算 统计
-        Order order = OrderBuilder.createBuilder(reqVo).build(id, orderCode);
-        //TODO 跟传入参数校验
+        ShopCartListReqVo cartInfoReqVo = new ShopCartListReqVo();
+        cartInfoReqVo.setUserId(reqVo.getUserId());
+        ShopCartRespVo cartVo = shopCartService.getCartInfo(cartInfoReqVo);
+        SystemAsserts.notNull(cartVo, "未获取到进货单信息");
+        List<ShopCartItemRespVo> items = cartVo.getSelectedItems();
+        SystemAsserts.notEmpty(items, "未获取到进货单信息");
+
+        List<OrderItem> orderItems = this.transOrderItems(items);
+        Order order = OrderBuilder.createBuilder(reqVo)
+                .setItems(orderItems)
+                .setFreeAmount(cartVo.getFreeAmount())
+                .setVoucherAmount(cartVo.getVoucherAmount())
+                .setPayAmount(cartVo.getPayAmount())
+                .setExpireTime(null) //TODO
+                .setPaymentType(null) //TODO
+                .build(id, orderCode);
+
         this.lockStock(order);
         timers.print("创建订单用时");
         return order;
@@ -197,6 +218,24 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
         preCommitOpt(() -> saveOrUpdateUsingPo(orderRepository, orderRedisDao, order, new Order2OrderRo()));
 
         return order;
+    }
+
+    private List<OrderItem> transOrderItems(List<ShopCartItemRespVo> items) {
+        List<OrderItem> orderItems = newArrayList();
+        for (ShopCartItemRespVo item : items) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setId(idService.nextId());
+            orderItem.setProductId(item.getProductId());
+            orderItem.setProductCode(item.getProductCode());
+            orderItem.setName(item.getName());
+            orderItem.setLogo(item.getLogo());
+            orderItem.setPrice(item.getPrice());
+            orderItem.setMarketPrice(item.getMarketPrice());
+            orderItem.setQuantity(item.getQuantity());
+            orderItems.add(orderItem);
+        }
+
+        return orderItems;
     }
 
 
