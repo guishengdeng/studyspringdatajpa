@@ -50,7 +50,11 @@ public class PartnerPo extends Company{
     /**
      * 审核时间
      */
-    private Timestamp operatorTime;
+    private Timestamp auditTime;
+    /**
+     * 审核意见
+     */
+    private String auditOpinion;
     /**
      * 经营品类
      */
@@ -263,11 +267,19 @@ public class PartnerPo extends Company{
         this.operator = operator;
     }
 
-    public Timestamp getOperatorTime() {
-        return operatorTime;
+    public Timestamp getAuditTime() {
+        return auditTime;
     }
 
-    public void setOperatorTime(Timestamp operatorTime) {
-        this.operatorTime = operatorTime;
+    public void setAuditTime(Timestamp auditTime) {
+        this.auditTime = auditTime;
+    }
+
+    public String getAuditOpinion() {
+        return auditOpinion;
+    }
+
+    public void setAuditOpinion(String auditOpinion) {
+        this.auditOpinion = auditOpinion;
     }
 }

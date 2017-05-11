@@ -183,15 +183,15 @@
                                                 否决
                                             </c:if>
                                         </td>
-                                        <td class="center operate"><c:out value="${partner.operatorTime}"/></td>
+                                        <td class="center operate"><c:out value="${partner.auditTime}"/></td>
                                         <td class="center operate"><c:out value="${partner.operator}"/></td>
                                         <td class="center operate">
                                             <c:choose>
                                                 <c:when test="${partner.approvalStatus eq 'UNDER_REVIEW'}">
-                                                    <a role="button" href="#">审核</a>
+                                                    <a role="button" href="/partner/edit/${partner.id}">审核</a>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <a role="button" href="#">详情</a>
+                                                    <a role="button" href="/partner/detail/${partner.id}">详情</a>
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>
