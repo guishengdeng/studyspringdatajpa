@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.URL;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "adm_resource")
@@ -29,8 +30,8 @@ public class Resource extends BasePO<Long> implements Identifiable<Long> {
     @Column(columnDefinition = "MEDIUMTEXT")
     @NotBlank(message = "权限不能为空")
     //^(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+));?)+$
-    //
-    @URL(regexp = "(((ROLE_[A-Z]{1,20})|(OPT(_[A-Z]{1,15})+));?)+", message = "无效的权限")
+    @NotNull(message = "权限不能为空")
+    @Pattern(regexp = "(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+));?)+", message = "无效的权限")
     private String symbol;
 
     @Column

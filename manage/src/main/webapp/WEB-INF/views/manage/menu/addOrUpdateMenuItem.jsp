@@ -140,8 +140,8 @@
 
                                     <div class="col-sm-9">
                                         <input type="text" id="link" name="link" placeholder=""
-                                               value="<c:out value='${menuItem.link}'/>" class="regExp required text col-xs-10 col-sm-5">
-                                        <p class="help-block">例如:manage/menuitem.do</p>
+                                               value="<c:out value='${menuItem.link}'/>" class="required text col-xs-10 col-sm-5">
+
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -150,8 +150,8 @@
                                         权限
                                     </label>
 
-                                    <div class="col-sm-9">
-                                        <input type="text" id="symbol" name="symbol" placeholder="" pattern="^(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+));?)+$"
+                                    <div class="col-sm-9"><%--^(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+));?)+$ --%>
+                                        <input type="text" id="symbol" name="symbol" placeholder="" pattern="(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+));?)+"
                                                value="<c:out value='${menuItem.symbol}'/>" class="regExp required text col-xs-10 col-sm-5">
                                         <p class="help-block">例如:OPT_XXX_XXX或者ROLE_XXX</p>
                                     </div>

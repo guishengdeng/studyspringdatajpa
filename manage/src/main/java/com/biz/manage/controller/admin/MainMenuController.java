@@ -4,6 +4,7 @@ import com.biz.gbck.dao.mysql.po.security.Admin;
 import com.biz.gbck.dao.mysql.po.security.MainMenu;
 import com.biz.gbck.dao.mysql.po.security.MenuItem;
 import com.biz.gbck.enums.CommonStatusEnum;
+import com.biz.manage.controller.BaseController;
 import com.biz.service.IdService;
 import com.biz.service.security.MainMenuServiceImpl;
 import com.biz.service.security.interfaces.MainMenuService;
@@ -12,6 +13,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -33,7 +36,7 @@ import java.util.List;
 @RequestMapping("manage/mainMenus")
 @Controller
 @Secured("ROLE_MAINMENU")
-public class MainMenuController {
+public class MainMenuController extends BaseController {
     @Autowired
     private MainMenuService mainMenuService;
     @Autowired
@@ -71,10 +74,11 @@ public class MainMenuController {
     }
     @RequestMapping("/addOrUpdate")
     @PreAuthorize("hasAuthority('OPT_MAINMENU_ADD')")
-    public String addOrUpdate(MainMenu mainMenu){
+    public String addOrUpdate(@Valid MainMenu mainMenu, BindingResult result){
         if(mainMenu.getId()==null){
             mainMenu.setId(idService.nextId());
         }
+        error(result);
         mainMenuService.addOrUpdate(mainMenu);
         return "redirect:/manage/mainMenus";
     }

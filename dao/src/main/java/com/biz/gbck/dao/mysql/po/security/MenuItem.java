@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.URL;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "adm_menuitem")
@@ -32,10 +33,12 @@ public class MenuItem extends BasePO<Long> implements Identifiable<Long> {
 
     @Column(length = 20)
     @NotNull(message = "图标不能为空")
+    @NotBlank(message = "图标不能为空")
     private String icon = "fa fa-list";
 
     @Column(length = 200)
     @NotNull(message = "连接地址不能为空")
+    @NotBlank(message = "连接地址不能为空")
     private String link;
 
     @Column
@@ -43,7 +46,9 @@ public class MenuItem extends BasePO<Long> implements Identifiable<Long> {
 
     @Column(columnDefinition = "MEDIUMTEXT")
     @NotBlank(message = "权限不能为空")
-    @URL(regexp = "^(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+));?)+$", message = "无效的权限")
+    //^(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+));?)+$
+    @NotNull(message = "权限不能为空")
+    @Pattern(regexp = "(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+));?)+", message = "无效的权限")
     private String symbol;
 
     @ManyToOne(fetch = FetchType.LAZY)

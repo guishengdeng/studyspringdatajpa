@@ -88,7 +88,7 @@
                                         <%--${not empty mainMenu ? 'readonly' : ''} --%>
                                         <input  type="text" id="name" name="name" placeholder="菜单名称"
                                                value="<c:out value='${mainMenu.name}'/>"
-                                                class="col-xs-10 col-sm-5">
+                                                class="required col-xs-10 col-sm-5">
                                     </div>
                                 </div>
                                 <div class="form-group">

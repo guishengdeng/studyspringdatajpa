@@ -161,9 +161,9 @@
                                 <thead>
                                 <tr>
                                     <th>用户名</th>
-                                    <th>角色</th>
+                                    <th>昵称</th>
                                     <th class="hidden-md hidden-sm hidden-xs">联系电话</th>
-                                    <th class="hidden-md hidden-sm hidden-xs">角色</th>
+
                                     <th class="hidden-md hidden-sm hidden-xs">状态</th>
                                     <%--center--%>
                                     <th class="hidden-md hidden-sm hidden-xs">操作</th>
@@ -173,11 +173,9 @@
                                 <tbody>
                                 <c:forEach items="${adminPage.content}" var="user">
                                     <tr id="tr-${user.username}">
-
                                         <td><c:out value="${user.username}"/></td>
                                         <td><c:out value="${user.name}"/></td>
                                         <td class="hidden-md hidden-sm hidden-xs"><c:out value="${user.phone}"/></td>
-                                        <td class="hidden-md hidden-sm hidden-xs"></td>
                                         <td class="hidden-md hidden-sm hidden-xs">
                                             <depotnextdoor:statusLabel selectedStatus="${user.status.value}"/>
                                         </td>

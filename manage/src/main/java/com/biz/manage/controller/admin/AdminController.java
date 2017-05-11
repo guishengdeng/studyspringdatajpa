@@ -3,6 +3,7 @@ package com.biz.manage.controller.admin;
 import com.biz.gbck.dao.mysql.po.security.Admin;
 import com.biz.gbck.exceptions.product.AdminNotFoundException;
 import com.biz.gbck.vo.admin.AdminReqVo;
+import com.biz.manage.controller.BaseController;
 import com.biz.manage.util.AuthorityUtil;
 import com.biz.service.security.interfaces.AdminService;
 import org.apache.commons.lang3.StringUtils;
@@ -12,8 +13,11 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 /**
  * @author david-liu
@@ -23,7 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("manage/users")
 @Secured("ROLE_USER")
-public class AdminController {
+public class AdminController extends BaseController{
 
     @Autowired
     private AdminService adminService;
@@ -76,16 +80,18 @@ public class AdminController {
 
     @RequestMapping("/save_add")
     @PreAuthorize("hasAuthority('OPT_USER_ADD')")
-    public ModelAndView save_add(Admin admin, @RequestParam("password") String pwd) {
+    public ModelAndView save_add(@Valid Admin admin, @RequestParam("password") String pwd, BindingResult result) {
         admin.setPassword(md5PasswordEncoder.encodePassword(pwd, admin.getUsername()));
         String creator = AuthorityUtil.getLoginUsername();
+        error(result);
         adminService.createAdmin(admin, creator);
         return new ModelAndView("redirect:/manage/users");
     }
     @RequestMapping("/save_edit")
     @PreAuthorize("hasAuthority('OPT_USER_EDIT')")
-    public String save_edit(Admin admin){
+    public String save_edit(Admin admin,BindingResult result){
         String creator=AuthorityUtil.getLoginUsername();
+        error(result);
         adminService.createAdmin(admin,creator);
         return "redirect:/manage/users";
     }

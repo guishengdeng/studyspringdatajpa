@@ -18,7 +18,7 @@
                     layer.msg("权限不能为空");
                     return false;
                 }
-              /*  var reg =/(((ROLE_[A-Z]+)|(OPT(_[A-Z]+_[A-Z]+))+);?)+/;
+                /*var reg =/(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+));?)+/;
                 var result = new RegExp(reg);
                 alert(result.test(symbol)+"-------");
                 return ;*/
@@ -107,7 +107,7 @@
                                         权限
                                     </label>
                                     <div class="col-sm-9">
-                                        <input type="text" id="symbol" name="symbol" placeholder="请输入权限" pattern="(((ROLE_[A-Z]{1,20})|(OPT(_[A-Z]{1,15})+));?)+"
+                                        <input type="text" id="symbol" name="symbol" placeholder="请输入权限" pattern="(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+));?)+"
                                                value="<c:out value='${resource.symbol}'/>" class="regExp text col-xs-10 col-sm-5">
                                         <p class="help-block">例如:OPT_XXX_XXX或者ROLE_XXX</p>
                                     </div>

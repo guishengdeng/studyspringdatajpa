@@ -24,6 +24,7 @@ public class MainMenu extends BasePO<Long> {
 
     @Column(length = 200)
     @NotNull(message = "名称不能为空")
+    @NotBlank(message = "名称不能为空")
     private String name;
 
     @Column

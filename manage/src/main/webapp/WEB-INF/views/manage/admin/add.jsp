@@ -34,7 +34,6 @@
                          document.adminForm.action = "manage/users/save_"+cmd+".do";
                          document.adminForm.submit();
                      }else{
-
                          layer.msg("该用户已注册");
                          return false;
                      }
@@ -86,7 +85,7 @@
                                 </a>
                             </span>
                             </h3>
-                            <form action= method="post" id="admin_form" name="adminForm"
+                            <form action="" method="post" id="admin_form" name="adminForm"
                                                  class="form-horizontal" role="form">
                                          <input type="hidden" id="cmd" value="<c:out value="${cmd}"/>"/>
                                         <div class="form-group">
@@ -103,7 +102,7 @@
                                                         placeholder="用户名"
                                                         name="username"
                                                         value="${admin.username}"/>
-
+                                                <p class="help-block">用户名一旦注册,便不能修改</p>
                                             </div>
                                       </div>
                                 <c:if test="${empty admin}">
@@ -114,8 +113,9 @@
                                         </label>
 
                                         <div class="col-sm-9">
-                                            <input type="password" id="password" placeholder="密码" value="<c:out value='${admin.password}'/> "
-                                                   name="password" class="required col-xs-10 col-sm-5" maxlength="16" minlength="6">
+                                            <input type="password" id="password" placeholder="密码"  value="<c:out value='${admin.password}'/> "
+                                                   name="password" class="required col-xs-10 col-sm-5" maxlength="20" minlength="6">
+
                                         </div>
                                     </div>
                                 </c:if>
@@ -129,7 +129,7 @@
                                         描述
                                     </label>
                                     <div class="col-sm-9">
-                                        <input type="text" id="name" name="name" placeholder="姓名"
+                                        <input type="text" id="name" name="name" placeholder=""
                                                value="<c:out value='${admin.name}'/>"
                                                 class="col-xs-10 col-sm-5">
                                     </div>
