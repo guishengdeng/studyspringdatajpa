@@ -1,4 +1,4 @@
-package com.biz.service.org;
+package com.biz.soa.org.service;
 
 import com.biz.core.util.DateUtil;
 import com.biz.core.util.StringTool;

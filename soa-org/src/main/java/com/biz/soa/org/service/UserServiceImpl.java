@@ -1,4 +1,4 @@
-package com.biz.service.org;
+package com.biz.soa.org.service;
 
 
 

@@ -30,6 +30,8 @@ public class UserPoToUserRo implements Function<UserPo, UserRo>, Serializable {
             ro.setLastLoginIP(po.getLastLoginIP());
             ro.setIsAdmin(po.getIsAdmin());
             ro.setStatus(po.getStatus());
+            ro.setPartnerId(po.getShop().getPartner().getId());
+            ro.setPlatformId(po.getShop().getPartner().getPlatform().getId());
         }
         return ro;
     }

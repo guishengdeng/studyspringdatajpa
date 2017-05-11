@@ -80,7 +80,7 @@ public interface UserService {
     /**
      * 查找用户
      */
-    UserRo findUser(Long userId) throws CommonException ;
+    UserRo findUser(Long userId) throws CommonException;
 
     UserPo findAdminByShopId(Long shopId) ;
 
