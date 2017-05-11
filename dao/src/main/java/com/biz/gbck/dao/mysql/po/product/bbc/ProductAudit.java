@@ -3,7 +3,7 @@ package com.biz.gbck.dao.mysql.po.product.bbc;
 import com.biz.gbck.dao.mysql.po.product.meta.Brand;
 import com.biz.gbck.dao.mysql.po.product.meta.Category;
 import com.biz.gbck.dao.mysql.po.product.meta.ExtendProperty;
-import com.biz.gbck.dao.mysql.po.product.meta.SaleTag;
+import com.biz.gbck.dao.mysql.po.tag.SaleTag;
 import com.biz.gbck.enums.product.ProductAuditStatusEnum;
 import com.biz.gbck.enums.product.VendorTypeEnum;
 import com.biz.gbck.vo.product.backend.IProductAuditVo;

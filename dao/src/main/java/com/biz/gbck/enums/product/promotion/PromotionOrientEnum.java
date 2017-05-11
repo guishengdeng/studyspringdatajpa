@@ -18,7 +18,7 @@ public enum PromotionOrientEnum implements EnumerableNameAndValueAndDescription 
         this.description = description;
     }
 
-    public static class Converter extends BaseEnumNameAndValueAndDescriptionConverter {
+    public static class Converter extends BaseEnumNameAndValueAndDescriptionConverter<PromotionOrientEnum> {
 
     }
 

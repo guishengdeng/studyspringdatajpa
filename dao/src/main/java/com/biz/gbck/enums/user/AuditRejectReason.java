@@ -1,5 +1,6 @@
 package com.biz.gbck.enums.user;
 
+import com.biz.gbck.common.exception.CommonRuntimeException;
 import org.apache.commons.lang.math.NumberUtils;
 
 import java.util.List;
@@ -35,27 +36,27 @@ public enum AuditRejectReason {
         this.description = description;
     }
 
-//    public static AuditRejectReason valueOf(Integer value) {
-//        for (AuditRejectReason shopDetailAuditStatus : values()) {
-//            if (Objects.equals(shopDetailAuditStatus.getValue(), value)) {
-//                return shopDetailAuditStatus;
-//            }
-//        }
-////        throw new CommonRuntimeException("Illegal ShopDetailAuditStatus");
-//    }
+    public static AuditRejectReason valueOf(Integer value) {
+        for (AuditRejectReason shopDetailAuditStatus : values()) {
+            if (Objects.equals(shopDetailAuditStatus.getValue(), value)) {
+                return shopDetailAuditStatus;
+            }
+        }
+        throw new CommonRuntimeException("Illegal ShopDetailAuditStatus");
+    }
 
-//    public static List<String> parseRejectReasons(String[] values) {
-//
-//        List<String> rejectReasons = newArrayList();
-//        if (values != null) {
-//            for (String value : values) {
-//                if(NumberUtils.isNumber(value)){
-//                    rejectReasons.add(valueOf(Integer.valueOf(value)).getDescription());
-//                }
-//            }
-//        }
-//        return rejectReasons;
-//    }
+    public static List<String> parseRejectReasons(String[] values) {
+
+        List<String> rejectReasons = newArrayList();
+        if (values != null) {
+            for (String value : values) {
+                if(NumberUtils.isNumber(value)){
+                    rejectReasons.add(valueOf(Integer.valueOf(value)).getDescription());
+                }
+            }
+        }
+        return rejectReasons;
+    }
 
     public Integer getValue() {
         return value;

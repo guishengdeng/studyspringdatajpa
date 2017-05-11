@@ -7,6 +7,7 @@ import com.biz.gbck.dao.mysql.po.product.promotion.singleProduct.*;
 import com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder.AccountPerUnitCutPromotion;
 import com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder.MultipleIncrementGiftPromotion;
 import com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder.StairCutPromotion;
+import com.biz.gbck.dao.mysql.po.tag.SaleTag;
 import com.biz.gbck.vo.product.PropertyItemVo;
 import com.biz.support.jpa.converter.ListStringConverter;
 import com.biz.support.jpa.po.BaseEntity;

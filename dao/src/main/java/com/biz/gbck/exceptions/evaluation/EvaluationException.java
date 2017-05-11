@@ -1,6 +1,6 @@
 package com.biz.gbck.exceptions.evaluation;
 
-import com.biz.gbck.exceptions.ExceptionType;
+import com.biz.core.exceptions.ExceptionType;
 
 /**
  * @author yangzichun

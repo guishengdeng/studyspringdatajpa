@@ -21,7 +21,7 @@ public enum WholeOrderPromotionLimitEnum implements EnumerableNameAndValueAndDes
         this.description = description;
     }
 
-    public static class Converter extends BaseEnumNameAndValueAndDescriptionConverter {
+    public static class Converter extends BaseEnumNameAndValueAndDescriptionConverter<WholeOrderPromotionLimitEnum> {
 
     }
 

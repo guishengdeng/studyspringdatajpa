@@ -1,5 +1,7 @@
 package com.biz.gbck.exceptions;
 
+import com.biz.core.exceptions.ExceptionType;
+
 /**
  * SOA 异常信息定义
  *
@@ -307,16 +309,17 @@ public interface DepotNextDoorExceptions {
         }
     }
 
-    /**
-     * 3000-3100
-     */
-    enum PrePaidCard implements ExceptionType {
-        CARD_ID_ERROR(3000, "未输入储值卡卡号"),
-        FAILED_TO_GET_PREPAID(3001, "未获取到储值卡信息");
 
+    /**
+     * 2500-2600
+     */
+    enum Cart implements ExceptionType {
+        ILLEGAL_PARAMETER(2501, "参数不合法"),
+        CART_ITEM_NOT_EXIST(2502, "购物车商品不存在");
         private int code;
         private String description;
-        PrePaidCard(int code, String description) {
+
+        Cart(int code, String description) {
             this.code = code;
             this.description = description;
         }
@@ -331,4 +334,55 @@ public interface DepotNextDoorExceptions {
             return description;
         }
     }
+
+    /**
+     * 3000-3100
+     */
+    enum Order implements ExceptionType {
+
+        ORDER_NOT_EXIST(3001, "订单不存在"),
+        ORDER_PAYED(3002, "订单已经支付");
+
+        private int code;
+        private String description;
+
+        Order(int code, String description) {
+            this.code = code;
+            this.description = description;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+    }
+
+    /**
+     * 3100-3200
+     */
+    enum Payment implements ExceptionType {
+
+        PAYMENT_ERROR(3100, "支付单异常");
+
+        private int code;
+        private String description;
+
+        Payment(int code, String description) {
+            this.code = code;
+            this.description = description;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+    }
+
+
 }

@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.mysql.po.demo;
 
-import com.biz.gbck.dao.mysql.po.BasePo;
 import com.biz.gbck.enums.CommonStatusEnum;
+import com.biz.support.jpa.po.BaseEntity;
 
 import javax.persistence.*;
 
@@ -10,10 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "demo_cat")
-public class CatPO extends BasePo<Long> {
-
-	@Id
-	private Long id;
+public class CatPO extends BaseEntity {
 
 	/**
 	 * 名字
@@ -23,6 +20,9 @@ public class CatPO extends BasePo<Long> {
 
 	@Column(length = 255, unique = false)
 	private String description;
+
+	@Column(length = 255, nullable = false)
+	private String homepage;
 
 	@Column
 	@Convert(converter = SaleStatusEnum.Converter.class)
@@ -34,24 +34,6 @@ public class CatPO extends BasePo<Long> {
 	@Column
 	@Enumerated(EnumType.STRING)
 	private CommonStatusEnum status;
-
-	/**
-	 * {@linkplain CatPO#id}
-	 */
-	@Override
-	public Long getId() {
-
-		return id;
-	}
-
-	/**
-	 * {@linkplain CatPO#id}
-	 */
-	@Override
-	public void setId(Long id) {
-
-		this.id = id;
-	}
 
 	/**
 	 * {@linkplain CatPO#name}
@@ -99,6 +81,22 @@ public class CatPO extends BasePo<Long> {
 	public void setSaleStatus(SaleStatusEnum saleStatus) {
 
 		this.saleStatus = saleStatus;
+	}
+
+	/**
+	 * {@linkplain CatPO#homepage}
+	 */
+	public String getHomepage() {
+
+		return homepage;
+	}
+
+	/**
+	 * {@linkplain CatPO#homepage}
+	 */
+	public void setHomepage(String homepage) {
+
+		this.homepage = homepage;
 	}
 
 	/**
