@@ -2,8 +2,6 @@ package com.biz.manage.controller.saleTage;
 
 
 import com.biz.gbck.dao.mysql.po.tag.SaleTag;
-import com.biz.gbck.enums.CommonStatusEnum;
-import com.biz.gbck.vo.product.backend.CreateSaleTagVo;
 import com.biz.gbck.vo.product.backend.SaleTagSearchVo;
 import com.biz.gbck.vo.product.backend.SaleTagVo;
 import com.biz.manage.controller.BaseController;

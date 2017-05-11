@@ -122,15 +122,15 @@
                             </label>
                             <div class="radio inline">
                                 <label>
-                                    <input name="saleStatus" type="radio" class="ace " value="ENABLE"
+                                    <input name="saleStatus" type="radio" class="ace required text" value="ENABLE"
                                            <c:if test="${saleTag.saleStatus eq 'ENABLE'}">checked</c:if>>
                                     <span class="lbl">启用</span>
                                 </label>
                             </div>
-
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <div class="radio inline">
                                 <label>
-                                    <input name="saleStatus" type="radio" class="ace " value="DISABLE"
+                                    <input name="saleStatus" type="radio" class="ace required text " value="DISABLE"
                                            <c:if test="${saleTag.saleStatus eq 'DISABLE'}">checked</c:if>>
                                     <span class="lbl">禁用</span>
                                 </label>

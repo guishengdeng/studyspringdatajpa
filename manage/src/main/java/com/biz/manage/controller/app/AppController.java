@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 /**
  * app的内容管理
  * Created by lzz on 2017/4/18.
@@ -26,14 +28,15 @@ public class AppController extends BaseController {
     @RequestMapping("/appConfig")
     @PreAuthorize("hasAuthority('OPT_APP_LIST')")
     public ModelAndView app() {
-        return new ModelAndView("manage/application/appConfig");
+        AppVo appVo = appService.findLastData();
+        return new ModelAndView("manage/application/appConfig").addObject("appVo",appVo);
     }
 
     @RequestMapping(value = "/addOrUpdate", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('OPT_APP_ADDORUPDATE')")
     public ModelAndView addOrUpdate(AppVo appVo) {
         appService.addOrUpdate(appVo);
-        return new ModelAndView("manage/application/appConfig").addObject("AppVo", appVo);
+        return new ModelAndView("manage/application/appConfig").addObject("appVo", appVo);
     }
 
 }

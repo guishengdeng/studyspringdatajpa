@@ -84,13 +84,13 @@
                             <form action="goodsmanagement/search.do" method="get">
                                 <div class="col-md-3 inline">
                                     <label>名字</label>
-                                    <input name="name" value="<c:out value='${saleTagSearch.name}'/>" type="text"
+                                    <input name="name" value="<c:out value='${saleTagSearchVo.name}'/>" type="text"
                                            placeholder="名字" autocomplete="off">
                                 </div>
                                 <div class="col-md-2 inline">
                                     <label>启用状态</label>
                                     <gbck:commonStatusSelect fieldName="saleStatus"
-                                                             selectedStatus="${saleTag.saleStatus}"
+                                                             selectedStatus="${saleTagSearchVo.saleStatus}"
                                                              withNone="true" enableLabel="启用" disableLabel="禁用"/>
                                 </div>
                                 <div class="inline">
@@ -104,7 +104,6 @@
                             <table id="tag-table" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th class="name">编号</th>
                                     <th class="name">标签名</th>
                                     <th class="status">后台备注</th>
                                     <th class="status">是否启用</th>
@@ -116,8 +115,6 @@
                                 <tbody>
                                 <c:forEach items="${page.content}" var="saleTag">
                                     <tr id="tr-${saleTag.id}">
-
-                                        <td><c:out value="${saleTag.id}"/></td>
                                         <td class="name"><c:out value="${saleTag.name}"/></td>
                                         <td><c:out value="${saleTag.description}"/></td>
                                         <td><c:out value="${saleTag.saleStatus eq 'ENABLE' ? '启用':'禁用'}"/></td>

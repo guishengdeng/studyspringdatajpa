@@ -3,6 +3,8 @@ package com.biz.service.app;
 import com.biz.gbck.dao.mysql.po.app.App;
 import com.biz.gbck.vo.app.AppVo;
 
+import java.util.List;
+
 
 /**
  * @author lzz
@@ -14,5 +16,7 @@ public interface AppService {
     App findById(Long id);
 
     void addOrUpdate(AppVo appVo);
+
+    AppVo findLastData();
 
 }

@@ -7,8 +7,11 @@ import com.biz.gbck.vo.app.AppVo;
 import com.biz.service.AbstractBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Objects;
+
 import static org.codelogger.utils.ExceptionUtils.iae;
 
 
@@ -59,5 +62,31 @@ public class AppServiceImpl extends AbstractBaseService implements AppService {
             //id不为空且数据库中没有找到相对应的数据（异常处理）
         }
 
+    }
+
+    @Override
+    public AppVo findLastData() {
+        Long id = null;
+        AppVo appVo = new AppVo();
+        if (appRepository.findLastData() != null && appRepository.findLastData().size() != 0) {
+            id = Long.valueOf(String.valueOf(appRepository.findLastData().get(0)));
+            App app = appRepository.findOne(id);
+            appVo.setId(app.getId());
+            appVo.setTel(app.getTel());
+            appVo.setPictureUrl(app.getPictureUrl());
+            appVo.setUrl(app.getUrl());
+            appVo.setHotKeyWord(app.getHotKeyWord());
+            appVo.setContent(app.getContent());
+            appVo.setTel(app.getTel());
+            appVo.setTitle(app.getTitle());
+            appVo.setIcon(app.getIcon());
+            appVo.setShareUrl(app.getShareUrl());
+            appVo.setRecommedUrl(app.getRecommedUrl());
+            appVo.setAppDownloadUrl(app.getAppDownloadUrl());
+            appVo.setAmount(app.getAmount());
+            appVo.setTabOne(app.getTabOne());
+            appVo.setTabTwo(app.getTabTwo());
+        }
+        return id != null ? appVo : null;
     }
 }
