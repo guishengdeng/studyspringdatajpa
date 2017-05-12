@@ -152,5 +152,17 @@ public class UserRegisterReqVo extends WithoutBindRequestParams
         this.originalPassword = originalPassword;
     }
 
-
+    @Override
+    public String toString() {
+        return "UserRegisterReqVo{" +
+                "mobile='" + mobile + '\'' +
+                ", smsCode='" + smsCode + '\'' +
+                ", password='" + password + '\'' +
+                ", inviterCode='" + inviterCode + '\'' +
+                ", globalParams=" + globalParams +
+                ", originalPassword='" + originalPassword + '\'' +
+                ", ip='" + ip + '\'' +
+                ", token='" + token + '\'' +
+                '}';
+    }
 }
