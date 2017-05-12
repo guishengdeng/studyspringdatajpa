@@ -65,4 +65,14 @@ public class PlatformPo extends Company{
     public void setPartners(List<PartnerPo> partners) {
         this.partners = partners;
     }
+
+    @Override
+    public String getMobile() {
+        return mobile;
+    }
+
+    @Override
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 }

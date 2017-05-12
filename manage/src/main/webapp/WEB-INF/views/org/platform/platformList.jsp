@@ -71,7 +71,7 @@
                             <table class="table table-striped table-bordered table-hover audit-table">
                                 <thead>
                                 <tr>
-                                    <th class="p-checkbox"><span class="pointer select-all">全选</span>/
+                                    <th style="width:80px" class="p-checkbox"><span class="pointer select-all">全选</span>/
                                         <span class="pointer select-inverted">反选</span></th>
                                     <th>平台公司ID</th>
                                     <th>平台公司名称</th>
@@ -82,27 +82,11 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr >
-                                    <td class="p-checkbox" style="width:65px">
-                                        <input type="checkbox" class="ui checkbox" name="group" value="${shop.id}"/>
-                                    </td>
-                                    <td><c:out value="P1339"/></td>
-                                    <td><c:out value="凤凰隔"/></td>
-                                    <td><c:out value="彪哥"/></td>
-                                    <td><c:out value="13541225017"/></td>
-                                    <td style="color:green" >启用</td>
-                                    <td>
-                                        <div class="hidden-sm hidden-xs btn-group">
-                                            <a class="btn btn-xs btn-info" href="/platform/partnerList.do?platformId=<c:out value="${platform.id}"/>">
-                                                <i class="ace-icon fa fa-pencil bigger-120"></i><span>查看</span>
-                                            </a>&nbsp;
-                                        </div>
-                                    </td>
-                                </tr>
                                 <c:forEach items="${platformSearchResVoPage.content}" var="platform">
                                     <tr >
-                                        <td class="p-checkbox" style="width:65px">
-                                            <input type="checkbox" class="ui checkbox" name="group" value="${platform.id}"/>
+                                        <td style="width:80px">
+                                            <input  name="platform_ids" class="ace" type="checkbox" value="<c:out value='${platform.id}'/>"/>
+                                            <span class="lbl"></span>
                                         </td>
                                         <td><c:out value="${platform.id}"/></td>
                                         <td><c:out value="${platform.name}"/></td>

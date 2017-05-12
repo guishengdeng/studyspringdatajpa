@@ -1,5 +1,6 @@
 package com.biz.service.partner;
 
+import com.biz.core.util.DateUtil;
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.common.exception.ExceptionCode;
 import com.biz.gbck.dao.mysql.po.org.PartnerPo;
@@ -84,17 +85,19 @@ public class PartnerServiceImpl implements PartnerService{
     @Override
     public void updatePartnerStatus(PartnerReqVo partnerReqVo) throws CommonException {
         if(partnerReqVo == null || partnerReqVo.getId() == null) {
-            return;
+            throw new CommonException("未知合伙人信息");
         }
         if(partnerReqVo.getApprovalStatus() == null || partnerReqVo.getApprovalStatus() == ApprovalStatus.UNDER_REVIEW) {
             throw new CommonException("请选择审核意向");
         }
         PartnerPo partnerPo = partnerRepository.findOne(partnerReqVo.getId());
         if(partnerPo == null) {
-            throw new CommonException("未查询到该条审核信息");
+            throw new CommonException("未查询到该条合伙人信息");
         }
         partnerPo.setAuditOpinion(partnerReqVo.getAuditOpinion());
+        partnerPo.setOperator(partnerReqVo.getOperator());
         partnerPo.setApprovalStatus(partnerReqVo.getApprovalStatus());
+        partnerPo.setAuditTime(DateUtil.now());
         Set<Admin> admins = partnerPo.getAdmins();
         if(CollectionUtils.isNotEmpty(admins)) {
             for (Admin admin : admins) {
