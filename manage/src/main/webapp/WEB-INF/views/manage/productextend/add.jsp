@@ -9,7 +9,7 @@
          <script type="application/javascript">
              $('#curr').hide();
              $('#addOrUpdate').on('click',function(){
-                     change();
+
                  var data = $('#productExtend_form').serialize();
                  var selectedCategoryId = $('#selectedCategoryId').val();
                  var productExtendValue = $ ('#productExtendValue').val();
@@ -21,6 +21,7 @@
                      layer.msg("请输入属性名");
                      return false;
                  }
+                 change();
                  $.ajax({
                      method : "POST",
                      url : "product/categoryProperty/addOrUpdate.do",
@@ -43,6 +44,8 @@
                  //点击下拉列表,获取说选中的分类id
                  var selectedCategoryId = $('#selectedCategoryId').val();
                  if(selectedCategoryId == "不限"){
+                     $('#curr').hide();
+                     $("#list").empty();
                      layer.msg("请手动选择分类,谢谢。")
                      return false;
                  }
@@ -54,13 +57,14 @@
                          },
                      dataType : "json"
                  }).done(function(data){
-                     $("#list").empty();
-                     $('#curr').show();
-                     for(var i=0;i<data.currJson.length;i++){
-                         var name = data.currJson[i].name;
-                         $("#list").append('<input type="text" readonly="readonly"  value="'+name+'"/>');
-                         console.log(data.currJson);
-                     }
+                         $("#list").empty();
+                         $('#curr').show();
+                         for(var i=0;i<data.currJson.length;i++){
+                             var name = data.currJson[i].name;
+                             $("#list").append('<input type="text" readonly="readonly"  value="'+name+'"/>');
+                             console.log(data.currJson);
+                         }
+
                  });
              }
          </script>

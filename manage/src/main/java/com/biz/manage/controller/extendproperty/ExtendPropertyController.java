@@ -69,6 +69,7 @@ public class ExtendPropertyController {
     public ModelAndView add(@PathVariable(name = "productExtendId") Long id) {
 
         return new ModelAndView("manage/extendproperty/add", "productExtendId", id)
+                .addObject("extendProperties",extendPropertyService.findByProductExtendId(id))
                 .addObject("cmd", "add");
     }
 
@@ -79,6 +80,7 @@ public class ExtendPropertyController {
         return new ModelAndView("manage/extendproperty/add",
                 "extendProperty", extendPropertyService.findById(epId))
                 .addObject("productExtendId", peId)
+                .addObject("extendProperties",extendPropertyService.findByProductExtendId(peId))
                 .addObject("cmd", "edit");
     }
     @RequestMapping("/addOrUpdate")

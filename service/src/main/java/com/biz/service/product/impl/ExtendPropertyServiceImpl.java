@@ -52,14 +52,14 @@ public class ExtendPropertyServiceImpl extends AbstractBaseService  implements E
         List<ExtendProperty> list = extendPropertyRepository.findByProductExtendId(vo.getProductExtendId());
         if(extendProperty != null){
 
-             if(vo.getId() !=null){
+             if(vo.getId() != null){
                  for(ExtendProperty item : list){
                       if(vo.getId().equals(item.getId()) && vo.getValue().trim().equals(item.getValue().trim())){
                           return  Boolean.TRUE;
                       }
-                      /*if(vo.getValue().trim().equals(item.getValue().trim())){
+                      if(vo.getValue().trim().equals(item.getValue().trim())){
                           return  Boolean.FALSE;
-                      }*/
+                      }
                  }
              }
             return Boolean.FALSE;

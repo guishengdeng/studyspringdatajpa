@@ -30,7 +30,7 @@
                        data:$('#category_sort_form').serialize(),
                        url:'product/categoryProperty/save_sort.do'
                    }).done(function(){
-                       window.location.href='/manage/categories/'+categoryId+".do"
+                       window.location.href='product/categories/'+categoryId+".do"
                    });
                });
               /* var category=document.getElementById("category");
