@@ -132,7 +132,7 @@
                                                         <a data-id="${saleTag.id}"
                                                            data-name='<c:out value="${saleTag.name}"/>'
                                                            class="btn btn-minier btn-danger cat-ban-btn">
-                                                            <i class="ace-icon fa fa-ban bigger-120"></i>
+                                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                         </a>
                                                     </c:if>
                                                 </sec:authorize>
