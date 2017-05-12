@@ -8,7 +8,6 @@ import com.biz.gbck.vo.order.req.*;
 import com.biz.gbck.vo.order.resp.OrderRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
 import com.biz.gbck.vo.payment.resp.PaymentRespVo;
-import com.biz.gbck.vo.user.BaseRequestVo;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.service.order.frontend.OrderFrontendService;
 import com.biz.support.web.handler.JSONResult;
@@ -59,9 +58,9 @@ public class OrderController extends BaseRestController {
 
     //结算
     @RequestMapping("/settle")
-    public JSONResult settle(HttpServletRequest request) {
+    public JSONResult settle(HttpServletRequest request) throws DepotNextDoorException {
         OrderSettlePageReqVo reqVo = super.parseBizData(request, OrderSettlePageReqVo.class);
-        OrderSettlePageRespVo respVo = orderService.settle(reqVo);
+        OrderSettlePageRespVo respVo = orderService.getSettleResult(reqVo);
         return new JSONResult(respVo);
     }
 

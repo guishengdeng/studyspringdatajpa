@@ -11,6 +11,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  */
 public class ShopCartListReqVo extends BaseRequestVo {
 
+    private static final long serialVersionUID = 2010073680708198043L;
 
     @Override
     public String toString() {

@@ -1,5 +1,6 @@
 package com.biz.soa.builder;
 
+import com.biz.core.asserts.SystemAsserts;
 import com.biz.gbck.vo.order.resp.OrderItemRespVo;
 import com.biz.gbck.vo.order.resp.OrderPromotionRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
@@ -64,6 +65,10 @@ public class OrderSettlePageRespVoBuilder extends AbstractOrderBuilder {
     }
 
     public OrderSettlePageRespVo build() {
+        SystemAsserts.notEmpty(respVo.getItems(), "结算商品明细为空");
+        SystemAsserts.notNull(respVo.getBuyerName(), "收货人信息为空");
+        SystemAsserts.notNull(respVo.getBuyerMobile(), "收货人电话为空");
+        SystemAsserts.notNull(respVo.getBuyerAddress(), "收货人地址为空");
         return this.respVo;
     }
 

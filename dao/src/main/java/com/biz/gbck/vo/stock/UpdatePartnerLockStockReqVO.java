@@ -15,7 +15,7 @@ import static com.google.common.collect.Lists.newArrayList;
 public class UpdatePartnerLockStockReqVO implements Serializable {
     private static final long serialVersionUID = 1740147389692009015L;
 
-    public static final int DEFAULT_ALIVE_TIME = 24 * 60; //默认失效时间
+    public static final int DEFAULT_ALIVE_TIME = 60; //默认失效时间
 
     /**
      * 订单编号

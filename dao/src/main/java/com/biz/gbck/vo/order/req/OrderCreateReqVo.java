@@ -5,9 +5,6 @@ import com.biz.gbck.enums.order.InvoiceType;
 import com.biz.gbck.enums.order.PaymentType;
 
 import javax.validation.constraints.Size;
-import java.util.List;
-
-import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * 订单返回Vo
@@ -18,6 +15,8 @@ import static com.google.common.collect.Lists.newArrayList;
  * @see
  */
 public class OrderCreateReqVo extends OrderSettlePageReqVo {
+
+    private static final long serialVersionUID = 8586905363689712387L;
 
     /**
      * 买家备注
@@ -34,12 +33,6 @@ public class OrderCreateReqVo extends OrderSettlePageReqVo {
      * 促销Id
      */
     private Long promotionId;
-
-    /**
-     * 优惠券
-     */
-    private List<Long> usedCoupons = newArrayList();
-
 
     /**
      * 发票抬头
@@ -66,16 +59,6 @@ public class OrderCreateReqVo extends OrderSettlePageReqVo {
 
     public void setPromotionId(Long promotionId) {
         this.promotionId = promotionId;
-    }
-
-    @Override
-    public List<Long> getUsedCoupons() {
-        return usedCoupons;
-    }
-
-    @Override
-    public void setUsedCoupons(List<Long> usedCoupons) {
-        this.usedCoupons = usedCoupons;
     }
 
     public Integer getInvoiceType() {
