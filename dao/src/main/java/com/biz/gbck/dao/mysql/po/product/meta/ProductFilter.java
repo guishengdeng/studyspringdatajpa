@@ -1,6 +1,7 @@
 package com.biz.gbck.dao.mysql.po.product.meta;
 
 import com.biz.gbck.enums.CommonStatusEnum;
+import com.biz.gbck.vo.product.backend.UpdateProductFilterVo;
 import com.biz.support.jpa.po.BaseEntity;
 import java.io.Serializable;
 import java.util.List;
@@ -161,6 +162,18 @@ public class ProductFilter extends BaseEntity implements Serializable {
 
     public void setDeleteFlag(Boolean deleteFlag) {
         this.deleteFlag = deleteFlag;
+    }
+
+    public UpdateProductFilterVo toUpdateProductFilterVo() {
+        UpdateProductFilterVo vo = new UpdateProductFilterVo();
+        vo.setId(this.getId().toString());
+        vo.setField(this.getField());
+        vo.setHasMore(this.getHasMore());
+        vo.setLabel(this.getLabel());
+        vo.setShowImage(this.getShowImage());
+        vo.setStatus(this.getStatus());
+        vo.setUsePrefix(this.getUsePrefix());
+        return vo;
     }
 
 }

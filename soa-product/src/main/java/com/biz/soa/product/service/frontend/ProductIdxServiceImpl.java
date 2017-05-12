@@ -31,7 +31,7 @@ public class ProductIdxServiceImpl extends AbstractProductService implements Pro
             logger.debug("get product indices reqVo: {}", reqVo);
         }
         Long priceGroupId = reqVo.getPriceGroupId(), sellerId = reqVo.getSellerId();
-        List<ProductPrototype> prototypes = this.getProductPrototype(reqVo.getProductCodes(), priceGroupId, sellerId);
+        List<ProductPrototype> prototypes = this.getProductPrototype(reqVo.getProductIds(), priceGroupId, sellerId);
         List<ProductIdxVO> idxVOS = prototypes.stream().filter(Objects::nonNull).map(ProductPrototype::toProductIdxVO).collect(Collectors.toList());
         logger.info("after build product indices, count: {}", idxVOS.size());
         stopWatch.stop();
@@ -50,11 +50,11 @@ public class ProductIdxServiceImpl extends AbstractProductService implements Pro
         List<ProductPrototype> prototypes;
         if (priceGroupId != null) {
             Preconditions.checkArgument(sellerId != null, "上级采购方ID不能为空");
-            ProductPrototype prototype = this.getProductPrototype(reqVo.getProductCode(), priceGroupId, sellerId);
+            ProductPrototype prototype = this.getProductPrototype(reqVo.getProductId(), priceGroupId, sellerId);
             prototypes = Lists.newArrayList();
             prototypes.add(prototype);
         } else {
-            prototypes = this.getProductProtorype(reqVo.getProductCode());
+            prototypes = this.getProductPrototype(reqVo.getProductId());
         }
         stopWatch.stop();
         logger.info(stopWatch.prettyPrint());

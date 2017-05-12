@@ -25,7 +25,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.codelogger.utils.CollectionUtils;
-import org.codelogger.utils.StringUtils;
 import org.springframework.util.StopWatch;
 
 /**
@@ -44,20 +43,20 @@ public abstract class AbstractProductService extends AbstractBaseService {
 
     protected PriceGroupRedisDao priceGroupRedisDao;
 
-    protected List<ProductPrototype> getProductPrototype(List<String> productCodes, Long priceGroupId, Long sellerId) {
+    protected List<ProductPrototype> getProductPrototype(List<Long> productIds, Long priceGroupId, Long sellerId) {
         Preconditions.checkArgument(priceGroupId != null, "商品价格组ID不能为空");
         Preconditions.checkArgument(sellerId != null, "上级采购单位ID不能为空");
-        List<String> productSimpleSpecialOfferIds = productCodes.stream().map(productCode -> String.format("%s%s", priceGroupId, productCode)).collect(Collectors.toList());
-        List<ProductRO> productRos = productRedisDao.findByIdsWithNull(productCodes);
-        List<PriceRO> priceRos = priceService.productPrices(new PriceGroupProductCodesPriceReqVO(priceGroupId, productCodes));
-        List<ProductStockVO> stockVOS = stockService.productStocks(new ProductCodesSellerIdStockReqVO(sellerId, productCodes));
+        List<String> productSimpleSpecialOfferIds = productIds.stream().map(productCode -> String.format("%s%s", priceGroupId, productCode)).collect(Collectors.toList());
+        List<ProductRO> productRos = productRedisDao.findByIdsWithNull(productIds);
+        List<PriceRO> priceRos = priceService.productPrices(new PriceGroupProductCodesPriceReqVO(priceGroupId, productIds));
+        List<ProductStockVO> stockVOS = stockService.productStocks(new ProductCodesSellerIdStockReqVO(sellerId, productIds));
         List<SimpleSpecialOfferPromotionRO> specialOfferPromotionROS = simpleSpecialOfferPromotionRedisDao.findByIdsWithNull(productSimpleSpecialOfferIds);
-        Preconditions.checkArgument(CollectionUtils.isNotEmpty(productRos) && productRos.size() == productCodes.size());
-        Preconditions.checkArgument(CollectionUtils.isNotEmpty(priceRos) && productCodes.size() == priceRos.size());
-        Preconditions.checkArgument(CollectionUtils.isNotEmpty(stockVOS) && productCodes.size() == stockVOS.size());
-        Preconditions.checkArgument(CollectionUtils.isNotEmpty(specialOfferPromotionROS) && productCodes.size() == specialOfferPromotionROS.size());
+        Preconditions.checkArgument(CollectionUtils.isNotEmpty(productRos) && productRos.size() == productIds.size());
+        Preconditions.checkArgument(CollectionUtils.isNotEmpty(priceRos) && productIds.size() == priceRos.size());
+        Preconditions.checkArgument(CollectionUtils.isNotEmpty(stockVOS) && productIds.size() == stockVOS.size());
+        Preconditions.checkArgument(CollectionUtils.isNotEmpty(specialOfferPromotionROS) && productIds.size() == specialOfferPromotionROS.size());
         List<ProductPrototype> productPrototypes = Lists.newArrayList();
-        IntStream.range(0, productCodes.size()).forEach(i -> {
+        IntStream.range(0, productIds.size()).forEach(i -> {
             ProductRO productRO = productRos.get(i);
             PriceRO priceRO = priceRos.get(i);
             ProductStockVO stockVO = stockVOS.get(i);
@@ -69,21 +68,21 @@ public abstract class AbstractProductService extends AbstractBaseService {
         return productPrototypes;
     }
 
-    protected ProductPrototype getProductPrototype(String productCode, Long priceGroupId, Long sellerId) {
-        Preconditions.checkArgument(StringUtils.isNotBlank(productCode), "商品编码不能为空");
+    protected ProductPrototype getProductPrototype(Long productId, Long priceGroupId, Long sellerId) {
+        Preconditions.checkArgument(productId != null, "商品ID不能为空");
         Preconditions.checkArgument(priceGroupId != null, "商品价格组ID不能为空");
         Preconditions.checkArgument(sellerId != null, "上级采购单位ID不能为空");
-        ProductRO productRO = productRedisDao.findOne(productCode);
-        PriceRO priceRO = priceService.productPrice(new PriceGroupProductCodePriceReqVO(priceGroupId, productCode, sellerId));
-        ProductStockVO stockVO = stockService.productStock(new ProductCodeSellerIdStockReqVO(productCode, sellerId));
-        SimpleSpecialOfferPromotionRO simpleSpecialOfferPromotionRO = simpleSpecialOfferPromotionRedisDao.findOne(String.format("%s%s", priceGroupId, productCode));
+        ProductRO productRO = productRedisDao.findOne(productId);
+        PriceRO priceRO = priceService.productPrice(new PriceGroupProductCodePriceReqVO(priceGroupId, productId, sellerId));
+        ProductStockVO stockVO = stockService.productStock(new ProductCodeSellerIdStockReqVO(productId, sellerId));
+        SimpleSpecialOfferPromotionRO simpleSpecialOfferPromotionRO = simpleSpecialOfferPromotionRedisDao.findOne(String.format("%s%s", priceGroupId, productId));
         return new ProductPrototype(priceGroupId, productRO, priceRO, stockVO, simpleSpecialOfferPromotionRO);
     }
 
-    protected List<ProductPrototype> getProductProtorype(String productCode) {
+    protected List<ProductPrototype> getProductPrototype(Long productId) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start("fetch product ro");
-        ProductRO productRO = productRedisDao.findOne(productCode);
+        ProductRO productRO = productRedisDao.findOne(productId);
         stopWatch.stop();
         stopWatch.start("fetch price group ids");
         List<PriceGroupRO> priceGroupROS = Optional.ofNullable(priceGroupRedisDao.findAll())
@@ -94,13 +93,13 @@ public abstract class AbstractProductService extends AbstractBaseService {
         List<ProductCodeSellerIdStockReqVO> stockReqVOS = Lists.newArrayList();
         priceGroupROS.forEach(priceGroupRO -> {
             priceGroupIds.add(priceGroupRO.getPriceGroupId());
-            stockReqVOS.add(new ProductCodeSellerIdStockReqVO(productCode, priceGroupRO.getSellerId()));
+            stockReqVOS.add(new ProductCodeSellerIdStockReqVO(productId, priceGroupRO.getSellerId()));
         });
         stopWatch.start("fetch product stocks");
         List<ProductStockVO> stockVOS = stockService.productStocks(stockReqVOS);
         stopWatch.stop();
         stopWatch.start("fetch product prices");
-        List<PriceRO> priceROS = priceService.productPrices(new PriceGroupsProductCodePriceReqVO(priceGroupIds, productCode));
+        List<PriceRO> priceROS = priceService.productPrices(new PriceGroupsProductCodePriceReqVO(priceGroupIds, productId));
         stopWatch.stop();
         Preconditions.checkArgument(CollectionUtils.isNotEmpty(priceROS) && CollectionUtils.isNotEmpty(stockVOS) && priceROS.size() == stockVOS.size() && stockVOS.size() == priceGroupIds.size());
         List<ProductPrototype> prototypes = Lists.newArrayList();
