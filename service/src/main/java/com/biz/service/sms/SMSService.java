@@ -37,9 +37,9 @@ import static java.lang.String.format;
  * 短信服务
  * Created by defei on 3/16/16.
  */
-@PropertySources({
-        @PropertySource(value = "classpath:config.properties")
-})
+//@PropertySources({
+//        @PropertySource(value = "classpath:config.properties")
+//})
 @Service
 public class SMSService extends CommonService {
 

@@ -26,12 +26,11 @@ import com.biz.soa.builder.OrderBuilder;
 import com.biz.soa.builder.OrderRespVoBuilder;
 import com.biz.soa.builder.OrderSettlePageRespVoBuilder;
 import com.biz.soa.order.service.payment.PaymentService;
+import java.util.List;
+import javax.transaction.Transactional;
 import org.codelogger.utils.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -58,10 +57,10 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
     @Autowired
     private PaymentService paymentService;
 
-    @Autowired
+    @Autowired(required = false)
     private StockService stockService;
 
-  /*****************public begin*********************/
+    /*****************public begin*********************/
 
     @Override
     public PageRespVo listOrders(OrderListReqVo reqVo) {
@@ -119,7 +118,7 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
         } else if (PaymentType.ALIPAY.getValue() == reqVo.getPaymentType()) {
             return paymentService.getAlipaySign(order);
         } else if (PaymentType.WECHAT.getValue() == reqVo.getPaymentType()) {
-            return paymentService.wechatPay((OrderCreateWechatReqVo)reqVo, order);
+            return paymentService.wechatPay((OrderCreateWechatReqVo) reqVo, order);
         }
 
         throw new PaymentException("无效的支付方式");
@@ -139,7 +138,6 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
     public void saveOrder(Order order) {
         orderRepository.save(order);
     }
-
 
 
     /*****************public end*********************/

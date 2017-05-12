@@ -22,18 +22,15 @@ import com.biz.service.CommonService;
 import com.biz.service.org.interfaces.ShopService;
 import com.biz.service.org.interfaces.UserService;
 import com.biz.soa.org.service.interfaces.SmsSoaService;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static java.lang.String.format;
 
@@ -41,9 +38,9 @@ import static java.lang.String.format;
  * 短信服务
  * Created by defei on 3/16/16.
  */
-@PropertySources({
-        @PropertySource(value = "classpath:config.properties")
-})
+//@PropertySources({
+//        @PropertySource(value = "classpath:config.properties")
+//})
 @Service
 public class SmsSoaServiceImpl extends CommonService implements SmsSoaService {
 

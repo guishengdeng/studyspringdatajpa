@@ -18,6 +18,17 @@ public class OssConfig {
 
 	private String bucketName;
 
+    public OssConfig() {
+    }
+
+    public OssConfig(String remoteEndpoint, String localEndpoint, String accessKeyId, String accessSecret, String bucketName) {
+        this.remoteEndpoint = remoteEndpoint;
+        this.localEndpoint = localEndpoint;
+        this.accessKeyId = accessKeyId;
+        this.accessSecret = accessSecret;
+        this.bucketName = bucketName;
+    }
+
     public String getRemoteEndpoint() {
         return remoteEndpoint;
     }
