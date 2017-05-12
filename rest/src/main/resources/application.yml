@@ -3,9 +3,9 @@ spring:
     name: depotnextdoor-rest
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    username: root
-    password:
-    url: jdbc:mysql://127.0.0.1:3306/depotnextdoor?characterEncoding=utf-8
+    username: depotapp
+    password: Depot*123456
+    url: jdbc:mysql://10.4.100.198:3306/depotnextdoor?characterEncoding=utf-8
     dbcp2:
       initial-size: 5
       max-total: 10
@@ -28,7 +28,7 @@ biz:
   soa:
     idx: 1
   zookeeper:
-    url: zookeeper://127.0.0.1:2181
+    url: zookeeper://10.4.100.194:2181
     soaIdx:
       path: /biz/gbck/boot/soaIdx
     #redis:
@@ -39,7 +39,7 @@ biz:
     timeBetweenEvictionRunsMillis: 30000
     minEvictableIdleTimeMillis: 30000
     testOnBorrow: true
-    host: 127.0.0.1
+    host: 10.4.100.196
     port: 6379
     name:
     password:

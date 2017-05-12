@@ -27,4 +27,9 @@ public class UserFeignClientHystrix implements UserFeignClient {
     public JSONResult forgotPassword(ForgotPasswordReqVo forgotPasswordReqVo) throws CommonException {
         return null;
     }
+
+    @Override
+    public String test() {
+        return null;
+    }
 }

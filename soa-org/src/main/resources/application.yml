@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: soa-org
   profiles:
     active: dev
 

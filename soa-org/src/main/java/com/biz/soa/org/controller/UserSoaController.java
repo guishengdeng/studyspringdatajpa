@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,6 +42,12 @@ public class UserSoaController extends BaseRestController {
     private UserService userSoaService;
 
     private static Logger logger = LoggerFactory.getLogger(UserSoaController.class);
+
+
+    @RequestMapping(value = "test", method = RequestMethod.GET)
+    public String test() {
+        return "test";
+    }
 
     /**
      * 用户注册

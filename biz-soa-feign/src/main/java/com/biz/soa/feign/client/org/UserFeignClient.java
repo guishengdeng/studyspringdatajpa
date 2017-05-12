@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(name = "soa-org", fallback = UserFeignClientHystrix.class)
 public interface UserFeignClient {
 
+    @RequestMapping(value = "/soa/user/test", method = RequestMethod.GET)
+    String test();
+
     @RequestMapping(value = "/soa/user/findUser/{userId}")
     UserRo findUser(@PathVariable("userId") Long userId);
 
