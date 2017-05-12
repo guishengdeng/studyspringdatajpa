@@ -179,8 +179,9 @@
                                     首页遮罩跳转URL </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" id="app_url" name="url"  class="col-xs-10 col-sm-5 required text"
+                                    <input type="text" id="app_url" name="url" class="col-xs-10 col-sm-5  regExp text"
                                            value="<c:out value="${appVo.url}"/>"
+                                           pattern="https?://[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?[^\x00-\x7F]+\ *(?:[^\x00-\x7F]| )*"
                                            maxlength="100" placeholder="首页遮罩跳转URL "/>
                                 </div>
                             </div>
@@ -223,11 +224,10 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
 
                                 <div class="col-sm-9">
                                     <input type="text" id="form-field-1-2" name="shareUrl"
-                                           onkeyup="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
-                                           onafterpaste="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
+                                           pattern="https?://[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?[^\x00-\x7F]+\ *(?:[^\x00-\x7F]| )*"
                                            value="<c:out value='${appVo.shareUrl}'/>"
                                            maxlength="100" placeholder="红包分享页url"
-                                           class="col-xs-10 col-sm-5 required text">
+                                           class="col-xs-10 col-sm-5 regExp text">
                                 </div>
                             </div>
 
@@ -237,11 +237,10 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
 
                                 <div class="col-sm-9">
                                     <input type="text" id="form-field-1-3" name="recommedUrl"
-                                           onkeyup="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
-                                           onafterpaste="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
+                                           pattern="https?://[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?[^\x00-\x7F]+\ *(?:[^\x00-\x7F]| )*"
                                            value="<c:out value='${appVo.recommedUrl}'/>"
                                            maxlength="100" placeholder="推荐有礼url"
-                                           class="col-xs-10 col-sm-5 required text">
+                                           class="col-xs-10 col-sm-5 regExp text">
                                 </div>
                             </div>
 
@@ -251,11 +250,10 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
 
                                 <div class="col-sm-9">
                                     <input type="text" id="form-field-1-4" name="appDownloadUrl"
-                                           onkeyup="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
-                                           onafterpaste="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
-                                           maxlength="100" value="<c:out value="${appVo.appDownloadUrl}"/>"
-                                           placeholder="app下载页
-面" class="col-xs-10 col-sm-5 required text">
+                                           value="<c:out value="${appVo.appDownloadUrl}"/>"
+                                           pattern="https?://[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?[^\x00-\x7F]+\ *(?:[^\x00-\x7F]| )*"
+                                           maxlength="100"
+                                           placeholder="app下载页面" class="col-xs-10 col-sm-5 regExp text">
                                 </div>
                             </div>
 

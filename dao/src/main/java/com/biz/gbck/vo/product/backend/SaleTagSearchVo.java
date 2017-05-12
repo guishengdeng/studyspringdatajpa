@@ -37,6 +37,7 @@ public class SaleTagSearchVo {
      * （删除）状态
      */
     private CommonStatusEnum status;
+
     @Min(1)
     private Integer page = 1;
 

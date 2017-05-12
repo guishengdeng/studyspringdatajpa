@@ -46,14 +46,11 @@ public class SaleTagVo implements ISaleTagVo {
      * 销售标签显示顺序
      */
     @NotNull(message = "销售标签显示顺序不能为空")
-    @NotBlank(message = "销售标签显示顺序不能为空")
     private Integer idx;
 
     /**
      * 销售标签描述信息
      */
-    @NotNull(message = "销售标签描述信息不能为空")
-    @NotBlank(message = "销售标签描述信息不能为空")
     private String description;
 
     /**

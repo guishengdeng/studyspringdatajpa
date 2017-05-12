@@ -17,7 +17,7 @@ import java.util.List;
 public interface AppRepository extends CommonJpaRepository<App, Long>, JpaSpecificationExecutor<App> {
 
       @Transactional
-      @Query("SELECT app.id FROM App app  ORDER BY create_timestamp DESC")
+      @Query("SELECT app.id FROM App app  ORDER BY createTimestamp DESC")
       List<App> findLastData();
 }
 

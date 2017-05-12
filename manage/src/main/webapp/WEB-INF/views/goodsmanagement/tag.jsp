@@ -109,7 +109,7 @@
                             </label>
 
                             <div class="col-sm-9">
-                                <textarea id="description" type="text" name="description" placeholder="后台备注"
+                                <textarea   id="description" type="text" name="description" placeholder="后台备注"
                                           maxlength="255" class="col-xs-12 col-sm-12"><c:out
                                         value="${saleTag.description}"/></textarea>
 
