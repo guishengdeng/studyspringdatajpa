@@ -1,16 +1,22 @@
-package com.biz.rest.controller.org;
+package com.biz.soa.org.controller;
 
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.common.exception.ExceptionCode;
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
-import com.biz.rest.bean.Constant;
-import com.biz.rest.controller.BaseRestController;
-import com.biz.rest.util.RestUtil;
+import com.biz.gbck.vo.org.AutoLoginReqVo;
+import com.biz.gbck.vo.org.ChangePwdVo;
+import com.biz.gbck.vo.org.ForgotPasswordReqVo;
+import com.biz.gbck.vo.org.UserChangeAvatarReqVo;
+import com.biz.gbck.vo.org.UserChangeMobileReqVo;
+import com.biz.gbck.vo.org.UserLoginReqVo;
+import com.biz.gbck.vo.org.UserLoginResVo;
+import com.biz.gbck.vo.org.UserRegisterReqVo;
+import com.biz.gbck.vo.org.ValidateUserLoginPwdReqVo;
 import com.biz.service.org.interfaces.UserService;
-import com.biz.soa.feign.client.org.UserFeignClient;
+import com.biz.soa.org.util.Constant;
+import com.biz.soa.org.util.RestUtil;
 import com.biz.support.web.handler.JSONResult;
 import com.biz.support.web.util.HttpServletHelper;
-import com.biz.gbck.vo.org.*;
 import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,45 +34,41 @@ import java.util.concurrent.TimeUnit;
  */
 
 @RestController
-@RequestMapping("users")
-public class UserController extends BaseRestController {
+@RequestMapping("soa/user")
+public class UserSoaController extends BaseRestController {
 
     @Autowired
-    private UserService userService;
+    private UserService userSoaService;
 
-    @Autowired
-    private UserFeignClient userFeignClient;
-
-
-    private static Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static Logger logger = LoggerFactory.getLogger(UserSoaController.class);
 
     /**
      * 用户注册
      */
-    @RequestMapping("register") public JSONResult register(HttpServletRequest request)
+    @RequestMapping("register")
+    public JSONResult register(UserRegisterReqVo userRegisterReqVo)
         throws CommonException {
 
-        UserRegisterReqVo userRegisterReqVo =
-            RestUtil.parseBizData(request, UserRegisterReqVo.class);
-        String clientIP = HttpServletHelper.getClientIP(request);
-        logger.debug("Received /users/register POST request with mobile:{} from IP:{}",
-            userRegisterReqVo.getMobile(), clientIP);
-        userRegisterReqVo.setIp(clientIP);
-        JSONResult result = userFeignClient.register(userRegisterReqVo);
-//        UserLoginResVo userLoginResVo = user.createUserAndShop(userRegisterReqVo);
-        return result;
+//        UserRegisterReqVo userRegisterReqVo =
+//            RestUtil.parseBizData(request, UserRegisterReqVo.class);
+//        String clientIP = HttpServletHelper.getClientIP(request);
+//        logger.debug("Received /users/register POST request with mobile:{} from IP:{}",
+//            userRegisterReqVo.getMobile(), userRegisterReqVo.getIp());
+//        userRegisterReqVo.setIp(clientIP);
+        UserLoginResVo userLoginResVo = userSoaService.createUserAndShop(userRegisterReqVo);
+        return new JSONResult(userLoginResVo);
     }
 
     /**
      * 忘记密码
      */
-    @RequestMapping("forgotPassword") public JSONResult forgotPassword(HttpServletRequest request)
+    @RequestMapping("forgotPassword")
+    public JSONResult forgotPassword(ForgotPasswordReqVo forgotPasswordReqVo)
         throws CommonException {
 
-        ForgotPasswordReqVo forgotPasswordReqVo =
-            RestUtil.parseBizData(request, ForgotPasswordReqVo.class);
-        userFeignClient.forgotPassword(forgotPasswordReqVo);
-        //userService.forgotPassword(forgotPasswordReqVo);
+//        ForgotPasswordReqVo forgotPasswordReqVo =
+//            RestUtil.parseBizData(request, ForgotPasswordReqVo.class);
+        userSoaService.forgotPassword(forgotPasswordReqVo);
         return new JSONResult();
     }
 
@@ -81,7 +83,7 @@ public class UserController extends BaseRestController {
             userLoginReqVo.getAccount(), clientIP);
         userLoginReqVo.setIp(clientIP);
         Stopwatch stopwatch = Stopwatch.createStarted();
-        UserLoginResVo userLoginResVo = userService.login(userLoginReqVo);
+        UserLoginResVo userLoginResVo = userSoaService.login(userLoginReqVo);
         logger.error("用户[{}]登录总耗时 {} ms", userLoginReqVo.getAccount(),
             stopwatch.elapsed(TimeUnit.MILLISECONDS));
         return new JSONResult(userLoginResVo);
@@ -93,7 +95,7 @@ public class UserController extends BaseRestController {
     @RequestMapping("logout") public JSONResult logout(HttpServletRequest request) {
         CommonReqVoBindUserId reqVoBindUserId =
             RestUtil.parseBizData(request, CommonReqVoBindUserId.class);
-        userService.logout(reqVoBindUserId);
+        userSoaService.logout(reqVoBindUserId);
         return new JSONResult();
     }
 
@@ -105,7 +107,7 @@ public class UserController extends BaseRestController {
         AutoLoginReqVo reqVo = RestUtil.parseBizData(request, AutoLoginReqVo.class);
         logger.debug("Received /users tokenChange request with account:{} from ip:{}",
             reqVo.getUserId());
-        UserLoginResVo userLoginResVo = userService.autoLogin(reqVo);
+        UserLoginResVo userLoginResVo = userSoaService.autoLogin(reqVo);
         return new JSONResult(userLoginResVo);
     }
 
@@ -117,7 +119,7 @@ public class UserController extends BaseRestController {
 
         UserChangeMobileReqVo userChangeMobileReqVo =
             RestUtil.parseBizData(request, UserChangeMobileReqVo.class);
-        userService.changeMobile(userChangeMobileReqVo);
+        userSoaService.changeMobile(userChangeMobileReqVo);
         return new JSONResult();
     }
 
@@ -129,7 +131,7 @@ public class UserController extends BaseRestController {
 
         UserChangeAvatarReqVo userChangeAvatarReqVo =
             RestUtil.parseBizData(request, UserChangeAvatarReqVo.class);
-        userService.changeAvatar(userChangeAvatarReqVo);
+        userSoaService.changeAvatar(userChangeAvatarReqVo);
         return new JSONResult();
     }
 
@@ -140,7 +142,7 @@ public class UserController extends BaseRestController {
     @RequestMapping("changePwd") public JSONResult changePwd(HttpServletRequest request)
         throws CommonException {
         ChangePwdVo changePwdVo = RestUtil.parseBizData(request, ChangePwdVo.class);
-        userService.changePwd(changePwdVo);
+        userSoaService.changePwd(changePwdVo);
         return new JSONResult();
     }
 
@@ -152,7 +154,7 @@ public class UserController extends BaseRestController {
     public JSONResult validateLoginPwd(HttpServletRequest request) throws CommonException {
         ValidateUserLoginPwdReqVo validateUserLoginPwdReqVo =
             RestUtil.parseBizData(request, ValidateUserLoginPwdReqVo.class);
-        boolean validateResult = userService
+        boolean validateResult = userSoaService
             .validateUserLoginPwd(validateUserLoginPwdReqVo.getUserId(),
                 validateUserLoginPwdReqVo.getPassword());
         if (!validateResult) {

@@ -47,8 +47,8 @@ import com.biz.gbck.vo.org.UserRegisterReqVo;
 import com.biz.gbck.vo.search.bbc.SearchUserReqVo;
 import com.biz.service.CommonService;
 import com.biz.service.org.interfaces.ShopService;
-import com.biz.service.org.interfaces.UserService;
 import com.biz.service.sms.SMSService;
+import com.biz.soa.org.service.interfaces.UserSoaService;
 import com.biz.transformer.org.UserRoToUserVo;
 import com.google.common.base.Stopwatch;
 import org.apache.commons.lang3.StringUtils;
@@ -70,8 +70,8 @@ import static java.lang.String.format;
 
 
 @Service
-public class UserServiceImpl extends CommonService implements UserService {
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+public class UserSoaServiceImpl extends CommonService implements UserSoaService {
+    private static final Logger logger = LoggerFactory.getLogger(UserSoaServiceImpl.class);
 
 
     @Autowired
