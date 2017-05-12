@@ -115,6 +115,9 @@ public interface CategoryService {
      */
     List<IdNameVo> getTopCategories();
 
+
+    Category findCategory(Long id);
+
     /**
      * 根据id查询Category的详细信息,并转化为CategoryRespVo
      *
@@ -124,4 +127,5 @@ public interface CategoryService {
     CategoryRespVo findById(Long id);
 
 	List<Category> findAll();
+
 }

@@ -62,7 +62,7 @@
                                         <input  type="text"
                                                 name="name"
                                                 value="<c:out value='${role.name}'/> "
-                                                class="col-xs-10 col-sm-5">
+                                                class="required col-xs-10 col-sm-5">
                                     </div>
                                 </div>
                                 <div class="form-group">

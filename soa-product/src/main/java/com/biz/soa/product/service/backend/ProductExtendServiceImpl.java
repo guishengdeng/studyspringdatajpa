@@ -92,7 +92,7 @@ public class ProductExtendServiceImpl extends AbstractBaseService implements Pro
      */
     @Override
     @Transactional
-    public void createCategoryProperty(CreateCategoryPropertyVo createCategoryPropertyVo) throws ProductExtendNotFoundException {
+    public void createCategoryProperty(CreateCategoryPropertyVo createCategoryPropertyVo) {
         createCategoryPropertyVo.setId(idService.nextId());
         Integer idx = productExtendRepository.findMaxIdx(createCategoryPropertyVo.getCategoryId());
         if (idx == null) {
@@ -185,5 +185,35 @@ public class ProductExtendServiceImpl extends AbstractBaseService implements Pro
         }
         return vos;
     }
+
+	@Override
+	public List<ProductExtend> findByCategoryId(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ProductExtend findOne(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ProductExtend> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ProductExtendVo> productExtend2ProductExtendVo(List<ProductExtend> list) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean isExistProductExtendName(CreateCategoryPropertyVo vo) throws ProductExtendNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

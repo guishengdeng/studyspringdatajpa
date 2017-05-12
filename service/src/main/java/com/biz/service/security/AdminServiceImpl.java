@@ -6,6 +6,7 @@ import com.biz.gbck.dao.mysql.repository.admin.MainMenuRepository;
 import com.biz.gbck.dao.mysql.repository.admin.RoleRepository;
 import com.biz.gbck.dao.mysql.specification.admin.AdminDynamicSpecification;
 import com.biz.gbck.enums.CommonStatusEnum;
+import com.biz.gbck.exceptions.product.AdminNotFoundException;
 import com.biz.gbck.vo.admin.AdminReqVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.security.interfaces.AdminService;
@@ -13,6 +14,7 @@ import com.google.common.collect.Lists;
 import java.sql.Date;
 import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -110,5 +112,25 @@ public class AdminServiceImpl extends AbstractBaseService implements UserDetails
     public Page<Admin> queryAdminsByCondition(AdminReqVo vo) {
         return adminRepository.findAll(new AdminDynamicSpecification(vo),
                 new PageRequest(vo.getPage()-1,vo.getPageSize()));
+    }
+
+    /**
+     *用户名一旦注册则不允许修改。
+     */
+    @Override
+    public Boolean isExistAdmin(String username,String cmd) throws AdminNotFoundException {
+        Admin user = adminRepository.findOne(username);
+        List<Admin> list = adminRepository.findAll();
+         if(user != null){
+              if(cmd.equals("edit")){
+                  for(Admin item : list){
+                      if(item.getUsername().equals(user.getUsername())){
+                          return Boolean.TRUE;
+                      }
+                  }
+              }
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
     }
 }

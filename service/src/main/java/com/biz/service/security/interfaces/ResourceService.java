@@ -21,4 +21,6 @@ public interface ResourceService  {
     void delete(Long id);
 
     List<Resource> listByStatus(CommonStatusEnum status);
+
+    Boolean isExist(Resource resource);
 }

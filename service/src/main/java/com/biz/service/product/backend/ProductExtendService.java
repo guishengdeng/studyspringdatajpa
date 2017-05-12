@@ -1,6 +1,7 @@
 package com.biz.service.product.backend;
 
 
+import com.biz.gbck.dao.mysql.po.product.meta.ProductExtend;
 import com.biz.gbck.exceptions.product.IllegalParameterException;
 import com.biz.gbck.exceptions.product.ProductExtendNotFoundException;
 import com.biz.gbck.vo.product.backend.*;
@@ -24,7 +25,7 @@ public interface ProductExtendService {
     /**
      * 增加一个分类下的属性
      */
-    void createCategoryProperty(CreateCategoryPropertyVo createCategoryPropertyVo) throws ProductExtendNotFoundException;
+    void createCategoryProperty(CreateCategoryPropertyVo createCategoryPropertyVo);
 
 
     /**
@@ -57,4 +58,31 @@ public interface ProductExtendService {
      */
     List<AllProductExtendVo> findAllProductExtend();
 
+
+    /**
+     * 根据分类id，返回与之相关的扩展属性
+     */
+    List<ProductExtend> findByCategoryId(Long id);
+
+
+    /**
+     * 根据id查询扩展属性
+     */
+    ProductExtend findOne(Long id);
+
+    List<ProductExtend> findAll();
+
+    /**
+     * 将po转化成vo
+     * @param list
+     * @return
+     */
+    public List<ProductExtendVo> productExtend2ProductExtendVo(List<ProductExtend> list);
+
+    /**
+     * 根据用户传入的categoryid和属性名来进行判断。如果用户输入
+     * 的属性名和根据categoryid查询出来的扩展属性的属性名相等,则返回fasle
+     * 说明用户输入的属性名已存在,否则则返回true,（ajax请求）返回true之后,在发送一次请求。同步请求
+     */
+    Boolean  isExistProductExtendName(CreateCategoryPropertyVo vo) throws ProductExtendNotFoundException;
 }

@@ -93,7 +93,7 @@ public class ExtendPropertyServiceImpl extends AbstractBaseService implements Ex
      */
     @Override
     @Transactional
-    public void createExtendProperty(CreateExtendPropertyVo createExtendPropertyVo) throws ExtendPropertyNotFoundException {
+    public void createExtendProperty(CreateExtendPropertyVo createExtendPropertyVo) {
         createExtendPropertyVo.setId(idService.nextId());
         CreateExtendPropertyVo2ExtendProperty c2e = new CreateExtendPropertyVo2ExtendProperty();
         ExtendProperty extendProperty = c2e.apply(createExtendPropertyVo);
@@ -232,4 +232,22 @@ public class ExtendPropertyServiceImpl extends AbstractBaseService implements Ex
         }
         return extendSelectVos;
     }
+
+	@Override
+	public List<ExtendProperty> findByProductExtendId(Long productExtendId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ExtendProperty findById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean isExistExtendPropertyValue(CreateExtendPropertyVo vo) throws ExtendPropertyNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
