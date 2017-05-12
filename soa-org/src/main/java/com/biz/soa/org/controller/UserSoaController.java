@@ -13,6 +13,7 @@ import com.biz.gbck.vo.org.UserLoginResVo;
 import com.biz.gbck.vo.org.UserRegisterReqVo;
 import com.biz.gbck.vo.org.ValidateUserLoginPwdReqVo;
 import com.biz.service.org.interfaces.UserService;
+import com.biz.soa.org.service.interfaces.UserSoaService;
 import com.biz.soa.org.util.Constant;
 import com.biz.soa.org.util.RestUtil;
 import com.biz.support.web.handler.JSONResult;
@@ -21,8 +22,10 @@ import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +42,7 @@ import java.util.concurrent.TimeUnit;
 public class UserSoaController extends BaseRestController {
 
     @Autowired
-    private UserService userSoaService;
+    private UserSoaService userSoaService;
 
     private static Logger logger = LoggerFactory.getLogger(UserSoaController.class);
 
@@ -52,7 +55,7 @@ public class UserSoaController extends BaseRestController {
     /**
      * 用户注册
      */
-    @RequestMapping("register")
+    @RequestMapping(value = "register", method = RequestMethod.POST)
     public JSONResult register(UserRegisterReqVo userRegisterReqVo)
         throws CommonException {
 
@@ -69,7 +72,7 @@ public class UserSoaController extends BaseRestController {
     /**
      * 忘记密码
      */
-    @RequestMapping("forgotPassword")
+    @RequestMapping(value = "forgotPassword", method = RequestMethod.POST)
     public JSONResult forgotPassword(ForgotPasswordReqVo forgotPasswordReqVo)
         throws CommonException {
 
@@ -82,26 +85,27 @@ public class UserSoaController extends BaseRestController {
     /**
      * 登录
      */
-    @RequestMapping("login") public JSONResult login(HttpServletRequest request)
-        throws CommonException {
-        UserLoginReqVo userLoginReqVo = RestUtil.parseBizData(request, UserLoginReqVo.class);
-        String clientIP = HttpServletHelper.getClientIP(request);
-        logger.debug("Received /users/login POST request with account:{} from ip:{}",
-            userLoginReqVo.getAccount(), clientIP);
-        userLoginReqVo.setIp(clientIP);
-        Stopwatch stopwatch = Stopwatch.createStarted();
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public JSONResult login(UserLoginReqVo userLoginReqVo) throws CommonException {
+//        UserLoginReqVo userLoginReqVo = RestUtil.parseBizData(request, UserLoginReqVo.class);
+//        String clientIP = HttpServletHelper.getClientIP(request);
+//        logger.debug("Received /users/login POST request with account:{} from ip:{}",
+//            userLoginReqVo.getAccount(), clientIP);
+//        userLoginReqVo.setIp(clientIP);
+//        Stopwatch stopwatch = Stopwatch.createStarted();
         UserLoginResVo userLoginResVo = userSoaService.login(userLoginReqVo);
-        logger.error("用户[{}]登录总耗时 {} ms", userLoginReqVo.getAccount(),
-            stopwatch.elapsed(TimeUnit.MILLISECONDS));
+//        logger.error("用户[{}]登录总耗时 {} ms", userLoginReqVo.getAccount(),
+//            stopwatch.elapsed(TimeUnit.MILLISECONDS));
         return new JSONResult(userLoginResVo);
     }
 
     /**
      * 退出登录
      */
-    @RequestMapping("logout") public JSONResult logout(HttpServletRequest request) {
-        CommonReqVoBindUserId reqVoBindUserId =
-            RestUtil.parseBizData(request, CommonReqVoBindUserId.class);
+    @RequestMapping(value = "logout", method = RequestMethod.POST)
+    public JSONResult logout(CommonReqVoBindUserId reqVoBindUserId) {
+//        CommonReqVoBindUserId reqVoBindUserId =
+//            RestUtil.parseBizData(request, CommonReqVoBindUserId.class);
         userSoaService.logout(reqVoBindUserId);
         return new JSONResult();
     }
@@ -109,11 +113,13 @@ public class UserSoaController extends BaseRestController {
     /**
      * 自动登陆详情(此接口会绑定token)
      */
-    @RequestMapping(value = "autoLogin") public JSONResult autoLogin(HttpServletRequest request)
-        throws CommonException {
-        AutoLoginReqVo reqVo = RestUtil.parseBizData(request, AutoLoginReqVo.class);
-        logger.debug("Received /users tokenChange request with account:{} from ip:{}",
-            reqVo.getUserId());
+    @RequestMapping(value = "autoLogin", method = RequestMethod.POST)
+    public JSONResult autoLogin(AutoLoginReqVo reqVo) throws CommonException {
+
+//        AutoLoginReqVo reqVo = RestUtil.parseBizData(request, AutoLoginReqVo.class);
+//        logger.debug("Received /users tokenChange request with account:{} from ip:{}",
+//            reqVo.getUserId());
+
         UserLoginResVo userLoginResVo = userSoaService.autoLogin(reqVo);
         return new JSONResult(userLoginResVo);
     }
@@ -121,11 +127,11 @@ public class UserSoaController extends BaseRestController {
     /**
      * 变更用户绑定手机号码
      */
-    @RequestMapping("changeMobile") public JSONResult changeMobile(HttpServletRequest request)
-        throws CommonException {
+    @RequestMapping(value = "changeMobile", method = RequestMethod.POST)
+    public JSONResult changeMobile(UserChangeMobileReqVo userChangeMobileReqVo) throws CommonException {
 
-        UserChangeMobileReqVo userChangeMobileReqVo =
-            RestUtil.parseBizData(request, UserChangeMobileReqVo.class);
+//        UserChangeMobileReqVo userChangeMobileReqVo =
+//            RestUtil.parseBizData(request, UserChangeMobileReqVo.class);
         userSoaService.changeMobile(userChangeMobileReqVo);
         return new JSONResult();
     }
@@ -133,11 +139,11 @@ public class UserSoaController extends BaseRestController {
     /**
      * 修改用户头像
      */
-    @RequestMapping("changeAvatar") public JSONResult updateAvatar(HttpServletRequest request)
-        throws CommonException {
+    @RequestMapping(value = "changeAvatar", method = RequestMethod.POST)
+    public JSONResult updateAvatar(UserChangeAvatarReqVo userChangeAvatarReqVo) throws CommonException {
 
-        UserChangeAvatarReqVo userChangeAvatarReqVo =
-            RestUtil.parseBizData(request, UserChangeAvatarReqVo.class);
+//        UserChangeAvatarReqVo userChangeAvatarReqVo =
+//            RestUtil.parseBizData(request, UserChangeAvatarReqVo.class);
         userSoaService.changeAvatar(userChangeAvatarReqVo);
         return new JSONResult();
     }
@@ -146,9 +152,10 @@ public class UserSoaController extends BaseRestController {
     /**
      * 修改用户密码
      */
-    @RequestMapping("changePwd") public JSONResult changePwd(HttpServletRequest request)
-        throws CommonException {
-        ChangePwdVo changePwdVo = RestUtil.parseBizData(request, ChangePwdVo.class);
+    @RequestMapping(value = "changePwd", method = RequestMethod.POST)
+    public JSONResult changePwd(ChangePwdVo changePwdVo) throws CommonException {
+
+//        ChangePwdVo changePwdVo = RestUtil.parseBizData(request, ChangePwdVo.class);
         userSoaService.changePwd(changePwdVo);
         return new JSONResult();
     }
@@ -157,10 +164,10 @@ public class UserSoaController extends BaseRestController {
     /**
      *验证登录密码
      */
-    @RequestMapping("validateLoginPassword")
-    public JSONResult validateLoginPwd(HttpServletRequest request) throws CommonException {
-        ValidateUserLoginPwdReqVo validateUserLoginPwdReqVo =
-            RestUtil.parseBizData(request, ValidateUserLoginPwdReqVo.class);
+    @RequestMapping(value = "validateLoginPassword", method = RequestMethod.POST)
+    public JSONResult validateLoginPwd(ValidateUserLoginPwdReqVo validateUserLoginPwdReqVo) throws CommonException {
+//        ValidateUserLoginPwdReqVo validateUserLoginPwdReqVo =
+//            RestUtil.parseBizData(request, ValidateUserLoginPwdReqVo.class);
         boolean validateResult = userSoaService
             .validateUserLoginPwd(validateUserLoginPwdReqVo.getUserId(),
                 validateUserLoginPwdReqVo.getPassword());
