@@ -7,6 +7,16 @@
 <%@ taglib prefix="depotnextdoor" tagdir="/WEB-INF/tags" %>
 
 <depotnextdoor:page title="子菜单列表">
+     <jsp:attribute name="css">
+          <style type="text/css">
+               #simple-table .name, #simple-table .icon, #simple-table .link, #simple-table .descirption{
+                   min-width: 90px;
+               }
+               #simple-table .operate , #simple-table .list{
+                   min-width:80px;
+               }
+          </style>
+     </jsp:attribute>
      <jsp:attribute name="script">
         <script type="application/javascript">
           <%-- <sec:authorize access="hasRole('OPT_MENUITEM_DELETE')"> --%>
@@ -57,23 +67,12 @@
         </div>
         <div class="profile-user-info profile-user-info-striped">
             <div class="profile-info-row">
-                <div class="profile-info-name">代码</div>
+                <div class="profile-info-name"> 名称 </div>
 
                 <div class="profile-info-value">
-                    <span class="editable" id="code">${mainMenu.code}</span>
+                    <span class="editable" id="name">${mainMenu.name}</span>
                 </div>
             </div>
-
-            <div class="profile-info-row">
-                <div class="profile-info-name">公司类型</div>
-
-                <div class="profile-info-value">
-
-                    <span class="editable" id="companyType">${mainMenu.companyType}</span>
-
-                </div>
-            </div>
-
             <div class="profile-info-row">
                 <div class="profile-info-name"> 描述 </div>
 
@@ -81,20 +80,13 @@
                     <span class="editable" id="description">${mainMenu.description}</span>
                 </div>
             </div>
-
             <div class="profile-info-row">
-                <div class="profile-info-name"> 图标 </div>
+                <div class="profile-info-name">公司类型</div>
 
                 <div class="profile-info-value">
-                    <span class="editable" id="icon">${mainMenu.icon}</span>
-                </div>
-            </div>
 
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 名称 </div>
+                    <span class="editable" id="companyType">${mainMenu.companyType}</span>
 
-                <div class="profile-info-value">
-                    <span class="editable" id="name">${mainMenu.name}</span>
                 </div>
             </div>
 
@@ -120,13 +112,14 @@
                             <table id="simple-table" class="table  table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th class="hidden-md hidden-sm hidden-xs">名称</th>
-                                    <th>图标</th>
-                                    <th class="hidden-md hidden-sm hidden-xs">链接</th>
-                                    <th class="hidden-md hidden-sm hidden-xs">权限</th>
-                                    <th>描述</th>
-                                    <th class="hidden-md hidden-sm hidden-xs">操作列表</th>
-                                    <th class="hidden-md hidden-sm hidden-xs">操作</th>
+                                    <th class="name">名称</th>
+                                    <th class="icon">图标</th>
+                                    <th class="link">链接</th>
+                                    <th>权限</th>
+                                    <th class="descirption">描述</th>
+                                    <th class="list">操作列表</th>
+                                    <%--hidden-md hidden-sm hidden-xs--%>
+                                    <th class="operate">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -138,6 +131,7 @@
                                         <td class="hidden-md hidden-sm hidden-xs">${menuItem.link}</td>
 
                                         <td class="hidden-md hidden-sm hidden-xs">
+                                                ${menuItem.symbol}
                                         </td>
                                         <td>${menuItem.description}</td>
                                         <td class="hidden-md hidden-sm hidden-xs">

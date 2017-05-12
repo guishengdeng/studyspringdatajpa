@@ -48,4 +48,21 @@ public class ResourceServiceImpl extends AbstractBaseService implements Resource
     public List<Resource> listByStatus(CommonStatusEnum status) {
         return resourceRepository.getByStatus(status);
     }
+
+    @Override
+    public Boolean isExist(Resource resource) {
+        Resource  exist = resourceRepository.findByMenuItemIdAndName(resource.getMenuItem().getId(),resource.getName());
+        List<Resource> resources = resourceRepository.findAll();
+        if(exist != null){
+            if(resource.getId() != null){
+                for(Resource item : resources){
+                     if(resource.getId().equals(item.getId()) && resource.getName().equals(item.getName())){
+                         return Boolean.TRUE;
+                     }
+                }
+            }
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+    }
 }

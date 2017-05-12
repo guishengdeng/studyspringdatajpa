@@ -328,4 +328,9 @@ public class CategoryServiceImpl extends AbstractCategoryService implements Cate
         return new Category2CategoryRespVo().apply(category);
     }
 
+    @Override
+    public Category findCategory(Long id) {
+        return categoryRepository.findOne(id);
+    }
+
 }

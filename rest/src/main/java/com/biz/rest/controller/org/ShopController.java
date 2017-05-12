@@ -31,10 +31,10 @@ import java.util.List;
 @RestController
 @RequestMapping("shops") public class ShopController extends BaseRestController {
 
-    @Autowired
+    @Autowired(required = false)
     private ShopService shopService;
 
-    @Autowired
+    @Autowired(required = false)
     private ShopTypeService shopTypeService;
 
     private static Logger logger = LoggerFactory.getLogger(ShopController.class);

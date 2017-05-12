@@ -21,7 +21,7 @@ public class AdminReqVo {
     @NotBlank(message = "用户名不能为空")
     private String username;
     @NotNull(message = "状态不能为空")
-    private CommonStatusEnum status;
+    private CommonStatusEnum status=CommonStatusEnum.ENABLE;
     @Min(1)
     private Integer page = 1;
 

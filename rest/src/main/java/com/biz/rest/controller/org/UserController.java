@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("users")
 public class UserController extends BaseRestController {
 
-    @Autowired
+    @Autowired(required = false)
     private UserService userService;
 
     @Autowired

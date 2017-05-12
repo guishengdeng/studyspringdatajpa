@@ -5,8 +5,11 @@ import com.biz.support.jpa.po.BaseEntity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * 商品扩展属性(商品规格参数)
@@ -26,6 +29,8 @@ public class ProductExtend extends BaseEntity implements Serializable {
      * 商品扩展属性名称
      */
     @Column(length = 50)
+    @NotNull(message = "名字不能为空")
+    @NotBlank(message = "名字不能为空")
     private String name;
 
     /**

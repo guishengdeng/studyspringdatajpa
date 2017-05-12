@@ -22,5 +22,7 @@ public interface MenuItemRepository extends CommonJpaRepository<MenuItem, Long>,
     void updateStatus(@Param("id") Long id, @Param("status")CommonStatusEnum status);
 
     List<MenuItem> findByStatus(CommonStatusEnum status);
+    @Query("SELECT mi FROM MenuItem mi WHERE mi.mainMenu.id = :id and mi.name = :name")
+    MenuItem  finMenuItem(@Param("id") Long id,@Param("name") String name);
 }
 

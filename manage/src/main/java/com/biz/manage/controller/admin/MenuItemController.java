@@ -5,6 +5,7 @@ import com.biz.gbck.dao.mysql.po.security.MenuItem;
 import com.biz.gbck.dao.mysql.po.security.Resource;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.menu.MenuItemVo;
+import com.biz.manage.controller.BaseController;
 import com.biz.service.IdService;
 import com.biz.service.security.interfaces.MainMenuService;
 import com.biz.service.security.interfaces.MenuItemService;
@@ -19,6 +20,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +46,7 @@ import java.util.Random;
 @Controller
 @RequestMapping("manage/menuItems")
 @Secured("ROLE_MENUITEM")
-public class MenuItemController {
+public class MenuItemController extends BaseController{
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private MenuItemService menuItemService;
@@ -77,7 +80,7 @@ public class MenuItemController {
     }
     @RequestMapping("/addOrUpdate")
     @PreAuthorize("hasAuthority('OPT_MENUITEM_ADD')")
-    public String addOrUpdate(MenuItem menuItem,Model model,HttpSession session){
+    public String addOrUpdate(@Valid MenuItem menuItem, Model model, HttpSession session, BindingResult result){
         if(menuItem.getId()==null){
             menuItem.setId(idService.nextId());
         }
@@ -85,6 +88,7 @@ public class MenuItemController {
         Long mainMenu_id = (Long)session.getAttribute("mainmenu_id");
         MainMenu mainMenu = mainMenuService.getMainMenu(mainMenu_id);
         model.addAttribute("mainMenu",mainMenu);
+        error(result);
         menuItemService.addOrUpdate(menuItem);
         return "redirect:../mainMenus/detail.do?id="+mainMenu_id;
     }
@@ -112,4 +116,13 @@ public class MenuItemController {
         session.setAttribute("menuitem_id",id);
         return "manage/resource/resourceList";
     }
+
+    @RequestMapping("/isExist")
+    @PreAuthorize("hasAuthority('OPT_MENUITEM_ADD')")
+    @ResponseBody
+    public Boolean isExist(MenuItem menuItem){
+
+        return menuItemService.isExist(menuItem);
+    }
+
 }
