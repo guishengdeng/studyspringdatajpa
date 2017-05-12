@@ -306,7 +306,7 @@
                                 <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
                             </button>
 
-                            <label>已有账号 <a href="" style="color:white">登录</a></label>
+                            <label>已有账号 <a href="/login" style="color:white">登录</a></label>
                         </div>
                     </div>
                 </div><!-- /.col -->
@@ -314,7 +314,6 @@
         </div><!-- /.main-content -->
     </div>
     <!-- /.main-container -->
-
     <script type="text/javascript">
         $(function () {
             Partner.regiEvent();
@@ -345,7 +344,7 @@
             uploadLicence: function () {
                 var businessLicense = new FormData();
                 businessLicense.append('file', $('#businessLicense')[0].files[0]);
-                Partner.reqVo.businessLicense = Common.mutipartFileUpload(businessLicense, "正在上传营业执照");
+                Partner.reqVo.businessLicense = Partner.mutipartFileUpload(businessLicense);
                 if(!Partner.reqVo.businessLicense) {
                     layer.msg("上传营业执照失败");
                     return false;
@@ -353,7 +352,7 @@
 
                 var winePermit = new FormData();
                 winePermit.append('file', $('#winePermit')[0].files[0]);
-                Partner.reqVo.winePermit = Common.mutipartFileUpload(winePermit, "正在上传酒水通行证");
+                Partner.reqVo.winePermit = Partner.mutipartFileUpload(winePermit);
                 if(!Partner.reqVo.winePermit) {
                     layer.msg("上传酒水通行证失败");
                     return false;
@@ -387,7 +386,14 @@
                         if(Partner.uploadLicence() === false) {
                             return false;
                         }
-                        if(Partner.submitForm() === false) {
+                        if(Common.Btn.BTN_FLAG === true) {
+                            Common.Btn.disable();
+                            if(Partner.submitForm() === false) {
+                                Common.Btn.enable();
+                                return false;
+                            }
+                        } else {
+                            layer.msg("请勿重复提交");
                             return false;
                         }
                         $("#footer-dev").remove();
@@ -460,6 +466,7 @@
                 if(INDEX == 4) {
                     return Partner.validLicencePic();
                 }
+                return true;
             },
             validAccountInfo: function () {
                 var username = $("#username").val();
@@ -486,7 +493,14 @@
                     type: 'GET',
                     async: false,
                     success: function (data) {
-                        isExist = data.data;
+                        if(data.code === 0) {
+                            isExist = data.data;
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function (e) {
+                        layer.msg("服务器错误");
                     }
                 });
                 if(isExist === true) {
@@ -515,7 +529,7 @@
                     layer.msg("联系人不能为空");
                     return false;
                 }
-                if (!Partner.checkPhone(mobile)) {
+                if (!Common.checkPhone(mobile)) {
                     return false;
                 }
                 if($("#spare-contact").css("display") === 'block') {
@@ -523,7 +537,7 @@
                         layer.msg("联系人不能为空");
                         return false;
                     }
-                    if (!Partner.checkPhone(mobile2)) {
+                    if (!Common.checkPhone(mobile2)) {
                         return false;
                     }
                 }
@@ -621,24 +635,12 @@
                 }
                 return true;
             },
-            checkPhone: function (phone) {
-                if (!(/^1[34578]\d{9}$/.test(phone))) {
-                    layer.msg("手机号码有误，请重填");
-                    return false;
-                }
-                return true;
-            }
-        };
-
-        var Common = {
             /**
              *
              * @param 模拟表单对象
-             * @param msg 上传前提示
              * @returns {*}
              */
-            mutipartFileUpload: function(formData, msg) {
-                layer.msg(msg);
+            mutipartFileUpload: function(formData) {
                 var fileName;
                 $.ajax({
                     url: '/upload/uploadAndGetFileName.do',
@@ -657,63 +659,9 @@
                     }
                 });
                 return fileName;
-            },
-            validIsNumber: function(value) {
-                return !isNaN(value);
             }
         };
     </script>
+    <script type="text/javascript" src="/static-resource/common/js/common.js" />
 </depotnextdoor:page>
-<style type="text/css">
-    body {
-        background-color: #4977AA;
-    }
-
-    #title-div {
-        margin-left: 34%;
-        margin-bottom: 31px;
-    }
-
-    .upload-pic-dev {
-        position: relative;
-        border: 1px dashed;
-        width: 64px;
-        height: 64px;
-        font-size: 43px;
-        text-align: center;
-        padding-bottom: 15px;
-        cursor: pointer;
-    }
-
-    .upload-input {
-        font-size: 14px;
-        filter: alpha(opacity=0); /*IE滤镜，透明度50%*/
-        -moz-opacity: 0; /*Firefox私有，透明度50%*/
-        opacity: 0; /*其他，透明度50%*/
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        cursor: pointer;
-    }
-
-    .light-login {
-        background-color: #4977AA;
-        color: white;
-    }
-
-    .form-group > label[class*=col-] {
-        margin-right: 5px;
-    }
-
-    b {
-        color: red;
-        padding-right: 6px;
-    }
-
-    .preview-img {
-        width: 100%;
-        height: 100%;
-        margin-bottom: 9px;
-    }
-</style>
+<link rel="stylesheet" href="/static-resource/common/css/partner/register.css"/>

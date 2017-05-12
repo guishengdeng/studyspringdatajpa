@@ -1,0 +1,17 @@
+#partner-table .name {
+    min-width: 150px;
+}
+
+#partner-table .operate, #partner-table .status {
+    min-width: 80px;
+}
+
+#condition-dev {
+    height: 221px;
+}
+
+.row-dev {
+    margin-top: 1%;
+    height: 66px;
+    margin-bottom: -2%;
+}

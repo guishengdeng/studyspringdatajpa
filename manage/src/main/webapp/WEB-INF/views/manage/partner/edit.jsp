@@ -5,110 +5,66 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="gbck" tagdir="/WEB-INF/tags" %>
+
 <gbck:page title="合伙人">
     <jsp:attribute name="css">
-        <style type="text/css">
-            #title-logo {
-                width: 5%;
-            }
-
-            #title-label {
-                font-size: 19px;
-            }
-
-            .custom-div {
-                border: 1px solid #CCCCCC;
-            }
-
-            .float-left-div {
-                float: left;
-            }
-
-            .left-div {
-                width: 34%;
-            }
-
-            .padding-left-td {
-                padding-left: 2%;
-            }
-
-            .padding-left-td2 {
-                padding-left: 7%;
-            }
-
-            .row-xs1-div, .row-xs1-div div {
-                height: 110px;
-            }
-
-            .row-xs2-div, .row-xs2-div div {
-                height: 200px;
-            }
-
-            .row-xs2-div > div > div:first-child {
-                padding-top: 4%;
-            }
-
-            .custom-div table {
-                width: 46%;
-            }
-
-            .custom-div tr {
-                height: 35px;
-            }
-
-            .one-col-dev {
-                background-color: #6389B2;
-            }
-
-            .one-col-dev h2 {
-                color: white;
-                margin-top: 9%;
-            }
-
-            .license-img {
-                width: 50%;
-            }
-            .option-btn {
-                margin-left: 10%;
-                margin-top:2%;
-            }
-            .enlarge-img {
-                width: 17%;
-                z-index: 112;
-                margin-left: -16%;
-                margin-top: 20%;
-                cursor: pointer;
-            }
-        </style>
+        <link rel="stylesheet" href="/static-resource/common/css/partner/edit.css"/>
     </jsp:attribute>
     <jsp:attribute name="script">
-        <script type="application/javascript">
+        <script type="text/javascript" src="/static-resource/common/js/common.js"></script>
+        <script type="text/javascript">
             $(function () {
                 $(".auditOpinion-btn").on('click', function () {
+                    if(Common.Btn.BTN_FLAG === false) {
+                        layer.msg("请勿重复提交");
+                        return false;
+                    }
+                    Common.Btn.disable();
                     var approvalStatus = $(this).children("i").attr('data-value');
                     var auditOpinion = $.trim($("#opinion-textarea").val());
                     $.ajax({
                        url: '/partner/audit.do',
                         type: 'POST',
-                        data: {"auditOpinion": auditOpinion, "approvalStatus": approvalStatus},
+                        data: {"auditOpinion": auditOpinion, "approvalStatus": approvalStatus, "id": $("#partnerId").val()},
                         success: function(data) {
                            if(data.code != 0) {
+                               Common.Btn.enable();
                                layer.msg(data.msg);
                                return false;
                            }
-                           layer.msg("审核成功", function() {
-                              window.location = '/partner/list.do';
-                           });
+                           layer.msg("审核成功");
+                            setTimeout(function() {
+                                window.location = '/partner/list.do';
+                            }, 2000);
                         },
                         error: function (e) {
+                            Common.Btn.enable();
+                            if(e.statusCode().status === 403) {
+                                layer.msg("无权限审核");
+                                return;
+                            }
                             layer.msg("审核失败");
                         }
                     });
                 });
+
+
+                $(".license-img").click(function() {
+                    $("#warpper-img").prop("src", $(this).prop("src"));
+                    var $tong = $('#tong');
+                    layer.open({
+                        type: 1,
+                        skin: 'layui-layer-rim', //加上边框
+                        area: ['80%', '100%'], //宽高
+                        content: $tong
+                    });
+                    $tong.removeClass('hide');
+                })
             });
         </script>
     </jsp:attribute>
     <jsp:body>
+        <input type="hidden" value="${partner.id}" id="partnerId"/>
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
                 <li>
@@ -128,6 +84,8 @@
 
         <div class="page-content">
             <div class="row">
+                <div id="tong" class="hide layui-layer-wrap" style="display: block;"><img src="" id="warpper-img"></div>
+
                 <div class="col-xs-12">
                     <!-- PAGE CONTENT BEGINS -->
                     <div class="row">
@@ -141,6 +99,7 @@
                                         <h2>基础信息</h2>
                                     </div>
                                 </div>
+
                                 <div class="custom-div">
                                     <table>
                                         <tbody>
@@ -229,15 +188,14 @@
                                                 </td>
                                             </tr>
                                             <tr>
+
                                                 <td class="padding-left-td">
-                                                    <img src="/static-resource/common/image/partner.png"
+                                                    <img src="${partner.businessLicense}"
                                                          class="license-img"/>
-                                                    <img src="/static-resource/common/image/fangda.png" class="enlarge-img"/>
                                                 </td>
                                                 <td class="padding-left-td2">
-                                                    <img src="/static-resource/common/image/partner.png"
+                                                    <img src="${partner.winePermit}"
                                                          class="license-img"/>
-                                                    <img src="/static-resource/common/image/fangda.png" class="enlarge-img"/>
                                                 </td>
                                             </tr>
                                             </tbody>

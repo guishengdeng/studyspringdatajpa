@@ -81,7 +81,7 @@
                             <table class="table table-striped table-bordered table-hover audit-table">
                                 <thead>
                                 <tr>
-                                    <th class="p-checkbox"><span class="pointer select-all">全选</span>/
+                                    <th style="width:80px" class="p-checkbox"><span class="pointer select-all">全选</span>/
                                         <span class="pointer select-inverted">反选</span></th>
                                     <th>城市合伙人ID</th>
                                     <th>城市合伙人名称</th>
@@ -93,28 +93,11 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr >
-                                    <td class="p-checkbox" style="width:65px">
-                                        <input type="checkbox" class="ui checkbox" name="group" value="${partner.id}"/>
-                                    </td>
-                                    <td><c:out value="H13542"/></td>
-                                    <td><c:out value="合伙人店铺"/></td>
-                                    <td><c:out value="四川"/></td>
-                                    <td><c:out value="成都"/></td>
-                                    <td style="color:red" id="id_${partner.id}">禁用</td>
-                                    <td><c:out value="凤凰隔"/></td>
-                                    <td>
-                                        <div class="hidden-sm hidden-xs btn-group">
-                                            <a class="btn btn-xs btn-info" href="/platform/partnerEdit.do?id=<c:out value="${partner.id}"/>">
-                                                <i class="ace-icon fa fa-pencil bigger-120"></i><span>详情</span>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
                                 <c:forEach items="${partnerSearchResVoPage.content}" var="partner">
                                     <tr >
-                                        <td class="p-checkbox" style="width:65px">
-                                            <input type="checkbox" class="ui checkbox" name="group" value="${partner.id}"/>
+                                        <td style="width:80px">
+                                            <input  name="platform_ids" class="ace" type="checkbox" value="<c:out value='${platform.id}'/>"/>
+                                            <span class="lbl"></span>
                                         </td>
                                         <td><c:out value="${partner.id}"/></td>
                                         <td><c:out value="${partner.name}"/></td>

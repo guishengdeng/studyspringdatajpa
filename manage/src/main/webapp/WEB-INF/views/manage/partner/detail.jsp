@@ -7,87 +7,22 @@
 <%@ taglib prefix="gbck" tagdir="/WEB-INF/tags" %>
 <gbck:page title="合伙人">
     <jsp:attribute name="css">
-        <style type="text/css">
-            #title-logo {
-                width: 5%;
-            }
-
-            #title-label {
-                font-size: 19px;
-            }
-
-            .custom-div {
-                border: 1px solid #CCCCCC;
-            }
-
-            .float-left-div {
-                float: left;
-            }
-
-            .left-div {
-                width: 34%;
-            }
-
-            .padding-left-td {
-                padding-left: 2%;
-            }
-
-            .padding-left-td2 {
-                padding-left: 7%;
-            }
-
-            .row-xs1-div, .row-xs1-div div {
-                height: 110px;
-            }
-
-            .row-xs2-div, .row-xs2-div div {
-                height: 200px;
-            }
-
-            .row-xs2-div > div > div:first-child {
-                padding-top: 4%;
-            }
-
-            .custom-div table {
-                width: 46%;
-            }
-
-            .custom-div tr {
-                height: 35px;
-            }
-
-            .one-col-dev {
-                background-color: #6389B2;
-            }
-
-            .one-col-dev h2 {
-                color: white;
-                margin-top: 9%;
-            }
-
-            .license-img {
-                width: 50%;
-            }
-            .option-btn {
-                margin-left: 10%;
-                margin-top:2%;
-            }
-            .back-div {
-                margin-right: 3%;
-            }
-            .enlarge-img {
-                width: 17%;
-                z-index: 112;
-                margin-left: -16%;
-                margin-top: 20%;
-                cursor: pointer;
-            }
-        </style>
+      <link rel="stylesheet" href="/static-resource/common/css/partner/detail.css"/>
     </jsp:attribute>
     <jsp:attribute name="script">
         <script type="application/javascript">
             $(function () {
-
+                $(".license-img").click(function() {
+                    $("#warpper-img").prop("src", $(this).prop("src"));
+                    var $tong = $('#tong');
+                    layer.open({
+                        type: 1,
+                        skin: 'layui-layer-rim', //加上边框
+                        area: ['80%', '100%'], //宽高
+                        content: $tong
+                    });
+                    $tong.removeClass('hide');
+                })
             });
         </script>
     </jsp:attribute>
@@ -111,6 +46,7 @@
 
         <div class="page-content">
             <div class="row">
+                <div id="tong" class="hide layui-layer-wrap" style="display: block;"><img src="" id="warpper-img"></div>
                 <div class="col-xs-12">
                     <!-- PAGE CONTENT BEGINS -->
                     <div class="row">
@@ -213,14 +149,12 @@
                                             </tr>
                                             <tr>
                                                 <td class="padding-left-td">
-                                                    <img src="/static-resource/common/image/partner.png"
+                                                    <img src="${partner.businessLicense}"
                                                          class="license-img"/>
-                                                    <img src="/static-resource/common/image/fangda.png" class="enlarge-img"/>
                                                 </td>
                                                 <td class="padding-left-td2">
-                                                    <img src="/static-resource/common/image/partner.png"
+                                                    <img src="${partner.winePermit}"
                                                          class="license-img"/>
-                                                    <img src="/static-resource/common/image/fangda.png" class="enlarge-img"/>
                                                 </td>
                                             </tr>
                                             </tbody>
@@ -267,7 +201,9 @@
                                             </tr>
                                             <tr>
                                                 <td class="padding-left-td">
-                                                    <label>审核时间:${partner.auditTime}</label>
+                                                    <label>审核时间:
+                                                        <fmt:formatDate value="${partner.auditTime}" type="date" pattern="yyyy-MM-dd HH:mm:ss"/>
+                                                    </label>
                                                 </td>
                                                 <td>
                                                     <label></label>
@@ -276,8 +212,8 @@
                                             </tbody>
                                         </table>
                                         <div class="text-right back-div">
-                                            <button type="button" class="btn btn-primary option-btn">
-                                                <i class="ace-icon fa fa-reply"></i><a href="/partner/list.do" style="color:white">返回</a></button>
+                                            <button type="button" class="btn btn-primary option-btn" onclick="javascript:location='/partner/list.do'">
+                                                <i class="ace-icon fa fa-reply"></i>返回</button>
                                         </div>
                                     </div>
                                 </div>
