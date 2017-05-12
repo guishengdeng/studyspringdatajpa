@@ -3,7 +3,7 @@ package com.biz.service.partner.specification;
 import com.biz.core.util.DateUtil;
 import com.biz.gbck.dao.mysql.po.org.PartnerPo;
 import com.biz.gbck.enums.partner.ApprovalStatus;
-import com.biz.vo.partner.PartnerSearchReqVo;
+import com.biz.vo.partner.PartnerReqVo;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -20,9 +20,9 @@ import java.util.List;
  */
 public class PartnerSpecification implements Specification<PartnerPo> {
 
-    private PartnerSearchReqVo partnerSearchReqVo;
+    private PartnerReqVo partnerSearchReqVo;
 
-    public PartnerSpecification(PartnerSearchReqVo partnerSearchReqVo) {
+    public PartnerSpecification(PartnerReqVo partnerSearchReqVo) {
         this.partnerSearchReqVo = partnerSearchReqVo;
     }
 

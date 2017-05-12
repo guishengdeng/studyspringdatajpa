@@ -1,9 +1,10 @@
 package com.biz.service.partner.interfaces;
 
+import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.exceptions.partner.PartnerExceptions;
 import com.biz.vo.partner.PartnerDetailRespVo;
 import com.biz.vo.partner.PartnerRegisterReqVo;
-import com.biz.vo.partner.PartnerSearchReqVo;
+import com.biz.vo.partner.PartnerReqVo;
 
 import java.util.List;
 
@@ -16,5 +17,9 @@ public interface PartnerService {
 
     boolean validAccountIsExist(String username);
 
-    List<PartnerDetailRespVo> findAllByCondition(PartnerSearchReqVo reqVo);
+    List<PartnerDetailRespVo> findAllByCondition(PartnerReqVo reqVo);
+
+    PartnerDetailRespVo findById(Long id);
+
+    void updatePartnerStatus(PartnerReqVo partnerReqVo) throws CommonException;
 }

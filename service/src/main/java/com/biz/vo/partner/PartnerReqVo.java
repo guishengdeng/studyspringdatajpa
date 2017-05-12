@@ -5,7 +5,8 @@ import com.biz.gbck.enums.partner.ApprovalStatus;
 /**
  * Created by haibin.tang on 2017/5/10.
  */
-public class PartnerSearchReqVo {
+public class PartnerReqVo {
+    private Long id;
     /**
      * 审核状态
      */
@@ -35,12 +36,32 @@ public class PartnerSearchReqVo {
      */
     private String optionEndTime;
     /**
+     * 审核意见
+     */
+    private String auditOpinion;
+    /**
      * 操作人
      */
     private String operator;
 
     public ApprovalStatus getApprovalStatus() {
         return approvalStatus;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getAuditOpinion() {
+        return auditOpinion;
+    }
+
+    public void setAuditOpinion(String auditOpinion) {
+        this.auditOpinion = auditOpinion;
     }
 
     public void setApprovalStatus(ApprovalStatus approvalStatus) {
