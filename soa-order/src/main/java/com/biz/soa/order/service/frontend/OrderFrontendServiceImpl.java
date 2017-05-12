@@ -14,11 +14,9 @@ import com.biz.gbck.exceptions.order.PaymentException;
 import com.biz.gbck.transform.order.Order2OrderRo;
 import com.biz.gbck.vo.IdReqVo;
 import com.biz.gbck.vo.PageRespVo;
-import com.biz.gbck.vo.cart.ShopCartItemRespVo;
-import com.biz.gbck.vo.cart.ShopCartListReqVo;
-import com.biz.gbck.vo.cart.ShopCartRespVo;
 import com.biz.gbck.vo.order.event.UserOrderCancelEvent;
 import com.biz.gbck.vo.order.req.*;
+import com.biz.gbck.vo.order.resp.OrderItemRespVo;
 import com.biz.gbck.vo.order.resp.OrderRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
 import com.biz.gbck.vo.payment.resp.PaymentRespVo;
@@ -113,7 +111,7 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
     public OrderSettlePageRespVo settle(OrderSettlePageReqVo reqVo) {
         //TODO 各种计算
         return OrderSettlePageRespVoBuilder.createBuilder().setItems(null).setFreight(null)
-                .setCoupons(null).setPayLimitTime(null).setPaymentTyps(null).setPromtions(null).setBuyerInfo(null,
+                .setCoupons(null).setPaymentTyps(null).setPromtions(null).setBuyerInfo(null,
                         null, null).build();
     }
 
@@ -172,21 +170,24 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
         Timers timers = Timers.createAndBegin(logger.isDebugEnabled());
         long id = idService.nextId();
         String orderCode = sequenceService.generateOrderCode();
-        ShopCartListReqVo cartInfoReqVo = new ShopCartListReqVo();
-        cartInfoReqVo.setUserId(reqVo.getUserId());
-        ShopCartRespVo cartVo = shopCartService.getCartInfo(cartInfoReqVo);
-        SystemAsserts.notNull(cartVo, "未获取到进货单信息");
-        List<ShopCartItemRespVo> items = cartVo.getSelectedItems();
-        SystemAsserts.notEmpty(items, "未获取到进货单信息");
+
+        OrderSettlePageReqVo settleReqVo = new OrderSettlePageReqVo();
+        settleReqVo.setUserId(reqVo.getUserId());
+        settleReqVo.setUsedCoupons(reqVo.getUsedCoupons());
+        OrderSettlePageRespVo settleResult = this.settle(settleReqVo);
+
+
+        SystemAsserts.notNull(settleResult, "未获取到订单结算信息");
+        List<OrderItemRespVo> items = settleResult.getItems();
+        SystemAsserts.notEmpty(items, "未获取到结算明细信息");
 
         List<OrderItem> orderItems = this.transOrderItems(items);
         Order order = OrderBuilder.createBuilder(reqVo)
                 .setItems(orderItems)
-                .setFreeAmount(cartVo.getFreeAmount())
-                .setVoucherAmount(cartVo.getVoucherAmount())
-                .setPayAmount(cartVo.getPayAmount())
-                .setExpireTime(null) //TODO
-                .setPaymentType(null) //TODO
+                .setFreeAmount(settleResult.getOrderAmount())
+                .setVoucherAmount(settleResult.getVoucherAmount())
+                .setPayAmount(settleResult.getPayAmount())
+                .setPaymentType(PaymentType.valueOf(reqVo.getPaymentType()))
                 .build(id, orderCode);
 
         this.lockStock(order);
@@ -220,9 +221,9 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
         return order;
     }
 
-    private List<OrderItem> transOrderItems(List<ShopCartItemRespVo> items) {
+    private List<OrderItem> transOrderItems(List<OrderItemRespVo> items) {
         List<OrderItem> orderItems = newArrayList();
-        for (ShopCartItemRespVo item : items) {
+        for (OrderItemRespVo item : items) {
             OrderItem orderItem = new OrderItem();
             orderItem.setId(idService.nextId());
             orderItem.setProductId(item.getProductId());
@@ -232,6 +233,7 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
             orderItem.setPrice(item.getPrice());
             orderItem.setMarketPrice(item.getMarketPrice());
             orderItem.setQuantity(item.getQuantity());
+            orderItem.setItemType(item.getItemType());
             orderItems.add(orderItem);
         }
 

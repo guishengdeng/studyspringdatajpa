@@ -19,6 +19,18 @@ public enum PaymentType implements EnumerableValue {
 
     WECHAT(22, "微信");
 
+
+    public static PaymentType valueOf(Integer type) {
+        if (type == PAY_ON_DELIVERY.getValue()) {
+            return PAY_ON_DELIVERY;
+        } else if (type == ALIPAY.getValue()) {
+            return ALIPAY;
+        } else if (type == WECHAT.getValue()) {
+            return WECHAT;
+        }
+        return null;
+    }
+
     public static class Converter extends BaseEnumValueConverter<PaymentType> {}
 
     private int value;

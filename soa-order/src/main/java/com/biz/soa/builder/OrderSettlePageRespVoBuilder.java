@@ -1,11 +1,9 @@
 package com.biz.soa.builder;
 
-import com.biz.core.asserts.SystemAsserts;
 import com.biz.gbck.vo.order.resp.OrderItemRespVo;
 import com.biz.gbck.vo.order.resp.OrderPromotionRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -36,13 +34,6 @@ public class OrderSettlePageRespVoBuilder extends AbstractOrderBuilder {
     public OrderSettlePageRespVoBuilder setItems(List<OrderItemRespVo> items){
         this.respVo.setItems(items);
         this.respVo.setOrderAmount(super.calcOrderAmount(items));
-        return this;
-    }
-
-    //付款期限
-    public OrderSettlePageRespVoBuilder setPayLimitTime(Timestamp payLimitTime){
-        SystemAsserts.notNull(payLimitTime, "付款期限不能为空");
-        this.respVo.setPayLimitTime(payLimitTime.getTime());
         return this;
     }
 
