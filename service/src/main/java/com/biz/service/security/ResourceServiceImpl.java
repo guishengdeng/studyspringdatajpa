@@ -56,7 +56,7 @@ public class ResourceServiceImpl extends AbstractBaseService implements Resource
         if(exist != null){
             if(resource.getId() != null){
                 for(Resource item : resources){
-                     if(resource.getId().equals(item.getId()) && resource.getName().equals(item.getName())){
+                     if(resource.getId().equals(item.getId()) && resource.getName().trim().equals(item.getName().trim())){
                          return Boolean.TRUE;
                      }
                 }

@@ -53,12 +53,12 @@
                     </a>
                 </li>
                 <li class="active">
-                    <a href="/manage/mainMenus/detail.do?id=${mainmenu_id}">
+                    <a href="/manage/mainMenus.do">
                         菜单管理
                     </a>
                 </li>
                 <li class="active">
-                    <a href="/manage/menuItems/detail.do?id=${menuitem_id}">
+                    <a href="/manage/menuItems.do">
                         子菜单管理
                     </a>
                 </li>

@@ -9,17 +9,20 @@
     <jsp:attribute name="script">
         <script type="application/javascript">
              $('#confirm').on("click",function(){
-                 var data = $('#admin_form').serialize();
                  var cmd = $('#cmd').val();
-                 var username = $('#username').val();
-                 var password = $('#password').val();
+                 var username = $('#username').val().trim();
+                 var password = $('#password').val().trim();
                   if(cmd == "add"){
-                      if(username == ""){
+                      if(!username){
                           layer.msg("用户名不能为空");
                           return false;
                       }
-                      if(password == ""){
+                      if(!password){
                           layer.msg("密码不能为空");
+                          return false;
+                      }
+                      if(password.length<6 ||password.length>20){
+                          layer.msg("密码长度只能是6-20的字符");
                           return false;
                       }
                   }
@@ -99,7 +102,7 @@
                                                         class="required col-xs-10 col-sm-5"
                                                         type="text"
                                                         id="username"
-                                                        placeholder="用户名"
+                                                        placeholder=""
                                                         name="username"
                                                         value="${admin.username}"/>
                                                 <p class="help-block">用户名一旦注册,便不能修改</p>
@@ -113,7 +116,7 @@
                                         </label>
 
                                         <div class="col-sm-9">
-                                            <input type="password" id="password" placeholder="密码"  value="<c:out value='${admin.password}'/> "
+                                            <input type="password" id="password" placeholder="密码"   value="<c:out value='${admin.password}'/> "
                                                    name="password" class="required col-xs-10 col-sm-5" maxlength="20" minlength="6">
 
                                         </div>
@@ -141,7 +144,7 @@
                                             启用状态
                                         </label>
                                         <div class="col-sm-9">
-                                                <depotnextdoor:commonStatusRadio fieldName="status" selectedStatus="${admin.status}" inline="true" enableLabel="启用" disableLabel="启用"/>
+                                                <depotnextdoor:commonStatusRadio fieldName="status" selectedStatus="${admin.status}" inline="true" enableLabel="启用" disableLabel="禁用"/>
 
                                         </div>
                                     </div>

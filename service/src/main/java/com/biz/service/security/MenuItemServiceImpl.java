@@ -56,7 +56,7 @@ public class MenuItemServiceImpl extends AbstractBaseService implements MenuItem
         if(menuItem != null){
             if(mm.getId() != null){
                  for(MenuItem item : list){
-                      if(mm.getId().equals(item.getId()) && mm.getName().equals(item.getName())){
+                      if(mm.getId().equals(item.getId()) && mm.getName().trim().equals(item.getName().trim())){
                           return  Boolean.TRUE;
                       }
                  }

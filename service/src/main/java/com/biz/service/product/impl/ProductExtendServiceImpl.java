@@ -167,7 +167,7 @@ public class ProductExtendServiceImpl extends AbstractBaseService implements Pro
                if(vo.getId() != null){//说明执行的是修改操作
                    for(ProductExtend item : list){
                        //说明用户可能修改是否禁用状态这一选项,其余的则不修改.
-                       if(vo.getId().equals(item.getId()) && vo.getName().equals(item.getName())){
+                       if(vo.getId().equals(item.getId()) && vo.getName().trim().equals(item.getName().trim())){
                            return Boolean.TRUE;
                        }
                        if(vo.getName().equals(item.getName())){

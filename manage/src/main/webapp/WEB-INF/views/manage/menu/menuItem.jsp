@@ -56,7 +56,7 @@
                     </a>
                 </li>
                 <li class="active">
-                    <a href="/manage/mainMenus/detail.do?id=${mainmenu_id}">
+                    <a href="/manage/mainMenus.do">
                         菜单管理
                     </a>
                 </li>

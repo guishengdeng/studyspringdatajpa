@@ -124,7 +124,7 @@ public class AdminServiceImpl extends AbstractBaseService implements UserDetails
          if(user != null){
               if(cmd.equals("edit")){
                   for(Admin item : list){
-                      if(item.getUsername().equals(user.getUsername())){
+                      if(item.getUsername().trim().equals(user.getUsername().trim())){
                           return Boolean.TRUE;
                       }
                   }
