@@ -1,24 +1,22 @@
 package com.biz.gbck.vo.product.backend;
 
+import com.biz.gbck.dao.mysql.po.tag.SaleStatusEnum;
 import com.biz.gbck.enums.CommonStatusEnum;
-import java.io.Serializable;
 
 /**
- * 销售标签 Vo
- *
- * @author david-liu
- * @date 2016年12月16日
+ * @author lzz
+ * @usage
  * @reviewer
- * @see
+ * @since 2017/5/3
  */
-public class SaleTagVo implements Serializable {
+public class SaleTagVo implements ISaleTagVo {
 
-    private static final long serialVersionUID = -2729669716677302743L;
+    private static final long serialVersionUID = -1891330539302004612L;
 
     /**
      * ID
      */
-    private String id;
+    private Long id;
 
     /**
      * 销售标签名称
@@ -26,19 +24,18 @@ public class SaleTagVo implements Serializable {
     private String name;
 
     /**
-     * 销售标签 Logo
+     * 前台展示
      */
-    private String logo;
+    private String showName;
 
+    /**
+     * 标签
+     */
+    private String tag;
     /**
      * 销售标签显示顺序
      */
     private Integer idx;
-
-    /**
-     * 销售标签富文本信息
-     */
-    private String rawHtml;
 
     /**
      * 销售标签描述信息
@@ -46,7 +43,11 @@ public class SaleTagVo implements Serializable {
     private String description;
 
     /**
-     * 销售标签状态
+     * 标签的启用禁用状态
+     */
+    private SaleStatusEnum saleStatus;
+    /**
+     * 状态（删除状态）
      */
     private CommonStatusEnum status;
 
@@ -55,15 +56,24 @@ public class SaleTagVo implements Serializable {
      */
     private String vendorId;
 
-    public SaleTagVo() {
+    /**
+     * 分类ID
+     */
+    private Long categoryId;
+
+    public Long getCategoryId() {
+        return categoryId;
     }
 
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -75,12 +85,22 @@ public class SaleTagVo implements Serializable {
         this.name = name;
     }
 
-    public String getLogo() {
-        return logo;
+    @Override
+    public String getShowName() {
+        return showName;
     }
 
-    public void setLogo(String logo) {
-        this.logo = logo;
+    public void setShowName(String showName) {
+        this.showName = showName;
+    }
+
+    @Override
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public Integer getIdx() {
@@ -91,20 +111,22 @@ public class SaleTagVo implements Serializable {
         this.idx = idx;
     }
 
-    public String getRawHtml() {
-        return rawHtml;
-    }
-
-    public void setRawHtml(String rawHtml) {
-        this.rawHtml = rawHtml;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+
+    @Override
+    public SaleStatusEnum getSaleStatus() {
+        return saleStatus;
+    }
+
+    public void setSaleStatus(SaleStatusEnum saleStatus) {
+        this.saleStatus = saleStatus;
     }
 
     public CommonStatusEnum getStatus() {

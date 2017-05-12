@@ -1,30 +1,26 @@
 package com.biz.gbck.dao.redis.ro.notice;
 
 
-import com.biz.gbck.common.ro.AbstractRedisObj;
+import com.biz.redis.annotation.Ro;
+import com.biz.redis.annotation.RoSortedSet;
+import com.biz.redis.bean.BaseRedisObject;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * 缓存中的 用户消息
- *
- * @author gongshutao
  */
-public class NoticeRo extends AbstractRedisObj {
 
-    private Long id;
+@Ro(key = "noticeRo")
+@RoSortedSet(key = "list", score = "createTimestamp")
+public class NoticeRo  extends BaseRedisObject<String> implements Serializable {
+
     private String title;
     private String url;
     private String content;
     private Timestamp createTime;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;

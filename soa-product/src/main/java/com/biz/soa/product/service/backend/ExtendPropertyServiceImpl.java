@@ -15,15 +15,16 @@ import com.biz.service.product.backend.ExtendPropertyService;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author wangyumin
@@ -231,5 +232,20 @@ public class ExtendPropertyServiceImpl extends AbstractBaseService implements Ex
             }
         }
         return extendSelectVos;
+    }
+
+    @Override
+    public List<ExtendProperty> findByProductExtendId(Long productExtendId) {
+        return null;
+    }
+
+    @Override
+    public ExtendProperty findById(Long id) {
+        return null;
+    }
+
+    @Override
+    public Boolean isExistExtendPropertyValue(CreateExtendPropertyVo vo) throws ExtendPropertyNotFoundException {
+        return null;
     }
 }

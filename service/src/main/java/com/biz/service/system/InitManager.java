@@ -72,6 +72,7 @@ public class InitManager {
 			MainMenu demoMainMenu = new MainMenu();
 			demoMainMenu.setName("示例演示");
 			demoMainMenu.setCode(0);
+			demoMainMenu.setIcon("file-code-o");
 			demoMainMenu = mainMenuRepository.save(demoMainMenu);
 
 			//Menu Item
@@ -165,6 +166,7 @@ public class InitManager {
 		CatPO catPO = new CatPO();
 		catPO.setId(id);
 		catPO.setName(name);
+		catPO.setHomepage("https://www.baidu.com/s?wd=" + name);
 		catPO.setDescription(description);
 		catPO.setSaleStatus(saleStatus);
 		catPO.setStatus(commonStatus);

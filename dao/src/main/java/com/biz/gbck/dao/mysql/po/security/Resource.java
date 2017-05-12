@@ -1,16 +1,19 @@
 package com.biz.gbck.dao.mysql.po.security;
 
 import com.biz.core.model.Identifiable;
-import com.biz.gbck.dao.mysql.po.BasePo;
-import com.biz.gbck.dao.mysql.po.demo.CatPO;
+import com.biz.support.jpa.po.BasePO;
 import com.biz.gbck.enums.CommonStatusEnum;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
 
 import java.util.List;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "adm_resource")
-public class Resource extends BasePo<Long> implements Identifiable<Long> {
+public class Resource extends BasePO<Long> implements Identifiable<Long> {
 
     public final static int TYPE_MENU = 0;
     public final static int TYPE_URL = 1;
@@ -20,9 +23,15 @@ public class Resource extends BasePo<Long> implements Identifiable<Long> {
     private Long id;
 
     @Column(length = 50, nullable = false)
+    @NotNull(message = "名字不能为空")
+    @NotBlank(message = "名字不能为空")
     private String name;
 
     @Column(columnDefinition = "MEDIUMTEXT")
+    @NotBlank(message = "权限不能为空")
+    //^(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+));?)+$
+    @NotNull(message = "权限不能为空")
+    @Pattern(regexp = "(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+));?)+", message = "无效的权限")
     private String symbol;
 
     @Column

@@ -27,4 +27,6 @@ public interface MainMenuService {
 
       List<MainMenu> listByStatus(CommonStatusEnum status);
 
+      Boolean isExistMainMenu(MainMenu mainMenu);
+
 }

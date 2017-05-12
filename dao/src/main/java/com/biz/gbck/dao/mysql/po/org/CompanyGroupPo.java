@@ -1,5 +1,7 @@
 package com.biz.gbck.dao.mysql.po.org;
 
+import com.biz.gbck.dao.mysql.po.security.Admin;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.org.CompanyLevel;
 import com.biz.support.jpa.po.BaseEntity;
 
@@ -10,13 +12,9 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import java.util.List;
 
 /**
@@ -29,6 +27,7 @@ import java.util.List;
 @Table(name = "org_group")
 public class CompanyGroupPo extends BaseEntity {
 
+
     /**
      * 客户组编码
      */
@@ -38,6 +37,11 @@ public class CompanyGroupPo extends BaseEntity {
      * 客户组名称
      */
     private String name;
+
+    /**
+     * 备注
+     */
+    private String description;
 
     /**
      * 上级
@@ -59,6 +63,17 @@ public class CompanyGroupPo extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     @Column
     private CompanyLevel childrenLevel;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private CommonStatusEnum status;
+
+    /**
+     * 创建者
+     */
+    @ManyToOne
+    @JoinColumn(name = "admin_id")
+    private Admin createdAdmin;
 
 
     public String getCode() {
@@ -99,5 +114,29 @@ public class CompanyGroupPo extends BaseEntity {
 
     public void setChildrenLevel(CompanyLevel childrenLevel) {
         this.childrenLevel = childrenLevel;
+    }
+
+    public CommonStatusEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(CommonStatusEnum status) {
+        this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Admin getCreatedAdmin() {
+        return createdAdmin;
+    }
+
+    public void setCreatedAdmin(Admin createdAdmin) {
+        this.createdAdmin = createdAdmin;
     }
 }

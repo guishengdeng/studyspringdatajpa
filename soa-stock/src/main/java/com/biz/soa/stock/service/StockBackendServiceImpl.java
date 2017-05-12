@@ -26,17 +26,18 @@ import com.biz.service.stock.backend.StockBackendService;
 import com.biz.service.warehouse.frontend.WarehouseService;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codelogger.utils.ValueUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import static com.biz.gbck.enums.product.GeoLevelEnum.GEO_PROVINCE;
 import static com.google.common.collect.Lists.newArrayList;
@@ -50,6 +51,7 @@ import static com.google.common.collect.Sets.newHashSet;
  * @date 2016年12月10日
  * @reviewer
  */
+@Deprecated
 @Service
 public class StockBackendServiceImpl extends AbstractBaseService implements StockBackendService {
 

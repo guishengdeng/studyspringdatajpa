@@ -97,15 +97,7 @@ import java.util.Set;
 public class ShopPo extends Company {
 
 
-    /**
-     * 店铺名称
-     */
-    @Column(length = 40) private String name;
 
-    /**
-     * 法人名字
-     */
-    @Column(length = 40) private String corporateName;
 
     /**
      * 店铺头像
@@ -310,16 +302,19 @@ public class ShopPo extends Company {
      */
     private Long channelUserId;
 
-//    /**
-//     * 渠道，参看{@linkplain com.depotnearby.common.shop.ShopChannel}. 数据为其value
-//     */
-//    private Integer channel;
+    /**
+     * 渠道，参看{@linkplain com.depotnearby.common.shop.ShopChannel}. 数据为其value
+     */
+    private Integer channel;
 
     /**
      * 父店铺
      */
     @ManyToOne(optional = true) @JoinColumn(name = "parentId") private ShopPo parent;
 
+    @Column
+    @Convert(converter = ShopLevel.Converter.class)
+    private ShopLevel shopLevel = ShopLevel.VIP_1;
 
     /**
      * 子店铺
@@ -332,20 +327,12 @@ public class ShopPo extends Company {
     @JoinColumn(name = "partnerId")
     private PartnerPo partner;
 
-    public String getName() {
-        return name;
+    public ShopLevel getShopLevel() {
+        return shopLevel;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCorporateName() {
-        return corporateName;
-    }
-
-    public void setCorporateName(String corporateName) {
-        this.corporateName = corporateName;
+    public void setShopLevel(ShopLevel shopLevel) {
+        this.shopLevel = shopLevel;
     }
 
     public String getAvatar() {
@@ -603,5 +590,21 @@ public class ShopPo extends Company {
 
     public void setPaymentPassword(String paymentPassword) {
         this.paymentPassword = paymentPassword;
+    }
+
+    public Integer getChannel() {
+        return channel;
+    }
+
+    public void setChannel(Integer channel) {
+        this.channel = channel;
+    }
+
+    public PartnerPo getPartner() {
+        return partner;
+    }
+
+    public void setPartner(PartnerPo partner) {
+        this.partner = partner;
     }
 }

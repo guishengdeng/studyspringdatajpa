@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.biz.core.model.Identifiable;
-import com.biz.gbck.dao.mysql.po.BasePo;
+import com.biz.support.jpa.po.BasePO;
 import com.biz.gbck.dao.mysql.po.qrcode.enums.BusinessStatusEnum;
 import com.biz.gbck.enums.CommonStatusEnum;
 
@@ -21,7 +21,7 @@ import com.biz.gbck.enums.CommonStatusEnum;
  */
 @Entity
 @Table(name = "qrc_qrcode_resume")
-public class QRCodeResumePO extends BasePo<Long> implements Identifiable<Long>{
+public class QRCodeResumePO extends BasePO<Long> implements Identifiable<Long>{
     private static final long serialVersionUID = 1L;
     
     @Id
