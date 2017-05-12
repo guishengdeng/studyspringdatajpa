@@ -15,7 +15,7 @@ public class IncrProductIdxReqVo implements Serializable {
      * 商品编码
      */
     @NotNull(message = "商品编码不能为空")
-    private String productCode;
+    private Long productId;
 
     /**
      * 价格组ID
@@ -29,21 +29,21 @@ public class IncrProductIdxReqVo implements Serializable {
     @NotNull(message = "上级采购单位ID不能为空")
     private Long sellerId;
 
-    public IncrProductIdxReqVo(String productCode) {
-        this.productCode = productCode;
+    public IncrProductIdxReqVo(Long productId) {
+        this.productId = productId;
     }
 
-    public IncrProductIdxReqVo(String productCode, Long priceGroupId) {
-        this.productCode = productCode;
+    public IncrProductIdxReqVo(Long productId, Long priceGroupId) {
+        this.productId = productId;
         this.priceGroupId = priceGroupId;
     }
 
-    public String getProductCode() {
-        return productCode;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
     public Long getPriceGroupId() {
@@ -65,7 +65,7 @@ public class IncrProductIdxReqVo implements Serializable {
     @Override
     public String toString() {
         return "IncrProductIdxReqVo{" +
-                "productCode='" + productCode + '\'' +
+                "productId='" + productId + '\'' +
                 ", priceGroupId=" + priceGroupId +
                 ", sellerId=" + sellerId +
                 '}';

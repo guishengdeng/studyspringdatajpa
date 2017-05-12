@@ -1,6 +1,7 @@
 package com.biz.service.product.backend;
 
 
+import com.biz.gbck.dao.mysql.po.product.meta.ExtendProperty;
 import com.biz.gbck.exceptions.product.ExtendPropertyNotFoundException;
 import com.biz.gbck.exceptions.product.IllegalParameterException;
 import com.biz.gbck.vo.product.backend.*;
@@ -62,4 +63,17 @@ public interface ExtendPropertyService {
      * 商品扩展属性列表
      */
     List<ExtendSelectVo> selectExtend(Long categoryId, String productCode);
+
+    /**
+     * 根据商品扩展id,查询扩展属性
+     */
+
+    List<ExtendProperty> findByProductExtendId(Long productExtendId);
+
+    /***
+     * 根据id查询扩展属性
+     */
+    ExtendProperty  findById(Long id);
+
+    Boolean  isExistExtendPropertyValue(CreateExtendPropertyVo vo) throws ExtendPropertyNotFoundException;
 }

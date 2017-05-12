@@ -6,4 +6,8 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:7777/eureka
+      defaultZone: http://localhost:7777/eureka/, http://localhost:8888/eureka/, http://localhost:9999/eureka/
+security:
+  basic:
+    enabled: false
+    authorize-mode: none

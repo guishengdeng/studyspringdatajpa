@@ -15,7 +15,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -37,6 +41,8 @@ public class Admin implements Serializable, UserDetails {
      */
     @Id
     @Column(length = 20, nullable = false)
+    @NotNull( message = "用户名不能为空")
+    @NotBlank( message = "用户名不能为空")
     private String username;
 
     /**
@@ -45,6 +51,7 @@ public class Admin implements Serializable, UserDetails {
      * after:删除了这个参数
      */
     @Column(length = 200)
+
     private String password;
 
     /**

@@ -82,9 +82,9 @@
                             <table id="simple-table" class="table  table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>代码</th>
-                                    <th>公司类型</th>
                                     <th class="hidden-md hidden-sm hidden-xs">菜单名称</th>
+                                    <th>公司类型</th>
+                                    <th>代码</th>
                                     <th class="hidden-md hidden-sm hidden-xs">菜单描述</th>
                                     <th class="hidden-md hidden-sm hidden-xs">子菜单管理</th>
                                     <th class="hidden-md hidden-sm hidden-xs">操作</th>
@@ -94,10 +94,9 @@
                                 <tbody>
                                 <c:forEach items="${mainMenus}" var="mainMenu">
                                     <tr id="tr-${mainMenu.id}">
-
-                                        <td>${mainMenu.code}</td>
-                                        <td>${mainMenu.companyType}</td>
                                         <td class="hidden-md hidden-sm hidden-xs">${mainMenu.name}</td>
+                                        <td>${mainMenu.companyType}</td>
+                                        <td>${mainMenu.code}</td>
                                         <td class="hidden-md hidden-sm hidden-xs">${mainMenu.description}</td>
                                         <td class="hidden-md hidden-sm hidden-xs">
 

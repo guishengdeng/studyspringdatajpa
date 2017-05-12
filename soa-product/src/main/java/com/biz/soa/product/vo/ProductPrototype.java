@@ -128,7 +128,7 @@ public class ProductPrototype implements Serializable {
     public ProductIdxVO toProductIdxVO() {
         ProductIdxVO idxVO = new ProductIdxVO();
         idxVO.setId(String.format("%s%s", this.productRO.getProductCode(), this.priceGroupId));
-        idxVO.setProductId(this.productRO.getProductId());
+        idxVO.setProductId(this.productRO.getId());
         idxVO.setPriceGroup(this.priceGroupId);
         idxVO.setStock(this.stockVO.getStock());
         idxVO.setSalePrice(this.priceGenerator.getSalePrice());
