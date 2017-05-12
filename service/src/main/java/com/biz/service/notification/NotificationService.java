@@ -2,7 +2,6 @@ package com.biz.service.notification;
 
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.info.NoticePo;
-import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.mysql.repository.org.UserRepository;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.enums.user.AuditStatus;
@@ -11,7 +10,6 @@ import com.biz.service.notice.NoticeService;
 import com.biz.service.org.interfaces.UserService;
 import com.biz.vo.notify.NotifyVo;
 import com.google.common.collect.Lists;
-import org.codelogger.utils.CollectionUtils;
 import org.codelogger.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

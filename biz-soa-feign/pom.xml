@@ -22,6 +22,11 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-feign</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.biz.gbck</groupId>
+            <artifactId>service</artifactId>
+        </dependency>
     </dependencies>
 
 

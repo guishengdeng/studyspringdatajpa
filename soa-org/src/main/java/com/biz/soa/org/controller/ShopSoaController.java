@@ -1,4 +1,4 @@
-package com.biz.rest.controller.org;
+package com.biz.soa.org.controller;
 
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.common.exception.ExceptionCode;
@@ -7,12 +7,17 @@ import com.biz.gbck.dao.mysql.po.org.ShopQualificationPo;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.enums.user.ShopTypeStatus;
 import com.biz.gbck.transform.org.ShopDetailPoToShopUpdateDetailVo;
-import com.biz.rest.controller.BaseRestController;
-import com.biz.rest.util.RestUtil;
-import com.biz.service.org.interfaces.ShopService;
-import com.biz.service.org.interfaces.ShopTypeService;
+import com.biz.gbck.vo.org.ShopChangeDeliveryAddressReqVo;
+import com.biz.gbck.vo.org.ShopDetailOrQualificationGetReqVo;
+import com.biz.gbck.vo.org.ShopUpdateDetailReqVo;
+import com.biz.gbck.vo.org.ShopUpdateQualificationReqVo;
+import com.biz.gbck.vo.org.SimpleShopDetail;
+import com.biz.gbck.vo.org.SimpleShopQualification;
+import com.biz.gbck.vo.org.UserChangeDeliveryNameReqVo;
+import com.biz.soa.org.service.interfaces.ShopSoaService;
+import com.biz.soa.org.service.interfaces.ShopTypeSoaService;
+import com.biz.soa.org.util.RestUtil;
 import com.biz.support.web.handler.JSONResult;
-import com.biz.gbck.vo.org.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +34,16 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("shops") public class ShopController extends BaseRestController {
+@RequestMapping("soa/shop")
+public class ShopSoaController extends BaseRestController {
 
-    @Autowired(required = false)
-    private ShopService shopService;
+    @Autowired
+    private ShopSoaService shopSoaService;
 
-    @Autowired(required = false)
-    private ShopTypeService shopTypeService;
+    @Autowired
+    private ShopTypeSoaService shopTypeSoaService;
 
-    private static Logger logger = LoggerFactory.getLogger(ShopController.class);
+    private static Logger logger = LoggerFactory.getLogger(ShopSoaController.class);
 
     private Integer maxShopNameLength = 40;
 
@@ -55,7 +61,7 @@ import java.util.List;
             throw new CommonException("店招名称长度不能超过" + maxShopNameLength,
                 ExceptionCode.Global.PARAMETER_ERROR);
         }
-        shopService.updateDetail(shopUpdateDetailReqVo);
+        shopSoaService.updateDetail(shopUpdateDetailReqVo);
         return new JSONResult();
     }
 
@@ -70,7 +76,7 @@ import java.util.List;
         logger.debug("Received /shops/latestDetail POST request with shopId:{}, userId:{}",
             shopDetailOrQualificationGetReqVo.getShopId(),
             shopDetailOrQualificationGetReqVo.getUserId());
-        ShopDetailPo latestDetail = shopService.findLatestDetail(shopDetailOrQualificationGetReqVo);
+        ShopDetailPo latestDetail = shopSoaService.findLatestDetail(shopDetailOrQualificationGetReqVo);
         return latestDetail == null ?
             new JSONResult() :
             new JSONResult(new SimpleShopDetail(latestDetail));
@@ -87,7 +93,7 @@ import java.util.List;
         logger.debug(
             "Received /shops/updateQualification POST request with ShopUpdateQualificationReqVo:{}",
             updateQualificationReqVo);
-        shopService.updateQualification(updateQualificationReqVo);
+        shopSoaService.updateQualification(updateQualificationReqVo);
         return new JSONResult();
     }
 
@@ -103,7 +109,7 @@ import java.util.List;
             shopDetailOrQualificationGetReqVo.getShopId(),
             shopDetailOrQualificationGetReqVo.getUserId());
         ShopQualificationPo latestQualification =
-            shopService.findLatestQualification(shopDetailOrQualificationGetReqVo);
+            shopSoaService.findLatestQualification(shopDetailOrQualificationGetReqVo);
         return latestQualification == null ?
             new JSONResult() :
             new JSONResult(new SimpleShopQualification(latestQualification));
@@ -115,7 +121,7 @@ import java.util.List;
     @RequestMapping(value = "types") public JSONResult listShopTypes() {
 
         logger.debug("Received /shops/types GET request.");
-        List<ShopTypeRo> normalShopTypes = shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL);
+        List<ShopTypeRo> normalShopTypes = shopTypeSoaService.findAllShopTypeRo(ShopTypeStatus.NORMAL);
         return new JSONResult(normalShopTypes);
     }
 
@@ -130,7 +136,7 @@ import java.util.List;
         logger.debug(
             "Received /shops/updateDeliveryAddress POST request with ShopChangeDeliveryAddressReqVo:{}",
             changeDeliveryAddressReqVo);
-        shopService.changeDeliveryAddress(changeDeliveryAddressReqVo);
+        shopSoaService.changeDeliveryAddress(changeDeliveryAddressReqVo);
         return new JSONResult();
     }
 
@@ -145,7 +151,7 @@ import java.util.List;
         logger.debug(
             "Received /shops/updateDeliveryName POST request with userId:{}, deliveryName:{}",
             changeDeliveryAddressReqVo.getUserId(), changeDeliveryAddressReqVo.getDeliveryName());
-        shopService.changeDeliveryName(changeDeliveryAddressReqVo);
+        shopSoaService.changeDeliveryName(changeDeliveryAddressReqVo);
         return new JSONResult();
     }
 
@@ -156,7 +162,7 @@ import java.util.List;
             RestUtil.parseBizData(request, ShopDetailOrQualificationGetReqVo.class);
         logger.debug("Received /shops/getUpdateAddressStatus request with shopID:{}",
             shopDetailOrQualificationGetReqVo.getShopId());
-        ShopDetailPo latestDetail = shopService.findLatestDetail(shopDetailOrQualificationGetReqVo);
+        ShopDetailPo latestDetail = shopSoaService.findLatestDetail(shopDetailOrQualificationGetReqVo);
         return new JSONResult(new ShopDetailPoToShopUpdateDetailVo().apply(latestDetail));
     }
 }

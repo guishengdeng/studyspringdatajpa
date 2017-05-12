@@ -1,4 +1,5 @@
 package com.biz.rest.controller.global;
+import com.biz.core.ali.oss.util.OssUtil;
 import com.biz.gbck.dao.redis.ro.upgrade.UpgradeRo;
 /*import com.biz.gbck.vo.config.AppConfigVo;
 import com.biz.service.upgrade.CacheServiceImpl;*/
@@ -28,13 +29,14 @@ public class GlobalController  { //extends BaseController
    /* @Autowired
     private CacheServiceImpl cacheServiceImpl;*/
 
-  /*  @RequestMapping("/init")
+    @RequestMapping("/init")
     public JSONResult init(HttpServletRequest request) {
         Map result = new HashMap();
-        AppConfigVo config = cacheServiceImpl.getAppConfigVo();
+       /* AppConfigVo config = cacheServiceImpl.getAppConfigVo();
         result.putAll(config.getMap());
+        result.put("oss", OssUtil.getBuckets());*/
         return new JSONResult(result);
-    }*/
+    }
 
     @RequestMapping("upgrade")
     public JSONResult upgrade(

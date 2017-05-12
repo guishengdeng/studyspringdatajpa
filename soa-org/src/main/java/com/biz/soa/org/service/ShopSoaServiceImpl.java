@@ -72,6 +72,7 @@ import com.biz.service.CommonService;
 import com.biz.service.org.interfaces.ShopService;
 import com.biz.service.org.interfaces.ShopTypeService;
 import com.biz.service.org.interfaces.UserService;
+import com.biz.soa.org.service.interfaces.ShopSoaService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang.StringUtils;
@@ -119,7 +120,7 @@ import static org.codelogger.utils.ValueUtils.getValue;
  */
 @Service
 @Transactional
-public class ShopServiceImpl extends CommonService  implements ShopService {
+public class ShopSoaServiceImpl extends CommonService  implements ShopSoaService {
 
     private static final Logger logger = LoggerFactory.getLogger(ShopService.class);
 

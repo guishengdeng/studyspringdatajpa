@@ -60,7 +60,7 @@
                                     </label>
                                     <div class="col-sm-9">
                                         <input type="text" name="id" id="id" maxlength="20" value="<c:out value="${partner.id}"/>"
-                                               placeholder="城市合伙人ID" class="required text col-xs-10 col-sm-5 regExp"/>
+                                               placeholder="城市合伙人ID" class="required text col-xs-10 col-sm-5"  disabled="disabled"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -69,7 +69,7 @@
                                     </label>
                                     <div class="col-sm-9">
                                         <input type="text" name="corporateName" id="corporateName"  value="<c:out value="${partner.corporateName}"/>"
-                                               placeholder="联系人" class="required text col-xs-10 col-sm-5 regExp"/>
+                                               placeholder="联系人" class="required text col-xs-10 col-sm-5 " disabled="disabled"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -78,7 +78,7 @@
                                     </label>
                                     <div class="col-sm-9">
                                         <input type="text" name="mobile" id="mobile" maxlength="20" value="<c:out value="${partner.mobile}"/>"
-                                               placeholder="手机号" class="required text col-xs-10 col-sm-5 regExp"/>
+                                               placeholder="手机号" class="required text col-xs-10 col-sm-5 "  disabled="disabled"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -87,7 +87,7 @@
                                     </label>
                                     <div class="col-sm-9">
                                         <input type="text" name="" id="" maxlength="20"  value="<c:out value="${partner.name}"/>"
-                                               placeholder="详细地址" class="required text col-xs-10 col-sm-5 regExp"/>
+                                               placeholder="详细地址" class="required text col-xs-10 col-sm-5 "  disabled="disabled"/>
                                     </div>
                                 </div>
 

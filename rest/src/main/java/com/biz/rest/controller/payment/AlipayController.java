@@ -33,10 +33,10 @@ public class AlipayController extends BaseRestController {
 
     private static final String FAIL = "fail";
 
-    @Autowired
+    @Autowired(required = false)
     private PaymentService paymentService;
 
-    @Autowired
+    @Autowired(required = false)
     private MessageService messageService;
 
 

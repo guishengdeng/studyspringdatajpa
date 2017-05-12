@@ -1,4 +1,4 @@
-package com.biz.rest.transformer.org;
+package com.biz.gbck.transform.org;
 
 
 import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;

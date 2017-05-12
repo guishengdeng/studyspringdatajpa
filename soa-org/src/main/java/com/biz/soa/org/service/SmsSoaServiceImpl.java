@@ -1,4 +1,4 @@
-package com.biz.service.sms;
+package com.biz.soa.org.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.biz.core.util.StringTool;
@@ -15,21 +15,22 @@ import com.biz.gbck.dao.redis.repository.sms.SMSRedisDao;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.dao.redis.ro.sms.SMSRo;
+import com.biz.message.MessageService;
+import com.biz.message.SimpleBizMessage;
+import com.biz.message.queue.BizBaseQueue;
 import com.biz.service.CommonService;
 import com.biz.service.org.interfaces.ShopService;
 import com.biz.service.org.interfaces.UserService;
+import com.biz.soa.org.service.interfaces.SmsSoaService;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static java.lang.String.format;
 
@@ -41,7 +42,7 @@ import static java.lang.String.format;
 //        @PropertySource(value = "classpath:config.properties")
 //})
 @Service
-public class SMSService extends CommonService {
+public class SmsSoaServiceImpl extends CommonService implements SmsSoaService {
 
     @Autowired
     private UserService userService;
@@ -53,8 +54,8 @@ public class SMSService extends CommonService {
     @Autowired
     private ShopService shopService;
 
-   /* @Autowired
-    private MessageService messageService;*/
+   @Autowired
+    private MessageService messageService;
 
 
 
@@ -84,17 +85,17 @@ public class SMSService extends CommonService {
             }
         }
 
-        //        SecurityRespVo securityRespVoForIP =
-        //            securityService.recordBy(requestIp, (int) TimeUnit.MINUTES.toSeconds(10));
-        //        if (securityRespVoForIP.getVisitCountBeforeNow(TimeUnit.HOURS, 1) > limitTimes) {
-        //            throw new CommonException("获取验证码次数达到上限，请稍后尝试", ExceptionCode.Global.INFO_TO_USER);
-        //        }
-        //
-        //        SecurityRespVo securityRespVoForMobile =
-        //            securityService.recordBy(mobile, (int) TimeUnit.HOURS.toSeconds(10));
-        //        if (securityRespVoForMobile.getVisitCountBeforeNow(TimeUnit.HOURS, 1) > limitTimes) {
-        //            throw new CommonException("获取验证码次数达到上限，请稍后尝试", ExceptionCode.Global.INFO_TO_USER);
-        //        }
+//        SecurityRespVo securityRespVoForIP =
+//            securityService.recordBy(requestIp, (int) TimeUnit.MINUTES.toSeconds(10));
+//        if (securityRespVoForIP.getVisitCountBeforeNow(TimeUnit.HOURS, 1) > limitTimes) {
+//            throw new CommonException("获取验证码次数达到上限，请稍后尝试", ExceptionCode.Global.INFO_TO_USER);
+//        }
+//
+//        SecurityRespVo securityRespVoForMobile =
+//            securityService.recordBy(mobile, (int) TimeUnit.HOURS.toSeconds(10));
+//        if (securityRespVoForMobile.getVisitCountBeforeNow(TimeUnit.HOURS, 1) > limitTimes) {
+//            throw new CommonException("获取验证码次数达到上限，请稍后尝试", ExceptionCode.Global.INFO_TO_USER);
+//        }
 
         ShopRo shopRo = user == null ? null : shopService.findShopByUserId(Long.parseLong(user.getId()));
 
@@ -118,7 +119,7 @@ public class SMSService extends CommonService {
                                     .setUsername(username).setAlidayuTemplateCode(templateCode).build())
                             .setAlidayuTemplateCode(templateCode.getTemplateCode())
                             .setAlidayuTemplateParams(templateParam).build();
-           /* messageService.sendMessage(BizBaseQueue.MQ_SMS_CODE, SimpleBizMessage.newMessage(smsMessage));*/ // TODO: 17-4-28
+           messageService.sendMessage(BizBaseQueue.MQ_SMS_CODE, SimpleBizMessage.newMessage(smsMessage));
         } catch (Exception e) {
             throw new CommonException("获取验证码失败", ExceptionCode.Global.INFO_TO_USER);
         }
@@ -192,7 +193,7 @@ public class SMSService extends CommonService {
                         new SmsContentTemplate.Builder().setAlidayuTemplateCode(templateCode).build())
                         .setAlidayuTemplateCode(templateCode.getTemplateCode()).build();
             }
-            /*messageService.sendMessage(BizBaseQueue.MQ_SMS_CODE, SimpleBizMessage.newMessage(smsMessage));*/// TODO: 17-4-28
+            messageService.sendMessage(BizBaseQueue.MQ_SMS_CODE, SimpleBizMessage.newMessage(smsMessage));
         } catch (Exception e) {
             throw new CommonException("发送短信失败", ExceptionCode.Global.INFO_TO_USER);
         }
@@ -211,7 +212,7 @@ public class SMSService extends CommonService {
             smsMessage.setDestination(user.getMobile());
             smsMessage.setMessageBody(content);
             smsMessage.setAlidayuTemlateCode(templateCode);
-            /*messageService.sendMessage(BizBaseQueue.MQ_SMS_CODE, SimpleBizMessage.newMessage(smsMessage));*/// TODO: 17-4-28
+            messageService.sendMessage(BizBaseQueue.MQ_SMS_CODE, SimpleBizMessage.newMessage(smsMessage));
         }
     }
 
@@ -231,5 +232,5 @@ public class SMSService extends CommonService {
     private int limitTimes;
 
 
-    private static final Logger logger = LoggerFactory.getLogger(SMSService.class);
+    private static final Logger logger = LoggerFactory.getLogger(SmsSoaServiceImpl.class);
 }
