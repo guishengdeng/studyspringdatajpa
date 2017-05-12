@@ -58,7 +58,7 @@ public class OrderStockLockRedisDao extends CrudRedisDao<OrderStockLockRo, Strin
     }
 
 
-    public void removeExpiredOrderStockLockKeys(String orderCode, Set<String> keys) {
+    public void removeInvalidOrderStockLockKeys(String orderCode, Set<String> keys) {
         if (StringUtils.isBlank(orderCode) || CollectionUtils.isEmpty(keys)) {
             return;
         }

@@ -3,6 +3,9 @@ package com.biz.gbck.vo.stock;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
+import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * 更新合伙人锁定库存请求vo
@@ -20,19 +23,15 @@ public class UpdatePartnerLockStockReqVO implements Serializable {
     private String orderCode;
 
     /**
-     * 商品id(必选)
-     */
-    private Long productId;
-
-    /**
      * 合伙人id(必选)
      */
     private Long partnerId;
 
+
     /**
-     * 库存更新数量(正数即加库存, 负数即减库存)
+     * 锁定库存明细
      */
-    private int quantity = 0;
+    private List<StockItemVO> items = newArrayList();
 
     /**
      * 有效时间(分钟)
@@ -50,19 +49,10 @@ public class UpdatePartnerLockStockReqVO implements Serializable {
     public UpdatePartnerLockStockReqVO() {
     }
 
-    public UpdatePartnerLockStockReqVO(String orderCode, Long productId, Long partnerId, int quantity) {
+    public UpdatePartnerLockStockReqVO(String orderCode, Long partnerId, List<StockItemVO> items) {
         this.orderCode = orderCode;
-        this.productId = productId;
         this.partnerId = partnerId;
-        this.quantity = quantity;
-    }
-
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
+        this.items = items;
     }
 
     public Long getPartnerId() {
@@ -73,12 +63,12 @@ public class UpdatePartnerLockStockReqVO implements Serializable {
         this.partnerId = partnerId;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public List<StockItemVO> getItems() {
+        return items;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setItems(List<StockItemVO> items) {
+        this.items = items;
     }
 
     public int getAliveTime() {

@@ -204,7 +204,7 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
             lockStockReqVOS.add(lockStockReqVO);
         }
         try {
-            stockService.updateLockStocks(lockStockReqVOS);
+            stockService.orderLockStocks(lockStockReqVOS);
         } catch (Exception e) {
             logger.error("锁定库存出错", e);
             throw e;

@@ -39,12 +39,12 @@ public class PartnerStockLockRo extends BaseRedisObject<String> {
     public PartnerStockLockRo() {
     }
 
-    public PartnerStockLockRo(Long partnerId, Long productId, long stock, Timestamp updateTimestamp) {
+    public PartnerStockLockRo(Long partnerId, Long productId, Integer quantity, Timestamp updateTimestamp) {
         this();
         this.id = String.format("%s%s%s", partnerId, Constant.SEPARATOR, productId);
         this.partnerId = partnerId;
         this.productId = productId;
-        this.quantity = stock < 0 || Math.abs(stock) > Integer.MAX_VALUE ? 0 : (int) stock;
+        this.quantity = quantity;
         this.setUpdateTimestamp(updateTimestamp);
     }
 

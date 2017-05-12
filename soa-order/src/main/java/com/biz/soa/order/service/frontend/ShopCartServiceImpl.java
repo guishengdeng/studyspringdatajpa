@@ -134,17 +134,12 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         ShopCartNumRespVo cartItemRespVo = new ShopCartNumRespVo();
         List<ShopCartItemRo> shopCartItemRos = shopCartItemRedisDao.findByUserId(Long.valueOf(userId));
         int totalNum = 0;
-        int selectedNum = 0;
         if (CollectionUtils.isNotEmpty(shopCartItemRos)) {
             for (ShopCartItemRo cartItemRo : shopCartItemRos) {
                 totalNum += ValueUtils.getValue(cartItemRo.getQuantity());
-                if (cartItemRo.isSelected()) {
-                    selectedNum += ValueUtils.getValue(cartItemRo.getQuantity());
-                }
             }
         }
-        cartItemRespVo.setTotalNum(totalNum);
-        cartItemRespVo.setSelectedNum(selectedNum);
+        cartItemRespVo.setCartNum(totalNum);
         return null;
     }
 }
