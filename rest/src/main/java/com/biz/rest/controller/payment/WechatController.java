@@ -8,6 +8,9 @@ import com.biz.pay.wechat.lang.XmlBuilder;
 import com.biz.pay.wechat.res.WechatPayNotifyRespVo;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.soa.order.service.payment.PaymentService;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.collections.KeyValue;
 import org.apache.commons.collections.keyvalue.DefaultKeyValue;
 import org.apache.http.entity.ContentType;
@@ -15,10 +18,6 @@ import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -36,10 +35,10 @@ public class WechatController extends BaseRestController {
 
     public static final String UTF_8 = "utf-8";
 
-    @Autowired
+    @Autowired(required = false)
     private PaymentService paymentService;
 
-    @Autowired
+    @Autowired(required = false)
     private MessageService messageService;
 
 

@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("users") public class UserController extends BaseRestController {
 
-    @Autowired
+    @Autowired(required = false)
     private UserService userService;
 
     private static Logger logger = LoggerFactory.getLogger(UserController.class);
