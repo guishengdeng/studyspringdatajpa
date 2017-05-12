@@ -4,12 +4,11 @@ import com.biz.gbck.vo.cart.*;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.service.cart.ShopCartService;
 import com.biz.support.web.handler.JSONResult;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 购物车controller
@@ -24,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 public class ShopCartController extends BaseRestController {
 
 
-    @Autowired
+    @Autowired(required = false)
     private ShopCartService cartService;
 
     /**
@@ -103,7 +102,6 @@ public class ShopCartController extends BaseRestController {
             return new JSONResult(-1, "获取购物车数量出错");
         }
     }
-
 
 
 }

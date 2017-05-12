@@ -147,6 +147,12 @@ public class Product extends BaseEntity {
     private Integer weight;
 
     /**
+     * 规格
+     */
+    @Column
+    private String standard;
+
+    /**
      * 是否在审核(修改审核)
      */
     @Column
@@ -639,5 +645,13 @@ public class Product extends BaseEntity {
 
     public void setMinQuantity(Integer minQuantity) {
         this.minQuantity = minQuantity;
+    }
+
+    public String getStandard() {
+        return standard;
+    }
+
+    public void setStandard(String standard) {
+        this.standard = standard;
     }
 }

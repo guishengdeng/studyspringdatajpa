@@ -15,18 +15,13 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * 商品Ro(RoId是商品编码)
+ * 商品Ro(RoId是商品ID)
  * Created by david-liu on 2017/04/21 11:53.
  */
 @Ro(key = "product:ProductRo")
 @RoSortedSet(key = "list", score = "createTimestamp")
-public class ProductRO extends BaseRedisObject<String> {
+public class ProductRO extends BaseRedisObject<Long> {
     private static final long serialVersionUID = -2204675391624489385L;
-
-    /**
-     * 商品 ID
-     */
-    private Long productId;
 
     /**
      * 商品编码
@@ -297,14 +292,6 @@ public class ProductRO extends BaseRedisObject<String> {
         this.seoDescription = seoDescription;
     }
 
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-
     public Integer getSaleStatus() {
         return saleStatus;
     }
@@ -502,7 +489,6 @@ public class ProductRO extends BaseRedisObject<String> {
     @Override
     public String toString() {
         return "ProductRO{" +
-                "productId=" + productId +
                 ", productCode='" + productCode + '\'' +
                 ", name='" + name + '\'' +
                 ", subTitle='" + subTitle + '\'' +

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.biz.gbck.vo.product.gbck.request.ProductAppDetailReqVo;
 import com.biz.gbck.vo.product.gbck.request.ProductAppListReqVo;
 import com.biz.gbck.vo.product.gbck.response.ProductAppDetailRespVO;
+import com.biz.gbck.vo.product.gbck.response.ProductAppListRespVO;
 import com.biz.gbck.vo.product.gbck.response.ProductItemVO;
 import com.biz.gbck.vo.search.ProductSearchResultEntityVo;
 import com.biz.gbck.vo.search.ProductSearchResultVo;
@@ -29,22 +30,22 @@ public class ProductServiceImpl extends AbstractProductService implements Produc
     private IProductSearchService searchService;
 
     @Override
-    public List<ProductItemVO> searchProducts(ProductAppListReqVo reqVo) {
+    public ProductAppListRespVO searchProducts(ProductAppListReqVo reqVo) {
         Preconditions.checkArgument(reqVo != null && reqVo.getPriceGroupId() != null, "商品价格组ID不能为空");
         if (logger.isDebugEnabled()) {
             logger.debug("search products reqVo: {}", reqVo);
         }
         ProductSearchResultVo<ProductSearchResultEntityVo> searchResult = searchService.searchProducts(reqVo);
-        List<String> orderedProductCodes = Optional.ofNullable(searchResult.getItems()).orElse(Lists.newArrayList())
-                .stream().map(ProductSearchResultEntityVo::getProductCode).collect(Collectors.toList());
-        logger.info("get ordered product code list through search: {}", orderedProductCodes);
-        List<ProductItemVO> itemVOS = this.getProductPrototype(orderedProductCodes, reqVo.getPriceGroupId(), reqVo.getSellerId())
+        List<Long> orderedProductIds = Optional.ofNullable(searchResult.getItems()).orElse(Lists.newArrayList())
+                .stream().map(ProductSearchResultEntityVo::getProductId).collect(Collectors.toList());
+        logger.info("get ordered product code list through search: {}", orderedProductIds);
+        List<ProductItemVO> itemVOS = this.getProductPrototype(orderedProductIds, reqVo.getPriceGroupId(), reqVo.getSellerId())
                 .stream().map(ProductPrototype::toProductItemVO).collect(Collectors.toList());
         if (logger.isDebugEnabled()) {
             logger.debug("result: {}", JSON.toJSONString(itemVOS));
         }
 
-        return itemVOS;
+        return new ProductAppListRespVO();
     }
 
     @Override
@@ -53,6 +54,6 @@ public class ProductServiceImpl extends AbstractProductService implements Produc
         if (logger.isDebugEnabled()) {
             logger.debug("product detail reqVo: {}", reqVo);
         }
-        return this.getProductPrototype(reqVo.getProductCode(), reqVo.getPriceGroupId(), reqVo.getSellerId()).toAppDetailRespVO();
+        return this.getProductPrototype(reqVo.getProductId(), reqVo.getPriceGroupId(), reqVo.getSellerId()).toAppDetailRespVO();
     }
 }
