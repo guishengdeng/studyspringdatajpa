@@ -16,8 +16,8 @@ public class TotalProductIdxReqVo implements Serializable {
     /**
      * 商品编码集合
      */
-    @NotEmpty(message = "商品编码集合不能为空")
-    private List<String> productCodes;
+    @NotEmpty(message = "商品ID集合不能为空")
+    private List<Long> productIds;
 
     /**
      * 价格组ID
@@ -31,17 +31,17 @@ public class TotalProductIdxReqVo implements Serializable {
     @NotNull(message = "上级采购单位ID不能为空")
     private Long sellerId;
 
-    public TotalProductIdxReqVo(List<String> productCodes, Long priceGroupId) {
-        this.productCodes = productCodes;
+    public TotalProductIdxReqVo(List<Long> productIds, Long priceGroupId) {
+        this.productIds = productIds;
         this.priceGroupId = priceGroupId;
     }
 
-    public List<String> getProductCodes() {
-        return productCodes;
+    public List<Long> getProductIds() {
+        return productIds;
     }
 
-    public void setProductCodes(List<String> productCodes) {
-        this.productCodes = productCodes;
+    public void setProductIds(List<Long> productIds) {
+        this.productIds = productIds;
     }
 
     public Long getPriceGroupId() {
@@ -63,7 +63,7 @@ public class TotalProductIdxReqVo implements Serializable {
     @Override
     public String toString() {
         return "TotalProductIdxReqVo{" +
-                "productCodes=" + productCodes +
+                "productIds=" + productIds +
                 ", priceGroupId=" + priceGroupId +
                 ", sellerId=" + sellerId +
                 '}';

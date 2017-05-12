@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/payment")
 public class PaymentController extends BaseRestController {
 
-    @Autowired
+    @Autowired(required = false)
     private PaymentService paymentService;
 
     //查询支付状态

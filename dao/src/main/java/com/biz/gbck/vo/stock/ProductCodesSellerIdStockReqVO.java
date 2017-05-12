@@ -13,14 +13,14 @@ public class ProductCodesSellerIdStockReqVO implements Serializable {
 
     private Long sellerId;
 
-    private List<String> productCodes;
+    private List<Long> productIds;
 
     public ProductCodesSellerIdStockReqVO() {
     }
 
-    public ProductCodesSellerIdStockReqVO(Long sellerId, List<String> productCodes) {
+    public ProductCodesSellerIdStockReqVO(Long sellerId, List<Long> productIds) {
         this.sellerId = sellerId;
-        this.productCodes = productCodes;
+        this.productIds = productIds;
     }
 
     public Long getSellerId() {
@@ -31,19 +31,19 @@ public class ProductCodesSellerIdStockReqVO implements Serializable {
         this.sellerId = sellerId;
     }
 
-    public List<String> getProductCodes() {
-        return productCodes;
+    public List<Long> getProductIds() {
+        return productIds;
     }
 
-    public void setProductCodes(List<String> productCodes) {
-        this.productCodes = productCodes;
+    public void setProductIds(List<Long> productIds) {
+        this.productIds = productIds;
     }
 
     @Override
     public String toString() {
         return "ProductCodesSellerIdStockReqVO{" +
                 "sellerId=" + sellerId +
-                ", productCodes=" + productCodes +
+                ", productIds=" + productIds +
                 '}';
     }
 }

@@ -5,16 +5,15 @@ import com.biz.gbck.dao.redis.ro.cart.ShopCartItemRo;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.cart.CartItemNotExistException;
 import com.biz.gbck.exceptions.cart.IllegalParameterException;
+import com.biz.gbck.vo.cart.*;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.cart.ShopCartService;
-import com.biz.gbck.vo.cart.*;
+import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.codelogger.utils.StringUtils;
 import org.codelogger.utils.ValueUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * 购物车service
@@ -32,7 +31,6 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
     @Autowired
     private ShopCartItemRedisDao shopCartItemRedisDao;
 
-
     @Override
     public void addCartItem(ShopCartItemAddReqVo reqVo) throws DepotNextDoorException {
         if (reqVo == null || reqVo.getUserId() == null || StringUtils.isBlank(reqVo.getProductId()) || ValueUtils
@@ -49,7 +47,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
                 .getUserId()), productId);
 
         if (shopCartItemRo != null) {
-            quantity =  shopCartItemRo.getQuantity() + quantity;
+            quantity = shopCartItemRo.getQuantity() + quantity;
         } else {
             shopCartItemRo = new ShopCartItemRo();
             shopCartItemRo.setUserId(userId);
@@ -61,7 +59,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
     }
 
     @Override
-    public ShopCartRespVo getCartInfo(ShopCartListReqVo reqVo) throws DepotNextDoorException  {
+    public ShopCartRespVo getCartInfo(ShopCartListReqVo reqVo) throws DepotNextDoorException {
         if (reqVo == null || reqVo.getUserId() == null) {
             logger.warn("购物车参数不合法");
             throw new IllegalParameterException("参数不合法");
