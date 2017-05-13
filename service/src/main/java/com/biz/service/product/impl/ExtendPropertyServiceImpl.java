@@ -51,7 +51,6 @@ public class ExtendPropertyServiceImpl extends AbstractBaseService  implements E
         ExtendProperty extendProperty = extendPropertyRepository.findExtendPropertyByCondition(vo.getProductExtendId(),vo.getValue());
         List<ExtendProperty> list = extendPropertyRepository.findByProductExtendId(vo.getProductExtendId());
         if(extendProperty != null){
-
              if(vo.getId() != null){
                  for(ExtendProperty item : list){
                       if(vo.getId().equals(item.getId()) && vo.getValue().trim().equals(item.getValue().trim())){
@@ -61,6 +60,9 @@ public class ExtendPropertyServiceImpl extends AbstractBaseService  implements E
                           return  Boolean.FALSE;
                       }
                  }
+                 /*if(vo.getId().equals(extendProperty.getId())){
+                     return Boolean.TRUE;这段代码都可以替代上面的为注释的代码
+                 }*/
              }
             return Boolean.FALSE;
         }

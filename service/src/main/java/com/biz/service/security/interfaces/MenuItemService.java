@@ -1,9 +1,9 @@
 package com.biz.service.security.interfaces;
 
+import com.biz.gbck.dao.mysql.po.security.MainMenu;
 import com.biz.gbck.dao.mysql.po.security.MenuItem;
 import com.biz.gbck.enums.CommonStatusEnum;
-import com.biz.gbck.vo.menu.MenuItemVo;
-import org.springframework.stereotype.Service;
+import com.biz.gbck.vo.menu.UpdateMenuItemParentMenuReqVo;
 
 import java.util.List;
 
@@ -26,4 +26,11 @@ public interface MenuItemService {
      List<MenuItem> listByStatus(CommonStatusEnum status);
 
      Boolean  isExist(MenuItem mm);
+
+     /**
+      * 修改子菜单所属的父级菜单
+      *
+      * 思路：就是把子菜单原属的父级菜单替换成用户所选中的父级菜单
+      */
+     void updateMenuItemParentMenu(UpdateMenuItemParentMenuReqVo vo);
 }

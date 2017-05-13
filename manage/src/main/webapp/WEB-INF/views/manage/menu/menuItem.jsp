@@ -9,11 +9,15 @@
 <depotnextdoor:page title="子菜单列表">
      <jsp:attribute name="css">
           <style type="text/css">
-               #simple-table .name, #simple-table .icon, #simple-table .link, #simple-table .descirption{
-                   min-width: 90px;
+               #simple-table .name, #simple-table .empty, #simple-table .link, #simple-table .description{
+                   min-width: 80px;
                }
-               #simple-table .operate , #simple-table .list{
+               #simple-table .operate ,#simple-table .list, #simple-table .menuChange{
                    min-width:80px;
+               }
+               #simple-table .symbol{
+                   width: 200px;
+                 /*  word-break:break-all;*/
                }
           </style>
      </jsp:attribute>
@@ -113,12 +117,10 @@
                                 <thead>
                                 <tr>
                                     <th class="name">名称</th>
-                                    <th class="icon">图标</th>
                                     <th class="link">链接</th>
-                                    <th>权限</th>
-                                    <th class="descirption">描述</th>
+                                    <th class="symbol">需要权限</th>
+                                    <th class="description">备注</th>
                                     <th class="list">操作列表</th>
-                                    <%--hidden-md hidden-sm hidden-xs--%>
                                     <th class="operate">操作</th>
                                 </tr>
                                 </thead>
@@ -126,14 +128,11 @@
                                 <c:forEach items="${menuItems}" var="menuItem" varStatus="status">
                                     <tr id="tr-${menuItem.id}">
                                         <td class="hidden-md hidden-sm hidden-xs">${menuItem.name}</td>
-
-                                        <td>${menuItem.icon}</td>
                                         <td class="hidden-md hidden-sm hidden-xs">${menuItem.link}</td>
-
-                                        <td class="hidden-md hidden-sm hidden-xs">
+                                        <td class="symbol">
                                                 ${menuItem.symbol}
                                         </td>
-                                        <td>${menuItem.description}</td>
+                                        <td class="hidden-md hidden-sm hidden-xs">${menuItem.description}</td>
                                         <td class="hidden-md hidden-sm hidden-xs">
                                             <a href="/manage/menuItems/detail.do?id=${menuItem.id}">操作管理</a>
                                         </td>
