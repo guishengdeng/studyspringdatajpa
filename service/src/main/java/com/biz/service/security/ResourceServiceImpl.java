@@ -52,13 +52,10 @@ public class ResourceServiceImpl extends AbstractBaseService implements Resource
     @Override
     public Boolean isExist(Resource resource) {
         Resource  exist = resourceRepository.findByMenuItemIdAndName(resource.getMenuItem().getId(),resource.getName());
-        List<Resource> resources = resourceRepository.findAll();
         if(exist != null){
             if(resource.getId() != null){
-                for(Resource item : resources){
-                     if(resource.getId().equals(item.getId()) && resource.getName().trim().equals(item.getName().trim())){
-                         return Boolean.TRUE;
-                     }
+                if(resource.getId().equals(exist.getId())){
+                    return Boolean.TRUE;
                 }
             }
             return Boolean.FALSE;

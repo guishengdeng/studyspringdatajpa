@@ -10,7 +10,11 @@
      <jsp:attribute name="css">
         <style type="text/css">
             #simple-table .description,#simple-table .operate,#simple-table .name{
-                max-width: 90px;
+                min-width: 100px;
+            }
+            #simple-table .symbol{
+                min-width:200px;
+                word-break:break-all;
             }
         </style>
     </jsp:attribute>
@@ -129,7 +133,7 @@
                                 <thead>
                                     <tr>
                                         <th class="name">名称</th>
-                                        <th>权限</th>
+                                        <th class="symbol">权限</th>
                                         <th class="description">描述</th>
                                         <th class="operate">操作</th>
                                     </tr>
@@ -138,10 +142,11 @@
                                 <tbody>
                                 <c:forEach items="${resources}" var="resource" varStatus="status">
                                     <tr id="tr-${resource.id}">
-                                        <td>${resource.name}</td>
-                                        <td><%--<c:out value="${resource.symbol}"/>--%></td>
-                                        <td>${resource.description}</td>
-                                        <td class="hidden-md hidden-sm hidden-xs">
+                                        <td class="name">${resource.name}</td>
+                                        <td class="symbol"><c:out value="${resource.symbol}"/></td>
+                                        <td class="description">${resource.description}</td>
+                                        <%--hidden-md hidden-sm hidden-xs--%>
+                                        <td class="operate">
                                             <div class="hidden-sm hidden-xs btn-group">
                                                 <sec:authorize access="hasAuthority('OPT_RESOURCE_DELETE')">
                                                     <a data-id="${resource.id}"

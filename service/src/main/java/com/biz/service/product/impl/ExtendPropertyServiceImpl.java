@@ -8,10 +8,8 @@ import com.biz.gbck.exceptions.product.IllegalParameterException;
 import com.biz.gbck.transform.product.CreateExtendPropertyVo2ExtendProperty;
 import com.biz.gbck.vo.product.backend.*;
 import com.biz.service.AbstractBaseService;
-import com.biz.service.IdService;
 import com.biz.service.product.backend.ExtendPropertyService;
 import com.google.common.collect.Lists;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,20 +47,11 @@ public class ExtendPropertyServiceImpl extends AbstractBaseService  implements E
     @Override
     public Boolean isExistExtendPropertyValue(CreateExtendPropertyVo vo) throws ExtendPropertyNotFoundException {
         ExtendProperty extendProperty = extendPropertyRepository.findExtendPropertyByCondition(vo.getProductExtendId(),vo.getValue());
-        List<ExtendProperty> list = extendPropertyRepository.findByProductExtendId(vo.getProductExtendId());
         if(extendProperty != null){
              if(vo.getId() != null){
-                 for(ExtendProperty item : list){
-                      if(vo.getId().equals(item.getId()) && vo.getValue().trim().equals(item.getValue().trim())){
-                          return  Boolean.TRUE;
-                      }
-                      if(vo.getValue().trim().equals(item.getValue().trim())){
-                          return  Boolean.FALSE;
-                      }
+                 if(vo.getId().equals(extendProperty.getId())){
+                     return Boolean.TRUE;
                  }
-                 /*if(vo.getId().equals(extendProperty.getId())){
-                     return Boolean.TRUE;这段代码都可以替代上面的为注释的代码
-                 }*/
              }
             return Boolean.FALSE;
         }
@@ -146,4 +135,6 @@ public class ExtendPropertyServiceImpl extends AbstractBaseService  implements E
     public ExtendProperty findById(Long id) {
         return extendPropertyRepository.findOne(id);
     }
+
+
 }
