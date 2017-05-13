@@ -46,7 +46,7 @@ public class ExtendPropertyServiceImpl extends AbstractBaseService  implements E
 
     @Override
     public Boolean isExistExtendPropertyValue(CreateExtendPropertyVo vo) throws ExtendPropertyNotFoundException {
-        ExtendProperty extendProperty = extendPropertyRepository.findExtendPropertyByCondition(vo.getProductExtendId(),vo.getValue());
+        ExtendProperty extendProperty = extendPropertyRepository.findExtendPropertyByCondition(vo.getProductExtendId(),vo.getValue().trim());
         if(extendProperty != null){
              if(vo.getId() != null){
                  if(vo.getId().equals(extendProperty.getId())){

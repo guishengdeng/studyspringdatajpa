@@ -17,7 +17,7 @@
                }
                #simple-table .symbol{
                    width: 200px;
-                 /*  word-break:break-all;*/
+                   word-break:break-all;
                }
           </style>
      </jsp:attribute>
@@ -127,13 +127,14 @@
                                 <tbody>
                                 <c:forEach items="${menuItems}" var="menuItem" varStatus="status">
                                     <tr id="tr-${menuItem.id}">
-                                        <td class="hidden-md hidden-sm hidden-xs">${menuItem.name}</td>
-                                        <td class="hidden-md hidden-sm hidden-xs">${menuItem.link}</td>
+                                        <%--hidden-md hidden-sm hidden-xs--%>
+                                        <td class="name">${menuItem.name}</td>
+                                        <td class="link">${menuItem.link}</td>
                                         <td class="symbol">
                                                 ${menuItem.symbol}
                                         </td>
-                                        <td class="hidden-md hidden-sm hidden-xs">${menuItem.description}</td>
-                                        <td class="hidden-md hidden-sm hidden-xs">
+                                        <td class="description">${menuItem.description}</td>
+                                        <td class="operate">
                                             <a href="/manage/menuItems/detail.do?id=${menuItem.id}">操作管理</a>
                                         </td>
                                         <td class="hidden-md hidden-sm hidden-xs">

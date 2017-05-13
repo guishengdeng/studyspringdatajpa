@@ -10,11 +10,11 @@
                 var data = $('#resource_form').serialize();
                 var name = $('#name').val();
                 var symbol = $('#symbol').val().trim();
-                if(name == ""){
+                if(!name){
                     layer.msg("名称不能为空");
                     return false;
                 }
-                if(symbol == ""){
+                if(!symbol){
                     layer.msg("权限不能为空");
                     return false;
                 }

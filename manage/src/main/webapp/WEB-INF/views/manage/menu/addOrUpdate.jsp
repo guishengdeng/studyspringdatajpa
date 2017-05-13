@@ -11,11 +11,11 @@
                  var data = $('#mainMenu_form').serialize();
                  var name = $('#name').val();
                  var icon = $('#icon').val();
-                 if(name == ""){
+                 if(!name){
                      layer.msg("菜单名称不能为空");
                      return false;
                  }
-                 if(icon == ""){
+                 if(!icon){
                      layer.msg("图标不能为空");
                      return false;
                  }

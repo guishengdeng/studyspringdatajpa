@@ -13,19 +13,19 @@
                 var icon = $('#icon').val();
                 var link = $('#link').val();
                 var symbol = $('#symbol').val();
-                if(name == ""){
+                if(!name){
                     layer.msg("子菜单名称不能为空");
                     return false;
                 }
-                if(icon == ""){
+                if(!icon){
                     layer.msg("图标不能为空");
                     return false;
                 }
-                if(link == ""){
+                if(!link){
                     layer.msg("链接不能为空");
                     return false;
                 }
-                if(symbol == ""){
+                if(!symbol){
                     layer.msg("权限不能为空");
                     return false;
                 }

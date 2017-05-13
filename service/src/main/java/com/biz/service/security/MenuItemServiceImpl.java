@@ -56,7 +56,7 @@ public class MenuItemServiceImpl extends AbstractBaseService implements MenuItem
 
     @Override
     public Boolean isExist(MenuItem mm) {
-        MenuItem menuItem = menuItemRepository.finMenuItem(mm.getMainMenu().getId(), mm.getName());
+        MenuItem menuItem = menuItemRepository.finMenuItem(mm.getMainMenu().getId(), mm.getName().trim());
         if (menuItem != null) {
             if (mm.getId() != null) {
                 if(mm.getId().equals(menuItem.getId())){

@@ -119,7 +119,7 @@ public class AdminServiceImpl extends AbstractBaseService implements UserDetails
      */
     @Override
     public Boolean isExistAdmin(String username,String cmd) throws AdminNotFoundException {
-        Admin user = adminRepository.findOne(username);
+        Admin user = adminRepository.findOne(username.trim());
         List<Admin> list = adminRepository.findAll();
          if(user != null){
               if(cmd.equals("edit")){

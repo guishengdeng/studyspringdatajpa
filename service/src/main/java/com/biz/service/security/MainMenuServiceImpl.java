@@ -40,7 +40,7 @@ public class MainMenuServiceImpl extends AbstractBaseService implements MainMenu
      */
     @Override
     public Boolean isExistMainMenu(MainMenu mainMenu) {
-         MainMenu item = mainMenuRepository.findByName(mainMenu.getName());
+         MainMenu item = mainMenuRepository.findByName(mainMenu.getName().trim());
          if(item != null){
              if(mainMenu.getId() != null){
                   if(mainMenu.getId().equals(item.getId())){

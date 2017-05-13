@@ -55,15 +55,10 @@ public class RoleServiceImpl extends AbstractBaseService implements RoleService 
      */
     @Override
     public Boolean isExist(Role param) {
-        Role role = roleRepository.getRoleCondition(param.getName());
-        List<Role> list = roleRepository.findAll();
+        Role role = roleRepository.getRoleCondition(param.getName().trim());
         if(role != null){
-             if(param.getId() != null){
-                 for(Role item : list){
-                     if(param.getId().equals(item.getId()) && param.getName().trim().equals(item.getName().trim())){
-                         return Boolean.TRUE;
-                     }
-                 }
+             if(param.getId() != null && param.getId().equals(role.getId())){
+                 return Boolean.TRUE;
              }
             return Boolean.FALSE;
         }

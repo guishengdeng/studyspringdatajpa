@@ -160,7 +160,7 @@ public class ProductExtendServiceImpl extends AbstractBaseService implements Pro
      */
     @Override
     public Boolean isExistProductExtendName(CreateCategoryPropertyVo vo) throws DepotNextDoorException {
-         ProductExtend productExtend = productExtendRepository.existProductExtend(vo.getCategoryId(),vo.getName());
+         ProductExtend productExtend = productExtendRepository.existProductExtend(vo.getCategoryId(),vo.getName().trim());
          if(productExtend != null){
                if(vo.getId() != null){
                    if(vo.getId().equals(productExtend.getId())){
