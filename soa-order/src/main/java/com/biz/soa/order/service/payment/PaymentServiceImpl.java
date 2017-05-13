@@ -30,6 +30,7 @@ import com.biz.service.order.frontend.OrderFrontendService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.utils.DateUtils;
+import org.codelogger.utils.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -372,79 +373,6 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 		});
 	}
 
-	private void updateOrderPayState(final Order order,final OrderPayment payment,final Integer payAmount){
-		if (order.isPayable()) {
-			order.setStatus(OrderStatus.DELIVERED);
-			order.setPayStatus(PaymentStatus.PAYED);
-			order.setPaymentType(payment.getPaymentType());
-			order.setPayAmount(payAmount);
-			orderFrontendService.saveOrder(order);
-		} else {
-			logger.warn("订单无法支付, orderId=[{}],paymentId=[{}], status: {} ", order.getId(), payment.getId(),
-					order.getStatus());
-		}
-	}
-	// 获取可支付的支付单
-	private OrderPayment getPayablePayment(Order order, PaymentType paymentType) {
-		if (paymentType == null) {
-			paymentType = order.getPaymentType();
-			logger.warn("订单默认支付方式: {}", paymentType);
-		}
-		Long orderId = order.getId();
-		if (logger.isDebugEnabled()) {
-			logger.debug("获取可用支付单, orderId={}, paymentType={}", orderId, paymentType);
-		}
-		Timers timers = Timers.createAndBegin(logger.isDebugEnabled());
-
-		// 1.获取支付单
-		BusinessAsserts.notNull(order, DepotNextDoorExceptions.Order.ORDER_NOT_EXIST);
-		BusinessAsserts.isTrue(order.getPayStatus() == PaymentStatus.CREATE_PAYMENT, DepotNextDoorExceptions.Order
-				.ORDER_PAYED);
-		timers.record("查询订单");
-
-		OrderPayment payment = null;
-		List<OrderPayment> payments = order.getPayments();
-		if (CollectionUtils.isNotEmpty(payments)) {
-			for (OrderPayment orderPayment : payments) {
-				if (orderPayment.getStatus() == CommonStatusEnum.ENABLE) {
-					payment = orderPayment;
-					break;
-				}
-			}
-		}
-		timers.record("获取支付单");
-		// 2.检查支付单是否可用,如果不可用,创建新的支付单,作废其他支付单
-		if (payment != null) {
-			logger.error("find old payment id={} orderId={} paymentUserId={}",
-					payment.getId(),orderId, order.getUserId());
-			payment.setStatus(CommonStatusEnum.DISABLE);
-			paymentRepository.save(payment);
-		}
-		payment = createPayment(order, paymentType);
-		logger.error("getPayment orderId={} paymentId={}",orderId, payment.getId());
-		timers.record("处理支付单");
-		timers.print("use time get-payment");
-		return payment;
-	}
-
-	/**
-	 * 创建支付单
-	 * @return
-	 */
-	private OrderPayment createPayment(Order order, PaymentType paymentType) {
-		OrderPayment payment = new OrderPayment();
-		payment.setId(idService.nextId());
-		payment.setOrder(order);
-		payment.setExpireTimestamp(order.getExpireTimestamp());
-		payment.setPayAmount(order.getPayAmount());
-		payment.setPaymentType(paymentType);
-		payment.setPayStatus(PaymentStatus.CREATE_PAYMENT);
-		payment.setSubject(order.getSubject()); //TODO
-		paymentRepository.save(payment);
-		logger.debug("create new payment, orderId={}, paymentType={}, paymentId={}", order.getId(), paymentType, payment.getId());
-		return payment;
-	}
-
 	@Override
 	@Transactional
 	public PaymentQueryResultRespVo queryPaid(IdReqVo reqVo) throws PaymentException {
@@ -513,7 +441,6 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 		return resp;
 	}
 
-
 	@Override
 	@Transactional
 	public void savePaymentTradeNo(Long paymentId, String tradeNo) {
@@ -542,6 +469,85 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 	public PaymentRespVo noNeedPay(Long orderId) {
 		Order order = orderFrontendService.getOrder(orderId);
 		return this.noNeedPay(order);
+	}
+
+	@Override
+	public List<PaymentType> getSupportedPaymentTypes(String userId) {
+		//TODO 获取用户可用支付方式
+		return ArrayUtils.toList(PaymentType.values());
+	}
+
+	/**
+	 * 创建支付单
+	 * @return
+	 */
+	private OrderPayment createPayment(Order order, PaymentType paymentType) {
+		OrderPayment payment = new OrderPayment();
+		payment.setId(idService.nextId());
+		payment.setOrder(order);
+		payment.setExpireTimestamp(order.getExpireTimestamp());
+		payment.setPayAmount(order.getPayAmount());
+		payment.setPaymentType(paymentType);
+		payment.setPayStatus(PaymentStatus.CREATE_PAYMENT);
+		payment.setSubject(order.getSubject()); //TODO
+		paymentRepository.save(payment);
+		logger.debug("create new payment, orderId={}, paymentType={}, paymentId={}", order.getId(), paymentType, payment.getId());
+		return payment;
+	}
+
+	private void updateOrderPayState(final Order order,final OrderPayment payment,final Integer payAmount){
+		if (order.isPayable()) {
+			order.setStatus(OrderStatus.DELIVERED);
+			order.setPayStatus(PaymentStatus.PAYED);
+			order.setPaymentType(payment.getPaymentType());
+			order.setPayAmount(payAmount);
+			orderFrontendService.saveOrder(order);
+		} else {
+			logger.warn("订单无法支付, orderId=[{}],paymentId=[{}], status: {} ", order.getId(), payment.getId(),
+					order.getStatus());
+		}
+	}
+	// 获取可支付的支付单
+	private OrderPayment getPayablePayment(Order order, PaymentType paymentType) {
+		if (paymentType == null) {
+			paymentType = order.getPaymentType();
+			logger.warn("订单默认支付方式: {}", paymentType);
+		}
+		Long orderId = order.getId();
+		if (logger.isDebugEnabled()) {
+			logger.debug("获取可用支付单, orderId={}, paymentType={}", orderId, paymentType);
+		}
+		Timers timers = Timers.createAndBegin(logger.isDebugEnabled());
+
+		// 1.获取支付单
+		BusinessAsserts.notNull(order, DepotNextDoorExceptions.Order.ORDER_NOT_EXIST);
+		BusinessAsserts.isTrue(order.getPayStatus() == PaymentStatus.CREATE_PAYMENT, DepotNextDoorExceptions.Order
+				.ORDER_PAYED);
+		timers.record("查询订单");
+
+		OrderPayment payment = null;
+		List<OrderPayment> payments = order.getPayments();
+		if (CollectionUtils.isNotEmpty(payments)) {
+			for (OrderPayment orderPayment : payments) {
+				if (orderPayment.getStatus() == CommonStatusEnum.ENABLE) {
+					payment = orderPayment;
+					break;
+				}
+			}
+		}
+		timers.record("获取支付单");
+		// 2.检查支付单是否可用,如果不可用,创建新的支付单,作废其他支付单
+		if (payment != null) {
+			logger.error("find old payment id={} orderId={} paymentUserId={}",
+					payment.getId(),orderId, order.getUserId());
+			payment.setStatus(CommonStatusEnum.DISABLE);
+			paymentRepository.save(payment);
+		}
+		payment = createPayment(order, paymentType);
+		logger.error("getPayment orderId={} paymentId={}",orderId, payment.getId());
+		timers.record("处理支付单");
+		timers.print("use time get-payment");
+		return payment;
 	}
 
 }

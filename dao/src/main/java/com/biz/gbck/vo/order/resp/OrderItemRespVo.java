@@ -65,7 +65,7 @@ public class OrderItemRespVo implements IProduct, Comparable<OrderItemRespVo>, S
     /**
      * 是否已经申请退货
      */
-    private Boolean returnFlag = false;
+    private Boolean returnFlag;
 
 
     public OrderItemRespVo() {

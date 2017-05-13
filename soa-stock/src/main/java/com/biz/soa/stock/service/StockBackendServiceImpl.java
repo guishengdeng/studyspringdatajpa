@@ -461,7 +461,7 @@ public class StockBackendServiceImpl extends AbstractBaseService implements Stoc
                 }
             }
             orderStockLockRedisDao.updateQuantities(keyToReleaseQuantity);
-            orderStockLockRedisDao.removeExpiredOrderStockLockKeys(orderCode, keyToReleaseQuantity.keySet());
+            orderStockLockRedisDao.removeInvalidOrderStockLockKeys(orderCode, keyToReleaseQuantity.keySet());
         }
     }
 
@@ -484,7 +484,7 @@ public class StockBackendServiceImpl extends AbstractBaseService implements Stoc
                 keyToReleaseQuantity.put(entry.getKey(), -entry.getValue());
             }
             orderStockLockRedisDao.updateQuantities(keyToReleaseQuantity);
-            orderStockLockRedisDao.removeExpiredOrderStockLockKeys(expiredLockStockOrderCode, keyToReleaseQuantity
+            orderStockLockRedisDao.removeInvalidOrderStockLockKeys(expiredLockStockOrderCode, keyToReleaseQuantity
                     .keySet());
             orderStockLockRedisDao.removedExpiredLockStockOrder(expiredLockStockOrderCode);
             logger.debug("释放订单[{}]锁定库存. 进度: {}/{}", expiredLockStockOrderCode, ++count, total);

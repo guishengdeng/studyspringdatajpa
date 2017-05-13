@@ -14,7 +14,7 @@ import com.biz.gbck.exceptions.DepotNextDoorExceptions;
 public class CartItemNotExistException extends DepotNextDoorException {
     private static final long serialVersionUID = 6191216245233367781L;
 
-    private static final int code = DepotNextDoorExceptions.Cart.ILLEGAL_PARAMETER.getCode();
+    private static final int code = DepotNextDoorExceptions.Cart.CART_ITEM_NOT_EXIST.getCode();
 
     public CartItemNotExistException(String message) {
         super(message);

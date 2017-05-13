@@ -42,7 +42,7 @@ public class ShopCartRespVo implements Serializable {
     private Integer voucherAmount = 0;
 
     /**
-     * 优惠券优惠金额
+     * 支付金额
      */
     private Integer payAmount = 0;
 
