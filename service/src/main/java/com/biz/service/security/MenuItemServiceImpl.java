@@ -70,8 +70,7 @@ public class MenuItemServiceImpl extends AbstractBaseService implements MenuItem
 
     /**
      * 修改子菜单所属的父级菜单
-     * <p>
-     * 思路：就是把子菜单原属的父级菜单替换成用户所选中的父级菜单
+     *
      */
     @Override
     @Transactional
@@ -81,13 +80,11 @@ public class MenuItemServiceImpl extends AbstractBaseService implements MenuItem
             List<Long> menuItemIds = Lists.newArrayList();
             Map<Long, Long> menuItemIdsAndMainMenuIds = new HashMap<Long, Long>();
             if (vo.getMenuItemIds() != null) {
+                //用当前集合的下标去获取另外一个集合对应的元素
                 for (int index = 0; index < vo.getMenuItemIds().size(); index++) {
                     Long menuItemId = vo.getMenuItemIds().get(index);
                     menuItemIds.add(menuItemId);
-                    Long mainMenuId = null;
-                    if (vo.getMenuItemParentIds() != null) {
-                        mainMenuId = vo.getMenuItemParentIds().get(index);
-                    }
+                    Long mainMenuId = vo.getMenuItemParentIds().get(index);
                     menuItemIdsAndMainMenuIds.put(menuItemId, mainMenuId == null ? menuItemRepository.findOne(menuItemId).getMainMenu().getId() : mainMenuId);
                 }
                 menuItems = menuItemRepository.findAll(menuItemIds);

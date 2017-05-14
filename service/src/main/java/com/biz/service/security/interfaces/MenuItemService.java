@@ -27,10 +27,5 @@ public interface MenuItemService {
 
      Boolean  isExist(MenuItem mm);
 
-     /**
-      * 修改子菜单所属的父级菜单
-      *
-      * 思路：就是把子菜单原属的父级菜单替换成用户所选中的父级菜单
-      */
      void updateMenuItemParentMenu(UpdateMenuItemParentMenuReqVo vo);
 }
