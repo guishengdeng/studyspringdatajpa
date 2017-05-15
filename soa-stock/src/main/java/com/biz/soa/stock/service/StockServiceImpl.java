@@ -130,7 +130,7 @@ public class StockServiceImpl extends AbstractBaseService implements StockServic
     }
 
     @Override
-    public void orderLockStocks(List<UpdatePartnerLockStockReqVO> reqVos) throws DepotNextDoorException {
+    public void orderUpdateLockStocks(List<UpdatePartnerLockStockReqVO> reqVos) throws DepotNextDoorException {
         if (logger.isDebugEnabled()) {
             logger.debug("合伙人Lock库存更新-------请求vo: {}", reqVos);
         }

@@ -33,6 +33,16 @@ public enum ReturnCause implements EnumerableValue {
         this.desc = desc;
     }
 
+    public ReturnCause valueOf(Integer value) {
+       if (value == null) return null;
+       if (value == null || value == OTHER.value) {
+           return OTHER;
+       }
+        //TODO
+        return null;
+    }
+
+
     @Override
     public int getValue() {
         return value;

@@ -1,7 +1,7 @@
 package com.biz.soa.order.service.backend;
 
-import com.biz.service.AbstractBaseService;
 import com.biz.service.order.backend.OrderBackendService;
+import com.biz.soa.order.service.frontend.AbstractOrderService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,6 +13,6 @@ import org.springframework.stereotype.Service;
  * @see
  */
 @Service
-public class OrderBackendServiceImpl extends AbstractBaseService implements OrderBackendService {
+public class OrderBackendServiceImpl extends AbstractOrderService implements OrderBackendService {
 
 }
