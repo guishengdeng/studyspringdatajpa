@@ -14,7 +14,7 @@ import com.biz.gbck.vo.org.ShopUpdateQualificationReqVo;
 import com.biz.gbck.vo.org.UserChangeDeliveryNameReqVo;
 import com.biz.soa.feign.client.org.ShopFeignClient;
 import com.biz.support.web.handler.JSONResult;
-import org.springframework.data.domain.Page;
+/*import org.springframework.data.domain.Page;*/
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,11 +66,11 @@ public class ShopFeignClientHystrix implements ShopFeignClient {
     public JSONResult getUpdateAddressStatus(@RequestBody ShopDetailOrQualificationGetReqVo shopDetailOrQualificationGetReqVo) throws CommonException {
         return null;
     }
-
+/*
     @Override
     public Page<ShopDetailPo> findShopAuditDataOfWaitForAudit(@RequestBody ShopSearchVo reqVo) {
         return null;
-    }
+    }*/
 
     @Override
     public ShopAuditDataMap findShopAuditDataOfWaitForAuditByShopId(@RequestBody Long shopId) {
