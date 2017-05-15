@@ -4,7 +4,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <manage:page title="新建优惠券类型">
     <jsp:attribute name="css">
-        <link rel="stylesheet" href="static-resources/datetimepicker/jquery.datetimepicker.css"/>
         <style type="text/css">
             .xdsoft_timepicker {
                 display: none !important;
@@ -18,22 +17,11 @@
         </style>
     </jsp:attribute>
 <jsp:attribute name="script">
-    <script type="text/javascript"
-            src="static-resources/datetimepicker/jquery.datetimepicker.js"></script>
-<script type="text/javascript"
-        src="${pageContext.request.contextPath}/static-resources/layer/layer.js"></script>
 <script type="text/javascript">
     $(function () {
-        $.datetimepicker.setLocale('ch');
         $('.datepicker').datetimepicker({
             format: 'Y-m-d'
         });
-        $("select").dropdown({
-            fullTextSearch: true
-        });
-        $('.ui.radio.checkbox').checkbox();
-        $(".checkbox.limit-type-radio").click(checkVoucherLimitType);
-        $(".checkbox.expire-type-radio").click(updateVoucherExpireType);
     });
 
     // 时间段检测
