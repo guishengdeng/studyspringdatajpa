@@ -1,13 +1,16 @@
 package com.biz.soa.order.service.frontend;
 
+import com.biz.core.asserts.BusinessAsserts;
 import com.biz.core.asserts.SystemAsserts;
 import com.biz.core.util.Timers;
 import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.dao.mysql.po.order.OrderItem;
+import com.biz.gbck.dao.mysql.po.order.OrderReturn;
 import com.biz.gbck.enums.order.OrderShowStatus;
 import com.biz.gbck.enums.order.OrderStatus;
 import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.exceptions.DepotNextDoorException;
+import com.biz.gbck.exceptions.DepotNextDoorExceptions;
 import com.biz.gbck.exceptions.order.PaymentException;
 import com.biz.gbck.transform.order.OrderItem2StockItemVO;
 import com.biz.gbck.transform.order.ShopCartItemRespVo2OrderItemRespVo;
@@ -154,7 +157,18 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
 
     @Override
     public void applyReturn(OrderApplyReturnReqVo reqVo) {
+        Order order = super.getOrder(reqVo.getOrderId());
+        BusinessAsserts.notNull(order, DepotNextDoorExceptions.Order.ORDER_NOT_EXIST);
+        if (order.isReturnable(false)) {
+            super.updateOrderStatus(order, OrderStatus.APPLY_RETURN);
+            this.createReturnOrder(reqVo);
+        }
 
+    }
+
+    private OrderReturn createReturnOrder(OrderApplyReturnReqVo reqVo) {
+
+        return null;
     }
 
     @Override
