@@ -19,7 +19,6 @@ public class OrderReturnBuilder extends AbstractOrderBuilder {
         OrderReturnBuilder builder = new OrderReturnBuilder();
         builder.orderReturn = new OrderReturn();
         if (reqVo.getCause() != null) {
-
         }
 
 
