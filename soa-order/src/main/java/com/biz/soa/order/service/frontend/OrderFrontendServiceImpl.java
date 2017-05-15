@@ -29,6 +29,7 @@ import com.biz.gbck.vo.stock.UpdatePartnerLockStockReqVO;
 import com.biz.service.order.frontend.OrderFrontendService;
 import com.biz.soa.builder.OrderBuilder;
 import com.biz.soa.builder.OrderRespVoBuilder;
+import com.biz.soa.builder.OrderReturnBuilder;
 import com.biz.soa.builder.OrderSettlePageRespVoBuilder;
 import com.google.common.collect.Lists;
 import org.codelogger.utils.CollectionUtils;
@@ -155,21 +156,22 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         throw new PaymentException("无效的支付方式");
     }
 
+    @Transactional
     @Override
     public void applyReturn(OrderApplyReturnReqVo reqVo) {
         Order order = super.getOrder(reqVo.getOrderId());
         BusinessAsserts.notNull(order, DepotNextDoorExceptions.Order.ORDER_NOT_EXIST);
-        if (order.isReturnable(false)) {
-            super.updateOrderStatus(order, OrderStatus.APPLY_RETURN);
-            this.createReturnOrder(reqVo);
-        }
+        BusinessAsserts.isTrue(order.isReturnable(false), DepotNextDoorExceptions.Order.ORDER_NOT_ALLOWED_RETURN);
+        super.updateOrderStatus(order, OrderStatus.APPLY_RETURN);
+        String returnCode = sequenceService.generateReturnCode();
+        OrderReturn orderReturn = OrderReturnBuilder.createBuilder(reqVo, idService).setOrder(order).build(idService
+                .nextId(), returnCode);
 
+
+        orderReturnRepository.save(orderReturn);
+        order.setOrderReturnId(orderReturn.getId());
     }
 
-    private OrderReturn createReturnOrder(OrderApplyReturnReqVo reqVo) {
-
-        return null;
-    }
 
     @Override
     public Order getOrder(Long id) {
