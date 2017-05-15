@@ -66,12 +66,12 @@ public class UserRegisterReqVo extends WithoutBindRequestParams
         this.globalParams = globalParams;
     }
 
-    public String getToken() {
+    public String getPushToken() {
         return token;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setPushToken(String pushToken) {
+        this.token = pushToken;
     }
 
     public UserPo toUserPo() {

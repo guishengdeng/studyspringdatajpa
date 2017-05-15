@@ -2,6 +2,7 @@ package com.biz.soa.feign.client.org;
 
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
+import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.vo.org.AutoLoginReqVo;
 import com.biz.gbck.vo.org.ChangePwdVo;
@@ -14,7 +15,6 @@ import com.biz.gbck.vo.org.ValidateUserLoginPwdReqVo;
 import com.biz.soa.feign.hystrix.org.UserFeignClientHystrix;
 import com.biz.support.web.handler.JSONResult;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,57 +38,70 @@ public interface UserFeignClient {
      * 用户注册
      */
     @RequestMapping(value = "/soa/user/register", method = RequestMethod.POST, consumes = "application/json")
-    JSONResult register(UserRegisterReqVo userRegisterReqVo) throws CommonException;
+    JSONResult register(@RequestBody UserRegisterReqVo userRegisterReqVo) throws CommonException;
 
     @RequestMapping(value = "/soa/user/forgotPassword", method = RequestMethod.POST)
-    JSONResult forgotPassword(ForgotPasswordReqVo forgotPasswordReqVo) throws CommonException;
+    JSONResult forgotPassword(@RequestBody ForgotPasswordReqVo forgotPasswordReqVo) throws CommonException;
 
     /**
      * 登录
      */
     @RequestMapping(value = "/soa/user/login", method = RequestMethod.POST)
-    JSONResult login(UserLoginReqVo userLoginReqVo) throws CommonException;
+    JSONResult login(@RequestBody UserLoginReqVo userLoginReqVo) throws CommonException;
 
 
     /**
      * 退出登录
      */
-    @RequestMapping(value = "logout", method = RequestMethod.POST)
-    JSONResult logout(CommonReqVoBindUserId reqVoBindUserId);
+    @RequestMapping(value = "/soa/user/logout", method = RequestMethod.POST)
+    JSONResult logout(@RequestBody CommonReqVoBindUserId reqVoBindUserId);
 
     /**
      * 自动登陆详情(此接口会绑定token)
      */
-    @RequestMapping(value = "autoLogin", method = RequestMethod.POST)
-    JSONResult autoLogin(AutoLoginReqVo reqVo) throws CommonException;
+    @RequestMapping(value = "/soa/user/autoLogin", method = RequestMethod.POST)
+    JSONResult autoLogin(@RequestBody AutoLoginReqVo reqVo) throws CommonException;
 
 
     /**
      * 变更用户绑定手机号码
      */
-    @RequestMapping(value = "changeMobile", method = RequestMethod.POST)
-    JSONResult changeMobile(UserChangeMobileReqVo userChangeMobileReqVo) throws CommonException;
+    @RequestMapping(value = "/soa/user/changeMobile", method = RequestMethod.POST)
+    JSONResult changeMobile(@RequestBody UserChangeMobileReqVo userChangeMobileReqVo) throws CommonException;
 
 
     /**
      * 修改用户头像
      */
-    @RequestMapping(value = "changeAvatar", method = RequestMethod.POST)
-    public JSONResult updateAvatar(UserChangeAvatarReqVo userChangeAvatarReqVo) throws CommonException;
+    @RequestMapping(value = "/soa/user/changeAvatar", method = RequestMethod.POST)
+    JSONResult updateAvatar(@RequestBody UserChangeAvatarReqVo userChangeAvatarReqVo) throws CommonException;
 
 
     /**
      * 修改用户密码
      */
-    @RequestMapping(value = "changePwd", method = RequestMethod.POST)
-    public JSONResult changePwd(ChangePwdVo changePwdVo) throws CommonException;
+    @RequestMapping(value = "/soa/user/changePwd", method = RequestMethod.POST)
+    JSONResult changePwd(@RequestBody ChangePwdVo changePwdVo) throws CommonException;
 
 
     /**
      * 验证登录密码
      */
-    @RequestMapping(value = "validateLoginPassword", method = RequestMethod.POST)
-    public JSONResult validateLoginPwd(ValidateUserLoginPwdReqVo validateUserLoginPwdReqVo) throws CommonException;
+    @RequestMapping(value = "/soa/user/validateLoginPassword", method = RequestMethod.POST)
+    JSONResult validateLoginPwd(@RequestBody ValidateUserLoginPwdReqVo validateUserLoginPwdReqVo) throws CommonException;
+
+
+    /**
+     * 通过电话号码查用户
+     */
+    @RequestMapping(value = "findUserPoByMobile", method = RequestMethod.POST)
+    UserPo findUserPoByMobile(@RequestParam("mobile") String mobile);
+
+    /**
+     * 通过电话号码查用户
+     */
+    @RequestMapping(value = "findUserPoByAccount", method = RequestMethod.POST)
+    UserPo findUserPoByAccount(@RequestParam("account") String account);
 
 
 }

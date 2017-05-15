@@ -102,15 +102,15 @@ public class UserRo extends BaseRedisObject<String> implements Serializable {
      */
     private String lastUserAgent;
 
-    /**
-     * Shop上级合伙人Id
-     */
-    private Long partnerId;
-
-    /**
-     * 平台公司Id
-     */
-    private Long platformId;
+//    /**
+//     * Shop上级合伙人Id
+//     */
+//    private Long partnerId;
+//
+//    /**
+//     * 平台公司Id
+//     */
+//    private Long platformId;
 
 
 
@@ -262,19 +262,4 @@ public class UserRo extends BaseRedisObject<String> implements Serializable {
         isAdmin = admin;
     }
 
-    public Long getPartnerId() {
-        return partnerId;
-    }
-
-    public void setPartnerId(Long partnerId) {
-        this.partnerId = partnerId;
-    }
-
-    public Long getPlatformId() {
-        return platformId;
-    }
-
-    public void setPlatformId(Long platformId) {
-        this.platformId = platformId;
-    }
 }
