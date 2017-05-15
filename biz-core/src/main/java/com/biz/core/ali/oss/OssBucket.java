@@ -2,26 +2,27 @@ package com.biz.core.ali.oss;
 
 
 /**
- * oss 图片上传地址
+ * oss bucket
  */
 public enum OssBucket {
 
-    PRODUCT("product","biz.oss.bucketName"),
-    AUDIT("audit","biz.oss.bucketName");
-    private final String type,bucketNameKey;
+    PRODUCT("product","biz.oss.productBucketName"),
+    AUDIT("audit","biz.oss.auditBucketName");
 
-    OssBucket(String type, String bucketNameKey) {
+
+    private final String type,name;//type:图片类型 name:bucket空间名称
+
+    OssBucket(String type, String name) {
         this.type = type;
-        this.bucketNameKey = bucketNameKey;
-    }
+        this.name = name;
 
-    public String getBucketNameKey() {
-        return bucketNameKey;
     }
 
     public String getType() {
       return type;
     }
-    
-    
+
+    public String getName() {
+        return name;
+    }
 }

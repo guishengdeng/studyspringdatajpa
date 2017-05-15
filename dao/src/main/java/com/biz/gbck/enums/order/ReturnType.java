@@ -15,7 +15,7 @@ import com.biz.core.enums.converter.BaseEnumValueConverter;
 public enum ReturnType implements EnumerableValue {
 
     RETURN(1, "退货"),
-    EXCHANGE(10, "换货");
+    EXCHANGE(2, "换货");
 
     public final int value;
 

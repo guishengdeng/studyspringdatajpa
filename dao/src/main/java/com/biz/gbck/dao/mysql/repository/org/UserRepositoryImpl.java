@@ -28,8 +28,8 @@ public class UserRepositoryImpl extends CommonManageAbleDao implements UserDao {
         CriteriaBuilder cb = this.getEntityManager().getCriteriaBuilder();
         CriteriaQuery<UserPo> criteriaQuery = cb.createQuery(UserPo.class);
         form = criteriaQuery.from(UserPo.class);
-//        if (ValueUtils.getValue(vo.getId()) != 0) {
-//            predicates.add(cb.equal(form.get("id"), vo.getId()));
+//        if (ValueUtils.getValue(vo.getProductId()) != 0) {
+//            predicates.add(cb.equal(form.get("id"), vo.getProductId()));
 //        } else
         if (StringUtils.isNotEmpty(vo.getMobile())) {
             predicates.add(cb.equal(form.<String>get("mobile"), vo.getMobile() ));

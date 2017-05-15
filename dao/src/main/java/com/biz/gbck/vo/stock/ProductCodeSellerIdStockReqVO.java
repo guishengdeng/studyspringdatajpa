@@ -13,27 +13,27 @@ public class ProductCodeSellerIdStockReqVO implements Serializable {
     /**
      * 商品编码
      */
-    private String productCode;
+    private Long productId;
 
     /**
      * 上级采购方ID
      */
     private Long sellerId;
 
-    public ProductCodeSellerIdStockReqVO(String productCode, Long sellerId) {
-        this.productCode = productCode;
+    public ProductCodeSellerIdStockReqVO(Long productId, Long sellerId) {
+        this.productId = productId;
         this.sellerId = sellerId;
     }
 
     public ProductCodeSellerIdStockReqVO() {
     }
 
-    public String getProductCode() {
-        return productCode;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
     public Long getSellerId() {

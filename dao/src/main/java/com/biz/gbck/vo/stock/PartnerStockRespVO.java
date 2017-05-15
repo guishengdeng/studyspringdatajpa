@@ -25,6 +25,16 @@ public class PartnerStockRespVO implements Serializable {
      */
     private Integer quantity = 0;
 
+    public PartnerStockRespVO() {
+    }
+
+    public PartnerStockRespVO(Long partnerId, Long productId, Integer quantity) {
+        this();
+        this.partnerId = partnerId;
+        this.productId = productId;
+        this.quantity = quantity;
+    }
+
     public Long getProductId() {
         return productId;
     }

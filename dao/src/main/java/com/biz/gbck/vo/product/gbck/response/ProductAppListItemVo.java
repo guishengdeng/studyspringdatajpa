@@ -12,6 +12,11 @@ public class ProductAppListItemVo implements Serializable {
     private static final long serialVersionUID = 6806976491980622046L;
 
     /**
+     * 商品ID
+     */
+    private String id;
+
+    /**
      * 商品名称
      */
     private String productName;
@@ -22,24 +27,40 @@ public class ProductAppListItemVo implements Serializable {
     private String productCode;
 
     /**
-     * 分类
-     */
-    private ProductFieldVo<Long> category;
-
-    /**
-     * 品牌
-     */
-    private ProductFieldVo<Long> brand;
-
-    /**
-     * 商品促销信息
-     */
-    private List<ProductFieldVo<Long>> promotions;
-
-    /**
      * 商品Logo图片
      */
     private String logo;
+
+    /**
+     * 商品标签
+     */
+    private List<String> tags;
+
+    /**
+     * 商品角标图片
+     */
+    private String apartTagImage;
+
+    /**
+     * 是否支持特价
+     */
+    private Boolean isSupportSpecialOffer;
+
+    /**
+     * 是否支持优惠券
+     */
+    private Boolean isSupportVoucher;
+
+    /**
+     * 商品支持的促销
+     */
+    private List<String> supportPromotions;
+
+    /**
+     * 简单特价
+     */
+    private Integer specialOfferPrice;
+
 
     /**
      * 销售价
@@ -52,9 +73,17 @@ public class ProductAppListItemVo implements Serializable {
     private Integer suggestSalePrice;
 
     /**
-     * 商品标签
+     * 库存
      */
-    private List<String> tags;
+    private Integer stock;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getProductName() {
         return productName;
@@ -72,36 +101,60 @@ public class ProductAppListItemVo implements Serializable {
         this.productCode = productCode;
     }
 
-    public ProductFieldVo<Long> getCategory() {
-        return category;
-    }
-
-    public void setCategory(ProductFieldVo<Long> category) {
-        this.category = category;
-    }
-
-    public ProductFieldVo<Long> getBrand() {
-        return brand;
-    }
-
-    public void setBrand(ProductFieldVo<Long> brand) {
-        this.brand = brand;
-    }
-
-    public List<ProductFieldVo<Long>> getPromotions() {
-        return promotions;
-    }
-
-    public void setPromotions(List<ProductFieldVo<Long>> promotions) {
-        this.promotions = promotions;
-    }
-
     public String getLogo() {
         return logo;
     }
 
     public void setLogo(String logo) {
         this.logo = logo;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public String getApartTagImage() {
+        return apartTagImage;
+    }
+
+    public void setApartTagImage(String apartTagImage) {
+        this.apartTagImage = apartTagImage;
+    }
+
+    public Boolean getSupportSpecialOffer() {
+        return isSupportSpecialOffer;
+    }
+
+    public void setSupportSpecialOffer(Boolean supportSpecialOffer) {
+        isSupportSpecialOffer = supportSpecialOffer;
+    }
+
+    public Boolean getSupportVoucher() {
+        return isSupportVoucher;
+    }
+
+    public void setSupportVoucher(Boolean supportVoucher) {
+        isSupportVoucher = supportVoucher;
+    }
+
+    public List<String> getSupportPromotions() {
+        return supportPromotions;
+    }
+
+    public void setSupportPromotions(List<String> supportPromotions) {
+        this.supportPromotions = supportPromotions;
+    }
+
+    public Integer getSpecialOfferPrice() {
+        return specialOfferPrice;
+    }
+
+    public void setSpecialOfferPrice(Integer specialOfferPrice) {
+        this.specialOfferPrice = specialOfferPrice;
     }
 
     public Integer getSalePrice() {
@@ -120,11 +173,11 @@ public class ProductAppListItemVo implements Serializable {
         this.suggestSalePrice = suggestSalePrice;
     }
 
-    public List<String> getTags() {
-        return tags;
+    public Integer getStock() {
+        return stock;
     }
 
-    public void setTags(List<String> tags) {
-        this.tags = tags;
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 }

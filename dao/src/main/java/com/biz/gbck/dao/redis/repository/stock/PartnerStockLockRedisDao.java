@@ -49,7 +49,7 @@ public class PartnerStockLockRedisDao extends CrudRedisDao<PartnerStockLockRo, S
     /**
      * 根据合伙人id&商品id查询锁定数量
      */
-    public Integer getQuantityByParnterAndProductId(Long partnerId, Long productId) {
+    public Integer getQuantityByPartnerIdAndProductId(Long partnerId, Long productId) {
         if (partnerId == null || productId == null) {
             return 0;
         }

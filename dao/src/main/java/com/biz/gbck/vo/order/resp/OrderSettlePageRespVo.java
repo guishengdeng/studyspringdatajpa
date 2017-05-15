@@ -22,15 +22,25 @@ public class OrderSettlePageRespVo implements Serializable {
     /**
      * 总金额
      */
-    private Integer orderAmount;
+    private Integer orderAmount = 0;
+
+    /**
+     * 促销优惠免额
+     */
+    private Integer freeAmount = 0;
+
+    /**
+     * 优惠券优惠金额
+     */
+    private Integer voucherAmount = 0;
 
     // 运费
     private Integer freight = 0;
 
     /**
-     * 付款期限
+     * 支付金额
      */
-    private Long payLimitTime;
+    private Integer payAmount = 0;
 
     /**
      * 商品明细
@@ -76,6 +86,30 @@ public class OrderSettlePageRespVo implements Serializable {
         this.orderAmount = orderAmount;
     }
 
+    public Integer getFreeAmount() {
+        return freeAmount;
+    }
+
+    public void setFreeAmount(Integer freeAmount) {
+        this.freeAmount = freeAmount;
+    }
+
+    public Integer getVoucherAmount() {
+        return voucherAmount;
+    }
+
+    public void setVoucherAmount(Integer voucherAmount) {
+        this.voucherAmount = voucherAmount;
+    }
+
+    public Integer getPayAmount() {
+        return payAmount;
+    }
+
+    public void setPayAmount(Integer payAmount) {
+        this.payAmount = payAmount;
+    }
+
     public Integer getFreight() {
         return freight;
     }
@@ -114,14 +148,6 @@ public class OrderSettlePageRespVo implements Serializable {
 
     public void setValid(boolean valid) {
         this.valid = valid;
-    }
-
-    public Long getPayLimitTime() {
-        return payLimitTime;
-    }
-
-    public void setPayLimitTime(Long payLimitTime) {
-        this.payLimitTime = payLimitTime;
     }
 
     public String getBuyerName() {

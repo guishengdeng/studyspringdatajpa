@@ -21,7 +21,9 @@ public interface StockService {
 
     void updateStocks(List<UpdatePartnerStockReqVO> reqVos) throws DepotNextDoorException;
 
-    void updateLockStocks(List<UpdatePartnerLockStockReqVO> reqVos) throws DepotNextDoorException;
+    void orderUpdateLockStocks(List<UpdatePartnerLockStockReqVO> reqVos) throws DepotNextDoorException;
+
+    void releaseLockStocks();
 
 
 }

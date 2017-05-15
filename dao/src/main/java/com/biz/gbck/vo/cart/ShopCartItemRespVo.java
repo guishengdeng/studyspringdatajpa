@@ -1,5 +1,6 @@
 package com.biz.gbck.vo.cart;
 
+import com.biz.gbck.enums.order.ItemType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -15,6 +16,8 @@ import java.util.List;
  * @date 2017/01/12
  */
 public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Serializable {
+
+    private static final long serialVersionUID = 297542739517280818L;
 
     /**
      * 商品名称
@@ -98,6 +101,11 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
     @JsonIgnore
     private Timestamp updateTime;
 
+    /**
+     * 商品类型
+     */
+    @JsonIgnore
+    private ItemType itemType = ItemType.NORMAL;
     /**
      * 是否选中
      */
@@ -237,6 +245,14 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
 
     public void setPromotionTags(List<String> promotionTags) {
         this.promotionTags = promotionTags;
+    }
+
+    public ItemType getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
     }
 
     @Override
