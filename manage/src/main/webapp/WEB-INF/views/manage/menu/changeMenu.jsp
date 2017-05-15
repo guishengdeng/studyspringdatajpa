@@ -59,7 +59,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <h3 class="header smaller lighter blue">
-                                更改菜单列表列表
+                                更改菜单列表
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
                                 <sec:authorize access="hasAuthority('OPT_MAINMENU_ADD')">
                                     <%--<a href="manage/menuItems/add.do?mainMenu_id=${mainmenu_id}" class="btn btn-sm btn-primary"><i
@@ -106,7 +106,7 @@
                                             <td class="hidden-md hidden-sm hidden-xs">${menuItem.description}</td>
                                             <td class="hidden-md hidden-sm hidden-xs">
 
-                                                <select name="mainMenu" id="id" onchange="changeMenuItemParent(${currMainMenu.id},this.value,${menuItem.id})" style="width: 120px;">
+                                                <select name="mainMenu" id="id" onchange="changeMenuItemParent(${currMainMenu.id},this.value,${menuItem.id})" style="width: 200px;">
                                                    <%-- <c:if test="${withNone}">
                                                         <option value="${noneLabel}" ${empty selectedStatus ? 'selected' : ''} >${empty noneLabel ? '不限' : noneLabel}</option>
                                                     </c:if>--%>

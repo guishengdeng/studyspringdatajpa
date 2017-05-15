@@ -10,7 +10,8 @@ import java.util.List;
  * @date 2017年04月19日
  * @reviewer
  * @description:用于接收更改子菜单父级菜单的相关参数
- * @see
+ * @lable:前段向后端传递参数时，只能自定义vo来接收参数,不能使用po
+ * 接收参数
  */
 public class UpdateMenuItemParentMenuReqVo implements Serializable {
 

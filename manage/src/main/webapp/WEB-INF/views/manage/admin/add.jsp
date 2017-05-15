@@ -11,8 +11,9 @@
              $('#confirm').on("click",function(){
                  var cmd = $('#cmd').val();
                  var username = $('#username').val().trim();
-                 var password = $('#password').val().trim();
+
                   if(cmd == "add"){
+                      var password = $('#password').val().trim();
                       if(!username){
                           layer.msg("用户名不能为空");
                           return false;

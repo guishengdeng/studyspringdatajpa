@@ -42,14 +42,13 @@ public class ExtendPropertyController {
     @RequestMapping("/detail/{id}")
     @PreAuthorize("hasAuthority('OPT_EXTENDPROPERTY_DETAIL')")
     public ModelAndView detail(@PathVariable(name = "id") Long productExtendId, HttpSession session) {
-        JSONArray json = new JSONArray();
+        /*JSONArray json = new JSONArray();
         if(extendPropertyService.findByProductExtendId(productExtendId) != null){
             for(ExtendProperty item : extendPropertyService.findByProductExtendId(productExtendId)){
                 json.add(JSONObject.fromObject("{\"value\":\""+item.getValue()+"\",\"id\":\""+item.getId()+"\"}"));
             }
         }
-        //为了数据的共享,所以写成了这样
-        session.setAttribute("currJson",json);
+        session.setAttribute("currJson",json);*/
         session.setAttribute("extendProperties",extendPropertyService.findByProductExtendId(productExtendId));
         session.setAttribute("productExtend",productExtendService.findOne(productExtendId));
         session.setAttribute("category",categoryService.findCategory(productExtendService.findOne(productExtendId).getCategory().getId()));

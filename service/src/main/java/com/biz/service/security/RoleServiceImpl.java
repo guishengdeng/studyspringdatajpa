@@ -52,6 +52,7 @@ public class RoleServiceImpl extends AbstractBaseService implements RoleService 
     /**
      *
      *用于判定：在修改或添加角色名称时,数据库是否是该角色名称
+     * 存在则返回false,否则返回true
      */
     @Override
     public Boolean isExist(Role param) {
