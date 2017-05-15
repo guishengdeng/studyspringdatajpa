@@ -12,6 +12,7 @@ import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.order.PaymentException;
 import com.biz.gbck.transform.order.Order2OrderRo;
+import com.biz.gbck.transform.order.OrderItem2StockItemVO;
 import com.biz.gbck.transform.order.ShopCartItemRespVo2OrderItemRespVo;
 import com.biz.gbck.vo.IdReqVo;
 import com.biz.gbck.vo.PageRespVo;
@@ -121,10 +122,8 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
         Order order = orderRepository.findOne(reqVo.getId());
         SystemAsserts.notNull(order, "订单不存在");
         if (order.isCancelable(false)) {
-            if (logger.isDebugEnabled()) {
-                order = this.updateOrderStatus(order, OrderStatus.CANCELED);
-                super.publishEventUsingTx(new UserOrderCancelEvent(this, order.getId()));
-            }
+            order = this.updateOrderStatus(order, OrderStatus.CANCELED);
+            super.publishEventUsingTx(new UserOrderCancelEvent(this, order.getId()));
         }
 
     }
@@ -227,9 +226,8 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
         List<OrderItemRespVo> items = settleResult.getItems();
         SystemAsserts.notEmpty(items, "未获取到结算明细信息");
 
-        List<OrderItem> orderItems = this.transOrderItems(items);
         Order order = OrderBuilder.createBuilder(reqVo)
-                .setItems(orderItems)
+                .setItems(this.transOrderItems(items))
                 .setFreeAmount(settleResult.getOrderAmount())
                 .setVoucherAmount(settleResult.getVoucherAmount())
                 .setPayAmount(settleResult.getPayAmount())
@@ -248,17 +246,11 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
         UpdatePartnerLockStockReqVO lockReqVo = new UpdatePartnerLockStockReqVO();
         lockReqVo.setOrderCode(order.getOrderCode());
         lockReqVo.setPartnerId(order.getSellerId());
-
-        List<StockItemVO> items = Lists.transform(order.getItems(), input -> {
-            StockItemVO item = new StockItemVO();
-            item.setProductId(input.getProductId());
-            item.setQuantity(input.getQuantity());
-            return item;
-        });
+        List<StockItemVO> items = Lists.transform(order.getItems(), new OrderItem2StockItemVO(false));
         lockReqVo.setItems(items);
          
         try {
-            stockService.orderLockStocks(lockStockReqVOS);
+            stockService.orderUpdateLockStocks(lockStockReqVOS);
         } catch (Exception e) {
             logger.error("锁定库存出错", e);
             throw e;
