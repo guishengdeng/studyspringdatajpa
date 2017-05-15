@@ -5,7 +5,6 @@ import com.biz.gbck.vo.order.resp.OrderItemRespVo;
 import com.biz.gbck.vo.order.resp.OrderPromotionRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -39,13 +38,6 @@ public class OrderSettlePageRespVoBuilder extends AbstractOrderBuilder {
         return this;
     }
 
-    //付款期限
-    public OrderSettlePageRespVoBuilder setPayLimitTime(Timestamp payLimitTime){
-        SystemAsserts.notNull(payLimitTime, "付款期限不能为空");
-        this.respVo.setPayLimitTime(payLimitTime.getTime());
-        return this;
-    }
-
     //付款促销活动
     public OrderSettlePageRespVoBuilder setPromtions(List<OrderPromotionRespVo> promotions){
         this.respVo.setPromotions(promotions);
@@ -73,6 +65,10 @@ public class OrderSettlePageRespVoBuilder extends AbstractOrderBuilder {
     }
 
     public OrderSettlePageRespVo build() {
+        SystemAsserts.notEmpty(respVo.getItems(), "结算商品明细为空");
+        SystemAsserts.notNull(respVo.getBuyerName(), "收货人信息为空");
+        SystemAsserts.notNull(respVo.getBuyerMobile(), "收货人电话为空");
+        SystemAsserts.notNull(respVo.getBuyerAddress(), "收货人地址为空");
         return this.respVo;
     }
 

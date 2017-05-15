@@ -5,6 +5,8 @@ import com.biz.gbck.dao.mysql.po.security.Admin;
 import com.biz.gbck.dao.mysql.po.security.Role;
 import java.util.List;
 
+import com.biz.gbck.exceptions.product.AdminNotFoundException;
+import com.biz.gbck.exceptions.product.ProductExtendNotFoundException;
 import com.biz.gbck.vo.admin.AdminReqVo;
 import com.biz.gbck.vo.demo.CatSearchVO;
 import org.springframework.data.domain.Page;
@@ -32,4 +34,6 @@ public interface AdminService {
     void deleteAdmin(String username);
 
     Page<Admin> queryAdminsByCondition(AdminReqVo vo);
+
+    Boolean  isExistAdmin (String username,String cmd) throws AdminNotFoundException;
 }

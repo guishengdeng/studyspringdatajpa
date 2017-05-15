@@ -186,4 +186,28 @@ public class ProductExtendServiceImpl extends AbstractBaseService implements Pro
         return vos;
     }
 
+    @Override
+    public List<ProductExtend> findByCategoryId(Long id) {
+        return null;
+    }
+
+    @Override
+    public ProductExtend findOne(Long id) {
+        return null;
+    }
+
+    @Override
+    public List<ProductExtend> findAll() {
+        return null;
+    }
+
+    @Override
+    public List<ProductExtendVo> productExtend2ProductExtendVo(List<ProductExtend> list) {
+        return null;
+    }
+
+    @Override
+    public Boolean isExistProductExtendName(CreateCategoryPropertyVo vo) throws ProductExtendNotFoundException {
+        return null;
+    }
 }

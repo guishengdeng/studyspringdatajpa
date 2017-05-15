@@ -328,4 +328,14 @@ public class CategoryServiceImpl extends AbstractCategoryService implements Cate
         return new Category2CategoryRespVo().apply(category);
     }
 
+    @Override
+    public List<Category> findCategoryByStatus() {
+       return categoryRepository.findCategoryByStatus(CommonStatusEnum.ENABLE);
+    }
+
+    @Override
+    public Category findCategory(Long id) {
+        return categoryRepository.findOne(id);
+    }
+
 }

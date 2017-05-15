@@ -45,6 +45,7 @@
         <module>rest</module>
         <module>service</module>
         <module>search</module>
+        <module>rest-pda</module>
     </modules>
 
     <properties>
@@ -61,15 +62,17 @@
 
         <dao.version>1.0-SNAPSHOT</dao.version>
         <manage.version>1.0-SNAPSHOT</manage.version>
-        <rest.version>1.0-SNAPSHOT</rest.version>
+        <rest.version>1.0.1-SNAPSHOT</rest.version>
         <service.version>1.0-SNAPSHOT</service.version>
         <search.version>1.0-SNAPSHOT</search.version>
         <notice.version>1.0-SNAPSHOT</notice.version>
+        <rest.pda.version>1.0.0-SNAPSHOT</rest.pda.version>
 
         <soa.promotion.version>1.0-SNAPSHOT</soa.promotion.version>
         <soa.product.version>1.0-SNAPSHOT</soa.product.version>
         <soa.base.version>1.0-SNAPSHOT</soa.base.version>
         <soa.parent.version>1.0.1-SNAPSHOT</soa.parent.version>
+        <soa.order.version>1.0.1-SNAPSHOT</soa.order.version>
 
         <current.project.version>1.0-SNAPSHOT</current.project.version>
 
@@ -428,6 +431,16 @@
                 <groupId>com.biz.gbck</groupId>
                 <artifactId>biz-soa-feign</artifactId>
                 <version>${biz.soa.feign.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.biz.gbck</groupId>
+                <artifactId>soa-order</artifactId>
+                <version>${soa.order.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.biz.gbck</groupId>
+                <artifactId>rest-pda</artifactId>
+                <version>${rest.pda.version}</version>
             </dependency>
         </dependencies>
 
