@@ -4,14 +4,11 @@ import com.biz.core.asserts.SystemAsserts;
 import com.biz.core.util.Timers;
 import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.dao.mysql.po.order.OrderItem;
-import com.biz.gbck.dao.mysql.repository.order.OrderRepository;
-import com.biz.gbck.dao.redis.repository.order.OrderRedisDao;
 import com.biz.gbck.enums.order.OrderShowStatus;
 import com.biz.gbck.enums.order.OrderStatus;
 import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.order.PaymentException;
-import com.biz.gbck.transform.order.Order2OrderRo;
 import com.biz.gbck.transform.order.OrderItem2StockItemVO;
 import com.biz.gbck.transform.order.ShopCartItemRespVo2OrderItemRespVo;
 import com.biz.gbck.vo.IdReqVo;
@@ -26,19 +23,13 @@ import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
 import com.biz.gbck.vo.payment.resp.PaymentRespVo;
 import com.biz.gbck.vo.stock.StockItemVO;
 import com.biz.gbck.vo.stock.UpdatePartnerLockStockReqVO;
-import com.biz.service.AbstractBaseService;
-import com.biz.service.SequenceService;
-import com.biz.service.cart.ShopCartService;
 import com.biz.service.order.frontend.OrderFrontendService;
-import com.biz.service.stock.StockService;
 import com.biz.soa.builder.OrderBuilder;
 import com.biz.soa.builder.OrderRespVoBuilder;
 import com.biz.soa.builder.OrderSettlePageRespVoBuilder;
-import com.biz.soa.order.service.payment.PaymentService;
 import com.google.common.collect.Lists;
 import org.codelogger.utils.CollectionUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -55,25 +46,7 @@ import static com.google.common.collect.Lists.newArrayList;
  * @see
  */
 @Service
-public class OrderFrontendServiceImpl extends AbstractBaseService implements OrderFrontendService {
-
-    @Autowired
-    private OrderRedisDao orderRedisDao;
-
-    @Autowired
-    private OrderRepository orderRepository;
-
-    @Autowired
-    private SequenceService sequenceService;
-
-    @Autowired
-    private PaymentService paymentService;
-
-    @Autowired
-    private StockService stockService;
-
-    @Autowired
-    private ShopCartService shopCartService;
+public class OrderFrontendServiceImpl extends AbstractOrderService implements OrderFrontendService {
 
     /*****************public begin*********************/
 
@@ -122,7 +95,7 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
         Order order = orderRepository.findOne(reqVo.getId());
         SystemAsserts.notNull(order, "订单不存在");
         if (order.isCancelable(false)) {
-            order = this.updateOrderStatus(order, OrderStatus.CANCELED);
+            order = super.updateOrderStatus(order, OrderStatus.CANCELED);
             super.publishEventUsingTx(new UserOrderCancelEvent(this, order.getId()));
         }
 
@@ -186,15 +159,13 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
 
     @Override
     public Order getOrder(Long id) {
-        return orderRepository.findOne(id);
+        return super.getOrder(id);
     }
 
     @Override
     public void saveOrder(Order order) {
-        orderRepository.save(order);
+        super.saveOrder(order);
     }
-
-
 
     /*****************public end*********************/
 
@@ -255,16 +226,6 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
             logger.error("锁定库存出错", e);
             throw e;
         }
-    }
-
-    private Order updateOrderStatus(Order order, OrderStatus newStatus) {
-        logger.debug("修改订单状态 orderId={}. {} --> {}", order.getStatus(), newStatus);
-        SystemAsserts.notNull(newStatus, "新订单状态不能为空");
-        order.setStatus(newStatus);
-
-        preCommitOpt(() -> saveOrUpdateUsingPo(orderRepository, orderRedisDao, order, new Order2OrderRo()));
-
-        return order;
     }
 
     private List<OrderItem> transOrderItems(List<OrderItemRespVo> items) {
