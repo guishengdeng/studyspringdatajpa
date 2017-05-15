@@ -4,17 +4,21 @@ import com.biz.core.util.StringTool;
 import com.biz.gbck.dao.redis.ro.product.master.ProductRO;
 import com.biz.gbck.dao.redis.ro.product.price.PriceRO;
 import com.biz.gbck.dao.redis.ro.product.promotion.SimpleSpecialOfferPromotionRO;
+import com.biz.gbck.vo.product.ProductPropertyContentVo;
+import com.biz.gbck.vo.product.gbck.ProductPropertyVo;
 import com.biz.gbck.vo.product.gbck.response.ProductAppDetailRespVO;
+import com.biz.gbck.vo.product.gbck.response.ProductAppListItemVo;
 import com.biz.gbck.vo.product.gbck.response.ProductFieldVo;
 import com.biz.gbck.vo.product.gbck.response.ProductItemVO;
 import com.biz.gbck.vo.search.ProductIdxVO;
 import com.biz.gbck.vo.stock.ProductStockVO;
 import com.biz.soa.product.service.interfaces.ProductPriceGenerator;
 import com.biz.soa.product.service.interfaces.impl.DepotNextDoorPriceGenerator;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import java.io.Serializable;
 import java.util.Optional;
-import org.codelogger.utils.ValueUtils;
+import org.apache.commons.collections.CollectionUtils;
 
 /**
  * 商品原型数据VO
@@ -105,11 +109,28 @@ public class ProductPrototype implements Serializable {
         return itemVO;
     }
 
+    public ProductAppListItemVo toAppListItemVO() {
+        ProductAppListItemVo itemVo = new ProductAppListItemVo();
+        itemVo.setId(String.valueOf(this.productRO.getId()));
+        itemVo.setProductName(this.productRO.getName());
+        itemVo.setProductCode(this.productRO.getProductCode());
+        itemVo.setLogo(this.productRO.getLogo());
+        itemVo.setTags(StringTool.split(this.productRO.getSaleTags(), ","));
+        itemVo.setApartTagImage(this.productRO.getApartTagImage());
+        // TODO 完善是否支持特价的逻辑
+        itemVo.setSupportSpecialOffer(Boolean.FALSE);
+        itemVo.setSupportVoucher(Boolean.FALSE);
+        itemVo.setSupportPromotions(Lists.newArrayList());
+        itemVo.setSpecialOfferPrice(null);
+        itemVo.setSalePrice(this.priceGenerator.getSalePrice());
+        itemVo.setSuggestSalePrice(this.priceGenerator.getSuggestPrice());
+        itemVo.setStock(this.getStockVO().getStock());
+        return itemVo;
+    }
+
     public ProductAppDetailRespVO toAppDetailRespVO() {
         ProductAppDetailRespVO respVO = new ProductAppDetailRespVO();
-        if (ValueUtils.getValue(this.stockVO.getStock()) <= 0) {
-            return null;
-        }
+        respVO.setId(String.valueOf(this.productRO.getId()));
         respVO.setProductCode(this.productRO.getProductCode());
         respVO.setProductName(this.productRO.getName());
         respVO.setBrief(this.productRO.getBreif());
@@ -118,10 +139,24 @@ public class ProductPrototype implements Serializable {
         respVO.setSuggestPrice(this.priceGenerator.getSuggestPrice());
         respVO.setMarketPrice(this.priceGenerator.getPurchasePrice());
         respVO.setMinQuantity(this.productRO.getMinQuantity());
-        respVO.setProperties(null);
+        ProductPropertyContentVo productProperties = this.productRO.getProductProperty();
+        if (productProperties != null && CollectionUtils.isNotEmpty(productProperties.getItems())) {
+            respVO.setProperties(Lists.transform(productProperties.getItems(), f -> {
+                ProductPropertyVo vo = new ProductPropertyVo();
+                Preconditions.checkArgument(f != null);
+                vo.setTitle(f.getPropertyName());
+                vo.setValue(f.getPropertyValue());
+                return vo;
+            }));
+        }
         respVO.setLogo(this.productRO.getLogo());
         respVO.setImages(StringTool.split(this.productRO.getImages(), ","));
         respVO.setIntroImages(StringTool.split(this.productRO.getIntroImages(), ","));
+        // TODO 设置简单特价
+        respVO.setSpecialOfferPrice(null);
+        respVO.setSupportSpecialOffer(Boolean.FALSE);
+        respVO.setSalePromotionDetail(Lists.newArrayList());
+        respVO.setStatus(this.productRO.getSaleStatus());
         return respVO;
     }
 

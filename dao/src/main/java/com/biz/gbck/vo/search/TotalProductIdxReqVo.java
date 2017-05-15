@@ -36,6 +36,12 @@ public class TotalProductIdxReqVo implements Serializable {
         this.priceGroupId = priceGroupId;
     }
 
+    public TotalProductIdxReqVo(List<Long> productIds, Long priceGroupId, Long sellerId) {
+        this.productIds = productIds;
+        this.priceGroupId = priceGroupId;
+        this.sellerId = sellerId;
+    }
+
     public List<Long> getProductIds() {
         return productIds;
     }

@@ -1,8 +1,9 @@
 package com.biz.gbck.dao.redis.ro.product.master;
 
 import com.alibaba.fastjson.JSON;
+import com.biz.core.util.StringTool;
 import com.biz.gbck.enums.product.SaleStatusEnum;
-import com.biz.gbck.vo.product.ProductPropertyVo;
+import com.biz.gbck.vo.product.ProductPropertyContentVo;
 import com.biz.gbck.vo.product.PropertyItemVo;
 import com.biz.gbck.vo.product.RapidProductItemVo;
 import com.biz.redis.annotation.Ro;
@@ -97,6 +98,11 @@ public class ProductRO extends BaseRedisObject<Long> {
      * 角标 ID (以逗号分割)
      */
     private String apartTagIds;
+
+    /**
+     * 角标图片(以逗号分割)
+     */
+    private String apartTagImages;
 
     /**
      * 商品扩展属性(存放PropertyItemVo List以Json序列化之后的字符串)
@@ -472,8 +478,24 @@ public class ProductRO extends BaseRedisObject<Long> {
         this.minQuantity = minQuantity;
     }
 
-    public ProductPropertyVo getProductProperty() {
-        ProductPropertyVo vo = new ProductPropertyVo();
+    public String getApartTagImages() {
+        return apartTagImages;
+    }
+
+    public void setApartTagImages(String apartTagImages) {
+        this.apartTagImages = apartTagImages;
+    }
+
+    public String getApartTagImage() {
+        if (StringUtils.isBlank(this.apartTagImages)) {
+            return null;
+        } else {
+            return StringTool.split(this.apartTagImages, ",").get(0);
+        }
+    }
+
+    public ProductPropertyContentVo getProductProperty() {
+        ProductPropertyContentVo vo = new ProductPropertyContentVo();
         vo.setProductCode(this.productCode);
         List<PropertyItemVo> propertyItems = this.getProperties();
         List<PropertyItemVo> appendProperties = Lists.newArrayList(

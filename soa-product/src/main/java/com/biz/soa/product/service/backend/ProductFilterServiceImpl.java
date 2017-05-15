@@ -41,10 +41,10 @@ public class ProductFilterServiceImpl extends AbstractProductFilterService imple
      * @author wangyumin
      */
     @Override
-    public BootstrapTablePageResult<ProductFilterListItemVo> listProductFilters(SearchPageVo searchPageVo,
+    public BootstrapTablePageResult<ProductFilterListItemVO> listProductFilters(SearchPageVo searchPageVo,
                                                                                 Long categoryId) throws ProductFilterNotFoundException {
         List<ProductFilter> list = productFilterRepository.findByCategoryIdAndLabelLikeAndDeleteFlag(categoryId, searchPageVo.getSearchValue(), Boolean.FALSE);
-        BootstrapTablePageResult<ProductFilterListItemVo> pageResult = new BootstrapTablePageResult<>();
+        BootstrapTablePageResult<ProductFilterListItemVO> pageResult = new BootstrapTablePageResult<>();
         pageResult.setRows(Lists.transform(list, new ProductFilter2ProductFilterListItemVo()));
         pageResult.setTotal(list.size());
         return pageResult;

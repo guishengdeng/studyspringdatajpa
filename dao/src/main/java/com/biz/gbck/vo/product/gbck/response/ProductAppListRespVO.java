@@ -1,6 +1,5 @@
 package com.biz.gbck.vo.product.gbck.response;
 
-import com.biz.gbck.vo.product.backend.ProductFilterItemListVo;
 import java.io.Serializable;
 import java.util.List;
 
@@ -18,9 +17,9 @@ public class ProductAppListRespVO implements Serializable {
 
     private List<ProductAppListItemVo> result;
 
-    private List<ProductFilterItemListVo> filters;
+    private List<ProductFilterVO> filters;
 
-    private List<ProductBrandFilterVO> brands;
+    private ProductBrandFilterVO brands;
 
     public Integer getCurrentPage() {
         return currentPage;
@@ -46,19 +45,19 @@ public class ProductAppListRespVO implements Serializable {
         this.result = result;
     }
 
-    public List<ProductFilterItemListVo> getFilters() {
+    public List<ProductFilterVO> getFilters() {
         return filters;
     }
 
-    public void setFilters(List<ProductFilterItemListVo> filters) {
+    public void setFilters(List<ProductFilterVO> filters) {
         this.filters = filters;
     }
 
-    public List<ProductBrandFilterVO> getBrands() {
+    public ProductBrandFilterVO getBrands() {
         return brands;
     }
 
-    public void setBrands(List<ProductBrandFilterVO> brands) {
+    public void setBrands(ProductBrandFilterVO brands) {
         this.brands = brands;
     }
 }

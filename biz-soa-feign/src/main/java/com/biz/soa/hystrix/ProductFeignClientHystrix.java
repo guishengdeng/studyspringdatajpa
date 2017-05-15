@@ -4,7 +4,6 @@ import com.biz.gbck.vo.product.backend.BootstrapTablePageResult;
 import com.biz.gbck.vo.product.backend.ProductFilterListItemVo;
 import com.biz.gbck.vo.product.backend.ProductFilterListReqVO;
 import com.biz.gbck.vo.soa.MicroServiceResult;
-import com.biz.soa.feign.ProductFeignClient;
 import org.springframework.stereotype.Component;
 
 /**

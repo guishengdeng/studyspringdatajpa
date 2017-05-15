@@ -1,18 +1,18 @@
 package com.biz.gbck.transform.product;
 
 import com.biz.gbck.dao.mysql.po.product.meta.ProductFilter;
-import com.biz.gbck.vo.product.backend.ProductFilterListItemVo;
+import com.biz.gbck.vo.product.backend.ProductFilterListItemVO;
 import com.google.common.base.Function;
 
 /**
  * @author wangyumin
  * @date 2016年1月4日
  */
-public class ProductFilter2ProductFilterListItemVo implements Function<ProductFilter, ProductFilterListItemVo> {
+public class ProductFilter2ProductFilterListItemVo implements Function<ProductFilter, ProductFilterListItemVO> {
 
     @Override
-    public ProductFilterListItemVo apply(ProductFilter input) {
-        ProductFilterListItemVo vo = new ProductFilterListItemVo();
+    public ProductFilterListItemVO apply(ProductFilter input) {
+        ProductFilterListItemVO vo = new ProductFilterListItemVO();
         vo.setId(String.valueOf(input.getId()));
         vo.setField(input.getField());
         vo.setHasMore(input.getHasMore());

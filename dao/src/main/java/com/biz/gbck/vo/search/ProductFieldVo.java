@@ -17,12 +17,12 @@ public class ProductFieldVo implements Serializable {
     /**
      * 字段名
      */
-    private String field;
+    private String field = "salePrice";
 
     /**
      * 显示名称
      */
-    private String label;
+    private String label = "价格";
 
     /**
      * 字段值集合
