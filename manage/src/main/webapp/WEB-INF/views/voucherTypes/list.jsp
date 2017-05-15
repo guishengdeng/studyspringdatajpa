@@ -5,7 +5,6 @@
 <%@ taglib prefix="manage" tagdir="/WEB-INF/tags" %>
 <manage:page title="优惠券类型列表">
 <jsp:attribute name="script">
-<script type="text/javascript" src="${contextPath}/static-resources/layer/layer.js"></script>
 <script type="text/javascript">
     // 给某优惠券添加数量提交
 	function addIssueCountSub(){
@@ -59,7 +58,6 @@
     });
 </script>
 </jsp:attribute>
-
 <jsp:body>
 <div class="ui container" style="display: block;margin-top: 5px;">
     <br>
