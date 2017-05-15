@@ -8,15 +8,13 @@ import com.biz.gbck.vo.order.req.*;
 import com.biz.gbck.vo.order.resp.OrderRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
 import com.biz.gbck.vo.payment.resp.PaymentRespVo;
-import com.biz.gbck.vo.user.BaseRequestVo;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.service.order.frontend.OrderFrontendService;
 import com.biz.support.web.handler.JSONResult;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 订单controller
@@ -30,12 +28,12 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/order")
 public class OrderController extends BaseRestController {
 
-    @Autowired
+    @Autowired(required = false)
     private OrderFrontendService orderService;
 
     //订单列表
     @RequestMapping("/list")
-    public JSONResult allTypeOrders(HttpServletRequest request){
+    public JSONResult allTypeOrders(HttpServletRequest request) {
         OrderListReqVo reqVo = super.parseBizData(request, OrderListReqVo.class);
         PageRespVo pageRespVo = orderService.listOrders(reqVo);
         return new JSONResult(pageRespVo);
@@ -43,7 +41,7 @@ public class OrderController extends BaseRestController {
 
     //订单详情
     @RequestMapping("/detail")
-    public JSONResult orderDetail(HttpServletRequest request){
+    public JSONResult orderDetail(HttpServletRequest request) {
         IdReqVo reqVo = super.parseBizData(request, IdReqVo.class);
         OrderRespVo orderRespVo = orderService.getOrderDetail(reqVo);
         return new JSONResult(orderRespVo);
@@ -59,9 +57,9 @@ public class OrderController extends BaseRestController {
 
     //结算
     @RequestMapping("/settle")
-    public JSONResult settle(HttpServletRequest request) {
+    public JSONResult settle(HttpServletRequest request) throws DepotNextDoorException {
         OrderSettlePageReqVo reqVo = super.parseBizData(request, OrderSettlePageReqVo.class);
-        OrderSettlePageRespVo respVo = orderService.settle(reqVo);
+        OrderSettlePageRespVo respVo = orderService.getSettleResult(reqVo);
         return new JSONResult(respVo);
     }
 
@@ -94,14 +92,11 @@ public class OrderController extends BaseRestController {
 
     //申请退货
     @RequestMapping("/applyReturn")
-    public JSONResult applyReturn(HttpServletRequest request){
+    public JSONResult applyReturn(HttpServletRequest request) {
         OrderApplyReturnReqVo reqVo = super.parseBizData(request, OrderApplyReturnReqVo.class);
         orderService.applyReturn(reqVo);
         return new JSONResult();
     }
-
-
-
 
 
 }

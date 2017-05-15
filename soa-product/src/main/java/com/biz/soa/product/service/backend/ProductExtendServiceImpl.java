@@ -4,6 +4,7 @@ import com.biz.gbck.dao.mysql.po.product.meta.Category;
 import com.biz.gbck.dao.mysql.po.product.meta.ProductExtend;
 import com.biz.gbck.dao.mysql.repository.category.CategoryRepository;
 import com.biz.gbck.dao.mysql.repository.productExtend.ProductExtendRepository;
+import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.product.ProductExtendNotFoundException;
 import com.biz.gbck.vo.product.backend.*;
 import com.biz.service.AbstractBaseService;
@@ -211,9 +212,8 @@ public class ProductExtendServiceImpl extends AbstractBaseService implements Pro
 	}
 
 	@Override
-	public Boolean isExistProductExtendName(CreateCategoryPropertyVo vo) throws ProductExtendNotFoundException {
+	public Boolean isExistProductExtendName(CreateCategoryPropertyVo vo) throws DepotNextDoorException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

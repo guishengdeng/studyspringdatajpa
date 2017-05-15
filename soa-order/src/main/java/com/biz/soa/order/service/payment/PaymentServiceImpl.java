@@ -4,7 +4,11 @@ import com.biz.core.asserts.BusinessAsserts;
 import com.biz.core.util.*;
 import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.dao.mysql.po.order.OrderPayment;
+import com.biz.gbck.dao.mysql.po.payment.AlipayPaymentLogPo;
+import com.biz.gbck.dao.mysql.po.payment.WechatPaymentLogPo;
 import com.biz.gbck.dao.mysql.repository.order.OrderPaymentRepository;
+import com.biz.gbck.dao.mysql.repository.payment.AlipayPaymentLogPoRepository;
+import com.biz.gbck.dao.mysql.repository.payment.WechatPaymentLogPoRepository;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.order.OrderStatus;
 import com.biz.gbck.enums.order.PaymentStatus;
@@ -22,14 +26,15 @@ import com.biz.pay.alipay.util.AlipaySubmit;
 import com.biz.pay.wechat.WeChatPayFactory;
 import com.biz.pay.wechat.lang.PropertyCollector;
 import com.biz.pay.wechat.req.UnifiedOrder;
-import com.biz.pay.wechat.res.WechatPayNotifyRespVo;
 import com.biz.pay.wechat.res.OrderQueryResponse;
+import com.biz.pay.wechat.res.WechatPayNotifyRespVo;
 import com.biz.pay.wechat.res.WechatPayRespVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.order.frontend.OrderFrontendService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.utils.DateUtils;
+import org.codelogger.utils.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,6 +64,12 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 
 	@Autowired
 	private OrderPaymentRepository paymentRepository;
+
+	@Autowired
+	private WechatPaymentLogPoRepository wechatPaymentLogPoRepository;
+
+	@Autowired
+	private AlipayPaymentLogPoRepository alipayPaymentLogPoRepository;
 	
 	private SyncUtil paymentSyncUtil = new SyncUtil(256);
 
@@ -253,27 +264,27 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 		logger.info("process an alipay trade notify: orderPaymentId[{}], tradeno[{}], tradeStauts[{}]", paymentId, tradeNo, tradeStatus);
 
 		// 保存 alipay支付通知log
-//		AlipayPaymentLogPo logPo = new AlipayPaymentLogPo();
-//		logPo.setId(idService.nextId());
-//		logPo.setOrderPaymentId(paymentId);
-//		logPo.setTransactionId(tradeNo);
-//		logPo.setLog(JsonUtil.obj2Json(params));
-//		logPo.setBuyerEmail(buyerEmail);
-//		logPo.setBuyerId(buyerId);
-//		logPo.setDiscount(discount);
-//		logPo.setGmtCreate(gmtCreate);
-//		logPo.setGmtPayment(gmtPayment);
-//		logPo.setIsTotalFeeAjust(isTotalFeeAdjust);
-//		logPo.setNotifyId(notifyId);
-//		logPo.setNotifyTime(notifyTime);
-//		logPo.setPaymentType(paymentType);
-//		logPo.setPrice(price);
-//		logPo.setTotalFee(totalFee);
-//		logPo.setQuantity(quantity);
-//		logPo.setSubject(subject);
-//		logPo.setTradeStatus(tradeStatus);
-//		logPo.setUseCoupon(useCoupon);
-//		alipayPaymentLogPoRepository.save(logPo);
+		AlipayPaymentLogPo logPo = new AlipayPaymentLogPo();
+		logPo.setId(idService.nextId());
+		logPo.setOrderPaymentId(paymentId);
+		logPo.setTransactionId(tradeNo);
+		logPo.setLog(JsonUtil.obj2Json(params));
+		logPo.setBuyerEmail(buyerEmail);
+		logPo.setBuyerId(buyerId);
+		logPo.setDiscount(discount);
+		logPo.setGmtCreate(gmtCreate);
+		logPo.setGmtPayment(gmtPayment);
+		logPo.setIsTotalFeeAjust(isTotalFeeAdjust);
+		logPo.setNotifyId(notifyId);
+		logPo.setNotifyTime(notifyTime);
+		logPo.setPaymentType(paymentType);
+		logPo.setPrice(price);
+		logPo.setTotalFee(totalFee);
+		logPo.setQuantity(quantity);
+		logPo.setSubject(subject);
+		logPo.setTradeStatus(tradeStatus);
+		logPo.setUseCoupon(useCoupon);
+		alipayPaymentLogPoRepository.save(logPo);
 
         // 将支付宝的支付单号存取到 payment
         this.savePaymentTradeNo(paymentId, tradeNo);
@@ -307,29 +318,29 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 				try {
 					String notifyJson = JsonUtil.obj2Json(notifyRes.getProperties());
 					logger.info("log wechat payment notify:'{}'", notifyJson);
-					//TODO save log
-//					WechatPaymentLogPo paymentLog = new WechatPaymentLogPo();
-//					paymentLog.setId(idService.nextId());
-//					paymentLog.setOrderPaymentId(payment.getId());
-//					paymentLog.setTransactionId(notifyRes.getTransactionId());
-//					paymentLog.setLog(notifyJson);
-//					paymentLog.setTs(new Timestamp(System.currentTimeMillis()));
-//					paymentLog.setResultCode(notifyRes.getResultCode());
-//					paymentLog.setErrCode(notifyRes.getErrorCode());
-//					paymentLog.setErrCodeDes(notifyRes.getErrorDescption());
-//					paymentLog.setOpenid(notifyRes.getOpenId());
-//					paymentLog.setTradeType(notifyRes.getTradeType());
-//					paymentLog.setBankType(notifyRes.getBankType());
-//					paymentLog.setTotalFee(notifyRes.getTotalFee());
-//					paymentLog.setFeeType(notifyRes.getFeeType());
-//					paymentLog.setCashFee(notifyRes.getCashFee());
-//					paymentLog.setCashFeeType(notifyRes.getCashFeeType());
-//					paymentLog.setCouponFee(notifyRes.getCouponFee());
-//					paymentLog.setCouponCount(notifyRes.getCouponCount());
-//					paymentLog.setCouponId(notifyRes.getCouponId());
-//					paymentLog.setAttach(notifyRes.getAttach());
-//					paymentLog.setTimeEnd(new Timestamp(notifyRes.getTimeEnd().getTime()));
-//					wechatPaymentLogPoRepository.save(paymentLog);
+
+					WechatPaymentLogPo paymentLog = new WechatPaymentLogPo();
+					paymentLog.setId(idService.nextId());
+					paymentLog.setOrderPaymentId(payment.getId());
+					paymentLog.setTransactionId(notifyRes.getTransactionId());
+					paymentLog.setLog(notifyJson);
+					paymentLog.setTs(new Timestamp(System.currentTimeMillis()));
+					paymentLog.setResultCode(notifyRes.getResultCode());
+					paymentLog.setErrCode(notifyRes.getErrorCode());
+					paymentLog.setErrCodeDes(notifyRes.getErrorDescption());
+					paymentLog.setOpenid(notifyRes.getOpenId());
+					paymentLog.setTradeType(notifyRes.getTradeType());
+					paymentLog.setBankType(notifyRes.getBankType());
+					paymentLog.setTotalFee(notifyRes.getTotalFee());
+					paymentLog.setFeeType(notifyRes.getFeeType());
+					paymentLog.setCashFee(notifyRes.getCashFee());
+					paymentLog.setCashFeeType(notifyRes.getCashFeeType());
+					paymentLog.setCouponFee(notifyRes.getCouponFee());
+					paymentLog.setCouponCount(notifyRes.getCouponCount());
+					paymentLog.setCouponId(notifyRes.getCouponId());
+					paymentLog.setAttach(notifyRes.getAttach());
+					paymentLog.setTimeEnd(new Timestamp(notifyRes.getTimeEnd().getTime()));
+					wechatPaymentLogPoRepository.save(paymentLog);
 				} catch (Exception e) {
 					logger.info("log wechat payment notify:'{}' failed.", e);
 				}
@@ -370,79 +381,6 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 				return null;
 			}
 		});
-	}
-
-	private void updateOrderPayState(final Order order,final OrderPayment payment,final Integer payAmount){
-		if (order.isPayable()) {
-			order.setStatus(OrderStatus.DELIVERED);
-			order.setPayStatus(PaymentStatus.PAYED);
-			order.setPaymentType(payment.getPaymentType());
-			order.setPayAmount(payAmount);
-			orderFrontendService.saveOrder(order);
-		} else {
-			logger.warn("订单无法支付, orderId=[{}],paymentId=[{}], status: {} ", order.getId(), payment.getId(),
-					order.getStatus());
-		}
-	}
-	// 获取可支付的支付单
-	private OrderPayment getPayablePayment(Order order, PaymentType paymentType) {
-		if (paymentType == null) {
-			paymentType = order.getPaymentType();
-			logger.warn("订单默认支付方式: {}", paymentType);
-		}
-		Long orderId = order.getId();
-		if (logger.isDebugEnabled()) {
-			logger.debug("获取可用支付单, orderId={}, paymentType={}", orderId, paymentType);
-		}
-		Timers timers = Timers.createAndBegin(logger.isDebugEnabled());
-
-		// 1.获取支付单
-		BusinessAsserts.notNull(order, DepotNextDoorExceptions.Order.ORDER_NOT_EXIST);
-		BusinessAsserts.isTrue(order.getPayStatus() == PaymentStatus.CREATE_PAYMENT, DepotNextDoorExceptions.Order
-				.ORDER_PAYED);
-		timers.record("查询订单");
-
-		OrderPayment payment = null;
-		List<OrderPayment> payments = order.getPayments();
-		if (CollectionUtils.isNotEmpty(payments)) {
-			for (OrderPayment orderPayment : payments) {
-				if (orderPayment.getStatus() == CommonStatusEnum.ENABLE) {
-					payment = orderPayment;
-					break;
-				}
-			}
-		}
-		timers.record("获取支付单");
-		// 2.检查支付单是否可用,如果不可用,创建新的支付单,作废其他支付单
-		if (payment != null) {
-			logger.error("find old payment id={} orderId={} paymentUserId={}",
-					payment.getId(),orderId, order.getUserId());
-			payment.setStatus(CommonStatusEnum.DISABLE);
-			paymentRepository.save(payment);
-		}
-		payment = createPayment(order, paymentType);
-		logger.error("getPayment orderId={} paymentId={}",orderId, payment.getId());
-		timers.record("处理支付单");
-		timers.print("use time get-payment");
-		return payment;
-	}
-
-	/**
-	 * 创建支付单
-	 * @return
-	 */
-	private OrderPayment createPayment(Order order, PaymentType paymentType) {
-		OrderPayment payment = new OrderPayment();
-		payment.setId(idService.nextId());
-		payment.setOrder(order);
-		payment.setExpireTimestamp(order.getExpireTimestamp());
-		payment.setPayAmount(order.getPayAmount());
-		payment.setPaymentType(paymentType);
-		payment.setPayStatus(PaymentStatus.CREATE_PAYMENT);
-		payment.setSubject(order.getSubject()); //TODO
-		paymentRepository.save(payment);
-		logger.debug("create new payment, orderId={}, paymentType={}, paymentId={}", order.getId(), paymentType, payment.getId());
-		return payment;
 	}
 
 	@Override
@@ -513,7 +451,6 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 		return resp;
 	}
 
-
 	@Override
 	@Transactional
 	public void savePaymentTradeNo(Long paymentId, String tradeNo) {
@@ -542,6 +479,85 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 	public PaymentRespVo noNeedPay(Long orderId) {
 		Order order = orderFrontendService.getOrder(orderId);
 		return this.noNeedPay(order);
+	}
+
+	@Override
+	public List<PaymentType> getSupportedPaymentTypes(String userId) {
+		//TODO 获取用户可用支付方式
+		return ArrayUtils.toList(PaymentType.values());
+	}
+
+	/**
+	 * 创建支付单
+	 * @return
+	 */
+	private OrderPayment createPayment(Order order, PaymentType paymentType) {
+		OrderPayment payment = new OrderPayment();
+		payment.setId(idService.nextId());
+		payment.setOrder(order);
+		payment.setExpireTimestamp(order.getExpireTimestamp());
+		payment.setPayAmount(order.getPayAmount());
+		payment.setPaymentType(paymentType);
+		payment.setPayStatus(PaymentStatus.CREATE_PAYMENT);
+		payment.setSubject(order.getSubject()); //TODO
+		paymentRepository.save(payment);
+		logger.debug("create new payment, orderId={}, paymentType={}, paymentId={}", order.getId(), paymentType, payment.getId());
+		return payment;
+	}
+
+	private void updateOrderPayState(final Order order,final OrderPayment payment,final Integer payAmount){
+		if (order.isPayable()) {
+			order.setStatus(OrderStatus.DELIVERED);
+			order.setPayStatus(PaymentStatus.PAYED);
+			order.setPaymentType(payment.getPaymentType());
+			order.setPayAmount(payAmount);
+			orderFrontendService.saveOrder(order);
+		} else {
+			logger.warn("订单无法支付, orderId=[{}],paymentId=[{}], status: {} ", order.getId(), payment.getId(),
+					order.getStatus());
+		}
+	}
+	// 获取可支付的支付单
+	private OrderPayment getPayablePayment(Order order, PaymentType paymentType) {
+		if (paymentType == null) {
+			paymentType = order.getPaymentType();
+			logger.warn("订单默认支付方式: {}", paymentType);
+		}
+		Long orderId = order.getId();
+		if (logger.isDebugEnabled()) {
+			logger.debug("获取可用支付单, orderId={}, paymentType={}", orderId, paymentType);
+		}
+		Timers timers = Timers.createAndBegin(logger.isDebugEnabled());
+
+		// 1.获取支付单
+		BusinessAsserts.notNull(order, DepotNextDoorExceptions.Order.ORDER_NOT_EXIST);
+		BusinessAsserts.isTrue(order.getPayStatus() == PaymentStatus.CREATE_PAYMENT, DepotNextDoorExceptions.Order
+				.ORDER_PAYED);
+		timers.record("查询订单");
+
+		OrderPayment payment = null;
+		List<OrderPayment> payments = order.getPayments();
+		if (CollectionUtils.isNotEmpty(payments)) {
+			for (OrderPayment orderPayment : payments) {
+				if (orderPayment.getStatus() == CommonStatusEnum.ENABLE) {
+					payment = orderPayment;
+					break;
+				}
+			}
+		}
+		timers.record("获取支付单");
+		// 2.检查支付单是否可用,如果不可用,创建新的支付单,作废其他支付单
+		if (payment != null) {
+			logger.error("find old payment id={} orderId={} paymentUserId={}",
+					payment.getId(),orderId, order.getUserId());
+			payment.setStatus(CommonStatusEnum.DISABLE);
+			paymentRepository.save(payment);
+		}
+		payment = createPayment(order, paymentType);
+		logger.error("getPayment orderId={} paymentId={}",orderId, payment.getId());
+		timers.record("处理支付单");
+		timers.print("use time get-payment");
+		return payment;
 	}
 
 }

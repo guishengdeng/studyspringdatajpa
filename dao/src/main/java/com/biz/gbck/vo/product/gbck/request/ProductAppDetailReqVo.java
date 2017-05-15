@@ -20,8 +20,8 @@ public class ProductAppDetailReqVo implements Serializable {
     /**
      * 商品编码
      */
-    @NotNull(message = "商品编码不能为空")
-    private String productCode;
+    @NotNull(message = "商品ID不能为空")
+    private Long productId;
 
     /**
      * 价格组ID
@@ -29,12 +29,12 @@ public class ProductAppDetailReqVo implements Serializable {
     @NotNull(message = "价格组ID不能为空")
     private Long priceGroupId;
 
-    public String getProductCode() {
-        return productCode;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
     public Long getPriceGroupId() {
@@ -57,7 +57,7 @@ public class ProductAppDetailReqVo implements Serializable {
     public String toString() {
         return "ProductAppDetailReqVo{" +
                 "sellerId=" + sellerId +
-                ", productCode='" + productCode + '\'' +
+                ", productId=" + productId +
                 ", priceGroupId=" + priceGroupId +
                 '}';
     }

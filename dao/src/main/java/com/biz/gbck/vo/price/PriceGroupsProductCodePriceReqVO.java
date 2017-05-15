@@ -23,14 +23,14 @@ public class PriceGroupsProductCodePriceReqVO implements Serializable {
      * 商品编码
      */
     @NotNull(message = "商品编码集合不能为空")
-    private String productCode;
+    private Long productId;
 
     public PriceGroupsProductCodePriceReqVO() {
     }
 
-    public PriceGroupsProductCodePriceReqVO(List<Long> priceGroupIds, String productCode) {
+    public PriceGroupsProductCodePriceReqVO(List<Long> priceGroupIds, Long productId) {
         this.priceGroupIds = priceGroupIds;
-        this.productCode = productCode;
+        this.productId = productId;
     }
 
     public List<Long> getPriceGroupIds() {
@@ -41,19 +41,19 @@ public class PriceGroupsProductCodePriceReqVO implements Serializable {
         this.priceGroupIds = priceGroupIds;
     }
 
-    public String getProductCode() {
-        return productCode;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
     @Override
     public String toString() {
         return "PriceGroupsProductCodePriceReqVO{" +
                 "priceGroupIds=" + priceGroupIds +
-                ", productCode='" + productCode + '\'' +
+                ", productId=" + productId +
                 '}';
     }
 }

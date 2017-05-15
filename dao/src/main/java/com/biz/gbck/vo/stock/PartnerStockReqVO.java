@@ -22,6 +22,11 @@ public class PartnerStockReqVO implements Serializable {
      */
     private Long partnerId;
 
+    public PartnerStockReqVO(Long partnerId, Long productId) {
+        this.partnerId = partnerId;
+        this.productId = productId;
+    }
+
     public Long getProductId() {
         return productId;
     }

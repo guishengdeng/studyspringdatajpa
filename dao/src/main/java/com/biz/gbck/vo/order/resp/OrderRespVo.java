@@ -173,7 +173,7 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
         this.setCancelable(order.isCancelable(false));
         this.setContactable(order.isContactable());
         this.setBuyAgain(order.isBuyAgain());
-        this.setApplyRefundable(order.isReturnable());
+        this.setApplyRefundable(order.isReturnable(false));
 
     }
 

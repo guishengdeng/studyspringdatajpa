@@ -4,11 +4,7 @@ import com.biz.core.util.JsonUtil;
 import com.biz.gbck.enums.order.InvoiceType;
 import com.biz.gbck.enums.order.PaymentType;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
-
-import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * 订单返回Vo
@@ -20,22 +16,7 @@ import static com.google.common.collect.Lists.newArrayList;
  */
 public class OrderCreateReqVo extends OrderSettlePageReqVo {
 
-    /**
-     * 订单总金额
-     */
-    @NotNull(message = "订单总金额不能为空")
-    private Integer orderAmount;
-
-    /**
-     * 免额金额
-     */
-    private Integer freeAmount = 0;
-
-    /**
-     * 优惠券减免金额
-     */
-    @NotNull(message = "优惠券减免金额不能为空")
-    private Integer voucherOffsetAmount = 0;
+    private static final long serialVersionUID = 8586905363689712387L;
 
     /**
      * 买家备注
@@ -44,25 +25,14 @@ public class OrderCreateReqVo extends OrderSettlePageReqVo {
     private String description;
 
     /**
-     * 优惠券
+     * 发票类型{@link InvoiceType}
      */
-    private List<Long> usedCoupons = newArrayList();
+    private Integer invoiceType = InvoiceType.NO.getValue();
 
     /**
      * 促销Id
      */
     private Long promotionId;
-
-    /**
-     * 需要用户付款金额
-     */
-    @NotNull(message = "用户付款金额不能为空")
-    private Integer payAmount;
-
-    /**
-     * 发票类型{@link InvoiceType}
-     */
-    private Integer invoiceType = InvoiceType.NO.getValue();
 
     /**
      * 发票抬头
@@ -75,30 +45,6 @@ public class OrderCreateReqVo extends OrderSettlePageReqVo {
     private Integer paymentType;
 
 
-    public Integer getOrderAmount() {
-        return orderAmount;
-    }
-
-    public void setOrderAmount(Integer orderAmount) {
-        this.orderAmount = orderAmount;
-    }
-
-    public Integer getFreeAmount() {
-        return freeAmount;
-    }
-
-    public void setFreeAmount(Integer freeAmount) {
-        this.freeAmount = freeAmount;
-    }
-
-    public Integer getVoucherOffsetAmount() {
-        return voucherOffsetAmount;
-    }
-
-    public void setVoucherOffsetAmount(Integer voucherOffsetAmount) {
-        this.voucherOffsetAmount = voucherOffsetAmount;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -107,28 +53,12 @@ public class OrderCreateReqVo extends OrderSettlePageReqVo {
         this.description = description;
     }
 
-    public List<Long> getUsedCoupons() {
-        return usedCoupons;
-    }
-
-    public void setUsedCoupons(List<Long> usedCoupons) {
-        this.usedCoupons = usedCoupons;
-    }
-
     public Long getPromotionId() {
         return promotionId;
     }
 
     public void setPromotionId(Long promotionId) {
         this.promotionId = promotionId;
-    }
-
-    public Integer getPayAmount() {
-        return payAmount;
-    }
-
-    public void setPayAmount(Integer payAmount) {
-        this.payAmount = payAmount;
     }
 
     public Integer getInvoiceType() {

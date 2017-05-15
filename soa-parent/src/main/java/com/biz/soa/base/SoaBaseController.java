@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.biz.gbck.vo.soa.MicroServiceResult.INTERNAL_ERROR_STATUS;
+import static com.biz.gbck.vo.soa.MicroServiceResult.SUCCESS_STATUS;
+
 /**
  * SOA Base Controller
  *
@@ -16,10 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public abstract class SoaBaseController {
-
-    private static final Integer INTERNAL_ERROR_STATUS = 500;
-
-    private static final Integer SUCCESS_STATUS = 200;
 
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -42,10 +41,18 @@ public abstract class SoaBaseController {
         return renderResult;
     }
 
-    protected MicroServiceResult<String> render500(String message) {
-        MicroServiceResult<String> renderResult = new MicroServiceResult<>();
+    protected <T> MicroServiceResult<T> render500(String message) {
+        MicroServiceResult<T> renderResult = new MicroServiceResult<>();
         renderResult.setStatus(INTERNAL_ERROR_STATUS);
         renderResult.setMsg(message);
+        return renderResult;
+    }
+
+    protected <T> MicroServiceResult<T> render500(Exception e) {
+        MicroServiceResult<T> renderResult = new MicroServiceResult<>();
+        renderResult.setStatus(INTERNAL_ERROR_STATUS);
+        renderResult.setException(e);
+        renderResult.setMsg(e.getMessage());
         return renderResult;
     }
 
