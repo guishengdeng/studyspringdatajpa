@@ -11,12 +11,12 @@ import com.biz.gbck.exceptions.DepotNextDoorExceptions;
  * @reviewer
  * @see
  */
-public class CartItemNotExistException extends DepotNextDoorException {
+public class CartItemInvalidException extends DepotNextDoorException {
     private static final long serialVersionUID = 6191216245233367781L;
 
-    private static final int code = DepotNextDoorExceptions.Cart.CART_ITEM_NOT_EXIST.getCode();
+    private static final int code = DepotNextDoorExceptions.Cart.ILLEGAL_PARAMETER.getCode();
 
-    public CartItemNotExistException(String message) {
+    public CartItemInvalidException(String message) {
         super(message);
         super.setCode(code);
     }
