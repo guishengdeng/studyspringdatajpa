@@ -315,7 +315,8 @@ public interface DepotNextDoorExceptions {
      */
     enum Cart implements ExceptionType {
         ILLEGAL_PARAMETER(2501, "参数不合法"),
-        CART_ITEM_NOT_EXIST(2502, "购物车商品不存在");
+        CART_ITEM_NOT_EXIST(2502, "购物车商品不存在"),
+        CART_ITEM_INVALID_EXIST(2503, "购物车商品无效");
         private int code;
         private String description;
 

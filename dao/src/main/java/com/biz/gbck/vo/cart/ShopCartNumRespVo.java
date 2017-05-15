@@ -15,27 +15,14 @@ public class ShopCartNumRespVo implements Serializable {
     /**
      * 总数量
      */
-    private int totalNum = 0;
+    private int cartNum = 0;
 
-    /**
-     * 选中数量
-     */
-    private int selectedNum = 0;
-
-    public int getTotalNum() {
-        return totalNum;
+    public int getCartNum() {
+        return cartNum;
     }
 
-    public void setTotalNum(int totalNum) {
-        this.totalNum = totalNum;
-    }
-
-    public int getSelectedNum() {
-        return selectedNum;
-    }
-
-    public void setSelectedNum(int selectedNum) {
-        this.selectedNum = selectedNum;
+    public void setCartNum(int cartNum) {
+        this.cartNum = cartNum;
     }
 
     @Override

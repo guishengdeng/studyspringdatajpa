@@ -28,7 +28,7 @@ public interface OrderFrontendService {
 
     void cancelOrder(IdReqVo reqVo);
 
-    OrderSettlePageRespVo settle(OrderSettlePageReqVo reqVo);
+    OrderSettlePageRespVo getSettleResult(OrderSettlePageReqVo reqVo) throws DepotNextDoorException;
 
     PaymentRespVo createPrePayOrder(OrderCreateReqVo reqVo) throws DepotNextDoorException;
 

@@ -7,6 +7,8 @@ import com.biz.gbck.dao.redis.ro.stock.PartnerStockRo;
 import com.biz.redis.util.RedisUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -56,6 +58,21 @@ public class PartnerStockRedisDao extends CrudRedisDao<PartnerStockRo, String> {
         }
         return findByKey(getHashKey(getId(partnerId, productId)));
     }
+
+    /**
+     * 根据合伙人Id&商品id查询数量
+     */
+    public Integer getByQuantityPartnerIdAndProductId(Long partnerId, Long productId) {
+        if (partnerId == null || productId == null) {
+            return 0;
+        }
+        byte[] bytes = super.hget(getHashKey(getId(partnerId, productId)), Constant.RO_QUANTITY_FIELD);
+        if (ArrayUtils.isNotEmpty(bytes) && NumberUtils.isNumber(new String(bytes))) {
+            return RedisUtil.byteArrayToInt(bytes);
+        } else
+            return 0;
+    }
+
 
     /**
      * 根据合伙人id&商品ids批量查询

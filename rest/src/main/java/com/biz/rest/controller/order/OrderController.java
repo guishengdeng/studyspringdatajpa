@@ -57,9 +57,9 @@ public class OrderController extends BaseRestController {
 
     //结算
     @RequestMapping("/settle")
-    public JSONResult settle(HttpServletRequest request) {
+    public JSONResult settle(HttpServletRequest request) throws DepotNextDoorException {
         OrderSettlePageReqVo reqVo = super.parseBizData(request, OrderSettlePageReqVo.class);
-        OrderSettlePageRespVo respVo = orderService.settle(reqVo);
+        OrderSettlePageRespVo respVo = orderService.getSettleResult(reqVo);
         return new JSONResult(respVo);
     }
 
