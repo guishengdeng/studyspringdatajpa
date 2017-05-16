@@ -1,13 +1,14 @@
 spring:
-  application:
-    name: depotnextdoor-rest
-  profiles:
-    active: local
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: 12345678
-    url: jdbc:mysql://127.0.0.1:3306/gbck?characterEncoding=utf-8
+    password:
+    url: jdbc:mysql://127.0.0.1:3306/depotnextdoor?characterEncoding=utf-8
     dbcp2:
       initial-size: 5
       max-total: 10
@@ -17,8 +18,9 @@ spring:
       test-on-return: false
       test-while-idle: true
       validation-query: SELECT 1
+
   jpa:
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: update
     database: mysql
@@ -26,6 +28,10 @@ spring:
     properties:
       hibernate:
         enable_lazy_load_no_trans: true
+  session:
+    redis:
+      flush-mode: immediate
+
 biz:
   soa:
     idx: 1
@@ -51,16 +57,20 @@ biz:
     accessKeyId: LTAIcBsZ7zY66tku
     accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
     bucketName: gbck-test
-  amqp:
-    username: guest
-    password: guest
-    port: 5672
-    host: 127.0.0.1
-    maxRetry: 3
-    retryElapse: 1000
+
 server:
-  port: 8999
+  session:
+    timeout: 1200
+  port: 8679
+
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:7777/eureka
+      defaultZone: http://peer1:7777/eureka/
+
+security:
+  basic:
+    enabled: false
+management:
+  security:
+    enabled: false
