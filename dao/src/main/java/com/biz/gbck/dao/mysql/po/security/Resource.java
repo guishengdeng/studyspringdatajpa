@@ -31,7 +31,7 @@ public class Resource extends BasePO<Long> implements Identifiable<Long> {
     @NotBlank(message = "权限不能为空")
     //^(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+));?)+$
     @NotNull(message = "权限不能为空")
-    @Pattern(regexp = "(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+));?)+", message = "无效的权限")
+    @Pattern(regexp = "(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+))(;|,)?)+", message = "无效的权限")
     private String symbol;
 
     @Column
