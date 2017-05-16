@@ -2,7 +2,9 @@ package com.biz.soa.feign.hystrix.global;
 
 
 import com.biz.soa.feign.client.global.GlobalFeignClient;
+import com.biz.support.web.handler.JSONResult;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Map;
 
@@ -13,7 +15,12 @@ import java.util.Map;
 public class GlobalFeignClientHystrix implements GlobalFeignClient {
 
     @Override
-    public Map getAppConfigMap() {
+    public JSONResult getAppConfigMap() {
+        return null;
+    }
+
+    @Override
+    public JSONResult needUpgrade(@PathVariable("os") String os, @PathVariable("ver") String ver, @PathVariable("inhourse") String inhourse) {
         return null;
     }
 }

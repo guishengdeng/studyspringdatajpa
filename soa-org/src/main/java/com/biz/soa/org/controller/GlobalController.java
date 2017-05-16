@@ -3,9 +3,9 @@ package com.biz.soa.org.controller;
 import com.biz.core.ali.oss.util.OssUtil;
 import com.biz.gbck.dao.redis.ro.upgrade.UpgradeRo;
 import com.biz.gbck.vo.config.AppConfigVo;
-import com.biz.service.app.AppService;
 import com.biz.service.upgrade.UpgradeService;
 import com.biz.soa.org.service.interfaces.AppSoaService;
+import com.biz.soa.org.service.upgrade.UpgradeSoaService;
 import com.biz.support.web.handler.JSONResult;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -21,12 +21,12 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("init")
-public class GlobalController { //extends BaseController
+public class GlobalController extends BaseRestController{
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalController.class);
 
     @Autowired(required = false)
-    private UpgradeService upgradeService;
+    private UpgradeSoaService upgradeSoaService;
 
     @Autowired
     private AppSoaService appSoaService;
@@ -50,7 +50,7 @@ public class GlobalController { //extends BaseController
             @RequestParam(value = "partner", required = true, defaultValue = "") String partner,
             HttpServletRequest request) {
         boolean inhourse = StringUtils.equalsIgnoreCase("inhouse", partner);
-        UpgradeRo ro = upgradeService.needUpgrade(os, ver, inhourse);
+        UpgradeRo ro = upgradeSoaService.needUpgrade(os, ver, inhourse);
         if (ro != null) {
             return new JSONResult(ro);
         } else {
