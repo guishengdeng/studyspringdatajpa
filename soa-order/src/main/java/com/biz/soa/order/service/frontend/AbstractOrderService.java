@@ -39,7 +39,7 @@ public abstract class AbstractOrderService extends AbstractBaseService {
     @Autowired
     protected PaymentService paymentService;
 
-    @Autowired
+    @Autowired(required = false)
     protected StockService stockService;
 
     @Autowired
@@ -62,7 +62,6 @@ public abstract class AbstractOrderService extends AbstractBaseService {
 
         return order;
     }
-
 
 
 }
