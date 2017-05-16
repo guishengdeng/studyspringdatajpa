@@ -102,7 +102,7 @@ public class OrderBuilder extends AbstractOrderBuilder {
         return this;
     }
 
-    //TODO
+    //TODO 计算后实际支付金额
     //支付金额
     public OrderBuilder setPayAmount(Integer payAmount){
         order.setPayAmount(payAmount);
