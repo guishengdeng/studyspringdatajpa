@@ -13,6 +13,7 @@
                        url: 'manage/categories/treeView.do',
                        type: 'POST',
                        dataType: 'json',
+                       async: false,
                        //成功执行方法
                        success: function (data) {
                            //console.log(data);
@@ -48,13 +49,13 @@
                                enableLinks: true,
                                text: resp[i][textStr],
                                nodes: subNode,
-                               href: "manage/categories.do?id=" + resp[i][id]
+                               href: "manage/categories/" + resp[i][id]+".do"
                            };
                        } else {
                            treeViewNodeObj = {
                                enableLinks: true,
                                text: resp[i][textStr],
-                               href: "manage/categories.do?id=" + resp[i][id]
+                               href: "manage/categories/" + resp[i][id]+".do"
                            };
                        }
                        subNode = null;

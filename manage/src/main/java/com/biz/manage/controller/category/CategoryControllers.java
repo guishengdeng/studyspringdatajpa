@@ -33,28 +33,21 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("product/categories")
 public class CategoryControllers {
 
-    @Autowired
+    /*@Autowired
     private CategoryService categoryService;
     @Autowired
     private ProductExtendService productExtendService;
-    @GetMapping
+  *//*  @GetMapping
     @PreAuthorize("hasAuthority('OPT_CATEGORY_LIST')")
     public ModelAndView  listCategory(HttpSession session){
         session.setAttribute("categories",categoryService.getCategoryTreeViewVos());
         return new ModelAndView("manage/productextend/list");
-    }
+    }*//*
     @RequestMapping("{id}")
     @PreAuthorize("hasAuthority('OPT_CATEGORY_DETAIL')")
-    public String  detail(@PathVariable Long id, Model model,HttpSession session){
-        /*JSONArray json = new JSONArray();
-        if(productExtendService.findByCategoryId(id) != null){
-            for(ProductExtend item : productExtendService.findByCategoryId(id)){
-                json.add(JSONObject.fromObject("{\"name\":\""+item.getName()+"\",\"id\":\""+item.getId()+"\"}"));
-            }
-        }
-        session.setAttribute("currJson",json);*/
+    public String  detail(@PathVariable Long id, Model model){
         model.addAttribute("currentProductExtend",productExtendService.findByCategoryId(id));
         model.addAttribute("categoryId",id);
         return "manage/productextend/list";
-    }
+    }*/
 }
