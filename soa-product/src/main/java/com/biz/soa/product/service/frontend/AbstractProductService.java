@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.codelogger.utils.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StopWatch;
 
 /**
@@ -35,12 +36,16 @@ public abstract class AbstractProductService extends AbstractBaseService {
 
     protected IProductStockService stockService;
 
+    @Autowired
     protected IProductPriceService priceService;
 
+    @Autowired
     protected ProductRedisDao productRedisDao;
 
+    @Autowired
     protected SimpleSpecialOfferPromotionRedisDao simpleSpecialOfferPromotionRedisDao;
 
+    @Autowired
     protected PriceGroupRedisDao priceGroupRedisDao;
 
     protected List<ProductPrototype> getProductPrototype(List<Long> productIds, Long priceGroupId, Long sellerId) {

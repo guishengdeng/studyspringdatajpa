@@ -1,7 +1,7 @@
 package com.biz.gbck.transform.product;
 
 import com.biz.gbck.dao.mysql.po.product.meta.ProductFilter;
-import com.biz.gbck.vo.product.backend.ProductFilterListItemVO;
+import com.biz.gbck.vo.product.ProductFilterListItemVO;
 import com.google.common.base.Function;
 
 /**

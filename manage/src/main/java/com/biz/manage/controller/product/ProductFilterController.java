@@ -1,7 +1,7 @@
 package com.biz.manage.controller.product;
 
+import com.biz.gbck.vo.product.ProductFilterListItemVO;
 import com.biz.gbck.vo.product.backend.BootstrapTablePageResult;
-import com.biz.gbck.vo.product.backend.ProductFilterListItemVO;
 import com.biz.gbck.vo.product.backend.ProductFilterListReqVO;
 import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.manage.controller.BaseController;

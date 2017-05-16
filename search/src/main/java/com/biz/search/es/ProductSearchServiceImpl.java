@@ -38,9 +38,11 @@ import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
 /**
@@ -48,16 +50,21 @@ import org.springframework.util.StopWatch;
  *
  * Created by david-liu on 2017/05/02 23:12.
  */
+@Service
 public final class ProductSearchServiceImpl implements ProductSearchService {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductSearchServiceImpl.class);
 
+    @Autowired
     private ProductEsRepository productEsRepository;
 
+    @Autowired
     private ProductFeignClient productFeignClient;
 
+    @Autowired
     private PriceGroupRedisDao priceGroupRedisDao;
 
+    @Autowired
     private ProductRedisDao productRedisDao;
 
     @Override

@@ -31,8 +31,10 @@ public class SoaProductController extends SoaBaseController {
     @Autowired
     private PromotionFeignClient promotionClient;
 
+    @Autowired
     private ProductService productService;
 
+    @Autowired
     private ProductIdxService productIdxService;
 
     @PostMapping(value = "/app/list")

@@ -172,8 +172,8 @@ public class ProductPrototype implements Serializable {
         idxVO.setSubTitle(this.productRO.getSubTitle());
         idxVO.setProductCode(this.productRO.getProductCode());
         idxVO.setI18nCode(this.productRO.getI18nCode());
-        idxVO.setBrand(String.valueOf(this.productRO.getBrandId()));
-        idxVO.setCategory(String.valueOf(this.productRO.getCategoryId()));
+        idxVO.setBrandId(this.productRO.getBrandId());
+        idxVO.setCategoryId(this.productRO.getCategoryId());
         StringBuilder propertyStringBuilder = new StringBuilder();
         Optional.ofNullable(this.productRO.getProperties()).orElse(Lists.newArrayList())
                 .forEach(propertyItemVo -> propertyStringBuilder.append(String.format("%s_%s", propertyItemVo.getPropertyId(), propertyItemVo.getPropertyValue())).append(','));

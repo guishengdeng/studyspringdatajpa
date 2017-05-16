@@ -6,6 +6,7 @@ import com.biz.gbck.dao.mysql.repository.productFilter.ProductFilterRepository;
 import com.biz.gbck.exceptions.product.ProductFilterNotFoundException;
 import com.biz.gbck.transform.product.CreateProductFilterVo2ProductFilter;
 import com.biz.gbck.transform.product.ProductFilter2ProductFilterListItemVo;
+import com.biz.gbck.vo.product.ProductFilterListItemVO;
 import com.biz.gbck.vo.product.backend.*;
 import com.biz.service.product.backend.ProductFilterService;
 import com.google.common.collect.Lists;
