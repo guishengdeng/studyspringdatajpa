@@ -1,17 +1,10 @@
 package com.biz.soa.feign.hystrix.org;
 
-import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
-import com.biz.gbck.vo.org.AutoLoginReqVo;
-import com.biz.gbck.vo.org.ChangePwdVo;
-import com.biz.gbck.vo.org.ForgotPasswordReqVo;
-import com.biz.gbck.vo.org.UserChangeAvatarReqVo;
-import com.biz.gbck.vo.org.UserChangeMobileReqVo;
-import com.biz.gbck.vo.org.UserLoginReqVo;
-import com.biz.gbck.vo.org.UserRegisterReqVo;
-import com.biz.gbck.vo.org.ValidateUserLoginPwdReqVo;
+import com.biz.gbck.exceptions.DepotNextDoorException;
+import com.biz.gbck.vo.org.*;
 import com.biz.soa.feign.client.org.UserFeignClient;
 import com.biz.support.web.handler.JSONResult;
 import org.springframework.stereotype.Component;
@@ -35,17 +28,17 @@ public class UserFeignClientHystrix implements UserFeignClient {
     }
 
     @Override
-    public JSONResult register(@RequestBody UserRegisterReqVo userRegisterReqVo) throws CommonException {
+    public JSONResult register(@RequestBody UserRegisterReqVo userRegisterReqVo) throws DepotNextDoorException {
         return null;
     }
 
     @Override
-    public JSONResult forgotPassword(@RequestBody ForgotPasswordReqVo forgotPasswordReqVo) throws CommonException {
+    public JSONResult forgotPassword(@RequestBody ForgotPasswordReqVo forgotPasswordReqVo) throws DepotNextDoorException {
         return null;
     }
 
     @Override
-    public JSONResult login(@RequestBody UserLoginReqVo userLoginReqVo) throws CommonException {
+    public JSONResult login(@RequestBody UserLoginReqVo userLoginReqVo) throws DepotNextDoorException {
         return null;
     }
 
@@ -55,27 +48,27 @@ public class UserFeignClientHystrix implements UserFeignClient {
     }
 
     @Override
-    public JSONResult autoLogin(@RequestBody AutoLoginReqVo reqVo) throws CommonException {
+    public JSONResult autoLogin(@RequestBody AutoLoginReqVo reqVo) throws DepotNextDoorException {
         return null;
     }
 
     @Override
-    public JSONResult changeMobile(@RequestBody UserChangeMobileReqVo userChangeMobileReqVo) throws CommonException {
+    public JSONResult changeMobile(@RequestBody UserChangeMobileReqVo userChangeMobileReqVo) throws DepotNextDoorException {
         return null;
     }
 
     @Override
-    public JSONResult updateAvatar(@RequestBody UserChangeAvatarReqVo userChangeAvatarReqVo) throws CommonException {
+    public JSONResult updateAvatar(@RequestBody UserChangeAvatarReqVo userChangeAvatarReqVo) throws DepotNextDoorException {
         return null;
     }
 
     @Override
-    public JSONResult changePwd(@RequestBody ChangePwdVo changePwdVo) throws CommonException {
+    public JSONResult changePwd(@RequestBody ChangePwdVo changePwdVo) throws DepotNextDoorException {
         return null;
     }
 
     @Override
-    public JSONResult validateLoginPwd(@RequestBody ValidateUserLoginPwdReqVo validateUserLoginPwdReqVo) throws CommonException {
+    public JSONResult validateLoginPwd(@RequestBody ValidateUserLoginPwdReqVo validateUserLoginPwdReqVo) throws DepotNextDoorException {
         return null;
     }
 
