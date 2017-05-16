@@ -1,5 +1,6 @@
 package com.biz.rest.controller.global;
 
+import com.biz.rest.controller.BaseRestController;
 import com.biz.soa.feign.client.global.GlobalFeignClient;
 import com.biz.support.web.handler.JSONResult;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("init")
-public class GlobalController { //extends BaseController
+public class GlobalController extends BaseRestController {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalController.class);
 
