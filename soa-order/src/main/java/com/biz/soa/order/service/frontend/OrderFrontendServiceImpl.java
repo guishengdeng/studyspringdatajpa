@@ -32,12 +32,12 @@ import com.biz.soa.builder.OrderRespVoBuilder;
 import com.biz.soa.builder.OrderReturnBuilder;
 import com.biz.soa.builder.OrderSettlePageRespVoBuilder;
 import com.google.common.collect.Lists;
-import com.biz.soa.order.service.payment.PaymentService;
-import java.util.List;
-import javax.transaction.Transactional;
 import org.codelogger.utils.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -52,7 +52,7 @@ import static com.google.common.collect.Lists.newArrayList;
 @Service
 public class OrderFrontendServiceImpl extends AbstractOrderService implements OrderFrontendService {
 
-  /*****************public begin*********************/
+    /*****************public begin*********************/
 
     @Override
     public PageRespVo listOrders(OrderListReqVo reqVo) {
@@ -63,8 +63,8 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         OrderShowStatus status = OrderShowStatus.valueOf(reqVo.getStatus());
         SystemAsserts.notNull("status", "订单状态不合法");
         Long userId = Long.valueOf(reqVo.getUserId());
-        List<Long> orderIds = orderRedisDao.findOrderIdsByUserIdWithPeriod(userId, status,
-                reqVo.getPage(), reqVo.getSize());
+        List<Long> orderIds = orderRedisDao.findOrderIdsByUserIdWithPeriod(userId, status, reqVo.getPage(), reqVo
+                .getSize());
         List<Order> orders = orderRepository.findAll(orderIds);
         List<OrderRespVo> orderRespVos = this.buildOrderVos(userId, orders);
 
@@ -117,18 +117,14 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         ShopCartRespVo cartInfo = shopCartService.getCartInfo(cartSettleReqVo);
         SystemAsserts.notNull(cartInfo);
 
-        List<OrderItemRespVo> settleOrderItemVos = Lists.transform(cartInfo.getItems(), new ShopCartItemRespVo2OrderItemRespVo
-                ());
+        List<OrderItemRespVo> settleOrderItemVos = Lists.transform(cartInfo.getItems(), new
+                ShopCartItemRespVo2OrderItemRespVo());
 
         List<PaymentType> supportedPaymentTypes = paymentService.getSupportedPaymentTypes(reqVo.getUserId());
         List<Integer> paymentTypes = Lists.transform(supportedPaymentTypes, input -> input.getValue());
-        OrderSettlePageRespVo settleResult = OrderSettlePageRespVoBuilder.createBuilder()
-                .setItems(settleOrderItemVos)
-                .setPaymentTyps(paymentTypes)
-                .setCoupons(null)
-                .setPromtions(null)
-                .setBuyerInfo(null, null, null)
-                .build();
+        OrderSettlePageRespVo settleResult = OrderSettlePageRespVoBuilder.createBuilder().setItems
+                (settleOrderItemVos).setPaymentTyps(paymentTypes).setCoupons(null).setPromtions(null).setBuyerInfo
+                (null, null, null).build();
         if (logger.isDebugEnabled()) {
             logger.debug("订单结算-------请求: {}, 返回值: {}", reqVo, settleResult);
         }
@@ -150,7 +146,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         } else if (PaymentType.ALIPAY.getValue() == reqVo.getPaymentType()) {
             return paymentService.getAlipaySign(order);
         } else if (PaymentType.WECHAT.getValue() == reqVo.getPaymentType()) {
-            return paymentService.wechatPay((OrderCreateWechatReqVo)reqVo, order);
+            return paymentService.wechatPay((OrderCreateWechatReqVo) reqVo, order);
         }
 
         throw new PaymentException("无效的支付方式");
@@ -190,7 +186,8 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         List<OrderRespVo> orderRespVos = newArrayList();
         //TODO 根据用户id获取用户信息
         for (Order order : orders) {
-            OrderRespVo respVo = OrderRespVoBuilder.createBuilder(order).setBuyerInfo(null, null, null).setItems(order.getItems()).build();
+            OrderRespVo respVo = OrderRespVoBuilder.createBuilder(order).setBuyerInfo(null, null, null).setItems
+                    (order.getItems()).build();
             orderRespVos.add(respVo);
         }
         return orderRespVos;
@@ -213,13 +210,10 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         List<OrderItemRespVo> items = settleResult.getItems();
         SystemAsserts.notEmpty(items, "未获取到结算明细信息");
 
-        Order order = OrderBuilder.createBuilder(reqVo)
-                .setItems(this.transOrderItems(items))
-                .setFreeAmount(settleResult.getOrderAmount())
-                .setVoucherAmount(settleResult.getVoucherAmount())
-                .setPayAmount(settleResult.getPayAmount())
-                .setPaymentType(PaymentType.valueOf(reqVo.getPaymentType()))
-                .build(id, orderCode);
+        Order order = OrderBuilder.createBuilder(reqVo).setItems(this.transOrderItems(items)).setFreeAmount
+                (settleResult.getOrderAmount()).setVoucherAmount(settleResult.getVoucherAmount()).setPayAmount
+                (settleResult.getPayAmount()).setPaymentType(PaymentType.valueOf(reqVo.getPaymentType())).build(id,
+                orderCode);
 
         this.lockStock(order);
         timers.print("创建订单用时");
