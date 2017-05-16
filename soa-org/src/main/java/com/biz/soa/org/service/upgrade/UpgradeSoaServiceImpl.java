@@ -1,11 +1,10 @@
-package com.biz.soa.org.service;
+package com.biz.soa.org.service.upgrade;
 
 import com.biz.gbck.dao.redis.repository.upgrade.UpgradeRedisDao;
 import com.biz.gbck.dao.redis.ro.upgrade.UpgradeRo;
 import com.biz.gbck.vo.upgrade.AddUpgradeVo;
 import com.biz.service.CommonService;
-import com.biz.soa.org.service.interfaces.SmsSoaService;
-import com.biz.soa.org.service.upgrade.UpgradeSoaService;
+import com.biz.soa.org.service.upgrade.interfaces.UpgradeSoaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

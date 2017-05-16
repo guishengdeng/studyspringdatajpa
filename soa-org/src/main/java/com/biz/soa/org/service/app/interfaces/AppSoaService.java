@@ -1,4 +1,4 @@
-package com.biz.soa.org.service.interfaces;
+package com.biz.soa.org.service.app.interfaces;
 
 import com.biz.gbck.dao.mysql.po.app.App;
 import com.biz.gbck.vo.app.AppVo;

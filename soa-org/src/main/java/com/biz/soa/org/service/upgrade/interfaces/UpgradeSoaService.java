@@ -1,4 +1,4 @@
-package com.biz.soa.org.service.upgrade;
+package com.biz.soa.org.service.upgrade.interfaces;
 
 import com.biz.gbck.dao.redis.ro.upgrade.UpgradeRo;
 import com.biz.gbck.vo.upgrade.AddUpgradeVo;

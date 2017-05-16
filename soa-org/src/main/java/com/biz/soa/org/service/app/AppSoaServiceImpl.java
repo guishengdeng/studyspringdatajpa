@@ -1,4 +1,4 @@
-package com.biz.soa.org.service;
+package com.biz.soa.org.service.app;
 
 import com.biz.gbck.dao.mysql.po.app.App;
 import com.biz.gbck.dao.mysql.po.product.meta.Category;
@@ -8,9 +8,8 @@ import com.biz.gbck.vo.app.AppVo;
 import com.biz.gbck.vo.config.AppConfigVo;
 import com.biz.gbck.vo.config.CategoryResVo;
 import com.biz.service.AbstractBaseService;
-import com.biz.service.app.AppService;
 import com.biz.service.product.backend.CategoryService;
-import com.biz.soa.org.service.interfaces.AppSoaService;
+import com.biz.soa.org.service.app.interfaces.AppSoaService;
 import com.biz.transformer.config.AppToAppConfigVo;
 import com.biz.transformer.config.CategoryToCategoryResVo;
 import com.google.common.collect.Lists;

@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletRequest;
      * 发送验证码短信
      */
     @RequestMapping(value = "send", method = RequestMethod.POST)
-    public JSONResult sendSMS(@RequestBody SMSSentReqVo smsSentReqVo, HttpServletRequest request) throws CommonException {
+    public JSONResult sendSMS(@RequestBody SMSSentReqVo smsSentReqVo, HttpServletRequest request)  {
 
         logger.info("Received /sms/sent POST request with mobile:{}, type:{} from ip:{}.",
             smsSentReqVo.getMobile(), smsSentReqVo.getAction(), smsSentReqVo.getClientIP());
@@ -39,26 +39,36 @@ import javax.servlet.http.HttpServletRequest;
         JSONObject params = new JSONObject();
         params.put("code", smsCode);
         params.put("action", smsSentReqVo.getAction().getDescription());
-        smsSoaService
-            .sendSMS(smsSentReqVo.getMobile(), smsSentReqVo.getAction(), smsCode,
-                AlidayuTemplateCode.SMS_CODE, params.toJSONString(), smsSentReqVo.getClientIP());
+        try {
+            smsSoaService
+                    .sendSMS(smsSentReqVo.getMobile(), smsSentReqVo.getAction(), smsCode,
+                            AlidayuTemplateCode.SMS_CODE, params.toJSONString(), smsSentReqVo.getClientIP());
+        }catch (CommonException e){
+            return new JSONResult(e.getCode(),e.getMessage());
+        }
+
         return new JSONResult();
     }
 
     /**
      * 验证短信验证码是否正确, 不会让验码失效
      */
-    @RequestMapping(value = "validate", method = RequestMethod.POST) public JSONResult validate(
-            @RequestBody SMSValidateReqVo reqVo, HttpServletRequest request) throws CommonException {
+    @RequestMapping(value = "validate", method = RequestMethod.POST)
+    public JSONResult validate(
+            @RequestBody SMSValidateReqVo reqVo, HttpServletRequest request) {
 
         logger.info("Received /sms/validate POST request with mobile:{}, type:{} from IP[{}].",
-            reqVo.getMobile(), reqVo.getAction(), reqVo.getClientIP());
-        Boolean valid =
-                smsSoaService.validateSMSCode(reqVo.getMobile(), reqVo.getAction(), reqVo.getSmsCode());
+                reqVo.getMobile(), reqVo.getAction(), reqVo.getClientIP());
+        Boolean valid = false;
+        try {
+            valid = smsSoaService.validateSMSCode(reqVo.getMobile(), reqVo.getAction(), reqVo.getSmsCode());
+        } catch (CommonException e) {
+            return new JSONResult(e.getCode(),e.getMessage());
+        }
         CommonException commonException = DepotnearbyExceptionFactory.SMS.INVALID_SMS_CODE;
         return valid ?
-            new JSONResult() :
-            new JSONResult(commonException.getCode(), commonException.getMessage());
+                new JSONResult() :
+                new JSONResult(commonException.getCode(), commonException.getMessage());
     }
 
     private String generateNewAuthCode(Integer size) {
