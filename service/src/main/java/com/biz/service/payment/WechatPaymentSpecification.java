@@ -1,7 +1,8 @@
 package com.biz.service.payment;
 
 import com.biz.gbck.dao.mysql.po.payment.WechatPaymentLogPo;
-import com.biz.gbck.vo.payment.pay.AlipayPaymentVo;
+import com.biz.gbck.vo.payment.AlipayPaymentVo;
+import com.biz.gbck.vo.payment.WechatPaymentVo;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
@@ -17,9 +18,9 @@ import java.util.List;
  */
 public class WechatPaymentSpecification implements Specification<WechatPaymentLogPo> {
 
-    private AlipayPaymentVo.WechatPaymentVo wechatPaymentVo;
+    private WechatPaymentVo wechatPaymentVo;
 
-    public WechatPaymentSpecification(AlipayPaymentVo.WechatPaymentVo wechatPaymentVo) {
+    public WechatPaymentSpecification(WechatPaymentVo wechatPaymentVo) {
         this.wechatPaymentVo = wechatPaymentVo;
     }
 

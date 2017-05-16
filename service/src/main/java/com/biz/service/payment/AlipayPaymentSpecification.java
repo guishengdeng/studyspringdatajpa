@@ -1,7 +1,7 @@
 package com.biz.service.payment;
 
 import com.biz.gbck.dao.mysql.po.payment.AlipayPaymentLogPo;
-import com.biz.gbck.vo.payment.pay.AlipayPaymentVo;
+import com.biz.gbck.vo.payment.AlipayPaymentVo;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;

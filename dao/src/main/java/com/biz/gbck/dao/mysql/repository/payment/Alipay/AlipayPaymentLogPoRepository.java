@@ -17,7 +17,7 @@ import java.util.List;
  * @see
  */
 @Repository
-public interface AlipayPaymentLogPoRepository extends CommonJpaRepository<AlipayPaymentLogPo, Long> , JpaSpecificationExecutor<AlipayPaymentLogPo> ,AlipayPaymentLogDao {
+public interface AlipayPaymentLogPoRepository extends CommonJpaRepository<AlipayPaymentLogPo, Long> , JpaSpecificationExecutor<AlipayPaymentLogPo> {
 
 }
 

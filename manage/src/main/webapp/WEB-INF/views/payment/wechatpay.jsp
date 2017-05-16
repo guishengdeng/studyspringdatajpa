@@ -59,21 +59,22 @@
                             <table id="cat-table" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th class="name">返回码</th>
-                                    <th>错误码</th>
-                                    <th class="status">错误码描述</th>
-                                    <th class="status">openid</th>
+                                    <th class="name">业务结果</th>
+                                    <th>错误代码</th>
+                                    <th class="status">错误代码描述</th>
+                                    <th class="status">用户身份标识</th>
                                     <th class="status">交易类型</th>
-                                    <th class="status">银行账号类型</th>
-                                    <th class="status">总费用</th>
-                                    <th class="status">费用类型</th>
-                                    <th class="status">现金费用</th>
-                                    <th class="status">现金费用类型</th>
-                                    <th class="status">优惠券费用</th>
-                                    <th class="status">优惠券数量</th>
-                                    <th class="status">优惠券id</th>
-                                    <th class="status">attach</th>
-                                    <th class="status">结束时间</th>
+                                    <th class="status">付款银行</th>
+                                    <th class="status">总金额</th>
+                                    <th class="status">货币类型</th>
+                                    <th class="status">现金支付金额</th>
+                                    <th class="status">现金支付货币类型</th>
+                                    <th class="status">代金券金额</th>
+                                    <th class="status">代金券使用数量</th>
+                                    <th class="status">代金券ID</th>
+                                    <th class="status">商家数据包</th>
+                                    <th class="status">支付完成时间</th>
+                                    <th class="center operate"></th>
                                 </tr>
                                 </thead>
 
@@ -95,6 +96,13 @@
                                         <td><c:out value="${wechatpay.couponId}"/></td>
                                         <td><c:out value="${wechatpay.attach}"/></td>
                                         <td><c:out value="${wechatpay.timeEnd}"/></td>
+                                        <td><a class="ace-icon fa fa-search-plus bigger-130"
+                                               data-url="support/room/offer.do?hotelId=${hotel.id}&roomReservationId=${roomReservation.id}"
+                                               <%--data-title="<spring:message code="roomreservation.action.offer"/>">--%>
+                                            <%--data-modal="#modal-table"><spring:message code="roomreservation.action.offer" />--%>
+                                        </a>
+                                        </td>
+
                                     </tr>
                                 </c:forEach>
                                 </tbody>

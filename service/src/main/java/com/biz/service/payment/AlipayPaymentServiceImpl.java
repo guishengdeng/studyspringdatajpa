@@ -2,7 +2,7 @@ package com.biz.service.payment;
 
 import com.biz.gbck.dao.mysql.po.payment.AlipayPaymentLogPo;
 import com.biz.gbck.dao.mysql.repository.payment.Alipay.AlipayPaymentLogPoRepository;
-import com.biz.gbck.vo.payment.pay.AlipayPaymentVo;
+import com.biz.gbck.vo.payment.AlipayPaymentVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.payment.interf.AlipayPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +23,10 @@ public class AlipayPaymentServiceImpl extends AbstractBaseService implements Ali
     @Override
     public Page<AlipayPaymentLogPo> findList(AlipayPaymentVo alipayPaymentVo) {
         return alipayPaymentLogPoRepository.findAll(new AlipayPaymentSpecification(alipayPaymentVo), new PageRequest(alipayPaymentVo.getPage() - 1, alipayPaymentVo.getPageSize()));
+    }
+
+    @Override
+    public AlipayPaymentLogPo findById(Long id) {
+        return  id !=null ? alipayPaymentLogPoRepository.findOne(id) : null;
     }
 }

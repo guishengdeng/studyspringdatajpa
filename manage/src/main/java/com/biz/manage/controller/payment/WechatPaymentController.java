@@ -1,7 +1,8 @@
 package com.biz.manage.controller.payment;
 
 import com.biz.gbck.dao.mysql.po.payment.WechatPaymentLogPo;
-import com.biz.gbck.vo.payment.pay.AlipayPaymentVo;
+import com.biz.gbck.vo.payment.AlipayPaymentVo;
+import com.biz.gbck.vo.payment.WechatPaymentVo;
 import com.biz.service.payment.interf.WechatPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,7 +25,7 @@ public class WechatPaymentController {
 
     @RequestMapping("wechatpay")
     @PreAuthorize("hasAuthority('OPT_ALIPAY_LIST')")
-    public ModelAndView findList(@ModelAttribute("wechatPaymentVo") AlipayPaymentVo.WechatPaymentVo wechatPaymentVo) {
+    public ModelAndView findList(@ModelAttribute("wechatPaymentVo") WechatPaymentVo wechatPaymentVo) {
         Page<WechatPaymentLogPo> page = wechatPaymentService.findList(wechatPaymentVo);
         return new ModelAndView("payment/wechatpay").addObject("page", page);
     }

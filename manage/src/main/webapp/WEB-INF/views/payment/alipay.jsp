@@ -14,7 +14,37 @@
             #cat-table .operate, #cat-table .status{
                 min-width: 50px;
             }
+            #alipay-table .name{
+                min-width: 150px;
+            }
+            #alipay-table .operate, #alipay-table .status{
+                min-width: 50px;
+            }
+            #alipay-modal-table{
+            }
         </style>
+    </jsp:attribute>
+    <jsp:attribute name="script">
+        <script type="application/javascript">
+            <sec:authorize access="hasAuthority('OPT_ALIPAY_LIST')">
+            $(".alipay-ban-btn").click(function () {
+
+                $("#id-of-alipay").val($(this).data("id"));
+                $("#name-of-ban-alipay").html($(this).data("name"));
+                $("#alipay-disable-confirm-modal").modal();
+            });
+            $(".btn-cancel-ban").click(function () {
+                $("#alipay-disable-confirm-modal").modal("hide");
+            });
+            $(".alipay-ban-btn").click(function () {
+                var alipayId = $("#id-of-alipay").val();
+                console.log(alipayId);
+                $.post("alipaylog.do", {
+                    "id": alipayId
+                }, "json");
+            });
+            </sec:authorize>
+        </script>
     </jsp:attribute>
     <jsp:body>
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
@@ -74,12 +104,14 @@
                                     <th class="status">交易金额</th>
                                     <th class="status">数量</th>
                                     <th class="status">支付类型</th>
+                                    <th class="center operate"></th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
                                 <c:forEach items="${page.content}" var="alipay">
                                     <tr id="tr-${alipay.id}">
+                                        <td><c:out value="${alipay.id}" /></td>
                                         <td><c:out value="${alipay. notifyId}" /></td>
                                         <td><c:out value="${alipay.buyerId}"/></td>
                                         <td><c:out value="${alipay.buyerEmail}"/></td>
@@ -95,6 +127,16 @@
                                         <td><c:out value="${alipay.totalFee}"/></td>
                                         <td><c:out value="${alipay.quantity}"/></td>
                                         <td><c:out value="${alipay.paymentType}"/></td>
+                                        <td><div class="hidden-sm hidden-xs btn-group">
+                                            <sec:authorize access="hasAuthority('OPT_ALIPAY_LIST')">
+                                                <c:if test="${param.enabled != 'false'}">
+                                                    <button data-id="${aplipay.id}"
+                                                       class="alipay-ban-btn">
+                                                        <i class="ace-icon fa fa-search-plus bigger-130"></i>
+                                                    </button>
+                                                </c:if>
+                                            </sec:authorize>
+                                        </div></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -102,6 +144,65 @@
                             <gbck:springPagePagination url="alipay.do" springPage="${page}" />
                         </div><!-- /.span -->
                     </div><!-- /.row -->
+                    <sec:authorize access="hasAuthority('OPT_ALIPAY_LIST')">
+                        <input type="hidden" id="id-of-alipay">
+                        <div id="alipay-disable-confirm-modal" role="dialog" class="modal" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-body" id="alipay-modal-table" >
+                                        <table id="alipay-table" class="table table-bordered table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th class="name">通知编号</th>
+                                                <th>买家支付宝用户号</th>
+                                                <th class="status">买家支付宝账号</th>
+                                                <th class="status">是否使用红包</th>
+                                                <th class="status">更新时间</th>
+                                                <th class="status">主题</th>
+                                                <th class="status">是否调整总价</th>
+                                                <th class="status">折扣</th>
+                                                <th class="status">销交易状态</th>
+                                                <th class="status">交易创建时间</th>
+                                                <th class="status">交易付款时间</th>
+                                                <th class="status">商品单价</th>
+                                                <th class="status">交易金额</th>
+                                                <th class="status">数量</th>
+                                                <th class="status">支付类型</th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            <c:forEach items="${alipayPaymentLogPo}" var="alipayPaymentLogPo">
+                                                <tr id="tr-${alipayPaymentLogPo.id}">
+                                                    <td><c:out value="${alipayPaymentLogPo. notifyId}" /></td>
+                                                    <td><c:out value="${alipayPaymentLogPo.buyerId}"/></td>
+                                                    <td><c:out value="${alipayPaymentLogPo.buyerEmail}"/></td>
+                                                    <td><c:out value="${alipayPaymentLogPo.useCoupon}"/></td>
+                                                    <td><c:out value="${alipayPaymentLogPo.notifyTime}"/></td>
+                                                    <td><c:out value="${alipayPaymentLogPo.subject}"/></td>
+                                                    <td><c:out value="${alipayPaymentLogPo.isTotalFeeAjust}"/></td>
+                                                    <td><c:out value="${alipayPaymentLogPo.discount}"/></td>
+                                                    <td><c:out value="${alipayPaymentLogPo.tradeStatus}"/></td>
+                                                    <td><c:out value="${alipayPaymentLogPo.gmtCreate}"/></td>
+                                                    <td><c:out value="${alipayPaymentLogPo.gmtPayment}"/></td>
+                                                    <td><c:out value="${alipayPaymentLogPo.price}"/></td>
+                                                    <td><c:out value="${alipayPaymentLogPo.totalFee}"/></td>
+                                                    <td><c:out value="${alipayPaymentLogPo.quantity}"/></td>
+                                                    <td><c:out value="${alipayPaymentLogPo.paymentType}"/></td>
+                                                </tr>
+                                            </c:forEach>
+                                            </tbody>
+                                        </table>
+                                        <button type="button" class="bootbox-close-button close"
+                                                data-dismiss="modal" aria-hidden="true">×
+                                        </button>
+                                        <div class="bootbox-body"> <span id="name-of-ban-alipay"></span>&nbsp;
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </sec:authorize>
                     <!-- PAGE CONTENT ENDS -->
                 </div><!-- /.col -->
             </div><!-- /.row -->

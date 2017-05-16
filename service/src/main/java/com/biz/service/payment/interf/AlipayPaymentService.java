@@ -1,7 +1,7 @@
 package com.biz.service.payment.interf;
 
 import com.biz.gbck.dao.mysql.po.payment.AlipayPaymentLogPo;
-import com.biz.gbck.vo.payment.pay.AlipayPaymentVo;
+import com.biz.gbck.vo.payment.AlipayPaymentVo;
 import org.springframework.data.domain.Page;
 
 /**
@@ -10,4 +10,6 @@ import org.springframework.data.domain.Page;
 public interface AlipayPaymentService {
 
   Page<AlipayPaymentLogPo> findList(AlipayPaymentVo reqVo);
+
+  AlipayPaymentLogPo findById(Long id);
 }

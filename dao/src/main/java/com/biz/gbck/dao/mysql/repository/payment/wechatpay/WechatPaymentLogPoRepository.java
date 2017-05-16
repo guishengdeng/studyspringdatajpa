@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
  * @see
  */
 @Repository
-public interface WechatPaymentLogPoRepository extends CommonJpaRepository<WechatPaymentLogPo, Long> ,JpaSpecificationExecutor<WechatPaymentLogPo> , WechatPaymentLogDao {
+public interface WechatPaymentLogPoRepository extends CommonJpaRepository<WechatPaymentLogPo, Long> ,JpaSpecificationExecutor<WechatPaymentLogPo>  {
 
 }
 
