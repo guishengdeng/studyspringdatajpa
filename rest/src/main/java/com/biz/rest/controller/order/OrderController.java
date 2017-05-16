@@ -1,5 +1,6 @@
 package com.biz.rest.controller.order;
 
+import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.IdReqVo;
@@ -11,10 +12,11 @@ import com.biz.gbck.vo.payment.resp.PaymentRespVo;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.service.order.frontend.OrderFrontendService;
 import com.biz.support.web.handler.JSONResult;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 订单controller
@@ -33,7 +35,7 @@ public class OrderController extends BaseRestController {
 
     //订单列表
     @RequestMapping("/list")
-    public JSONResult allTypeOrders(HttpServletRequest request) {
+    public JSONResult allTypeOrders(HttpServletRequest request) throws DepotNextDoorException {
         OrderListReqVo reqVo = super.parseBizData(request, OrderListReqVo.class);
         PageRespVo pageRespVo = orderService.listOrders(reqVo);
         return new JSONResult(pageRespVo);
@@ -41,7 +43,7 @@ public class OrderController extends BaseRestController {
 
     //订单详情
     @RequestMapping("/detail")
-    public JSONResult orderDetail(HttpServletRequest request) {
+    public JSONResult orderDetail(HttpServletRequest request) throws DepotNextDoorException {
         IdReqVo reqVo = super.parseBizData(request, IdReqVo.class);
         OrderRespVo orderRespVo = orderService.getOrderDetail(reqVo);
         return new JSONResult(orderRespVo);

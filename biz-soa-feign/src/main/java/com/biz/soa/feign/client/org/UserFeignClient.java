@@ -4,18 +4,11 @@ import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
-import com.biz.gbck.vo.org.AutoLoginReqVo;
-import com.biz.gbck.vo.org.ChangePwdVo;
-import com.biz.gbck.vo.org.ForgotPasswordReqVo;
-import com.biz.gbck.vo.org.UserChangeAvatarReqVo;
-import com.biz.gbck.vo.org.UserChangeMobileReqVo;
-import com.biz.gbck.vo.org.UserLoginReqVo;
-import com.biz.gbck.vo.org.UserRegisterReqVo;
-import com.biz.gbck.vo.org.ValidateUserLoginPwdReqVo;
+import com.biz.gbck.exceptions.DepotNextDoorException;
+import com.biz.gbck.vo.org.*;
 import com.biz.soa.feign.hystrix.org.UserFeignClientHystrix;
 import com.biz.support.web.handler.JSONResult;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,22 +25,22 @@ public interface UserFeignClient {
     String test();
 
     @RequestMapping(value = "/soa/user/findUser", method = RequestMethod.POST)
-    UserRo findUser(@RequestParam("userId") Long userId) throws CommonException;
+    UserRo findUser(@RequestParam("userId") Long userId) throws DepotNextDoorException;
 
     /**
      * 用户注册
      */
     @RequestMapping(value = "/soa/user/register", method = RequestMethod.POST, consumes = "application/json")
-    JSONResult register(@RequestBody UserRegisterReqVo userRegisterReqVo) throws CommonException;
+    JSONResult register(@RequestBody UserRegisterReqVo userRegisterReqVo) throws DepotNextDoorException;
 
     @RequestMapping(value = "/soa/user/forgotPassword", method = RequestMethod.POST)
-    JSONResult forgotPassword(@RequestBody ForgotPasswordReqVo forgotPasswordReqVo) throws CommonException;
+    JSONResult forgotPassword(@RequestBody ForgotPasswordReqVo forgotPasswordReqVo) throws DepotNextDoorException;
 
     /**
      * 登录
      */
     @RequestMapping(value = "/soa/user/login", method = RequestMethod.POST)
-    JSONResult login(@RequestBody UserLoginReqVo userLoginReqVo) throws CommonException;
+    JSONResult login(@RequestBody UserLoginReqVo userLoginReqVo) throws DepotNextDoorException;
 
 
     /**
@@ -60,7 +53,7 @@ public interface UserFeignClient {
      * 自动登陆详情(此接口会绑定token)
      */
     @RequestMapping(value = "/soa/user/autoLogin", method = RequestMethod.POST)
-    JSONResult autoLogin(@RequestBody AutoLoginReqVo reqVo) throws CommonException;
+    JSONResult autoLogin(@RequestBody AutoLoginReqVo reqVo) throws DepotNextDoorException;
 
 
     /**
