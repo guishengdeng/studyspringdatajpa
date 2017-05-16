@@ -1,6 +1,5 @@
 package com.biz.soa.feign.client.org;
 
-import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
@@ -60,28 +59,28 @@ public interface UserFeignClient {
      * 变更用户绑定手机号码
      */
     @RequestMapping(value = "/soa/user/changeMobile", method = RequestMethod.POST)
-    JSONResult changeMobile(@RequestBody UserChangeMobileReqVo userChangeMobileReqVo) throws CommonException;
+    JSONResult changeMobile(@RequestBody UserChangeMobileReqVo userChangeMobileReqVo) throws DepotNextDoorException;
 
 
     /**
      * 修改用户头像
      */
     @RequestMapping(value = "/soa/user/changeAvatar", method = RequestMethod.POST)
-    JSONResult updateAvatar(@RequestBody UserChangeAvatarReqVo userChangeAvatarReqVo) throws CommonException;
+    JSONResult updateAvatar(@RequestBody UserChangeAvatarReqVo userChangeAvatarReqVo) throws DepotNextDoorException;
 
 
     /**
      * 修改用户密码
      */
     @RequestMapping(value = "/soa/user/changePwd", method = RequestMethod.POST)
-    JSONResult changePwd(@RequestBody ChangePwdVo changePwdVo) throws CommonException;
+    JSONResult changePwd(@RequestBody ChangePwdVo changePwdVo) throws DepotNextDoorException;
 
 
     /**
      * 验证登录密码
      */
     @RequestMapping(value = "/soa/user/validateLoginPassword", method = RequestMethod.POST)
-    JSONResult validateLoginPwd(@RequestBody ValidateUserLoginPwdReqVo validateUserLoginPwdReqVo) throws CommonException;
+    JSONResult validateLoginPwd(@RequestBody ValidateUserLoginPwdReqVo validateUserLoginPwdReqVo) throws DepotNextDoorException;
 
 
     /**
