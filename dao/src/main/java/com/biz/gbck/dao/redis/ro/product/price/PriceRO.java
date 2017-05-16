@@ -4,7 +4,7 @@ import com.biz.redis.annotation.Ro;
 import com.biz.redis.bean.BaseRedisObject;
 
 /**
- * 商品Ro(RoID为: 商品编码 + 客户组ID
+ * 商品Ro(RoID为: 商品ID + 客户组ID
  * Created by david-liu on 2017/04/21 13:49.
  */
 @Ro(key = "product:PriceRo")
@@ -30,6 +30,11 @@ public class PriceRO extends BaseRedisObject<String> {
      * 商品编码
      */
     private String productCode;
+
+    /**
+     * 商品ID
+     */
+    private Long productId;
 
     /**
      * 采购价
@@ -115,6 +120,14 @@ public class PriceRO extends BaseRedisObject<String> {
         this.suggestPrice = suggestPrice;
     }
 
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
     @Override
     public String toString() {
         return "PriceRO{" +
@@ -122,6 +135,7 @@ public class PriceRO extends BaseRedisObject<String> {
                 ", companyGroupId=" + companyGroupId +
                 ", priceGroupId=" + priceGroupId +
                 ", productCode='" + productCode + '\'' +
+                ", productId=" + productId +
                 ", purchasePrice=" + purchasePrice +
                 ", dynamicAveragePrice=" + dynamicAveragePrice +
                 ", salePrice=" + salePrice +

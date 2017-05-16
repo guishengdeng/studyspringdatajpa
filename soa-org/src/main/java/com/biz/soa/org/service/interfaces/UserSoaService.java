@@ -35,16 +35,15 @@ import java.util.Set;
 public interface UserSoaService {
     /**
      * 根据商户id查找对应AdminId 集合
-     *
      */
-    List<Long> findAdminUserIdsByShopId(Long shopId, Boolean isAdmin) ;
+    List<Long> findAdminUserIdsByShopId(Long shopId, Boolean isAdmin);
 
     List<UserPo> findAdminUsersByShopId(Long shopId, Boolean isAdmin);
 
     /**
      * 新建用户
      */
-   UserLoginResVo createUserAndShop(UserRegisterReqVo userRegisterReqVo)
+    UserLoginResVo createUserAndShop(UserRegisterReqVo userRegisterReqVo)
             throws CommonException;
 
     /**
@@ -55,12 +54,12 @@ public interface UserSoaService {
     /**
      * 创建用户
      */
-     UserRo createUser(UserPo userPo) throws CommonException;
+    UserRo createUser(UserPo userPo) throws CommonException;
 
     /**
      * 保存用户
      */
-    UserRo saveUser(UserPo userPo) ;
+    UserRo saveUser(UserPo userPo);
 
     UserLoginResVo buildRespVo(UserRo userRo) throws CommonException;
 
@@ -69,19 +68,19 @@ public interface UserSoaService {
     /**
      * 用户登录
      */
-    UserLoginResVo login(UserLoginReqVo userLoginReqVo) throws CommonException ;
+    UserLoginResVo login(UserLoginReqVo userLoginReqVo) throws CommonException;
 
-    UserLoginResVo autoLogin(AutoLoginReqVo autoLoginReqVo) throws CommonException ;
+    UserLoginResVo autoLogin(AutoLoginReqVo autoLoginReqVo) throws CommonException;
 
     void logout(CommonReqVoBindUserId commonReqVoBindUserId);
 
     /**
      * 用户通过忘记密码，上传新密码及短信验证码来修改密码
      */
-    void forgotPassword(ForgotPasswordReqVo forgotPasswordReqVo) throws CommonException ;
+    void forgotPassword(ForgotPasswordReqVo forgotPasswordReqVo) throws CommonException;
 
 
-    void tokenChange(AutoLoginReqVo reqVo) throws CommonException ;
+    void tokenChange(AutoLoginReqVo reqVo) throws CommonException;
 
 
     /**
@@ -89,14 +88,14 @@ public interface UserSoaService {
      */
     UserRo findUser(Long userId) throws CommonException;
 
-    UserPo findAdminByShopId(Long shopId) ;
+    UserPo findAdminByShopId(Long shopId);
 
     List<UserPo> findByUserIds(Set<Long> userIds);
 
     /**
      * 通过电话号码查用户
      */
-    UserRo findUserByMobile(String mobile) ;
+    UserRo findUserByMobile(String mobile);
 
     /**
      * 通过电话号码查用户
@@ -106,7 +105,7 @@ public interface UserSoaService {
     /**
      * 通过电话号码查用户
      */
-    public UserPo findUserPoByAccount(String mobile) ;
+    public UserPo findUserPoByAccount(String account);
 
     /**
      * 禁用用户
@@ -118,7 +117,8 @@ public interface UserSoaService {
      */
     @Deprecated
     @Transactional
-    void destroyUserById(Long userId, String handler) ;
+    void destroyUserById(Long userId, String handler);
+
     /**
      * 查找商户所有员工
      */
@@ -129,7 +129,7 @@ public interface UserSoaService {
      *
      * @param areaType IArea.LEVEL_*
      */
-    List<Long> findUserIdByAreaId(Integer areaType, Integer areaId) throws CommonException ;
+    List<Long> findUserIdByAreaId(Integer areaType, Integer areaId) throws CommonException;
 
     /**
      * 获取某个商户类型的用户Ids（后台使用 ，不要求高并发）
@@ -140,7 +140,8 @@ public interface UserSoaService {
      * 获取区域下的 某个商户类型的用户Id（后台使用 ，不要求高并发）
      */
     List<Long> findUserIdByAreaAndUserType(Integer areaType, Integer areaId,
-                                           Integer shopTypeId) throws CommonException ;
+                                           Integer shopTypeId) throws CommonException;
+
     /**
      * 获取所有用户Id（后台使用 ，不要求高并发）
      */
@@ -166,7 +167,7 @@ public interface UserSoaService {
 
     RecommendConditionVo getRecommendConditionVo(Long userId) throws CommonException;
 
-    RecommendConditionVo2 getRecommendConditionVo2(Long userId) throws CommonException ;
+    RecommendConditionVo2 getRecommendConditionVo2(Long userId) throws CommonException;
 
     /**
      * 更改手机号
@@ -185,14 +186,14 @@ public interface UserSoaService {
 
     Long findUserIdByBaidu(Long baiduUserId, String mobile, Integer geoCode) throws CommonException;
 
-    void syncAllUserFromMysqlToRedis(Integer pageSize) ;
+    void syncAllUserFromMysqlToRedis(Integer pageSize);
 
     /**
      * 同步UserPo到redis数据库
      */
     //UserRo syncUserPoToRedis(UserPo userPo);
 
-    List<UserPo> searchUsers(SearchUserReqVo vo) ;
+    List<UserPo> searchUsers(SearchUserReqVo vo);
 
 
     void updateUserStatus(Long id, Integer status);
@@ -210,14 +211,14 @@ public interface UserSoaService {
      */
     List<String> getBlockList();
 
-    void changePwd(final ChangePwdVo changePwdVo) throws CommonException ;
+    void changePwd(final ChangePwdVo changePwdVo) throws CommonException;
 
-    boolean validateUserLoginPwd(Long userId, String md5Password) throws CommonException ;
+    boolean validateUserLoginPwd(Long userId, String md5Password) throws CommonException;
 
     /**
      * 注册失败到OMS用户列表, 定时任务
      */
-     void registerFailedUsers();
+    void registerFailedUsers();
 
-   //UserResponseVo findByMemberIdCondition(MemberIdRequestVo memberIdRequestVo); //刘伟引入的
+    //UserResponseVo findByMemberIdCondition(MemberIdRequestVo memberIdRequestVo); //刘伟引入的
 }

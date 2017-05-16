@@ -58,6 +58,11 @@ biz:
     accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
     bucketName: gbck-test
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7777/eureka
+
 server:
   session:
     timeout: 1200

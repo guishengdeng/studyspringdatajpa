@@ -1,6 +1,7 @@
 package com.biz.soa.builder;
 
 import com.biz.core.asserts.SystemAsserts;
+import com.biz.core.util.DateUtil;
 import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.dao.mysql.po.order.OrderInvoice;
 import com.biz.gbck.dao.mysql.po.order.OrderItem;
@@ -28,7 +29,6 @@ public class OrderBuilder extends AbstractOrderBuilder {
     public static OrderBuilder createBuilder(OrderCreateReqVo reqVo){
         OrderBuilder builder = new OrderBuilder();
         builder.order = new Order();
-        builder.order.setDescription(StringUtils.trim(reqVo.getDescription()));
         builder.order.setDescription(StringUtils.trim(reqVo.getDescription()));
         builder.order.setInvoice(createInvoice(reqVo));
         return builder;
@@ -66,8 +66,8 @@ public class OrderBuilder extends AbstractOrderBuilder {
     }
 
     //运费
-    public OrderBuilder setFreight(Integer freightAmount){
-        order.setFreightAmount(freightAmount);
+    public OrderBuilder setFreight(Integer freight){
+        order.setFreight(freight);
         return this;
     }
 
@@ -80,16 +80,10 @@ public class OrderBuilder extends AbstractOrderBuilder {
 
     //支付金额
     public OrderBuilder setPaymentType(PaymentType paymentType){
+        SystemAsserts.notNull(order.getPaymentType(), "订单支付方式为空");
         order.setPaymentType(paymentType);
         return this;
     }
-
-    //过期时间
-    public OrderBuilder setExpireTime(Timestamp expireTime){
-        order.setExpireTimestamp(expireTime);
-        return this;
-    }
-
 
 
     //发票
@@ -111,11 +105,16 @@ public class OrderBuilder extends AbstractOrderBuilder {
         SystemAsserts.notNull(order.getUserId(), "买家Id为空");
         SystemAsserts.notNull(order.getSellerId(), "卖家Id为空");
         SystemAsserts.notNull(order.getOrderAmount(), "订单总金额为空");
+        SystemAsserts.notNull(order.getPaymentType(), "订单支付方式为空");
         SystemAsserts.notEmpty(order.getItems(), "订单明细为空");
         SystemAsserts.notNull(order.getConsignee(), "收货信息为空");
 
         order.setId(id);
         order.setOrderCode(orderCode);
+        Timestamp createTime = DateUtil.now();
+        Timestamp expireTime = new Timestamp(createTime.getTime() + DateUtil.DAY);
+        order.setCreateTimestamp(createTime);
+        order.setExpireTimestamp(expireTime);
         return order;
     }
 

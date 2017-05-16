@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.web.DispatcherServletAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
@@ -26,6 +27,8 @@ import org.springframework.web.servlet.DispatcherServlet;
 @EnableFeignClients(basePackages = "com.biz.soa.feign")
 @EnableEurekaClient
 @ComponentScan(basePackages = {"com.biz", "com.biz.rest.controller"})
+@EnableCircuitBreaker
+@ComponentScan(basePackages = {"com.biz.rest.controller"})
 public class RestApplication {
 
     public static void main(String[] args) {

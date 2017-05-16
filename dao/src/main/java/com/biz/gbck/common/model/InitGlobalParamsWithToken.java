@@ -11,8 +11,8 @@ public interface InitGlobalParamsWithToken extends InitGlobalParams,Serializable
 
     GlobalParams getGlobalParams();
     
-	public String getToken();
+	public String getPushToken();
 
-	public void setToken(String token);
+	public void setPushToken(String pushToken);
 
 }

@@ -3,11 +3,10 @@ package com.biz.soa.product.controller;
 import com.biz.gbck.vo.product.gbck.request.ProductAppDetailReqVo;
 import com.biz.gbck.vo.product.gbck.request.ProductAppListReqVo;
 import com.biz.gbck.vo.product.gbck.response.ProductAppDetailRespVO;
-import com.biz.gbck.vo.product.gbck.response.ProductAppListItemVo;
+import com.biz.gbck.vo.product.gbck.response.ProductAppListRespVO;
 import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.soa.base.SoaBaseController;
 import com.biz.soa.product.cloud.feign.PromotionFeignClient;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +25,7 @@ public class SoaProductController extends SoaBaseController {
     private PromotionFeignClient promotionClient;
 
     @GetMapping(value = "/app/list")
-    public MicroServiceResult<List<ProductAppListItemVo>> appProductList(ProductAppListReqVo reqVo) {
+    public MicroServiceResult<ProductAppListRespVO> appProductList(ProductAppListReqVo reqVo) {
         return render200(null);
     }
 

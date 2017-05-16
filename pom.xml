@@ -45,6 +45,7 @@
         <module>rest</module>
         <module>service</module>
         <module>search</module>
+        <module>rest-pda</module>
     </modules>
 
     <properties>
@@ -65,6 +66,7 @@
         <service.version>1.0-SNAPSHOT</service.version>
         <search.version>1.0-SNAPSHOT</search.version>
         <notice.version>1.0-SNAPSHOT</notice.version>
+        <rest.pda.version>1.0.0-SNAPSHOT</rest.pda.version>
 
         <soa.promotion.version>1.0-SNAPSHOT</soa.promotion.version>
         <soa.product.version>1.0-SNAPSHOT</soa.product.version>
@@ -434,6 +436,11 @@
                 <groupId>com.biz.gbck</groupId>
                 <artifactId>soa-order</artifactId>
                 <version>${soa.order.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.biz.gbck</groupId>
+                <artifactId>rest-pda</artifactId>
+                <version>${rest.pda.version}</version>
             </dependency>
         </dependencies>
 

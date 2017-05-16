@@ -1,11 +1,10 @@
 package com.biz.gbck.dao.redis.ro.stock;
 
+import com.biz.core.util.DateUtil;
 import com.biz.gbck.common.Constant;
 import com.biz.redis.annotation.RedisWriteIgnore;
 import com.biz.redis.annotation.Ro;
 import com.biz.redis.bean.BaseRedisObject;
-
-import java.sql.Timestamp;
 
 /**
  * 合伙人锁定库存
@@ -39,13 +38,13 @@ public class PartnerStockRo extends BaseRedisObject<String> {
     public PartnerStockRo() {
     }
 
-    public PartnerStockRo(Long partnerId, Long productId, long stock, Timestamp updateTimestamp) {
+    public PartnerStockRo(Long partnerId, Long productId, Integer quantity) {
         this();
         this.id = String.format("%s%s%s", partnerId, Constant.SEPARATOR, productId);
         this.partnerId = partnerId;
         this.productId = productId;
-        this.quantity = stock < 0 || Math.abs(stock) > Integer.MAX_VALUE ? 0 : (int) stock;
-        this.setUpdateTimestamp(updateTimestamp);
+        this.quantity = quantity;
+        this.setUpdateTimestamp(DateUtil.now());
     }
 
     @Override

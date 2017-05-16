@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
  * Created by david-liu on 2017/04/21 12:04.
  */
 @Repository
-public class ProductRedisDao extends CrudRedisDao<ProductRO, String> {
+public class ProductRedisDao extends CrudRedisDao<ProductRO, Long> {
 
     public void incrSalesVolume(List<ProductIncrSaleVolumeItemVo> vos) {
         Preconditions.checkArgument(CollectionUtils.isNotEmpty(vos), "已售商品集合不能为空");

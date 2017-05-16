@@ -21,17 +21,17 @@ public class PriceGroupProductCodePriceReqVO implements Serializable {
     /**
      * 商品编码
      */
-    @NotEmpty(message = "商品编码不能为空")
-    private String productCode;
+    @NotEmpty(message = "商品ID不能为空")
+    private Long productId;
 
     /**
      * 上级采购方ID
      */
     private Long sellerId;
 
-    public PriceGroupProductCodePriceReqVO(Long priceGroupId, String productCode, Long sellerId) {
+    public PriceGroupProductCodePriceReqVO(Long priceGroupId, Long productId, Long sellerId) {
         this.priceGroupId = priceGroupId;
-        this.productCode = productCode;
+        this.productId = productId;
         this.sellerId = sellerId;
     }
 
@@ -43,12 +43,12 @@ public class PriceGroupProductCodePriceReqVO implements Serializable {
         this.priceGroupId = priceGroupId;
     }
 
-    public String getProductCode() {
-        return productCode;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
     public Long getSellerId() {

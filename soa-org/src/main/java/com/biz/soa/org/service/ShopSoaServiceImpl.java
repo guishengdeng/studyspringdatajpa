@@ -71,8 +71,8 @@ import com.biz.manage.vo.FailDetail;
 import com.biz.service.CommonService;
 import com.biz.service.org.interfaces.ShopService;
 import com.biz.service.org.interfaces.ShopTypeService;
-import com.biz.service.org.interfaces.UserService;
 import com.biz.soa.org.service.interfaces.ShopSoaService;
+import com.biz.soa.org.service.interfaces.UserSoaService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang.StringUtils;
@@ -125,7 +125,7 @@ public class ShopSoaServiceImpl extends CommonService  implements ShopSoaService
     private static final Logger logger = LoggerFactory.getLogger(ShopService.class);
 
     @Autowired
-    private UserService userService;
+    private UserSoaService userSoaService;
 
     @Autowired
     private ShopDetailRepository shopDetailRepository;
@@ -165,7 +165,7 @@ public class ShopSoaServiceImpl extends CommonService  implements ShopSoaService
 
     @Override
     public ShopRo createShop(Long userId, String corporateName, String inviterCode) {
-        UserPo userPo = userService.findUserById(userId);
+        UserPo userPo = userSoaService.findUserById(userId);
         ShopPo shopPo;
         if (userPo.getShop() != null) {
             shopPo = userPo.getShop();
@@ -213,14 +213,14 @@ public class ShopSoaServiceImpl extends CommonService  implements ShopSoaService
         userCreateVo.setMobile(shopEditVo.getMobile());
         userCreateVo.setOriginalPassword("00000000");
         userCreateVo.setPassword(StringTool.encodedByMD5(userCreateVo.getOriginalPassword()));
-        UserRo user = userService.createUser(userCreateVo, admin);
+        UserRo user = userSoaService.createUser(userCreateVo, admin);
 
         ShopRo shopRo = createShop(Long.valueOf(user.getId()), shopEditVo.getCorporateName(), null);
 
-        userPo = userService.findUserById(Long.valueOf(user.getId()));
+        userPo = userSoaService.findUserById(Long.valueOf(user.getId()));
         userPo.setShop(findShopPo(Long.valueOf(shopRo.getId())));
         userPo.setIsAdmin(true);
-        userService.saveUser(userPo);
+        userSoaService.saveUser(userPo);
         shopEditVo.setShopId(Long.valueOf(shopRo.getId()));
         adminNewShop(shopEditVo, admin);
         ShopPo shopPo = findShopPo(Long.valueOf(shopRo.getId()));
@@ -324,7 +324,7 @@ public class ShopSoaServiceImpl extends CommonService  implements ShopSoaService
 
     @Override
     public ShopRo findShopByUserId(Long userId) throws CommonException {
-        UserRo user = userService.findUser(userId);
+        UserRo user = userSoaService.findUser(userId);
         return user == null ? null : findShop(user.getShopId());
     }
 
@@ -340,7 +340,7 @@ public class ShopSoaServiceImpl extends CommonService  implements ShopSoaService
 
     @Override
     public void updateDetail(ShopUpdateDetailReqVo reqVo) throws CommonException {
-        UserRo user = userService.findUser(reqVo.getUserId());
+        UserRo user = userSoaService.findUser(reqVo.getUserId());
         validateShopOperateAuthority(user.getIsAdmin(), reqVo.getShopId(), user.getShopId());
 
         List<ShopDetailPo> shopDetailsOfWaitForAudit = shopDetailRepository
@@ -391,7 +391,7 @@ public class ShopSoaServiceImpl extends CommonService  implements ShopSoaService
 
     @Override
     public ShopDetailPo findLatestDetail(ShopDetailOrQualificationGetReqVo reqVo) throws CommonException {
-        UserRo user = userService.findUser(reqVo.getUserId());
+        UserRo user = userSoaService.findUser(reqVo.getUserId());
         validateShopOperateAuthority(user.getIsAdmin(), reqVo.getShopId(), user.getShopId());
         ShopDetailPo latestShopDetailPo = CollectionUtils
                 .getFirstOrNull(shopDetailRepository.findByShopIdOrderByIdDesc(user.getShopId()));
@@ -468,7 +468,7 @@ public class ShopSoaServiceImpl extends CommonService  implements ShopSoaService
     @Override
     public void updateQualification(ShopUpdateQualificationReqVo reqVo) throws CommonException {
 
-        UserRo user = userService.findUser(reqVo.getUserId());
+        UserRo user = userSoaService.findUser(reqVo.getUserId());
         validateShopOperateAuthority(user.getIsAdmin(), reqVo.getShopId(), user.getShopId());
 
         List<ShopQualificationPo> shopQualificationsOfWaitForAudit = shopQualificationRepository
@@ -500,7 +500,7 @@ public class ShopSoaServiceImpl extends CommonService  implements ShopSoaService
 
     @Override
     public ShopQualificationPo findLatestQualification(ShopDetailOrQualificationGetReqVo reqVo) throws CommonException {
-        UserRo user = userService.findUser(reqVo.getUserId());
+        UserRo user = userSoaService.findUser(reqVo.getUserId());
         validateShopOperateAuthority(user.getIsAdmin(), reqVo.getShopId(), user.getShopId());
         return CollectionUtils.getFirstOrNull(
                 shopQualificationRepository.findByShopIdOrderByIdDesc(reqVo.getShopId()));
@@ -718,7 +718,7 @@ public class ShopSoaServiceImpl extends CommonService  implements ShopSoaService
 
     @Override
     public void changeDeliveryAddress(ShopChangeDeliveryAddressReqVo reqVo) throws CommonException {
-        UserRo user = userService.findUser(reqVo.getUserId());
+        UserRo user = userSoaService.findUser(reqVo.getUserId());
         validateShopOperateAuthority(user.getIsAdmin(), reqVo.getShopId(), user.getShopId());
 
         List<ShopDetailPo> unNormalDetails = shopDetailRepository
@@ -766,7 +766,7 @@ public class ShopSoaServiceImpl extends CommonService  implements ShopSoaService
 
     @Override
     public void changeDeliveryName(UserChangeDeliveryNameReqVo reqVo) throws CommonException {
-        UserRo user = userService.findUser(reqVo.getUserId());
+        UserRo user = userSoaService.findUser(reqVo.getUserId());
         validateShopOperateAuthority(user.getIsAdmin(), user.getShopId(), user.getShopId());
         ShopPo shopPo = shopRepository.findOne(user.getShopId());
         shopPo.setDeliveryName(reqVo.getDeliveryName());
@@ -1039,7 +1039,7 @@ public class ShopSoaServiceImpl extends CommonService  implements ShopSoaService
             Set<UserPo> users = shopPo.getUsers();
             if (CollectionUtils.isNotEmpty(users)) {
                 for (UserPo user : users) {
-                    userService.destroyUserById(user.getId(), handler);
+                    userSoaService.destroyUserById(user.getId(), handler);
                 }
             }
             shopDetailRepository
@@ -1060,7 +1060,7 @@ public class ShopSoaServiceImpl extends CommonService  implements ShopSoaService
         ShopPo shopPo = findShopPo(shopId);
         if (Objects.equals(shopPo.getDetailAuditStatus(), AuditStatus.NORMAL.getValue()) && Objects
                 .equals(shopPo.getQualificationAuditStatus(), AuditStatus.NORMAL.getValue())) {
-            //publishEvent(new VoucherDispatcherEvent(this, userService.findAdminByShopId(shopId)));
+            //publishEvent(new VoucherDispatcherEvent(this, userSoaService.findAdminByShopId(shopId)));
         }
     }
 
@@ -1127,7 +1127,7 @@ public class ShopSoaServiceImpl extends CommonService  implements ShopSoaService
         if (mobile != null && mobile.length() != 0) {
             SearchUserReqVo vo = new SearchUserReqVo();
             vo.setMobile(mobile);
-            users = userService.searchUsers(vo);
+            users = userSoaService.searchUsers(vo);
             if (users.size() != 0) {
                 List<SearchShopRespVo> shoplist = this.findshopListByUserlist(users);
                 if (shoplist.size() != 0) {
@@ -1165,7 +1165,7 @@ public class ShopSoaServiceImpl extends CommonService  implements ShopSoaService
     public List<ShopPo> searchPageShops(ShopQueryReqVo reqVo, PageControl pc) {
         String mobile = reqVo.getMobile();
         if (StringUtils.isNotBlank(mobile)) {
-            UserRo ro = userService.findUserByMobile(mobile);
+            UserRo ro = userSoaService.findUserByMobile(mobile);
             if (ro != null) {
                 reqVo.setId(ro.getShopId());
                 reqVo.setMobile(null);
@@ -1224,7 +1224,7 @@ public class ShopSoaServiceImpl extends CommonService  implements ShopSoaService
 //                if (CollectionUtils.isNotEmpty(usersOfShop)) {
 //                    for (UserPo userPo : usersOfShop) {
 //                        if (userPo != null) {
-//                            UserRo userRo = userService.findUser(userPo.getId());
+//                            UserRo userRo = userSoaService.findUser(userPo.getId());
 //                            if (userRo != null && userRo.getIsAdmin()) {
 //                                vo.setLatestLoginTime(userRo.getLastLoginTime());
 //                                break;
@@ -1351,7 +1351,7 @@ public class ShopSoaServiceImpl extends CommonService  implements ShopSoaService
 
     public void changeShopPaymentPassword(ChangePaymentPwdReqVo reqVo) throws CommonException {
         Long userId = reqVo.getUserId();
-        UserRo userRo = userService.findUser(userId);
+        UserRo userRo = userSoaService.findUser(userId);
         ShopRo shopRo = findShopByUserId(userId);
         if (userRo == null) {
             throw new CommonException("未找到指定的用户", ExceptionCode.User.USER_NOT_EXIST);
@@ -1385,7 +1385,7 @@ public class ShopSoaServiceImpl extends CommonService  implements ShopSoaService
     }
 
     public boolean validatePaymentPassword(Long userId, String md5Password) throws CommonException {
-        UserRo userRo = userService.findUser(userId);
+        UserRo userRo = userSoaService.findUser(userId);
         Long shopId = userRo.getShopId();
         ShopRo shopRo = shopRedisDao.findOne(String.valueOf(shopId));
         if (shopId == null || shopRo == null) {
@@ -1469,7 +1469,7 @@ public class ShopSoaServiceImpl extends CommonService  implements ShopSoaService
 //            zsgfLoanApplyPo.setQuota(quota != null ? quota * 100 : null);
 //            zsgfLoanApplyRepository.save(zsgfLoanApplyPo);
 //            Long currentShopId = zsgfLoanApplyPo.getShop().getId();
-//            List<UserPo> shopAdminUsers = userService.findAdminUsersByShopId(currentShopId, true);
+//            List<UserPo> shopAdminUsers = userSoaService.findAdminUsersByShopId(currentShopId, true);
 //            sendLoanShortMessage(currentShopId, shopAdminUsers, LoanApplyType.ZSGF);
 //            sendLoanPushMessage(currentShopId, shopAdminUsers, LoanApplyType.ZSGF);
 //            return true;
@@ -1495,7 +1495,7 @@ public class ShopSoaServiceImpl extends CommonService  implements ShopSoaService
 
     public void sendLoanNotice(Long shopId, LoanApplyType loanApplyType)
             throws CommonException {
-        List<UserPo> users = userService.findAdminUsersByShopId(shopId, true);
+        List<UserPo> users = userSoaService.findAdminUsersByShopId(shopId, true);
         sendLoanShortMessage(shopId, users, loanApplyType);
     }
 
@@ -1614,7 +1614,7 @@ public class ShopSoaServiceImpl extends CommonService  implements ShopSoaService
             String mobile = user.getMobile();
             String depotId = user.getDepotId();
             if (mobile != null && mobile.length() == 11) {
-                UserRo userRo = userService.findUserByMobile(mobile);
+                UserRo userRo = userSoaService.findUserByMobile(mobile);
                 if (userRo == null) {
                     List<ShopPo> existShops = this.findShopByMobile(mobile);
                     if (CollectionUtils.isEmpty(existShops)) {
