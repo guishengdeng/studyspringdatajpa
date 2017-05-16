@@ -499,7 +499,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 		payment.setPayAmount(order.getPayAmount());
 		payment.setPaymentType(paymentType);
 		payment.setPayStatus(PaymentStatus.CREATE_PAYMENT);
-		payment.setSubject(order.getSubject()); //TODO
+		payment.setSubject(order.getSubject());
 		paymentRepository.save(payment);
 		logger.debug("create new payment, orderId={}, paymentType={}, paymentId={}", order.getId(), paymentType, payment.getId());
 		return payment;
