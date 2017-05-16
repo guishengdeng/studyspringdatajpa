@@ -363,7 +363,9 @@ public class Order extends BaseEntity {
     /**
      * 是否可以申请售后
      */
-    public boolean isReturnable() {
+    public boolean isReturnable(boolean isAdmin) {
+        if (isAdmin)
+            return status == OrderStatus.DELIVERED || status == OrderStatus.FINISHED;
         return status == OrderStatus.FINISHED;
     }
 }

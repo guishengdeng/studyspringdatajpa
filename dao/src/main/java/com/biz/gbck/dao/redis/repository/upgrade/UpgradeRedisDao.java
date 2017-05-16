@@ -95,4 +95,24 @@ public class UpgradeRedisDao extends CrudRedisDao<UpgradeRo,String> {
         }
     }
 
+    /**
+     * 根据版本号码，类型查询对应ro
+     */
+    public boolean findByOsAndVersion( String version,String os){
+        String setKey = getKeyByParams(os);
+        long score = UpgradeRo.versionToSroce(version);
+        Set<byte[]> ids =
+                super.zrevrangeByScore(setKey, String.valueOf(score),  String.valueOf(score));
+        if (ids != null && !ids.isEmpty()) {
+            for (byte[] idArr : ids) {
+                String id = new String(idArr);
+                UpgradeRo upgrade = getUpgradeRo(id);
+                if(upgrade != null){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }

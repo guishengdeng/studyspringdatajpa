@@ -1,7 +1,5 @@
 package com.biz.soa.org;
 
-import com.biz.service.product.impl.BrandServiceImpl;
-import com.biz.service.product.impl.CategoryServiceImpl;
 import com.biz.service.system.InitManager;
 import com.biz.support.jpa.repository.CommonRepositoryFactoryBean;
 import org.springframework.boot.SpringApplication;

@@ -4,7 +4,11 @@ import com.biz.core.asserts.BusinessAsserts;
 import com.biz.core.util.*;
 import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.dao.mysql.po.order.OrderPayment;
+import com.biz.gbck.dao.mysql.po.payment.AlipayPaymentLogPo;
+import com.biz.gbck.dao.mysql.po.payment.WechatPaymentLogPo;
 import com.biz.gbck.dao.mysql.repository.order.OrderPaymentRepository;
+import com.biz.gbck.dao.mysql.repository.payment.AlipayPaymentLogPoRepository;
+import com.biz.gbck.dao.mysql.repository.payment.WechatPaymentLogPoRepository;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.order.OrderStatus;
 import com.biz.gbck.enums.order.PaymentStatus;
@@ -22,8 +26,8 @@ import com.biz.pay.alipay.util.AlipaySubmit;
 import com.biz.pay.wechat.WeChatPayFactory;
 import com.biz.pay.wechat.lang.PropertyCollector;
 import com.biz.pay.wechat.req.UnifiedOrder;
-import com.biz.pay.wechat.res.WechatPayNotifyRespVo;
 import com.biz.pay.wechat.res.OrderQueryResponse;
+import com.biz.pay.wechat.res.WechatPayNotifyRespVo;
 import com.biz.pay.wechat.res.WechatPayRespVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.order.frontend.OrderFrontendService;
@@ -60,6 +64,12 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 
 	@Autowired
 	private OrderPaymentRepository paymentRepository;
+
+	@Autowired
+	private WechatPaymentLogPoRepository wechatPaymentLogPoRepository;
+
+	@Autowired
+	private AlipayPaymentLogPoRepository alipayPaymentLogPoRepository;
 	
 	private SyncUtil paymentSyncUtil = new SyncUtil(256);
 
@@ -254,27 +264,27 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 		logger.info("process an alipay trade notify: orderPaymentId[{}], tradeno[{}], tradeStauts[{}]", paymentId, tradeNo, tradeStatus);
 
 		// 保存 alipay支付通知log
-//		AlipayPaymentLogPo logPo = new AlipayPaymentLogPo();
-//		logPo.setId(idService.nextId());
-//		logPo.setOrderPaymentId(paymentId);
-//		logPo.setTransactionId(tradeNo);
-//		logPo.setLog(JsonUtil.obj2Json(params));
-//		logPo.setBuyerEmail(buyerEmail);
-//		logPo.setBuyerId(buyerId);
-//		logPo.setDiscount(discount);
-//		logPo.setGmtCreate(gmtCreate);
-//		logPo.setGmtPayment(gmtPayment);
-//		logPo.setIsTotalFeeAjust(isTotalFeeAdjust);
-//		logPo.setNotifyId(notifyId);
-//		logPo.setNotifyTime(notifyTime);
-//		logPo.setPaymentType(paymentType);
-//		logPo.setPrice(price);
-//		logPo.setTotalFee(totalFee);
-//		logPo.setQuantity(quantity);
-//		logPo.setSubject(subject);
-//		logPo.setTradeStatus(tradeStatus);
-//		logPo.setUseCoupon(useCoupon);
-//		alipayPaymentLogPoRepository.save(logPo);
+		AlipayPaymentLogPo logPo = new AlipayPaymentLogPo();
+		logPo.setId(idService.nextId());
+		logPo.setOrderPaymentId(paymentId);
+		logPo.setTransactionId(tradeNo);
+		logPo.setLog(JsonUtil.obj2Json(params));
+		logPo.setBuyerEmail(buyerEmail);
+		logPo.setBuyerId(buyerId);
+		logPo.setDiscount(discount);
+		logPo.setGmtCreate(gmtCreate);
+		logPo.setGmtPayment(gmtPayment);
+		logPo.setIsTotalFeeAjust(isTotalFeeAdjust);
+		logPo.setNotifyId(notifyId);
+		logPo.setNotifyTime(notifyTime);
+		logPo.setPaymentType(paymentType);
+		logPo.setPrice(price);
+		logPo.setTotalFee(totalFee);
+		logPo.setQuantity(quantity);
+		logPo.setSubject(subject);
+		logPo.setTradeStatus(tradeStatus);
+		logPo.setUseCoupon(useCoupon);
+		alipayPaymentLogPoRepository.save(logPo);
 
         // 将支付宝的支付单号存取到 payment
         this.savePaymentTradeNo(paymentId, tradeNo);
@@ -308,29 +318,29 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 				try {
 					String notifyJson = JsonUtil.obj2Json(notifyRes.getProperties());
 					logger.info("log wechat payment notify:'{}'", notifyJson);
-					//TODO save log
-//					WechatPaymentLogPo paymentLog = new WechatPaymentLogPo();
-//					paymentLog.setId(idService.nextId());
-//					paymentLog.setOrderPaymentId(payment.getId());
-//					paymentLog.setTransactionId(notifyRes.getTransactionId());
-//					paymentLog.setLog(notifyJson);
-//					paymentLog.setTs(new Timestamp(System.currentTimeMillis()));
-//					paymentLog.setResultCode(notifyRes.getResultCode());
-//					paymentLog.setErrCode(notifyRes.getErrorCode());
-//					paymentLog.setErrCodeDes(notifyRes.getErrorDescption());
-//					paymentLog.setOpenid(notifyRes.getOpenId());
-//					paymentLog.setTradeType(notifyRes.getTradeType());
-//					paymentLog.setBankType(notifyRes.getBankType());
-//					paymentLog.setTotalFee(notifyRes.getTotalFee());
-//					paymentLog.setFeeType(notifyRes.getFeeType());
-//					paymentLog.setCashFee(notifyRes.getCashFee());
-//					paymentLog.setCashFeeType(notifyRes.getCashFeeType());
-//					paymentLog.setCouponFee(notifyRes.getCouponFee());
-//					paymentLog.setCouponCount(notifyRes.getCouponCount());
-//					paymentLog.setCouponId(notifyRes.getCouponId());
-//					paymentLog.setAttach(notifyRes.getAttach());
-//					paymentLog.setTimeEnd(new Timestamp(notifyRes.getTimeEnd().getTime()));
-//					wechatPaymentLogPoRepository.save(paymentLog);
+
+					WechatPaymentLogPo paymentLog = new WechatPaymentLogPo();
+					paymentLog.setId(idService.nextId());
+					paymentLog.setOrderPaymentId(payment.getId());
+					paymentLog.setTransactionId(notifyRes.getTransactionId());
+					paymentLog.setLog(notifyJson);
+					paymentLog.setTs(new Timestamp(System.currentTimeMillis()));
+					paymentLog.setResultCode(notifyRes.getResultCode());
+					paymentLog.setErrCode(notifyRes.getErrorCode());
+					paymentLog.setErrCodeDes(notifyRes.getErrorDescption());
+					paymentLog.setOpenid(notifyRes.getOpenId());
+					paymentLog.setTradeType(notifyRes.getTradeType());
+					paymentLog.setBankType(notifyRes.getBankType());
+					paymentLog.setTotalFee(notifyRes.getTotalFee());
+					paymentLog.setFeeType(notifyRes.getFeeType());
+					paymentLog.setCashFee(notifyRes.getCashFee());
+					paymentLog.setCashFeeType(notifyRes.getCashFeeType());
+					paymentLog.setCouponFee(notifyRes.getCouponFee());
+					paymentLog.setCouponCount(notifyRes.getCouponCount());
+					paymentLog.setCouponId(notifyRes.getCouponId());
+					paymentLog.setAttach(notifyRes.getAttach());
+					paymentLog.setTimeEnd(new Timestamp(notifyRes.getTimeEnd().getTime()));
+					wechatPaymentLogPoRepository.save(paymentLog);
 				} catch (Exception e) {
 					logger.info("log wechat payment notify:'{}' failed.", e);
 				}
@@ -489,7 +499,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 		payment.setPayAmount(order.getPayAmount());
 		payment.setPaymentType(paymentType);
 		payment.setPayStatus(PaymentStatus.CREATE_PAYMENT);
-		payment.setSubject(order.getSubject()); //TODO
+		payment.setSubject(order.getSubject());
 		paymentRepository.save(payment);
 		logger.debug("create new payment, orderId={}, paymentType={}, paymentId={}", order.getId(), paymentType, payment.getId());
 		return payment;

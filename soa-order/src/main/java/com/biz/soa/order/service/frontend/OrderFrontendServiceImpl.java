@@ -1,17 +1,18 @@
 package com.biz.soa.order.service.frontend;
 
+import com.biz.core.asserts.BusinessAsserts;
 import com.biz.core.asserts.SystemAsserts;
 import com.biz.core.util.Timers;
 import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.dao.mysql.po.order.OrderItem;
-import com.biz.gbck.dao.mysql.repository.order.OrderRepository;
-import com.biz.gbck.dao.redis.repository.order.OrderRedisDao;
+import com.biz.gbck.dao.mysql.po.order.OrderReturn;
 import com.biz.gbck.enums.order.OrderShowStatus;
 import com.biz.gbck.enums.order.OrderStatus;
 import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.exceptions.DepotNextDoorException;
+import com.biz.gbck.exceptions.DepotNextDoorExceptions;
 import com.biz.gbck.exceptions.order.PaymentException;
-import com.biz.gbck.transform.order.Order2OrderRo;
+import com.biz.gbck.transform.order.OrderItem2StockItemVO;
 import com.biz.gbck.transform.order.ShopCartItemRespVo2OrderItemRespVo;
 import com.biz.gbck.vo.IdReqVo;
 import com.biz.gbck.vo.PageRespVo;
@@ -25,23 +26,18 @@ import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
 import com.biz.gbck.vo.payment.resp.PaymentRespVo;
 import com.biz.gbck.vo.stock.StockItemVO;
 import com.biz.gbck.vo.stock.UpdatePartnerLockStockReqVO;
-import com.biz.service.AbstractBaseService;
-import com.biz.service.SequenceService;
-import com.biz.service.cart.ShopCartService;
 import com.biz.service.order.frontend.OrderFrontendService;
-import com.biz.service.stock.StockService;
 import com.biz.soa.builder.OrderBuilder;
 import com.biz.soa.builder.OrderRespVoBuilder;
+import com.biz.soa.builder.OrderReturnBuilder;
 import com.biz.soa.builder.OrderSettlePageRespVoBuilder;
-import com.biz.soa.order.service.payment.PaymentService;
 import com.google.common.collect.Lists;
+import com.biz.soa.order.service.payment.PaymentService;
+import java.util.List;
+import javax.transaction.Transactional;
 import org.codelogger.utils.CollectionUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -54,27 +50,9 @@ import static com.google.common.collect.Lists.newArrayList;
  * @see
  */
 @Service
-public class OrderFrontendServiceImpl extends AbstractBaseService implements OrderFrontendService {
+public class OrderFrontendServiceImpl extends AbstractOrderService implements OrderFrontendService {
 
-    @Autowired
-    private OrderRedisDao orderRedisDao;
-
-    @Autowired
-    private OrderRepository orderRepository;
-
-    @Autowired
-    private SequenceService sequenceService;
-
-    @Autowired
-    private PaymentService paymentService;
-
-    @Autowired
-    private StockService stockService;
-
-    @Autowired
-    private ShopCartService shopCartService;
-
-    /*****************public begin*********************/
+  /*****************public begin*********************/
 
     @Override
     public PageRespVo listOrders(OrderListReqVo reqVo) {
@@ -121,10 +99,8 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
         Order order = orderRepository.findOne(reqVo.getId());
         SystemAsserts.notNull(order, "订单不存在");
         if (order.isCancelable(false)) {
-            if (logger.isDebugEnabled()) {
-                order = this.updateOrderStatus(order, OrderStatus.CANCELED);
-                super.publishEventUsingTx(new UserOrderCancelEvent(this, order.getId()));
-            }
+            order = super.updateOrderStatus(order, OrderStatus.CANCELED);
+            super.publishEventUsingTx(new UserOrderCancelEvent(this, order.getId()));
         }
 
     }
@@ -180,22 +156,32 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
         throw new PaymentException("无效的支付方式");
     }
 
+    @Transactional
     @Override
     public void applyReturn(OrderApplyReturnReqVo reqVo) {
+        Order order = super.getOrder(reqVo.getOrderId());
+        BusinessAsserts.notNull(order, DepotNextDoorExceptions.Order.ORDER_NOT_EXIST);
+        BusinessAsserts.isTrue(order.isReturnable(false), DepotNextDoorExceptions.Order.ORDER_NOT_ALLOWED_RETURN);
+        super.updateOrderStatus(order, OrderStatus.APPLY_RETURN);
+        String returnCode = sequenceService.generateReturnCode();
+        OrderReturn orderReturn = OrderReturnBuilder.createBuilder(reqVo, idService).setOrder(order).build(idService
+                .nextId(), returnCode);
 
+
+        orderReturnRepository.save(orderReturn);
+        order.setOrderReturnId(orderReturn.getId());
     }
+
 
     @Override
     public Order getOrder(Long id) {
-        return orderRepository.findOne(id);
+        return super.getOrder(id);
     }
 
     @Override
     public void saveOrder(Order order) {
-        orderRepository.save(order);
+        super.saveOrder(order);
     }
-
-
 
     /*****************public end*********************/
 
@@ -227,9 +213,8 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
         List<OrderItemRespVo> items = settleResult.getItems();
         SystemAsserts.notEmpty(items, "未获取到结算明细信息");
 
-        List<OrderItem> orderItems = this.transOrderItems(items);
         Order order = OrderBuilder.createBuilder(reqVo)
-                .setItems(orderItems)
+                .setItems(this.transOrderItems(items))
                 .setFreeAmount(settleResult.getOrderAmount())
                 .setVoucherAmount(settleResult.getVoucherAmount())
                 .setPayAmount(settleResult.getPayAmount())
@@ -248,31 +233,15 @@ public class OrderFrontendServiceImpl extends AbstractBaseService implements Ord
         UpdatePartnerLockStockReqVO lockReqVo = new UpdatePartnerLockStockReqVO();
         lockReqVo.setOrderCode(order.getOrderCode());
         lockReqVo.setPartnerId(order.getSellerId());
-
-        List<StockItemVO> items = Lists.transform(order.getItems(), input -> {
-            StockItemVO item = new StockItemVO();
-            item.setProductId(input.getProductId());
-            item.setQuantity(input.getQuantity());
-            return item;
-        });
+        List<StockItemVO> items = Lists.transform(order.getItems(), new OrderItem2StockItemVO(false));
         lockReqVo.setItems(items);
-         
+
         try {
-            stockService.orderLockStocks(lockStockReqVOS);
+            stockService.orderUpdateLockStocks(lockStockReqVOS);
         } catch (Exception e) {
             logger.error("锁定库存出错", e);
             throw e;
         }
-    }
-
-    private Order updateOrderStatus(Order order, OrderStatus newStatus) {
-        logger.debug("修改订单状态 orderId={}. {} --> {}", order.getStatus(), newStatus);
-        SystemAsserts.notNull(newStatus, "新订单状态不能为空");
-        order.setStatus(newStatus);
-
-        preCommitOpt(() -> saveOrUpdateUsingPo(orderRepository, orderRedisDao, order, new Order2OrderRo()));
-
-        return order;
     }
 
     private List<OrderItem> transOrderItems(List<OrderItemRespVo> items) {

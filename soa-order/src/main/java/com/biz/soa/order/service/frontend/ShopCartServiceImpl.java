@@ -11,21 +11,18 @@ import com.biz.gbck.vo.cart.*;
 import com.biz.gbck.vo.order.req.ProductItemReqVo;
 import com.biz.gbck.vo.stock.PartnerStockReqVO;
 import com.biz.gbck.vo.stock.PartnerStockRespVO;
-import com.biz.gbck.vo.cart.*;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.cart.ShopCartService;
 import com.biz.service.stock.StockService;
 import com.google.common.collect.Lists;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import org.apache.commons.collections.CollectionUtils;
 import org.codelogger.utils.StringUtils;
 import org.codelogger.utils.ValueUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.newHashMap;
@@ -44,7 +41,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
     @Autowired
     private ShopCartItemRedisDao shopCartItemRedisDao;
 
-    @Autowired
+    @Autowired(required = false)
     private StockService stockService;
 
 
@@ -204,9 +201,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
 
     /**
      * 校验数量
-     * @param userId
-     * @param productId
-     * @param quantity
+     *
      * @throws DepotNextDoorException
      */
     private void validQuantity(Long userId, Long productId, int quantity) throws DepotNextDoorException {
