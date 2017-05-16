@@ -51,4 +51,15 @@ public class UpgradeService extends CommonService {
      return upgradeRedisDao.needUpgrade(os,version,inhourse);
     }
 
+    /**
+     * 根据版本号码和手机型号查询对应数据
+     * @param version
+     * @param os
+     * @return
+     */
+    public boolean verifyVersion(String version, String os) {
+        return upgradeRedisDao.findByOsAndVersion(version,os);
+    }
+
+
 }

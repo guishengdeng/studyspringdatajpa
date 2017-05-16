@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.mysql.po.geo;
 
-import com.biz.gbck.model.geo.IArea;
-import com.biz.gbck.model.geo.IRegion;
+import com.biz.gbck.common.model.IRegion;
+import com.biz.gbck.common.model.geo.IArea;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 

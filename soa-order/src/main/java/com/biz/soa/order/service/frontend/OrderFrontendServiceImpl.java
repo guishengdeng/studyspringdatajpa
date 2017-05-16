@@ -32,12 +32,12 @@ import com.biz.soa.builder.OrderRespVoBuilder;
 import com.biz.soa.builder.OrderReturnBuilder;
 import com.biz.soa.builder.OrderSettlePageRespVoBuilder;
 import com.google.common.collect.Lists;
+import com.biz.soa.order.service.payment.PaymentService;
+import java.util.List;
+import javax.transaction.Transactional;
 import org.codelogger.utils.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -52,7 +52,7 @@ import static com.google.common.collect.Lists.newArrayList;
 @Service
 public class OrderFrontendServiceImpl extends AbstractOrderService implements OrderFrontendService {
 
-    /*****************public begin*********************/
+  /*****************public begin*********************/
 
     @Override
     public PageRespVo listOrders(OrderListReqVo reqVo) {
@@ -235,7 +235,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         lockReqVo.setPartnerId(order.getSellerId());
         List<StockItemVO> items = Lists.transform(order.getItems(), new OrderItem2StockItemVO(false));
         lockReqVo.setItems(items);
-         
+
         try {
             stockService.orderUpdateLockStocks(lockStockReqVOS);
         } catch (Exception e) {

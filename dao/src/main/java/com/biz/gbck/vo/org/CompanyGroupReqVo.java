@@ -1,7 +1,5 @@
 package com.biz.gbck.vo.org;
 
-import com.biz.gbck.dao.mysql.po.org.CompanyGroupPo;
-import org.codelogger.utils.CollectionUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;

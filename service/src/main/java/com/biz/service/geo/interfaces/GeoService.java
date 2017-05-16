@@ -4,6 +4,9 @@ import com.biz.gbck.vo.common.request.LocationDecodeRequestVo;
 import com.biz.gbck.vo.common.response.*;
 import com.biz.gbck.vo.geo.AbstractMnsGeoVo;
 
+import com.biz.gbck.vo.geo.GeoTreeVo;
+import com.biz.gbck.vo.geo.SimpleRegionVo;
+
 import java.util.List;
 
 /**
@@ -128,6 +131,23 @@ public interface GeoService {
      * @param mnsGeoVo 中台geo数据vo
      */
     void trans(AbstractMnsGeoVo mnsGeoVo);
+
+    /**
+     * 根据父级找子集
+     */
+    List<SimpleRegionVo> findRegionByParentAreaLevelAndParentId(Integer areaLevel,
+                                                                Integer parentId);
+
+    /**
+     *  返回简单的geo信息
+     * @param areaLevel
+     * @return
+     */
+    List<SimpleRegionVo> findRegionByLevel(Integer areaLevel);
+
+
+
+    List<GeoTreeVo> findRegionByRegionLevel(Integer level);
 
 
 }

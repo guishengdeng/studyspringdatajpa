@@ -21,7 +21,7 @@ public class UserLoginReqVo extends WithoutBindRequestParams implements InitGlob
 
   private String ip;
   
-  private String token;
+  private String pushToken;
 
   /**
    * 原始密码
@@ -54,12 +54,12 @@ public class UserLoginReqVo extends WithoutBindRequestParams implements InitGlob
     this.ip = ip;
   }
 
-	public String getToken() {
-		return token;
+	public String getPushToken() {
+		return pushToken;
 	}
 
-	public void setToken(String token) {
-		this.token = token;
+	public void setPushToken(String pushToken) {
+		this.pushToken = pushToken;
 	}
 
 	public String getOriginalPassword() {
