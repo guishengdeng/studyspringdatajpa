@@ -49,13 +49,13 @@
                                enableLinks: true,
                                text: resp[i][textStr],
                                nodes: subNode,
-                               href: "manage/categories/" + resp[i][id]+".do"
+                               href: "product/categories/" + resp[i][id]+".do"
                            };
                        } else {
                            treeViewNodeObj = {
                                enableLinks: true,
                                text: resp[i][textStr],
-                               href: "manage/categories/" + resp[i][id]+".do"
+                               href: "product/categories/" + resp[i][id]+".do"
                            };
                        }
                        subNode = null;

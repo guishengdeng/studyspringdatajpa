@@ -63,8 +63,7 @@
                              $("#list").append('<input type="text" readonly="readonly"  value="'+name+'"/>');
                              console.log(data.currJson);
                          }
-
-                 });
+                    });
              }
          </script>
     </jsp:attribute>
