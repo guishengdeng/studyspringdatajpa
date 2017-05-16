@@ -1,4 +1,4 @@
-package com.biz.soa.builder;
+package com.biz.soa.order.builder;
 
 import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.dao.mysql.po.order.OrderConsignee;

@@ -29,10 +29,10 @@ import com.biz.gbck.vo.payment.resp.PaymentRespVo;
 import com.biz.gbck.vo.stock.StockItemVO;
 import com.biz.gbck.vo.stock.UpdatePartnerLockStockReqVO;
 import com.biz.service.order.frontend.OrderFrontendService;
-import com.biz.soa.builder.OrderBuilder;
-import com.biz.soa.builder.OrderRespVoBuilder;
-import com.biz.soa.builder.OrderReturnBuilder;
-import com.biz.soa.builder.OrderSettlePageRespVoBuilder;
+import com.biz.soa.order.builder.OrderBuilder;
+import com.biz.soa.order.builder.OrderRespVoBuilder;
+import com.biz.soa.order.builder.OrderReturnBuilder;
+import com.biz.soa.order.builder.OrderSettlePageRespVoBuilder;
 import com.google.common.collect.Lists;
 import org.codelogger.utils.CollectionUtils;
 import org.springframework.beans.BeanUtils;
@@ -65,12 +65,13 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         OrderShowStatus status = OrderShowStatus.valueOf(reqVo.getStatus());
         SystemAsserts.notNull("status", "订单状态不合法");
         Long userId = Long.valueOf(reqVo.getUserId());
-        List<Long> orderIds = orderRedisDao.findOrderIdsByUserIdWithPeriod(userId, status, reqVo.getPage(), reqVo
+        List<Long> orderIds = orderRedisDao.findOrderIdsByUserIdWithPeriod(userId, status, reqVo.getLastFlag(), reqVo
                 .getSize());
         List<Order> orders = orderRepository.findAll(orderIds);
         List<OrderRespVo> orderRespVos = this.buildOrderVos(orders);
 
-        PageRespVo pageRespVo = new PageRespVo(reqVo.getPage(), orderRespVos);
+        Long lastOrderId = CollectionUtils.getLastElement(orderIds);
+        PageRespVo pageRespVo = new PageRespVo(lastOrderId != null ? lastOrderId.toString() : null, orderRespVos);
         if (logger.isDebugEnabled()) {
             logger.debug("获取订单列表-------请求: {}, 返回值: {}", reqVo, pageRespVo);
         }

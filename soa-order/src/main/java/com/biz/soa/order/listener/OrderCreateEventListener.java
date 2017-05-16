@@ -1,4 +1,4 @@
-package com.biz.soa.listener;
+package com.biz.soa.order.listener;
 
 import com.biz.core.event.AbstractBizEventListener;
 import com.biz.gbck.dao.mysql.po.order.Order;

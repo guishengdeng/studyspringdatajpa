@@ -107,7 +107,7 @@ public class OrderRedisDao extends CrudRedisDao<OrderRo, Long> {
     /**
      * 分页查找订单id
      */
-    public List<Long> findOrderIdsByUserIdWithPeriod(Long userId, OrderShowStatus status, int page, int size) {
+    public List<Long> findOrderIdsByUserIdWithPeriod(Long userId, OrderShowStatus status, String lastFlag, int size) {
         if (userId == null) {
             return newArrayList();
         }
@@ -115,7 +115,10 @@ public class OrderRedisDao extends CrudRedisDao<OrderRo, Long> {
         if (status == null) {
             status = OrderShowStatus.ALL;
         }
-        return super.findIdListFromSortedSetRevrange(this.orderPeriodSortedSetKey(userId, status), page, size);
+        long page = lastFlag != null ? super.zrevrank(this.orderPeriodSortedSetKey(userId, status), lastFlag.getBytes
+                ()) + 1 : 0;
+
+        return super.findIdListFromSortedSetRevrange(this.orderPeriodSortedSetKey(userId, status), (int) page, size);
     }
 
     /**
