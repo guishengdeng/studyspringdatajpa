@@ -6,6 +6,8 @@ import com.biz.core.util.Timers;
 import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.dao.mysql.po.order.OrderItem;
 import com.biz.gbck.dao.mysql.po.order.OrderReturn;
+import com.biz.gbck.dao.redis.ro.org.ShopRo;
+import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.enums.order.OrderShowStatus;
 import com.biz.gbck.enums.order.OrderStatus;
 import com.biz.gbck.enums.order.PaymentType;
@@ -55,7 +57,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
     /*****************public begin*********************/
 
     @Override
-    public PageRespVo listOrders(OrderListReqVo reqVo) {
+    public PageRespVo listOrders(OrderListReqVo reqVo) throws DepotNextDoorException {
         if (logger.isDebugEnabled()) {
             logger.debug("获取订单列表-------请求vo: {}", reqVo);
         }
@@ -66,7 +68,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         List<Long> orderIds = orderRedisDao.findOrderIdsByUserIdWithPeriod(userId, status, reqVo.getPage(), reqVo
                 .getSize());
         List<Order> orders = orderRepository.findAll(orderIds);
-        List<OrderRespVo> orderRespVos = this.buildOrderVos(userId, orders);
+        List<OrderRespVo> orderRespVos = this.buildOrderVos(orders);
 
         PageRespVo pageRespVo = new PageRespVo(reqVo.getPage(), orderRespVos);
         if (logger.isDebugEnabled()) {
@@ -76,14 +78,13 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
     }
 
     @Override
-    public OrderRespVo getOrderDetail(IdReqVo reqVo) {
+    public OrderRespVo getOrderDetail(IdReqVo reqVo) throws DepotNextDoorException {
         if (logger.isDebugEnabled()) {
             logger.debug("获取订单详情-------请求vo: {}", reqVo);
         }
         SystemAsserts.notNull(reqVo);
         Order order = orderRepository.findOne(reqVo.getId());
-        OrderRespVo orderRespVo = CollectionUtils.getFirstNotNullValue(this.buildOrderVos(Long.valueOf(reqVo
-                .getUserId()), newArrayList(order)));
+        OrderRespVo orderRespVo = CollectionUtils.getFirstNotNullValue(this.buildOrderVos(newArrayList(order)));
         if (logger.isDebugEnabled()) {
             logger.debug("获取订单详情-------请求: {}, 返回值: {}", reqVo, orderRespVo);
         }
@@ -182,12 +183,10 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
     /*****************public end*********************/
 
 
-    private List<OrderRespVo> buildOrderVos(Long userId, List<Order> orders) {
+    private List<OrderRespVo> buildOrderVos(List<Order> orders) throws DepotNextDoorException {
         List<OrderRespVo> orderRespVos = newArrayList();
-        //TODO 根据用户id获取用户信息
         for (Order order : orders) {
-            OrderRespVo respVo = OrderRespVoBuilder.createBuilder(order).setBuyerInfo(null, null, null).setItems
-                    (order.getItems()).build();
+            OrderRespVo respVo = OrderRespVoBuilder.createBuilder(order).setItems(order.getItems()).build();
             orderRespVos.add(respVo);
         }
         return orderRespVos;
@@ -198,8 +197,9 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
      */
     private Order createOrder(OrderCreateReqVo reqVo) throws DepotNextDoorException {
         Timers timers = Timers.createAndBegin(logger.isDebugEnabled());
-        long id = idService.nextId();
-        String orderCode = sequenceService.generateOrderCode();
+
+        //TODO 1.校验(黑名单、限购)
+        //
 
         OrderSettlePageReqVo settleReqVo = new OrderSettlePageReqVo();
         settleReqVo.setUserId(reqVo.getUserId());
@@ -210,7 +210,16 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         List<OrderItemRespVo> items = settleResult.getItems();
         SystemAsserts.notEmpty(items, "未获取到结算明细信息");
 
-        Order order = OrderBuilder.createBuilder(reqVo).setItems(this.transOrderItems(items)).setFreeAmount
+
+        UserRo userRo = userFeignClient.findUser(Long.valueOf(reqVo.getUserId()));
+        SystemAsserts.notNull(userRo, "用户不存在");
+        //TODO 获取shop信息
+        ShopRo shopRo = null;
+        SystemAsserts.notNull(userRo, "用户店铺不存在");
+
+        long id = idService.nextId();
+        String orderCode = sequenceService.generateOrderCode();
+        Order order = OrderBuilder.createBuilder(reqVo).setUserInfo(userRo, shopRo).setItems(this.transOrderItems(items)).setFreeAmount
                 (settleResult.getOrderAmount()).setVoucherAmount(settleResult.getVoucherAmount()).setPayAmount
                 (settleResult.getPayAmount()).setPaymentType(PaymentType.valueOf(reqVo.getPaymentType())).build(id,
                 orderCode);

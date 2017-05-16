@@ -1,7 +1,7 @@
 package com.biz.soa.builder;
 
-import com.biz.core.asserts.SystemAsserts;
 import com.biz.gbck.dao.mysql.po.order.Order;
+import com.biz.gbck.dao.mysql.po.order.OrderConsignee;
 import com.biz.gbck.dao.mysql.po.order.OrderItem;
 import com.biz.gbck.vo.order.resp.OrderItemRespVo;
 import com.biz.gbck.vo.order.resp.OrderRespVo;
@@ -24,17 +24,13 @@ public class OrderRespVoBuilder {
     public static OrderRespVoBuilder createBuilder(Order order) {
         OrderRespVoBuilder builder = new OrderRespVoBuilder();
         builder.respVo = new OrderRespVo(order);
-        return builder;
-    }
 
-    public OrderRespVoBuilder setBuyerInfo(String buyerName, String buyerMobile, String address) {
-        SystemAsserts.notNull(buyerName, "收货人姓名不能为空");
-        SystemAsserts.notNull(buyerMobile, "收货人手机号不能为空");
-        SystemAsserts.notNull(address,  "收货人地址不能为空");
-        this.respVo.setBuyerName(buyerName);
-        this.respVo.setBuyerMobile(buyerMobile);
-        this.respVo.setBuyerAddress(address);
-        return this;
+        OrderConsignee consignee = order.getConsignee();
+        builder.respVo.setBuyerName(consignee.getName());
+        builder.respVo.setBuyerMobile(consignee.getMobile());
+        builder.respVo.setBuyerAddress(consignee.getAddress());
+        //TODO 地址详情
+        return builder;
     }
 
     public OrderRespVoBuilder setItems(List<OrderItem> orderItems) {
