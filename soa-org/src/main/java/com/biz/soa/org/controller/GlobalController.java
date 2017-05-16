@@ -34,6 +34,7 @@ public class GlobalController extends BaseRestController{
 
     @RequestMapping("/init")
     public JSONResult init(HttpServletRequest request) {
+        logger.debug("Received soa-org /init/init GET request.");
         Map result = new HashMap();
         AppConfigVo config = appSoaService.getAppConfigVo();
         result.putAll(config.getMap());
@@ -49,6 +50,7 @@ public class GlobalController extends BaseRestController{
             @RequestParam(value = "os", required = true, defaultValue = "") String os,
             @RequestParam(value = "partner", required = true, defaultValue = "") String partner,
             HttpServletRequest request) {
+        logger.debug("Received soa-org  /init/upgrade GET request.");
         boolean inhourse = StringUtils.equalsIgnoreCase("inhouse", partner);
         UpgradeRo ro = upgradeSoaService.needUpgrade(os, ver, inhourse);
         if (ro != null) {

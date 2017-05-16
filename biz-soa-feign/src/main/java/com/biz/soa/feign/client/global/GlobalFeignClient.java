@@ -6,7 +6,9 @@ import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 
@@ -19,7 +21,7 @@ public interface GlobalFeignClient {
     /**
      * 获取启动上报返回参数
      */
-    @RequestMapping(value = "/init/init", method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(value = "/init/init")
     JSONResult getAppConfigMap();
 
     /**
@@ -29,7 +31,7 @@ public interface GlobalFeignClient {
      * @param inhourse 是否强制升级
      * @return
      */
-    @RequestMapping(value = "/init/upgrade", method = RequestMethod.POST, consumes = "application/json")
-    JSONResult needUpgrade(@PathVariable("os")String os, @PathVariable("ver")String ver,
-                           @PathVariable("inhourse")String inhourse);
+    @RequestMapping(value = "/init/upgrade")
+    JSONResult needUpgrade(@RequestParam("os")String os, @RequestParam("ver")String ver,
+                           @RequestParam("inhourse")String inhourse);
 }

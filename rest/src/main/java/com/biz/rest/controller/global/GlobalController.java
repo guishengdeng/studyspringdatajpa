@@ -1,11 +1,9 @@
 package com.biz.rest.controller.global;
 
-import com.biz.gbck.dao.redis.ro.upgrade.UpgradeRo;
 import com.biz.soa.feign.client.global.GlobalFeignClient;
 import com.biz.support.web.handler.JSONResult;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +25,7 @@ public class GlobalController { //extends BaseController
 
     @RequestMapping("/init")
     public JSONResult init(HttpServletRequest request) {
+        logger.debug("Received rest /init/init GET request.");
         return globalFeignClient.getAppConfigMap();
     }
 
@@ -37,7 +36,7 @@ public class GlobalController { //extends BaseController
             @RequestParam(value = "os", required = true, defaultValue = "") String os,
             @RequestParam(value = "partner", required = true, defaultValue = "") String partner,
             HttpServletRequest request) {
-
+        logger.debug("Received rest /init/upgrade GET request.");
         return globalFeignClient.needUpgrade(os, ver, partner);
     }
 
