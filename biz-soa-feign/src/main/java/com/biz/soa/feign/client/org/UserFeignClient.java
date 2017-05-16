@@ -31,8 +31,8 @@ public interface UserFeignClient {
     @RequestMapping(value = "/soa/user/test", method = RequestMethod.GET)
     String test();
 
-    @RequestMapping(value = "/soa/user/findUser/{userId}")
-    UserRo findUser(@PathVariable("userId") Long userId);
+    @RequestMapping(value = "/soa/user/findUser", method = RequestMethod.POST)
+    UserRo findUser(@RequestParam("userId") Long userId) throws CommonException;
 
     /**
      * 用户注册

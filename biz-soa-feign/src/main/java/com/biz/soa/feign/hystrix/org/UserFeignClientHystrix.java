@@ -88,4 +88,6 @@ public class UserFeignClientHystrix implements UserFeignClient {
     public UserPo findUserPoByAccount(@RequestParam("account") String account) {
         return null;
     }
+
+
 }

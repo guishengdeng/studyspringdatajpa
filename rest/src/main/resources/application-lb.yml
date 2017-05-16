@@ -1,8 +1,6 @@
 spring:
   application:
     name: depotnextdoor-rest
-  profiles:
-    active: lb
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
@@ -41,7 +39,7 @@ biz:
     timeBetweenEvictionRunsMillis: 30000
     minEvictableIdleTimeMillis: 30000
     testOnBorrow: true
-    host: 127.0.0.1
+    host: 10.4.100.196
     port: 6379
     name:
     password:
@@ -64,3 +62,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:7777/eureka
+
+security:
+  basic:
+    enabled: false
+    authorize-mode: none

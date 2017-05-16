@@ -4,6 +4,7 @@ import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.common.exception.ExceptionCode;
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
+import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.vo.org.AutoLoginReqVo;
 import com.biz.gbck.vo.org.ChangePwdVo;
 import com.biz.gbck.vo.org.ForgotPasswordReqVo;
@@ -189,6 +190,11 @@ public class UserSoaController extends BaseRestController {
         return userSoaService.findUserPoByAccount(account);
     }
 
+
+    @RequestMapping(value = "findUser", method = RequestMethod.POST)
+    public UserRo findUser(@RequestParam("userId") Long userId) throws CommonException {
+        return userSoaService.findUser(userId);
+    }
 
 
 }
