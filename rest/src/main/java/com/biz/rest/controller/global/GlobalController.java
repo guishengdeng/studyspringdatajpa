@@ -1,4 +1,4 @@
-package com.biz.rest.controller;
+package com.biz.rest.controller.global;
 
 import com.biz.core.ali.oss.util.OssUtil;
 import com.biz.gbck.dao.redis.ro.upgrade.UpgradeRo;

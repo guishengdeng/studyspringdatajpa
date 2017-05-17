@@ -5,10 +5,7 @@ import com.biz.service.cover.CoverService;
 import com.biz.soa.base.SoaBaseController;
 import com.biz.vo.cover.CoverReqVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Soa Cover Controller
@@ -23,7 +20,7 @@ public class SoaCoverController extends SoaBaseController {
     private CoverService coverService;
 
     @RequestMapping(value = "homepage", method = RequestMethod.POST)
-    public MicroServiceResult<Object> appProductList(CoverReqVo reqVo) {
+    public MicroServiceResult<Object> appProductList(@RequestBody CoverReqVo reqVo) {
 
         return render200(coverService.getHomePage(reqVo));
     }
