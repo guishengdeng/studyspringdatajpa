@@ -1,5 +1,6 @@
 package com.biz.soa.cover.service.cover;
 
+import com.biz.service.AbstractBaseService;
 import com.biz.service.cover.CoverService;
 import com.biz.vo.cover.CoverReqVo;
 import org.slf4j.Logger;
@@ -19,7 +20,7 @@ import static com.google.common.collect.Maps.newLinkedHashMap;
  * Created by defei on 2017/05/17 12:11.
  */
 @Service
-public class CoverServiceImpl implements CoverService {
+public class CoverServiceImpl extends AbstractBaseService implements CoverService {
 
 	private static final Logger logger = LoggerFactory.getLogger(CoverServiceImpl.class);
 

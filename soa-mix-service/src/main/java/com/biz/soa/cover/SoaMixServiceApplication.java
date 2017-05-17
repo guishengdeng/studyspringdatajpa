@@ -18,11 +18,11 @@ import javax.annotation.ManagedBean;
  * Created by david-liu on 2017/04/26 10:37.
  */
 @SpringBootApplication
-@ComponentScan(basePackages = "com.biz.soa.cover", excludeFilters = {
+@ComponentScan(basePackages = "com.biz.soa", excludeFilters = {
 })
 //@EnableJpaRepositories(basePackages = "com.biz", repositoryFactoryBeanClass = CommonRepositoryFactoryBean.class)
 //@EntityScan(basePackages = "com.biz")
-//@EnableTransactionManagement
+@EnableTransactionManagement
 @EnableDiscoveryClient
 @EnableFeignClients
 public class SoaMixServiceApplication {
