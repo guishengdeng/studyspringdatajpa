@@ -47,10 +47,10 @@ public abstract class AbstractOrderService extends AbstractBaseService {
     @Autowired
     protected ShopCartService shopCartService;
 
-    @Autowired
+    @Autowired(required = false)
     protected UserFeignClient userFeignClient;
 
-    @Autowired
+    @Autowired(required = false)
     protected ShopFeignClient shopFeignClient;
 
     protected Order getOrder(Long id) {

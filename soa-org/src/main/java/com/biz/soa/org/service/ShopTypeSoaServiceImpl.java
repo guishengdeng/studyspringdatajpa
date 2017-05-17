@@ -1,6 +1,6 @@
 package com.biz.soa.org.service;
 
-import com.biz.event.org.ShopTypeSyncEvent;
+import com.biz.core.transaction.BizTransactionManager;
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.org.ShopTypePo;
 import com.biz.gbck.dao.mysql.repository.org.ShopTypeRepository;
@@ -10,8 +10,10 @@ import com.biz.gbck.enums.user.ShopTypeStatus;
 import com.biz.gbck.transform.org.ShopTypePoToShopTypeRo;
 import com.biz.gbck.vo.org.ShopTypeCreateReqVo;
 import com.biz.gbck.vo.org.ShopTypeUpdateReqVo;
+import com.biz.service.AbstractBaseService;
 import com.biz.service.CommonService;
 import com.biz.service.org.interfaces.ShopTypeService;
+import com.biz.soa.org.event.ShopTypeSyncEvent;
 import com.biz.soa.org.service.interfaces.ShopTypeSoaService;
 import com.google.common.collect.Lists;
 import org.codelogger.utils.CollectionUtils;
@@ -33,7 +35,7 @@ import static com.google.common.collect.Lists.newArrayList;
 
 @Service
 @Transactional
-public class ShopTypeSoaServiceImpl extends CommonService implements ShopTypeSoaService {
+public class ShopTypeSoaServiceImpl extends AbstractBaseService implements ShopTypeSoaService {
 
 
     private static final Logger logger = LoggerFactory.getLogger(ShopTypeService.class);
@@ -51,7 +53,7 @@ public class ShopTypeSoaServiceImpl extends CommonService implements ShopTypeSoa
         if (CollectionUtils.isEmpty(shopTypeRos)) {
             List<ShopTypePo> all = shopTypeRepository.findAll();
             shopTypeRos = Lists.transform(all, new ShopTypePoToShopTypeRo());
-            publishEvent(new ShopTypeSyncEvent(this));
+            //BizTransactionManager.publishEvent(new ShopTypeSyncEvent(this), true);
         }
         return sortShopTypeRos(shopTypeRos);
     }
@@ -63,7 +65,7 @@ public class ShopTypeSoaServiceImpl extends CommonService implements ShopTypeSoa
             List<ShopTypePo> all = shopTypeRepository.findAllByStatus(shopTypeStatus.getValue());
             if(CollectionUtils.isNotEmpty(all)){
                 shopTypeRos = Lists.transform(all, new ShopTypePoToShopTypeRo());
-                publishEvent(new ShopTypeSyncEvent(this));
+                //BizTransactionManager.publishEvent(new ShopTypeSyncEvent(this), true);
             }
 
         }

@@ -6,6 +6,7 @@ import java.nio.charset.Charset;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -268,4 +269,16 @@ public final class RedisUtil {
         return idList;
     }
 
+    public static List<Long> strListToLongList(List<String> strings) {
+        if (isEmpty(strings)) {
+            return null;
+        }
+        List<Long> longs = new ArrayList<>(strings.size());
+        for (String str : strings) {
+            if (org.codelogger.utils.StringUtils.isNotBlank(str) && !Objects.equals(str, "null")) {
+                longs.add(Long.valueOf(str));
+            }
+        }
+        return longs;
+    }
 }

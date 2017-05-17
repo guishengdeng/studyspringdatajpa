@@ -12,8 +12,8 @@ public class UserRoToUserVo implements Function<UserRo, UserLoginResVo>, Seriali
     @Override public UserLoginResVo apply(UserRo ro) {
 
         UserLoginResVo vo = new UserLoginResVo();
-        vo.setUserId(Long.parseLong(ro.getId()));
-        vo.setShopId(ro.getShopId());
+        vo.setUserId(ro.getId());
+        vo.setShopId(String.valueOf(ro.getShopId()));
         vo.setName(ro.getName());
         vo.setMobile(ro.getMobile());
         vo.setIsAdmin(ro.getIsAdmin());
