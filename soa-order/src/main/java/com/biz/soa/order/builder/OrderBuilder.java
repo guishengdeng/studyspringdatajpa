@@ -1,10 +1,13 @@
-package com.biz.soa.builder;
+package com.biz.soa.order.builder;
 
 import com.biz.core.asserts.SystemAsserts;
 import com.biz.core.util.DateUtil;
 import com.biz.gbck.dao.mysql.po.order.Order;
+import com.biz.gbck.dao.mysql.po.order.OrderConsignee;
 import com.biz.gbck.dao.mysql.po.order.OrderInvoice;
 import com.biz.gbck.dao.mysql.po.order.OrderItem;
+import com.biz.gbck.dao.redis.ro.org.ShopRo;
+import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.enums.order.InvoiceType;
 import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.vo.order.req.OrderCreateReqVo;
@@ -34,7 +37,35 @@ public class OrderBuilder extends AbstractOrderBuilder {
         return builder;
     }
 
-    //TODO 组装用户信息 收货地址信息等
+    //用户相关信息
+    public OrderBuilder setUserInfo(UserRo userRo, ShopRo shopRo) {
+        SystemAsserts.notNull(userRo.getId(), "买家Id为空");
+        SystemAsserts.notNull(userRo.getShopId(), "店铺Id为空");
+        SystemAsserts.notNull(userRo.getPartnerId(), "合伙人Id为空");
+
+        SystemAsserts.notNull(shopRo, "店铺为空");
+        this.order.setUserId(Long.valueOf(userRo.getId()));
+        this.order.setSellerId(Long.valueOf(userRo.getPartnerId()));
+        this.order.setCompanyId(Long.valueOf(userRo.getPlatformId()));
+
+        //收货信息
+        OrderConsignee consignee = new OrderConsignee();
+        consignee.setName(shopRo.getDeliveryName());
+        consignee.setMobile(shopRo.getDeliveryMobile());
+        if (shopRo.getProvinceId() != null) {
+            consignee.setProvinceId(shopRo.getProvinceId().intValue());
+        }
+        if (shopRo.getDistrictId() != null) {
+            consignee.setDistrictId(shopRo.getDistrictId().intValue());
+        }
+        if (shopRo.getCityId() != null) {
+            consignee.setCityId(shopRo.getCityId().intValue());
+        }
+        consignee.setAddress(StringUtils.trim(shopRo.getDeliveryAddress()));
+        order.setConsignee(consignee);
+        return this;
+    }
+
 
     //订单明细&总金额&付款单详情
     public OrderBuilder setItems(List<OrderItem> orderItems) {
@@ -71,7 +102,7 @@ public class OrderBuilder extends AbstractOrderBuilder {
         return this;
     }
 
-    //TODO
+    //TODO 计算后实际支付金额
     //支付金额
     public OrderBuilder setPayAmount(Integer payAmount){
         order.setPayAmount(payAmount);

@@ -1,4 +1,4 @@
-package com.biz.soa;
+package com.biz.soa.order;
 
 import com.biz.service.product.impl.BrandServiceImpl;
 import com.biz.service.product.impl.CategoryServiceImpl;
