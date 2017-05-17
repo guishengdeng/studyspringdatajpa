@@ -132,8 +132,7 @@ public class ShopController extends BaseController {
         List<AuditStatus> auditStatusList =
                 newArrayList(AuditStatus.NORMAL, AuditStatus.AUDIT_FAILED);
         modelAndView.addObject("auditStatusList", auditStatusList)
-                .addObject("auditRejectReasons", auditRejectReasons).addObject("emp", null)
-                .addObject("shopTypes", shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL));
+                .addObject("auditRejectReasons", auditRejectReasons).addObject("emp", null);
      /*shopAuditVo.getShop()==null? null: depotEmployeeService.getDepotEmployeeById(shopAuditVo.getShop().getInviterCode())*/
         return modelAndView;
     }

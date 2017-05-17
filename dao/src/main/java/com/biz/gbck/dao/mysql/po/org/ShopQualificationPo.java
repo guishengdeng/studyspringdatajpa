@@ -36,12 +36,12 @@ import java.sql.Timestamp;
     /**
      * 营业执照
      */
-    @Column(length = 50) private String businessLicence;
+    @Column(length = 300) private String businessLicence;
 
     /**
      * 门头照片
      */
-    @Column(length = 50) private String shopPhoto;
+    @Column(length = 300) private String shopPhoto;
 
     /**
      * 酒类流通许可证ID
@@ -51,7 +51,7 @@ import java.sql.Timestamp;
     /**
      * 酒类流通许可证
      */
-    @Column(length = 50) private String liquorSellLicence;
+    @Column(length = 300) private String liquorSellLicence;
 
     /**
      * 法人身份证Id
@@ -61,7 +61,7 @@ import java.sql.Timestamp;
     /**
      * 法人身份证
      */
-    @Column(length = 50) private String corporateIdPhoto;
+    @Column(length = 300) private String corporateIdPhoto;
 
     /**
      * 创建时间

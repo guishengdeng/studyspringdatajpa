@@ -61,7 +61,6 @@
 
             }
             var businessIdIsExist = false;
-            $('.ui.checkbox').checkbox();
 
             function subForm() {
 
@@ -128,10 +127,8 @@
 											</span>
                                     </div>
                                     <div class="col-xs-6 col-sm-4 col-md-3">
-                                        <span>商户类型:</span>
-											<span class="input-icon">
-												<input type="text" value="${shopDetail.shopType.name}" >
-											</span>
+                                        <manage:shopType fieldName="shopTypeId" fieldClasses="field"
+                                                         shopTypeId="${shopDetail.shopType.id}"/>
                                     </div>
                                     <div class="col-xs-6 col-sm-4 col-md-3">
                                         <span>法人姓名:</span>
@@ -151,7 +148,7 @@
                                     <div class="col-xs-6 col-sm-4 col-md-3">
                                         <span>城市合伙人:</span>
 											<span class="input-icon">
-												<input type="text" value="这是个死参数" readonly="readonly">
+												<input type="text" value="${shopDetail.shop.partner.name}" readonly="readonly">
 											</span>
                                     </div>
                                 </div>
@@ -209,8 +206,8 @@
                                                 <div>
                                                     <ul class="ace-thumbnails clearfix">
                                                         <li>
-                                                            <a href="/static-resource/ace/assets/images/gallery/image-1.jpg" title="Photo Title" data-rel="colorbox">
-                                                                <img width="150" height="150" alt="150x150" src="/static-resource/ace/assets/images/gallery/thumb-1.jpg" />
+                                                            <a href="<c:out value="${shopQualification.shopPhoto}"/>" title="Photo Title" data-rel="colorbox">
+                                                                <img width="150" height="150" alt="150x150" src="<c:out value="${shopQualification.shopPhoto}"/>" />
                                                             </a>
 
                                                             <div class="tags">
@@ -220,8 +217,8 @@
                                                             </div>
                                                         </li>
                                                         <li>
-                                                            <a href="/static-resource/ace/assets/images/gallery/image-1.jpg" title="Photo Title" data-rel="colorbox">
-                                                                <img width="150" height="150" alt="150x150" src="/static-resource/ace/assets/images/gallery/thumb-1.jpg" />
+                                                            <a href="<c:out value="${shopQualification.businessLicence}"/>" title="Photo Title" data-rel="colorbox">
+                                                                <img width="150" height="150" alt="150x150" src="<c:out value="${shopQualification.businessLicence}"/>" />
                                                             </a>
 
                                                             <div class="tags">
@@ -231,8 +228,8 @@
                                                             </div>
                                                         </li>
                                                         <li>
-                                                            <a href="/static-resource/ace/assets/images/gallery/image-1.jpg" title="Photo Title" data-rel="colorbox">
-                                                                <img width="150" height="150" alt="150x150" src="/static-resource/ace/assets/images/gallery/thumb-1.jpg" />
+                                                            <a href="<c:out value="${shopQualification.liquorSellLicence}"/>" title="Photo Title" data-rel="colorbox">
+                                                                <img width="150" height="150" alt="150x150" src="<c:out value="${shopQualification.liquorSellLicence}"/>" />
                                                             </a>
 
                                                             <div class="tags">
@@ -242,8 +239,8 @@
                                                             </div>
                                                         </li>
                                                         <li>
-                                                            <a href="/static-resource/ace/assets/images/gallery/image-1.jpg" title="Photo Title" data-rel="colorbox">
-                                                                <img width="150" height="150" alt="150x150" src="/static-resource/ace/assets/images/gallery/thumb-1.jpg" />
+                                                            <a href="<c:out value="${shopQualification.corporateIdPhoto}"/>" title="Photo Title" data-rel="colorbox">
+                                                                <img width="150" height="150" alt="150x150" src="<c:out value="${shopQualification.corporateIdPhoto}"/>" />
                                                             </a>
 
                                                             <div class="tags">
