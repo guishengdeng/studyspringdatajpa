@@ -113,7 +113,7 @@
                                     </label>
                                     <div class="col-sm-9">
                                         <input id="icon" type="text" name="icon"  placeholder="图标" value="<c:out value='${mainMenu.icon}'/>"
-                                               maxlength="10" class="required col-xs-10 col-sm-5"/>
+                                               maxlength="80" class="required col-xs-10 col-sm-5"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
