@@ -36,4 +36,37 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <finalName>soa-mix-service</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <profileName>dev</profileName>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profileName>test</profileName>
+            </properties>
+        </profile>
+        <profile>
+            <id>production</id>
+            <properties>
+                <profileName>production</profileName>
+            </properties>
+        </profile>
+    </profiles>
 </project>

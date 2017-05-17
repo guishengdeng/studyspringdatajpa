@@ -1,7 +1,7 @@
 package com.biz.soa.feign.hystrix.cover;
 
 import com.biz.soa.feign.client.cover.CoverFeignClient;
-import com.biz.vo.cover.CoverReqVo;
+import com.biz.vo.cover.CoverReqVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,7 @@ public class CoverFeignClientHystrix implements CoverFeignClient {
 	}
 
 	@Override
-	public Object getHomePage(@RequestBody CoverReqVo reqVo) {
+	public Object getHomePage(@RequestBody CoverReqVO reqVo) {
 
 		logger.debug("Called me...");
 		return "{}";

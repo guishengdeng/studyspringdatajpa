@@ -2,7 +2,7 @@ package com.biz.soa.cover.service.cover;
 
 import com.biz.service.AbstractBaseService;
 import com.biz.service.cover.CoverService;
-import com.biz.vo.cover.CoverReqVo;
+import com.biz.vo.cover.CoverReqVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class CoverServiceImpl extends AbstractBaseService implements CoverServic
 	private static final Logger logger = LoggerFactory.getLogger(CoverServiceImpl.class);
 
 	@Override
-	public Object getHomePage(CoverReqVo reqVo) {
+	public Object getHomePage(CoverReqVO reqVo) {
 
 		return mockHomePageData();
 	}

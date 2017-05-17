@@ -20,8 +20,8 @@ import javax.annotation.ManagedBean;
 @SpringBootApplication
 @ComponentScan(basePackages = "com.biz.soa", excludeFilters = {
 })
-//@EnableJpaRepositories(basePackages = "com.biz", repositoryFactoryBeanClass = CommonRepositoryFactoryBean.class)
-//@EntityScan(basePackages = "com.biz")
+@EnableJpaRepositories(basePackages = "com.biz", repositoryFactoryBeanClass = CommonRepositoryFactoryBean.class)
+@EntityScan(basePackages = "com.biz")
 @EnableTransactionManagement
 @EnableDiscoveryClient
 @EnableFeignClients
