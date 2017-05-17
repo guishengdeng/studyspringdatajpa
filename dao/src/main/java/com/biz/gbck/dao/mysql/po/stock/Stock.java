@@ -5,7 +5,7 @@ import com.biz.support.jpa.po.BaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.sql.Timestamp;
+import javax.persistence.UniqueConstraint;
 
 /**
  * 库存
@@ -16,7 +16,7 @@ import java.sql.Timestamp;
  * @see
  */
 @Entity
-@Table(name = "sto_stock_book")
+@Table(name = "sto_stock_book", uniqueConstraints = {@UniqueConstraint(columnNames = {"company_id", "product_id"})})
 public class Stock extends BaseEntity {
 
     private static final long serialVersionUID = 5652389386181748226L;
@@ -24,6 +24,7 @@ public class Stock extends BaseEntity {
     /**
      * 隔壁仓库、省公司(平台公司)、合伙人
      */
+    @Column(name = "company_id", nullable = false)
     private Long companyId;
 
     /**
@@ -35,8 +36,8 @@ public class Stock extends BaseEntity {
     /**
      * 商品Id
      */
+    @Column(name = "product_id", nullable = false)
     private Long productId;
-
 
     /**
      * 库存数量
