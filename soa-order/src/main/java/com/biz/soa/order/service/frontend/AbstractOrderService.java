@@ -11,6 +11,8 @@ import com.biz.service.AbstractBaseService;
 import com.biz.service.SequenceService;
 import com.biz.service.cart.ShopCartService;
 import com.biz.service.stock.StockService;
+import com.biz.soa.feign.client.org.ShopFeignClient;
+import com.biz.soa.feign.client.org.UserFeignClient;
 import com.biz.soa.order.service.payment.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -44,6 +46,12 @@ public abstract class AbstractOrderService extends AbstractBaseService {
 
     @Autowired
     protected ShopCartService shopCartService;
+
+    @Autowired(required = false)
+    protected UserFeignClient userFeignClient;
+
+    @Autowired(required = false)
+    protected ShopFeignClient shopFeignClient;
 
     protected Order getOrder(Long id) {
         return orderRepository.findOne(id);

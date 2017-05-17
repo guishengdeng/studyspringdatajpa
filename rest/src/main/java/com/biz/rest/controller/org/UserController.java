@@ -1,16 +1,14 @@
 package com.biz.rest.controller.org;
 
-import com.biz.gbck.common.exception.CommonException;
-import com.biz.gbck.common.exception.ExceptionCode;
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
-import com.biz.rest.bean.Constant;
+import com.biz.gbck.exceptions.DepotNextDoorException;
+import com.biz.gbck.vo.org.*;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.rest.util.RestUtil;
 import com.biz.service.org.interfaces.UserService;
 import com.biz.soa.feign.client.org.UserFeignClient;
 import com.biz.support.web.handler.JSONResult;
 import com.biz.support.web.util.HttpServletHelper;
-import com.biz.gbck.vo.org.*;
 import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,8 +48,7 @@ public class UserController extends BaseRestController {
      * 用户注册
      */
     @RequestMapping(value = "register", method = RequestMethod.POST)
-    public JSONResult register(HttpServletRequest request)
-        throws CommonException {
+    public JSONResult register(HttpServletRequest request) throws DepotNextDoorException {
 
         UserRegisterReqVo userRegisterReqVo =
             RestUtil.parseBizData(request, UserRegisterReqVo.class);
@@ -68,8 +65,7 @@ public class UserController extends BaseRestController {
      * 忘记密码
      */
     @RequestMapping(value = "forgotPassword", method = RequestMethod.POST)
-    public JSONResult forgotPassword(HttpServletRequest request)
-        throws CommonException {
+    public JSONResult forgotPassword(HttpServletRequest request) throws DepotNextDoorException {
 
         ForgotPasswordReqVo forgotPasswordReqVo =
             RestUtil.parseBizData(request, ForgotPasswordReqVo.class);
@@ -82,8 +78,7 @@ public class UserController extends BaseRestController {
      * 登录
      */
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public JSONResult login(HttpServletRequest request)
-        throws CommonException {
+    public JSONResult login(HttpServletRequest request) throws  DepotNextDoorException {
         UserLoginReqVo userLoginReqVo = RestUtil.parseBizData(request, UserLoginReqVo.class);
         String clientIP = HttpServletHelper.getClientIP(request);
         logger.debug("Received /users/login POST request with account:{} from ip:{}",
@@ -113,7 +108,7 @@ public class UserController extends BaseRestController {
      * 自动登陆详情(此接口会绑定token)
      */
     @RequestMapping(value = "autoLogin", method = RequestMethod.POST)
-    public JSONResult autoLogin(HttpServletRequest request) throws CommonException {
+    public JSONResult autoLogin(HttpServletRequest request) throws DepotNextDoorException {
 
         AutoLoginReqVo reqVo = RestUtil.parseBizData(request, AutoLoginReqVo.class);
         logger.debug("Received /users tokenChange request with account:{} from ip:{}",
@@ -127,8 +122,7 @@ public class UserController extends BaseRestController {
      * 变更用户绑定手机号码
      */
     @RequestMapping(value = "changeMobile", method = RequestMethod.POST)
-    public JSONResult changeMobile(HttpServletRequest request)
-        throws CommonException {
+    public JSONResult changeMobile(HttpServletRequest request) throws DepotNextDoorException {
 
         UserChangeMobileReqVo userChangeMobileReqVo =
             RestUtil.parseBizData(request, UserChangeMobileReqVo.class);
@@ -141,7 +135,7 @@ public class UserController extends BaseRestController {
      * 修改用户头像
      */
     @RequestMapping(value = "changeAvatar", method = RequestMethod.POST)
-    public JSONResult updateAvatar(HttpServletRequest request) throws CommonException {
+    public JSONResult updateAvatar(HttpServletRequest request) throws DepotNextDoorException {
 
         UserChangeAvatarReqVo userChangeAvatarReqVo =
             RestUtil.parseBizData(request, UserChangeAvatarReqVo.class);
@@ -155,8 +149,7 @@ public class UserController extends BaseRestController {
      * 修改用户密码
      */
     @RequestMapping(value = "changePwd", method = RequestMethod.POST)
-    public JSONResult changePwd(HttpServletRequest request)
-        throws CommonException {
+    public JSONResult changePwd(HttpServletRequest request) throws DepotNextDoorException {
 
         ChangePwdVo changePwdVo = RestUtil.parseBizData(request, ChangePwdVo.class);
         //userService.changePwd(changePwdVo);
@@ -169,7 +162,7 @@ public class UserController extends BaseRestController {
      *验证登录密码
      */
     @RequestMapping(value = "validateLoginPassword", method = RequestMethod.POST)
-    public JSONResult validateLoginPwd(HttpServletRequest request) throws CommonException {
+    public JSONResult validateLoginPwd(HttpServletRequest request) throws DepotNextDoorException {
 
         ValidateUserLoginPwdReqVo validateUserLoginPwdReqVo =
             RestUtil.parseBizData(request, ValidateUserLoginPwdReqVo.class);

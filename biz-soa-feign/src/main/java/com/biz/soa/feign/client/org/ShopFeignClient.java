@@ -15,6 +15,7 @@ import com.biz.gbck.vo.org.UserChangeDeliveryNameReqVo;
 import com.biz.soa.feign.hystrix.org.ShopFeignClientHystrix;
 import com.biz.support.web.handler.JSONResult;
 import org.springframework.cloud.netflix.feign.FeignClient;
+/*import org.springframework.data.domain.Page;*/
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -40,7 +40,7 @@ import static java.lang.String.format;
  * Created by defei on 3/16/16.
  */
 //@PropertySources({
-//        @PropertySource(value = "classpath:config.properties")
+//        @PropertySource(value = "classpath:application.properties")
 //})
 @Service
 public class SmsSoaServiceImpl extends CommonService implements SmsSoaService {

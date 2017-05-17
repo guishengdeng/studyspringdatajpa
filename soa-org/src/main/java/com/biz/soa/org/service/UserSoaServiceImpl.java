@@ -6,9 +6,6 @@ import com.biz.core.codec.PasswordUtil;
 import com.biz.core.transaction.BizTransactionManager;
 import com.biz.core.util.DateUtil;
 import com.biz.core.util.StringTool;
-import com.biz.event.org.AutoLoginEvent;
-import com.biz.event.org.UserLoginEvent;
-import com.biz.event.org.UserRegisterEvent;
 import com.biz.gbck.common.com.SMSType;
 import com.biz.gbck.common.com.mo.Message;
 import com.biz.gbck.common.exception.CommonException;
@@ -45,6 +42,9 @@ import com.biz.gbck.vo.org.UserLoginResVo;
 import com.biz.gbck.vo.org.UserRegisterReqVo;
 import com.biz.gbck.vo.search.bbc.SearchUserReqVo;
 import com.biz.service.CommonService;
+import com.biz.soa.org.event.AutoLoginEvent;
+import com.biz.soa.org.event.UserLoginEvent;
+import com.biz.soa.org.event.UserRegisterEvent;
 import com.biz.soa.org.service.interfaces.ShopSoaService;
 import com.biz.soa.org.service.interfaces.SmsSoaService;
 import com.biz.soa.org.service.interfaces.UserSoaService;
@@ -287,7 +287,7 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
 
     @Override
     public UserLoginResVo autoLogin(AutoLoginReqVo autoLoginReqVo) throws CommonException {
-        UserRo userRo = this.findUser(autoLoginReqVo.getUserId());
+        UserRo userRo = this.findUser(Long.valueOf(autoLoginReqVo.getUserId()));
         BizTransactionManager.publishEvent(new AutoLoginEvent(this, userRo, autoLoginReqVo), true);
         //publishEvent(new AutoLoginEvent(this, userRo, autoLoginReqVo));
         return buildRespVo(userRo);
@@ -295,8 +295,8 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
 
     @Override
     public void logout(CommonReqVoBindUserId commonReqVoBindUserId) {
-        userRedisDao.clearToken(commonReqVoBindUserId.getUserId(), "", "");
-        userRepository.cleanLoginDevice(commonReqVoBindUserId.getUserId()); //保存用户最后登录设备
+        userRedisDao.clearToken(Long.valueOf(commonReqVoBindUserId.getUserId()), "", "");
+        userRepository.cleanLoginDevice(Long.valueOf(commonReqVoBindUserId.getUserId())); //保存用户最后登录设备
     }
 
     @Override
@@ -304,9 +304,7 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
     public void forgotPassword(ForgotPasswordReqVo forgotPasswordReqVo) throws CommonException {
 
         if (forgotPasswordReqVo == null || StringUtils.isBlank(forgotPasswordReqVo.getPassword())
-                // todo liubin
-                //|| forgotPasswordReqVo.getPassword().length() != 32
-                ) {
+                || forgotPasswordReqVo.getPassword().length() != 32) {
             throw DepotnearbyExceptionFactory.User.ILLEGAL_PASSWORD;
         }
         if (smsSoaService.validateAndDisableSMSCode(forgotPasswordReqVo.getMobile(),
@@ -587,7 +585,7 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
 
         if (smsSoaService.validateAndDisableSMSCode(reqVo.getMobile(), SMSType.CHANGE_MOBILE,
                 reqVo.getSmsCode())) {
-            final UserRo userRo = userRedisDao.get(reqVo.getUserId());
+            final UserRo userRo = userRedisDao.get(Long.valueOf(reqVo.getUserId()));
             if (userRo == null) {
                 throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
             }
@@ -595,8 +593,8 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
             if (userId != null) {
                 throw DepotnearbyExceptionFactory.User.USER_EXIST;
             }
-            userRepository.updateUserMobile(reqVo.getUserId(), reqVo.getMobile());
-            final UserPo userPo = userRepository.findOne(reqVo.getUserId());
+            userRepository.updateUserMobile(Long.valueOf(reqVo.getUserId()), reqVo.getMobile());
+            final UserPo userPo = userRepository.findOne(Long.valueOf(reqVo.getUserId()));
             DepotnearbyTransactionManager.doWhenTransactionalSuccess(
                     new DepotnearbyTransactionManager.Task() {
                         @Override public void justDoIt() {
@@ -651,12 +649,12 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
      */
     @Transactional public void changeAvatar(UserChangeAvatarReqVo reqVo) throws CommonException {
 
-        UserRo userRo = userRedisDao.get(reqVo.getUserId());
+        UserRo userRo = userRedisDao.get(Long.valueOf(reqVo.getUserId()));
         if (userRo == null) {
             throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
         }
-        userRepository.updateUserAvatar(reqVo.getUserId(), reqVo.getAvatar());
-        final UserPo userPo = userRepository.findOne(reqVo.getUserId());
+        userRepository.updateUserAvatar(Long.valueOf(reqVo.getUserId()), reqVo.getAvatar());
+        final UserPo userPo = userRepository.findOne(Long.valueOf(reqVo.getUserId()));
         DepotnearbyTransactionManager.doWhenTransactionalSuccess(
                 new DepotnearbyTransactionManager.Task() {
                     @Override public void justDoIt() {
@@ -772,7 +770,7 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
 
     @Transactional
     public void changePwd(final ChangePwdVo changePwdVo) throws CommonException {
-        UserRo userRo = userRedisDao.get(changePwdVo.getUserId());
+        UserRo userRo = userRedisDao.get(Long.valueOf(changePwdVo.getUserId()));
         if (userRo == null) {
             throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
         }
