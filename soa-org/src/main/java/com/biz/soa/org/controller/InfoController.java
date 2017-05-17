@@ -42,7 +42,7 @@ import java.util.List;
     public Object notices(@RequestBody ListNoticeAfterLastReqVo reqVo,
             HttpServletRequest httpRequest, HttpServletResponse response) {
         List<NoticeRo> roList =
-                noticeSoaService.findUserNoticeAfter(reqVo.getUserId(), reqVo.getLastNoticeId());
+                noticeSoaService.findUserNoticeAfter(Long.valueOf(reqVo.getUserId()), reqVo.getLastNoticeId());
         List<NoticeResVo> voList = Lists.transform(roList, new NoticeRoToNoticeResVo());
         return new JSONResult(voList);
     }
