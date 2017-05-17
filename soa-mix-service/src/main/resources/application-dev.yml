@@ -1,13 +1,13 @@
+server:
+  port: 8900
 spring:
   application:
-    name: depotnextdoor-rest
-  profiles:
-    active: ddf
+    name: depotnextdoor-mix-service
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    username: root
-    password: 12345678
-    url: jdbc:mysql://127.0.0.1:3306/gbck?characterEncoding=utf-8
+    username: depotapp
+    password: Depot*123456
+    url: jdbc:mysql://10.4.100.198:3306/depotnextdoor?characterEncoding=utf-8
     dbcp2:
       initial-size: 5
       max-total: 10
@@ -17,20 +17,18 @@ spring:
       test-on-return: false
       test-while-idle: true
       validation-query: SELECT 1
+
   jpa:
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: update
     database: mysql
-    open-in-view: true
-    properties:
-      hibernate:
-        enable_lazy_load_no_trans: true
+
 biz:
   soa:
     idx: 1
   zookeeper:
-    url: zookeeper://127.0.0.1:2181
+    url: zookeeper://10.4.100.194:2181
     soaIdx:
       path: /biz/gbck/boot/soaIdx
     #redis:
@@ -41,26 +39,26 @@ biz:
     timeBetweenEvictionRunsMillis: 30000
     minEvictableIdleTimeMillis: 30000
     testOnBorrow: true
-    host: 127.0.0.1
+    host: 10.4.100.196
     port: 6379
     name:
     password:
-  oss:
-    remoteEndpoint: oss-cn-beijing.aliyuncs.com
-    localEndpoint: oss-cn-beijing-internal.aliyuncs.com
-    accessKeyId: LTAIcBsZ7zY66tku
-    accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
-    bucketName: gbck-test
   amqp:
+    host: 10.4.100.196
     username: guest
     password: guest
     port: 5672
-    host: 127.0.0.1
     maxRetry: 3
     retryElapse: 1000
-server:
-  port: 8999
+security:
+  basic:
+    enabled: false
+management:
+  security:
+    enabled: false
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:7777/eureka
+      defaultZone: http://10.4.100.194:7777/eureka/,http://10.4.100.195:7777/eureka/,http://10.4.100.196:7777/eureka/
+  instance:
+    prefer-ip-address: true
