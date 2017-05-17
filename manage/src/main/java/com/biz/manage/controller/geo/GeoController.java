@@ -32,45 +32,6 @@ import java.util.List;
     private GeoService geoService;
     private static final Logger logger = LoggerFactory.getLogger(GeoController.class);
 
-    /**
-     * 查询所有省
-     */
-    @ResponseBody
-    @RequestMapping("findAllProvinces")
-    public JSONResult findAllProvinces(){
-        List<GeoResVo> geoResVos= geoService.findAllProvinces();
-        if(CollectionUtils.isNotEmpty(geoResVos)){
-            return new JSONResult(geoResVos);
-        }
-        return new JSONResult(ExceptionCode.Global.PARAMETER_ERROR,"查询省异常");
-    }
-
-    /**
-     * 根据省id查找市集合
-     */
-    @ResponseBody
-    @RequestMapping("findCityByProvinceId")
-    public JSONResult findCityByProvinceId(String id){
-        List<GeoResVo> geoResVos =geoService.findCityByProvinceId(id);
-        if(CollectionUtils.isNotEmpty(geoResVos)){
-            return new JSONResult(geoResVos);
-        }
-        return new JSONResult(ExceptionCode.Global.PARAMETER_ERROR,"无效id");
-    }
-
-    /**
-     * 根据市id查询区县集合
-     */
-    @ResponseBody
-    @RequestMapping("findDistrictByByCityId")
-    public JSONResult findDistrictByByCityId(String id){
-        List<GeoResVo> geoResVos =geoService.findDistrictByCityId(id);
-        if(CollectionUtils.isNotEmpty(geoResVos)){
-            return new JSONResult(geoResVos);
-        }
-        return new JSONResult(ExceptionCode.Global.PARAMETER_ERROR,"无效id");
-    }
-
 
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('OPT_GEO_TREELIST')")
@@ -92,14 +53,12 @@ import java.util.List;
         return mv;
     }
 
+    @ResponseBody
     @RequestMapping(value = "/listChildren", method = RequestMethod.GET)
-    public ModelAndView forwardToNewPage(@RequestParam(value = "areaLevel") Integer areaLevel,
+    public JSONResult forwardToNewPage(@RequestParam(value = "areaLevel") Integer areaLevel,
                                          @RequestParam(value = "regionId") Integer regionId) {
-
-        logger.debug("Received /geo/listChildren GET request with areaLevel:{}, regionId:{}.",
-            areaLevel, regionId);
-        return new ModelAndView("geo/selectHtml", "regions",
-            geoService.findRegionByParentAreaLevelAndParentId(areaLevel, regionId));
+        List<SimpleRegionVo> simples= geoService.findRegionByParentAreaLevelAndParentId(areaLevel, regionId);
+        return new JSONResult(simples);
     }
 
     @RequestMapping(value = "/findChildren", method = RequestMethod.POST)

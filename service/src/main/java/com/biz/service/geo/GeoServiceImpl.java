@@ -568,23 +568,21 @@ public class GeoServiceImpl extends AbstractBaseService implements GeoService, D
 
     @Override
     public List<SimpleRegionVo> findRegionByParentAreaLevelAndParentId(Integer areaLevel, Integer parentId) {
-        try {
-            List data = geoChildrenLoadCache.get(new GeoChildrenLoadKey(areaLevel, parentId));
-            return Lists.transform(data, new RegionToSimpleRegionVo());
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-            return newArrayList();
+        List data=newArrayList();
+        if(areaLevel == IArea.LEVEL_PROVINCE){
+             data = cityRepository.findByProvinceIdAndStatus(parentId,GeoStatus.GEO_NORMAL.getValue());/*geoChildrenLoadCache.get(new GeoChildrenLoadKey(areaLevel, parentId))*/
+
+        }else
+        if(areaLevel == IArea.LEVEL_CITY){
+             data = districtRepository.findByCityIdAndStatus(parentId,GeoStatus.GEO_NORMAL.getValue());/*geoChildrenLoadCache.get(new GeoChildrenLoadKey(areaLevel, parentId))*/
         }
+        return Lists.transform(data, new RegionToSimpleRegionVo());
     }
 
     @Override
     public List<SimpleRegionVo> findRegionByLevel(Integer areaLevel) {
-        try {
-            List provinces = geoLoadCache.get(IArea.LEVEL_PROVINCE);
+            List provinces =provinceRepository.findByStatus(GeoStatus.GEO_NORMAL.getValue());/* geoLoadCache.get(IArea.LEVEL_PROVINCE)*/
             return Lists.transform(provinces, new RegionToSimpleRegionVo());
-        } catch (ExecutionException e) {
-            return newArrayList();
-        }
     }
 
     @Override

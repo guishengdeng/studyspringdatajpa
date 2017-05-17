@@ -162,9 +162,9 @@
                                             <span>注册地址:</span>
                                             <manage:geo provinceFieldName="provinceId" cityFieldName="cityId"
                                                         districtFieldName="districtId"
-                                                        provinceId="${shopDetail.province.id}"
-                                                        cityId="${shopDetail.city.id}"
-                                                        districtId="${shopDetail.district.id}"/>
+                                                        provinceId="${shopDetail.province==null?'':shopDetail.province.id}"
+                                                        cityId="${shopDetail.city==null?'':shopDetail.city.id}"
+                                                        districtId="${shopDetail.district==null?'':shopDetail.district.id}"/>
                                         </div>
                                     </div>
                                 </div>
