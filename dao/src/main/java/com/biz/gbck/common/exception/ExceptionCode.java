@@ -923,4 +923,14 @@ public interface ExceptionCode {
 
 
     }
+
+    /**
+     * 合伙人8000-8100
+     */
+    interface Partner {
+        /**
+         * 合伙人账户已存在
+         */
+        int IS_EXISTS = 8000;
+    }
 }

@@ -33,13 +33,16 @@ public enum ReturnCause implements EnumerableValue {
         this.desc = desc;
     }
 
-    public ReturnCause valueOf(Integer value) {
-       if (value == null) return null;
-       if (value == null || value == OTHER.value) {
+    public static ReturnCause valueOf(Integer value) {
+       if (value == PRE_EXPIRED.getValue()) {
+           return PRE_EXPIRED;
+       } else if (value == BROKEN.getValue()) {
+           return BROKEN;
+       } else if (value == QUALITY_PROBLEM.getValue()){
+           return QUALITY_PROBLEM;
+       } else {
            return OTHER;
        }
-        //TODO
-        return null;
     }
 
 

@@ -66,12 +66,12 @@ public class UserRegisterReqVo extends WithoutBindRequestParams
         this.globalParams = globalParams;
     }
 
-    public String getToken() {
+    public String getPushToken() {
         return token;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setPushToken(String pushToken) {
+        this.token = pushToken;
     }
 
     public UserPo toUserPo() {
@@ -152,5 +152,17 @@ public class UserRegisterReqVo extends WithoutBindRequestParams
         this.originalPassword = originalPassword;
     }
 
-
+    @Override
+    public String toString() {
+        return "UserRegisterReqVo{" +
+                "mobile='" + mobile + '\'' +
+                ", smsCode='" + smsCode + '\'' +
+                ", password='" + password + '\'' +
+                ", inviterCode='" + inviterCode + '\'' +
+                ", globalParams=" + globalParams +
+                ", originalPassword='" + originalPassword + '\'' +
+                ", ip='" + ip + '\'' +
+                ", token='" + token + '\'' +
+                '}';
+    }
 }

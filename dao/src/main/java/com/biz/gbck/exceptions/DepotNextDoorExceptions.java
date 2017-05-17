@@ -342,7 +342,8 @@ public interface DepotNextDoorExceptions {
     enum Order implements ExceptionType {
 
         ORDER_NOT_EXIST(3001, "订单不存在"),
-        ORDER_PAYED(3002, "订单已经支付");
+        ORDER_PAYED(3002, "订单已经支付"),
+        ORDER_NOT_ALLOWED_RETURN(3003, "订单当前状态不允许申请售后");
 
         private int code;
         private String description;

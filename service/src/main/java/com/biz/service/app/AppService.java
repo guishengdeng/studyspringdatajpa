@@ -2,8 +2,11 @@ package com.biz.service.app;
 
 import com.biz.gbck.dao.mysql.po.app.App;
 import com.biz.gbck.vo.app.AppVo;
+import com.biz.gbck.vo.config.AppConfigVo;
+import com.biz.gbck.vo.config.CategoryResVo;
 
 import java.util.List;
+
 
 
 /**
@@ -19,4 +22,15 @@ public interface AppService {
 
     AppVo findLastData();
 
+    /**
+     * 返回启动上报后台配置需要参数
+     * @return
+     */
+    AppConfigVo getAppConfigVo();
+
+    /**
+     * 获取启动上报商品类型集合
+     * @return
+     */
+    List<CategoryResVo> getCategories();
 }

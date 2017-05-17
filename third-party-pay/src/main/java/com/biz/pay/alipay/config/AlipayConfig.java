@@ -24,27 +24,37 @@ public class AlipayConfig {
 	
 	//↓↓↓↓↓↓↓↓↓↓请在这里配置您的基本信息↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
     // 合作身份者ID，以2088开头由16位纯数字组成的字符串
-    public static String partner;
+    public static String partner = "2088221419667143";
     								
     // 收款支付宝账号，以2088开头由16位纯数字组成的字符串
-    public static String seller_id;
+    public static String seller_id = partner;
     //账户名
-    public static String account_name;
+    public static String account_name = "成都隔壁仓库科技有限公司";
     //账户
-    public static String email_account;
+    public static String email_account = "defei.deng@biz-united.com.cn";;
     // 商户的私钥
-    public static String private_key;
+    public static String private_key = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAKXyhrbqo1mr44WtniCccWyN" +
+            "/tX918D0lxizpe0Zxd7zHxz7mqPli2OTkn+rW+C2kNy+N+8J+/qpWBzPcO9+On1jWnU3FHmZTnJP1O2" +
+            "/PVzn2OS1yWk2rLnQGE9lb1GUUBrxCQKds/JBQvABOPGArWA5h6cRcQ9" +
+            "+LB5x7q1z0ev7AgMBAAECgYAqk9pqrjMxO8AJuW0b8ufLMXeUEig8UsU9ykIlXnp9ZKWz+v5HVQr5hpCM" +
+            "/zt4oX7zlD6nr0kenDqGUdcpK5r3zSsjJ0dfdr0oH5fhxDNUyQQ11hpyy0PzMXb6iUQchfXckzw/XLB" +
+            "/Rr1CoMec3FIJCZ3gPD9XUKN0CaThUZSPqQJBANOjX4w5G6mHiuzLZUBO+EtWnEC+nWQ7XqAdwDx58z0GTG8pe0tq9hSQsfU4mw6B" +
+            "/Qd8p4aC6CA4ywIe5KObN3UCQQDIu1uaOUaM0s+/PJsdOAi9zhKmJu7AXCgePVV4ez2jPMv6g8q4pD3CFgxx4UkA9jAH" +
+            "/oQxIJ1L2iJhxqKT3ZevAkA8MatrZpLHlRWeY/tYXx2fz/KBN7XsXDZ9s/iJOuZD5Ra4R0QaH0H" +
+            "+d2kmJgN0DOS6zGmZiIIdKAoVgFPndK5BAkAgCN6Ol1NuB/rFn0t190pV2DxbrdzucAarBMjOKITmtz4qZbwFiZidj90" +
+            "+k2COObvimrjICldwEojoJ8YsaPHbAkEAk8zAh7BdpizSpUn6/L4sGcCD2CUtdkcPQw6CSLknpZZMHPz" +
+            "+uRRE0k8d8c5WSr2cXYV6PwZcsORt/10uiG3bhQ==";
     // 支付宝的公钥，无需修改该值
-    public static String ali_public_key;
+    public static String ali_public_key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB";
 
     // 调试用，创建TXT日志文件夹路径
-    public static String log_path = "/home/paymentlog/";
+    public static String log_path = "/home/pay_log/";
 
     // 字符编码格式 目前支持 gbk 或 utf-8
     public static String input_charset = "utf-8";
 
     // 签名方式 不需修改
-    public static String sign_type;
+    public static String sign_type = "RSA";
     //MD5签名约定KEY
     public static String sign_key;
 

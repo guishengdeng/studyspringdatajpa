@@ -3,6 +3,7 @@ package com.biz.soa.order.service.frontend;
 import com.biz.core.asserts.SystemAsserts;
 import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.dao.mysql.repository.order.OrderRepository;
+import com.biz.gbck.dao.mysql.repository.order.OrderReturnRepository;
 import com.biz.gbck.dao.redis.repository.order.OrderRedisDao;
 import com.biz.gbck.enums.order.OrderStatus;
 import com.biz.gbck.transform.order.Order2OrderRo;
@@ -10,6 +11,8 @@ import com.biz.service.AbstractBaseService;
 import com.biz.service.SequenceService;
 import com.biz.service.cart.ShopCartService;
 import com.biz.service.stock.StockService;
+import com.biz.soa.feign.client.org.ShopFeignClient;
+import com.biz.soa.feign.client.org.UserFeignClient;
 import com.biz.soa.order.service.payment.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -30,16 +33,25 @@ public abstract class AbstractOrderService extends AbstractBaseService {
     protected OrderRepository orderRepository;
 
     @Autowired
+    protected OrderReturnRepository orderReturnRepository;
+
+    @Autowired
     protected SequenceService sequenceService;
 
     @Autowired
     protected PaymentService paymentService;
 
-    @Autowired
+    @Autowired(required = false)
     protected StockService stockService;
 
     @Autowired
     protected ShopCartService shopCartService;
+
+    @Autowired
+    protected UserFeignClient userFeignClient;
+
+    @Autowired
+    protected ShopFeignClient shopFeignClient;
 
     protected Order getOrder(Long id) {
         return orderRepository.findOne(id);
@@ -58,7 +70,6 @@ public abstract class AbstractOrderService extends AbstractBaseService {
 
         return order;
     }
-
 
 
 }

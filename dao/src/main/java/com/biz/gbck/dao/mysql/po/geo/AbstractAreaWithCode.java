@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.po.geo;
 
-import com.biz.gbck.model.geo.IWeight;
+import com.biz.gbck.common.model.IWeight;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.StringUtils;
 
