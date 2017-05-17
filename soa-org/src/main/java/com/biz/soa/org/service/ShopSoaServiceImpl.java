@@ -67,6 +67,7 @@ import com.biz.gbck.vo.search.ShopQueryReqVo;
 import com.biz.gbck.vo.search.bbc.SearchUserReqVo;
 import com.biz.gbck.vo.zsgf.ZsgfLoanQueryReqVo;
 import com.biz.manage.vo.FailDetail;
+import com.biz.redis.util.RedisUtil;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.CommonService;
 import com.biz.service.org.interfaces.ShopService;
@@ -1828,10 +1829,9 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
 
 
     public List<ShopPo> getShopPoBackList() {
-//        List<String> shopIds = shopRedisDao.getBlackList();
-        //List<ShopPo> shopPos = shopRepository.findByIdIn(CollectionUtils.toSet(RedisUtil.strListToLongList(shopIds)));
-//        return shopPos;
-        return null;
+        List<String> shopIds = shopRedisDao.getBlackList();
+        List<ShopPo> shopPos = shopRepository.findByIdIn(CollectionUtils.toSet(RedisUtil.strListToLongList(shopIds)));
+        return shopPos;
     }
 
     public void deleteBlackList(List<String> shopIds) {
