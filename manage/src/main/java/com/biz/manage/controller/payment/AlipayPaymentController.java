@@ -9,16 +9,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created by lzz on 2017/5/15.
  */
 @Controller
-@RequestMapping("payment")
+@RequestMapping("pay")
 @Secured("ROLE_PAY")
 public class AlipayPaymentController extends BaseController {
 
@@ -32,10 +30,10 @@ public class AlipayPaymentController extends BaseController {
         return new ModelAndView("payment/alipay").addObject("page", page);
     }
 
-    @GetMapping("alipaylog")
+    @PostMapping("alipaylog")
     @PreAuthorize("hasAuthority('OPT_ALIPAY_LIST')")
-    public ModelAndView list(Long id){
-        AlipayPaymentLogPo alipayPaymentLogPo = alipayPaymentService.findById(id);
-        return  new ModelAndView("payment/alipay").addObject("alipayPaymentLogPo",alipayPaymentLogPo);
+    @ResponseBody
+    public AlipayPaymentLogPo list(Long id){
+        return alipayPaymentService.findById(id);
     }
 }

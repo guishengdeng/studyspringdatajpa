@@ -22,4 +22,9 @@ public class WechatPaymentServiceImpl implements WechatPaymentService {
     public Page<WechatPaymentLogPo> findList(WechatPaymentVo wechatPaymentVo) {
         return wechatPaymentLogPoRepository.findAll(new WechatPaymentSpecification(wechatPaymentVo), new PageRequest(wechatPaymentVo.getPage() - 1, wechatPaymentVo.getPageSize()));
     }
+
+    @Override
+    public WechatPaymentLogPo findOne(Long id) {
+        return id != null ? wechatPaymentLogPoRepository.findOne(id) : null;
+    }
 }

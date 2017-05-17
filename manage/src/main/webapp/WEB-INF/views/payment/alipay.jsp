@@ -5,7 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="gbck" tagdir="/WEB-INF/tags" %>
-<gbck:page title="猫">
+<gbck:page title="支付宝">
     <jsp:attribute name="css">
         <style type="text/css">
             #cat-table .name{
@@ -19,8 +19,6 @@
             }
             #alipay-table .operate, #alipay-table .status{
                 min-width: 50px;
-            }
-            #alipay-modal-table{
             }
         </style>
     </jsp:attribute>
@@ -36,12 +34,31 @@
             $(".btn-cancel-ban").click(function () {
                 $("#alipay-disable-confirm-modal").modal("hide");
             });
+            //向后台传送id 并 返回值
             $(".alipay-ban-btn").click(function () {
                 var alipayId = $("#id-of-alipay").val();
-                console.log(alipayId);
-                $.post("alipaylog.do", {
-                    "id": alipayId
-                }, "json");
+              $.ajax({
+                  method:"POST",
+                  data:{"id":alipayId},
+                  url:"pay/alipaylog.do",
+              }).done(function (returnResult) {
+                      $("#alipayment-id").val(returnResult.id)
+                      $("#alipay-notifyId").val(returnResult.notifyId);
+                      $("#alipay-buyerId").val(returnResult.buyerId);
+                      $("#alipay-buyerEmail").val(returnResult.buyerEmail);
+                      $("#alipay-useCoupon").val(returnResult.useCoupon)
+                      $("#alipay-notifyTime").val(new Date(parseInt(returnResult.notifyTime)).toLocaleString())
+                      $("#alipay-subject").val(returnResult.subject);
+                      $("#alipay-isTotalFeeAjust").val(returnResult.isTotalFeeAjust);
+                      $("#alipay-discount").val(returnResult.discount)
+                      $("#alipay-tradeStatus").val(returnResult.tradeStatus);
+                      $("#alipay-gmtCreate").val(new Date(parseInt(returnResult.gmtCreate)).toLocaleString());
+                      $("#alipay-gmtPayment").val(new Date(parseInt(returnResult.gmtPayment)).toLocaleString())
+                      $("#alipay-price").val(returnResult.price)
+                      $("#alipay-totalFee").val(returnResult.totalFee);
+                      $("#alipay-quantity").val(returnResult.quantity);
+                      $("#alipay-paymentType").val(returnResult.paymentType)
+              })
             });
             </sec:authorize>
         </script>
@@ -74,7 +91,7 @@
                                 支付宝 <span class="inline help-block">(数据库翻页查询)</span>
                             </h3>
                             <div class="hr hr-18 dotted"></div>
-                            <form action="alipay.do" method="get">
+                            <form action="pay/alipay.do" method="get">
                                 <div class="col-md-3 inline">
                                     <label>支付宝账号</label>
                                     <input name="buyerEmail" value='<c:out value="${alipayPaymentVo.buyerEmail}" />' type="text" placeholder="支付宝账号"  autocomplete="off">
@@ -85,12 +102,12 @@
                                     </button>
                                 </div>
                             </form>
-
+                            <input type="hidden" id="alipay-id"   />
                             <table id="cat-table" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
+                                    <th class="name" hidden>id</th>
                                     <th class="name">通知编号</th>
-                                    <th>买家支付宝用户号</th>
                                     <th class="status">买家支付宝账号</th>
                                     <th class="status">是否使用红包</th>
                                     <th class="status">更新时间</th>
@@ -103,17 +120,14 @@
                                     <th class="status">商品单价</th>
                                     <th class="status">交易金额</th>
                                     <th class="status">数量</th>
-                                    <th class="status">支付类型</th>
                                     <th class="center operate"></th>
                                 </tr>
                                 </thead>
 
-                                <tbody>
+                                <tbody>'
                                 <c:forEach items="${page.content}" var="alipay">
                                     <tr id="tr-${alipay.id}">
-                                        <td><c:out value="${alipay.id}" /></td>
                                         <td><c:out value="${alipay. notifyId}" /></td>
-                                        <td><c:out value="${alipay.buyerId}"/></td>
                                         <td><c:out value="${alipay.buyerEmail}"/></td>
                                         <td><c:out value="${alipay.useCoupon}"/></td>
                                         <td><c:out value="${alipay.notifyTime}"/></td>
@@ -126,14 +140,14 @@
                                         <td><c:out value="${alipay.price}"/></td>
                                         <td><c:out value="${alipay.totalFee}"/></td>
                                         <td><c:out value="${alipay.quantity}"/></td>
-                                        <td><c:out value="${alipay.paymentType}"/></td>
                                         <td><div class="hidden-sm hidden-xs btn-group">
                                             <sec:authorize access="hasAuthority('OPT_ALIPAY_LIST')">
                                                 <c:if test="${param.enabled != 'false'}">
-                                                    <button data-id="${aplipay.id}"
+                                                    <a data-id="${alipay.id}"
                                                        class="alipay-ban-btn">
                                                         <i class="ace-icon fa fa-search-plus bigger-130"></i>
-                                                    </button>
+                                                    </a>
+
                                                 </c:if>
                                             </sec:authorize>
                                         </div></td>
@@ -147,52 +161,123 @@
                     <sec:authorize access="hasAuthority('OPT_ALIPAY_LIST')">
                         <input type="hidden" id="id-of-alipay">
                         <div id="alipay-disable-confirm-modal" role="dialog" class="modal" tabindex="-1">
-                            <div class="modal-dialog">
+                            <div class="modal-dialog" style="width: 1200px ">
                                 <div class="modal-content">
                                     <div class="modal-body" id="alipay-modal-table" >
-                                        <table id="alipay-table" class="table table-bordered table-hover">
-                                            <thead>
-                                            <tr>
-                                                <th class="name">通知编号</th>
-                                                <th>买家支付宝用户号</th>
-                                                <th class="status">买家支付宝账号</th>
-                                                <th class="status">是否使用红包</th>
-                                                <th class="status">更新时间</th>
-                                                <th class="status">主题</th>
-                                                <th class="status">是否调整总价</th>
-                                                <th class="status">折扣</th>
-                                                <th class="status">销交易状态</th>
-                                                <th class="status">交易创建时间</th>
-                                                <th class="status">交易付款时间</th>
-                                                <th class="status">商品单价</th>
-                                                <th class="status">交易金额</th>
-                                                <th class="status">数量</th>
-                                                <th class="status">支付类型</th>
-                                            </tr>
-                                            </thead>
 
-                                            <tbody>
-                                            <c:forEach items="${alipayPaymentLogPo}" var="alipayPaymentLogPo">
-                                                <tr id="tr-${alipayPaymentLogPo.id}">
-                                                    <td><c:out value="${alipayPaymentLogPo. notifyId}" /></td>
-                                                    <td><c:out value="${alipayPaymentLogPo.buyerId}"/></td>
-                                                    <td><c:out value="${alipayPaymentLogPo.buyerEmail}"/></td>
-                                                    <td><c:out value="${alipayPaymentLogPo.useCoupon}"/></td>
-                                                    <td><c:out value="${alipayPaymentLogPo.notifyTime}"/></td>
-                                                    <td><c:out value="${alipayPaymentLogPo.subject}"/></td>
-                                                    <td><c:out value="${alipayPaymentLogPo.isTotalFeeAjust}"/></td>
-                                                    <td><c:out value="${alipayPaymentLogPo.discount}"/></td>
-                                                    <td><c:out value="${alipayPaymentLogPo.tradeStatus}"/></td>
-                                                    <td><c:out value="${alipayPaymentLogPo.gmtCreate}"/></td>
-                                                    <td><c:out value="${alipayPaymentLogPo.gmtPayment}"/></td>
-                                                    <td><c:out value="${alipayPaymentLogPo.price}"/></td>
-                                                    <td><c:out value="${alipayPaymentLogPo.totalFee}"/></td>
-                                                    <td><c:out value="${alipayPaymentLogPo.quantity}"/></td>
-                                                    <td><c:out value="${alipayPaymentLogPo.paymentType}"/></td>
-                                                </tr>
-                                            </c:forEach>
-                                            </tbody>
-                                        </table>
+                                            <div class="modal-body">
+                                                <div class="form-horizontal" role="form" >
+                                                    <div class="form-group">
+                                                        <label  class="col-sm-3 control-label">ID</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control"  name="id" value="" id="alipayment-id" readonly>
+                                                        </div>
+                                                    </div>
+                                                <div class="form-horizontal" role="form" id="userForm">
+                                                    <div class="form-group">
+                                                        <label  class="col-sm-3 control-label">通知编号</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control"  name="notifyId" value="" id="alipay-notifyId" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label  class="col-sm-3 control-label">买家支付宝用户号</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control" name="buyerId" value="" id="alipay-buyerId" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label  class="col-sm-3 control-label">买家支付宝账号</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control" name="buyerEmail" value="" id="alipay-buyerEmail" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label">是否使用红包</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control" name="useCoupon" value="" id="alipay-useCoupon" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label  class="col-sm-3 control-label">更新时间</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control" name="notifyTime" value="" id="alipay-notifyTime" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label  class="col-sm-3 control-label">主题</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="" class="form-control" name="subject" value="" id="alipay-subject" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label  class="col-sm-3 control-label">是否调整总价</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="" class="form-control" name="isTotalFeeAjust" value="" id="alipay-isTotalFeeAjust" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label  class="col-sm-3 control-label">折扣</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="" class="form-control" name="discount" value="" id="alipay-discount" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label  class="col-sm-3 control-label">销交易状态</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="" class="form-control" name="tradeStatus" value="" id="alipay-tradeStatus" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label  class="col-sm-3 control-label">交易创建时间</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="" class="form-control" name="gmtCreate" value="" id="alipay-gmtCreate" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label  class="col-sm-3 control-label">交易付款时间</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="" class="form-control" name="gmtPayment" value="" id="alipay-gmtPayment" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label  class="col-sm-3 control-label">商品单价</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="" class="form-control" name="price" value="" id="alipay-price" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label  class="col-sm-3 control-label">交易金额</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="" class="form-control" name="totalFee" value="" id="alipay-totalFee" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label  class="col-sm-3 control-label">数量</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="" class="form-control" name="quantity" value="" id="alipay-quantity" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label  class="col-sm-3 control-label">支付类型</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="" class="form-control" name="paymentType" value="" id="alipay-paymentType" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
                                         <button type="button" class="bootbox-close-button close"
                                                 data-dismiss="modal" aria-hidden="true">×
                                         </button>
