@@ -1,10 +1,14 @@
 package com.biz.manage.controller.geo;
 
 import com.biz.gbck.common.com.GeoStatus;
+import com.biz.gbck.common.exception.ExceptionCode;
 import com.biz.gbck.common.model.geo.IArea;
+import com.biz.gbck.vo.geo.GeoResVo;
 import com.biz.gbck.vo.geo.GeoTreeVo;
 import com.biz.gbck.vo.geo.SimpleRegionVo;
 import com.biz.service.geo.interfaces.GeoService;
+import com.biz.support.web.handler.JSONResult;
+import org.codelogger.utils.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -26,6 +31,46 @@ import java.util.List;
     @Autowired
     private GeoService geoService;
     private static final Logger logger = LoggerFactory.getLogger(GeoController.class);
+
+    /**
+     * 查询所有省
+     */
+    @ResponseBody
+    @RequestMapping("findAllProvinces")
+    public JSONResult findAllProvinces(){
+        List<GeoResVo> geoResVos= geoService.findAllProvinces();
+        if(CollectionUtils.isNotEmpty(geoResVos)){
+            return new JSONResult(geoResVos);
+        }
+        return new JSONResult(ExceptionCode.Global.PARAMETER_ERROR,"查询省异常");
+    }
+
+    /**
+     * 根据省id查找市集合
+     */
+    @ResponseBody
+    @RequestMapping("findCityByProvinceId")
+    public JSONResult findCityByProvinceId(String id){
+        List<GeoResVo> geoResVos =geoService.findCityByProvinceId(id);
+        if(CollectionUtils.isNotEmpty(geoResVos)){
+            return new JSONResult(geoResVos);
+        }
+        return new JSONResult(ExceptionCode.Global.PARAMETER_ERROR,"无效id");
+    }
+
+    /**
+     * 根据市id查询区县集合
+     */
+    @ResponseBody
+    @RequestMapping("findDistrictByByCityId")
+    public JSONResult findDistrictByByCityId(String id){
+        List<GeoResVo> geoResVos =geoService.findDistrictByCityId(id);
+        if(CollectionUtils.isNotEmpty(geoResVos)){
+            return new JSONResult(geoResVos);
+        }
+        return new JSONResult(ExceptionCode.Global.PARAMETER_ERROR,"无效id");
+    }
+
 
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('OPT_GEO_TREELIST')")

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.biz.core.map.BaiduMapUtil;
 import com.biz.core.util.ExecutionUnit;
 import com.biz.core.util.JsonUtil;
+import com.biz.gbck.common.com.GeoStatus;
 import com.biz.gbck.dao.mysql.po.geo.CityPo;
 import com.biz.gbck.dao.mysql.po.geo.DistrictPo;
 import com.biz.gbck.dao.mysql.po.geo.ProvincePo;
@@ -22,12 +23,7 @@ import com.biz.gbck.dao.mysql.repository.geo.*;
 import com.biz.gbck.transform.geo.*;
 import com.biz.gbck.vo.common.request.LocationDecodeRequestVo;
 import com.biz.gbck.vo.common.response.*;
-import com.biz.gbck.vo.geo.AbstractMnsGeoVo;
-import com.biz.gbck.vo.geo.GeoTreeVo;
-import com.biz.gbck.vo.geo.MnsGeoCityVo;
-import com.biz.gbck.vo.geo.MnsGeoDistrictVo;
-import com.biz.gbck.vo.geo.MnsGeoProvinceVo;
-import com.biz.gbck.vo.geo.SimpleRegionVo;
+import com.biz.gbck.vo.geo.*;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.geo.interfaces.GeoService;
 import com.biz.service.sync.DataSyncService;
@@ -651,5 +647,54 @@ public class GeoServiceImpl extends AbstractBaseService implements GeoService, D
             this.level = level;
             this.id = id;
         }
+    }
+
+    /**
+     * 查询所有省
+     */
+    @Override
+    public List<GeoResVo> findAllProvinces(){
+        List<ProvincePo> provincePos=provinceRepository.findByStatus(GeoStatus.GEO_NORMAL.getValue());
+        if(CollectionUtils.isNotEmpty(provincePos)){
+            return Lists.transform(provincePos,new ProvincePoToGeoResVo());
+        }
+        return newArrayList();
+    }
+
+    /**
+     * 根据省id查找市集合
+     */
+    @Override
+    public List<GeoResVo> findCityByProvinceId(String id){
+        if(StringUtils.isBlank(id)){
+            return newArrayList();
+        }
+        ProvincePo provincePo=provinceRepository.findOne(Integer.parseInt(id));
+        if(null != provincePo){
+            List<CityPo> cityPos=provincePo.getCities();
+            if(CollectionUtils.isNotEmpty(cityPos)){
+                return Lists.transform(cityPos,new CityPoToGeoResVo());
+            }
+        }
+        return newArrayList();
+    }
+
+    /**
+     * 根据市id查询区县集合
+     */
+    @Override
+    public List<GeoResVo> findDistrictByCityId(String id){
+        if(StringUtils.isBlank(id)){
+            return newArrayList();
+        }
+        CityPo cityPo=cityRepository.findOne(Integer.parseInt(id));
+        if(null != cityPo){
+            List<DistrictPo> districtPos=cityPo.getDistricts();
+            if(CollectionUtils.isNotEmpty(districtPos)){
+                return Lists.transform(districtPos,new DistrictPoToGeoResVo());
+            }
+        }
+
+        return newArrayList();
     }
 }

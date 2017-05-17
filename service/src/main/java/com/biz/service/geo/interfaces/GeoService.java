@@ -4,6 +4,7 @@ import com.biz.gbck.vo.common.request.LocationDecodeRequestVo;
 import com.biz.gbck.vo.common.response.*;
 import com.biz.gbck.vo.geo.AbstractMnsGeoVo;
 
+import com.biz.gbck.vo.geo.GeoResVo;
 import com.biz.gbck.vo.geo.GeoTreeVo;
 import com.biz.gbck.vo.geo.SimpleRegionVo;
 
@@ -16,6 +17,8 @@ import java.util.List;
  * @date 2016/12/16
  */
 public interface GeoService {
+
+
 
     /**
      * 查询所有省份信息集合
@@ -148,6 +151,12 @@ public interface GeoService {
 
 
     List<GeoTreeVo> findRegionByRegionLevel(Integer level);
+
+    List<GeoResVo> findAllProvinces();
+
+    List<GeoResVo> findCityByProvinceId(String id);
+
+    public List<GeoResVo> findDistrictByCityId(String id);
 
 
 }
