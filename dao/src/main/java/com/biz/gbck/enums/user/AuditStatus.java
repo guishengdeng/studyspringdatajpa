@@ -1,6 +1,9 @@
 package com.biz.gbck.enums.user;
 
 
+import com.biz.core.exceptions.BizSystemException;
+import com.biz.gbck.exceptions.DepotNextDoorException;
+
 import java.util.Objects;
 
 /**
@@ -32,14 +35,14 @@ public enum AuditStatus {
         this.value = value;
     }
 
-//    public static AuditStatus valueOf(Integer value) {
-//        for (AuditStatus shopDetailAuditStatus : values()) {
-//            if (Objects.equals(shopDetailAuditStatus.getValue(), value)) {
-//                return shopDetailAuditStatus;
-//            }
-//        }
-//        throw new Biz("Illegal ShopDetailAuditStatus");
-//    }
+    public static AuditStatus valueOf(Integer value) throws DepotNextDoorException {
+        for (AuditStatus shopDetailAuditStatus : values()) {
+            if (Objects.equals(shopDetailAuditStatus.getValue(), value)) {
+                return shopDetailAuditStatus;
+            }
+        }
+        throw new DepotNextDoorException("Illegal ShopDetailAuditStatus");
+    }
 
     public Integer getValue() {
         return value;
