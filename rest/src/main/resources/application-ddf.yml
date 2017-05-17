@@ -1,13 +1,11 @@
 spring:
   application:
     name: depotnextdoor-rest
-  profiles:
-    active: ddf
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: 12345678
-    url: jdbc:mysql://127.0.0.1:3306/gbck?characterEncoding=utf-8
+    password:
+    url: jdbc:mysql://127.0.0.1:3306/depotnextdoor?characterEncoding=utf-8
     dbcp2:
       initial-size: 5
       max-total: 10
@@ -30,7 +28,7 @@ biz:
   soa:
     idx: 1
   zookeeper:
-    url: zookeeper://127.0.0.1:2181
+    url: zookeeper://10.4.100.194:2181
     soaIdx:
       path: /biz/gbck/boot/soaIdx
     #redis:
@@ -41,7 +39,7 @@ biz:
     timeBetweenEvictionRunsMillis: 30000
     minEvictableIdleTimeMillis: 30000
     testOnBorrow: true
-    host: 127.0.0.1
+    host: 10.4.100.196
     port: 6379
     name:
     password:
@@ -63,4 +61,20 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:7777/eureka
+      defaultZone: http://10.4.100.194:7777/eureka/,http://10.4.100.195:7777/eureka/,http://10.4.100.196:7777/eureka/
+
+security:
+  basic:
+    enabled: false
+    authorize-mode: none
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+ribbon:
+  ReadTimeout: 30000
+feign:
+  hystrix:
+    enabled: true
