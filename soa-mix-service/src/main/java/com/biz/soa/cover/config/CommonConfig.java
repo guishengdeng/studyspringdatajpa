@@ -16,7 +16,7 @@ import java.beans.PropertyVetoException;
  * Created by david-liu on 2017/04/18 14:09.
  */
 @Configuration
-public class ProductConfig {
+public class CommonConfig {
 
     private Environment environment;
 
@@ -25,7 +25,7 @@ public class ProductConfig {
         return new RecConfig();
     }
 
-    public ProductConfig(@Autowired Environment environment) {
+    public CommonConfig(@Autowired Environment environment) {
         this.environment = environment;
     }
 
