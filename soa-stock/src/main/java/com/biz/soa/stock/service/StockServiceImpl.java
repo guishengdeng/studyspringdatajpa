@@ -255,4 +255,5 @@ public class StockServiceImpl extends AbstractBaseService implements StockServic
         Integer availableQuantity = ValueUtils.getValue(quantity) - lockQuantity;
         return availableQuantity > 0 ? availableQuantity : 0;
     }
+
 }
