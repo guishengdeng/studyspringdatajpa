@@ -213,4 +213,15 @@ public class UserRedisDao extends CrudRedisDao<UserRo,String> {
         return users;
     }
 
+    public void saveWithToken(Long userId, String deviceId, String token, String userAgent) {
+        hset(RedisKeyGenerator.User.getUserInfoHashKey(userId),
+                RedisKeyGenerator.User.DEVICEID,
+                RedisUtil.toByteArray(StringUtils.defaultString(deviceId)));
+        hset(RedisKeyGenerator.User.getUserInfoHashKey(userId), RedisKeyGenerator.User.TOEKN,
+                RedisUtil.toByteArray(StringUtils.defaultString(token)));
+        hset(RedisKeyGenerator.User.getUserInfoHashKey(userId),
+                RedisKeyGenerator.User.LASTUSERAGENT,
+                RedisUtil.toByteArray(StringUtils.defaultString(userAgent)));
+    }
+
 }

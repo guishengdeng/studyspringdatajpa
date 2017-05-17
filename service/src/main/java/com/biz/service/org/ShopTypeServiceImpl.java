@@ -1,6 +1,5 @@
 package com.biz.service.org;
 
-import com.biz.event.org.ShopTypeSyncEvent;
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.org.ShopTypePo;
 import com.biz.gbck.dao.mysql.repository.org.ShopTypeRepository;
@@ -50,7 +49,7 @@ public class ShopTypeServiceImpl  extends CommonService implements ShopTypeServi
         if (CollectionUtils.isEmpty(shopTypeRos)) {
             List<ShopTypePo> all = shopTypeRepository.findAll();
             shopTypeRos = Lists.transform(all, new ShopTypePoToShopTypeRo());
-            publishEvent(new ShopTypeSyncEvent(this));
+            //publishEvent(new ShopTypeSyncEvent(this));
         }
         return sortShopTypeRos(shopTypeRos);
     }
@@ -62,7 +61,7 @@ public class ShopTypeServiceImpl  extends CommonService implements ShopTypeServi
             List<ShopTypePo> all = shopTypeRepository.findAllByStatus(shopTypeStatus.getValue());
             if(CollectionUtils.isNotEmpty(all)){
                 shopTypeRos = Lists.transform(all, new ShopTypePoToShopTypeRo());
-                publishEvent(new ShopTypeSyncEvent(this));
+                //publishEvent(new ShopTypeSyncEvent(this));
             }
 
         }

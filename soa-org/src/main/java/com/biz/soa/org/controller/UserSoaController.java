@@ -165,7 +165,7 @@ public class UserSoaController extends BaseRestController {
 //        ValidateUserLoginPwdReqVo validateUserLoginPwdReqVo =
 //            RestUtil.parseBizData(request, ValidateUserLoginPwdReqVo.class);
         boolean validateResult = userSoaService
-            .validateUserLoginPwd(validateUserLoginPwdReqVo.getUserId(),
+            .validateUserLoginPwd(Long.valueOf(validateUserLoginPwdReqVo.getUserId()),
                 validateUserLoginPwdReqVo.getPassword());
         if (!validateResult) {
             throw new CommonException("验证用户登录密码失败", ExceptionCode.User.PWD_NOT_MATCH);

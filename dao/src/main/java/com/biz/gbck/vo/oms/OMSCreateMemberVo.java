@@ -47,7 +47,7 @@ public class OMSCreateMemberVo {
     /**
      * 渠道代码
      */
-    @NotNull(message="渠道代码不能空")
+    //@NotNull(message="渠道代码不能空")
     private String channelCode;
 
     public Long getUserId() {
