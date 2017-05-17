@@ -3,9 +3,9 @@ spring:
     name: depotnextdoor-rest
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    username: depotapp
-    password: Depot*123456
-    url: jdbc:mysql://10.4.100.198:3306/depotnextdoor?characterEncoding=utf-8
+    username: root
+    password:
+    url: jdbc:mysql://127.0.0.1:3306/depotnextdoor?characterEncoding=utf-8
     dbcp2:
       initial-size: 5
       max-total: 10
@@ -53,7 +53,7 @@ biz:
     username: guest
     password: guest
     port: 5672
-    host: 10.4.100.196
+    host: 127.0.0.1
     maxRetry: 3
     retryElapse: 1000
 server:
@@ -62,10 +62,7 @@ eureka:
   client:
     service-url:
       defaultZone: http://10.4.100.194:7777/eureka/,http://10.4.100.195:7777/eureka/,http://10.4.100.196:7777/eureka/
-  instance:
-    prefer-ip-address: true
-  server:
-    eviction-interval-timer-in-ms: 1000
+
 security:
   basic:
     enabled: false

@@ -15,14 +15,15 @@ import com.biz.service.AbstractBaseService;
 import com.biz.service.cart.ShopCartService;
 import com.biz.service.stock.StockService;
 import com.google.common.collect.Lists;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import org.apache.commons.collections.CollectionUtils;
 import org.codelogger.utils.StringUtils;
 import org.codelogger.utils.ValueUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.newHashMap;
@@ -81,7 +82,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         if (logger.isDebugEnabled()) {
             logger.debug("获取购物车信息-------请求vo: {}", reqVo);
         }
-        if (reqVo == null || reqVo.getUserId() == null) {
+        if (reqVo == null) {
             logger.warn("购物车参数不合法");
             throw new IllegalParameterException("参数不合法");
         }

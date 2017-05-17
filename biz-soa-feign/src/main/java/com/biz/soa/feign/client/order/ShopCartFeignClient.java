@@ -28,6 +28,6 @@ public interface ShopCartFeignClient {
     @RequestMapping(value = "/soa/shopcart/app/cartNum", method = RequestMethod.POST)
     ShopCartNumRespVo getCartNum(@RequestBody ShopCartNumReqVo reqVo);
 
-    @RequestMapping(value = "/soa/shopcart/app/cartNum", method = RequestMethod.POST)
-    void deleteCartItems(@RequestBody ShopCartItemBatchDeleteReqVo reqVo);
+    @RequestMapping(value = "/soa/shopcart/app/deleteCartItems", method = RequestMethod.POST)
+    void deleteCartItems(ShopCartItemBatchDeleteReqVo reqVo);
 }

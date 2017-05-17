@@ -10,8 +10,8 @@
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>soa-user</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <artifactId>soa-mix-service</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
@@ -37,7 +37,7 @@
     </dependencies>
 
     <build>
-        <finalName>soa-org</finalName>
+        <finalName>soa-mix-service</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -59,4 +59,27 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <profileName>dev</profileName>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profileName>test</profileName>
+            </properties>
+        </profile>
+        <profile>
+            <id>production</id>
+            <properties>
+                <profileName>production</profileName>
+            </properties>
+        </profile>
+    </profiles>
 </project>

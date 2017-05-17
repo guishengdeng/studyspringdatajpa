@@ -14,7 +14,7 @@ import javax.persistence.*;
  * @see
  */
 @Entity
-@Table(name = "sto_stock_book", uniqueConstraints = {@UniqueConstraint(columnNames = {"company_id", "product_id"})})
+@Table(name = "sto_stock", uniqueConstraints = {@UniqueConstraint(columnNames = {"company_id", "product_id"})})
 public class Stock extends BaseEntity {
 
     private static final long serialVersionUID = 5652389386181748226L;

@@ -58,6 +58,7 @@ biz:
 server:
   session:
     timeout: 1200
+  port: 8680
 security:
   basic:
     enabled: false
@@ -67,7 +68,7 @@ management:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:5555/eureka
+      defaultZone: http://localhost:7777/eureka
 
 payment:
   alipay:
