@@ -39,11 +39,12 @@ biz:
     timeBetweenEvictionRunsMillis: 30000
     minEvictableIdleTimeMillis: 30000
     testOnBorrow: true
-    host: 127.0.0.1
+    host: 10.4.100.196
     port: 6379
     name:
     password:
   amqp:
+    host: 10.4.100.196
     username: guest
     password: guest
     port: 5672
