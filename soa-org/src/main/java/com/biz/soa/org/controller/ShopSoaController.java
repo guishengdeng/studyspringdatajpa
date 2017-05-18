@@ -6,6 +6,7 @@ import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
 import com.biz.gbck.dao.mysql.po.org.ShopPo;
 import com.biz.gbck.dao.mysql.po.org.ShopQualificationPo;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
+import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.user.AuditStatus;
@@ -260,5 +261,11 @@ public class ShopSoaController extends BaseRestController {
         shopSoaService.deleteBlackList(shopIds);
         return new JSONResult();
     }
+
+    @RequestMapping(value = "findShopRoById", method = RequestMethod.POST)
+    public ShopRo findShopRoById(@RequestParam("id") Long id) throws CommonException{
+        return shopSoaService.findShop(id);
+    }
+
 
 }

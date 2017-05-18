@@ -117,6 +117,13 @@ public interface ShopFeignClient {
 
 
     /**
+     *根据id查询对应商户
+     */
+    @RequestMapping(value = "soa/shop/findShopRoById", method = RequestMethod.POST)
+    ShopPo findShopRoById(@RequestParam("id") Long id);
+
+
+    /**
      * 物理删除，慎用
      */
     @RequestMapping(value = "soa/shop/destroyShopAndItUsers", method = RequestMethod.POST)
@@ -142,8 +149,6 @@ public interface ShopFeignClient {
 
     @RequestMapping(value = "soa/shop/deleteBlackList", method = RequestMethod.POST)
     JSONResult deleteBlackList(@RequestBody List<String> shopIds);
-
-
 
 
 }

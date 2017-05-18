@@ -93,6 +93,11 @@ public class ShopFeignClientHystrix implements ShopFeignClient {
     }
 
     @Override
+    public ShopPo findShopRoById(@RequestParam("id") Long id) {
+        return null;
+    }
+
+    @Override
     public void destroyShopAndItUsers(@RequestParam("shopId") Long shopId, @RequestParam("handler") String handler) throws CommonException {
 
     }
