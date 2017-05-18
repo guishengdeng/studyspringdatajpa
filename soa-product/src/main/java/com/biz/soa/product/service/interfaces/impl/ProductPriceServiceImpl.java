@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
 /**
@@ -19,10 +21,12 @@ import org.springframework.util.StopWatch;
  *
  * Created by david-liu on 2017/05/04 09:11.
  */
+@Service
 public class ProductPriceServiceImpl implements IProductPriceService {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductPriceServiceImpl.class);
 
+    @Autowired
     private PriceRedisDao priceRedisDao;
 
     @Override

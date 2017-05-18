@@ -4,8 +4,10 @@ import com.biz.gbck.dao.redis.CrudRedisDao;
 import com.biz.gbck.dao.redis.ro.product.master.ProductRO;
 import com.biz.gbck.vo.product.frontend.ProductIncrSaleVolumeItemVo;
 import com.google.common.base.Preconditions;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Repository;
@@ -26,4 +28,16 @@ public class ProductRedisDao extends CrudRedisDao<ProductRO, Long> {
         super.pipeHincrBy(keyToQuantity, "salesVolume");
     }
 
+    public List<Long> getAllOnSaleProductIds() {
+        final Set<byte[]> idBytes = super.zRange(this.getAllOnSaleProductIdSortedSetKey(), 0, -1);
+        return super.bytesSet2LongList(idBytes);
+    }
+
+    public void appendOnSaleProductIds(Long productId) {
+        super.zadd(this.getAllOnSaleProductIdSortedSetKey(), new Timestamp(System.currentTimeMillis()), productId);
+    }
+
+    private String getAllOnSaleProductIdSortedSetKey() {
+        return this.getKeyByParams("onSale", "id");
+    }
 }

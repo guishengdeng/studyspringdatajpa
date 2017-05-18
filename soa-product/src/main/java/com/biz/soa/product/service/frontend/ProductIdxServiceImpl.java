@@ -12,6 +12,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
 /**
@@ -19,6 +20,7 @@ import org.springframework.util.StopWatch;
  *
  * Created by david-liu on 2017/05/03 12:11.
  */
+@Service
 public class ProductIdxServiceImpl extends AbstractProductService implements ProductIdxService {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductIdxServiceImpl.class);

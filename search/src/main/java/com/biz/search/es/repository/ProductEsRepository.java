@@ -11,4 +11,7 @@ import com.biz.support.es.esrepository.common.CommonESRepository;
  * @reviewer
  */
 public interface ProductEsRepository extends CommonESRepository<ProductEsEntity, String> {
+
+    void deleteByLastUpdateTimestampLessThan(Long lastUpdateTimestamp);
+
 }

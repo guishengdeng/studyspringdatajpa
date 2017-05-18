@@ -10,7 +10,7 @@ public class ProductIdxVO implements Serializable {
     private static final long serialVersionUID = -9127902471785824831L;
 
     /**
-     * ProductEsEntity id: 商品编码 + 价格组ID
+     * ProductEsEntity id: 商品ID + 价格组ID
      */
     private String id;
 
@@ -62,17 +62,32 @@ public class ProductIdxVO implements Serializable {
     /**
      * 品牌ID
      */
-    private String brand;
+    private Long brandId;
+
+    /**
+     * 品牌名称
+     */
+    private String brandName;
 
     /**
      * 分类ID
      */
-    private String category;
+    private Long categoryId;
+
+    /**
+     * 分类名称
+     */
+    private String categoryName;
 
     /**
      * 商品属性
      */
     private String properties;
+
+    /**
+     * 商品属性文字
+     */
+    private String propertyTexts;
 
     /**
      * 商品销售标签
@@ -189,20 +204,28 @@ public class ProductIdxVO implements Serializable {
         this.i18nCode = i18nCode;
     }
 
-    public String getBrand() {
-        return brand;
+    public Long getBrandId() {
+        return brandId;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setBrandId(Long brandId) {
+        this.brandId = brandId;
     }
 
-    public String getCategory() {
-        return category;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public String getProperties() {
@@ -267,5 +290,21 @@ public class ProductIdxVO implements Serializable {
 
     public void setSalesVolume(Integer salesVolume) {
         this.salesVolume = salesVolume;
+    }
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
+
+    public String getPropertyTexts() {
+        return propertyTexts;
+    }
+
+    public void setPropertyTexts(String propertyTexts) {
+        this.propertyTexts = propertyTexts;
     }
 }

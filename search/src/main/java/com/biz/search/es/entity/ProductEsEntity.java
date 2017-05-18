@@ -1,5 +1,6 @@
 package com.biz.search.es.entity;
 
+import com.biz.gbck.vo.search.ProductIdxVO;
 import java.io.Serializable;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -20,7 +21,7 @@ public class ProductEsEntity implements Serializable {
     private static final long serialVersionUID = -7782509752271841542L;
 
     /**
-     * ID(商品编码 + 价格组ID)
+     * ID(商品ID + 价格组ID)
      */
     @Id
     @Field(type = FieldType.String, index = FieldIndex.not_analyzed, store = true)
@@ -29,8 +30,8 @@ public class ProductEsEntity implements Serializable {
     /**
      * 商品Id
      */
-    @Field(type = FieldType.Long, index = FieldIndex.not_analyzed, store = true)
-    private Long productId;
+    @Field(type = FieldType.String, index = FieldIndex.not_analyzed, store = true)
+    private String productId;
 
     /**
      * 价格组ID
@@ -87,16 +88,34 @@ public class ProductEsEntity implements Serializable {
     private String brand;
 
     /**
+     * 品牌ID
+     */
+    @Field(type = FieldType.Long, store = true)
+    private Long brandId;
+
+    /**
      * 分类
      */
     @Field(type = FieldType.String, store = true)
     private String category;
 
     /**
+     * 分类ID
+     */
+    @Field(type = FieldType.Long, store = true)
+    private Long categoryId;
+
+    /**
      * 扩展属性
      */
     @Field(type = FieldType.String, analyzer = "ik", searchAnalyzer = "ik_smart", store = true)
     private String properties;
+
+    /**
+     * 商品扩展属性
+     */
+    @Field(type = FieldType.String, analyzer = "ik", searchAnalyzer = "ik_smart", store = true)
+    private String propertyTexts;
 
     /**
      * 销售标签
@@ -139,6 +158,9 @@ public class ProductEsEntity implements Serializable {
      */
     @Field(type = FieldType.Integer, index = FieldIndex.not_analyzed, store = true)
     private Integer salesVolume;
+
+    @Field(type = FieldType.Long, index = FieldIndex.not_analyzed, store = true)
+    private Long lastUpdateTimestamp;
 
     public String getId() {
         return id;
@@ -292,11 +314,99 @@ public class ProductEsEntity implements Serializable {
         this.salesVolume = salesVolume;
     }
 
-    public Long getProductId() {
+    public String getProductId() {
         return productId;
     }
 
-    public void setProductId(Long productId) {
+    public void setProductId(String productId) {
         this.productId = productId;
+    }
+
+    public Long getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(Long brandId) {
+        this.brandId = brandId;
+    }
+
+    public String getPropertyTexts() {
+        return propertyTexts;
+    }
+
+    public void setPropertyTexts(String propertyTexts) {
+        this.propertyTexts = propertyTexts;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public Long getLastUpdateTimestamp() {
+        return lastUpdateTimestamp;
+    }
+
+    public void setLastUpdateTimestamp(Long lastUpdateTimestamp) {
+        this.lastUpdateTimestamp = lastUpdateTimestamp;
+    }
+
+    public ProductEsEntity(ProductIdxVO idxVO, Long lastUpdateTimestamp) {
+        this.setId(idxVO.getId());
+        this.setProductId(String.valueOf(idxVO.getProductId()));
+        this.setPriceGroup(idxVO.getPriceGroup());
+        this.setStock(idxVO.getStock());
+        this.setSalePrice(idxVO.getSalePrice());
+        this.setDynamicAveragePrice(idxVO.getDynamicAveragePrice());
+        this.setName(idxVO.getName());
+        this.setSubTitle(idxVO.getSubTitle());
+        this.setProductCode(idxVO.getProductCode());
+        this.setI18nCode(idxVO.getI18nCode());
+        this.setBrand(idxVO.getBrandName());
+        this.setBrandId(idxVO.getBrandId());
+        this.setCategory(idxVO.getCategoryName());
+        this.setCategoryId(idxVO.getCategoryId());
+        this.setProperties(idxVO.getProperties());
+        this.setPropertyTexts(idxVO.getPropertyTexts());
+        this.setSaleTags(idxVO.getSaleTags());
+        this.setApartTags(idxVO.getApartTags());
+        this.setControlByQRCode(idxVO.getControlByQRCode());
+        this.setCircularFlow(idxVO.getCircularFlow());
+        this.setRapidProduct(idxVO.getRapidProduct());
+        this.setSaleStatus(idxVO.getSaleStatus());
+        this.setSalesVolume(idxVO.getSalesVolume());
+        this.setLastUpdateTimestamp(lastUpdateTimestamp);
+    }
+
+    public ProductEsEntity() {
+    }
+
+    public ProductEsEntity(ProductIdxVO idxVO) {
+        this.setId(idxVO.getId());
+        this.setProductId(String.valueOf(idxVO.getProductId()));
+        this.setPriceGroup(idxVO.getPriceGroup());
+        this.setStock(idxVO.getStock());
+        this.setSalePrice(idxVO.getSalePrice());
+        this.setDynamicAveragePrice(idxVO.getDynamicAveragePrice());
+        this.setName(idxVO.getName());
+        this.setSubTitle(idxVO.getSubTitle());
+        this.setProductCode(idxVO.getProductCode());
+        this.setI18nCode(idxVO.getI18nCode());
+        this.setBrand(idxVO.getBrandName());
+        this.setBrandId(idxVO.getBrandId());
+        this.setCategory(idxVO.getCategoryName());
+        this.setCategoryId(idxVO.getCategoryId());
+        this.setProperties(idxVO.getProperties());
+        this.setPropertyTexts(idxVO.getPropertyTexts());
+        this.setSaleTags(idxVO.getSaleTags());
+        this.setApartTags(idxVO.getApartTags());
+        this.setControlByQRCode(idxVO.getControlByQRCode());
+        this.setCircularFlow(idxVO.getCircularFlow());
+        this.setRapidProduct(idxVO.getRapidProduct());
+        this.setSaleStatus(idxVO.getSaleStatus());
+        this.setSalesVolume(idxVO.getSalesVolume());
     }
 }
