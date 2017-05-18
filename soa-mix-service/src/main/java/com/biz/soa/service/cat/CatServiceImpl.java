@@ -1,4 +1,4 @@
-package com.biz.service.demo;
+package com.biz.soa.service.cat;
 
 import com.biz.gbck.dao.mysql.po.demo.CatPO;
 import com.biz.gbck.dao.mysql.po.demo.SaleStatusEnum;
@@ -6,10 +6,13 @@ import com.biz.gbck.dao.mysql.repository.demo.CatRepository;
 import com.biz.gbck.dao.mysql.specification.demo.CatSearchSpecification;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.demo.CatSearchVO;
+import com.biz.gbck.vo.spring.PageVO;
 import com.biz.service.AbstractRepositorySupportService;
 import com.biz.service.demo.interfaces.CatService;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import com.biz.vo.demo.CatReqVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,10 +26,14 @@ import java.util.Objects;
 import static org.codelogger.utils.ExceptionUtils.iae;
 
 /**
- * Created by defei on 4/17/17.
+ * CoverServiceImpl
+ * <p/>
+ * Created by defei on 2017/05/17 12:11.
  */
 @Service
 public class CatServiceImpl extends AbstractRepositorySupportService<CatPO> implements CatService {
+
+	private static final Logger logger = LoggerFactory.getLogger(CatServiceImpl.class);
 
 	@Autowired
 	private CatRepository catRepository;
@@ -87,9 +94,9 @@ public class CatServiceImpl extends AbstractRepositorySupportService<CatPO> impl
 	/**
 	 * 搜索猫
 	 */
-	public Page<CatPO> searchCat(CatSearchVO reqVo){
+	public PageVO<CatPO> searchCat(CatSearchVO reqVo){
 
-		return catRepository.findAll(new CatSearchSpecification(reqVo), new PageRequest(reqVo.getPage()-1, reqVo.getPageSize(), Sort.Direction.ASC, "name"));
+		return new PageVO<>(catRepository.findAll(new CatSearchSpecification(reqVo), new PageRequest(reqVo.getPage()-1, reqVo.getPageSize(), Sort.Direction.ASC, "name")));
 	}
 
 	/**
