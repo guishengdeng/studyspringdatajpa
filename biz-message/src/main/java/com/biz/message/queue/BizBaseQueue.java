@@ -24,6 +24,20 @@ public enum BizBaseQueue implements QueueDefinition {
     PUSH_QUEUE("notification", true, QueueType.queue),
 
     /**
+     * GEO省变更队列
+     */
+    MQ_GEO_PROVINCE_QUEUE("omsGeoProvinceQueue", true, QueueType.queue),
+
+    /**
+     * GEO市变更队列
+     */
+    MQ_GEO_CITY_QUEUE("omsGeoCityQueue", true, QueueType.queue),
+    /**
+     * GEO区变更队列
+     */
+    MQ_GEO_DISTRICT_QUEUE("omsGeoDistrictQueue", true, QueueType.queue),
+
+    /**
      * ES商品索引消息队列
      */
     MQ_SEARCH_PRODUCT_QUEUE("elasticSearchProductIdxQueue", true, QueueType.queue),
