@@ -1,6 +1,5 @@
 package com.biz.gbck.vo.product.gbck.response;
 
-import com.biz.gbck.vo.product.backend.ProductFilterItemListVo;
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,30 +11,20 @@ import java.util.List;
 public class ProductAppListRespVO implements Serializable {
     private static final long serialVersionUID = 3509489993173257574L;
 
-    private Integer currentPage;
-
-    private Integer size;
+    private String lastFlag;
 
     private List<ProductAppListItemVo> result;
 
-    private List<ProductFilterItemListVo> filters;
+    private List<ProductFilterVO> filters;
 
-    private List<ProductBrandFilterVO> brands;
+    private ProductBrandFilterVO brands;
 
-    public Integer getCurrentPage() {
-        return currentPage;
+    public String getLastFlag() {
+        return lastFlag;
     }
 
-    public void setCurrentPage(Integer currentPage) {
-        this.currentPage = currentPage;
-    }
-
-    public Integer getSize() {
-        return size;
-    }
-
-    public void setSize(Integer size) {
-        this.size = size;
+    public void setLastFlag(String lastFlag) {
+        this.lastFlag = lastFlag;
     }
 
     public List<ProductAppListItemVo> getResult() {
@@ -46,19 +35,19 @@ public class ProductAppListRespVO implements Serializable {
         this.result = result;
     }
 
-    public List<ProductFilterItemListVo> getFilters() {
+    public List<ProductFilterVO> getFilters() {
         return filters;
     }
 
-    public void setFilters(List<ProductFilterItemListVo> filters) {
+    public void setFilters(List<ProductFilterVO> filters) {
         this.filters = filters;
     }
 
-    public List<ProductBrandFilterVO> getBrands() {
+    public ProductBrandFilterVO getBrands() {
         return brands;
     }
 
-    public void setBrands(List<ProductBrandFilterVO> brands) {
+    public void setBrands(ProductBrandFilterVO brands) {
         this.brands = brands;
     }
 }

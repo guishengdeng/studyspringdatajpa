@@ -23,6 +23,11 @@
             <artifactId>biz-message</artifactId>
             <version>${biz-message.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.biz.gbck</groupId>
+            <artifactId>soa-parent</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

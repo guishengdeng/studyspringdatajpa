@@ -1,27 +1,21 @@
 package com.biz.service.product.impl;
 
 import com.biz.gbck.dao.mysql.po.product.meta.Category;
-import com.biz.gbck.dao.mysql.po.product.meta.ExtendProperty;
 import com.biz.gbck.dao.mysql.po.product.meta.ProductExtend;
 import com.biz.gbck.dao.mysql.repository.category.CategoryRepository;
 import com.biz.gbck.dao.mysql.repository.productExtend.ProductExtendRepository;
 import com.biz.gbck.exceptions.DepotNextDoorException;
-import com.biz.gbck.exceptions.product.IllegalParameterException;
 import com.biz.gbck.exceptions.product.ProductExtendNotFoundException;
 import com.biz.gbck.transform.product.CreateCategoryPropertyVo2ProductExtend;
 import com.biz.gbck.vo.product.backend.*;
 import com.biz.service.AbstractBaseService;
-import com.biz.service.IdService;
 import com.biz.service.product.backend.ProductExtendService;
 import com.google.common.collect.Lists;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * ProductExtendServiceImpl
@@ -32,7 +26,7 @@ import java.util.Map;
  * @description
  * @see
  */
-@Service
+//@Service
 public class ProductExtendServiceImpl extends AbstractBaseService implements ProductExtendService{
 
     @Autowired
