@@ -16,22 +16,24 @@
 </div>
 <script type="application/javascript">
     $("body").on("change", "select[name=${provinceFieldName}]", function () {
-        $(".city-selector>.selection").remove();
-        $(".district-selector>.selection").remove();
         $.get("/geo/listChildren.do?fieldName=${cityFieldName}&areaLevel=2&regionId=" + $(this).val(), function (data) {
-            $(".city-selector").append(data);
-            $(".city-selector select").dropdown({
-                fullTextSearch: true
-            });
+            $(".city-selector option").remove();
+            $(".district-selector option").remove();
+            var values=data.data;
+            $(".city-selector").append("<option value='' >请选择</option>");
+            for(var i in values){
+                $(".city-selector").append("<option value='"+ values[i].id+"' >"+values[i].name+"</option>");
+            }
         })
     });
     $("body").on("change", "select[name=${cityFieldName}]", function () {
-        $(".district-selector>.selection").remove();
         $.get("/geo/listChildren.do?fieldName=${districtFieldName}&areaLevel=3&regionId=" + $(this).val(), function (data) {
-            $(".district-selector").append(data);
-            $(".district-selector select").dropdown({
-                fullTextSearch: true
-            });
+            $(".district-selector option").remove();
+            var values=data.data;
+            $(".district-selector").append("<option value='' >请选择</option>");
+            for(var i in values){
+                $(".district-selector").append("<option value='"+ values[i].id+"' >"+ values[i].name+"</option>");
+            }
         })
     });
 </script>

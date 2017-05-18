@@ -1,10 +1,14 @@
 package com.biz.manage.controller.geo;
 
 import com.biz.gbck.common.com.GeoStatus;
+import com.biz.gbck.common.exception.ExceptionCode;
 import com.biz.gbck.common.model.geo.IArea;
+import com.biz.gbck.vo.geo.GeoResVo;
 import com.biz.gbck.vo.geo.GeoTreeVo;
 import com.biz.gbck.vo.geo.SimpleRegionVo;
 import com.biz.service.geo.interfaces.GeoService;
+import com.biz.support.web.handler.JSONResult;
+import org.codelogger.utils.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -26,6 +31,7 @@ import java.util.List;
     @Autowired
     private GeoService geoService;
     private static final Logger logger = LoggerFactory.getLogger(GeoController.class);
+
 
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('OPT_GEO_TREELIST')")
@@ -47,14 +53,12 @@ import java.util.List;
         return mv;
     }
 
+    @ResponseBody
     @RequestMapping(value = "/listChildren", method = RequestMethod.GET)
-    public ModelAndView forwardToNewPage(@RequestParam(value = "areaLevel") Integer areaLevel,
+    public JSONResult forwardToNewPage(@RequestParam(value = "areaLevel") Integer areaLevel,
                                          @RequestParam(value = "regionId") Integer regionId) {
-
-        logger.debug("Received /geo/listChildren GET request with areaLevel:{}, regionId:{}.",
-            areaLevel, regionId);
-        return new ModelAndView("geo/selectHtml", "regions",
-            geoService.findRegionByParentAreaLevelAndParentId(areaLevel, regionId));
+        List<SimpleRegionVo> simples= geoService.findRegionByParentAreaLevelAndParentId(areaLevel, regionId);
+        return new JSONResult(simples);
     }
 
     @RequestMapping(value = "/findChildren", method = RequestMethod.POST)

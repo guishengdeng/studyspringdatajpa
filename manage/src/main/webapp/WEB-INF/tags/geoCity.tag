@@ -5,7 +5,7 @@
 <%@ attribute name="cityId" required="false" type="java.lang.Integer" %>
 <%@ attribute name="fieldClasses" required="false" type="java.lang.String" %>
 <%@ attribute name="multipe" required="false" type="java.lang.Boolean" description="是否支持多选" %>
-    <select name="${fieldName}" class="search" ${multipe ? 'multiple' : ''} >
+    <select name="${fieldName}" class="search city-selector" ${multipe ? 'multiple' : ''} >
         <option value="">请选择</option>
         <depot:city provinceId="${provinceId}" cityId="${cityId}"/>
     </select>

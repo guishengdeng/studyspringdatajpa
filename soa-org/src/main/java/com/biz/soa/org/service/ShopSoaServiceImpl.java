@@ -40,28 +40,8 @@ import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.user.AuditRejectReason;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopTypeStatus;
-import com.biz.gbck.transform.org.ShopPoToSearchShopRespVo;
-import com.biz.gbck.transform.org.ShopPoToShopDetailPo;
-import com.biz.gbck.transform.org.ShopPoToShopRo;
-import com.biz.gbck.transform.org.ShopTypePoToShopTypeRo;
-import com.biz.gbck.transform.org.UserPoToShopPo;
-import com.biz.gbck.transform.org.UserPoToUserRo;
-import com.biz.gbck.vo.org.ChangePaymentPwdReqVo;
-import com.biz.gbck.vo.org.SearchShopRespVo;
-import com.biz.gbck.vo.org.ShopAuditDataMap;
-import com.biz.gbck.vo.org.ShopAuditReqVo;
-import com.biz.gbck.vo.org.ShopChangeDeliveryAddressReqVo;
-import com.biz.gbck.vo.org.ShopDetailOrQualificationGetReqVo;
-import com.biz.gbck.vo.org.ShopEditVo;
-import com.biz.gbck.vo.org.ShopExportVo;
-import com.biz.gbck.vo.org.ShopSearchVo;
-import com.biz.gbck.vo.org.ShopUpdateDetailReqVo;
-import com.biz.gbck.vo.org.ShopUpdateQualificationReqVo;
-import com.biz.gbck.vo.org.ShopsInfoExportVo;
-import com.biz.gbck.vo.org.User20VIPVo;
-import com.biz.gbck.vo.org.UserChangeDeliveryNameReqVo;
-import com.biz.gbck.vo.org.UserCreateVo;
-import com.biz.gbck.vo.org.UserVo;
+import com.biz.gbck.transform.org.*;
+import com.biz.gbck.vo.org.*;
 import com.biz.gbck.vo.search.SearchShopReqVo;
 import com.biz.gbck.vo.search.ShopQueryReqVo;
 import com.biz.gbck.vo.search.bbc.SearchUserReqVo;
@@ -531,12 +511,10 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
     public ShopQualificationPo auditShopQualification(ShopAuditReqVo reqVo) {
         Long shopQualificationId = reqVo.getShopQualificationId();
         if (shopQualificationId == null)
-            //            return;
             return new ShopQualificationPo();
         ShopQualificationPo shopQualificationPo =
                 shopQualificationRepository.findOne(shopQualificationId);
         if (shopQualificationPo == null) {
-            //            return;
             return new ShopQualificationPo();
         }
         Integer originAuditStatus = shopQualificationPo.getAuditStatus();
@@ -555,7 +533,7 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
                 AuditStatus.DATA_EXPIRED.getValue(), newArrayList(AuditStatus.WAIT_FOR_AUDIT.getValue(),
                         AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue()));
 
-        syncShopQualificationToShop(savedShopQualificationPo);
+        syncShopQualificationToShop(savedShopQualificationPo); //同步资质到shopPo
 
         if (Objects.equals(originAuditStatus, AuditStatus.WAIT_FOR_AUDIT.getValue())
                 && reqVo.getAuditStatus() == AuditStatus.NORMAL) {
@@ -615,12 +593,11 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
         } else {
             reqVo.setAuditStatus(AuditStatus.AUDIT_FAILED);
         }
-       /* this.updateShopType(reqVo);
-        this.auditUpdateShopPo(reqVo);*/ //修改shopPo dylan
+        this.updateShopType(reqVo); //修改商户类型
+        this.auditUpdateShopPo(reqVo); //修改shopPo
         ShopDetailPo shopDetailPo = auditShopDetail(reqVo); //修改商户详情
         ShopQualificationPo shopQualificationPo = auditShopQualification(reqVo); //修改商户资质
-        //publishEvent(new ShopAuditEvent(this, shopDetailPo, shopQualificationPo)); //发布事件
-        BizTransactionManager.publishEvent(new ShopAuditEvent(this, shopDetailPo, shopQualificationPo),true);
+       /* publishEvent(new ShopAuditEvent(this, shopDetailPo, shopQualificationPo));*/ //发布事件 // TODO: 17-5-18 发布事件失败
 
         if (reqVo.getShopDetailId() != null) {
             shop = shopDetailRepository.findOne(reqVo.getShopDetailId()).getShop();
@@ -804,7 +781,7 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
     }
 
     @Override
-    public ShopAuditDataMap findShopAuditDataOfWaitForAuditByShopId(Long shopId) {
+    public ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(Long shopId) {
         List<ShopDetailPo> shopsOfDetailWaitForAudit = shopDetailRepository
                 .findByShopIdAndAuditStatusInOrderByCreateTimeDesc(shopId,
                         newArrayList(AuditStatus.WAIT_FOR_AUDIT.getValue(),
@@ -823,7 +800,8 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
                     shopQualificationRepository.findByShopIdOrderByIdDesc(shopId);
         }
 
-        return new ShopAuditDataMap(shopsOfDetailWaitForAudit, shopsOfQualificationWaitForAudit);
+        ShopAuditDataMap map=new ShopAuditDataMap(shopsOfDetailWaitForAudit, shopsOfQualificationWaitForAudit);
+        return new ShopAuditDataMapToShopDetailResVo().apply(map);
     }
 
     @Override

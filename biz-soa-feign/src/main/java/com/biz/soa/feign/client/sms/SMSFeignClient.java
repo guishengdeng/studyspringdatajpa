@@ -18,13 +18,13 @@ public interface SMSFeignClient {
     /**
      * 短信发送
      */
-    @RequestMapping(value = "/sms/send")
+    @RequestMapping(value = "soa/sms/send")
     void sendSMS(@RequestBody SMSSentReqVo smsSentReqVo);
 
     /**
      * 验证短信验证码是否正确, 不会让验码失效
      * @return true 正确 false 不正确
      */
-    @RequestMapping(value = "/sms/validate")
+    @RequestMapping(value = "soa/sms/validate")
     Boolean validateSMSCode(@RequestBody SMSValidateReqVo reqVo);
 }

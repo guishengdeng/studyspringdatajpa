@@ -93,16 +93,16 @@
                                 <tbody>
                                 <c:forEach items="${shopSearchResVoPage.content}" var="shopDetail">
                                     <tr id="tr-${shopDetail.id}">
-                                        <td><c:out value="${shopDetail.shop.id}"/></td>
+                                        <td><c:out value="${shopDetail.shopId}"/></td>
                                         <td><c:out value="${shopDetail.name}"/></td>
-                                        <td><c:out value="${shopDetail.shopType.name}"/></td>
+                                        <td><c:out value="${shopDetail.shopTypeName}"/></td>
                                         <td><c:out value="${shopDetail.shopAddress}"/></td>
                                         <td><c:out value="${shopDetail.mobile}"/></td>
                                         <td>${shopDetail.auditStatus==25 || shopDetail.auditStatus==20?"待审核":null}</td>
                                         <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${shopDetail.createTime}"/></td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
-                                                <a href="/shops/audit.do?shopId=<c:out value="${shopDetail.shop.id}"/>"
+                                                <a href="/shops/audit.do?shopId=<c:out value="${shopDetail.shopId}"/>"
                                                    class="btn btn-minier btn-info btn ">
                                                     <i class="ace-icon fa fa-pencil bigger-120"></i>
                                                     审核

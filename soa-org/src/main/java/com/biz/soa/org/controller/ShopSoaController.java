@@ -6,20 +6,13 @@ import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
 import com.biz.gbck.dao.mysql.po.org.ShopPo;
 import com.biz.gbck.dao.mysql.po.org.ShopQualificationPo;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
+import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.enums.CommonStatusEnum;
+import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopTypeStatus;
 import com.biz.gbck.transform.org.ShopDetailPoToShopUpdateDetailVo;
-import com.biz.gbck.vo.org.ShopAuditDataMap;
-import com.biz.gbck.vo.org.ShopAuditReqVo;
-import com.biz.gbck.vo.org.ShopChangeDeliveryAddressReqVo;
-import com.biz.gbck.vo.org.ShopDetailOrQualificationGetReqVo;
-import com.biz.gbck.vo.org.ShopSearchVo;
-import com.biz.gbck.vo.org.ShopUpdateDetailReqVo;
-import com.biz.gbck.vo.org.ShopUpdateQualificationReqVo;
-import com.biz.gbck.vo.org.SimpleShopDetail;
-import com.biz.gbck.vo.org.SimpleShopQualification;
-import com.biz.gbck.vo.org.UserChangeDeliveryNameReqVo;
+import com.biz.gbck.vo.org.*;
 import com.biz.soa.org.service.interfaces.ShopSoaService;
 import com.biz.soa.org.service.interfaces.ShopTypeSoaService;
 import com.biz.soa.org.util.RestUtil;
@@ -183,6 +176,9 @@ public class ShopSoaController extends BaseRestController {
         return new JSONResult(new ShopDetailPoToShopUpdateDetailVo().apply(latestDetail));
     }
 
+    /**
+     *获取所有条件审核商户
+     */
     @RequestMapping(value = "findShopAuditDataOfWaitForAudit", method = RequestMethod.POST)
     public Page<ShopDetailPo> findShopAuditDataOfWaitForAudit(@RequestBody ShopSearchVo reqVo) {
         return shopSoaService.findShopAuditDataOfWaitForAudit(reqVo);
@@ -192,7 +188,7 @@ public class ShopSoaController extends BaseRestController {
      * 获取单个商户待审核信息
      */
     @RequestMapping(value = "findShopAuditDataOfWaitForAuditByShopId", method = RequestMethod.POST)
-    public ShopAuditDataMap findShopAuditDataOfWaitForAuditByShopId(@RequestBody Long shopId) {
+    public ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(@RequestBody Long shopId) {
         return shopSoaService.findShopAuditDataOfWaitForAuditByShopId(shopId);
     }
 
@@ -206,7 +202,7 @@ public class ShopSoaController extends BaseRestController {
     }
 
     /**
-     * 商户统一审核接口
+     * 商户统一审核接口 保存审核信息
      */
     @RequestMapping(value = "auditShop", method = RequestMethod.POST)
     public void auditShop(@RequestBody ShopAuditReqVo reqVo) throws CommonException {
@@ -256,5 +252,11 @@ public class ShopSoaController extends BaseRestController {
         shopSoaService.deleteBlackList(shopIds);
         return new JSONResult();
     }
+
+    @RequestMapping(value = "findShopRoById", method = RequestMethod.POST)
+    public ShopRo findShopRoById(@RequestParam("id") Long id) throws CommonException{
+        return shopSoaService.findShop(id);
+    }
+
 
 }
