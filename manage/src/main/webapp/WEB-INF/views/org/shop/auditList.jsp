@@ -86,7 +86,7 @@
                                 </thead>
                                 <tbody>
                                 <c:forEach items="${shopSearchResVoPage.content}" var="shopDetail">
-                                    <tr id="tr-${shopDetail.id}">
+                                    <tr id="tr-${shopDetail.shopDetailId}">
                                         <td><c:out value="${shopDetail.shopId}"/></td>
                                         <td><c:out value="${shopDetail.name}"/></td>
                                         <td><c:out value="${shopDetail.shopTypeName}"/></td>

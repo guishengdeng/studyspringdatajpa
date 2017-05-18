@@ -5,6 +5,7 @@ import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
 import com.biz.gbck.dao.mysql.po.org.ShopPo;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.org.*;
+import com.biz.gbck.vo.spring.PageVO;
 import com.biz.soa.feign.hystrix.org.ShopFeignClientHystrix;
 import com.biz.support.web.handler.JSONResult;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -81,7 +82,7 @@ public interface ShopFeignClient {
 
 
     @RequestMapping(value = "soa/shop/findShopAuditDataOfWaitForAudit", method = RequestMethod.POST)
-    Page<ShopDetailPo> findShopAuditDataOfWaitForAudit(@RequestBody ShopSearchVo reqVo);
+    PageVO<ShopDetailResVo> findShopAuditDataOfWaitForAudit(@RequestBody ShopSearchVo reqVo);
 
     /**
      * 获取单个商户待审核信息

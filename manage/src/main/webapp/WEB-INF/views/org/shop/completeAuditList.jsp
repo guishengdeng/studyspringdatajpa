@@ -206,26 +206,26 @@
                                 </thead>
                                 <tbody>
                                 <c:forEach items="${shopSearchResVoPage.content}" var="shopDetail">
-                                    <tr id="tr_${shopDetail.id}">
+                                    <tr id="tr_${shopDetail.shopDetailId}">
                                         <td style="width:80px">
-                                            <input  name="shop_ids" class="ace" type="checkbox" value="<c:out value='${shopDetail.shop.id}'/>"/>
+                                            <input  name="shop_ids" class="ace" type="checkbox" value="<c:out value='${shopDetail.shopId}'/>"/>
                                             <span class="lbl"></span>
                                         </td>
-                                        <td><c:out value="${shopDetail.shop.id}"/></td>
+                                        <td><c:out value="${shopDetail.shopId}"/></td>
                                         <td><c:out value="${shopDetail.name}"/></td>
-                                        <td><c:out value="${shopDetail.shopType.name}"/></td>
+                                        <td><c:out value="${shopDetail.shopTypeName}"/></td>
                                         <td><c:out value="${shopDetail.shopAddress}"/></td>
                                         <td><c:out value="${shopDetail.mobile}"/></td>
-                                        <td class="${shopDetail.shop.status eq "ENABLE"?"col_green":"col_red"}" id="shop_${shopDetail.shop.id}"><span id="span_${shopDetail.shop.id}">${shopDetail.shop.status eq "ENABLE"?"启用":"禁用"}</span></td>
+                                        <td class="${shopDetail.shopStatus eq "ENABLE"?"col_green":"col_red"}" id="shop_${shopDetail.shopId}"><span id="span_${shopDetail.shopId}">${shopDetail.shopStatus eq "ENABLE"?"启用":"禁用"}</span></td>
                                         <td style="color:${shopDetail.auditStatus==30?"green":"red"}">${shopDetail.auditStatus==30?"审核通过":"审核未通过"}</td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
                                                 <a class="btn btn-xs btn-info" href="#">
                                                     <i class="ace-icon fa fa-pencil bigger-120"></i><span>编辑</span>
                                                 </a>&nbsp;
-                                                <a class="btn btn-xs btn-danger" id="a_${shopDetail.shop.id}" onclick="updateShopStatus('${shopDetail.shop.id}')">
-                                                    <i id="but_${shopDetail.shop.id}" class="ace-icon fa fa-lock bigger-120"></i>
-                                                    <span id="butName_${shopDetail.shop.id}">禁用</span>
+                                                <a class="btn btn-xs btn-danger" id="a_${shopDetail.shopId}" onclick="updateShopStatus('${shopDetail.shopId}')">
+                                                    <i id="but_${shopDetail.shopId}" class="ace-icon fa fa-lock bigger-120"></i>
+                                                    <span id="butName_${shopDetail.shopId}">禁用</span>
                                                 </a>
                                             </div>
                                         </td>

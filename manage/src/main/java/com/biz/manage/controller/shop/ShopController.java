@@ -10,6 +10,7 @@ import com.biz.gbck.enums.user.AuditRejectReason;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopTypeStatus;
 import com.biz.gbck.vo.org.*;
+import com.biz.gbck.vo.spring.PageVO;
 import com.biz.manage.controller.BaseController;
 import com.biz.manage.util.AuthorityUtil;
 import com.biz.service.org.interfaces.ShopService;
@@ -62,7 +63,7 @@ public class ShopController extends BaseController {
         vo.setAuditStatus( AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue());
         vo.setAuditStatusTwo(AuditStatus.WAIT_FOR_AUDIT.getValue());
         ModelAndView mav = new ModelAndView("/org/shop/auditList");
-        Page<ShopDetailPo> shopSearchResVoPage = shopFeignClient.findShopAuditDataOfWaitForAudit(vo);
+        Page<ShopDetailResVo> shopSearchResVoPage = shopFeignClient.findShopAuditDataOfWaitForAudit(vo);
         mav.addObject("shopSearchResVoPage", shopSearchResVoPage);
         mav.addObject("vo", vo);
         return mav;
@@ -83,7 +84,7 @@ public class ShopController extends BaseController {
            vo.setAuditStatus( AuditStatus.NORMAL.getValue());
            vo.setAuditStatusTwo( AuditStatus.AUDIT_FAILED.getValue());
        }
-        Page<ShopDetailPo> shopSearchResVoPage = shopFeignClient.findShopAuditDataOfWaitForAudit(vo);
+        PageVO<ShopDetailResVo> shopSearchResVoPage = shopFeignClient.findShopAuditDataOfWaitForAudit(vo);
         mav.addObject("shopSearchResVoPage", shopSearchResVoPage);
         return mav;
     }

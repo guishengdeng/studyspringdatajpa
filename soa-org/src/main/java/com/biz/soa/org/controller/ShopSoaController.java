@@ -13,6 +13,7 @@ import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopTypeStatus;
 import com.biz.gbck.transform.org.ShopDetailPoToShopUpdateDetailVo;
 import com.biz.gbck.vo.org.*;
+import com.biz.gbck.vo.spring.PageVO;
 import com.biz.soa.org.service.interfaces.ShopSoaService;
 import com.biz.soa.org.service.interfaces.ShopTypeSoaService;
 import com.biz.soa.org.util.RestUtil;
@@ -180,7 +181,7 @@ public class ShopSoaController extends BaseRestController {
      *获取所有条件审核商户
      */
     @RequestMapping(value = "findShopAuditDataOfWaitForAudit", method = RequestMethod.POST)
-    public Page<ShopDetailPo> findShopAuditDataOfWaitForAudit(@RequestBody ShopSearchVo reqVo) {
+    public PageVO<ShopDetailResVo> findShopAuditDataOfWaitForAudit(@RequestBody ShopSearchVo reqVo) {
         return shopSoaService.findShopAuditDataOfWaitForAudit(reqVo);
     }
 

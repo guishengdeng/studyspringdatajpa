@@ -32,7 +32,7 @@ import java.util.Map;
 @Secured("ROLE_PRODUCTEXTEND")
 @RequestMapping("product/categoryProperty")
 public class ProductExtendController {
-    @Autowired
+    /*@Autowired*/
     private ProductExtendService productExtendService;
 
     @RequestMapping("/save_sort")

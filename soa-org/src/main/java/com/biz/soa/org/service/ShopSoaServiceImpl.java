@@ -45,6 +45,7 @@ import com.biz.gbck.vo.org.*;
 import com.biz.gbck.vo.search.SearchShopReqVo;
 import com.biz.gbck.vo.search.ShopQueryReqVo;
 import com.biz.gbck.vo.search.bbc.SearchUserReqVo;
+import com.biz.gbck.vo.spring.PageVO;
 import com.biz.gbck.vo.zsgf.ZsgfLoanQueryReqVo;
 import com.biz.manage.vo.FailDetail;
 import com.biz.redis.util.RedisUtil;
@@ -57,6 +58,7 @@ import com.biz.soa.org.event.ShopDetailUpdateEvent;
 import com.biz.soa.org.event.ShopQualificationUpdateEvent;
 import com.biz.soa.org.service.interfaces.ShopSoaService;
 import com.biz.soa.org.service.interfaces.UserSoaService;
+import com.biz.soa.org.transformer.ShopDetailPoPageToShopDetailResVoPage;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang.StringUtils;
@@ -776,8 +778,10 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
     }
 
     @Override
-    public Page<ShopDetailPo> findShopAuditDataOfWaitForAudit(ShopSearchVo reqVo) {
-        return shopDetailRepository.findAll(new ShopSearchSpecification(reqVo), new PageRequest(reqVo.getPage()-1, reqVo.getPageSize()));
+    public PageVO<ShopDetailResVo> findShopAuditDataOfWaitForAudit(ShopSearchVo reqVo) {
+        Page<ShopDetailPo> pagePo= shopDetailRepository.findAll(new ShopSearchSpecification(reqVo),
+                new PageRequest(reqVo.getPage()-1, reqVo.getPageSize()));
+        return new ShopDetailPoPageToShopDetailResVoPage().apply(pagePo);
     }
 
     @Override

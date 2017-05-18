@@ -33,9 +33,9 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("product/categories")
 public class CategoryControllers {
 
-    @Autowired
+   /* @Autowired*/
     private CategoryService categoryService;
-    @Autowired
+   /* @Autowired*/
     private ProductExtendService productExtendService;
     @GetMapping
     @PreAuthorize("hasAuthority('OPT_CATEGORY_LIST')")

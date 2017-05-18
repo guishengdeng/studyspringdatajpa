@@ -18,6 +18,7 @@ import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.vo.org.*;
 import com.biz.gbck.vo.search.SearchShopReqVo;
 import com.biz.gbck.vo.search.ShopQueryReqVo;
+import com.biz.gbck.vo.spring.PageVO;
 import com.biz.gbck.vo.zsgf.ZsgfLoanQueryReqVo;
 import com.biz.manage.vo.FailDetail;
 import org.springframework.data.domain.Page;
@@ -158,7 +159,7 @@ public interface ShopSoaService {
     /**
      * 获取所有商户
      */
-    Page<ShopDetailPo> findShopAuditDataOfWaitForAudit(ShopSearchVo reqVo);
+    PageVO<ShopDetailResVo> findShopAuditDataOfWaitForAudit(ShopSearchVo reqVo);
 
 
     /**
