@@ -87,7 +87,10 @@ public class SoaProductController extends SoaBaseController {
 
     @GetMapping
     public String init() {
+        initService.initBrand();
+        initService.initCategory();
         initService.initProduct();
+        initService.initPrice();
         return "ok";
     }
 }

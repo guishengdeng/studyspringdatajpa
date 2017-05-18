@@ -24,7 +24,7 @@ import java.util.List;
 public interface CatFeignClient extends CatService {
 
 	@Override
-	@RequestMapping(value = "soa/catServiceService/save", method = RequestMethod.POST)
+	@RequestMapping(value = "soa/catService/save", method = RequestMethod.POST)
 	CatPO save(@RequestBody CatReqVO vo);
 
 	@Override
