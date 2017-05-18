@@ -1,0 +1,80 @@
+spring:
+  application:
+    name: depotnextdoor-rest
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password:
+    url: jdbc:mysql://127.0.0.1:3306/depotnextdoor?characterEncoding=utf-8
+    dbcp2:
+      initial-size: 5
+      max-total: 10
+      min-idle: 1
+      time-between-eviction-runs-millis: 360000
+      test-on-borrow: true
+      test-on-return: false
+      test-while-idle: true
+      validation-query: SELECT 1
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+    database: mysql
+    open-in-view: true
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+biz:
+  soa:
+    idx: 1
+  zookeeper:
+    url: zookeeper://10.4.100.194:2181
+    soaIdx:
+      path: /biz/gbck/boot/soaIdx
+    #redis:
+    #  path: /biz/gbck/boot/redis
+  redis:
+    maxTotal: 120
+    maxIdle: 10
+    timeBetweenEvictionRunsMillis: 30000
+    minEvictableIdleTimeMillis: 30000
+    testOnBorrow: true
+    host: 10.4.100.196
+    port: 6379
+    name:
+    password:
+  oss:
+    remoteEndpoint: oss-cn-beijing.aliyuncs.com
+    localEndpoint: oss-cn-beijing-internal.aliyuncs.com
+    accessKeyId: LTAIcBsZ7zY66tku
+    accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
+    bucketName: gbck-test
+  amqp:
+    username: guest
+    password: guest
+    port: 5672
+    host: 127.0.0.1
+    maxRetry: 3
+    retryElapse: 1000
+server:
+  port: 8999
+eureka:
+  client:
+    service-url:
+      defaultZone: http://10.4.100.194:7777/eureka/,http://10.4.100.195:7777/eureka/,http://10.4.100.196:7777/eureka/
+    registry-fetch-interval-seconds: 1
+security:
+  basic:
+    enabled: false
+    authorize-mode: none
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+ribbon:
+  ReadTimeout: 30000
+feign:
+  hystrix:
+    enabled: true

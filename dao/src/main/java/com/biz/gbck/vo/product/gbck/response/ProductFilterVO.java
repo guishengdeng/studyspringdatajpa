@@ -19,6 +19,8 @@ public class ProductFilterVO implements Serializable {
 
     private Boolean usePrefix;
 
+    private String field;
+
     private List<ProductFilterItemVO> filterItems;
 
     public String getId() {
@@ -59,5 +61,13 @@ public class ProductFilterVO implements Serializable {
 
     public void setFilterItems(List<ProductFilterItemVO> filterItems) {
         this.filterItems = filterItems;
+    }
+
+    public String getField() {
+        return field;
+    }
+
+    public void setField(String field) {
+        this.field = field;
     }
 }

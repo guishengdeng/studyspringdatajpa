@@ -14,19 +14,17 @@ public class IncrProductIdxReqVo implements Serializable {
     /**
      * 商品编码
      */
-    @NotNull(message = "商品编码不能为空")
+    @NotNull(message = "商品ID不能为空")
     private Long productId;
 
     /**
      * 价格组ID
      */
-    @NotNull(message = "价格组ID不能为空")
     private Long priceGroupId;
 
     /**
      * 上级采购单位ID
      */
-    @NotNull(message = "上级采购单位ID不能为空")
     private Long sellerId;
 
     public IncrProductIdxReqVo(Long productId) {
@@ -36,6 +34,15 @@ public class IncrProductIdxReqVo implements Serializable {
     public IncrProductIdxReqVo(Long productId, Long priceGroupId) {
         this.productId = productId;
         this.priceGroupId = priceGroupId;
+    }
+
+    public IncrProductIdxReqVo(Long productId, Long priceGroupId, Long sellerId) {
+        this.productId = productId;
+        this.priceGroupId = priceGroupId;
+        this.sellerId = sellerId;
+    }
+
+    public IncrProductIdxReqVo() {
     }
 
     public Long getProductId() {

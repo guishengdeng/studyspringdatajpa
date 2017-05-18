@@ -1,12 +1,14 @@
 package com.biz.rest.controller;
 
+import com.biz.service.cover.CoverService;
+import com.biz.vo.cover.CoverReqVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +26,9 @@ public class HomepageController extends BaseRestController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HomepageController.class);
 
+	@Autowired
+	private CoverService coverService;
+
 	@PostConstruct
 	public void setup(){
 
@@ -35,6 +40,14 @@ public class HomepageController extends BaseRestController {
 	public List<Map<String, Object>> productList(HttpServletRequest request, HttpServletResponse response) {
 
 		return mockHomePageData();
+	}
+
+	@GetMapping("test")
+	@ResponseBody
+	public Object testForSpringCloudRpc(){
+
+		CoverReqVO reqVo = new CoverReqVO();
+		return coverService.getHomePage(reqVo);
 	}
 
 	private List<Map<String, Object>> mockHomePageData(){

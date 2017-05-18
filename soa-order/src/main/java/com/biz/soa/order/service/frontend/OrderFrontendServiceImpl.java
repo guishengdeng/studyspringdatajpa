@@ -241,7 +241,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         lockReqVo.setItems(items);
 
         try {
-            stockService.orderUpdateLockStocks(lockStockReqVOS);
+            stockFeignClient.orderUpdateLockStocks(lockStockReqVOS);
         } catch (Exception e) {
             logger.error("锁定库存出错", e);
             throw e;

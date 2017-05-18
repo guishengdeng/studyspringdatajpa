@@ -59,8 +59,8 @@ public class ShopSoaController extends BaseRestController {
 
 //        ShopUpdateDetailReqVo shopUpdateDetailReqVo =
 //            RestUtil.parseBizData(request, ShopUpdateDetailReqVo.class);
-//        logger.debug("Received /shops/updateDetail POST request with ShopUpdateDetailReqVo:{}",
-//            shopUpdateDetailReqVo);
+        logger.info("Received /shops/updateDetail POST request with ShopUpdateDetailReqVo:{}",
+            shopUpdateDetailReqVo);
         if (shopUpdateDetailReqVo.getName().length() > maxShopNameLength) {
             throw new CommonException("店招名称长度不能超过" + maxShopNameLength,
                 ExceptionCode.Global.PARAMETER_ERROR);
@@ -78,7 +78,7 @@ public class ShopSoaController extends BaseRestController {
 
 //        ShopDetailOrQualificationGetReqVo shopDetailOrQualificationGetReqVo =
 //            RestUtil.parseBizData(request, ShopDetailOrQualificationGetReqVo.class);
-        logger.debug("Received /shops/latestDetail POST request with shopId:{}, userId:{}",
+        logger.info("Received /shops/latestDetail POST request with shopId:{}, userId:{}",
             shopDetailOrQualificationGetReqVo.getShopId(),
             shopDetailOrQualificationGetReqVo.getUserId());
         ShopDetailPo latestDetail = shopSoaService.findLatestDetail(shopDetailOrQualificationGetReqVo);
@@ -96,7 +96,7 @@ public class ShopSoaController extends BaseRestController {
 
 //        ShopUpdateQualificationReqVo updateQualificationReqVo =
 //            RestUtil.parseBizData(request, ShopUpdateQualificationReqVo.class);
-        logger.debug(
+        logger.info(
             "Received /shops/updateQualification POST request with ShopUpdateQualificationReqVo:{}",
             updateQualificationReqVo);
         shopSoaService.updateQualification(updateQualificationReqVo);
@@ -112,7 +112,7 @@ public class ShopSoaController extends BaseRestController {
 
 //        ShopDetailOrQualificationGetReqVo shopDetailOrQualificationGetReqVo =
 //            RestUtil.parseBizData(request, ShopDetailOrQualificationGetReqVo.class);
-        logger.debug("Received /shops/latestQualification POST request with shopId:{}, userId:{}",
+        logger.info("Received /shops/latestQualification POST request with shopId:{}, userId:{}",
             shopDetailOrQualificationGetReqVo.getShopId(),
             shopDetailOrQualificationGetReqVo.getUserId());
         ShopQualificationPo latestQualification =
@@ -127,7 +127,7 @@ public class ShopSoaController extends BaseRestController {
      */
     @RequestMapping(value = "types", method = RequestMethod.POST)
     public JSONResult listShopTypes() {
-        logger.debug("Received /shops/types GET request.");
+        logger.info("Received /shops/types GET request.");
         List<ShopTypeRo> normalShopTypes = shopTypeSoaService.findAllShopTypeRo(ShopTypeStatus.NORMAL);
         return new JSONResult(normalShopTypes);
     }
@@ -141,7 +141,7 @@ public class ShopSoaController extends BaseRestController {
 
 //        ShopChangeDeliveryAddressReqVo changeDeliveryAddressReqVo =
 //            RestUtil.parseBizData(request, ShopChangeDeliveryAddressReqVo.class);
-        logger.debug(
+        logger.info(
             "Received /shops/updateDeliveryAddress POST request with ShopChangeDeliveryAddressReqVo:{}",
             changeDeliveryAddressReqVo);
         shopSoaService.changeDeliveryAddress(changeDeliveryAddressReqVo);
@@ -157,7 +157,7 @@ public class ShopSoaController extends BaseRestController {
 
 //        UserChangeDeliveryNameReqVo changeDeliveryAddressReqVo =
 //            RestUtil.parseBizData(request, UserChangeDeliveryNameReqVo.class);
-        logger.debug(
+        logger.info(
             "Received /shops/updateDeliveryName POST request with userId:{}, deliveryName:{}",
             changeDeliveryAddressReqVo.getUserId(), changeDeliveryAddressReqVo.getDeliveryName());
         shopSoaService.changeDeliveryName(changeDeliveryAddressReqVo);
@@ -170,7 +170,7 @@ public class ShopSoaController extends BaseRestController {
 
 //        ShopDetailOrQualificationGetReqVo shopDetailOrQualificationGetReqVo =
 //            RestUtil.parseBizData(request, ShopDetailOrQualificationGetReqVo.class);
-        logger.debug("Received /shops/getUpdateAddressStatus request with shopID:{}",
+        logger.info("Received /shops/getUpdateAddressStatus request with shopID:{}",
             shopDetailOrQualificationGetReqVo.getShopId());
         ShopDetailPo latestDetail = shopSoaService.findLatestDetail(shopDetailOrQualificationGetReqVo);
         return new JSONResult(new ShopDetailPoToShopUpdateDetailVo().apply(latestDetail));

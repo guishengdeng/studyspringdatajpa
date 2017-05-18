@@ -72,7 +72,7 @@ public class SmsSoaServiceImpl extends CommonService implements SmsSoaService {
                         AlidayuTemplateCode templateCode, String templateParam, String requestIp)
             throws SMSException, CommonException {
 
-        validateSMSParameters(mobile, smsType, smsCode);
+        //validateSMSParameters(mobile, smsType, smsCode);
         logger.debug("Send {} sms code to {}", smsType, mobile);
 
         UserRo user = userSoaService.findUserByMobile(mobile);
