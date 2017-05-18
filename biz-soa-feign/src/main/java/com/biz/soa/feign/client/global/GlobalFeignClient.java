@@ -17,7 +17,7 @@ public interface GlobalFeignClient {
     /**
      * 获取启动上报返回参数
      */
-    @RequestMapping(value = "/init/init")
+    @RequestMapping(value = "soa/init/init")
     JSONResult getAppConfigMap();
 
     /**
@@ -27,7 +27,7 @@ public interface GlobalFeignClient {
      * @param inhourse 是否强制升级
      * @return
      */
-    @RequestMapping(value = "/init/upgrade")
+    @RequestMapping(value = "soa/init/upgrade")
     JSONResult needUpgrade(@RequestParam("os")String os, @RequestParam("ver")String ver,
                            @RequestParam("inhourse")String inhourse);
 }

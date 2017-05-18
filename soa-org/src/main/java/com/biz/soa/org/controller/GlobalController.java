@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("init")
+@RequestMapping("soa/init")
 public class GlobalController extends BaseRestController{
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalController.class);

@@ -26,7 +26,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/info") public class InfoController extends BaseRestController{
+@RequestMapping("soa/info") public class InfoController extends BaseRestController{
 
 
     private static Logger logger = LoggerFactory.getLogger(InfoController.class);

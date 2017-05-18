@@ -531,12 +531,10 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
     public ShopQualificationPo auditShopQualification(ShopAuditReqVo reqVo) {
         Long shopQualificationId = reqVo.getShopQualificationId();
         if (shopQualificationId == null)
-            //            return;
             return new ShopQualificationPo();
         ShopQualificationPo shopQualificationPo =
                 shopQualificationRepository.findOne(shopQualificationId);
         if (shopQualificationPo == null) {
-            //            return;
             return new ShopQualificationPo();
         }
         Integer originAuditStatus = shopQualificationPo.getAuditStatus();
@@ -555,7 +553,7 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
                 AuditStatus.DATA_EXPIRED.getValue(), newArrayList(AuditStatus.WAIT_FOR_AUDIT.getValue(),
                         AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue()));
 
-        syncShopQualificationToShop(savedShopQualificationPo);
+        syncShopQualificationToShop(savedShopQualificationPo); //同步资质到shopPo
 
         if (Objects.equals(originAuditStatus, AuditStatus.WAIT_FOR_AUDIT.getValue())
                 && reqVo.getAuditStatus() == AuditStatus.NORMAL) {
@@ -615,12 +613,11 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
         } else {
             reqVo.setAuditStatus(AuditStatus.AUDIT_FAILED);
         }
-       /* this.updateShopType(reqVo);
-        this.auditUpdateShopPo(reqVo);*/ //修改shopPo dylan
+        this.updateShopType(reqVo); //修改商户类型
+        this.auditUpdateShopPo(reqVo); //修改shopPo
         ShopDetailPo shopDetailPo = auditShopDetail(reqVo); //修改商户详情
         ShopQualificationPo shopQualificationPo = auditShopQualification(reqVo); //修改商户资质
-        //publishEvent(new ShopAuditEvent(this, shopDetailPo, shopQualificationPo)); //发布事件
-        BizTransactionManager.publishEvent(new ShopAuditEvent(this, shopDetailPo, shopQualificationPo),true);
+       /* publishEvent(new ShopAuditEvent(this, shopDetailPo, shopQualificationPo));*/ //发布事件 // TODO: 17-5-18 发布事件失败
 
         if (reqVo.getShopDetailId() != null) {
             shop = shopDetailRepository.findOne(reqVo.getShopDetailId()).getShop();

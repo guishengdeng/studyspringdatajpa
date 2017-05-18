@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @FeignClient(name = "soa-org", fallback = NoticeFeignClientHystrix.class)
 public interface NoticeFeignClient {
 
-    @RequestMapping(value = "/info/notices")
+    @RequestMapping(value = "soa/info/notices")
     JSONResult findUserNoticeAfter(@RequestBody ListNoticeAfterLastReqVo reqVo);
 
 }
