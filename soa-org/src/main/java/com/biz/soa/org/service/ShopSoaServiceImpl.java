@@ -495,8 +495,8 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
         ShopQualificationPo savedShopQualificationPo =
                 shopQualificationRepository.save(shopQualificationPo);
         //publishEvent(new ShopQualificationUpdateEvent(this, savedShopQualificationPo));
-        //super.publishEventUsingTx(new ShopQualificationUpdateEvent(this, savedShopQualificationPo));
-        publisher.publishEvent(new ShopQualificationUpdateEvent(this, savedShopQualificationPo));
+        super.publishEventUsingTx(new ShopQualificationUpdateEvent(this, savedShopQualificationPo));
+        //publisher.publishEvent(new ShopQualificationUpdateEvent(this, savedShopQualificationPo));
     }
 
     @Override

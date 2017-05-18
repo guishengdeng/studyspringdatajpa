@@ -1,11 +1,9 @@
 spring:
-  application:
-    name: depotnextdoor-rest
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    username: root
-    password: 12345678
-    url: jdbc:mysql://127.0.0.1:3306/gbck?characterEncoding=utf-8
+    username: depotapp
+    password: Depot*123456
+    url: jdbc:mysql://10.4.100.198:3306/depotnextdoor?characterEncoding=utf-8
     dbcp2:
       initial-size: 5
       max-total: 10
@@ -15,8 +13,9 @@ spring:
       test-on-return: false
       test-while-idle: true
       validation-query: SELECT 1
+
   jpa:
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: update
     database: mysql
@@ -24,11 +23,17 @@ spring:
     properties:
       hibernate:
         enable_lazy_load_no_trans: true
+  session:
+    redis:
+      flush-mode: immediate
+  application:
+    name: soa-org
+
 biz:
   soa:
     idx: 1
   zookeeper:
-    url: zookeeper://127.0.0.1:2181
+    url: zookeeper://10.4.100.194:2181
     soaIdx:
       path: /biz/gbck/boot/soaIdx
     #redis:
@@ -49,36 +54,29 @@ biz:
     accessKeyId: LTAIcBsZ7zY66tku
     accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
     bucketName: gbck-test
-  amqp:
-    username: guest
-    password: guest
-    port: 5672
-    host: 127.0.0.1
-    maxRetry: 3
-    retryElapse: 1000
+
 server:
-  port: 8999
+  session:
+    timeout: 1200
+  port: 8679
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:7777/eureka
-ribbon:
-  ReadTimeout: 30000
-feign:
-  hystrix:
-    enabled: truee
-hystrix:
-  command:
-    default:
-      isolation:
-        thread:
-          timeoutInMilliseconds: 5000
-      execution:
-        timeout:
-          enabled: false
-
+      defaultZone: http://peer1:7777/eureka/
 
 security:
   basic:
     enabled: false
-    authorize-mode: none
+management:
+  security:
+    enabled: false
+
+payment:
+  alipay:
+    notify-url: http://external.com/alipay/notify.do
+  wechat:
+    appid.default: wxe458de408eef40eb
+    mch_id.wxe458de408eef40eb: 1340664401
+    key.wxe458de408eef40eb: 9d49f4f815890c8ef39935a271c38bd7
+    LOAD_IDENTIFICATION.wxe458de408eef40eb: /wxe458de408eef40eb_apiclient_cert.p12
+    notify-url: http://external.com/wechatPay/notify.do

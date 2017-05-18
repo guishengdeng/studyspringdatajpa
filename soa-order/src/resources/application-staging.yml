@@ -1,11 +1,9 @@
 spring:
-  application:
-    name: depotnextdoor-rest
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: 12345678
-    url: jdbc:mysql://127.0.0.1:3306/gbck?characterEncoding=utf-8
+    password:
+    url: jdbc:mysql://127.0.0.1:3306/biz
     dbcp2:
       initial-size: 5
       max-total: 10
@@ -15,8 +13,9 @@ spring:
       test-on-return: false
       test-while-idle: true
       validation-query: SELECT 1
+
   jpa:
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: update
     database: mysql
@@ -24,6 +23,9 @@ spring:
     properties:
       hibernate:
         enable_lazy_load_no_trans: true
+  session:
+    redis:
+      flush-mode: immediate
 biz:
   soa:
     idx: 1
@@ -31,15 +33,15 @@ biz:
     url: zookeeper://127.0.0.1:2181
     soaIdx:
       path: /biz/gbck/boot/soaIdx
-    #redis:
-    #  path: /biz/gbck/boot/redis
+    redis:
+      path: /biz/gbck/boot/redis
   redis:
     maxTotal: 120
     maxIdle: 10
     timeBetweenEvictionRunsMillis: 30000
     minEvictableIdleTimeMillis: 30000
     testOnBorrow: true
-    host: 10.4.100.196
+    host: 127.0.0.1
     port: 6379
     name:
     password:
@@ -49,36 +51,7 @@ biz:
     accessKeyId: LTAIcBsZ7zY66tku
     accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
     bucketName: gbck-test
-  amqp:
-    username: guest
-    password: guest
-    port: 5672
-    host: 127.0.0.1
-    maxRetry: 3
-    retryElapse: 1000
+
 server:
-  port: 8999
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:7777/eureka
-ribbon:
-  ReadTimeout: 30000
-feign:
-  hystrix:
-    enabled: truee
-hystrix:
-  command:
-    default:
-      isolation:
-        thread:
-          timeoutInMilliseconds: 5000
-      execution:
-        timeout:
-          enabled: false
-
-
-security:
-  basic:
-    enabled: false
-    authorize-mode: none
+  session:
+    timeout: 1200

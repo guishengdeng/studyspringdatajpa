@@ -1,13 +1,14 @@
-server:
-  port: 8900
 spring:
   application:
-    name: depotnextdoor-product
+    name: soa-order
+  profiles:
+    active: local
+
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password:
-    url: jdbc:mysql://127.0.0.1:3306/depotnextdoor
+    url: jdbc:mysql://127.0.0.1:3306/biz
     dbcp2:
       initial-size: 5
       max-total: 10
@@ -23,6 +24,9 @@ spring:
     hibernate:
       ddl-auto: update
     database: mysql
+  session:
+    redis:
+      flush-mode: immediate
 
 biz:
   soa:
@@ -46,19 +50,26 @@ biz:
   amqp:
     username: guest
     password: guest
+    host: 127.0.0.1
     port: 5672
     maxRetry: 3
     retryElapse: 1000
+
+server:
+  session:
+    timeout: 1200
 security:
   basic:
     enabled: false
 management:
   security:
     enabled: false
+
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:7777/eureka/, http://localhost:8888/eureka/, http://localhost:9999/eureka/
+      defaultZone: http://localhost:5555/eureka
+
 payment:
   alipay:
     notify-url: http://external.com/alipay/notify.do
@@ -68,4 +79,3 @@ payment:
     key.wxe458de408eef40eb: 9d49f4f815890c8ef39935a271c38bd7
     LOAD_IDENTIFICATION.wxe458de408eef40eb: /wxe458de408eef40eb_apiclient_cert.p12
     notify-url: http://external.com/wechatPay/notify.do
-

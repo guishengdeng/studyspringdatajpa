@@ -1,7 +1,5 @@
 package com.biz.soa.order;
 
-import com.biz.service.product.impl.BrandServiceImpl;
-import com.biz.service.product.impl.CategoryServiceImpl;
 import com.biz.service.system.InitManager;
 import com.biz.support.jpa.repository.CommonRepositoryFactoryBean;
 import org.springframework.boot.SpringApplication;
@@ -20,8 +18,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @ComponentScan(basePackages = "com.biz", excludeFilters = {
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = InitManager.class),
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = BrandServiceImpl.class),
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = CategoryServiceImpl.class)
 })
 @EnableJpaRepositories(basePackages = "com.biz", repositoryFactoryBeanClass = CommonRepositoryFactoryBean.class)
 @EntityScan(basePackages = "com.biz")
