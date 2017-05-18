@@ -43,18 +43,6 @@ public class Stock extends BaseEntity {
     private Long productId;
 
     /**
-     * 商品编码
-     */
-    @Column(length = 40)
-    private Long productCode;
-
-    /**
-     * 商品名称
-     */
-    @Column(length = 40)
-    private Long productName;
-
-    /**
      * 库存数量
      */
     private Integer quantity;
@@ -89,22 +77,6 @@ public class Stock extends BaseEntity {
 
     public void setProductId(Long productId) {
         this.productId = productId;
-    }
-
-    public Long getProductCode() {
-        return productCode;
-    }
-
-    public void setProductCode(Long productCode) {
-        this.productCode = productCode;
-    }
-
-    public Long getProductName() {
-        return productName;
-    }
-
-    public void setProductName(Long productName) {
-        this.productName = productName;
     }
 
     public Integer getQuantity() {
