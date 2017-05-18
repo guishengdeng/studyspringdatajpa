@@ -1,11 +1,12 @@
 package com.biz.gbck.dao.mysql.po.purchase;
 
 import com.biz.gbck.enums.product.ProductUnit;
+import com.biz.support.jpa.converter.ListStringConverter;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
+import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * ProductItem
@@ -17,6 +18,11 @@ import javax.persistence.Enumerated;
  */
 @Embeddable
 public class ProductItem {
+
+    //二维码
+    @Convert(converter = ListStringConverter.class)
+    @Column(length = 800)
+    private List<String> qrCodes  = newArrayList();
 
     /**
      * 商品Id
