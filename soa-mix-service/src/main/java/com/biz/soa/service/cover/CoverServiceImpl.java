@@ -1,4 +1,4 @@
-package com.biz.soa.cover.service.cover;
+package com.biz.soa.service.cover;
 
 import com.biz.service.AbstractBaseService;
 import com.biz.service.cover.CoverService;
