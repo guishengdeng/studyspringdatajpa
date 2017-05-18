@@ -31,7 +31,7 @@ public class ShopQualificationPo implements Serializable{
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "shopId") private ShopPo shop;
 
     /**
-     * 营业执照ID
+     *
      */
     @Column(length = 50) private String businessLicenceId;
 

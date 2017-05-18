@@ -4,14 +4,7 @@ import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
 import com.biz.gbck.dao.mysql.po.org.ShopPo;
 import com.biz.gbck.enums.CommonStatusEnum;
-import com.biz.gbck.vo.org.ShopAuditDataMap;
-import com.biz.gbck.vo.org.ShopAuditReqVo;
-import com.biz.gbck.vo.org.ShopChangeDeliveryAddressReqVo;
-import com.biz.gbck.vo.org.ShopDetailOrQualificationGetReqVo;
-import com.biz.gbck.vo.org.ShopSearchVo;
-import com.biz.gbck.vo.org.ShopUpdateDetailReqVo;
-import com.biz.gbck.vo.org.ShopUpdateQualificationReqVo;
-import com.biz.gbck.vo.org.UserChangeDeliveryNameReqVo;
+import com.biz.gbck.vo.org.*;
 import com.biz.soa.feign.client.org.ShopFeignClient;
 import com.biz.support.web.handler.JSONResult;
 import org.springframework.data.domain.Page;
@@ -73,7 +66,7 @@ public class ShopFeignClientHystrix implements ShopFeignClient {
     }
 
     @Override
-    public ShopAuditDataMap findShopAuditDataOfWaitForAuditByShopId(@RequestBody Long shopId) {
+    public ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(@RequestBody Long shopId) {
         return null;
     }
 

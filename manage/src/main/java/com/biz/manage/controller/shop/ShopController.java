@@ -9,10 +9,7 @@ import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.user.AuditRejectReason;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopTypeStatus;
-import com.biz.gbck.vo.org.ShopAuditDataMap;
-import com.biz.gbck.vo.org.ShopAuditReqVo;
-import com.biz.gbck.vo.org.ShopAuditVo;
-import com.biz.gbck.vo.org.ShopSearchVo;
+import com.biz.gbck.vo.org.*;
 import com.biz.manage.controller.BaseController;
 import com.biz.manage.util.AuthorityUtil;
 import com.biz.service.org.interfaces.ShopService;
@@ -80,8 +77,8 @@ public class ShopController extends BaseController {
         vo.setAuditStatus( AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue());
         vo.setAuditStatusTwo(AuditStatus.WAIT_FOR_AUDIT.getValue());
         ModelAndView mav = new ModelAndView("/org/shop/auditList");
-        Page<ShopDetailPo> shopSearchResVoPage = shopFeignClient.findShopAuditDataOfWaitForAudit(vo);
-        mav.addObject("shopSearchResVoPage", shopSearchResVoPage);
+      /*  Page<ShopDetailPo> shopSearchResVoPage = shopFeignClient.findShopAuditDataOfWaitForAudit(vo);
+        mav.addObject("shopSearchResVoPage", shopSearchResVoPage);*/
         mav.addObject("shopTypes", shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL));
         mav.addObject("vo", vo);
         return mav;
@@ -118,37 +115,32 @@ public class ShopController extends BaseController {
 
         logger.debug("Received /shops/audit GET request with shopId:{}.", shopId);
         ModelAndView modelAndView = new ModelAndView("/org/shop/auditDetail");
-        ShopAuditDataMap shopAuditDataMap =
+        ShopDetailResVo shopDetailResVo =
                 shopFeignClient.findShopAuditDataOfWaitForAuditByShopId(shopId);
-        ShopAuditVo shopAuditVo = CollectionUtils.getFirstOrNull(shopAuditDataMap.values());
         List<AuditRejectReason> auditRejectReasons = newArrayList();
-        if (shopAuditVo != null) {
-            if (shopAuditVo.getShopDetail() != null) {
+        if (shopDetailResVo != null) {
                 auditRejectReasons.add(AuditRejectReason.DETAIL_INVALID);
-            }
-            if (shopAuditVo.getShopQualification() != null) {
                 for (AuditRejectReason auditRejectReason : AuditRejectReason.values()) {
                     if (auditRejectReason != AuditRejectReason.DETAIL_INVALID)
                         auditRejectReasons.add(auditRejectReason);
                 }
-            }
         } else {
             logger.debug("No audit data for shopId:{}.", shopId);
             return modelAndView;
         }
-        modelAndView.addObject("auditData", shopAuditVo);
+        modelAndView.addObject("shopDetailResVo", shopDetailResVo);
         List<AuditStatus> auditStatusList =
                 newArrayList(AuditStatus.NORMAL, AuditStatus.AUDIT_FAILED);
-        modelAndView.addObject("auditStatusList", auditStatusList)
-                .addObject("auditRejectReasons", auditRejectReasons).addObject("emp", null);
-     /*shopAuditVo.getShop()==null? null: depotEmployeeService.getDepotEmployeeById(shopAuditVo.getShop().getInviterCode())*/
+        modelAndView.addObject("auditStatusList", auditStatusList).
+                addObject("auditRejectReasons", auditRejectReasons);
         return modelAndView;
     }
 
 
     @RequestMapping(value = "isBusinessLicenceIdExist", method = RequestMethod.GET)
     @ResponseBody
-    public Boolean isBusinessLicenceIdExist(@RequestParam("businessLicenceId") String businessLicenceId, @RequestParam("shopId") Long shopId) {
+    public Boolean isBusinessLicenceIdExist(@RequestParam("businessLicenceId") String businessLicenceId,
+                                            @RequestParam("shopId") Long shopId) {
 
         return shopFeignClient.isBusinessLicenceIdExist(businessLicenceId, shopId);
     }

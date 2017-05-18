@@ -15,21 +15,7 @@ import com.biz.gbck.dao.mysql.po.payment.ZsgfLoanApplyPo;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.user.AuditStatus;
-import com.biz.gbck.vo.org.ChangePaymentPwdReqVo;
-import com.biz.gbck.vo.org.SearchShopRespVo;
-import com.biz.gbck.vo.org.ShopAuditDataMap;
-import com.biz.gbck.vo.org.ShopAuditReqVo;
-import com.biz.gbck.vo.org.ShopChangeDeliveryAddressReqVo;
-import com.biz.gbck.vo.org.ShopDetailOrQualificationGetReqVo;
-import com.biz.gbck.vo.org.ShopEditVo;
-import com.biz.gbck.vo.org.ShopExportVo;
-import com.biz.gbck.vo.org.ShopSearchVo;
-import com.biz.gbck.vo.org.ShopUpdateDetailReqVo;
-import com.biz.gbck.vo.org.ShopUpdateQualificationReqVo;
-import com.biz.gbck.vo.org.ShopsInfoExportVo;
-import com.biz.gbck.vo.org.User20VIPVo;
-import com.biz.gbck.vo.org.UserChangeDeliveryNameReqVo;
-import com.biz.gbck.vo.org.UserVo;
+import com.biz.gbck.vo.org.*;
 import com.biz.gbck.vo.search.SearchShopReqVo;
 import com.biz.gbck.vo.search.ShopQueryReqVo;
 import com.biz.gbck.vo.zsgf.ZsgfLoanQueryReqVo;
@@ -178,7 +164,7 @@ public interface ShopSoaService {
     /**
      * 获取单个商户待审核信息
      */
-    ShopAuditDataMap findShopAuditDataOfWaitForAuditByShopId(Long shopId);
+    ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(Long shopId);
 
     void syncAllShopFromMysqlToRedis(Integer pageSize);
 

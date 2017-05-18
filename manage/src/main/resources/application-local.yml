@@ -62,3 +62,7 @@ server:
   session:
     timeout: 1200
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://peer1:7777/eureka/

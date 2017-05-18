@@ -4,14 +4,7 @@ import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
 import com.biz.gbck.dao.mysql.po.org.ShopPo;
 import com.biz.gbck.enums.CommonStatusEnum;
-import com.biz.gbck.vo.org.ShopAuditDataMap;
-import com.biz.gbck.vo.org.ShopAuditReqVo;
-import com.biz.gbck.vo.org.ShopChangeDeliveryAddressReqVo;
-import com.biz.gbck.vo.org.ShopDetailOrQualificationGetReqVo;
-import com.biz.gbck.vo.org.ShopSearchVo;
-import com.biz.gbck.vo.org.ShopUpdateDetailReqVo;
-import com.biz.gbck.vo.org.ShopUpdateQualificationReqVo;
-import com.biz.gbck.vo.org.UserChangeDeliveryNameReqVo;
+import com.biz.gbck.vo.org.*;
 import com.biz.soa.feign.hystrix.org.ShopFeignClientHystrix;
 import com.biz.support.web.handler.JSONResult;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -94,7 +87,7 @@ public interface ShopFeignClient {
      * 获取单个商户待审核信息
      */
     @RequestMapping(value = "soa/shop/findShopAuditDataOfWaitForAuditByShopId", method = RequestMethod.POST)
-    ShopAuditDataMap findShopAuditDataOfWaitForAuditByShopId(@RequestBody Long shopId);
+    ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(@RequestBody Long shopId);
 
 
     /**

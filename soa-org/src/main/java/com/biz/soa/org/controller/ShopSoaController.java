@@ -12,16 +12,7 @@ import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopTypeStatus;
 import com.biz.gbck.transform.org.ShopDetailPoToShopUpdateDetailVo;
-import com.biz.gbck.vo.org.ShopAuditDataMap;
-import com.biz.gbck.vo.org.ShopAuditReqVo;
-import com.biz.gbck.vo.org.ShopChangeDeliveryAddressReqVo;
-import com.biz.gbck.vo.org.ShopDetailOrQualificationGetReqVo;
-import com.biz.gbck.vo.org.ShopSearchVo;
-import com.biz.gbck.vo.org.ShopUpdateDetailReqVo;
-import com.biz.gbck.vo.org.ShopUpdateQualificationReqVo;
-import com.biz.gbck.vo.org.SimpleShopDetail;
-import com.biz.gbck.vo.org.SimpleShopQualification;
-import com.biz.gbck.vo.org.UserChangeDeliveryNameReqVo;
+import com.biz.gbck.vo.org.*;
 import com.biz.soa.org.service.interfaces.ShopSoaService;
 import com.biz.soa.org.service.interfaces.ShopTypeSoaService;
 import com.biz.soa.org.util.RestUtil;
@@ -186,7 +177,7 @@ public class ShopSoaController extends BaseRestController {
     }
 
     /**
-     *获取所有未审核商户
+     *获取所有条件审核商户
      */
     @RequestMapping(value = "findShopAuditDataOfWaitForAudit", method = RequestMethod.POST)
     public Page<ShopDetailPo> findShopAuditDataOfWaitForAudit(@RequestBody ShopSearchVo reqVo) {
@@ -197,7 +188,7 @@ public class ShopSoaController extends BaseRestController {
      * 获取单个商户待审核信息
      */
     @RequestMapping(value = "findShopAuditDataOfWaitForAuditByShopId", method = RequestMethod.POST)
-    public ShopAuditDataMap findShopAuditDataOfWaitForAuditByShopId(@RequestBody Long shopId) {
+    public ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(@RequestBody Long shopId) {
         return shopSoaService.findShopAuditDataOfWaitForAuditByShopId(shopId);
     }
 
