@@ -13,7 +13,8 @@ import com.biz.gbck.vo.stock.PartnerStockReqVO;
 import com.biz.gbck.vo.stock.PartnerStockRespVO;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.cart.ShopCartService;
-import com.biz.service.stock.StockService;
+import com.biz.soa.feign.client.product.ProductFeignClient;
+import com.biz.soa.feign.client.stock.StockFeignClient;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
 import org.codelogger.utils.StringUtils;
@@ -43,7 +44,10 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
     private ShopCartItemRedisDao shopCartItemRedisDao;
 
     @Autowired(required = false)
-    private StockService stockService;
+    private StockFeignClient stockFeignClient;
+
+    @Autowired(required = false)
+    private ProductFeignClient productFeignClient;
 
 
     @Override
@@ -99,7 +103,6 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         //创建时间排倒序输出
         shopCartItemRos.sort((o1, o2) -> (int) (o2.getCreateTimestamp().getTime() - o1.getCreateTimestamp().getTime()));
 
-        //TODO 获取商品信息
         this.getProductInfo(reqVo, shopCartItemRos);
 
         if (logger.isDebugEnabled()) {
@@ -208,7 +211,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
     private void validQuantity(Long userId, Long productId, int quantity) throws DepotNextDoorException {
         //TODO 根据用户拿对应合伙人id
         Long partnerId = null;
-        PartnerStockRespVO stockRespVO = stockService.getStock(new PartnerStockReqVO(partnerId, productId));
+        PartnerStockRespVO stockRespVO = stockFeignClient.getStock(new PartnerStockReqVO(partnerId, productId));
         SystemAsserts.notNull(stockRespVO, "库存不足");
         SystemAsserts.isTrue(quantity <= stockRespVO.getQuantity(), "库存不足");
     }
