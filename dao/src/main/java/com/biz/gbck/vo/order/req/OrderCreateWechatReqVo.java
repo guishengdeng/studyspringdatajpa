@@ -25,6 +25,8 @@ public class OrderCreateWechatReqVo extends OrderCreateReqVo implements IWechatP
 
     private String openid;
 
+    private String ip;
+
     @Override
     public TradeType getTradeType() {
         return tradeType;
@@ -50,5 +52,14 @@ public class OrderCreateWechatReqVo extends OrderCreateReqVo implements IWechatP
 
     public void setOpenid(String openid) {
         this.openid = openid;
+    }
+
+    @Override
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 }

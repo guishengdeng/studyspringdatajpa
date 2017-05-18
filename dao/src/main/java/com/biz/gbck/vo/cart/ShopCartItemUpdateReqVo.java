@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @author lei
  * @date 2017/01/12
  */
-public class ShopCartItemUpdateReqVo extends BaseRequestVo {
+public class ShopCartItemUpdateReqVo extends BaseShopCartReqVo {
 
     private static final long serialVersionUID = -1730115632054116788L;
 

@@ -84,6 +84,15 @@ public class ProductItem {
     @Column(nullable = false)
     private Integer costPrice;
 
+
+    public List<String> getQrCodes() {
+        return qrCodes;
+    }
+
+    public void setQrCodes(List<String> qrCodes) {
+        this.qrCodes = qrCodes;
+    }
+
     public Long getProductId() {
         return productId;
     }
