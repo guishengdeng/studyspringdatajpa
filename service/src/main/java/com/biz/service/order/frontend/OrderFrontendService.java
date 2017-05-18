@@ -22,13 +22,13 @@ import com.biz.gbck.vo.payment.resp.PaymentRespVo;
  */
 public interface OrderFrontendService {
 
-    PageRespVo listOrders(OrderListReqVo reqVo);
+    PageRespVo listOrders(OrderListReqVo reqVo) throws DepotNextDoorException;
 
-    OrderRespVo getOrderDetail(IdReqVo reqVo);
+    OrderRespVo getOrderDetail(IdReqVo reqVo) throws DepotNextDoorException;
 
     void cancelOrder(IdReqVo reqVo);
 
-    OrderSettlePageRespVo settle(OrderSettlePageReqVo reqVo);
+    OrderSettlePageRespVo getSettleResult(OrderSettlePageReqVo reqVo) throws DepotNextDoorException;
 
     PaymentRespVo createPrePayOrder(OrderCreateReqVo reqVo) throws DepotNextDoorException;
 

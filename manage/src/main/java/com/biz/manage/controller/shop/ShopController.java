@@ -18,6 +18,8 @@ import com.biz.manage.util.AuthorityUtil;
 import com.biz.service.org.interfaces.ShopService;
 import com.biz.service.org.interfaces.ShopTypeService;
 import com.biz.service.org.interfaces.UserService;
+import com.biz.soa.feign.client.org.ShopFeignClient;
+import com.biz.soa.feign.client.org.UserFeignClient;
 import org.apache.commons.lang.StringUtils;
 import org.codelogger.utils.CollectionUtils;
 import org.slf4j.Logger;
@@ -56,6 +58,12 @@ public class ShopController extends BaseController {
     @Autowired
     private ShopTypeService shopTypeService;
 
+    @Autowired
+    private ShopFeignClient shopFeignClient;
+
+    @Autowired
+    private UserFeignClient userFeignClient;
+
    /* @Autowired
     private GeoService geoService;*/
 
@@ -72,7 +80,7 @@ public class ShopController extends BaseController {
         vo.setAuditStatus( AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue());
         vo.setAuditStatusTwo(AuditStatus.WAIT_FOR_AUDIT.getValue());
         ModelAndView mav = new ModelAndView("/org/shop/auditList");
-        Page<ShopDetailPo> shopSearchResVoPage = shopService.findShopAuditDataOfWaitForAudit(vo);
+        Page<ShopDetailPo> shopSearchResVoPage = shopFeignClient.findShopAuditDataOfWaitForAudit(vo);
         mav.addObject("shopSearchResVoPage", shopSearchResVoPage);
         mav.addObject("shopTypes", shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL));
         mav.addObject("vo", vo);
@@ -94,7 +102,7 @@ public class ShopController extends BaseController {
            vo.setAuditStatus( AuditStatus.NORMAL.getValue());
            vo.setAuditStatusTwo( AuditStatus.AUDIT_FAILED.getValue());
        }
-        Page<ShopDetailPo> shopSearchResVoPage = shopService.findShopAuditDataOfWaitForAudit(vo);
+        Page<ShopDetailPo> shopSearchResVoPage = shopFeignClient.findShopAuditDataOfWaitForAudit(vo);
         mav.addObject("shopSearchResVoPage", shopSearchResVoPage);
         mav.addObject("shopTypes", shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL));
         return mav;
@@ -111,7 +119,7 @@ public class ShopController extends BaseController {
         logger.debug("Received /shops/audit GET request with shopId:{}.", shopId);
         ModelAndView modelAndView = new ModelAndView("/org/shop/auditDetail");
         ShopAuditDataMap shopAuditDataMap =
-                shopService.findShopAuditDataOfWaitForAuditByShopId(shopId);
+                shopFeignClient.findShopAuditDataOfWaitForAuditByShopId(shopId);
         ShopAuditVo shopAuditVo = CollectionUtils.getFirstOrNull(shopAuditDataMap.values());
         List<AuditRejectReason> auditRejectReasons = newArrayList();
         if (shopAuditVo != null) {
@@ -142,7 +150,7 @@ public class ShopController extends BaseController {
     @ResponseBody
     public Boolean isBusinessLicenceIdExist(@RequestParam("businessLicenceId") String businessLicenceId, @RequestParam("shopId") Long shopId) {
 
-        return shopService.isBusinessLicenceIdExist(businessLicenceId, shopId);
+        return shopFeignClient.isBusinessLicenceIdExist(businessLicenceId, shopId);
     }
 
     /**
@@ -155,7 +163,7 @@ public class ShopController extends BaseController {
         logger.debug("Received /shops/auditList GET request.");
         ModelAndView mav = new ModelAndView("redirect:/shops/auditList.do");
         shopAuditReqVo.setHandler(AuthorityUtil.getLoginUsername());
-        shopService.auditShop(shopAuditReqVo);
+        shopFeignClient.auditShop(shopAuditReqVo);
         return mav;
     }
 
@@ -235,11 +243,13 @@ public class ShopController extends BaseController {
     @PreAuthorize("hasAuthority('OPT_SHOP_UPDATE')")
     @ResponseBody
     public Boolean updateShopStatus( Long shopId) {
-        CommonStatusEnum status = shopService.findShopPo(shopId).getStatus();
-        return shopService.updateShopStatus(shopId,
-                Objects.equals(status,CommonStatusEnum.ENABLE) ?
-                        CommonStatusEnum.DISABLE :
-                        CommonStatusEnum.ENABLE);
+        // todo liubin
+//        CommonStatusEnum status = shopService.findShopPo(shopId).getStatus();
+//        return shopService.updateShopStatus(shopId,
+//                Objects.equals(status,CommonStatusEnum.ENABLE) ?
+//                        CommonStatusEnum.DISABLE :
+//                        CommonStatusEnum.ENABLE);
+        return Boolean.FALSE;
     }
 
     /**
@@ -252,7 +262,7 @@ public class ShopController extends BaseController {
                                       @RequestParam("status") CommonStatusEnum status) {
         if(CollectionUtils.isNotEmpty(shopIds)){
             for(Long shopId:shopIds){
-                shopService.updateShopStatus(shopId,status);
+                shopFeignClient.updateShopStatus(shopId,status);
             }
             return true;
         }
@@ -282,8 +292,8 @@ public class ShopController extends BaseController {
     @PreAuthorize("hasAuthority('OPT_SHOP_LIST')")
     public ModelAndView listByAssartDepot(
             @RequestParam("depotId") String depotId) throws CommonException {
-        List<ShopPo> shops = shopService.findShopByDepotId(depotId);
-        return new ModelAndView("shop/list", "shops", shops);
+//        List<ShopPo> shops = shopService.findShopByDepotId(depotId);
+        return new ModelAndView("shop/list", "shops", null);
     }
 
     @RequestMapping(value = "destroy", method = RequestMethod.POST)
@@ -292,7 +302,7 @@ public class ShopController extends BaseController {
     public Boolean destroyShop(@RequestParam("shopId") Long shopId) {
 
         try {
-            shopService.destroyShopAndItUsers(shopId, AuthorityUtil.getLoginUsername());
+            shopFeignClient.destroyShopAndItUsers(shopId, AuthorityUtil.getLoginUsername());
             return true;
         } catch (Exception e) {
             logger.info("Destroy shop[{}] failed.", shopId, e);
@@ -305,7 +315,7 @@ public class ShopController extends BaseController {
     @PreAuthorize("hasAuthority('OPT_SHOP_UPDATE')")
     public Map enableShopByIds(@RequestParam("ids") String ids) {
         String[] idList = ids.split(",");
-        Integer succesCount = shopService.enableShopByIds(idList);
+        Integer succesCount = shopFeignClient.enableShopByIds(idList);
         Integer failedCount = idList.length - succesCount;
         Map map = new HashMap();
         map.put("successCount", succesCount);
@@ -318,7 +328,7 @@ public class ShopController extends BaseController {
     @PreAuthorize("hasAuthority('OPT_SHOP_UPDATE')")
     public Map disableShopByIds(@RequestParam("ids") String ids) {
         String[] idList = ids.split(",");
-        Integer succesCount = shopService.disableShopByIds(idList);
+        Integer succesCount = shopFeignClient.disableShopByIds(idList);
         Integer failedCount = idList.length - succesCount;
         Map map = new HashMap();
         map.put("successCount", succesCount);
@@ -353,11 +363,11 @@ public class ShopController extends BaseController {
         ModelMap mm = new ModelMap();
         mm.put("data", false);
         if (StringUtils.isNotBlank(mobile)) {
-            List<ShopPo> po = shopService.findShopPoByMobileAndHaveNotShopId(mobile, shopId);
+            List<ShopPo> po = shopFeignClient.findShopPoByMobileAndHaveNotShopId(mobile, shopId);
             if (CollectionUtils.isNotEmpty(po)) {
-                UserPo existUser = userService.findUserPoByMobile(mobile);
+                UserPo existUser = userFeignClient.findUserPoByMobile(mobile);
                 if (existUser == null) {
-                    existUser = userService.findUserPoByAccount(mobile);
+                    existUser = userFeignClient.findUserPoByAccount(mobile);
                 }
                 mm.put("data", existUser != null);
             }
@@ -549,7 +559,7 @@ public class ShopController extends BaseController {
             view.addObject("result", "黑名单不能为空");
             return view;
         }
-        String re = shopService.updateBlackList(blackList);
+        String re = shopFeignClient.updateBlackList(blackList);
         if (re.length() > 0) {
             view.addObject("result", re);
             return view;
@@ -565,7 +575,7 @@ public class ShopController extends BaseController {
     public ModelAndView getBlackList() {
         logger.debug("received list blackList GET");
         ModelAndView mav = new ModelAndView("shop/blackList");
-        List<ShopPo> backShopPoList = shopService.getShopPoBackList();
+        List<ShopPo> backShopPoList = shopFeignClient.getShopPoBackList();
         mav.addObject("blackList", backShopPoList);
         return mav;
     }
@@ -573,7 +583,7 @@ public class ShopController extends BaseController {
     @RequestMapping(value = "deleteBlackList", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('OPT_SHOP_UPDATE_BLACK_LIST')")
     public ModelAndView deleteBlackList(@RequestParam("shopId") String shopId) {
-        shopService.deleteBlackList(newArrayList(shopId));
+        shopFeignClient.deleteBlackList(newArrayList(shopId));
         return new ModelAndView("redirect:/shops/blacklist.do?result=true");
     }
 

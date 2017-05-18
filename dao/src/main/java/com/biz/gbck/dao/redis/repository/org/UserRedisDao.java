@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.codelogger.utils.CollectionUtils;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,10 @@ public class UserRedisDao extends CrudRedisDao<UserRo,String> {
     public void save(UserRo user) {
         super.save(user);
         mapMobile2User(user.getMobile(), user.getId());
+        Timestamp createTime = user.getCreateTime();
+        zadd(RedisKeyGenerator.User.getAllUserSortSetKey(),
+                createTime == null ? System.currentTimeMillis() : createTime.getTime(),
+                RedisUtil.toByteArray(user.getId()));
     }
 
     /**
@@ -103,6 +108,16 @@ public class UserRedisDao extends CrudRedisDao<UserRo,String> {
         del(getKeyByParams(mobile));
     }
 
+
+    @Override
+    public void delete(UserRo userRo) {
+        if (userRo != null) {
+            super.delete(userRo);
+            del(getKeyByParams(userRo.getMobile()));
+            zrem(RedisKeyGenerator.User.getAllUserSortSetKey(),
+                    RedisUtil.toByteArray(userRo.getId()));
+        }
+    }
 
     /**
      * 根据店铺渠道查询用户id
@@ -196,6 +211,17 @@ public class UserRedisDao extends CrudRedisDao<UserRo,String> {
 
         }
         return users;
+    }
+
+    public void saveWithToken(Long userId, String deviceId, String token, String userAgent) {
+        hset(RedisKeyGenerator.User.getUserInfoHashKey(userId),
+                RedisKeyGenerator.User.DEVICEID,
+                RedisUtil.toByteArray(StringUtils.defaultString(deviceId)));
+        hset(RedisKeyGenerator.User.getUserInfoHashKey(userId), RedisKeyGenerator.User.TOEKN,
+                RedisUtil.toByteArray(StringUtils.defaultString(token)));
+        hset(RedisKeyGenerator.User.getUserInfoHashKey(userId),
+                RedisKeyGenerator.User.LASTUSERAGENT,
+                RedisUtil.toByteArray(StringUtils.defaultString(userAgent)));
     }
 
 }

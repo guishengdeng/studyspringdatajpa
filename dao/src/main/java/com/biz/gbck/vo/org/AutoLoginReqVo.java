@@ -8,16 +8,16 @@ import com.biz.support.web.assist.GlobalParams;
 public class AutoLoginReqVo extends CommonReqVoBindUserId implements InitGlobalParamsWithToken {
 	
 
-	  private String token;
+	  private String pushToken;
 
 	  private GlobalParams globalParams;
 
-	public String getToken() {
-		return token;
+	public String getPushToken() {
+		return pushToken;
 	}
 
-	public void setToken(String token) {
-		this.token = token;
+	public void setPushToken(String pushToken) {
+		this.pushToken = pushToken;
 	}
 
 	public GlobalParams getGlobalParams() {

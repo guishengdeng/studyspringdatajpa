@@ -43,18 +43,18 @@ public class NotificationService extends CommonService {
         if (StringUtils.isNotBlank(notifyVo.getShopTypeId())) {
             sourceId = notifyVo.getShopTypeId();
             for (String shopType : sourceId.split(",")) {
-                List<Long> shopTypeUserIds =
-                    userService.findUserIdByShopType(Long.valueOf(StringUtils.trimAllWhitespace(shopType))); // TODO: 17-4-26 没实现对应方法
-                userIds.addAll(shopTypeUserIds);
+//                List<Long> shopTypeUserIds =
+//                    userService.findUserIdByShopType(Long.valueOf(StringUtils.trimAllWhitespace(shopType))); // TODO: 17-4-26 没实现对应方法
+//                userIds.addAll(shopTypeUserIds);
             }
         } else {
             if(StringUtils.isNotBlank(notifyVo.getMobile())) {
-               UserRo userRo = userService.findUserByMobile(notifyVo.getMobile());
-                if(userRo != null){
-                    userIds.add(Long.valueOf(userRo.getId()));
-                }
+//               UserRo userRo = userService.findUserByMobile(notifyVo.getMobile());
+//                if(userRo != null){
+//                    userIds.add(Long.valueOf(userRo.getId()));
+//                }
             } else {
-                userIds = userService.findAllUserIdByAuditStatus(AuditStatus.NORMAL);// TODO: 17-4-26 没实现对应方法
+//                userIds = userService.findAllUserIdByAuditStatus(AuditStatus.NORMAL);// TODO: 17-4-26 没实现对应方法
             }
         }
         return userIds;

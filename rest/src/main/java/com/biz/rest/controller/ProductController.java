@@ -17,7 +17,7 @@ public class ProductController extends BaseRestController {
     @Autowired
     private ProductFeignClient productFeignClient;
 
-    @RequestMapping(value = "/list")
+    @RequestMapping(value = "/search")
     public JSONResult productList(HttpServletRequest request, HttpServletResponse response) {
         return new JSONResult(Lists.<ProductAppListItemVo>newArrayList());
     }

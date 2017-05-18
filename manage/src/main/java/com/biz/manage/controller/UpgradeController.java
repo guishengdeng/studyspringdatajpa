@@ -28,7 +28,7 @@ public class UpgradeController {
 	public ModelAndView list() {
 		ModelAndView view =  new ModelAndView("manage/upgrade/list");
 		List<UpgradeRo> ios= upgradeService.findAll("ios");
-		List<UpgradeRo> android = upgradeService.findAll("android");
+		List<UpgradeRo> android = upgradeService.findAll("androId");
 		view.addObject("ios", ios);
 		view.addObject("android", android);
 		return view;

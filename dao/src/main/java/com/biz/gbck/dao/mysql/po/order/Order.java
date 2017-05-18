@@ -35,6 +35,12 @@ public class Order extends BaseEntity {
     private Long sellerId;
 
     /**
+     * 对应店铺Id
+     */
+    @Column(nullable = false)
+    private Long shopId;
+
+    /**
      * 平台公司Id
      */
     @Column(nullable = false)
@@ -53,7 +59,7 @@ public class Order extends BaseEntity {
 
     //运费金额
     @Column(nullable = false)
-    private Integer freightAmount = 0;
+    private Integer freight = 0;
 
     /**
      * 促销优惠金额
@@ -167,6 +173,14 @@ public class Order extends BaseEntity {
         this.sellerId = sellerId;
     }
 
+    public Long getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Long shopId) {
+        this.shopId = shopId;
+    }
+
     public Long getUserId() {
         return userId;
     }
@@ -183,12 +197,12 @@ public class Order extends BaseEntity {
         this.orderAmount = orderAmount;
     }
 
-    public Integer getFreightAmount() {
-        return freightAmount;
+    public Integer getFreight() {
+        return freight;
     }
 
-    public void setFreightAmount(Integer freightAmount) {
-        this.freightAmount = freightAmount;
+    public void setFreight(Integer freightAmount) {
+        this.freight = freightAmount;
     }
 
     public Integer getFreeAmount() {
@@ -363,7 +377,9 @@ public class Order extends BaseEntity {
     /**
      * 是否可以申请售后
      */
-    public boolean isReturnable() {
+    public boolean isReturnable(boolean isAdmin) {
+        if (isAdmin)
+            return status == OrderStatus.DELIVERED || status == OrderStatus.FINISHED;
         return status == OrderStatus.FINISHED;
     }
 }

@@ -1,4 +1,4 @@
-package com.biz.soa.listener.geo;
+package com.biz.soa.order.listener.geo;
 
 
 import com.biz.gbck.vo.geo.MnsGeoDistrictVo;

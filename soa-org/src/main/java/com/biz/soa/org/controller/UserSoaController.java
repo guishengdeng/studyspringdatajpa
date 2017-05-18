@@ -3,6 +3,8 @@ package com.biz.soa.org.controller;
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.common.exception.ExceptionCode;
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
+import com.biz.gbck.dao.mysql.po.org.UserPo;
+import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.vo.org.AutoLoginReqVo;
 import com.biz.gbck.vo.org.ChangePwdVo;
 import com.biz.gbck.vo.org.ForgotPasswordReqVo;
@@ -56,15 +58,9 @@ public class UserSoaController extends BaseRestController {
      * 用户注册
      */
     @RequestMapping(value = "register", method = RequestMethod.POST)
-    public JSONResult register(UserRegisterReqVo userRegisterReqVo)
+    public JSONResult register(@RequestBody UserRegisterReqVo userRegisterReqVo)
         throws CommonException {
 
-//        UserRegisterReqVo userRegisterReqVo =
-//            RestUtil.parseBizData(request, UserRegisterReqVo.class);
-//        String clientIP = HttpServletHelper.getClientIP(request);
-//        logger.debug("Received /users/register POST request with mobile:{} from IP:{}",
-//            userRegisterReqVo.getMobile(), userRegisterReqVo.getIp());
-//        userRegisterReqVo.setIp(clientIP);
         UserLoginResVo userLoginResVo = userSoaService.createUserAndShop(userRegisterReqVo);
         return new JSONResult(userLoginResVo);
     }
@@ -73,7 +69,7 @@ public class UserSoaController extends BaseRestController {
      * 忘记密码
      */
     @RequestMapping(value = "forgotPassword", method = RequestMethod.POST)
-    public JSONResult forgotPassword(ForgotPasswordReqVo forgotPasswordReqVo)
+    public JSONResult forgotPassword(@RequestBody ForgotPasswordReqVo forgotPasswordReqVo)
         throws CommonException {
 
 //        ForgotPasswordReqVo forgotPasswordReqVo =
@@ -86,7 +82,7 @@ public class UserSoaController extends BaseRestController {
      * 登录
      */
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public JSONResult login(UserLoginReqVo userLoginReqVo) throws CommonException {
+    public JSONResult login(@RequestBody UserLoginReqVo userLoginReqVo) throws CommonException {
 //        UserLoginReqVo userLoginReqVo = RestUtil.parseBizData(request, UserLoginReqVo.class);
 //        String clientIP = HttpServletHelper.getClientIP(request);
 //        logger.debug("Received /users/login POST request with account:{} from ip:{}",
@@ -103,7 +99,7 @@ public class UserSoaController extends BaseRestController {
      * 退出登录
      */
     @RequestMapping(value = "logout", method = RequestMethod.POST)
-    public JSONResult logout(CommonReqVoBindUserId reqVoBindUserId) {
+    public JSONResult logout(@RequestBody CommonReqVoBindUserId reqVoBindUserId) {
 //        CommonReqVoBindUserId reqVoBindUserId =
 //            RestUtil.parseBizData(request, CommonReqVoBindUserId.class);
         userSoaService.logout(reqVoBindUserId);
@@ -114,7 +110,7 @@ public class UserSoaController extends BaseRestController {
      * 自动登陆详情(此接口会绑定token)
      */
     @RequestMapping(value = "autoLogin", method = RequestMethod.POST)
-    public JSONResult autoLogin(AutoLoginReqVo reqVo) throws CommonException {
+    public JSONResult autoLogin(@RequestBody AutoLoginReqVo reqVo) throws CommonException {
 
 //        AutoLoginReqVo reqVo = RestUtil.parseBizData(request, AutoLoginReqVo.class);
 //        logger.debug("Received /users tokenChange request with account:{} from ip:{}",
@@ -128,7 +124,7 @@ public class UserSoaController extends BaseRestController {
      * 变更用户绑定手机号码
      */
     @RequestMapping(value = "changeMobile", method = RequestMethod.POST)
-    public JSONResult changeMobile(UserChangeMobileReqVo userChangeMobileReqVo) throws CommonException {
+    public JSONResult changeMobile(@RequestBody UserChangeMobileReqVo userChangeMobileReqVo) throws CommonException {
 
 //        UserChangeMobileReqVo userChangeMobileReqVo =
 //            RestUtil.parseBizData(request, UserChangeMobileReqVo.class);
@@ -140,7 +136,7 @@ public class UserSoaController extends BaseRestController {
      * 修改用户头像
      */
     @RequestMapping(value = "changeAvatar", method = RequestMethod.POST)
-    public JSONResult updateAvatar(UserChangeAvatarReqVo userChangeAvatarReqVo) throws CommonException {
+    public JSONResult updateAvatar(@RequestBody UserChangeAvatarReqVo userChangeAvatarReqVo) throws CommonException {
 
 //        UserChangeAvatarReqVo userChangeAvatarReqVo =
 //            RestUtil.parseBizData(request, UserChangeAvatarReqVo.class);
@@ -153,7 +149,7 @@ public class UserSoaController extends BaseRestController {
      * 修改用户密码
      */
     @RequestMapping(value = "changePwd", method = RequestMethod.POST)
-    public JSONResult changePwd(ChangePwdVo changePwdVo) throws CommonException {
+    public JSONResult changePwd(@RequestBody ChangePwdVo changePwdVo) throws CommonException {
 
 //        ChangePwdVo changePwdVo = RestUtil.parseBizData(request, ChangePwdVo.class);
         userSoaService.changePwd(changePwdVo);
@@ -165,11 +161,11 @@ public class UserSoaController extends BaseRestController {
      *验证登录密码
      */
     @RequestMapping(value = "validateLoginPassword", method = RequestMethod.POST)
-    public JSONResult validateLoginPwd(ValidateUserLoginPwdReqVo validateUserLoginPwdReqVo) throws CommonException {
+    public JSONResult validateLoginPwd(@RequestBody ValidateUserLoginPwdReqVo validateUserLoginPwdReqVo) throws CommonException {
 //        ValidateUserLoginPwdReqVo validateUserLoginPwdReqVo =
 //            RestUtil.parseBizData(request, ValidateUserLoginPwdReqVo.class);
         boolean validateResult = userSoaService
-            .validateUserLoginPwd(validateUserLoginPwdReqVo.getUserId(),
+            .validateUserLoginPwd(Long.valueOf(validateUserLoginPwdReqVo.getUserId()),
                 validateUserLoginPwdReqVo.getPassword());
         if (!validateResult) {
             throw new CommonException("验证用户登录密码失败", ExceptionCode.User.PWD_NOT_MATCH);
@@ -177,5 +173,28 @@ public class UserSoaController extends BaseRestController {
 
         return new JSONResult(Constant.SUCCESS_CODE, "验证用户登录密码成功");
     }
+
+    /**
+     * 通过电话号码查用户
+     */
+    @RequestMapping(value = "findUserPoByMobile", method = RequestMethod.POST)
+    public UserPo findUserPoByMobile(@RequestParam("mobile") String mobile) {
+        return userSoaService.findUserPoByMobile(mobile);
+    }
+
+    /**
+     * 通过电话号码查用户
+     */
+    @RequestMapping(value = "findUserPoByAccount", method = RequestMethod.POST)
+    public UserPo findUserPoByAccount(@RequestParam("account") String account) {
+        return userSoaService.findUserPoByAccount(account);
+    }
+
+
+    @RequestMapping(value = "findUser", method = RequestMethod.POST)
+    public UserRo findUser(@RequestParam("userId") Long userId) throws CommonException {
+        return userSoaService.findUser(userId);
+    }
+
 
 }

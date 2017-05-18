@@ -6,12 +6,8 @@ import com.biz.core.codec.PasswordUtil;
 import com.biz.core.transaction.BizTransactionManager;
 import com.biz.core.util.DateUtil;
 import com.biz.core.util.StringTool;
-import com.biz.event.org.AutoLoginEvent;
-import com.biz.event.org.UserLoginEvent;
-import com.biz.event.org.UserRegisterEvent;
 import com.biz.gbck.common.com.SMSType;
 import com.biz.gbck.common.com.mo.Message;
-import com.biz.gbck.common.com.transformer.UserPoToUserRo;
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.common.exception.DepotnearbyExceptionFactory;
 import com.biz.gbck.common.exception.ExceptionCode;
@@ -32,7 +28,7 @@ import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopChannel;
-import com.biz.gbck.enums.user.ShopStatus;
+import com.biz.gbck.transform.org.UserPoToUserRo;
 import com.biz.gbck.vo.mq.MQMessage;
 import com.biz.gbck.vo.oms.OMSCreateMemberVo;
 import com.biz.gbck.vo.org.AutoLoginReqVo;
@@ -46,8 +42,11 @@ import com.biz.gbck.vo.org.UserLoginResVo;
 import com.biz.gbck.vo.org.UserRegisterReqVo;
 import com.biz.gbck.vo.search.bbc.SearchUserReqVo;
 import com.biz.service.CommonService;
-import com.biz.service.org.interfaces.ShopService;
-import com.biz.service.sms.SMSService;
+import com.biz.soa.org.event.AutoLoginEvent;
+import com.biz.soa.org.event.UserLoginEvent;
+import com.biz.soa.org.event.UserRegisterEvent;
+import com.biz.soa.org.service.interfaces.ShopSoaService;
+import com.biz.soa.org.service.interfaces.SmsSoaService;
 import com.biz.soa.org.service.interfaces.UserSoaService;
 import com.biz.transformer.org.UserRoToUserVo;
 import com.google.common.base.Stopwatch;
@@ -84,10 +83,10 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
     private ShopRedisDao shopRedisDao;
 
     @Autowired
-    private ShopService shopService;
+    private ShopSoaService shopSoaService;
 
     @Autowired
-    private SMSService smsService;
+    private SmsSoaService smsSoaService;
 
 //    @Autowired
 //    private IdPool idPool;
@@ -123,7 +122,7 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
             throw DepotnearbyExceptionFactory.User.ILLEGAL_INVITER_CODE;
         }
 
-        if (smsService.validateAndDisableSMSCode(userRegisterReqVo.getMobile(), SMSType.REGISTER,
+        if (smsSoaService.validateAndDisableSMSCode(userRegisterReqVo.getMobile(), SMSType.REGISTER,
                 userRegisterReqVo.getSmsCode())) {
 
             Boolean userExist = userRedisDao.getUserByMobile(userRegisterReqVo.getMobile()) != null
@@ -145,8 +144,8 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
             UserRo userRo = createUser(userPo);
 
             //创建商铺
-            ShopRo shopRo = shopService.createShop(Long.parseLong(userRo.getId()), null, userRegisterReqVo.getInviterCode());
-            userPo.setShop(shopService.findShopPo(Long.parseLong(shopRo.getId())));
+            ShopRo shopRo = shopSoaService.createShop(Long.parseLong(userRo.getId()), null, userRegisterReqVo.getInviterCode());
+            userPo.setShop(shopSoaService.findShopPo(Long.parseLong(shopRo.getId())));
             userRepository.save(userPo);
             userRo.setShopId(Long.parseLong(shopRo.getId()));
             userRedisDao.save(userRo);
@@ -206,11 +205,11 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
             UserPo userPo = userRepository.findOne(Long.parseLong(userRo.getId()));
             if (userPo != null) {
                 if (userPo.getShop() == null) {
-                    shopRo =shopService.createShop(userPo.getId(), userPo.getName(), null);// TODO: 17-4-27 没商户创建商户
-                    userPo.setShop(shopService.findShopPo(Long.parseLong(shopRo.getId())));// TODO: 17-4-27 查询商户
+                    shopRo = shopSoaService.createShop(userPo.getId(), userPo.getName(), null);// TODO: 17-4-27 没商户创建商户
+                    userPo.setShop(shopSoaService.findShopPo(Long.parseLong(shopRo.getId())));// TODO: 17-4-27 查询商户
                     userRo = syncUserPoToRedis(userRepository.save(userPo));
                 } else {
-                    shopRo =shopService.findShop(userPo.getShop().getId());// TODO: 17-4-27  shop方法没实现
+                    shopRo = shopSoaService.findShop(userPo.getShop().getId());// TODO: 17-4-27  shop方法没实现
                 }
             } else {
                 userRedisDao.delete(userRo);
@@ -218,14 +217,15 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
             }
         }
         assert userLoginResVo != null;
-        if (!Objects.equals(shopRo.getStatus(), ShopStatus.NORMAL.getValue())) {
-            throw DepotnearbyExceptionFactory.Shop.SHOP_DISABLED;
-        }
+        // todo liubin
+//        if (!Objects.equals(shopRo.getStatus(), ShopStatus.NORMAL.getValue())) {
+//            throw DepotnearbyExceptionFactory.Shop.SHOP_DISABLED;
+//        }
         userLoginResVo.setShopProperties(shopRo);
         //为20倍会员做双重检查，以防状态不正确
         if(!Objects.equals(userLoginResVo.getDetailAuditStatus(), AuditStatus.NORMAL.getValue()) || !Objects
                 .equals(userLoginResVo.getQualificationAuditStatus(), AuditStatus.NORMAL.getValue())){
-            ShopPo shopPo = shopService.findShopPo(Long.parseLong(shopRo.getId())); // TODO: 17-4-27 根据商户id获取shopPo
+            ShopPo shopPo = shopSoaService.findShopPo(Long.parseLong(shopRo.getId())); // TODO: 17-4-27 根据商户id获取shopPo
 //            if(shopPo.getShopLevel() == ShopLevel.VIP_20){
             userLoginResVo.setDetailAuditStatus(AuditStatus.NORMAL.getValue());
             userLoginResVo.setQualificationAuditStatus(AuditStatus.NORMAL.getValue());
@@ -242,13 +242,13 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
         userLoginResVo.setShowPaymentButton(showPaymentButton);*/ // TODO: 17-4-27   是否显示记我账上
         if (Objects.equals(userLoginResVo.getDetailAuditStatus(), AuditStatus.AUDIT_FAILED.getValue())) {
             List<String> detailAuditRejectReason =
-                    shopService.findDetailAuditRejectReason(Long.parseLong(shopRo.getId()));
+                    shopSoaService.findDetailAuditRejectReason(Long.parseLong(shopRo.getId()));
             userLoginResVo.setDetailRejectReasons(detailAuditRejectReason);
         }
         if (Objects.equals(userLoginResVo.getQualificationAuditStatus(),
                 AuditStatus.AUDIT_FAILED.getValue())) {
             List<String> qualificationAuditRejectReason =
-                    shopService.findQualificationAuditRejectReason(Long.parseLong(shopRo.getId()));
+                    shopSoaService.findQualificationAuditRejectReason(Long.parseLong(shopRo.getId()));
             userLoginResVo.setQualificationRejectReasons(qualificationAuditRejectReason);
         }
        /* userLoginResVo.setMsgCount(noticeService.getRemainMSgCount(userRo.getId()));*/ // TODO: 17-4-27 消息数量
@@ -287,7 +287,7 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
 
     @Override
     public UserLoginResVo autoLogin(AutoLoginReqVo autoLoginReqVo) throws CommonException {
-        UserRo userRo = this.findUser(autoLoginReqVo.getUserId());
+        UserRo userRo = this.findUser(Long.valueOf(autoLoginReqVo.getUserId()));
         BizTransactionManager.publishEvent(new AutoLoginEvent(this, userRo, autoLoginReqVo), true);
         //publishEvent(new AutoLoginEvent(this, userRo, autoLoginReqVo));
         return buildRespVo(userRo);
@@ -295,29 +295,30 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
 
     @Override
     public void logout(CommonReqVoBindUserId commonReqVoBindUserId) {
-        userRedisDao.clearToken(commonReqVoBindUserId.getUserId(), "", "");
-        userRepository.cleanLoginDevice(commonReqVoBindUserId.getUserId()); //保存用户最后登录设备
+        userRedisDao.clearToken(Long.valueOf(commonReqVoBindUserId.getUserId()), "", "");
+        userRepository.cleanLoginDevice(Long.valueOf(commonReqVoBindUserId.getUserId())); //保存用户最后登录设备
     }
 
     @Override
+    @Transactional
     public void forgotPassword(ForgotPasswordReqVo forgotPasswordReqVo) throws CommonException {
 
         if (forgotPasswordReqVo == null || StringUtils.isBlank(forgotPasswordReqVo.getPassword())
                 || forgotPasswordReqVo.getPassword().length() != 32) {
             throw DepotnearbyExceptionFactory.User.ILLEGAL_PASSWORD;
         }
-        if (smsService.validateAndDisableSMSCode(forgotPasswordReqVo.getMobile(),
+        if (smsSoaService.validateAndDisableSMSCode(forgotPasswordReqVo.getMobile(),
                 SMSType.FORGOT_PASSWORD,forgotPasswordReqVo.getSmsCode())) {
             UserRo userRo = findUserByMobile(forgotPasswordReqVo.getMobile());
             if (userRo == null) {
                 throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
             } else {
-                String originalPassword =
-                        PasswordUtil.aes2Original(forgotPasswordReqVo.getOriginalPassword());
+//                String originalPassword =
+//                        PasswordUtil.aes2Original(forgotPasswordReqVo.getOriginalPassword());
                 userRepository.updateUserPassword(forgotPasswordReqVo.getMobile(),
-                        forgotPasswordReqVo.getPassword(), originalPassword);
+                        forgotPasswordReqVo.getPassword(), forgotPasswordReqVo.getPassword());
                 userRedisDao.updateUserPassword(forgotPasswordReqVo.getMobile(),
-                        forgotPasswordReqVo.getPassword(), originalPassword);
+                        forgotPasswordReqVo.getPassword(), forgotPasswordReqVo.getPassword());
             }
         } else {
             throw DepotnearbyExceptionFactory.SMS.INVALID_SMS_CODE;
@@ -374,8 +375,8 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
     }
 
     @Override
-    public UserPo findUserPoByAccount(String mobile) {
-        return userRepository.findByAccount(mobile);
+    public UserPo findUserPoByAccount(String account) {
+        return userRepository.findByAccount(account);
     }
 
     @Override
@@ -494,7 +495,7 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
             throw new CommonException("必须登录才能使用此功能！", ExceptionCode.Global.INFO_TO_USER);
         UserRo userRo = findUser(userId);
         Long shopId = userRo.getShopId();
-        ShopRo shopRo = shopService.findShop(shopId);
+        ShopRo shopRo = shopSoaService.findShop(shopId);
         if (shopRo == null) {
             throw new CommonException("您的账号异常！请联系客服解决", ExceptionCode.Global.INFO_TO_USER);
         }
@@ -510,7 +511,7 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
                 throw new CommonException("您的账号异常！请联系客服解决", ExceptionCode.Global.INFO_TO_USER);
 
             Long shopId = userRo.getShopId();
-            ShopRo shopRo = shopService.findShop(shopId);
+            ShopRo shopRo = shopSoaService.findShop(shopId);
             if (shopRo == null)
                 throw new CommonException("您的账号信息异常！请联系客服解决", ExceptionCode.Global.INFO_TO_USER);
             condition.setSaleAreaIds(StringTool.strToIntArray(shopRo.getSaleAreas()));
@@ -526,7 +527,7 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
             throw new CommonException("必须登录才能使用此功能！", ExceptionCode.Global.INFO_TO_USER);
         UserRo userRo = findUser(userId);
         Long shopId = userRo.getShopId();
-        ShopRo shopRo = shopService.findShop(shopId);
+        ShopRo shopRo = shopSoaService.findShop(shopId);
         if (shopRo == null) {
             throw new CommonException("您的账号异常！请联系客服解决", ExceptionCode.Global.INFO_TO_USER);
         }
@@ -544,7 +545,7 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
             throw new CommonException("必须登录才能使用此功能！", ExceptionCode.Global.INFO_TO_USER);
         UserRo userRo = findUser(userId);
         Long shopId = userRo.getShopId();
-        ShopRo shopRo = shopService.findShop(shopId);
+        ShopRo shopRo = shopSoaService.findShop(shopId);
         if (shopRo == null) {
             throw new CommonException("您的账号异常！请联系客服解决", ExceptionCode.Global.INFO_TO_USER);
         }
@@ -579,11 +580,12 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
     /**
      * 更改手机号
      */
-    @Transactional public void changeMobile(final UserChangeMobileReqVo reqVo) throws CommonException {
+    @Transactional
+    public void changeMobile(final UserChangeMobileReqVo reqVo) throws CommonException {
 
-        if (smsService.validateAndDisableSMSCode(reqVo.getMobile(), SMSType.CHANGE_MOBILE,
+        if (smsSoaService.validateAndDisableSMSCode(reqVo.getMobile(), SMSType.CHANGE_MOBILE,
                 reqVo.getSmsCode())) {
-            final UserRo userRo = userRedisDao.get(reqVo.getUserId());
+            final UserRo userRo = userRedisDao.get(Long.valueOf(reqVo.getUserId()));
             if (userRo == null) {
                 throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
             }
@@ -591,15 +593,15 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
             if (userId != null) {
                 throw DepotnearbyExceptionFactory.User.USER_EXIST;
             }
-            userRepository.updateUserMobile(reqVo.getUserId(), reqVo.getMobile());
-            final UserPo userPo = userRepository.findOne(reqVo.getUserId());
+            userRepository.updateUserMobile(Long.valueOf(reqVo.getUserId()), reqVo.getMobile());
+            final UserPo userPo = userRepository.findOne(Long.valueOf(reqVo.getUserId()));
             DepotnearbyTransactionManager.doWhenTransactionalSuccess(
                     new DepotnearbyTransactionManager.Task() {
                         @Override public void justDoIt() {
                             syncUserPoToRedis(userPo);
                             userRedisDao.removeMapMobileToUser(userRo.getMobile());
                             if(userPo.getIsAdmin()) {
-                                shopService.changeMobile(userRo.getShopId(), reqVo.getMobile());
+                                shopSoaService.changeMobile(userRo.getShopId(), reqVo.getMobile());
                             }
                         }
                     });
@@ -647,12 +649,12 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
      */
     @Transactional public void changeAvatar(UserChangeAvatarReqVo reqVo) throws CommonException {
 
-        UserRo userRo = userRedisDao.get(reqVo.getUserId());
+        UserRo userRo = userRedisDao.get(Long.valueOf(reqVo.getUserId()));
         if (userRo == null) {
             throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
         }
-        userRepository.updateUserAvatar(reqVo.getUserId(), reqVo.getAvatar());
-        final UserPo userPo = userRepository.findOne(reqVo.getUserId());
+        userRepository.updateUserAvatar(Long.valueOf(reqVo.getUserId()), reqVo.getAvatar());
+        final UserPo userPo = userRepository.findOne(Long.valueOf(reqVo.getUserId()));
         DepotnearbyTransactionManager.doWhenTransactionalSuccess(
                 new DepotnearbyTransactionManager.Task() {
                     @Override public void justDoIt() {
@@ -674,7 +676,7 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
         logger.debug("Get userId by nuomi userId: {}", baiduUserId);
         Long userId = userRedisDao.getUserIdByShopChannelAndChannelUserId(ShopChannel.BAI_DU_NUO_MI,
                 baiduUserId);
-        ShopPo shopPo = shopService.findShopOrCreateByBaiduUserIdAndBaiduGeoCode(baiduUserId, geoCode);
+        ShopPo shopPo = shopSoaService.findShopOrCreateByBaiduUserIdAndBaiduGeoCode(baiduUserId, geoCode);
         if (shopPo == null) {
             throw new CommonException(
                     format("Create baidu user[%s] shop failed.", baiduUserId));
@@ -766,21 +768,23 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
         userRedisDao.updateBlackList(mobiles);
     }
 
-    @Transactional public void changePwd(final ChangePwdVo changePwdVo) throws CommonException {
-        UserRo userRo = userRedisDao.get(changePwdVo.getUserId());
+    @Transactional
+    public void changePwd(final ChangePwdVo changePwdVo) throws CommonException {
+        UserRo userRo = userRedisDao.get(Long.valueOf(changePwdVo.getUserId()));
         if (userRo == null) {
             throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
         }
         final String mobile = userRo.getMobile();
         if(changePwdVo.getOriginPassword().length()!=32|changePwdVo.getNewPassword().length()!=32|changePwdVo.getConfirmPassword().length()!=32){
-            throw DepotnearbyExceptionFactory.User.ILLEGAL_PASSWORD;
+            // todo liubin
+            //throw DepotnearbyExceptionFactory.User.ILLEGAL_PASSWORD;
         }
         if (changePwdVo.getOriginPassword().equalsIgnoreCase(userRo.getPassword()) &&
                 changePwdVo.getNewPassword().equalsIgnoreCase(changePwdVo.getConfirmPassword())) {
-            userRepository.updateUserPassword(mobile,changePwdVo.getConfirmPassword(),changePwdVo.getRawPassword());
+            userRepository.updateUserPassword(mobile,changePwdVo.getConfirmPassword(),changePwdVo.getConfirmPassword());
             DepotnearbyTransactionManager.doWhenTransactionalSuccess(new DepotnearbyTransactionManager.Task() {
                 @Override public void justDoIt() {
-                    userRedisDao.updateUserPassword(mobile,changePwdVo.getConfirmPassword(),changePwdVo.getRawPassword());
+                    userRedisDao.updateUserPassword(mobile,changePwdVo.getConfirmPassword(),changePwdVo.getConfirmPassword());
                 }
             });
         }else{

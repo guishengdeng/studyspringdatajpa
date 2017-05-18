@@ -1,5 +1,7 @@
 package com.biz.gbck.dao.mysql.po.org;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,9 +17,13 @@ import java.sql.Timestamp;
 /**
  * Created by defei on 3/18/16.
  */
-@Entity @Table(name = "shop_qualification") public class ShopQualificationPo implements Serializable {
+@Entity @Table(name = "shop_qualification")
+public class ShopQualificationPo implements Serializable{
 
-    @Id @GeneratedValue(strategy=GenerationType.AUTO) private Long id;
+    private static final long serialVersionUID = 2079196331062322103L;
+
+    @Id @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long id;
 
     /**
      * 对应店铺
@@ -205,5 +211,10 @@ import java.sql.Timestamp;
 
     public void setRejectReason(String rejectReason) {
         this.rejectReason = rejectReason;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

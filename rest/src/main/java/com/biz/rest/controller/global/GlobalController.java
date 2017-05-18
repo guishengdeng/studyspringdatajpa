@@ -1,11 +1,10 @@
 package com.biz.rest.controller.global;
-import com.biz.core.ali.oss.util.OssUtil;
-import com.biz.gbck.dao.redis.ro.upgrade.UpgradeRo;
-/*import com.biz.gbck.vo.config.AppConfigVo;
-import com.biz.service.upgrade.CacheServiceImpl;*/
-import com.biz.service.upgrade.UpgradeService;
+
+import com.biz.rest.controller.BaseRestController;
+import com.biz.soa.feign.client.global.GlobalFeignClient;
 import com.biz.support.web.handler.JSONResult;
-import org.apache.commons.lang.StringUtils;
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,30 +12,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("init")
-public class GlobalController  { //extends BaseController
+public class GlobalController extends BaseRestController {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalController.class);
 
     @Autowired
-    private UpgradeService upgradeService;
+    private GlobalFeignClient globalFeignClient;
 
-   /* @Autowired
-    private CacheServiceImpl cacheServiceImpl;*/
+
 
     @RequestMapping("/init")
     public JSONResult init(HttpServletRequest request) {
-        Map result = new HashMap();
-       /* AppConfigVo config = cacheServiceImpl.getAppConfigVo();
-        result.putAll(config.getMap());
-        result.put("oss", OssUtil.getBuckets());*/
-        return new JSONResult(result);
+        logger.debug("Received rest /init/init GET request.");
+        return globalFeignClient.getAppConfigMap();
     }
+
 
     @RequestMapping("upgrade")
     public JSONResult upgrade(
@@ -44,13 +37,8 @@ public class GlobalController  { //extends BaseController
             @RequestParam(value = "os", required = true, defaultValue = "") String os,
             @RequestParam(value = "partner", required = true, defaultValue = "") String partner,
             HttpServletRequest request) {
-        boolean inhourse = StringUtils.equalsIgnoreCase("inhouse", partner);
-        UpgradeRo ro= upgradeService.needUpgrade(os, ver, inhourse);
-        if (ro != null) {
-            return new JSONResult(ro);
-        } else {
-            return new JSONResult("need", false);
-        }
+        logger.debug("Received rest /init/upgrade GET request.");
+        return globalFeignClient.needUpgrade(os, ver, partner);
     }
 
 }
