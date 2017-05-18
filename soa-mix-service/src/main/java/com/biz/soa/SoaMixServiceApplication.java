@@ -1,4 +1,4 @@
-package com.biz.soa.cover;
+package com.biz.soa;
 
 import com.biz.support.jpa.repository.CommonRepositoryFactoryBean;
 import org.springframework.boot.SpringApplication;
@@ -9,8 +9,6 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import javax.annotation.ManagedBean;
 
 /**
  * SOA-Product Application

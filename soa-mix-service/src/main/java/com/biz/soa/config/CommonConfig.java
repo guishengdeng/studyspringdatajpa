@@ -1,4 +1,4 @@
-package com.biz.soa.cover.config;
+package com.biz.soa.config;
 
 import com.biz.core.event.BizEventMulticaster;
 import com.biz.core.event.BizEventPublisher;

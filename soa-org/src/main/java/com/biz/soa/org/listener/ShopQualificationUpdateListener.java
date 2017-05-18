@@ -20,7 +20,7 @@ import java.util.Objects;
  * 商店资质变更事件
  */
 @Component
-public class ShopQualificationUpdateListener implements ApplicationListener<ShopQualificationUpdateEvent> {
+public class ShopQualificationUpdateListener extends AbstractBizEventListener<ShopQualificationUpdateEvent> {
 
     private final static Logger logger =
         LoggerFactory.getLogger(ShopQualificationUpdateListener.class);
@@ -29,31 +29,10 @@ public class ShopQualificationUpdateListener implements ApplicationListener<Shop
     private ShopSoaService shopSoaService;
 
 
-    @Override
-    public void onApplicationEvent(ShopQualificationUpdateEvent event) {
-        logger.info("ShopQualificationUpdateListener start");
-
-        if (event instanceof ShopQualificationUpdateEvent) {
-            logger.info("ShopQualificationUpdateListener start");
-
-            ShopQualificationUpdateEvent shopQualificationUpdateEvent =
-                    (ShopQualificationUpdateEvent) event;
-            logger.debug("Received Shop[{}] qualification update event.",
-                    shopQualificationUpdateEvent.getShopQualificationPo().getShop().getId());
-            ShopQualificationPo shopQualificationPo =
-                    shopQualificationUpdateEvent.getShopQualificationPo();
-            ShopPo shop = shopQualificationPo.getShop();
-            if (Objects.equals(shop.getQualificationAuditStatus(),
-                    AuditStatus.NEED_INFO.getValue()) || Objects
-                    .equals(shop.getQualificationAuditStatus(),
-                            AuditStatus.AUDIT_FAILED.getValue())) {
-                shopSoaService.updateShopQualificationAuditStatusToWaitForAudit(shop.getId());
-            }
-        }
-    }
-
-//    @Override
-//    protected void handleEvent(ShopQualificationUpdateEvent event) {
+    //    @Override
+//    public void onApplicationEvent(ShopQualificationUpdateEvent event) {
+//        logger.info("ShopQualificationUpdateListener start");
+//
 //        if (event instanceof ShopQualificationUpdateEvent) {
 //            logger.info("ShopQualificationUpdateListener start");
 //
@@ -72,5 +51,26 @@ public class ShopQualificationUpdateListener implements ApplicationListener<Shop
 //            }
 //        }
 //    }
+
+    @Override
+    protected void handleEvent(ShopQualificationUpdateEvent event) {
+        if (event instanceof ShopQualificationUpdateEvent) {
+            logger.info("ShopQualificationUpdateListener start");
+
+            ShopQualificationUpdateEvent shopQualificationUpdateEvent =
+                    (ShopQualificationUpdateEvent) event;
+            logger.debug("Received Shop[{}] qualification update event.",
+                    shopQualificationUpdateEvent.getShopQualificationPo().getShop().getId());
+            ShopQualificationPo shopQualificationPo =
+                    shopQualificationUpdateEvent.getShopQualificationPo();
+            ShopPo shop = shopQualificationPo.getShop();
+            if (Objects.equals(shop.getQualificationAuditStatus(),
+                    AuditStatus.NEED_INFO.getValue()) || Objects
+                    .equals(shop.getQualificationAuditStatus(),
+                            AuditStatus.AUDIT_FAILED.getValue())) {
+                shopSoaService.updateShopQualificationAuditStatusToWaitForAudit(shop.getId());
+            }
+        }
+    }
 
 }
