@@ -8,17 +8,13 @@ import com.biz.gbck.exceptions.product.IllegalParameterException;
 import com.biz.gbck.transform.product.CreateExtendPropertyVo2ExtendProperty;
 import com.biz.gbck.vo.product.backend.*;
 import com.biz.service.AbstractBaseService;
-import com.biz.service.IdService;
 import com.biz.service.product.backend.ExtendPropertyService;
 import com.google.common.collect.Lists;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * ExtendPropertyServiceImpl
@@ -29,7 +25,7 @@ import java.util.Map;
  * @description
  * @see
  */
-@Service
+//@Service
 public class ExtendPropertyServiceImpl extends AbstractBaseService  implements ExtendPropertyService {
     @Autowired
     private ExtendPropertyRepository extendPropertyRepository;

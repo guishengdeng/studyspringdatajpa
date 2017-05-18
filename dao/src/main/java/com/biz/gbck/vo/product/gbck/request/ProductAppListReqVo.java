@@ -1,5 +1,6 @@
 package com.biz.gbck.vo.product.gbck.request;
 
+import com.alibaba.fastjson.JSON;
 import com.biz.gbck.vo.product.gbck.response.ProductFilterVO;
 import com.biz.gbck.vo.product.gbck.response.ProductSearchFieldVo;
 import com.biz.support.web.assist.GlobalParams;
@@ -32,14 +33,9 @@ public class ProductAppListReqVo implements GlobalParamsAware, Serializable {
     private Long categoryId;
 
     /**
-     * 第几页
+     * 分页标识符
      */
-    private Integer page = 0;
-
-    /**
-     * 页大小
-     */
-    private Integer pageSize = 30;
+    private String lastFlag;
 
     /**
      * 搜索过滤字段
@@ -98,22 +94,6 @@ public class ProductAppListReqVo implements GlobalParamsAware, Serializable {
         this.sellerId = sellerId;
     }
 
-    public Integer getPage() {
-        return page;
-    }
-
-    public void setPage(Integer page) {
-        this.page = page;
-    }
-
-    public Integer getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
-    }
-
     public String getKeyword() {
         return keyword;
     }
@@ -128,6 +108,14 @@ public class ProductAppListReqVo implements GlobalParamsAware, Serializable {
 
     public void setSort(String sort) {
         this.sort = sort;
+    }
+
+    public String getLastFlag() {
+        return lastFlag;
+    }
+
+    public void setLastFlag(String lastFlag) {
+        this.lastFlag = lastFlag;
     }
 
     public Map<String, ProductFilterVO> getFilterMap() {
@@ -154,12 +142,16 @@ public class ProductAppListReqVo implements GlobalParamsAware, Serializable {
                 "sellerId=" + sellerId +
                 ", priceGroupId=" + priceGroupId +
                 ", categoryId=" + categoryId +
-                ", page=" + page +
-                ", pageSize=" + pageSize +
                 ", productSearchFields=" + productSearchFields +
                 ", keyword='" + keyword + '\'' +
                 ", sort='" + sort + '\'' +
                 '}';
+    }
+
+    public static void main(String[] args) {
+        ProductAppListReqVo reqVo = new ProductAppListReqVo();
+        reqVo.setCategoryId(1L);
+        System.out.println(JSON.toJSONString(reqVo));
     }
 
 }

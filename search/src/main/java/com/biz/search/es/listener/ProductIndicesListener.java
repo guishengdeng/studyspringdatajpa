@@ -1,9 +1,11 @@
 package com.biz.search.es.listener;
 
+import com.alibaba.fastjson.JSON;
 import com.biz.gbck.vo.product.UpdateProductIdxVO;
 import com.biz.message.BizMessage;
 import com.biz.message.MessageListener;
 import com.biz.message.QueueDefinition;
+import com.biz.message.SimpleBizMessage;
 import com.biz.message.queue.BizBaseQueue;
 import com.biz.search.es.service.interfaces.ProductSearchService;
 import java.util.Objects;
@@ -32,5 +34,10 @@ public class ProductIndicesListener implements MessageListener<UpdateProductIdxV
         } else {
             productSearchService.updateIncrIndices(VO);
         }
+    }
+
+    public static void main(String[] args) {
+        BizMessage<UpdateProductIdxVO> message = SimpleBizMessage.newMessage(new UpdateProductIdxVO());
+        System.out.println(JSON.toJSONString(message));
     }
 }

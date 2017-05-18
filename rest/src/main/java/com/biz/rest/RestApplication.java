@@ -18,11 +18,11 @@ import org.springframework.web.servlet.DispatcherServlet;
  * Created by david-liu on 2017/05/04 11:30.
  */
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.biz.rest.controller", "com.biz.soa.feign.hystrix"})
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = "com.biz.soa.feign")
 @EnableEurekaClient
 @EnableCircuitBreaker
-@ComponentScan(basePackages = {"com.biz.rest.controller"})
 public class RestApplication {
 
     public static void main(String[] args) {

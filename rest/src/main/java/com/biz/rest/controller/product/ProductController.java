@@ -25,6 +25,8 @@ public class ProductController extends BaseRestController {
     public JSONResult productList(HttpServletRequest request, HttpServletResponse response) {
         ProductAppListReqVo reqVo = this.parseBizData(request, ProductAppListReqVo.class);
         // TODO 调用用户服务, 设置价格组ID和上级采购单位ID
+        reqVo.setPriceGroupId(1L);
+        reqVo.setSellerId(1L);
         MicroServiceResult<ProductAppListRespVO> productSearchResult = productFeignClient.getProductSearchResult(reqVo);
         if (productSearchResult.getStatus() == MicroServiceResult.SUCCESS_STATUS) {
             return new JSONResult(productSearchResult.getData());
@@ -37,6 +39,8 @@ public class ProductController extends BaseRestController {
     public JSONResult productDetail(HttpServletRequest request, HttpServletResponse response) {
         ProductAppDetailReqVo reqVo = this.parseBizData(request, ProductAppDetailReqVo.class);
         // TODO 调用用户服务, 设置价格组ID和上级采购单位ID
+        reqVo.setPriceGroupId(1L);
+        reqVo.setSellerId(1L);
         MicroServiceResult<ProductAppDetailRespVO> productDetail = productFeignClient.getProductDetail(reqVo);
         if (productDetail.getStatus() == MicroServiceResult.SUCCESS_STATUS) {
             return new JSONResult(productDetail);

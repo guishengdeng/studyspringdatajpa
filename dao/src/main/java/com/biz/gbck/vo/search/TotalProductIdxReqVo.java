@@ -42,6 +42,9 @@ public class TotalProductIdxReqVo implements Serializable {
         this.sellerId = sellerId;
     }
 
+    public TotalProductIdxReqVo() {
+    }
+
     public List<Long> getProductIds() {
         return productIds;
     }

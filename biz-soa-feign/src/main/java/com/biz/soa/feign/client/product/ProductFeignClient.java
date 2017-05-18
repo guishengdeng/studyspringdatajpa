@@ -5,7 +5,9 @@ import com.biz.gbck.vo.product.backend.BootstrapTablePageResult;
 import com.biz.gbck.vo.product.backend.ProductFilterListReqVO;
 import com.biz.gbck.vo.product.gbck.request.ProductAppDetailReqVo;
 import com.biz.gbck.vo.product.gbck.request.ProductAppListReqVo;
+import com.biz.gbck.vo.product.gbck.request.PurchaseProductReqVO;
 import com.biz.gbck.vo.product.gbck.response.ProductAppDetailRespVO;
+import com.biz.gbck.vo.product.gbck.response.ProductAppListItemVo;
 import com.biz.gbck.vo.product.gbck.response.ProductAppListRespVO;
 import com.biz.gbck.vo.search.IncrProductIdxReqVo;
 import com.biz.gbck.vo.search.ProductIdxVO;
@@ -36,10 +38,13 @@ public interface ProductFeignClient {
     @RequestMapping(value = "/soa/product/app/detail", method = RequestMethod.POST)
     MicroServiceResult<ProductAppDetailRespVO> getProductDetail(@RequestBody ProductAppDetailReqVo reqVo);
 
-    @RequestMapping(value = "/soa/product/search/totalIndices")
+    @RequestMapping(value = "/soa/product/search/totalIndices", method = RequestMethod.POST)
     MicroServiceResult<List<ProductIdxVO>> getSearchTotalIndices(@RequestBody TotalProductIdxReqVo reqVo);
 
-    @RequestMapping(value = "/soa/product/search/incrIndices")
+    @RequestMapping(value = "/soa/product/search/incrIndices", method = RequestMethod.POST)
     MicroServiceResult<List<ProductIdxVO>> getSearchIncrIndices(@RequestBody IncrProductIdxReqVo reqVo);
+
+    @RequestMapping(value = "/soa/product/purchaseProducts", method = RequestMethod.POST)
+    MicroServiceResult<ProductAppListItemVo> getPurchaseProducts(@RequestBody PurchaseProductReqVO reqVO);
 
 }

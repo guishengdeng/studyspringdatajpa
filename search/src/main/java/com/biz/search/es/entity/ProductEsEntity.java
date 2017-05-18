@@ -30,8 +30,8 @@ public class ProductEsEntity implements Serializable {
     /**
      * 商品Id
      */
-    @Field(type = FieldType.Long, index = FieldIndex.not_analyzed, store = true)
-    private Long productId;
+    @Field(type = FieldType.String, index = FieldIndex.not_analyzed, store = true)
+    private String productId;
 
     /**
      * 价格组ID
@@ -314,11 +314,11 @@ public class ProductEsEntity implements Serializable {
         this.salesVolume = salesVolume;
     }
 
-    public Long getProductId() {
+    public String getProductId() {
         return productId;
     }
 
-    public void setProductId(Long productId) {
+    public void setProductId(String productId) {
         this.productId = productId;
     }
 
@@ -356,7 +356,7 @@ public class ProductEsEntity implements Serializable {
 
     public ProductEsEntity(ProductIdxVO idxVO, Long lastUpdateTimestamp) {
         this.setId(idxVO.getId());
-        this.setProductId(idxVO.getProductId());
+        this.setProductId(String.valueOf(idxVO.getProductId()));
         this.setPriceGroup(idxVO.getPriceGroup());
         this.setStock(idxVO.getStock());
         this.setSalePrice(idxVO.getSalePrice());
@@ -386,7 +386,7 @@ public class ProductEsEntity implements Serializable {
 
     public ProductEsEntity(ProductIdxVO idxVO) {
         this.setId(idxVO.getId());
-        this.setProductId(idxVO.getProductId());
+        this.setProductId(String.valueOf(idxVO.getProductId()));
         this.setPriceGroup(idxVO.getPriceGroup());
         this.setStock(idxVO.getStock());
         this.setSalePrice(idxVO.getSalePrice());

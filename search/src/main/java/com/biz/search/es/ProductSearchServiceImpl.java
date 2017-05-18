@@ -21,10 +21,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.TreeMultiset;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.apache.commons.collections.MapUtils;
@@ -39,7 +36,6 @@ import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
@@ -77,22 +73,16 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
         // 获取10000条记录, Spring Data ES最大支持一页10000条数据, 取出所有记录, 方便做搜索结果属性聚类
         // 如果商品数量的超过了10000, 可以采取分页取多次对结果进行合并再做聚类
-        nativeSearchQueryBuilder.withQuery(rootQueryBuilder).withSort(this.getSort(reqVo.getSort())).withPageable(new PageRequest(reqVo.getPage(), 10000));
-        Page<ProductEsEntity> esEntityPage = productEsRepository.search(nativeSearchQueryBuilder.build());
+        nativeSearchQueryBuilder.withQuery(rootQueryBuilder).withSort(this.getSort(reqVo.getSort())).withPageable(new PageRequest(0, 10000));
+        Iterable<ProductEsEntity> esEntityPage = productEsRepository.search(nativeSearchQueryBuilder.build());
         ProductSearchResultVo<ProductSearchResultEntityVo> searchResultVo = new ProductSearchResultVo<>();
+        List<ProductEsEntity> resultEntities = Lists.newArrayList();
         if (esEntityPage != null) {
-            searchResultVo.setTotalCount((int) esEntityPage.getTotalElements());
-            List<ProductEsEntity> esEntities = Optional.ofNullable(esEntityPage.getContent()).orElse(Lists.newArrayList());
-
-            searchResultVo.setCount(esEntities.size());
-            searchResultVo.setItems(esEntities.stream().map(esEntity -> new ProductSearchResultEntityVo(esEntity.getProductId(), esEntity.getProductCode())).collect(Collectors.toList()));
+            Iterator<ProductEsEntity> iterator = esEntityPage.iterator();
+            iterator.forEachRemaining(productEsEntity -> resultEntities.add(iterator.next()));
         }
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("search result: {}", searchResultVo);
-        }
-
-        return searchResultVo;
+        return this.getSearchResult(resultEntities, reqVo.getFilterMap());
     }
 
     @Override
@@ -104,7 +94,6 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
         }
         StopWatch stopWatch = new StopWatch("updateTotalIndices");
         Long lastUpdateTimestamp = System.currentTimeMillis();
-        List<String> oldDocumentIds = Lists.newArrayList();
         if (Objects.isNull(updateProductIdxVO.getProductId())) {
             if (Objects.nonNull(updateProductIdxVO.getPriceGroupId())) {
                 logger.warn("product id is null but price group id is not null, use increment indices method instead");
@@ -133,7 +122,7 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
                     TotalProductIdxReqVo reqVo = new TotalProductIdxReqVo(onSaleProductIds, priceGroupId, sellerId);
                     MicroServiceResult<List<ProductIdxVO>> searchTotalIndices = productFeignClient.getSearchTotalIndices(reqVo);
                     if (searchTotalIndices.getStatus() == MicroServiceResult.SUCCESS_STATUS) {
-                        oldDocumentIds.addAll(this.getOldProductDocumentIdsAfterSaveEsEntitiesFromIdxVO(searchTotalIndices.getData(), lastUpdateTimestamp));
+                        this.saveEsEntitiesFromIdxVO(searchTotalIndices.getData(), lastUpdateTimestamp);
                     } else {
                         logger.warn("get search indices fault, error msg: {}", searchTotalIndices.getMsg());
                     }
@@ -144,7 +133,7 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
             logger.warn("product id in request param must be null");
         }
         stopWatch.start("delete old version product documents");
-        productEsRepository.deleteByLastUpdateTimestampLessThanAndIdIn(lastUpdateTimestamp, oldDocumentIds);
+        productEsRepository.deleteByLastUpdateTimestampLessThan(lastUpdateTimestamp);
         stopWatch.stop();
         logger.info(stopWatch.prettyPrint());
     }
@@ -179,13 +168,13 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
     private SortBuilder getSort(String sort) {
         SortBuilder sortBuilder;
         if (StringUtils.equalsIgnoreCase("saleVolumeAsc", sort)) {
-            sortBuilder = SortBuilders.fieldSort("salesVolumeAsc").order(SortOrder.ASC);
-        } else if (StringUtils.equalsIgnoreCase("salePriceAsc", sort)) {
+            sortBuilder = SortBuilders.fieldSort("salesVolume").order(SortOrder.ASC);
+        } else if (StringUtils.equalsIgnoreCase("salePrice", sort)) {
             sortBuilder = SortBuilders.fieldSort("salePrice").order(SortOrder.ASC);
-        } else if (StringUtils.equalsIgnoreCase("salePriceDesc", sort)) {
+        } else if (StringUtils.equalsIgnoreCase("salePrice", sort)) {
             sortBuilder = SortBuilders.fieldSort("salePrice").order(SortOrder.DESC);
         } else {
-            sortBuilder = SortBuilders.fieldSort("salesVolumeDesc").order(SortOrder.DESC);
+            sortBuilder = SortBuilders.fieldSort("salesVolume").order(SortOrder.DESC);
         }
         return sortBuilder;
     }
@@ -203,7 +192,7 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
 
         if (reqVo.getCategoryId() != null) {
             // 过滤分类
-            rootQueryBuilder.must(QueryBuilders.termQuery("category", reqVo.getCategoryId()));
+            rootQueryBuilder.must(QueryBuilders.termQuery("categoryId", reqVo.getCategoryId()));
         }
 
         // 按照关键字模糊匹配
@@ -220,7 +209,7 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
                 List<String> searchValues = searchField.getValues();
                 if (CollectionUtils.isNotEmpty(searchValues)) {
                     BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-                    if (StringUtils.equalsIgnoreCase(fieldName, "brand")) {
+                    if (StringUtils.equalsIgnoreCase(fieldName, "brandId")) {
                         searchValues.forEach(val -> boolQueryBuilder.should(QueryBuilders.termQuery(fieldName, val)));
                     } else if (StringUtils.equalsIgnoreCase(fieldName, "properties")) {
                         searchValues.forEach(val -> boolQueryBuilder.should(QueryBuilders.matchPhraseQuery("properties", val)));
@@ -248,7 +237,7 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
     }
 
     private ProductSearchResultVo<ProductSearchResultEntityVo> getSearchResult(List<ProductEsEntity> esEntities, Map<String, ProductFilterVO> filterMap) {
-        if (CollectionUtils.isNotEmpty(esEntities)) {
+        if (CollectionUtils.isEmpty(esEntities)) {
             return new ProductSearchResultVo<>();
         }
         logger.info("Fetched {} entities from elasticsearch", esEntities.size());
@@ -262,7 +251,7 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
         esEntities.forEach(entity -> {
             ProductSearchResultEntityVo resultEntityVo = new ProductSearchResultEntityVo();
             resultEntityVo.setProductCode(entity.getProductCode());
-            resultEntityVo.setProductId(entity.getProductId());
+            resultEntityVo.setProductId(Long.valueOf(entity.getProductId()));
             resultEntityVos.add(resultEntityVo);
             if (entity.getSalePrice() != null) {
                 prices.add(Double.valueOf(entity.getSalePrice()));
@@ -272,17 +261,18 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
             if (brandId != null && StringUtils.isNotBlank(brandName)) {
                 brandSet.add(String.format("%s:%s", brandName, brandId));
             }
-            String property = entity.getProperties();
-            if (StringUtils.isNotBlank(property)) {
-                List<String> propertyTexts = StringTool.split(property, ",");
-                propertyTexts.forEach(propertyText -> {
+
+            String propertyTexts = entity.getPropertyTexts();
+            if (StringUtils.isNotBlank(propertyTexts)) {
+                List<String> propertyTextsList = StringTool.split(propertyTexts, ",");
+                propertyTextsList.forEach(propertyText -> {
                     String[] properties = propertyText.split("_");
-                    Multiset<String> propertySet = propertyMap.get(properties[0]);
+                    Multiset<String> propertySet = propertyMap.get(properties[1]);
                     if (CollectionUtils.isEmpty(propertySet)) {
                         propertySet = TreeMultiset.create();
                     }
-                    propertySet.add(properties[1]);
-                    propertyMap.put(properties[0], propertySet);
+                    propertySet.add(String.format("%s_%s", properties[0], properties[2]));
+                    propertyMap.put(properties[1], propertySet);
                 });
             }
         });
@@ -304,7 +294,7 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
         stopWatch.stop();
         stopWatch.start("indeed price items");
         // 处理价格聚类结果
-        List<KMeansRangeVo> priceRanges = new KMeans(prices).getRanges("%d-%d");
+        List<KMeansRangeVo> priceRanges = new KMeans(prices).getRanges("%d-%d元");
         List<ProductFilterItemVO> priceFields = Lists.newArrayList();
         priceRanges.forEach(priceRange -> {
             ProductFilterItemVO fieldItemVo = new ProductFilterItemVO();
@@ -341,7 +331,7 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
                     List<ProductFilterItemVO> itemVOS = Lists.newArrayList();
                     propertySet.elementSet().forEach(property -> {
                         ProductFilterItemVO itemVO = new ProductFilterItemVO();
-                        itemVO.setLabel(property);
+                        itemVO.setLabel(property.split("_")[1]);
                         itemVO.setValue(property);
                         itemVOS.add(itemVO);
                     });
@@ -358,14 +348,9 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
         return productSearchResultVo;
     }
 
-    private List<String> getOldProductDocumentIdsAfterSaveEsEntitiesFromIdxVO(List<ProductIdxVO> idxVOS, Long lastUpdateTimestamp) {
-        List<String> oldDocumentIds = Lists.newArrayList();
+    private void saveEsEntitiesFromIdxVO(List<ProductIdxVO> idxVOS, Long lastUpdateTimestamp) {
         List<ProductEsEntity> esEntities = Optional.ofNullable(idxVOS).orElse(Lists.newArrayList())
-                .stream().filter(Objects::nonNull).map(idxVO -> {
-                    oldDocumentIds.add(idxVO.getId());
-                    return new ProductEsEntity(idxVO, lastUpdateTimestamp);
-                }).collect(Collectors.toList());
+                .stream().filter(Objects::nonNull).map(idxVO -> new ProductEsEntity(idxVO, lastUpdateTimestamp)).collect(Collectors.toList());
         productEsRepository.save(esEntities);
-        return oldDocumentIds;
     }
 }

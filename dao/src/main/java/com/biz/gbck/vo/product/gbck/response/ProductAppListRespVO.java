@@ -11,9 +11,7 @@ import java.util.List;
 public class ProductAppListRespVO implements Serializable {
     private static final long serialVersionUID = 3509489993173257574L;
 
-    private Integer currentPage;
-
-    private Integer size;
+    private String lastFlag;
 
     private List<ProductAppListItemVo> result;
 
@@ -21,20 +19,12 @@ public class ProductAppListRespVO implements Serializable {
 
     private ProductBrandFilterVO brands;
 
-    public Integer getCurrentPage() {
-        return currentPage;
+    public String getLastFlag() {
+        return lastFlag;
     }
 
-    public void setCurrentPage(Integer currentPage) {
-        this.currentPage = currentPage;
-    }
-
-    public Integer getSize() {
-        return size;
-    }
-
-    public void setSize(Integer size) {
-        this.size = size;
+    public void setLastFlag(String lastFlag) {
+        this.lastFlag = lastFlag;
     }
 
     public List<ProductAppListItemVo> getResult() {

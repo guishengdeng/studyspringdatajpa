@@ -34,6 +34,7 @@ import org.springframework.util.StopWatch;
  */
 public abstract class AbstractProductService extends AbstractBaseService {
 
+    @Autowired
     protected IProductStockService stockService;
 
     @Autowired

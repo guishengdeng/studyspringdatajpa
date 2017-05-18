@@ -172,12 +172,19 @@ public class ProductPrototype implements Serializable {
         idxVO.setSubTitle(this.productRO.getSubTitle());
         idxVO.setProductCode(this.productRO.getProductCode());
         idxVO.setI18nCode(this.productRO.getI18nCode());
+        idxVO.setBrandName(this.productRO.getBrandName());
+        idxVO.setCategoryName(this.productRO.getCategoryName());
         idxVO.setBrandId(this.productRO.getBrandId());
         idxVO.setCategoryId(this.productRO.getCategoryId());
         StringBuilder propertyStringBuilder = new StringBuilder();
+        StringBuilder propertyTextsBuilder = new StringBuilder();
         Optional.ofNullable(this.productRO.getProperties()).orElse(Lists.newArrayList())
-                .forEach(propertyItemVo -> propertyStringBuilder.append(String.format("%s_%s", propertyItemVo.getPropertyId(), propertyItemVo.getPropertyValue())).append(','));
+                .forEach(propertyItemVo -> {
+                    propertyStringBuilder.append(String.format("%s_%s", propertyItemVo.getPropertyId(), propertyItemVo.getPropertyValue())).append(',');
+                    propertyTextsBuilder.append(String.format("%s_%s_%s", propertyItemVo.getPropertyId(), propertyItemVo.getPropertyName(), propertyItemVo.getPropertyValue())).append(',');
+                });
         idxVO.setProperties(propertyStringBuilder.toString());
+        idxVO.setPropertyTexts(propertyTextsBuilder.toString());
         idxVO.setSaleTags(this.productRO.getSaleTagIds());
         idxVO.setApartTags(this.productRO.getApartTagIds());
         idxVO.setControlByQRCode(this.productRO.getControlByQRCode());

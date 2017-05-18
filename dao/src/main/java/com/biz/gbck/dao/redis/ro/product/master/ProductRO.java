@@ -140,11 +140,6 @@ public class ProductRO extends BaseRedisObject<Long> {
     private Integer saleStatus;
 
     /**
-     * 商品可销售的区域
-     */
-    private String geoIds;
-
-    /**
      * 商品平均评分
      */
     private Integer score;
@@ -304,14 +299,6 @@ public class ProductRO extends BaseRedisObject<Long> {
 
     public void setSaleStatus(Integer saleStatus) {
         this.saleStatus = saleStatus;
-    }
-
-    public String getGeoIds() {
-        return geoIds;
-    }
-
-    public void setGeoIds(String geoIds) {
-        this.geoIds = geoIds;
     }
 
     public Integer getScore() {
@@ -531,7 +518,6 @@ public class ProductRO extends BaseRedisObject<Long> {
                 ", seoKeywords='" + seoKeywords + '\'' +
                 ", seoDescription='" + seoDescription + '\'' +
                 ", saleStatus=" + saleStatus +
-                ", geoIds='" + geoIds + '\'' +
                 ", score=" + score +
                 ", totalScore=" + totalScore +
                 ", scoreCount=" + scoreCount +

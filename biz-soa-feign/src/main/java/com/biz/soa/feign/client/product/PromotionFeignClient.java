@@ -1,4 +1,4 @@
-package com.biz.soa.product.cloud.feign;
+package com.biz.soa.feign.client.product;
 
 import com.biz.gbck.vo.product.promotion.TestPromotionVo;
 import org.springframework.cloud.netflix.feign.FeignClient;
