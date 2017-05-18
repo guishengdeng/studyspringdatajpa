@@ -1,8 +1,9 @@
 server:
   port: 8900
+  connection-timeout: 30000
 spring:
   application:
-    name: depotnextdoor-order
+    name: depotnextdoor-product
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
@@ -23,6 +24,11 @@ spring:
     hibernate:
       ddl-auto: update
     database: mysql
+  cloud:
+    inetutils:
+      timeout-seconds: 30
+  profiles:
+    active: dev
 
 biz:
   soa:
@@ -44,6 +50,7 @@ biz:
     name:
     password:
   amqp:
+    host: 127.0.0.1
     username: guest
     password: guest
     port: 5672
@@ -58,5 +65,15 @@ management:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:7777/eureka/, http://localhost:8888/eureka/, http://localhost:9999/eureka/
-
+      defaultZone: http://10.4.100.194:7777/eureka/,http://10.4.100.195:7777/eureka/,http://10.4.100.196:7777/eureka/
+ribbon:
+  ReadTimeout: 30000
+feign:
+  hystrix:
+    enabled: true
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false

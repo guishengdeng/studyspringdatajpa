@@ -21,6 +21,7 @@ import org.springframework.web.servlet.DispatcherServlet;
  * Created by david-liu on 2017/05/04 11:30.
  */
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.biz.rest.controller", "com.biz.soa.feign.hystrix"})
 @EnableDiscoveryClient
 @EnableJpaRepositories(basePackages = "com.biz", repositoryFactoryBeanClass = CommonRepositoryFactoryBean.class)
 @EntityScan(basePackages = "com.biz")
@@ -28,7 +29,6 @@ import org.springframework.web.servlet.DispatcherServlet;
 @EnableEurekaClient
 @ComponentScan(basePackages = {"com.biz", "com.biz.rest.controller"})
 @EnableCircuitBreaker
-@ComponentScan(basePackages = {"com.biz.rest.controller"})
 public class RestApplication {
 
     public static void main(String[] args) {

@@ -10,7 +10,7 @@ import java.util.List;
  * @date 2017年03月06日
  * @reviewer
  */
-public class ProductPropertyVo implements Serializable {
+public class ProductPropertyContentVo implements Serializable {
     private static final long serialVersionUID = 9175830888940116013L;
 
     /**
