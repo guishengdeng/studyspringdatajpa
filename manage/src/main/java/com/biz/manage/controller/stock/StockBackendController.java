@@ -3,7 +3,7 @@ package com.biz.manage.controller.stock;
 import com.biz.gbck.dao.mysql.po.stock.Stock;
 import com.biz.gbck.vo.stock.StockShowVo;
 import com.biz.manage.controller.BaseController;
-import com.biz.service.stock.StockShowService;
+import com.biz.service.stock.StockBackendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
@@ -19,15 +19,15 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @Secured("ROLE_STOCK")
 @RequestMapping("goods")
-public class StockShowController extends BaseController {
+public class StockBackendController extends BaseController {
 
     @Autowired
-    private StockShowService stockShowService;
+    private StockBackendService stockBackendService;
 
     @GetMapping("stock")
     @PreAuthorize("hasAuthority('OPT_STOCK_LIST')")
     public ModelAndView list(StockShowVo stockShowVo) {
-        Page<Stock> page = stockShowService.findList(stockShowVo);
+        Page<Stock> page = stockBackendService.findList(stockShowVo);
         return new ModelAndView("goods/stock").addObject("page", page);
     }
 }

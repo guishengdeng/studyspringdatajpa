@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 /**
  * Created by lzz on 2017/5/17.
  */
-public interface StockRepository extends JpaSpecificationExecutor<Stock> ,CommonJpaRepository<Stock,Long> {
+public interface StockRepository extends JpaSpecificationExecutor<Stock> ,CommonJpaRepository<Stock,Long> ,StockDao {
 }

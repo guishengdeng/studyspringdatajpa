@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 /**
  * Created by lzz on 2017/5/17.
  */
-public interface StockShowService {
+public interface StockBackendService {
 
     /**
      * 在页面做分页展示

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * Created by lzz on 2017/5/17.
  */
 @Service
-public class StockShowServiceImpl implements StockShowService {
+public class StockBackendServiceImpl implements StockBackendService {
 
     @Autowired
     private StockRepository stockRepository;
