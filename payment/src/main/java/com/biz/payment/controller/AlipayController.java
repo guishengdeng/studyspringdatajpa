@@ -2,11 +2,10 @@ package com.biz.rest.controller.payment;
 
 import com.biz.core.util.JsonUtil;
 import com.biz.gbck.mo.AlipayNotifyMessage;
-import com.biz.message.MessageService;
 import com.biz.pay.alipay.IAlipayPayment;
 import com.biz.pay.alipay.util.AlipayNotify;
 import com.biz.rest.controller.BaseRestController;
-import com.biz.soa.order.service.payment.PaymentService;
+import com.biz.soa.feign.client.payment.PaymentFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,10 +33,7 @@ public class AlipayController extends BaseRestController {
     private static final String FAIL = "fail";
 
     @Autowired(required = false)
-    private PaymentService paymentService;
-
-    @Autowired(required = false)
-    private MessageService messageService;
+    private PaymentFeignClient paymentFeignClient;
 
 
     /**
@@ -67,7 +63,7 @@ public class AlipayController extends BaseRestController {
                 // 支付交易通知
                 if (IAlipayPayment.NotifyType.TRADE_STATUS_SYNC.equals(notifyType)) {
                     // 处理支付通知
-                    paymentService.aliNotify(map);
+                    paymentFeignClient.recordAlipayNotify(map);
                     msg = SUCCESS;
                 } else {
                     if (logger.isWarnEnabled()) {

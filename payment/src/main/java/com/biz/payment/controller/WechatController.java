@@ -1,13 +1,12 @@
 package com.biz.rest.controller.payment;
 
 import com.biz.gbck.mo.WechatNotifyMessage;
-import com.biz.message.MessageService;
 import com.biz.pay.wechat.lang.Keys;
 import com.biz.pay.wechat.lang.ReturnCode;
 import com.biz.pay.wechat.lang.XmlBuilder;
 import com.biz.pay.wechat.res.WechatPayNotifyRespVo;
 import com.biz.rest.controller.BaseRestController;
-import com.biz.soa.order.service.payment.PaymentService;
+import com.biz.soa.feign.client.payment.PaymentFeignClient;
 import org.apache.commons.collections.KeyValue;
 import org.apache.commons.collections.keyvalue.DefaultKeyValue;
 import org.apache.http.entity.ContentType;
@@ -37,10 +36,7 @@ public class WechatController extends BaseRestController {
     public static final String UTF_8 = "utf-8";
 
     @Autowired(required = false)
-    private PaymentService paymentService;
-
-    @Autowired(required = false)
-    private MessageService messageService;
+    private PaymentFeignClient paymentFeignClient;
 
 
 
@@ -60,8 +56,8 @@ public class WechatController extends BaseRestController {
                 WechatPayNotifyRespVo notifyRes = new WechatPayNotifyRespVo(message.getXmlBody(), "xml");
                 //开始处理逻辑
                 Long paymentId = Long.valueOf(notifyRes.getOutTradeNo());
-                if (paymentService.queryWechatPaid(notifyRes.getTransactionId(), paymentId,notifyRes.getAppId()).isPaid()) {
-                    this.paymentService.wechatTradeNotify(notifyRes);
+                if (paymentFeignClient.queryWechatPaid(notifyRes.getTransactionId(), paymentId ,notifyRes.getAppId()).isPaid()) {
+                    this.paymentFeignClient.recordWechatNotify(notifyRes);
                     returnCode = ReturnCode.SUCCESS;
                     msg = ReturnCode.SUCCESS.toString();
                 }

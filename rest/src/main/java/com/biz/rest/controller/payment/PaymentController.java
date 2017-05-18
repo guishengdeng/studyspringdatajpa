@@ -8,6 +8,7 @@ import com.biz.gbck.vo.payment.resp.PaymentQueryResultRespVo;
 import com.biz.gbck.vo.payment.resp.WechatPayResp;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.rest.util.RestUtil;
+import com.biz.soa.feign.client.payment.PaymentFeignClient;
 import com.biz.soa.order.service.payment.PaymentService;
 import com.biz.support.web.handler.JSONResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +30,13 @@ import javax.servlet.http.HttpServletRequest;
 public class PaymentController extends BaseRestController {
 
     @Autowired(required = false)
-    private PaymentService paymentService;
+    private PaymentFeignClient paymentFeignClient;
 
     //查询支付状态
     @RequestMapping("/queryPaid")
     public JSONResult queryPaid(HttpServletRequest request) throws PaymentException {
         IdReqVo reqVo = RestUtil.parseBizData(request, IdReqVo.class);
-        PaymentQueryResultRespVo paidResultRespVo = paymentService.queryPaid(reqVo);
+        PaymentQueryResultRespVo paidResultRespVo = paymentFeignClient.queryPaid(reqVo);
         return new JSONResult(paidResultRespVo);
     }
 
@@ -43,7 +44,7 @@ public class PaymentController extends BaseRestController {
     @RequestMapping("/alipay")
     public JSONResult alipay(HttpServletRequest request) throws PaymentException {
         IdReqVo reqVo = RestUtil.parseBizData(request, IdReqVo.class);
-        AlipaySignRespVo responseVo = paymentService.getAlipaySign(reqVo.getId());
+        AlipaySignRespVo responseVo = paymentFeignClient.getAlipaySign(reqVo.getId());
         return new JSONResult(responseVo);
     }
 
@@ -51,7 +52,7 @@ public class PaymentController extends BaseRestController {
     @RequestMapping("/wechat")
     public JSONResult wecaht(HttpServletRequest request) throws PaymentException {
         WechatOrderReqVo reqVo = RestUtil.parseBizData(request, WechatOrderReqVo.class);
-        WechatPayResp respVo = paymentService.wechatPay(reqVo, reqVo.getOrderId());
+        WechatPayResp respVo = paymentFeignClient.getWechatParam(reqVo, reqVo.getOrderId());
         return new JSONResult(respVo);
     }
 

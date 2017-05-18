@@ -9,7 +9,6 @@ import com.biz.gbck.dao.redis.ro.stock.PartnerStockRo;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.stock.*;
 import com.biz.service.AbstractBaseService;
-import com.biz.service.stock.StockService;
 import com.google.common.base.Stopwatch;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
