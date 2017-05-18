@@ -411,12 +411,10 @@ public class ShopServiceImpl extends CommonService  implements ShopService {
     public ShopDetailPo auditShopDetail(ShopAuditReqVo reqVo) throws CommonException {
         AuditStatus detailAuditStatus = reqVo.getAuditStatus();
         if (reqVo.getShopDetailId() == null) {
-            //            return ;
             return new ShopDetailPo();
         }
         ShopDetailPo shopDetailPo = shopDetailRepository.findOne(reqVo.getShopDetailId());
         if (shopDetailPo == null) {
-            //            return;
             return new ShopDetailPo();
         }
         Integer originAuditStatus = shopDetailPo.getAuditStatus();
@@ -454,13 +452,6 @@ public class ShopServiceImpl extends CommonService  implements ShopService {
                 .updateAuditStatus(shopDetailPo.getShop().getId(), AuditStatus.DATA_EXPIRED.getValue(),
                         newArrayList(AuditStatus.WAIT_FOR_AUDIT.getValue(),
                                 AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue()));
-        /*
-        保存商铺 审核信息,添加字段为：开发门店
-         */
-        updateShopDetailStatus(savedShopDetailPo, reqVo.getDepotId(), reqVo.getDeliveryDepotId(),
-                reqVo.getAssartDepotId(), reqVo.getSupportPaymentIds(), reqVo.getBusinessTagIds(),
-                reqVo.getPriceTagIds());
-
         return savedShopDetailPo;
     }
 
@@ -533,7 +524,7 @@ public class ShopServiceImpl extends CommonService  implements ShopService {
                 AuditStatus.DATA_EXPIRED.getValue(), newArrayList(AuditStatus.WAIT_FOR_AUDIT.getValue(),
                         AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue()));
 
-        syncShopQualificationToShop(savedShopQualificationPo);
+        syncShopQualificationToShop(savedShopQualificationPo); //同步数据到shop
 
         if (Objects.equals(originAuditStatus, AuditStatus.WAIT_FOR_AUDIT.getValue())
                 && reqVo.getAuditStatus() == AuditStatus.NORMAL) {
@@ -564,22 +555,9 @@ public class ShopServiceImpl extends CommonService  implements ShopService {
         if (reqVo.getDeliveryAddress() != null) {//详情地址
             shopPo.setDeliveryAddress(reqVo.getDeliveryAddress());
         }
-//        if (reqVo.getDepotId() != null) { //价格门店
-//            shopPo.setDepot(depotRepository.findOne(reqVo.getDepotId()));
-//        }
-//        if (reqVo.getDeliveryDepotId() != null) { //配送门店
-//            shopPo.setDeliveryDepot(depotRepository.findOne(reqVo.getDeliveryDepotId()));
-//        }
-//        if (reqVo.getAssartDepotId() != null) { //开发门店
-//            shopPo.setAssartDepot(depotRepository.findOne(reqVo.getAssartDepotId()));
-//        }
         if (isNotBlank(reqVo.getInviterCode())) {
             shopPo.setInviterCode(reqVo.getInviterCode());
         }
-//        //应冉寻要求，20倍会员不记录推荐人
-//        if(shopPo.getShopLevel() == ShopLevel.VIP_20){
-//            shopPo.setInviterCode(null);
-//        }
         ShopPo returnShopPo = shopRepository.save(shopPo);
         syncShopPoToRedis(shopPo); //同步到redis
         return returnShopPo;
@@ -593,11 +571,11 @@ public class ShopServiceImpl extends CommonService  implements ShopService {
         } else {
             reqVo.setAuditStatus(AuditStatus.AUDIT_FAILED);
         }
-       /* this.updateShopType(reqVo);
-        this.auditUpdateShopPo(reqVo);*/ //修改shopPo dylan
+        this.updateShopType(reqVo); //修改商户类型
+        this.auditUpdateShopPo(reqVo); //修改shopPo
         ShopDetailPo shopDetailPo = auditShopDetail(reqVo); //修改商户详情
         ShopQualificationPo shopQualificationPo = auditShopQualification(reqVo); //修改商户资质
-        publishEvent(new ShopAuditEvent(this, shopDetailPo, shopQualificationPo)); //发布事件
+       /* publishEvent(new ShopAuditEvent(this, shopDetailPo, shopQualificationPo));*/ //发布事件 // TODO: 17-5-18 发布事件失败
 
         if (reqVo.getShopDetailId() != null) {
             shop = shopDetailRepository.findOne(reqVo.getShopDetailId()).getShop();

@@ -115,7 +115,7 @@
                             </span>
                             </h3>
                             <c:set var="shopDetail" value="${auditData.shopDetail}"/>
-                            <form action="ashops/audit.do?shopId=${shopDetail.shop.id}" method="post"
+                            <form action="shops/audit.do?shopId=${shopDetail.shop.id}" method="post"
                                   class="form-horizontal" role="form" id="auditId">
                                 <input name="shopId" type="hidden" value="${shopDetail.shop.id}">
                                 <input type="hidden" name="shopDetailId" value="${shopDetail.id}">
@@ -127,7 +127,7 @@
 											</span>
                                     </div>
                                     <div class="col-xs-6 col-sm-4 col-md-3">
-                                        <manage:shopType fieldName="shopTypeId" fieldClasses="field"
+                                        <manage:shopType fieldName="shopTypeId" fieldClasses="field" shopTypeClass="required text"
                                                          shopTypeId="${shopDetail.shopType.id}"/>
                                     </div>
                                     <div class="col-xs-6 col-sm-4 col-md-3">
@@ -273,7 +273,7 @@
                                 </div>
                                 <div class="row ">
                                     审核结果:
-                                    <select name="auditStatus" class="search audit-select" id="auditStatus" onchange="showHidden()">
+                                    <select name="auditStatus" class="search audit-select required text" id="auditStatus" onchange="showHidden()">
                                         <option value="">请选择</option>
                                         <c:forEach var="currentAuditStatus" items="${auditStatusList}">
                                             <option value="${currentAuditStatus.name()}" ${shopQualification.auditStatus == currentAuditStatus.value ? "selected" :""}>${currentAuditStatus.description}</option>

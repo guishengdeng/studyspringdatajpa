@@ -9,12 +9,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * Created by defei on 3/18/16.
  */
-@Entity @Table(name = "shop_qualification") public class ShopQualificationPo {
+@Entity @Table(name = "shop_qualification") public class ShopQualificationPo implements Serializable {
 
     @Id @GeneratedValue(strategy=GenerationType.AUTO) private Long id;
 

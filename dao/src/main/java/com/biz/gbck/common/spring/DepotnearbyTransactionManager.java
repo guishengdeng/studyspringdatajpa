@@ -50,7 +50,7 @@ public class DepotnearbyTransactionManager extends JpaTransactionManager
         inTransactions.set(true);
     }
 
-   /* protected void doCommit(DefaultTransactionStatus status) {
+  /* *//* protected void doCommit(DefaultTransactionStatus status) {
         super.doCommit(status);
         boolean isDebugEnabled = logger.isDebugEnabled();
         List<ApplicationEvent> list = events.get();
