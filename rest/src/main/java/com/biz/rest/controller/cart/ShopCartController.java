@@ -2,6 +2,7 @@ package com.biz.rest.controller.cart;
 
 import com.biz.gbck.vo.cart.*;
 import com.biz.rest.controller.BaseRestController;
+import com.biz.rest.util.RestUtil;
 import com.biz.service.cart.ShopCartService;
 import com.biz.soa.feign.client.order.ShopCartFeignClient;
 import com.biz.support.web.handler.JSONResult;
@@ -36,7 +37,7 @@ public class ShopCartController extends BaseRestController {
      */
     @RequestMapping("add")
     public JSONResult addCartItem(HttpServletRequest request) {
-        ShopCartItemAddReqVo reqVo = super.parseBizData(request, ShopCartItemAddReqVo.class);
+        ShopCartItemAddReqVo reqVo = RestUtil.parseBizData(request, ShopCartItemAddReqVo.class);
 
         try {
             shopCartFeignClient.addCartItem(reqVo);
@@ -53,7 +54,7 @@ public class ShopCartController extends BaseRestController {
      */
     @RequestMapping("list")
     public JSONResult getCartInfo(HttpServletRequest request) {
-        ShopCartListReqVo reqVo = super.parseBizData(request, ShopCartListReqVo.class);
+        ShopCartListReqVo reqVo = RestUtil.parseBizData(request, ShopCartListReqVo.class);
         try {
             ShopCartRespVo respVo = shopCartFeignClient.getCartInfo(reqVo);
             return new JSONResult(respVo);
@@ -68,7 +69,7 @@ public class ShopCartController extends BaseRestController {
      */
     @RequestMapping("delete")
     public JSONResult deleteCartItem(HttpServletRequest request) {
-        ShopCartItemBatchDeleteReqVo reqVo = super.parseBizData(request, ShopCartItemBatchDeleteReqVo.class);
+        ShopCartItemBatchDeleteReqVo reqVo = RestUtil.parseBizData(request, ShopCartItemBatchDeleteReqVo.class);
         try {
             shopCartFeignClient.deleteCartItems(reqVo);
             ShopCartRespVo respVo = shopCartFeignClient.getCartInfo(new ShopCartListReqVo());
@@ -82,7 +83,7 @@ public class ShopCartController extends BaseRestController {
     @RequestMapping("cartNum")
     @ResponseBody
     public JSONResult cartNum(HttpServletRequest request) {
-        ShopCartNumReqVo reqVo = super.parseBizData(request, ShopCartNumReqVo.class);
+        ShopCartNumReqVo reqVo = RestUtil.parseBizData(request, ShopCartNumReqVo.class);
         try {
             ShopCartNumRespVo respVo = shopCartFeignClient.getCartNum(reqVo);
             return new JSONResult(respVo);

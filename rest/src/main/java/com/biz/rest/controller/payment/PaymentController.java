@@ -7,6 +7,7 @@ import com.biz.gbck.vo.payment.resp.AlipaySignRespVo;
 import com.biz.gbck.vo.payment.resp.PaymentQueryResultRespVo;
 import com.biz.gbck.vo.payment.resp.WechatPayResp;
 import com.biz.rest.controller.BaseRestController;
+import com.biz.rest.util.RestUtil;
 import com.biz.soa.order.service.payment.PaymentService;
 import com.biz.support.web.handler.JSONResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class PaymentController extends BaseRestController {
     //查询支付状态
     @RequestMapping("/queryPaid")
     public JSONResult queryPaid(HttpServletRequest request) throws PaymentException {
-        IdReqVo reqVo = super.parseBizData(request, IdReqVo.class);
+        IdReqVo reqVo = RestUtil.parseBizData(request, IdReqVo.class);
         PaymentQueryResultRespVo paidResultRespVo = paymentService.queryPaid(reqVo);
         return new JSONResult(paidResultRespVo);
     }
@@ -41,7 +42,7 @@ public class PaymentController extends BaseRestController {
     //支付宝继续支付
     @RequestMapping("/alipay")
     public JSONResult alipay(HttpServletRequest request) throws PaymentException {
-        IdReqVo reqVo = super.parseBizData(request, IdReqVo.class);
+        IdReqVo reqVo = RestUtil.parseBizData(request, IdReqVo.class);
         AlipaySignRespVo responseVo = paymentService.getAlipaySign(reqVo.getId());
         return new JSONResult(responseVo);
     }
@@ -49,7 +50,7 @@ public class PaymentController extends BaseRestController {
     //微信继续支付
     @RequestMapping("/wechat")
     public JSONResult wecaht(HttpServletRequest request) throws PaymentException {
-        WechatOrderReqVo reqVo = super.parseBizData(request, WechatOrderReqVo.class);
+        WechatOrderReqVo reqVo = RestUtil.parseBizData(request, WechatOrderReqVo.class);
         WechatPayResp respVo = paymentService.wechatPay(reqVo, reqVo.getOrderId());
         return new JSONResult(respVo);
     }

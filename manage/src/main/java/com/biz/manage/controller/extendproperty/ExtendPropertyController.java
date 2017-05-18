@@ -32,9 +32,9 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("product/extendProperty")
 public class ExtendPropertyController {
 
-    @Autowired
+    @Autowired(required = false)
     private ExtendPropertyService extendPropertyService;
-    @Autowired
+    @Autowired(required = false)
     private ProductExtendService productExtendService;
     @Autowired
     private CategoryService categoryService;
