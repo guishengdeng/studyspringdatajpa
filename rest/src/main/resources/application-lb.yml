@@ -66,10 +66,13 @@ ribbon:
   ReadTimeout: 30000
 feign:
   hystrix:
-    enabled: true
+    enabled: truee
 hystrix:
   command:
     default:
+      isolation:
+        thread:
+          timeoutInMilliseconds: 5000
       execution:
         timeout:
           enabled: false

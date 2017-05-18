@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 预先抽象的事件监听器基类
@@ -18,7 +19,7 @@ public abstract class AbstractBizEventListener<E extends BizEvent> implements Ap
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
-    //	@Transactional
+    @Transactional
     public void onApplicationEvent(E event) {
         handleEvent(event);
     }
