@@ -1,11 +1,9 @@
+server:
+  port: 8900
+  connection-timeout: 30000
 spring:
-
-  data:
-    elasticsearch:
-      repositories:
-        enabled: true
-      cluster-name: depotnextdoor
-      cluster-nodes: 10.4.100.196:9300
+  application:
+    name: depotnextdoor-product
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: depotapp
@@ -26,15 +24,9 @@ spring:
     hibernate:
       ddl-auto: update
     database: mysql
-  application:
-    name: depotnextdoor-search
   cloud:
     inetutils:
       timeout-seconds: 30
-
-server:
-  port: 9800
-  connection-timeout: 30000
 
 biz:
   soa:

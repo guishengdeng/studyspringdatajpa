@@ -63,8 +63,19 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://10.4.100.194:7777/eureka/,http://10.4.100.195:7777/eureka/,http://10.4.100.196:7777/eureka/
+      defaultZone: http://127.0.0.1:7777/eureka/
 security:
   basic:
     enabled: false
     authorize-mode: none
+ribbon:
+  ReadTimeout: 30000
+feign:
+  hystrix:
+    enabled: true
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false

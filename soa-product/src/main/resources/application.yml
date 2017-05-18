@@ -27,6 +27,8 @@ spring:
   cloud:
     inetutils:
       timeout-seconds: 30
+  profiles:
+    active: dev
 
 biz:
   soa:
@@ -63,7 +65,7 @@ management:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:7777/eureka/
+      defaultZone: http://10.4.100.194:7777/eureka/,http://10.4.100.195:7777/eureka/,http://10.4.100.196:7777/eureka/
 ribbon:
   ReadTimeout: 30000
 feign:
