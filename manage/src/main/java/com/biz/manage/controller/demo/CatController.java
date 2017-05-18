@@ -1,4 +1,5 @@
 package com.biz.manage.controller.demo;
+
 import com.biz.gbck.dao.mysql.po.demo.CatPO;
 import com.biz.gbck.dao.mysql.po.demo.SaleStatusEnum;
 import com.biz.gbck.enums.CommonStatusEnum;
@@ -15,7 +16,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 

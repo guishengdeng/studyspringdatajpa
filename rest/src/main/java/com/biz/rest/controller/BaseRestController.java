@@ -3,8 +3,13 @@ package com.biz.rest.controller;
 import com.biz.core.exceptions.BusinessException;
 import com.biz.core.exceptions.FunctionExceptions;
 import com.biz.core.util.JsonUtil;
+import com.biz.gbck.vo.user.BaseRequestVo;
 import com.biz.support.web.BuildRequestHandler;
+import com.biz.support.web.assist.GlobalParams;
+import com.biz.support.web.assist.GlobalParamsAware;
+import com.biz.support.web.assist.IPAddressAware;
 import com.biz.support.web.handler.JSONResult;
+import com.biz.support.web.util.HttpServletHelper;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -18,6 +23,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
@@ -54,6 +60,20 @@ public abstract class BaseRestController {
             throw new BusinessException(FunctionExceptions.System.PARAMETER_ERROR, e);
         }
 
+        if (vo instanceof IPAddressAware) {
+            IPAddressAware ipvo = (IPAddressAware) vo;
+            ipvo.setIp(HttpServletHelper.getClientIP(request));
+        }
+        if (vo instanceof GlobalParamsAware) {
+            // 初始化全局参数
+            GlobalParams globalParams = parseGlobalParams(request);
+            ((GlobalParamsAware) vo).setGlobalParams(globalParams);
+            if (vo instanceof BaseRequestVo) {
+                ((BaseRequestVo) vo).setUserId(String.valueOf(globalParams.getUserId()));
+            }
+        }
+
+
         Class<?>[] groups = null;
         if (validationGroups != null && validationGroups.length > 0) {
             groups = validationGroups;
@@ -84,6 +104,61 @@ public abstract class BaseRestController {
         }
     }
 
+    /**
+     * 解析全局参数
+     * <p/>
+     * <p>
+     * 解析出错时, 返回null, 打印错误日志
+     * </p>
+     *
+     * @param httpRequest
+     * @author zhujun
+     * @date 2015-2-3
+     */
+    public GlobalParams parseGlobalParams(HttpServletRequest httpRequest) {
+        GlobalParams params = null;
+        try {
+            GlobalParams p = new GlobalParams();
+            p.setApn(httpRequest.getParameter("apn"));
+            p.setDeviceId(httpRequest.getParameter("deviceId"));
+            String latStr = httpRequest.getParameter("lat");
+            if (StringUtils.isNotEmpty(latStr)) {
+                try {
+                    p.setLat(new BigDecimal(latStr));
+                } catch (Exception e) {
+                }
+            }
+            String lonStr = httpRequest.getParameter("lon");
+            if (StringUtils.isNotEmpty(lonStr)) {
+                try {
+                    p.setLon(new BigDecimal(lonStr));
+                } catch (Exception e) {
+                }
+            }
+            p.setOs(httpRequest.getParameter("os"));
+            p.setOsVersion(httpRequest.getParameter("osVersion"));
+
+            p.setPartner(httpRequest.getParameter("partner"));
+            p.setSign(httpRequest.getParameter("sign"));
+            p.setSub(httpRequest.getParameter("sub"));
+            p.setUserAgent(httpRequest.getParameter("userAgent"));
+            String userIdStr = httpRequest.getParameter("userId");
+            if (StringUtils.isNumeric(userIdStr)) {
+                p.setUserId(Long.valueOf(userIdStr));
+            }
+            p.setVer(httpRequest.getParameter("ver"));
+            p.setMac(httpRequest.getParameter("mac"));
+            p.setImsi(httpRequest.getParameter("imsi"));
+            p.setImei(httpRequest.getParameter("imei"));
+            p.setRouterMac(httpRequest.getParameter("routerMac"));
+            p.setStation(httpRequest.getParameter("station"));
+            params = p;
+        } catch (Exception e) {
+            logger.error("解析全局参数出错", e);
+        }
+
+        return params;
+    }
 
     protected void validate(Object obj, Class<?>... groups) throws ValidationException {
         Set<ConstraintViolation<Object>> constraintViolations;

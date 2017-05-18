@@ -2,6 +2,7 @@ package com.biz.service.product.backend;
 
 import com.biz.gbck.exceptions.product.IllegalParameterException;
 import com.biz.gbck.exceptions.product.ProductFilterNotFoundException;
+import com.biz.gbck.vo.product.ProductFilterListItemVO;
 import com.biz.gbck.vo.product.backend.*;
 
 /**
@@ -17,7 +18,7 @@ public interface ProductFilterService {
      *
      * @return 商品分类列表
      */
-    BootstrapTablePageResult<ProductFilterListItemVo> listProductFilters(SearchPageVo searchPageVo, Long categoryId) throws IllegalParameterException, ProductFilterNotFoundException;
+    BootstrapTablePageResult<ProductFilterListItemVO> listProductFilters(SearchPageVo searchPageVo, Long categoryId) throws IllegalParameterException, ProductFilterNotFoundException;
 
     /**
      * @return 需要更改的条件

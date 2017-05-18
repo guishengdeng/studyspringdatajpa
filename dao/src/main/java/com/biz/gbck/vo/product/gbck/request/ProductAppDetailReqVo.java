@@ -1,5 +1,7 @@
 package com.biz.gbck.vo.product.gbck.request;
 
+import com.biz.support.web.assist.GlobalParams;
+import com.biz.support.web.assist.GlobalParamsAware;
 import java.io.Serializable;
 import javax.validation.constraints.NotNull;
 
@@ -8,13 +10,12 @@ import javax.validation.constraints.NotNull;
  *
  * Created by david-liu on 2017/04/28 11:59.
  */
-public class ProductAppDetailReqVo implements Serializable {
+public class ProductAppDetailReqVo implements GlobalParamsAware, Serializable {
     private static final long serialVersionUID = 2612052700611378983L;
 
     /**
      * 上级采购单位Id
      */
-    @NotNull(message = "上级采购单位ID不能为空")
     private Long sellerId;
 
     /**
@@ -26,8 +27,12 @@ public class ProductAppDetailReqVo implements Serializable {
     /**
      * 价格组ID
      */
-    @NotNull(message = "价格组ID不能为空")
     private Long priceGroupId;
+
+    /**
+     * 全局参数
+     */
+    private GlobalParams globalParams;
 
     public Long getProductId() {
         return productId;
@@ -51,6 +56,16 @@ public class ProductAppDetailReqVo implements Serializable {
 
     public void setSellerId(Long sellerId) {
         this.sellerId = sellerId;
+    }
+
+    @Override
+    public GlobalParams getGlobalParams() {
+        return globalParams;
+    }
+
+    @Override
+    public void setGlobalParams(GlobalParams globalParams) {
+        this.globalParams = globalParams;
     }
 
     @Override

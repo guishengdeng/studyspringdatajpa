@@ -96,7 +96,7 @@ public class StockBackendServiceImpl extends AbstractBaseService implements Stoc
      * 将未通过校验的Vo发送指定队列
      */
     private void sendInvalidVoToMessage(InvalidOmsMessageVo vo) {
-        messageService.sendMessage(BizBaseQueue.MQ_INVALID_OMS_MSG_QUEUE, SimpleBizMessage.newMessage(vo));
+        messageService.sendMessage(null, SimpleBizMessage.newMessage(vo));
     }
 
     /**

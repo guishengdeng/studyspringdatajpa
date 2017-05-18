@@ -1,5 +1,7 @@
 package com.biz.gbck.vo.search;
 
+import com.biz.gbck.vo.product.gbck.response.ProductBrandFilterVO;
+import com.biz.gbck.vo.product.gbck.response.ProductFilterVO;
 import com.google.common.collect.Lists;
 import java.io.Serializable;
 import java.util.List;
@@ -27,14 +29,13 @@ public class ProductSearchResultVo<T> implements Serializable {
     private Integer count;
 
     /**
-     * 商品 ID
+     * 商品
      */
     private List<T> items = Lists.newArrayList();
 
-    /**
-     * 商品筛选字段
-     */
-    private List<ProductFieldVo> filters = Lists.newArrayList();
+    private List<ProductFilterVO> filters = Lists.newArrayList();
+
+    private ProductBrandFilterVO brands;
 
     public Integer getCount() {
         return count;
@@ -42,14 +43,6 @@ public class ProductSearchResultVo<T> implements Serializable {
 
     public void setCount(Integer count) {
         this.count = count;
-    }
-
-    public List<ProductFieldVo> getFilters() {
-        return filters;
-    }
-
-    public void setFilters(List<ProductFieldVo> filters) {
-        this.filters = filters;
     }
 
     public List<T> getItems() {
@@ -68,12 +61,19 @@ public class ProductSearchResultVo<T> implements Serializable {
         this.totalCount = totalCount;
     }
 
-    @Override
-    public String toString() {
-        return "ProductSearchResultVo{" +
-                "totalCount=" + totalCount +
-                ", count=" + count +
-                ", filters=" + filters +
-                '}';
+    public List<ProductFilterVO> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(List<ProductFilterVO> filters) {
+        this.filters = filters;
+    }
+
+    public ProductBrandFilterVO getBrands() {
+        return brands;
+    }
+
+    public void setBrands(ProductBrandFilterVO brands) {
+        this.brands = brands;
     }
 }

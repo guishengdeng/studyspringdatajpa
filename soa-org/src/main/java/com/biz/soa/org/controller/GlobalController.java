@@ -6,6 +6,9 @@ import com.biz.gbck.vo.config.AppConfigVo;
 import com.biz.soa.org.service.app.interfaces.AppSoaService;
 import com.biz.soa.org.service.upgrade.interfaces.UpgradeSoaService;
 import com.biz.support.web.handler.JSONResult;
+import java.util.HashMap;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,13 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
 @RequestMapping("init")
-public class GlobalController extends BaseRestController{
+public class GlobalController extends BaseRestController {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalController.class);
 
@@ -38,7 +37,7 @@ public class GlobalController extends BaseRestController{
         AppConfigVo config = appSoaService.getAppConfigVo();
         result.putAll(config.getMap());
         result.put("oss", OssUtil.getOssBuckets());
-        result.put("categories",appSoaService.getCategories());
+        result.put("categories", appSoaService.getCategories());
         return new JSONResult(result);
     }
 

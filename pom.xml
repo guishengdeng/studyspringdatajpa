@@ -37,6 +37,7 @@
         <module>soa-order</module><!-- 订单模块(包含订单和购物车) !! 这只是暂定的, 如果有必要, 可以拆成2个模块 -->
         <module>soa-bridge</module><!-- 对接模块 -->
         <module>soa-center</module><!-- 服务注册中心 -->
+        <module>soa-mix-service</module><!-- 综合服务模块(小而杂的就放这里面) -->
         <module>soa-parent</module>
         <module>biz-soa-feign</module>
 
