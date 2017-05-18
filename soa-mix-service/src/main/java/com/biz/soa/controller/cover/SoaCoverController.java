@@ -1,4 +1,4 @@
-package com.biz.soa.cover.controller;
+package com.biz.soa.controller.cover;
 
 import com.biz.service.cover.CoverService;
 import com.biz.soa.base.SoaBaseController;
