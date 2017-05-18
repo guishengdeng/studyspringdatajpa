@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationEvent;
  * 商户更新资质
  */
 
-public class ShopQualificationUpdateEvent extends ApplicationEvent {
+public class ShopQualificationUpdateEvent extends ShopEvent {
 
     private static final long serialVersionUID = 1494715564592093444L;
 

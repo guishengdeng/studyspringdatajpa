@@ -1,5 +1,6 @@
 package com.biz.soa.org;
 
+import com.biz.core.event.AbstractBizEventListener;
 import com.biz.service.system.InitManager;
 import com.biz.soa.org.listener.ShopQualificationUpdateListener;
 import com.biz.support.jpa.repository.CommonRepositoryFactoryBean;
@@ -34,6 +35,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class SoaOrgApplication {
     public static void main(String[] args) {
         SpringApplication application = new SpringApplication(SoaOrgApplication.class);
+        application.addListeners();
         application.addListeners(new ShopQualificationUpdateListener());
         application.run(args);
     }
