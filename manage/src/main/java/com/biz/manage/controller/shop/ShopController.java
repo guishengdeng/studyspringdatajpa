@@ -40,20 +40,7 @@ import static com.google.common.collect.Lists.newArrayList;
 @Secured("ROLE_SHOP")
 public class ShopController extends BaseController {
     private static final Logger logger = LoggerFactory.getLogger(ShopController.class);
-    @Autowired
-    private UserService userService;
 
-    @Autowired
-    private ShopService shopService;
-
-    /* @Autowired
-     private DepotEmployeeService depotEmployeeService;*/
-
-    /*@Autowired
-    private DepotService depotService;*/
-
-    @Autowired
-    private ShopTypeService shopTypeService;
 
     @Autowired
     private ShopFeignClient shopFeignClient;
@@ -61,8 +48,6 @@ public class ShopController extends BaseController {
     @Autowired
     private UserFeignClient userFeignClient;
 
-   /* @Autowired
-    private GeoService geoService;*/
 
     /**
      * 列出所有未审核通过的商铺
@@ -77,9 +62,8 @@ public class ShopController extends BaseController {
         vo.setAuditStatus( AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue());
         vo.setAuditStatusTwo(AuditStatus.WAIT_FOR_AUDIT.getValue());
         ModelAndView mav = new ModelAndView("/org/shop/auditList");
-      /*  Page<ShopDetailPo> shopSearchResVoPage = shopFeignClient.findShopAuditDataOfWaitForAudit(vo);
-        mav.addObject("shopSearchResVoPage", shopSearchResVoPage);*/
-        mav.addObject("shopTypes", shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL));
+        Page<ShopDetailPo> shopSearchResVoPage = shopFeignClient.findShopAuditDataOfWaitForAudit(vo);
+        mav.addObject("shopSearchResVoPage", shopSearchResVoPage);
         mav.addObject("vo", vo);
         return mav;
     }
@@ -101,7 +85,6 @@ public class ShopController extends BaseController {
        }
         Page<ShopDetailPo> shopSearchResVoPage = shopFeignClient.findShopAuditDataOfWaitForAudit(vo);
         mav.addObject("shopSearchResVoPage", shopSearchResVoPage);
-        mav.addObject("shopTypes", shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL));
         return mav;
     }
 

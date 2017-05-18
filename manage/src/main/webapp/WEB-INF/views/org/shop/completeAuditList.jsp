@@ -154,14 +154,8 @@
                                     商户ID <input name="id" type="text" placeholder="商户ID"  value="<c:out value="${vo.id}"/>" autocomplete="off"  style="width: 100px;height: 30px;">&nbsp;
                                     商户名称 <input name="name" type="text" placeholder="商户名称" value="<c:out value="${vo.name}"/>"  autocomplete="off" style="width: 100px;height: 30px;">&nbsp;
                                     手机号码<input name="mobile" type="text" placeholder="手机号码" value="<c:out value="${vo.mobile}"/>" autocomplete="off" style="width: 100px;height: 30px;">&nbsp;
-                                     商户类型
-                                <select name="shopType" style="width: 100px;height: 30px;">
-                                    <option value="" selected >请选择</option>
-                                    <c:forEach items="${shopTypes}" var="shopType">
-                                    <option  <c:if test="${shopType.id == vo.shopType.id}">selected </c:if>
-                                            value="<c:out value="${shopType.id}"/>"><c:out value="${shopType.name}"/></option>
-                                    </c:forEach>
-                                </select>
+                                <gbck:shopType fieldName="shopTypeId" fieldClasses="field"
+                                                 shopTypeId="${vo.shopTypeId}"/>
                                 <div class="inline "><div class="inline pull-right"><i style="color:white;">_</i></div>
                                     <button type="submit" class="btn btn-info btn-sm" style="height: 30px;">
                                         <i class="ace-icon fa fa-search bigger-110"></i>搜索

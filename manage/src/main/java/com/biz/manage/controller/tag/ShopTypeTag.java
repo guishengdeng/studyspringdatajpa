@@ -5,6 +5,7 @@ import com.biz.gbck.dao.mysql.po.org.ShopTypePo;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.enums.user.ShopTypeStatus;
 import com.biz.service.org.interfaces.ShopTypeService;
+import com.biz.soa.feign.client.org.ShopTypeFeignClient;
 import com.biz.util.SpringContextUtil;
 
 import javax.servlet.jsp.JspException;
@@ -27,10 +28,10 @@ public class ShopTypeTag extends TagSupport {
 
     @Override public int doStartTag() throws JspException {
 
-        ShopTypeService shopTypeService = SpringContextUtil.getBean(ShopTypeService.class);
+        ShopTypeFeignClient shopTypeFeignClient = SpringContextUtil.getBean(ShopTypeFeignClient.class);
         List<ShopTypeRo> allNormalShopTypes =
-            shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL);
-        ShopTypePo selectedShopType = shopTypeService.findOne(shopTypeId);
+                shopTypeFeignClient.findAllShopTypeRo();
+        ShopTypeRo selectedShopType = shopTypeFeignClient.findShopTypeRo(shopTypeId);
         JspWriter out = pageContext.getOut();
         try {
             for (ShopTypeRo normalShopType : allNormalShopTypes) {

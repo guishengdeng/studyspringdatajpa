@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="manage" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="gbck" tagdir="/WEB-INF/tags" %>
 <depotnextdoor:page title="page.user.edit">
     <jsp:attribute name="script">
         <script type="application/javascript">
@@ -154,7 +154,7 @@
 											</span>
                                     </div>
                                     <div class="col-xs-6 col-sm-4 col-md-3">
-                                        <manage:shopType fieldName="shopTypeId" fieldClasses="field" shopTypeClass="required text"
+                                        <gbck:shopType fieldName="shopTypeId" fieldClasses="field" shopTypeClass="required text"
                                                          shopTypeId="${shopDetailResVo.shopTypeId}"/>
                                     </div>
                                     <div class="col-xs-6 col-sm-4 col-md-3">
