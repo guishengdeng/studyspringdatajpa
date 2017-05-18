@@ -1,4 +1,4 @@
-package com.biz.soa.cover.config;
+package com.biz.soa.config;
 
 /**
  * Created by david-liu on 2017/04/18 14:07.

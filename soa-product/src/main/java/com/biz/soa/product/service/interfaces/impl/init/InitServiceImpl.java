@@ -173,6 +173,7 @@ public class InitServiceImpl implements InitService {
         Random random = new Random();
         List<PriceRO> priceROS = Lists.newArrayList();
         productIds.forEach(productId -> {
+            Integer price = random.nextInt(1000);
             PriceRO priceRO = new PriceRO();
             priceRO.setId(String.format("%s%s", productId, 1L));
             priceRO.setCompanyGroupId(1L);
@@ -181,8 +182,9 @@ public class InitServiceImpl implements InitService {
             priceRO.setCompanyGroupId(1L);
             priceRO.setPriceId(idService.nextId());
             priceRO.setPriceGroupId(1L);
-            priceRO.setPurchasePrice(1);
-            priceRO.setSalePrice(random.nextInt(1000));
+            priceRO.setSuggestPrice(price + 400);
+            priceRO.setPurchasePrice(price);
+            priceRO.setSalePrice(price + 200);
             priceROS.add(priceRO);
         });
         priceRedisDao.save(priceROS);

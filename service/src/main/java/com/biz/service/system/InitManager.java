@@ -49,7 +49,7 @@ public class InitManager {
 	@Autowired
 	private CatRepository catRepository;
 
-	//@PostConstruct
+	@PostConstruct
 	@Transactional
 	public void init() {
 
