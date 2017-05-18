@@ -13,12 +13,12 @@ public class UserLoginResVo {
     /**
      * 用户id
      */
-    private Long userId;
+    private String userId;
 
     /**
      * 商铺id
      */
-    private Long shopId;
+    private String shopId;
 
     /**
      * 商户名称
@@ -112,7 +112,7 @@ public class UserLoginResVo {
     private Boolean emptyPaymentPassword = true;
 
     public void setShopProperties(ShopRo shopRo) {
-        setShopId(Long.parseLong(shopRo.getId()));
+        setShopId(shopRo.getId());
         setDeliveryAddress(shopRo.getDeliveryAddress());
         setDetailAuditStatus(shopRo.getDetailAuditStatus());
         setQualificationAuditStatus(shopRo.getQualificationAuditStatus());
@@ -123,20 +123,32 @@ public class UserLoginResVo {
         this.emptyPaymentPassword = StringUtils.isBlank(shopRo.getPaymentPassword());
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public Long getShopId() {
+    public String getShopId() {
         return shopId;
     }
 
-    public void setShopId(Long shopId) {
+    public void setShopId(String shopId) {
         this.shopId = shopId;
+    }
+
+    public Boolean getAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
+    }
+
+    public void setEmptyPaymentPassword(Boolean emptyPaymentPassword) {
+        this.emptyPaymentPassword = emptyPaymentPassword;
     }
 
     public String getName() {

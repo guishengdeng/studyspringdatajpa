@@ -13,6 +13,9 @@ public class ShopCartListReqVo extends BaseRequestVo {
 
     private static final long serialVersionUID = 2010073680708198043L;
 
+    public ShopCartListReqVo() {
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);

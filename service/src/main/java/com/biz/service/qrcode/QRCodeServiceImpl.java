@@ -7,17 +7,14 @@ import com.biz.gbck.vo.qrcode.QRCodeSearchVO;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.qrcode.interfaces.QRCodeService;
 import com.google.common.collect.Lists;
-import java.util.List;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.criteria.Predicate;
+import java.util.List;
 
 @Service
 public class QRCodeServiceImpl extends AbstractBaseService implements QRCodeService {
@@ -42,33 +39,29 @@ public class QRCodeServiceImpl extends AbstractBaseService implements QRCodeServ
 
     @Override
     public Page<QRCodePO> searchQRCode(final QRCodeSearchVO reqVo) {
-        return qrcodeRepository.findAll(new Specification<QRCodePO>() {
-            @Override
-            public Predicate toPredicate(Root<QRCodePO> root, CriteriaQuery<?> criteriaQuery,
-                    CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = Lists.newArrayList();
+        return qrcodeRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> predicates = Lists.newArrayList();
 
-                if (reqVo.getStatus() != null) {
-                    // 删除状态
-                    Predicate predicate = criteriaBuilder.equal(root.get("status"), reqVo.getStatus());
-                    predicates.add(predicate);
-                }
-
-                if (reqVo.getBusStatus() != null) {
-                    // 业务状态
-                    Predicate predicate = criteriaBuilder.equal(root.get("businessStatus"), reqVo.getBusStatus());
-                    predicates.add(predicate);
-                }
-
-                if(StringUtils.isNotBlank(reqVo.getBcno())){
-                    Predicate predicate = criteriaBuilder.equal(root.get("bcno").as(String.class), reqVo.getBcno());
-                    predicate =criteriaBuilder.or(predicate,criteriaBuilder.equal(root.get("boxno").as(String.class), reqVo.getBcno()));
-                    predicates.add(predicate);
-                }
-
-                criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
-                return criteriaQuery.getRestriction();
+            if (reqVo.getStatus() != null) {
+                // 删除状态
+                Predicate predicate = criteriaBuilder.equal(root.get("status"), reqVo.getStatus());
+                predicates.add(predicate);
             }
+
+            if (reqVo.getBusStatus() != null) {
+                // 业务状态
+                Predicate predicate = criteriaBuilder.equal(root.get("businessStatus"), reqVo.getBusStatus());
+                predicates.add(predicate);
+            }
+
+            if(StringUtils.isNotBlank(reqVo.getBcno())){
+                Predicate predicate = criteriaBuilder.equal(root.get("bcno").as(String.class), reqVo.getBcno());
+                predicate =criteriaBuilder.or(predicate,criteriaBuilder.equal(root.get("boxno").as(String.class), reqVo.getBcno()));
+                predicates.add(predicate);
+            }
+
+            criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
+            return criteriaQuery.getRestriction();
         }, new PageRequest(reqVo.getPage()-1, reqVo.getPageSize()));
     }
 }

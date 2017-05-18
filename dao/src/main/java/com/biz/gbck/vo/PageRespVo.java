@@ -14,24 +14,24 @@ public class PageRespVo implements Serializable {
     private static final long serialVersionUID = -5113775306566869929L;
 
     /**
-     * 当前页
+     * 最后访问标示
      */
-    private Integer page;
+    private String lastFlag;
 
     //集合
     private List<?> list = Lists.newArrayList();
 
-    public PageRespVo(Integer page, List<?> list) {
-        this.page = page;
+    public PageRespVo(String lastFlag, List<?> list) {
+        this.lastFlag = lastFlag;
         this.list = list;
     }
 
-    public Integer getPage() {
-        return page;
+    public String getLastFlag() {
+        return lastFlag;
     }
 
-    public void setPage(Integer page) {
-        this.page = page;
+    public void setLastFlag(String lastFlag) {
+        this.lastFlag = lastFlag;
     }
 
     public List<?> getList() {

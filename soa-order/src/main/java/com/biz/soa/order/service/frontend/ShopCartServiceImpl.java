@@ -11,12 +11,10 @@ import com.biz.gbck.vo.cart.*;
 import com.biz.gbck.vo.order.req.ProductItemReqVo;
 import com.biz.gbck.vo.stock.PartnerStockReqVO;
 import com.biz.gbck.vo.stock.PartnerStockRespVO;
-import com.biz.gbck.vo.cart.*;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.cart.ShopCartService;
 import com.biz.service.stock.StockService;
 import com.google.common.collect.Lists;
-import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.codelogger.utils.StringUtils;
 import org.codelogger.utils.ValueUtils;
@@ -44,7 +42,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
     @Autowired
     private ShopCartItemRedisDao shopCartItemRedisDao;
 
-    @Autowired
+    @Autowired(required = false)
     private StockService stockService;
 
 
@@ -84,7 +82,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         if (logger.isDebugEnabled()) {
             logger.debug("获取购物车信息-------请求vo: {}", reqVo);
         }
-        if (reqVo == null || reqVo.getUserId() == null) {
+        if (reqVo == null) {
             logger.warn("购物车参数不合法");
             throw new IllegalParameterException("参数不合法");
         }
@@ -204,9 +202,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
 
     /**
      * 校验数量
-     * @param userId
-     * @param productId
-     * @param quantity
+     *
      * @throws DepotNextDoorException
      */
     private void validQuantity(Long userId, Long productId, int quantity) throws DepotNextDoorException {

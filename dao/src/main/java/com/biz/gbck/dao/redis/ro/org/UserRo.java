@@ -101,7 +101,17 @@ public class UserRo extends BaseRedisObject<String> implements Serializable {
      * 最后登陆手机品牌
      */
     private String lastUserAgent;
-    
+
+    /**
+     * Shop上级合伙人Id
+     */
+    private Long partnerId;
+
+    /**
+     * 平台公司Id
+     */
+    private Long platformId;
+
 
 
     public String getAccount() {
@@ -244,4 +254,27 @@ public class UserRo extends BaseRedisObject<String> implements Serializable {
         return ToStringBuilder.reflectionToString(this);
     }
 
+    public Boolean getAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
+    }
+
+    public Long getPartnerId() {
+        return partnerId;
+    }
+
+    public void setPartnerId(Long partnerId) {
+        this.partnerId = partnerId;
+    }
+
+    public Long getPlatformId() {
+        return platformId;
+    }
+
+    public void setPlatformId(Long platformId) {
+        this.platformId = platformId;
+    }
 }

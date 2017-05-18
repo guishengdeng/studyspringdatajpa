@@ -13,12 +13,10 @@ import javax.validation.constraints.NotNull;
 public class ShopChangeDeliveryAddressReqVo extends CommonReqVoBindUserId
     implements InitGlobalParams {
 
-
-
     /**
      * 店铺id
      */
-    @NotNull private Long shopId;
+    @NotNull private String shopId;
 
     /**
      * 省
@@ -55,19 +53,11 @@ public class ShopChangeDeliveryAddressReqVo extends CommonReqVoBindUserId
         return globalParams;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Long getShopId() {
+    public String getShopId() {
         return shopId;
     }
 
-    public void setShopId(Long shopId) {
+    public void setShopId(String shopId) {
         this.shopId = shopId;
     }
 
