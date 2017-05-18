@@ -6,6 +6,7 @@ import com.biz.gbck.vo.product.gbck.response.ProductAppDetailRespVO;
 import com.biz.gbck.vo.product.gbck.response.ProductAppListRespVO;
 import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.rest.controller.BaseRestController;
+import com.biz.rest.util.RestUtil;
 import com.biz.soa.feign.client.product.ProductFeignClient;
 import com.biz.support.web.handler.JSONResult;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +24,7 @@ public class ProductController extends BaseRestController {
 
     @RequestMapping(value = "/search")
     public JSONResult productList(HttpServletRequest request, HttpServletResponse response) {
-        ProductAppListReqVo reqVo = this.parseBizData(request, ProductAppListReqVo.class);
+        ProductAppListReqVo reqVo = RestUtil.parseBizData(request, ProductAppListReqVo.class);
         // TODO 调用用户服务, 设置价格组ID和上级采购单位ID
         reqVo.setPriceGroupId(1L);
         reqVo.setSellerId(1L);
@@ -37,7 +38,7 @@ public class ProductController extends BaseRestController {
 
     @RequestMapping(value = "/detail")
     public JSONResult productDetail(HttpServletRequest request, HttpServletResponse response) {
-        ProductAppDetailReqVo reqVo = this.parseBizData(request, ProductAppDetailReqVo.class);
+        ProductAppDetailReqVo reqVo = RestUtil.parseBizData(request, ProductAppDetailReqVo.class);
         // TODO 调用用户服务, 设置价格组ID和上级采购单位ID
         reqVo.setPriceGroupId(1L);
         reqVo.setSellerId(1L);
