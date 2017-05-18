@@ -1,47 +1,48 @@
 package com.biz.gbck.vo.cart;
 
 import com.biz.core.util.DateUtil;
+import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import java.io.Serializable;
+
 import java.sql.Timestamp;
-import java.util.Set;
 
 /**
- * 修改购物车明细vo
+ * 添加购物车明细vo
  *
  * @author lei
- * @date 2017/01/23
+ * @date 2017/01/12
  */
-public class ShopCartItemSelectReqVo implements Serializable {
-    /**
-     * 商品编码集合
-     */
-    private Set<String> pCodes;
+public class BaseShopCartReqVo extends CommonReqVoBindUserId {
 
     /**
-     * 选中状态
+     * 商品编码
      */
-    private Boolean selected;
+    private String productId;
+
+    /**
+     * 数量
+     */
+    private int quantity = 1;
 
     /**
      * 操作时间
      */
     private Timestamp operateTime = DateUtil.now();
 
-    public Set<String> getpCodes() {
-        return pCodes;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setpCodes(Set<String> pCodes) {
-        this.pCodes = pCodes;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
-    public Boolean getSelected() {
-        return selected;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setSelected(Boolean selected) {
-        this.selected = selected;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public Timestamp getOperateTime() {
