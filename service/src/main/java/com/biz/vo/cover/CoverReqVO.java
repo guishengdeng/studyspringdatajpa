@@ -3,12 +3,12 @@ package com.biz.vo.cover;
 /**
  * Created by defei on 5/16/17.
  */
-public class CoverReqVo {
+public class CoverReqVO {
 
 	private String userId;
 
 	/**
-	 * {@linkplain CoverReqVo#userId}
+	 * {@linkplain CoverReqVO#userId}
 	 */
 	public String getUserId() {
 
@@ -16,7 +16,7 @@ public class CoverReqVo {
 	}
 
 	/**
-	 * {@linkplain CoverReqVo#userId}
+	 * {@linkplain CoverReqVO#userId}
 	 */
 	public void setUserId(String userId) {
 

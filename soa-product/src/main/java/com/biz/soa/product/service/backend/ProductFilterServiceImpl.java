@@ -6,6 +6,7 @@ import com.biz.gbck.dao.mysql.repository.productFilter.ProductFilterRepository;
 import com.biz.gbck.exceptions.product.ProductFilterNotFoundException;
 import com.biz.gbck.transform.product.CreateProductFilterVo2ProductFilter;
 import com.biz.gbck.transform.product.ProductFilter2ProductFilterListItemVo;
+import com.biz.gbck.vo.product.ProductFilterListItemVO;
 import com.biz.gbck.vo.product.backend.*;
 import com.biz.service.product.backend.ProductFilterService;
 import com.google.common.collect.Lists;
@@ -41,10 +42,10 @@ public class ProductFilterServiceImpl extends AbstractProductFilterService imple
      * @author wangyumin
      */
     @Override
-    public BootstrapTablePageResult<ProductFilterListItemVo> listProductFilters(SearchPageVo searchPageVo,
+    public BootstrapTablePageResult<ProductFilterListItemVO> listProductFilters(SearchPageVo searchPageVo,
                                                                                 Long categoryId) throws ProductFilterNotFoundException {
         List<ProductFilter> list = productFilterRepository.findByCategoryIdAndLabelLikeAndDeleteFlag(categoryId, searchPageVo.getSearchValue(), Boolean.FALSE);
-        BootstrapTablePageResult<ProductFilterListItemVo> pageResult = new BootstrapTablePageResult<>();
+        BootstrapTablePageResult<ProductFilterListItemVO> pageResult = new BootstrapTablePageResult<>();
         pageResult.setRows(Lists.transform(list, new ProductFilter2ProductFilterListItemVo()));
         pageResult.setTotal(list.size());
         return pageResult;

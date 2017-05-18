@@ -36,4 +36,50 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <finalName>soa-mix-service</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <profileName>dev</profileName>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profileName>test</profileName>
+            </properties>
+        </profile>
+        <profile>
+            <id>production</id>
+            <properties>
+                <profileName>production</profileName>
+            </properties>
+        </profile>
+    </profiles>
 </project>

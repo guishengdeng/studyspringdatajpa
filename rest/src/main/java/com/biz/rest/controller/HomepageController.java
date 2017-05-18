@@ -1,16 +1,14 @@
 package com.biz.rest.controller;
 
 import com.biz.service.cover.CoverService;
-import com.biz.vo.cover.CoverReqVo;
+import com.biz.vo.cover.CoverReqVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +46,7 @@ public class HomepageController extends BaseRestController {
 	@ResponseBody
 	public Object testForSpringCloudRpc(){
 
-		CoverReqVo reqVo = new CoverReqVo();
+		CoverReqVO reqVo = new CoverReqVO();
 		return coverService.getHomePage(reqVo);
 	}
 

@@ -1,11 +1,11 @@
 package com.biz.manage.controller.product;
 
+import com.biz.gbck.vo.product.ProductFilterListItemVO;
 import com.biz.gbck.vo.product.backend.BootstrapTablePageResult;
-import com.biz.gbck.vo.product.backend.ProductFilterListItemVo;
 import com.biz.gbck.vo.product.backend.ProductFilterListReqVO;
 import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.manage.controller.BaseController;
-import com.biz.soa.feign.ProductFeignClient;
+import com.biz.soa.feign.client.product.ProductFeignClient;
 import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,9 +26,9 @@ public class ProductFilterController extends BaseController {
 
     @GetMapping(value = "/list")
     public ModelAndView listProductFilters(ProductFilterListReqVO reqVO) throws Exception {
-        MicroServiceResult<BootstrapTablePageResult<ProductFilterListItemVo>> microServiceResult = productFeignClient.getProductFilters(reqVO);
+        MicroServiceResult<BootstrapTablePageResult<ProductFilterListItemVO>> microServiceResult = productFeignClient.getProductFilters(reqVO);
         if (microServiceResult.isSuccess()) {
-            BootstrapTablePageResult<ProductFilterListItemVo> result = microServiceResult.getData();
+            BootstrapTablePageResult<ProductFilterListItemVO> result = microServiceResult.getData();
         } else {
             throw microServiceResult.getException();
         }

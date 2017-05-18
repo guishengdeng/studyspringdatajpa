@@ -60,10 +60,4 @@ public class PageUtil implements Serializable {
         }
         return new PageVo(startPageIndex, endPageIndex, currentPage, totalElementsCount, pageSize, startElementIndex, endElementIndex);
     }
-
-    public static void main(String[] args) {
-        PageVo pageVo = PageUtil.getPage(0, 12, 16);
-        System.out.println(pageVo);
-    }
-
 }

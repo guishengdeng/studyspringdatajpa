@@ -53,7 +53,7 @@ biz:
     username: guest
     password: guest
     port: 5672
-    host: 127.0.0.1
+    host: 10.4.100.196
     maxRetry: 3
     retryElapse: 1000
 server:
@@ -61,9 +61,23 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:7777/eureka
-
+      defaultZone: http://10.4.100.194:7777/eureka/,http://10.4.100.195:7777/eureka/,http://10.4.100.196:7777/eureka/
+  instance:
+    prefer-ip-address: true
+  server:
+    eviction-interval-timer-in-ms: 1000
 security:
   basic:
     enabled: false
     authorize-mode: none
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+ribbon:
+  ReadTimeout: 30000
+feign:
+  hystrix:
+    enabled: true

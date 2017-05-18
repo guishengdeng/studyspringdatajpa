@@ -1,0 +1,78 @@
+server:
+  port: 8900
+  connection-timeout: 30000
+spring:
+  application:
+    name: depotnextdoor-product
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: depotapp
+    password: Depot*123456
+    url: jdbc:mysql://10.4.100.198:3306/depotnextdoor?characterEncoding=utf-8
+    dbcp2:
+      initial-size: 5
+      max-total: 10
+      min-idle: 1
+      time-between-eviction-runs-millis: 360000
+      test-on-borrow: true
+      test-on-return: false
+      test-while-idle: true
+      validation-query: SELECT 1
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database: mysql
+  cloud:
+    inetutils:
+      timeout-seconds: 30
+
+biz:
+  soa:
+    idx: 1
+  zookeeper:
+    url: zookeeper://10.4.100.194:2181
+    soaIdx:
+      path: /biz/gbck/boot/soaIdx
+    #redis:
+    #  path: /biz/gbck/boot/redis
+  redis:
+    maxTotal: 120
+    maxIdle: 10
+    timeBetweenEvictionRunsMillis: 30000
+    minEvictableIdleTimeMillis: 30000
+    testOnBorrow: true
+    host: 10.4.100.196
+    port: 6379
+    name:
+    password:
+  amqp:
+    host: 10.4.100.196
+    username: guest
+    password: guest
+    port: 5672
+    maxRetry: 3
+    retryElapse: 1000
+security:
+  basic:
+    enabled: false
+management:
+  security:
+    enabled: false
+eureka:
+  client:
+    service-url:
+      defaultZone: http://10.4.100.194:7777/eureka/,http://10.4.100.195:7777/eureka/,http://10.4.100.196:7777/eureka/
+    registry-fetch-interval-seconds: 1
+ribbon:
+  ReadTimeout: 30000
+feign:
+  hystrix:
+    enabled: true
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false

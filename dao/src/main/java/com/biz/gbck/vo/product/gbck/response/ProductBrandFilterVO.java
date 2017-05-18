@@ -9,7 +9,7 @@ import java.util.List;
 public class ProductBrandFilterVO implements Serializable {
     private static final long serialVersionUID = -1223523524294417514L;
 
-    private String field;
+    private String field = "brandId";
 
     private List<ProductBrandFilterItemVO> items;
 
