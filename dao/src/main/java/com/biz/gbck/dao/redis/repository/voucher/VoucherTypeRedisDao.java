@@ -15,7 +15,6 @@ import java.util.Map;
 public class VoucherTypeRedisDao extends CrudRedisDao<VoucherTypeRo, Long> {
 
     public void save(VoucherTypeRo voucherTypeRo) {
-    	super.save(voucherTypeRo);
     	sadd(getVoucherTypeSortSetKey(),
                 RedisUtil.toByteArray(voucherTypeRo.getId()));
         hmset(getVoucherTypeHashKey(voucherTypeRo.getId()),
@@ -48,7 +47,7 @@ public class VoucherTypeRedisDao extends CrudRedisDao<VoucherTypeRo, Long> {
     }
 
     public VoucherTypeRo getVoucherTypeRoById(Long id) {
-        Map<byte[], byte[]> map = null;
+        Map<byte[], byte[]> map =hgetAll(getVoucherTypeHashKey(id));
         if (MapUtils.isNotEmpty(map)) {
             VoucherTypeRo voucherTypeRo = new VoucherTypeRo();
             voucherTypeRo.fromMap(map);
@@ -67,7 +66,7 @@ public class VoucherTypeRedisDao extends CrudRedisDao<VoucherTypeRo, Long> {
      *
      * @return
      */
-    public String getVoucherTypeSortSetKey() {
+    public static String getVoucherTypeSortSetKey() {
         return "global:voucher_type_set";
     }
 
@@ -77,7 +76,7 @@ public class VoucherTypeRedisDao extends CrudRedisDao<VoucherTypeRo, Long> {
      * @param id
      * @return
      */
-    public String getVoucherTypeHashKey(Long id) {
+    public static String getVoucherTypeHashKey(Long id) {
         return "global:voucher_type_" + id;
     }
 
@@ -87,8 +86,8 @@ public class VoucherTypeRedisDao extends CrudRedisDao<VoucherTypeRo, Long> {
      * @param id
      * @return
      */
-    public String getVoucherTypeVoucherListKey(Long id) {
-        return "voucher_type_voucher_list_" + id;
+    public static String getVoucherTypeVoucherListKey(Long id) {
+        return "global:voucher_type_voucher_list_" + id;
     }
 
     /**
@@ -98,8 +97,8 @@ public class VoucherTypeRedisDao extends CrudRedisDao<VoucherTypeRo, Long> {
      * @author Nian.Li
      * @date 2016年4月15日 上午10:18:30 
      */
-    public String getVoucherConfigureHashKey(String key) {
-        return getKeyByParams("voucher_configure",key);
+    public static String getVoucherConfigureHashKey(String key) {
+        return "global:voucher_configure:" + key;
     }
 
 

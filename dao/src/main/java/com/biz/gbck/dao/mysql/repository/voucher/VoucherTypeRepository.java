@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
-public interface VoucherTypeRepository extends CommonJpaRepository<VoucherTypePo, Long>, JpaSpecificationExecutor<VoucherTypePo>{
+public interface VoucherTypeRepository extends CommonJpaRepository<VoucherTypePo, Long>, JpaSpecificationExecutor<VoucherTypePo>,VoucherTypeDao{
 
     @Query(value = "FROM VoucherTypePo v WHERE v.deletedAt = null ORDER BY v.startTime DESC")
     List<VoucherTypePo> allByStartTimeDesc();

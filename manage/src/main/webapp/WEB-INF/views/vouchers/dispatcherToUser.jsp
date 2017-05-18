@@ -6,7 +6,7 @@
 
 <manage:page title="优惠卷发放">
     <jsp:body>
-        <div class="ui raised segment">
+        <div class="page-content">
             <div class="ui ribbon blue label">发放优惠券</div>
             <div class="ui pull-right">
                 <a href="${pageContext.request.contextPath}/shops/goSearch.do">

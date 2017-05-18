@@ -6,4 +6,27 @@
     <short-name>depotnextdoor</short-name>
     <uri>http://com.depotnextdoor/tag/core</uri>
     <tlib-version>4.0</tlib-version>
+    
+    <tag>
+        <name>product</name>
+        <tag-class>com.biz.manage.tag.ProductSelectTag</tag-class>
+        <body-content>JSP</body-content>
+    </tag>
+    
+    <tag>
+        <name>paymentType</name>
+        <tag-class>com.biz.manage.tag.PaymentTypeTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>supportPaymentIds</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>excludePaymentIds</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+        
 </taglib>
