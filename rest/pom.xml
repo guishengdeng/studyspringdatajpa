@@ -42,10 +42,6 @@
             <artifactId>service</artifactId>
             <version>${service.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.biz.gbck</groupId>
-            <artifactId>soa-order</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
