@@ -31,6 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/static-resource/**", "/login").permitAll()
+                .antMatchers("/partner/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().accessDeniedPage("/WEB-INF/views/manage/accessDenied.jsp")

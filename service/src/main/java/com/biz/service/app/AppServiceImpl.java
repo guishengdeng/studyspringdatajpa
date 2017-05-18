@@ -1,14 +1,24 @@
 package com.biz.service.app;
 
 import com.biz.gbck.dao.mysql.po.app.App;
+import com.biz.gbck.dao.mysql.po.product.meta.Category;
 import com.biz.gbck.dao.mysql.repository.app.AppRepository;
 import com.biz.gbck.transform.app.AppVoToAppPo;
 import com.biz.gbck.vo.app.AppVo;
+import com.biz.gbck.vo.config.AppConfigVo;
+import com.biz.gbck.vo.config.CategoryResVo;
 import com.biz.service.AbstractBaseService;
+import com.biz.service.product.backend.CategoryService;
+import com.biz.transformer.config.AppToAppConfigVo;
+import com.biz.transformer.config.CategoryToCategoryResVo;
+import com.google.common.collect.Lists;
+import java.util.List;
+import java.util.Objects;
+import javax.transaction.Transactional;
+import org.codelogger.utils.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import javax.transaction.Transactional;
-import java.util.Objects;
+
 import static org.codelogger.utils.ExceptionUtils.iae;
 
 
@@ -22,6 +32,9 @@ public class AppServiceImpl extends AbstractBaseService implements AppService {
 
     @Autowired
     private AppRepository appRepository;
+
+    @Autowired(required = false)
+    private CategoryService categoryService;
 
 
     @Override
@@ -60,4 +73,18 @@ public class AppServiceImpl extends AbstractBaseService implements AppService {
         }
 
     }
+
+    @Override
+    public AppConfigVo getAppConfigVo() {
+        App app= CollectionUtils.getFirstNotNullValue(appRepository.findAll());
+        return new AppToAppConfigVo().apply(app);
+    }
+
+    @Override
+    public List<CategoryResVo> getCategories() {
+        List<Category> categories=categoryService.findCategoryByStatus();
+        return Lists.transform(categories,new CategoryToCategoryResVo());
+    }
+
+
 }

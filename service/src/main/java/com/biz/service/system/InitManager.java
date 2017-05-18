@@ -28,7 +28,7 @@ public class InitManager {
 
 	private static final Logger logger = LoggerFactory.getLogger(InitManager.class);
 
-	@Autowired
+	@Autowired(required = false)
 	private Md5PasswordEncoder md5PasswordEncoder;
 
 	@Autowired
@@ -49,7 +49,7 @@ public class InitManager {
 	@Autowired
 	private CatRepository catRepository;
 
-	@PostConstruct
+	//@PostConstruct
 	@Transactional
 	public void init() {
 

@@ -14,9 +14,10 @@ import com.biz.core.enums.converter.BaseEnumValueConverter;
  */
 public enum ReturnStatus implements EnumerableValue {
 
-    PRE_AUDIT(0, "待处理"),
-    RETURNING(10, "退货中"),
-    RETURN_FAIL(20, "退货失败"),
+    CANCELED(0, "已取消"),
+    CREATED(5, "新建"),
+    AUDITED(10, "已审核"),
+    RETURNED(20, "已退货"),
     RETURN_SUCCESS(50, "退货完成");
 
     public final int value;

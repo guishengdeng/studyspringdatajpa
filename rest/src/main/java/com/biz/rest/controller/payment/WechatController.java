@@ -8,9 +8,6 @@ import com.biz.pay.wechat.lang.XmlBuilder;
 import com.biz.pay.wechat.res.WechatPayNotifyRespVo;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.soa.order.service.payment.PaymentService;
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.collections.KeyValue;
 import org.apache.commons.collections.keyvalue.DefaultKeyValue;
 import org.apache.http.entity.ContentType;
@@ -18,6 +15,10 @@ import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -46,7 +47,7 @@ public class WechatController extends BaseRestController {
     @RequestMapping(value = "notify")
     public void wechatNotify(HttpServletRequest request, HttpServletResponse response) {
         try {
-            logger.info("wechatNotify in");
+            logger.info("微信支付通知------request:{}", request);
             int contentLength = request.getContentLength();
             byte[] requestBody = new byte[contentLength];
             IOUtils.readFully(request.getInputStream(), requestBody);
@@ -56,7 +57,6 @@ public class WechatController extends BaseRestController {
             ReturnCode returnCode = ReturnCode.FAIL;
             String msg = ReturnCode.FAIL.toString();
             try {
-                //		        messageService.sendMessage(PaymentRollBackQueue.WECHATNOTITY_QUEUE, SimpleBizMessage.newMessage(message));
                 WechatPayNotifyRespVo notifyRes = new WechatPayNotifyRespVo(message.getXmlBody(), "xml");
                 //开始处理逻辑
                 Long paymentId = Long.valueOf(notifyRes.getOutTradeNo());

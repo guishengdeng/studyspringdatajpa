@@ -1,6 +1,7 @@
 package com.biz.gbck.vo.product.gbck.response;
 
 import com.biz.gbck.vo.product.gbck.ProductPropertyVo;
+import com.biz.gbck.vo.product.gbck.SalePromotionVO;
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,6 +12,11 @@ import java.util.List;
  */
 public class ProductAppDetailRespVO implements Serializable {
     private static final long serialVersionUID = 1967168727397108097L;
+
+    /**
+     * 商品ID
+     */
+    private String id;
 
     /**
      * 商品编码
@@ -48,6 +54,11 @@ public class ProductAppDetailRespVO implements Serializable {
     private Integer marketPrice;
 
     /**
+     * 最大购买数量(限购用)
+     */
+    private Integer maxQuantity;
+
+    /**
      * 最小起售数量
      */
     private Integer minQuantity;
@@ -71,6 +82,26 @@ public class ProductAppDetailRespVO implements Serializable {
      * 商品介绍图片
      */
     private List<String> introImages;
+
+    /**
+     * 是否支持简单特价
+     */
+    private Boolean isSupportSpecialOffer;
+
+    /**
+     * 特价
+     */
+    private Integer specialOfferPrice;
+
+    /**
+     * 上下架状态
+     */
+    private Integer status;
+
+    /**
+     * 促销详情
+     */
+    private List<SalePromotionVO> salePromotionDetail;
 
     public String getProductCode() {
         return productCode;
@@ -166,5 +197,53 @@ public class ProductAppDetailRespVO implements Serializable {
 
     public void setIntroImages(List<String> introImages) {
         this.introImages = introImages;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Integer getMaxQuantity() {
+        return maxQuantity;
+    }
+
+    public void setMaxQuantity(Integer maxQuantity) {
+        this.maxQuantity = maxQuantity;
+    }
+
+    public Boolean getSupportSpecialOffer() {
+        return isSupportSpecialOffer;
+    }
+
+    public void setSupportSpecialOffer(Boolean supportSpecialOffer) {
+        isSupportSpecialOffer = supportSpecialOffer;
+    }
+
+    public Integer getSpecialOfferPrice() {
+        return specialOfferPrice;
+    }
+
+    public void setSpecialOfferPrice(Integer specialOfferPrice) {
+        this.specialOfferPrice = specialOfferPrice;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public List<SalePromotionVO> getSalePromotionDetail() {
+        return salePromotionDetail;
+    }
+
+    public void setSalePromotionDetail(List<SalePromotionVO> salePromotionDetail) {
+        this.salePromotionDetail = salePromotionDetail;
     }
 }

@@ -34,17 +34,26 @@ public class Company extends BaseEntity {
     /**
      * 公司名称
      */
-    @Column(length = 40) private String name;
+    @Column(length = 40)
+    private String name;
 
     /**
-     * 法人名字
+     * 法人名字(联系人)
      */
-    @Column(length = 40) private String corporateName;
+    @Column(length = 40)
+    private String corporateName;
 
     /**
      * 公司描述
      */
-    @Column(columnDefinition = "MEDIUMTEXT") private String description;
+    @Column(columnDefinition = "MEDIUMTEXT")
+    private String description;
+
+    /**
+     * 联系电话
+     */
+    @Column(length = 40)
+    private String mobile;
 
     /**
      * 状态
@@ -131,5 +140,13 @@ public class Company extends BaseEntity {
 
     public void setCorporateName(String corporateName) {
         this.corporateName = corporateName;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }

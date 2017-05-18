@@ -10,4 +10,11 @@ spring:
 server:
   port: 9800
 
-
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:7777/eureka/
+security:
+  basic:
+    enabled: false
+    authorize-mode: none

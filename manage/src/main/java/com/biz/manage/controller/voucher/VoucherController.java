@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
 import com.biz.gbck.dao.redis.repository.voucher.VoucherTypeRedisDao;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
@@ -42,9 +43,9 @@ import com.biz.manage.util.POIUtil;
 import com.biz.manage.vo.voucher.DispatcherVoucherVo;
 import com.biz.manage.vo.voucher.VoucherBatchGrantReqVo;
 import com.biz.service.org.interfaces.ShopTypeService;
-import com.biz.service.org.interfaces.UserService;
 import com.biz.service.voucher.VoucherService;
 import com.biz.service.voucher.VoucherTypeService;
+import com.biz.soa.feign.client.org.UserFeignClient;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.google.common.collect.Lists;
 
@@ -72,7 +73,7 @@ public class VoucherController {
     private ShopTypeService shopTypeService;
 
     @Autowired
-    private UserService userService;
+    private UserFeignClient userFeignClient;
 
     @Autowired
     private VoucherTypeService voucherTypeService;
@@ -104,7 +105,7 @@ public class VoucherController {
             });
             view.addObject("voucherTypes", voucherTypeRosResult);
         }
-        List<Long> id = userService.findAdminUserIdsByShopId(shopId, true);
+        List<Long> id = userFeignClient.findAdminUserIdsByShopId(shopId, true);
         if (id.size() != 0) {
             Long userId = id.get(0);
             view.addObject("userId", userId);
@@ -168,11 +169,11 @@ public class VoucherController {
                 result = "优惠券数量不足";
             } else {
                 if (shopTypeId != null) {
-                    userIds = userService.findUserIdByShopType(shopTypeId);
+                    userIds = userFeignClient.findUserIdByShopType(shopTypeId);
                 } else {
                     List<ShopTypeRo> shopTypes = shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL);
                     for (ShopTypeRo ro : shopTypes) {
-                        userIds.addAll(userService.findUserIdByShopType(Long.parseLong(ro.getId())));
+                        userIds.addAll(userFeignClient.findUserIdByShopType(Long.parseLong(ro.getId())));
                     }
                 }
                 voucherService.dispatcherVoucher(userIds, voucherTypeRo, dispatcherCnt,
@@ -325,7 +326,7 @@ public class VoucherController {
             logger.debug("开始处理{}上传的价格文件的第{}行数据", loginUsername, startRow);
             try {
                 String mobile = org.apache.commons.lang3.StringUtils.trim(POIUtil.getCellValue(row.getCell(startCol)));
-                UserRo userRo = userService.findUserByMobile(mobile);
+                UserPo userRo = userFeignClient.findUserPoByMobile(mobile);
                 if (userRo != null) {
                     userIds.add(Long.valueOf(userRo.getId()));
                 }

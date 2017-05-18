@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.codelogger.utils.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.codelogger.utils.CollectionUtils;
 
 import com.biz.gbck.common.com.AlidayuTemplateCode;
 import com.biz.gbck.common.model.order.IOrderItemVo;
@@ -40,12 +40,12 @@ import com.biz.gbck.vo.product.frontend.ProductListItemVo;
 import com.biz.gbck.vo.voucher.UserVoucherStatisticResultVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.notice.NoticeService;
-import com.biz.service.org.interfaces.ShopService;
 import com.biz.service.org.interfaces.ShopTypeService;
-import com.biz.service.org.interfaces.UserService;
 import com.biz.service.predicate.VoucherNotExpirePredicate;
 import com.biz.service.predicate.VoucherTypePredicate;
-import com.biz.service.sms.SMSService;
+import com.biz.soa.feign.client.org.ShopFeignClient;
+import com.biz.soa.feign.client.org.UserFeignClient;
+import com.biz.soa.feign.client.sms.SMSFeignClient;
 import com.biz.vo.voucher.ShopCraftVoucherVo;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
@@ -69,7 +69,7 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	private VoucherTypeService voucherTypeService;
 	
 	@Autowired
-	private ShopService shopService;
+	private ShopFeignClient shopFeignClient;
 	
 	@Autowired
 	private NoticeService noticeService;
@@ -78,10 +78,10 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	private ShopTypeService shopTypeService;
 	
 	@Autowired
-	private UserService userService;
+	private UserFeignClient userFeignClient;
 	
 	@Autowired
-	private SMSService smsService;
+	private SMSFeignClient smsService;
 	
 	@Autowired
 	private VoucherConfigureService configureService;
@@ -205,7 +205,7 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	@Override
 	public int getAvailVoucherCount(List<ProductListItemVo> items, UserRo userRo) throws Exception {
 		int count = 0;
-      ShopRo shopRo = shopService.findShop(userRo.getShopId());
+      ShopRo shopRo = shopFeignClient.findShop(userRo.getShopId());
       List<Long> categoryIds = new ArrayList<Long>();
       Long shopTypeId = shopRo.getShopTypeId();
       Map<Long, List<VoucherRo>> categoryVouchersMap =  divideUnusedVouchersByCategory(Long.parseLong(userRo.getId()));
@@ -278,11 +278,11 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
               List<ShopTypeRo> shopTypes =
                   shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL);
               for (ShopTypeRo ro : shopTypes) {
-                  userCount = userCount + userService.findUserIdByShopType(Long.valueOf(ro.getId())).size();
+                  userCount = userCount + userFeignClient.findUserIdByShopType(Long.valueOf(ro.getId())).size();
               }
           }
       } else {
-          userCount = userService.findUserIdByShopType(shopTypeId).size();
+          userCount = userFeignClient.findUserIdByShopType(shopTypeId).size();
       }
       if ((userCount * dispatcherCount > voucherTypeVoucherCount) || (
           userIds.size() * dispatcherCount > voucherTypeVoucherCount)) {
@@ -307,7 +307,7 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
       String title = "您有一张优惠卷即将到期";
       boolean needMessageFlag = false;
       int voucherCount = 0;
-      List<UserPo> users = userService.findAllUserByAuditStatus(AuditStatus.NORMAL);
+      List<UserPo> users = userFeignClient.findAllUserByAuditStatus(AuditStatus.NORMAL);
       for (UserPo user : users) {
           Long userId = user.getId();
           List<VoucherRo> voucherRos = this.voucherRedisDao.listAllUsableVoucher(userId);

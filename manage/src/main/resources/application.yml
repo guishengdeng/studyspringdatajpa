@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: lb
   mvc:
     view:
       prefix: /WEB-INF/views/
@@ -50,6 +50,11 @@ biz:
     port: 6379
     name:
     password:
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7777/eureka
 
 server:
   session:

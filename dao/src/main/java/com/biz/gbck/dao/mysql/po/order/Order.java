@@ -35,6 +35,12 @@ public class Order extends BaseEntity {
     private Long sellerId;
 
     /**
+     * 对应店铺Id
+     */
+    @Column(nullable = false)
+    private Long shopId;
+
+    /**
      * 平台公司Id
      */
     @Column(nullable = false)
@@ -165,6 +171,14 @@ public class Order extends BaseEntity {
 
     public void setSellerId(Long sellerId) {
         this.sellerId = sellerId;
+    }
+
+    public Long getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Long shopId) {
+        this.shopId = shopId;
     }
 
     public Long getUserId() {

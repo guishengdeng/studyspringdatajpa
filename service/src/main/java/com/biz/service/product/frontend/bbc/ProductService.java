@@ -4,7 +4,7 @@ import com.biz.core.page.PageResult;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.product.IllegalParameterException;
 import com.biz.gbck.vo.product.ProductPageResult;
-import com.biz.gbck.vo.product.ProductPropertyVo;
+import com.biz.gbck.vo.product.ProductPropertyContentVo;
 import com.biz.gbck.vo.product.backend.CascadeVo;
 import com.biz.gbck.vo.product.backend.ProductDetailVo;
 import com.biz.gbck.vo.product.frontend.*;
@@ -145,7 +145,7 @@ public interface ProductService extends Serializable {
      * @return 商品属性Vo
      * @throws DepotNextDoorException Soa异常
      */
-    ProductPropertyVo productProperties(ProductPropertyReqVo reqVo) throws DepotNextDoorException;
+    ProductPropertyContentVo productProperties(ProductPropertyReqVo reqVo) throws DepotNextDoorException;
 
     /**
      * 首页商品

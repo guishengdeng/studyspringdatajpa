@@ -51,7 +51,7 @@ public class VoucherController extends BaseRestController {
     public JSONResult allVouchers(HttpServletRequest request, HttpServletResponse response) {
         CommonReqVoBindUserId reqVo = RestUtil.parseBizData(request, CommonReqVoBindUserId.class);
         Map<String, List<VoucherVo>> voucherVoMap =
-            Maps.newHashMap(getVouchersByUserId(reqVo.getUserId()));
+            Maps.newHashMap(getVouchersByUserId(Long.valueOf(reqVo.getUserId())));
         return new JSONResult(voucherVoMap);
     }
 
