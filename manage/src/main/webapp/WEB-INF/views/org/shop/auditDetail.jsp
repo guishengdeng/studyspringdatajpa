@@ -69,6 +69,19 @@
                     $("#cat-disable-confirm-modal").modal();
                     return false;
                 }
+                var provinceId=$("select[name='provinceId']").val();
+                var cityId=$("select[name='cityId']").val();
+                var districtId=$("select[name='districtId']").val();
+                if(provinceId == null || provinceId == undefined || provinceId == ""  ||
+                        cityId == null || cityId == undefined || cityId == "" ||
+                        districtId == null || districtId == undefined || districtId == ""
+
+                ){
+                    $(".msgClass").html("您正确选择省市县！");
+                    $("#cat-disable-confirm-modal").modal();
+                    return false;
+                }
+
                     var auditStatus = $("#auditStatus").val();
                 if(auditStatus == null || auditStatus == undefined || auditStatus == "" ){
                     $(".msgClass").html("请选择审核结果！");
