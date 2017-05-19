@@ -49,6 +49,7 @@ biz:
     accessKeyId: LTAIcBsZ7zY66tku
     accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
     bucketName: gbck-test
+    userId: 1526565267726025
   amqp:
     username: guest
     password: guest
