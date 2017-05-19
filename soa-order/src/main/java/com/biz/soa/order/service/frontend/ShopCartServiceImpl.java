@@ -8,6 +8,7 @@ import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.cart.CartItemProductInvalidException;
 import com.biz.gbck.exceptions.cart.IllegalParameterException;
 import com.biz.gbck.vo.cart.*;
+import com.biz.gbck.vo.order.req.ProductItemReqVo;
 import com.biz.gbck.vo.product.gbck.request.PurchaseProductReqVO;
 import com.biz.gbck.vo.product.gbck.response.ProductAppListItemVo;
 import com.biz.gbck.vo.soa.MicroServiceResult;
@@ -31,6 +32,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Maps.newHashMap;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -99,8 +101,8 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         }
 
         ShopCartRespVo cartRespVo = new ShopCartRespVo();
-        String userId = reqVo.getUserId();
-        List<ShopCartItemRo> shopCartItemRos = shopCartItemRedisDao.findByUserId(Long.valueOf(userId));
+        Long userId = Long.valueOf(reqVo.getUserId());
+        List<ShopCartItemRo> shopCartItemRos = shopCartItemRedisDao.findByUserId(userId);
 
         if (CollectionUtils.isEmpty(shopCartItemRos)) {
             logger.warn("购物车商品为空.");
@@ -110,7 +112,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         //创建时间排倒序输出
         shopCartItemRos.sort((o1, o2) -> (int) (o2.getCreateTimestamp().getTime() - o1.getCreateTimestamp().getTime()));
 
-        cartRespVo = this.getCartRespInfo(reqVo, shopCartItemRos);
+        cartRespVo = this.getCartRespInfo(userId, shopCartItemRos);
 
         if (logger.isDebugEnabled()) {
             logger.debug("获取购物车信息-------请求: {}, 返回值: {}", reqVo, cartRespVo);
@@ -160,39 +162,43 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
 
     @Override
     public ShopCartRespVo getSettleResult(ShopCartListSettleReqVo reqVo) throws DepotNextDoorException {
-        return null;
+        if (logger.isDebugEnabled()) {
+            logger.debug("获取结算商品信息-------请求vo: {}", reqVo);
+        }
+
+        ShopCartRespVo cartRespVo = new ShopCartRespVo();
+        String userId = reqVo.getUserId();
+        List<ShopCartItemRo> shopCartItemRos = shopCartItemRedisDao.findByUserId(Long.valueOf(userId));
+        if (CollectionUtils.isEmpty(shopCartItemRos)) {
+            logger.warn("购物车商品为空.");
+            return cartRespVo;
+        }
+
+        Map<String, ShopCartItemRo> productIdToCartItemRo = newHashMap();
+        for (ShopCartItemRo shopCartItemRo : shopCartItemRos) {
+            productIdToCartItemRo.put(shopCartItemRo.getProductId(), shopCartItemRo);
+        }
+
+        List<ShopCartItemRo> usableCartItemRos = newArrayList();
+        for (ProductItemReqVo itemReqVo : reqVo.getItems()) {
+            ShopCartItemRo cartItemRo = productIdToCartItemRo.get(itemReqVo.getProductId());
+            if (cartItemRo != null) {
+                usableCartItemRos.add(cartItemRo);
+            }
+        }
+        return this.getCartRespInfo(Long.valueOf(userId), usableCartItemRos);
     }
 
     /**
      * 获取商品信息
      */
-    private ShopCartRespVo getCartRespInfo(ShopCartListReqVo reqVo, List<ShopCartItemRo> shopCartItemRos) throws
+    private ShopCartRespVo getCartRespInfo(Long userId, List<ShopCartItemRo> shopCartItemRos) throws
             DepotNextDoorException {
 
-//        Map<String, ShopCartItemRo> productIdToCartItemRo = newHashMap();
-//        for (ShopCartItemRo shopCartItemRo : shopCartItemRos) {
-//            productIdToCartItemRo.put(shopCartItemRo.getProductId(), shopCartItemRo);
-//        }
-
-//        List<ShopCartItemRo> usableCartItemRos = newArrayList();
-//        if (reqVo instanceof ShopCartListSettleReqVo) {
-//            ShopCartListSettleReqVo cartSettleReqVo = (ShopCartListSettleReqVo) reqVo;
-//            for (ProductItemReqVo itemReqVo : cartSettleReqVo.getItems()) {
-//                ShopCartItemRo cartItemRo = productIdToCartItemRo.get(itemReqVo.getProductId());
-//                if (cartItemRo == null || itemReqVo.getQuantity() < 1 || !Objects.equals(cartItemRo.getQuantity(),
-//                        itemReqVo.getQuantity())) {
-//                    throw new CartItemInvalidException("结算商品信息不匹配");
-//                } else {
-//                    usableCartItemRos.add(cartItemRo);
-//                }
-//            }
-//        } else {
-//            usableCartItemRos = shopCartItemRos;
-//        }
         List<Long> productIds = shopCartItemRos.stream().filter(ro -> ro != null && ro.getProductId() != null).map(ro ->
                     Long.valueOf(ro.getProductId())).collect(toList());
 
-        UserRo userRo = this.getUserInfo(Long.valueOf(reqVo.getUserId()));
+        UserRo userRo = this.getUserInfo(userId);
         Map<String, ProductAppListItemVo> productIdToProductItemVo = this.getProductIdToProductVoMap(productIds, userRo);
 
         int orderAmount = 0;

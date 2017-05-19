@@ -29,7 +29,11 @@ public class SoaShopCartController extends SoaBaseController {
     @RequestMapping("/app/add")
     public JSONResult addCartItem(@RequestBody ShopCartItemAddReqVo reqVo) throws DepotNextDoorException {
         shopCartService.addCartItem(reqVo);
-        return new JSONResult();
+
+        ShopCartListReqVo cartListReqVo = new ShopCartListReqVo();
+        cartListReqVo.setUserId(reqVo.getUserId());
+        ShopCartRespVo respVo = shopCartService.getCartInfo(cartListReqVo);
+        return new JSONResult(respVo);
     }
 
 
@@ -48,7 +52,10 @@ public class SoaShopCartController extends SoaBaseController {
     @RequestMapping("/app/delete")
     public JSONResult deleteCartItem(@RequestBody ShopCartItemBatchDeleteReqVo reqVo) throws DepotNextDoorException {
         shopCartService.deleteCartItems(reqVo);
-        ShopCartRespVo respVo = shopCartService.getCartInfo(new ShopCartListReqVo());
+
+        ShopCartListReqVo cartListReqVo = new ShopCartListReqVo();
+        cartListReqVo.setUserId(reqVo.getUserId());
+        ShopCartRespVo respVo = shopCartService.getCartInfo(cartListReqVo);
         return new JSONResult(respVo);
     }
 

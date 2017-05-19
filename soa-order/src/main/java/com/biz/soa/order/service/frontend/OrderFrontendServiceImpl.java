@@ -116,7 +116,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         ShopCartListSettleReqVo cartSettleReqVo = new ShopCartListSettleReqVo();
         BeanUtils.copyProperties(reqVo, cartSettleReqVo);
 
-        ShopCartRespVo cartInfo = shopCartService.getCartInfo(cartSettleReqVo);
+        ShopCartRespVo cartInfo = shopCartService.getSettleResult(cartSettleReqVo);
         SystemAsserts.notNull(cartInfo);
 
         List<OrderItemRespVo> settleOrderItemVos = Lists.transform(cartInfo.getItems(), new
