@@ -52,16 +52,6 @@ public class SoaShopCartController extends SoaBaseController {
         return new JSONResult(respVo);
     }
 
-    /**
-     * 更新购物车数量
-     */
-    @RequestMapping("/app/updateQuantity")
-    public JSONResult updateCartItemQuantity(@RequestBody ShopCartItemUpdateReqVo reqVo) throws DepotNextDoorException {
-        shopCartService.updateCartItemQuantity(reqVo);
-        ShopCartRespVo respVo = shopCartService.getCartInfo(new ShopCartListReqVo());
-        return new JSONResult(respVo);
-    }
-
     @RequestMapping("/app/cartNum")
     @ResponseBody
     public JSONResult cartNum(@RequestBody ShopCartNumReqVo reqVo) throws DepotNextDoorException {
