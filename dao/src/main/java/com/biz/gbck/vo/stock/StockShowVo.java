@@ -3,7 +3,6 @@ package com.biz.gbck.vo.stock;
 import com.biz.gbck.dao.mysql.po.product.meta.Brand;
 import com.biz.gbck.dao.mysql.po.product.meta.Category;
 import com.biz.gbck.enums.org.CompanyLevel;
-
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
@@ -24,11 +23,6 @@ public class StockShowVo implements Serializable {
     private Long companyId;
 
     /**
-     * 级别
-     */
-    private CompanyLevel companyLevel;
-
-    /**
      * 公司名称(冗余)
      */
     private String companyName;
@@ -41,12 +35,12 @@ public class StockShowVo implements Serializable {
     /**
      * 商品编码
      */
-    private Long productCode;
+    private String productCode;
 
     /**
      * 商品名称
      */
-    private Long productName;
+    private String productName;
 
     /**
      * 库存数量
@@ -58,6 +52,12 @@ public class StockShowVo implements Serializable {
      */
     private Brand brand;
 
+
+    /**
+     * 规格
+     */
+    private String standard;
+
     /**
      * 商品分类
      */
@@ -67,7 +67,7 @@ public class StockShowVo implements Serializable {
     private Integer page = 1;
 
     @Max(100)
-    private Integer pageSize = 5;
+    private Integer pageSize = 20;
 
     public Long getId() {
         return id;
@@ -83,14 +83,6 @@ public class StockShowVo implements Serializable {
 
     public void setCompanyId(Long companyId) {
         this.companyId = companyId;
-    }
-
-    public CompanyLevel getCompanyLevel() {
-        return companyLevel;
-    }
-
-    public void setCompanyLevel(CompanyLevel companyLevel) {
-        this.companyLevel = companyLevel;
     }
 
     public String getCompanyName() {
@@ -109,19 +101,19 @@ public class StockShowVo implements Serializable {
         this.productId = productId;
     }
 
-    public Long getProductCode() {
+    public String getProductCode() {
         return productCode;
     }
 
-    public void setProductCode(Long productCode) {
+    public void setProductCode(String productCode) {
         this.productCode = productCode;
     }
 
-    public Long getProductName() {
+    public String getProductName() {
         return productName;
     }
 
-    public void setProductName(Long productName) {
+    public void setProductName(String productName) {
         this.productName = productName;
     }
 
@@ -139,6 +131,14 @@ public class StockShowVo implements Serializable {
 
     public void setBrand(Brand brand) {
         this.brand = brand;
+    }
+
+    public String getStandard() {
+        return standard;
+    }
+
+    public void setStandard(String standard) {
+        this.standard = standard;
     }
 
     public Category getCategory() {

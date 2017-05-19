@@ -117,4 +117,5 @@ public class ProductServiceImpl extends AbstractProductService implements Produc
         return this.getProductPrototype(reqVO.getProductIds(), reqVO.getCompanyGroupId(), reqVO.getSellerId())
                 .stream().map(ProductPrototype::toAppListItemVO).collect(Collectors.toList());
     }
+
 }

@@ -13,6 +13,23 @@ import javax.persistence.*;
  * @reviewer
  * @see
  */
+
+@SqlResultSetMappings({
+        @SqlResultSetMapping(
+                name = "StockBackenkBinding",
+                classes = {
+                        @ConstructorResult(
+                                targetClass = com.biz.gbck.vo.stock.StockShowVo.class,
+                                columns = {
+                                        @ColumnResult(name = "name"),
+                                        @ColumnResult(name = "product_code"),
+                                        @ColumnResult(name = "brand_id"),
+                                        @ColumnResult(name = "standard"),
+                                        @ColumnResult(name = "category"),
+                                        @ColumnResult(name = "quantity")
+                                })
+                })
+                })
 @Entity
 @Table(name = "sto_stock", uniqueConstraints = {@UniqueConstraint(columnNames = {"company_id", "product_id"})})
 public class Stock extends BaseEntity {

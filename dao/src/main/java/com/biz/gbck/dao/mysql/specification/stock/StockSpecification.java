@@ -26,14 +26,14 @@ public class StockSpecification implements Specification<Stock> {
     public Predicate toPredicate(Root<Stock> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = Lists.newArrayList();
 
-        if (stockShowVo.getProductId() != null){
-            Predicate predicate = criteriaBuilder.equal(root.get("productId"),stockShowVo.getProductId());
+        if (StringUtils.isNotBlank(stockShowVo.getProductCode())){
+            Predicate predicate = criteriaBuilder.equal(root.get("productCode"),stockShowVo.getProductCode());
             predicates.add(predicate);
         }
 
-        if (StringUtils.isNotBlank(stockShowVo.getCompanyName())){
-            String sqlName = "%" + stockShowVo.getCompanyName().trim() + "%";
-            predicates.add(criteriaBuilder.like(root.get("companyName").as(String.class),sqlName));
+        if (StringUtils.isNotBlank(stockShowVo.getProductName())){
+            String sqlName = "%" + stockShowVo.getProductName().trim() + "%";
+            predicates.add(criteriaBuilder.like(root.get("productName").as(String.class),sqlName));
         }
         criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
         return criteriaQuery.getRestriction();
