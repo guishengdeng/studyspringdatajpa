@@ -3,19 +3,24 @@ package com.biz.soa.order.service.frontend;
 import com.biz.core.asserts.SystemAsserts;
 import com.biz.gbck.dao.redis.repository.cart.ShopCartItemRedisDao;
 import com.biz.gbck.dao.redis.ro.cart.ShopCartItemRo;
+import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.cart.CartItemInvalidException;
 import com.biz.gbck.exceptions.cart.CartItemNotExistException;
+import com.biz.gbck.exceptions.cart.CartItemProductInvalidException;
 import com.biz.gbck.exceptions.cart.IllegalParameterException;
 import com.biz.gbck.vo.cart.*;
 import com.biz.gbck.vo.order.req.ProductItemReqVo;
+import com.biz.gbck.vo.product.gbck.request.PurchaseProductReqVO;
+import com.biz.gbck.vo.product.gbck.response.ProductAppListItemVo;
+import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.gbck.vo.stock.PartnerStockReqVO;
 import com.biz.gbck.vo.stock.PartnerStockRespVO;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.cart.ShopCartService;
+import com.biz.soa.feign.client.org.UserFeignClient;
 import com.biz.soa.feign.client.product.ProductFeignClient;
 import com.biz.soa.feign.client.stock.StockFeignClient;
-import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
 import org.codelogger.utils.StringUtils;
 import org.codelogger.utils.ValueUtils;
@@ -25,9 +30,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.newHashMap;
+import static java.util.stream.Collectors.toList;
 
 /**
  * 购物车service
@@ -48,6 +56,9 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
 
     @Autowired(required = false)
     private ProductFeignClient productFeignClient;
+
+    @Autowired(required = false)
+    private UserFeignClient userFeignClient;
 
 
     @Override
@@ -103,7 +114,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         //创建时间排倒序输出
         shopCartItemRos.sort((o1, o2) -> (int) (o2.getCreateTimestamp().getTime() - o1.getCreateTimestamp().getTime()));
 
-        this.getProductInfo(reqVo, shopCartItemRos);
+        ShopCartRespVo respVO = this.getProductInfo(reqVo, shopCartItemRos);
 
         if (logger.isDebugEnabled()) {
             logger.debug("获取购物车信息-------请求: {}, 返回值: {}", reqVo, cartRespVo);
@@ -177,15 +188,17 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
     /**
      * 获取商品信息
      */
-    private void getProductInfo(ShopCartListReqVo reqVo, List<ShopCartItemRo> shopCartItemRos) throws
+    private ShopCartRespVo getProductInfo(ShopCartListReqVo reqVo, List<ShopCartItemRo> shopCartItemRos) throws
             DepotNextDoorException {
+
+        Map<String, ShopCartItemRo> productIdToCartItemRo = newHashMap();
+        for (ShopCartItemRo shopCartItemRo : shopCartItemRos) {
+            productIdToCartItemRo.put(shopCartItemRo.getProductId(), shopCartItemRo);
+        }
+
         List<Long> productIds = newArrayList();
         if (reqVo instanceof ShopCartListSettleReqVo) {
             ShopCartListSettleReqVo cartSettleReqVo = (ShopCartListSettleReqVo) reqVo;
-            Map<String, ShopCartItemRo> productIdToCartItemRo = newHashMap();
-            for (ShopCartItemRo shopCartItemRo : shopCartItemRos) {
-                productIdToCartItemRo.put(shopCartItemRo.getProductId(), shopCartItemRo);
-            }
 
             for (ProductItemReqVo itemReqVo : cartSettleReqVo.getItems()) {
                 ShopCartItemRo cartItemRo = productIdToCartItemRo.get(itemReqVo.getProductId());
@@ -197,22 +210,41 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
                 }
             }
         } else {
-            productIds = Lists.transform(shopCartItemRos, input -> Long.valueOf(input.getProductId()));
+            productIds = shopCartItemRos.stream().filter(ro -> ro != null && ro.getProductId() != null).map(ro ->
+                    Long.valueOf(ro.getProductId())).collect(toList());
         }
 
-        //TODO 获取刘伟接口
+        UserRo userRo = this.getUserInfo(Long.valueOf(reqVo.getUserId()));
+
+        PurchaseProductReqVO productReqVo = new PurchaseProductReqVO();
+        productReqVo.setProductIds(productIds);
+        productReqVo.setSellerId(userRo.getPartnerId());
+        productReqVo.setCompanyGroupId(1l);
+        MicroServiceResult<List<ProductAppListItemVo>> productResult = productFeignClient.getPurchaseProducts
+                (productReqVo);
+        if (!productResult.isSuccess() || productResult.getData() == null ) {
+            throw new CartItemProductInvalidException("获取商品信息失败");
+        }
+        Map<String, ProductAppListItemVo> productIdToProductItemVo = productResult.getData().stream().collect(Collectors.toMap(ProductAppListItemVo::getId, Function.identity()));
+
+
+        return new ShopCartRespVo();
     }
 
     /**
      * 校验数量
-     *
-     * @throws DepotNextDoorException
      */
     private void validQuantity(Long userId, Long productId, int quantity) throws DepotNextDoorException {
-        //TODO 根据用户拿对应合伙人id
-        Long partnerId = null;
+        UserRo userRo = this.getUserInfo(userId);
+        Long partnerId = userRo.getPartnerId();
         PartnerStockRespVO stockRespVO = stockFeignClient.getStock(new PartnerStockReqVO(partnerId, productId));
         SystemAsserts.notNull(stockRespVO, "库存不足");
-        SystemAsserts.isTrue(quantity <= stockRespVO.getQuantity(), "库存不足");
+        SystemAsserts.isTrue(quantity <= ValueUtils.getValue(stockRespVO.getQuantity()), "库存不足");
+    }
+
+    private UserRo getUserInfo(Long userId) throws DepotNextDoorException {
+        UserRo userRo = userFeignClient.findUser(userId);
+        SystemAsserts.notNull(userRo);
+        return userRo;
     }
 }
