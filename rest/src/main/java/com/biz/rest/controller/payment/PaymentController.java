@@ -9,7 +9,6 @@ import com.biz.gbck.vo.payment.resp.WechatPayResp;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.rest.util.RestUtil;
 import com.biz.soa.feign.client.payment.PaymentFeignClient;
-import com.biz.soa.order.service.payment.PaymentService;
 import com.biz.support.web.handler.JSONResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

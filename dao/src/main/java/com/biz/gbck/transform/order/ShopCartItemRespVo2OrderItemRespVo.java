@@ -17,7 +17,7 @@ public class ShopCartItemRespVo2OrderItemRespVo implements Function<ShopCartItem
     public OrderItemRespVo apply(ShopCartItemRespVo input) {
         if (input != null) {
             OrderItemRespVo itemVo = new OrderItemRespVo();
-            itemVo.setProductId(input.getProductId());
+            itemVo.setProductId(Long.valueOf(input.getProductId()));
             itemVo.setProductCode(input.getProductCode());
             itemVo.setName(input.getName());
             itemVo.setLogo(input.getLogo());
