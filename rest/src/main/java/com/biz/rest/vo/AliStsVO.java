@@ -11,9 +11,9 @@ public class AliStsVO {
 
 	private String securityToken;
 
-	private String expiration;
+	private Long expiration;
 
-	public AliStsVO(String accessKeyId, String accessKeySecret, String securityToken, String expiration) {
+	public AliStsVO(String accessKeyId, String accessKeySecret, String securityToken, Long expiration) {
 
 		this.accessKeyId = accessKeyId;
 		this.accessKeySecret = accessKeySecret;
@@ -48,7 +48,7 @@ public class AliStsVO {
 	/**
 	 * {@linkplain AliStsVO#expiration}
 	 */
-	public String getExpiration() {
+	public Long getExpiration() {
 
 		return expiration;
 	}

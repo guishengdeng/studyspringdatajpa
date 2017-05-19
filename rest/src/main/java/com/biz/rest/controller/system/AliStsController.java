@@ -10,6 +10,7 @@ import com.aliyuncs.sts.model.v20150401.AssumeRoleResponse;
 import com.biz.core.ali.oss.config.OssConfig;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.rest.vo.AliStsVO;
+import org.codelogger.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +33,8 @@ public class AliStsController extends BaseRestController {
 	public AliStsVO getOssToken() throws ClientException {
 
 		AssumeRoleResponse.Credentials newSts = getNewSts();
-		return new AliStsVO(newSts.getAccessKeyId(), newSts.getAccessKeySecret(), newSts.getSecurityToken(), newSts.getExpiration());
+		return new AliStsVO(newSts.getAccessKeyId(), newSts.getAccessKeySecret(), newSts.getSecurityToken(), DateUtils
+		  .getDateOfHoursBack(-8, DateUtils.getDateFromString(newSts.getExpiration(), "yyyy-MM-dd'T'HH:mm:ss'Z'")).getTime());
 	}
 
 	private AssumeRoleResponse.Credentials getNewSts() throws ClientException {
