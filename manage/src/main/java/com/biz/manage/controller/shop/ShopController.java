@@ -144,6 +144,49 @@ public class ShopController extends BaseController {
     }
 
     /**
+     * 进入商户修改详情页面
+     */
+    @RequestMapping(value = "updateDetail",method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('OPT_SHOP_UPDATE')")
+    public ModelAndView updateDetail( @RequestParam("shopId") Long shopId) {
+        logger.debug("Received /shops/updateDetail GET request.");
+        ModelAndView modelAndView = new ModelAndView("/org/shop/updateDetail");
+        ShopDetailResVo shopDetailResVo =
+                shopFeignClient.findShopAuditDataOfWaitForAuditByShopId(shopId);
+        List<AuditRejectReason> auditRejectReasons = newArrayList();
+        if (shopDetailResVo != null) {
+            auditRejectReasons.add(AuditRejectReason.DETAIL_INVALID);
+            for (AuditRejectReason auditRejectReason : AuditRejectReason.values()) {
+                if (auditRejectReason != AuditRejectReason.DETAIL_INVALID)
+                    auditRejectReasons.add(auditRejectReason);
+            }
+        } else {
+            logger.debug("No audit data for shopId:{}.", shopId);
+            return modelAndView;
+        }
+        modelAndView.addObject("shopDetailResVo", shopDetailResVo);
+        List<AuditStatus> auditStatusList =
+                newArrayList(AuditStatus.NORMAL, AuditStatus.AUDIT_FAILED);
+        modelAndView.addObject("auditStatusList", auditStatusList).
+                addObject("auditRejectReasons", auditRejectReasons);
+        return modelAndView;
+    }
+
+    /**
+     * 保存修改信息
+     */
+    @RequestMapping(value = "updateDetail",method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('OPT_SHOP_UPDATE')")
+    public ModelAndView saveUpdateDetail( @RequestParam("shopId") Long shopId) {
+        logger.debug("Received /shops/updateDetail POST request.");
+        ModelAndView modelAndView = new ModelAndView("redirect:/shops/completeAuditList.do");
+
+        return modelAndView;
+    }
+
+
+
+    /**
      * 店铺搜索
      */
    /* @RequestMapping(method = RequestMethod.GET)

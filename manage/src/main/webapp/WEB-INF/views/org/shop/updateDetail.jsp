@@ -130,12 +130,12 @@
                     客户管理
                 </li>
                 <li class="active">
-                    <a href="/shops/auditList.do">
-                    未审核商户
+                    <a href="/shops/completeAuditList.do">
+                    已审核商户
                     </a>
                 </li>
                 <li class="active">
-                    待审核用户详情
+                    已审核商户详情
                 </li>
             </ul>
         </div>
@@ -147,15 +147,15 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <h3 class="header smaller lighter blue">
-                                待审核用户详情
+                                编辑已审核商户
                                 <span class="hidden-sm hidden-xs btn-group pull-right">
-                                <a href="/shops/auditList.do" class="btn btn-sm btn-primary"><i
+                                <a href="/shops/completeAuditList.do" class="btn btn-sm btn-primary"><i
                                         class="ace-icon fa fa-angle-left"></i>
                                     返回
                                 </a>
                             </span>
                             </h3>
-                            <form action="shops/audit.do?shopId=${shopDetailResVo.shopId}" method="post"
+                            <form action="shops/updateDetail.do" method="post"
                                   class="form-horizontal" role="form" id="auditId">
                                 <input name="shopId" type="hidden" value="${shopDetailResVo.shopId}">
                                 <input type="hidden" name="shopDetailId" value="${shopDetailResVo.shopDetailId}">
@@ -211,7 +211,7 @@
                                         <span>详细地址:</span>
 											<span class="input-icon">
 												<input style="width: 1100px" class="form-control" type="text" name="deliveryAddress"
-                                                       value="${shopDetailResVo.deliveryAddress}" readonly="readonly">
+                                                       value="${shopDetailResVo.deliveryAddress}" >
 											</span>
                                     </div>
                                 </div>
@@ -316,7 +316,7 @@
                                     <select name="auditStatus" class="search audit-select required text" id="auditStatus" onchange="showHidden()">
                                         <option value="">请选择</option>
                                         <c:forEach var="currentAuditStatus" items="${auditStatusList}">
-                                            <option value="${currentAuditStatus.name()}" ${shopQualification.auditStatus == currentAuditStatus.value ? "selected" :""}>${currentAuditStatus.description}</option>
+                                            <option value="${currentAuditStatus.name()}" ${shopDetailResVo.auditStatus == currentAuditStatus.value ? "selected" :""}>${currentAuditStatus.description}</option>
                                         </c:forEach>
                                     </select>
                                 </div><br>
@@ -331,14 +331,20 @@
                                     </c:forEach>
                                 </div>
                                 <div class="ui error message"></div>
-                                <%--<c:if test="${canAudit}">--%>
                                 <div class="clearfix form-actions">
-                                    <button type="button" class="btn btn-info pull-left " onclick="subForm()">
-                                        <i class="ace-icon fa fa-check bigger-110 pull-left"></i>
-                                        提交
-                                    </button>
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <button class="btn btn-info" type="button" onclick="subForm()">
+                                            <i class="ace-icon fa fa-check bigger-110"></i>
+                                            保存
+                                        </button>
+
+                                        &nbsp; &nbsp; &nbsp;
+                                        <a class="btn" href="/shops/completeAuditList.do">
+                                            <i class="ace-icon fa fa-undo bigger-110"></i>
+                                            取消
+                                        </a>
+                                    </div>
                                 </div>
-                                <%--</c:if>--%>
                             </form>
                         </div>
                     </div>

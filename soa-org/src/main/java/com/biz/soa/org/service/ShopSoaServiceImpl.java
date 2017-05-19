@@ -1,6 +1,5 @@
 package com.biz.soa.org.service;
 
-import com.biz.core.event.BizEventPublisher;
 import com.biz.core.transaction.BizTransactionManager;
 import com.biz.core.util.DateUtil;
 import com.biz.core.util.StringTool;
@@ -50,14 +49,13 @@ import com.biz.gbck.vo.zsgf.ZsgfLoanQueryReqVo;
 import com.biz.manage.vo.FailDetail;
 import com.biz.redis.util.RedisUtil;
 import com.biz.service.AbstractBaseService;
-import com.biz.service.CommonService;
 import com.biz.service.org.interfaces.ShopService;
 import com.biz.service.org.interfaces.ShopTypeService;
-import com.biz.soa.org.event.ShopAuditEvent;
 import com.biz.soa.org.event.ShopDetailUpdateEvent;
 import com.biz.soa.org.event.ShopQualificationUpdateEvent;
 import com.biz.soa.org.service.interfaces.ShopSoaService;
 import com.biz.soa.org.service.interfaces.UserSoaService;
+import com.biz.soa.org.transformer.ShopAuditDataMapToShopDetailResVo;
 import com.biz.soa.org.transformer.ShopDetailPoPageToShopDetailResVoPage;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -448,7 +446,9 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
         if(reqVo.getDistrictId() != null) {
             shopDetailPo.setDistrict(districtRepository.findOne(reqVo.getDistrictId()));
         }
-        shopDetailPo.setDeliveryAddress(reqVo.getDeliveryAddress());
+        if(org.codelogger.utils.StringUtils.isNotBlank(reqVo.getDeliveryAddress())){
+            shopDetailPo.setDeliveryAddress(reqVo.getDeliveryAddress());
+        }
 
         ShopDetailPo savedShopDetailPo = shopDetailRepository.save(shopDetailPo);
         shopDetailRepository

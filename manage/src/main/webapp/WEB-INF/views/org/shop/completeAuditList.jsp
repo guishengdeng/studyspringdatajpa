@@ -220,7 +220,7 @@
                                         <td style="color:${shopDetail.auditStatus==30?"green":"red"}">${shopDetail.auditStatus==30?"审核通过":"审核未通过"}</td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
-                                                <a class="btn btn-xs btn-info" href="#">
+                                                <a class="btn btn-xs btn-info" href="/shops/updateDetail.do?shopId=<c:out value='${shopDetail.shopId}'/>">
                                                     <i class="ace-icon fa fa-pencil bigger-120"></i><span>编辑</span>
                                                 </a>&nbsp;
                                                 <a class="btn btn-xs btn-danger" id="a_${shopDetail.shopId}" onclick="updateShopStatus('${shopDetail.shopId}')">

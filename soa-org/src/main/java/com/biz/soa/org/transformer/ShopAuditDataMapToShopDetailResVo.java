@@ -1,4 +1,4 @@
-package com.biz.gbck.transform.org;
+package com.biz.soa.org.transformer;
 
 import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
 import com.biz.gbck.dao.mysql.po.org.ShopQualificationPo;
@@ -50,6 +50,7 @@ public class ShopAuditDataMapToShopDetailResVo implements Function<ShopAuditData
                     vo.setDeliveryAddress(detailPo.getDeliveryAddress());
                     vo.setReason(detailPo.getReason());
                     vo.setCreateTime(detailPo.getCreateTime());
+                    vo.setAuditStatus(detailPo.getAuditStatus());
                     vo.setShopQualificationId(qualificationPo.getId());
                     vo.setShopPhoto(qualificationPo.getShopPhoto());
                     vo.setBusinessLicence(qualificationPo.getBusinessLicence());
