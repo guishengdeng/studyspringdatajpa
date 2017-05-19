@@ -16,17 +16,20 @@ public class OssConfig {
 
 	private String accessSecret;
 
-	private String bucketName;
+    private String productBucketName;//商品及头像
+
+    private String auditBucketName; //资质
 
     public OssConfig() {
     }
 
-    public OssConfig(String remoteEndpoint, String localEndpoint, String accessKeyId, String accessSecret, String bucketName) {
+    public OssConfig(String remoteEndpoint, String localEndpoint, String accessKeyId, String accessSecret, String productBucketName, String auditBucketName) {
         this.remoteEndpoint = remoteEndpoint;
         this.localEndpoint = localEndpoint;
         this.accessKeyId = accessKeyId;
         this.accessSecret = accessSecret;
-        this.bucketName = bucketName;
+        this.productBucketName = productBucketName;
+        this.auditBucketName = auditBucketName;
     }
 
     public String getRemoteEndpoint() {
@@ -61,11 +64,20 @@ public class OssConfig {
         this.accessSecret = accessSecret;
     }
 
-    public String getBucketName() {
-        return bucketName;
+
+    public String getProductBucketName() {
+        return productBucketName;
     }
 
-    public void setBucketName(String bucketName) {
-        this.bucketName = bucketName;
+    public void setProductBucketName(String productBucketName) {
+        this.productBucketName = productBucketName;
+    }
+
+    public String getAuditBucketName() {
+        return auditBucketName;
+    }
+
+    public void setAuditBucketName(String auditBucketName) {
+        this.auditBucketName = auditBucketName;
     }
 }

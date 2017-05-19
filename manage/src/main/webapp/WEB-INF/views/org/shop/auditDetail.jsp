@@ -184,7 +184,7 @@
                                     <div class="col-sm-9">
                                         <div class="box1 col-md-6">
                                             <span>注册地址:</span>
-                                            <manage:geo provinceFieldName="provinceId" cityFieldName="cityId"
+                                            <gbck:geo provinceFieldName="provinceId" cityFieldName="cityId"
                                                         districtFieldName="districtId"
                                                         provinceId="${shopDetailResVo.provinceId}"
                                                         cityId="${shopDetailResVo.cityId}"

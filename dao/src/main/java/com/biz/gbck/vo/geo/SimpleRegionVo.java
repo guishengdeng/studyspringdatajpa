@@ -28,4 +28,16 @@ public class SimpleRegionVo {
     public Integer getLevel() {
         return level;
     }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
 }

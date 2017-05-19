@@ -52,18 +52,13 @@ public class RestConfig {
 
     @Bean
     public OssConfig ossConfig() {
-        OssConfig ossConfig = new OssConfig();
-        ossConfig.setRemoteEndpoint(environment.getProperty("biz.oss.remoteEndpoint"));
-        ossConfig.setLocalEndpoint(environment.getProperty("biz.oss.localEndpoint"));
-        ossConfig.setAccessKeyId(environment.getProperty("biz.oss.accessKeyId"));
-        ossConfig.setAccessSecret(environment.getProperty("biz.oss.accessKeySecret"));
-        ossConfig.setBucketName(environment.getProperty("biz.oss.bucketName"));
         return new OssConfig(
                 environment.getProperty("biz.oss.remoteEndpoint"),
                 environment.getProperty("biz.oss.localEndpoint"),
                 environment.getProperty("biz.oss.accessKeyId"),
                 environment.getProperty("biz.oss.accessKeySecret"),
-                environment.getProperty("biz.oss.bucketName")
+                environment.getProperty("biz.oss.productBucketName"),
+                environment.getProperty("biz.oss.auditBucketName")
         );
     }
 
