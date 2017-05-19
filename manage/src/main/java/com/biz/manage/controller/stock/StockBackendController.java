@@ -22,7 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class StockBackendController extends BaseController {
 
     @Autowired
-    private StockBackendService stockBackendService;
+    private StockBackendService stockBackendService;GIT GI
 
     @GetMapping("stock")
     @PreAuthorize("hasAuthority('OPT_STOCK_LIST')")
