@@ -27,6 +27,13 @@ public interface ShopCartService {
     ShopCartRespVo getCartInfo(ShopCartListReqVo reqVo) throws DepotNextDoorException;
 
     /**
+     * 获取购物车信息
+     * @param reqVo
+     * @return
+     */
+    ShopCartRespVo getSettleResult(ShopCartListSettleReqVo reqVo) throws DepotNextDoorException;
+
+    /**
      * 批量删除购物车商品
      * @param reqVo
      */

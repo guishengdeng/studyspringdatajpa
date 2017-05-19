@@ -158,6 +158,11 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         return cartItemRespVo;
     }
 
+    @Override
+    public ShopCartRespVo getSettleResult(ShopCartListSettleReqVo reqVo) throws DepotNextDoorException {
+        return null;
+    }
+
     /**
      * 获取商品信息
      */
