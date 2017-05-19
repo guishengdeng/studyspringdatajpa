@@ -1,7 +1,7 @@
 package com.biz.gbck.vo.order.req;
 
+import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import com.biz.gbck.enums.order.OrderStatus;
-import com.biz.gbck.vo.user.BaseRequestVo;
 import org.codelogger.utils.ValueUtils;
 
 /**
@@ -12,7 +12,7 @@ import org.codelogger.utils.ValueUtils;
  * @reviewer
  * @see
  */
-public class OrderListReqVo extends BaseRequestVo {
+public class OrderListReqVo extends CommonReqVoBindUserId {
 
     private static final long serialVersionUID = -5292997499176479924L;
 

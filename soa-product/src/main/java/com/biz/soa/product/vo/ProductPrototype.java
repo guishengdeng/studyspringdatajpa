@@ -16,8 +16,11 @@ import com.biz.soa.product.service.interfaces.impl.DepotNextDoorPriceGenerator;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
+import org.codelogger.utils.StringUtils;
 import org.codelogger.utils.ValueUtils;
 
 /**
@@ -114,7 +117,7 @@ public class ProductPrototype implements Serializable {
         itemVo.setId(String.valueOf(this.productRO.getId()));
         itemVo.setProductName(this.productRO.getName());
         itemVo.setProductCode(this.productRO.getProductCode());
-        itemVo.setLogo(this.productRO.getLogo());
+        itemVo.setLogo(String.format("%s.jpg", this.productRO.getLogo()));
         itemVo.setTags(StringTool.split(this.productRO.getSaleTags(), ","));
         itemVo.setApartTagImage(this.productRO.getApartTagImage());
         // TODO 完善是否支持特价的逻辑
@@ -150,8 +153,14 @@ public class ProductPrototype implements Serializable {
             }));
         }
         respVO.setLogo(this.productRO.getLogo());
-        respVO.setImages(StringTool.split(this.productRO.getImages(), ","));
-        respVO.setIntroImages(StringTool.split(this.productRO.getIntroImages(), ","));
+        if (StringUtils.isNotBlank(this.productRO.getImages())) {
+            List<String> productImages = StringTool.split(this.productRO.getImages(), ",").stream().map(image -> String.format("%s.jpg", image)).collect(Collectors.toList());
+            respVO.setImages(productImages);
+        }
+        if (StringUtils.isNotBlank(this.productRO.getIntroImages())) {
+            List<String> introImages = StringTool.split(this.productRO.getIntroImages(), ",").stream().map(image -> String.format("%s.jpg", image)).collect(Collectors.toList());
+            respVO.setIntroImages(introImages);
+        }
         // TODO 设置简单特价
         respVO.setSpecialOfferPrice(null);
         respVO.setSupportSpecialOffer(Boolean.FALSE);

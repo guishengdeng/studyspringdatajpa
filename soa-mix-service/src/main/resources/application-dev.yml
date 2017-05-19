@@ -1,8 +1,8 @@
 server:
-  port: 8900
+  port: 23000
 spring:
   application:
-    name: depotnextdoor-mix-service
+    name: soa-mix-service
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: depotapp

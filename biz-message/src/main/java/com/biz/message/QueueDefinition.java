@@ -7,6 +7,7 @@ package com.biz.message;
  * @date 2016年7月24日
  * @reviewer
  */
+@FunctionalInterface
 public interface QueueDefinition {
     /**
      * 队列签名<p> 规则:[exchangeName:[routingKey:]]queueName<p> 形如:com.biz.demoexchange:myroutingkey:smsqueue<br>
@@ -29,7 +30,9 @@ public interface QueueDefinition {
      * @author yanweijin
      * @date 2016年7月24日
      */
-    boolean isAutomaticCreation();
+    default boolean isAutomaticCreation() {
+        return true;
+    }
 
     /**
      * 返回队列类型:queue/topic
@@ -37,5 +40,7 @@ public interface QueueDefinition {
      * @author yanweijin
      * @date 2016年7月30日
      */
-    QueueType getType();
+    default QueueType getType() {
+        return QueueType.queue;
+    }
 }
