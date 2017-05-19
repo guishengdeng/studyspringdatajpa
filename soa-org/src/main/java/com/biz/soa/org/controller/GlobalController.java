@@ -1,13 +1,15 @@
 package com.biz.soa.org.controller;
 
+import com.biz.core.ali.oss.BucketResVo;
+import com.biz.core.ali.oss.config.OssConfig;
 import com.biz.core.ali.oss.util.OssUtil;
 import com.biz.gbck.dao.redis.ro.upgrade.UpgradeRo;
 import com.biz.gbck.vo.config.AppConfigVo;
 import com.biz.soa.org.service.app.interfaces.AppSoaService;
 import com.biz.soa.org.service.upgrade.interfaces.UpgradeSoaService;
 import com.biz.support.web.handler.JSONResult;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 @RestController
 @RequestMapping("soa/init")
@@ -40,7 +44,7 @@ public class GlobalController extends BaseRestController{
         Map result = new HashMap();
         AppConfigVo config = appSoaService.getAppConfigVo();
         result.putAll(config.getMap());
-        result.put("oss", OssUtil.getOssBuckets());
+        result.put("oss", getOssBuckets());
         result.put("categories",appSoaService.getCategories());
         return new JSONResult(result);
     }
@@ -61,5 +65,18 @@ public class GlobalController extends BaseRestController{
             return new JSONResult("need", false);
         }
     }
+
+    /**
+     *获取隔壁仓库Oss上传bucket集合
+     */
+    public List<BucketResVo> getOssBuckets() {
+        List<BucketResVo> bucketResVos=newArrayList();
+        bucketResVos.add(new BucketResVo("product",config.getProductBucketName()));
+        bucketResVos.add(new BucketResVo("audit",config.getProductBucketName()));
+        return bucketResVos;
+    }
+
+    @Autowired
+    private OssConfig config;
 
 }

@@ -2,7 +2,7 @@ spring:
   application:
     name: depotnextdoor-rest
   profiles:
-    active: lb
+    active: local
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root

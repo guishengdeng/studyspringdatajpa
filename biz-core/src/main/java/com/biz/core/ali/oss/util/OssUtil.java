@@ -6,18 +6,12 @@ import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
-import com.biz.core.ali.oss.BucketResVo;
-import com.biz.core.ali.oss.config.OssConfig;
 import com.biz.core.exceptions.BizSystemException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.*;
-import java.util.List;
-
-import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * Oss工具类
@@ -25,8 +19,7 @@ import static com.google.common.collect.Lists.newArrayList;
 public class  OssUtil {
     private static Logger logger = LoggerFactory.getLogger(OssUtil.class);
 
-    @Autowired
-    private static OssConfig config;
+
     /**
      * oss服务端异常公共方法
      *
@@ -110,16 +103,6 @@ public class  OssUtil {
      */
     public static String getOssResourceUriPrefix(String bucketName, String endPoint){
     	return String.format("https://%s.%s/", bucketName, endPoint);
-    }
-
-    /**
-     *获取隔壁仓库Oss上传bucket集合
-     */
-    public static List<BucketResVo> getOssBuckets() {
-        List<BucketResVo> bucketResVos=newArrayList();
-        bucketResVos.add(new BucketResVo("product",config.getProductBucketName()));
-        bucketResVos.add(new BucketResVo("audit",config.getAuditBucketName()));
-        return bucketResVos;
     }
     
     
