@@ -143,4 +143,6 @@ public class ShopUpdateDetailReqVo extends CommonReqVoBindUserId {
     public void setReason(String reason) {
         this.reason = reason;
     }
+
+
 }

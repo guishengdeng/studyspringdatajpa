@@ -8,6 +8,7 @@ import com.biz.service.demo.interfaces.CatService;
 import com.biz.soa.base.SoaBaseController;
 import com.biz.vo.demo.CatReqVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,7 @@ import java.util.List;
 public class SoaCatController extends SoaBaseController {
 
 	@Autowired
+	@Qualifier("catService")
 	private CatService catService;
 
 	@RequestMapping(value = "save", method = RequestMethod.POST)
