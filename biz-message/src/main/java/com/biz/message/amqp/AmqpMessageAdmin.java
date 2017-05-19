@@ -38,7 +38,8 @@ public class AmqpMessageAdmin implements MessageAdmin {
         declareBinding(parser, queue, exchange, maxRetry, retryElapse);
     }
 
-    private void declareBinding(QueueParser parser, Queue queue, Exchange exchange, Integer maxRetry, Long retryElapse) {
+    @Override
+    public void declareBinding(QueueParser parser, Queue queue, Exchange exchange, Integer maxRetry, Long retryElapse) {
         Binding binding = BindingBuilder.bind(queue).to(exchange).with(parser.getRoutingKey()).noargs();
         try {
             admin.declareBinding(binding);
@@ -62,7 +63,8 @@ public class AmqpMessageAdmin implements MessageAdmin {
         logger.debug("binding queue = {}", binding);
     }
 
-    private Exchange declareExchange(QueueParser parser, Integer maxRetry, Long retryElapse) {
+    @Override
+    public Exchange declareExchange(QueueParser parser, Integer maxRetry, Long retryElapse) {
         Exchange exchange = createExchange(parser, maxRetry, retryElapse);
         try {
             admin.declareExchange(exchange);
@@ -87,8 +89,17 @@ public class AmqpMessageAdmin implements MessageAdmin {
         return exchange;
     }
 
-    private Queue declareQueue(QueueParser parser, Integer maxRetry, Long retryElapse) {
-        Queue queue = new Queue(parser.getName(), true, false, false);
+    @Override
+    public Queue declareQueue(QueueParser parser, Integer maxRetry, Long retryElapse) {
+        return this.declareQueue(parser, null, maxRetry, retryElapse);
+    }
+
+    @Override
+    public Queue declareQueue(QueueParser parser, Boolean queueDurable, Integer maxRetry, Long retryElapse) {
+        if (java.util.Objects.isNull(queueDurable)) {
+            queueDurable = true;
+        }
+        Queue queue = new Queue(parser.getName(), queueDurable, false, false);
         try {
             admin.declareQueue(queue);
         } catch (org.springframework.amqp.AmqpConnectException e) {

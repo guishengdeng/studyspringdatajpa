@@ -44,6 +44,8 @@ public class StsTest {
 
 		System.out.println("Expiration: " + response.getCredentials().getExpiration());
 		System.out.println("SecurityToken: " + response.getCredentials().getSecurityToken());
+		System.out.println("AccessKeyId: " + response.getCredentials().getAccessKeyId());
+		System.out.println("AccessKeySecret: " + response.getCredentials().getAccessKeySecret());
 	}
 
 }
