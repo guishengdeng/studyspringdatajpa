@@ -16,8 +16,8 @@ import com.biz.gbck.common.model.voucher.VoucherConfigure;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherConfigureRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.vo.voucher.VoucherCfgVo;
-import com.biz.service.voucher.VoucherConfigureService;
-import com.biz.service.voucher.VoucherTypeService;
+import com.biz.soa.feign.client.voucher.VoucherConfigureFeignClient;
+import com.biz.soa.feign.client.voucher.VoucherTypeFeignClient;
 
 /**
  * 
@@ -32,10 +32,10 @@ public class VoucherConfigureController {
 	private static final Logger logger = LoggerFactory.getLogger(VoucherConfigureController.class);
 
     @Autowired
-    private VoucherTypeService voucherTypeService;
+    private VoucherTypeFeignClient voucherTypeService;
     
     @Autowired
-    private VoucherConfigureService voucherConfigureService;
+    private VoucherConfigureFeignClient voucherConfigureService;
 
     /**
      * 

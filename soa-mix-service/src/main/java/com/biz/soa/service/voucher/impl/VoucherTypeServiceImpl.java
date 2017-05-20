@@ -1,4 +1,4 @@
-package com.biz.service.voucher;
+package com.biz.soa.service.voucher.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -23,6 +23,7 @@ import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.vo.voucher.VoucherTypeVo;
 import com.biz.service.AbstractBaseService;
+import com.biz.soa.service.voucher.VoucherTypeService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;

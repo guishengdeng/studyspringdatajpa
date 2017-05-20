@@ -43,11 +43,6 @@ import static com.google.common.collect.Lists.newArrayList;
 @Secured("ROLE_SHOP")
 public class ShopController extends BaseController {
     private static final Logger logger = LoggerFactory.getLogger(ShopController.class);
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private ShopService shopService;
 
     /* @Autowired
      private DepotEmployeeService depotEmployeeService;*/

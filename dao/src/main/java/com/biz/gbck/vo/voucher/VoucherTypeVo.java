@@ -11,7 +11,7 @@ public class VoucherTypeVo implements Serializable {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 579340998634180031L;
+	private static final long serialVersionUID = 4970345850056586519L;
 
 	private Long id;
 

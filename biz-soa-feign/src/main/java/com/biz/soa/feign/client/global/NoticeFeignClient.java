@@ -16,5 +16,4 @@ public interface NoticeFeignClient {
 
     @RequestMapping(value = "/info/notices")
     JSONResult findUserNoticeAfter(@RequestBody ListNoticeAfterLastReqVo reqVo);
-
 }

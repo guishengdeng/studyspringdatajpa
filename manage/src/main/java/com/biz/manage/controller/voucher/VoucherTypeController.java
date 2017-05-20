@@ -28,7 +28,7 @@ import com.biz.manage.util.AuthorityUtil;
 import com.biz.service.org.interfaces.ShopTypeService;
 import com.biz.service.product.backend.CategoryService;
 import com.biz.service.security.interfaces.AdminService;
-import com.biz.service.voucher.VoucherTypeService;
+import com.biz.soa.feign.client.voucher.VoucherTypeFeignClient;
 
 /**
  * 
@@ -43,7 +43,7 @@ public class VoucherTypeController {
     private static final Logger logger = LoggerFactory.getLogger(VoucherTypeController.class);
 
     @Autowired
-    private VoucherTypeService voucherTypeService;
+    private VoucherTypeFeignClient voucherTypeService;
 
     @Autowired
     private CategoryService categoryService;

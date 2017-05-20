@@ -94,8 +94,6 @@ public class VoucherTypeRedisDao extends CrudRedisDao<VoucherTypeRo, Long> {
      * @param key
      * @return
      * @Description: 优惠券配置Hash Key
-     * @author Nian.Li
-     * @date 2016年4月15日 上午10:18:30 
      */
     public static String getVoucherConfigureHashKey(String key) {
         return "global:voucher_configure:" + key;

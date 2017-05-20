@@ -20,12 +20,12 @@ import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.util.DateTool;
+import com.biz.gbck.vo.voucher.VoucherReqVo;
+import com.biz.gbck.vo.voucher.VoucherVo;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.rest.util.RestUtil;
-import com.biz.rest.vo.voucher.VoucherReqVo;
-import com.biz.rest.vo.voucher.VoucherVo;
-import com.biz.service.voucher.VoucherService;
-import com.biz.service.voucher.VoucherTypeService;
+import com.biz.soa.feign.client.voucher.VoucherFeignClient;
+import com.biz.soa.feign.client.voucher.VoucherTypeFeignClient;
 import com.biz.support.web.handler.JSONResult;
 import com.google.common.collect.Maps;
 
@@ -35,9 +35,11 @@ public class VoucherController extends BaseRestController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 	 
-    @Autowired private VoucherService voucherService;
+    @Autowired 
+    private VoucherFeignClient voucherService;
 
-    @Autowired private VoucherTypeService voucherTypeService;
+    @Autowired 
+    private VoucherTypeFeignClient voucherTypeService;
 
 //    @Autowired private SalePromotionService salePromotionService;
 
@@ -100,7 +102,7 @@ public class VoucherController extends BaseRestController {
 //    }
 
     private Map<String, List<VoucherVo>> getVouchersByUserId(Long userId) {
-        Map<String, List<VoucherRo>> voucherRoMap = voucherService.allVouchers(userId);
+        Map<String, List<VoucherRo>> voucherRoMap = voucherService.allVouchers(String.valueOf(userId));
         Map<String, List<VoucherVo>> voucherVoMap = Maps.newHashMap();
         for (String key : voucherRoMap.keySet()) {
             List<VoucherVo> voucherVos = newArrayList();

@@ -1,4 +1,4 @@
-package com.biz.rest.vo.voucher;
+package com.biz.gbck.vo.voucher;
 
 import com.biz.gbck.dao.mysql.po.voucher.VoucherTypeStatus;
 

@@ -1,4 +1,4 @@
-package com.biz.service.voucher;
+package com.biz.soa.service.voucher.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,7 @@ import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeWithQuantity;
 import com.biz.gbck.vo.voucher.VoucherCfgVo;
 import com.biz.service.AbstractBaseService;
+import com.biz.soa.service.voucher.VoucherConfigureService;
 
 @Service
 public class VoucherConfigureServiceImpl extends AbstractBaseService implements VoucherConfigureService {

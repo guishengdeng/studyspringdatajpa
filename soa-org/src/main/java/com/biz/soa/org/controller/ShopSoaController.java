@@ -6,6 +6,7 @@ import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
 import com.biz.gbck.dao.mysql.po.org.ShopPo;
 import com.biz.gbck.dao.mysql.po.org.ShopQualificationPo;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
+import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.user.ShopTypeStatus;
@@ -257,4 +258,9 @@ public class ShopSoaController extends BaseRestController {
         return new JSONResult();
     }
 
+    @RequestMapping(value = "findShop", method = RequestMethod.POST)
+    public ShopRo findShop(Long shopId){
+		return null;
+    	
+    }
 }

@@ -1,6 +1,6 @@
-package com.biz.rest.vo.voucher;
+package com.biz.gbck.vo.voucher;
 
-public class VoucherTypeVo {
+public class VoucherTypeAppVo {
     private Long id;
 
     private String name;
@@ -13,11 +13,11 @@ public class VoucherTypeVo {
 
     private String startTime;
 
-    public VoucherTypeVo() {
+    public VoucherTypeAppVo() {
 
     }
 
-    public VoucherTypeVo(Long id, String name, int faceValue, int periodDays, String description, String startTime) {
+    public VoucherTypeAppVo(Long id, String name, int faceValue, int periodDays, String description, String startTime) {
         this.id = id;
         this.name = name;
         this.faceValue = faceValue;

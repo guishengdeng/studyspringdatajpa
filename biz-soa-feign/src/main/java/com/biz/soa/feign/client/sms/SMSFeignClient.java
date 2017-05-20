@@ -27,4 +27,5 @@ public interface SMSFeignClient {
      */
     @RequestMapping(value = "/sms/validate")
     Boolean validateSMSCode(@RequestBody SMSValidateReqVo reqVo);
+
 }

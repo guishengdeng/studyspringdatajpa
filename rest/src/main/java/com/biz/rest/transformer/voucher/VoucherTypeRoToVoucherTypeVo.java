@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.util.DateTool;
-import com.biz.rest.vo.voucher.VoucherTypeVo;
+import com.biz.gbck.vo.voucher.VoucherTypeVo;
 import com.google.common.base.Function;
 
 public class VoucherTypeRoToVoucherTypeVo implements Function<VoucherTypeRo, VoucherTypeVo>, Serializable {
@@ -20,8 +20,8 @@ public class VoucherTypeRoToVoucherTypeVo implements Function<VoucherTypeRo, Vou
         VoucherTypeVo voucherTypeVo = new VoucherTypeVo();
         voucherTypeVo.setId(voucherTypeRo.getId());
         voucherTypeVo.setName(voucherTypeRo.getName());
-        voucherTypeVo.setFaceValue(voucherTypeRo.getFaceValue());
-        voucherTypeVo.setPeriodDays(voucherTypeRo.getPeriodDays());
+        voucherTypeVo.setFaceValue(String.valueOf(voucherTypeRo.getFaceValue()));
+        voucherTypeVo.setPeriodDays(voucherTypeRo.getPeriodDays()+"");
         voucherTypeVo.setStartTime(DateTool.longToDateStr(voucherTypeRo.getStartTime(), "yyyy-MM-dd HH:mm:ss"));
         return voucherTypeVo;
     }

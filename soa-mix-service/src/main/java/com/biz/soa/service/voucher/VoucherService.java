@@ -1,4 +1,4 @@
-package com.biz.service.voucher;
+package com.biz.soa.service.voucher;
 
 import java.util.Collection;
 import java.util.List;

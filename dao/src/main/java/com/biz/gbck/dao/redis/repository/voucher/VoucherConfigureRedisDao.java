@@ -3,12 +3,13 @@ package com.biz.gbck.dao.redis.repository.voucher;
 import java.util.Map;
 
 import org.apache.commons.collections.MapUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.biz.gbck.dao.redis.CrudRedisDao;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherConfigureRo;
 
-@Repository
+@Component
 public class VoucherConfigureRedisDao extends CrudRedisDao<VoucherConfigureRo, Long>{
 	/**
 	 * 

@@ -22,7 +22,6 @@ import org.codelogger.utils.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,7 +34,6 @@ import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
 import com.biz.gbck.dao.redis.repository.voucher.VoucherTypeRedisDao;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
-import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.enums.user.ShopTypeStatus;
 import com.biz.manage.util.AuthorityUtil;
@@ -43,10 +41,9 @@ import com.biz.manage.util.POIUtil;
 import com.biz.manage.vo.voucher.DispatcherVoucherVo;
 import com.biz.manage.vo.voucher.VoucherBatchGrantReqVo;
 import com.biz.service.org.interfaces.ShopTypeService;
-import com.biz.service.voucher.VoucherService;
-import com.biz.service.voucher.VoucherTypeService;
 import com.biz.soa.feign.client.org.UserFeignClient;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.biz.soa.feign.client.voucher.VoucherFeignClient;
+import com.biz.soa.feign.client.voucher.VoucherTypeFeignClient;
 import com.google.common.collect.Lists;
 
 /**
@@ -67,7 +64,7 @@ public class VoucherController {
     private VoucherTypeRedisDao voucherTypeRedisDao;
 
     @Autowired
-    private VoucherService voucherService;
+    private VoucherFeignClient voucherService;
 
     @Autowired
     private ShopTypeService shopTypeService;
@@ -76,7 +73,7 @@ public class VoucherController {
     private UserFeignClient userFeignClient;
 
     @Autowired
-    private VoucherTypeService voucherTypeService;
+    private VoucherTypeFeignClient voucherTypeService;
 
     /**
      * 根据商户Id给对应用户发放优惠券（跳转）
@@ -105,7 +102,9 @@ public class VoucherController {
             });
             view.addObject("voucherTypes", voucherTypeRosResult);
         }
-        List<Long> id = userFeignClient.findAdminUserIdsByShopId(shopId, true);
+        
+        // TODO Auto-generated method stub
+        List<Long> id = null;//userFeignClient.findAdminUserIdsByShopId(shopId, true);
         if (id.size() != 0) {
             Long userId = id.get(0);
             view.addObject("userId", userId);
@@ -169,11 +168,13 @@ public class VoucherController {
                 result = "优惠券数量不足";
             } else {
                 if (shopTypeId != null) {
-                    userIds = userFeignClient.findUserIdByShopType(shopTypeId);
+                	// TODO Auto-generated method stub
+//                    userIds = userFeignClient.findUserIdByShopType(shopTypeId);
                 } else {
                     List<ShopTypeRo> shopTypes = shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL);
                     for (ShopTypeRo ro : shopTypes) {
-                        userIds.addAll(userFeignClient.findUserIdByShopType(Long.parseLong(ro.getId())));
+                    	// TODO Auto-generated method stub
+//                        userIds.addAll(userFeignClient.findUserIdByShopType(Long.parseLong(ro.getId())));
                     }
                 }
                 voucherService.dispatcherVoucher(userIds, voucherTypeRo, dispatcherCnt,
@@ -248,6 +249,14 @@ public class VoucherController {
         return view;
     }
 
+    /**
+     * 上传excel商户列表
+     * @param file
+     * @param vo
+     * @return
+     * @throws IOException
+     * @throws EncryptedDocumentException
+     */
     @RequestMapping(value = "upload", method = RequestMethod.POST)
 //    @PreAuthorize("hasAuthority('OPT_VOUCHER_BATCH')")
     public ModelAndView uploadSendData(@RequestParam("data")MultipartFile file, VoucherBatchGrantReqVo vo)
@@ -261,7 +270,6 @@ public class VoucherController {
                     status, URLEncoder.encode(msg, "UTF-8")));
         }
 
-        int uploadCount;
         InputStream is;
         File tempFile = null;
         try {
@@ -273,13 +281,12 @@ public class VoucherController {
             logger.debug("开始处理{}上传的价格文件.", loginUsername);
             Workbook workbook = WorkbookFactory.create(tempFile);
             try {
-
+            	//获取excel商户列表userId
                 List<Long> userIds =
                         handleDepotProductPriceWorksheet(loginUsername, workbook.getSheetAt(0), 1, 0);
                 logger.debug("开始转换{}上传的价格数据为po文件", loginUsername);
 
                 logger.debug("{}上传的价格文件解析完成.", loginUsername);
-
 
                 VoucherTypeRo voucherTypeRo = voucherTypeRedisDao.getVoucherTypeRoById(vo.getVoucherTypeId());
                 if (voucherTypeRo.getStartTime() > System.currentTimeMillis()) {
@@ -318,6 +325,15 @@ public class VoucherController {
     }
 
 
+    /**
+     * 获取excel商户列表userId
+     * @param loginUsername
+     * @param sheet
+     * @param startRow
+     * @param startCol
+     * @return
+     * @throws Exception
+     */
     private List<Long> handleDepotProductPriceWorksheet(String loginUsername, Sheet sheet,
                                                         int startRow, int startCol) throws Exception {
         List<Long> userIds = Lists.newArrayList();

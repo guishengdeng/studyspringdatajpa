@@ -19,6 +19,11 @@
             <artifactId>service</artifactId>
         </dependency>
 
+		<dependency>
+            <groupId>com.biz.gbck</groupId>
+            <artifactId>biz-soa-feign</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.biz.gbck</groupId>
             <artifactId>biz-message</artifactId>

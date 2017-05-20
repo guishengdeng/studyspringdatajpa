@@ -49,9 +49,5 @@
             <artifactId>biz-core</artifactId>
         </dependency>
         
-        <dependency>
-            <groupId>com.biz.gbck</groupId>
-            <artifactId>biz-soa-feign</artifactId>
-        </dependency>
     </dependencies>
 </project>

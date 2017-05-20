@@ -1,6 +1,7 @@
 package com.biz.soa.feign.hystrix.sms;
 
 
+import com.biz.gbck.common.com.AlidayuTemplateCode;
 import com.biz.gbck.vo.sms.SMSSentReqVo;
 import com.biz.gbck.vo.sms.SMSValidateReqVo;
 import com.biz.soa.feign.client.sms.SMSFeignClient;

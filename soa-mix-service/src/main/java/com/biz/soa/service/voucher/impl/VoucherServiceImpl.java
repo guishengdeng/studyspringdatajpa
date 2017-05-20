@@ -1,4 +1,4 @@
-package com.biz.service.voucher;
+package com.biz.soa.service.voucher.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,7 +13,6 @@ import org.codelogger.utils.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.biz.gbck.common.com.AlidayuTemplateCode;
 import com.biz.gbck.common.model.order.IOrderItemVo;
 import com.biz.gbck.common.model.voucher.VoucherConfigure;
 import com.biz.gbck.common.voucher.VoucherRoToVoucherPo;
@@ -39,10 +38,13 @@ import com.biz.gbck.util.DateTool;
 import com.biz.gbck.vo.product.frontend.ProductListItemVo;
 import com.biz.gbck.vo.voucher.UserVoucherStatisticResultVo;
 import com.biz.service.AbstractBaseService;
-import com.biz.service.notice.NoticeService;
 import com.biz.service.org.interfaces.ShopTypeService;
 import com.biz.service.predicate.VoucherNotExpirePredicate;
 import com.biz.service.predicate.VoucherTypePredicate;
+import com.biz.soa.service.voucher.VoucherConfigureService;
+import com.biz.soa.service.voucher.VoucherService;
+import com.biz.soa.service.voucher.VoucherTypeService;
+import com.biz.soa.feign.client.global.NoticeFeignClient;
 import com.biz.soa.feign.client.org.ShopFeignClient;
 import com.biz.soa.feign.client.org.UserFeignClient;
 import com.biz.soa.feign.client.sms.SMSFeignClient;
@@ -68,20 +70,20 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	@Autowired
 	private VoucherTypeService voucherTypeService;
 	
-	@Autowired
-	private ShopFeignClient shopFeignClient;
+//	@Autowired
+//	private ShopFeignClient shopFeignClient;
+//	
+//	@Autowired
+//	private NoticeFeignClient noticeFeignClient;
 	
-	@Autowired
-	private NoticeService noticeService;
+//	@Autowired
+//	private ShopTypeService shopTypeService;
 	
-	@Autowired
-	private ShopTypeService shopTypeService;
+//	@Autowired
+//	private UserFeignClient userFeignClient;
 	
-	@Autowired
-	private UserFeignClient userFeignClient;
-	
-	@Autowired
-	private SMSFeignClient smsService;
+//	@Autowired
+//	private SMSFeignClient sMSFeignClient;
 	
 	@Autowired
 	private VoucherConfigureService configureService;
@@ -205,7 +207,8 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	@Override
 	public int getAvailVoucherCount(List<ProductListItemVo> items, UserRo userRo) throws Exception {
 		int count = 0;
-      ShopRo shopRo = shopFeignClient.findShop(userRo.getShopId());
+		// TODO Auto-generated method stub
+      ShopRo shopRo = null;//shopFeignClient.findShop(userRo.getShopId());
       List<Long> categoryIds = new ArrayList<Long>();
       Long shopTypeId = shopRo.getShopTypeId();
       Map<Long, List<VoucherRo>> categoryVouchersMap =  divideUnusedVouchersByCategory(Long.parseLong(userRo.getId()));
@@ -256,8 +259,9 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
                   "您收到一张" + voucherTypeRo.getFaceValue() / 100 + "元 " + voucherTypeRo.getName()
                       + "，购买商品结算可抵扣现金哟，点击查看详情";
               try {
-                  noticeService.sendMsgToUser(userId, title, content,
-                      "depotnearby://redirect?target=voucherList");
+            	// TODO Auto-generated method stub
+//            	  noticeFeignClient.sendMsgToUser(userId, title, content,
+//                      "depotnearby://redirect?target=voucherList");
               } catch (Exception e) {
                   logger.error("dispatcherVoucher", e);
               }
@@ -275,14 +279,17 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
       int voucherTypeVoucherCount = voucherRedisDao.getVoucherTypeVoucherCount(voucherTypeId);
       if (shopTypeId == null) {
           if (CollectionUtils.isEmpty(userIds)) {
-              List<ShopTypeRo> shopTypes =
-                  shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL);
+              List<ShopTypeRo> shopTypes =null;
+            		// TODO Auto-generated method stub
+//                  shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL);
               for (ShopTypeRo ro : shopTypes) {
-                  userCount = userCount + userFeignClient.findUserIdByShopType(Long.valueOf(ro.getId())).size();
+            	// TODO Auto-generated method stub
+//                  userCount = userCount + userFeignClient.findUserIdByShopType(Long.valueOf(ro.getId())).size();
               }
           }
       } else {
-          userCount = userFeignClient.findUserIdByShopType(shopTypeId).size();
+    	// TODO Auto-generated method stub
+//          userCount = userFeignClient.findUserIdByShopType(shopTypeId).size();
       }
       if ((userCount * dispatcherCount > voucherTypeVoucherCount) || (
           userIds.size() * dispatcherCount > voucherTypeVoucherCount)) {
@@ -307,7 +314,8 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
       String title = "您有一张优惠卷即将到期";
       boolean needMessageFlag = false;
       int voucherCount = 0;
-      List<UserPo> users = userFeignClient.findAllUserByAuditStatus(AuditStatus.NORMAL);
+   // TODO Auto-generated method stub
+      List<UserPo> users = null;//userFeignClient.findAllUserByAuditStatus(AuditStatus.NORMAL);
       for (UserPo user : users) {
           Long userId = user.getId();
           List<VoucherRo> voucherRos = this.voucherRedisDao.listAllUsableVoucher(userId);
@@ -324,9 +332,11 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
               logger.info("检测到用户[{}]有[{}]张优惠券即将到期", user.getId(), voucherCount);
               String content = "您有优惠券即将到期，点击查看";
               String targetSchema = "depotnearby://redirect?target=voucherList";
-              noticeService.sendMsgToUser(userId, title, content, targetSchema);
+           // TODO Auto-generated method stub
+//              noticeFeignClient.sendMsgToUser(userId, title, content, targetSchema);
               logger.debug("Send success! [userId={}, title={}, content={}, targetSchema={}]", userId, title, content, targetSchema);
-              smsService.SMSMsg(user.getMobile(), AlidayuTemplateCode.VOUCHER_TO_BE_EXPIRED, null);
+           // TODO Auto-generated method stub
+//              sMSFeignClient.SMSMsg(user.getMobile(), AlidayuTemplateCode.VOUCHER_TO_BE_EXPIRED, null);
               logger.info("发送优惠券即将到期通知成功");
               needMessageFlag = false;
           }

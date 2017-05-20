@@ -1,7 +1,6 @@
 package com.biz.gbck.dao.redis.repository.voucher;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +16,6 @@ import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.util.DateTool;
 import com.biz.redis.util.RedisUtil;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import static com.google.common.collect.Lists.newArrayList;

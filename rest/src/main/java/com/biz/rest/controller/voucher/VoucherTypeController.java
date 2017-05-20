@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
+import com.biz.gbck.vo.voucher.VoucherTypeVo;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.rest.transformer.voucher.VoucherTypeRoToVoucherTypeVo;
-import com.biz.rest.vo.voucher.VoucherTypeVo;
-import com.biz.service.voucher.VoucherTypeService;
+import com.biz.soa.feign.client.voucher.VoucherTypeFeignClient;
 import com.biz.support.web.handler.JSONResult;
 import com.google.common.collect.Lists;
 
@@ -22,7 +22,7 @@ import com.google.common.collect.Lists;
 public class VoucherTypeController extends BaseRestController {
 
     @Autowired
-    private VoucherTypeService voucherTypeService;
+    private VoucherTypeFeignClient voucherTypeService;
 
     /**
      * 获取所有优惠券类型
