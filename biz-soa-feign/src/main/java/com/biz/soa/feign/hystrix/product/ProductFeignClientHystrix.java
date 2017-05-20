@@ -7,8 +7,8 @@ import com.biz.gbck.vo.product.gbck.request.ProductAppDetailReqVo;
 import com.biz.gbck.vo.product.gbck.request.ProductAppListReqVo;
 import com.biz.gbck.vo.product.gbck.request.PurchaseProductReqVO;
 import com.biz.gbck.vo.product.gbck.response.ProductAppDetailRespVO;
-import com.biz.gbck.vo.product.gbck.response.ProductAppListItemVo;
 import com.biz.gbck.vo.product.gbck.response.ProductAppListRespVO;
+import com.biz.gbck.vo.product.gbck.response.PurchaseProductItemVO;
 import com.biz.gbck.vo.search.IncrProductIdxReqVo;
 import com.biz.gbck.vo.search.ProductIdxVO;
 import com.biz.gbck.vo.search.TotalProductIdxReqVo;
@@ -53,7 +53,7 @@ public class ProductFeignClientHystrix implements ProductFeignClient {
     }
 
     @Override
-    public MicroServiceResult<List<ProductAppListItemVo>> getPurchaseProducts(PurchaseProductReqVO reqVO) {
+    public MicroServiceResult<PurchaseProductItemVO> getPurchaseProducts(PurchaseProductReqVO reqVO) {
         return null;
     }
 }
