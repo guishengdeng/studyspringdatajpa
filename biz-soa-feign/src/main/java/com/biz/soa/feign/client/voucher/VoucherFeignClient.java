@@ -49,7 +49,7 @@ public interface VoucherFeignClient {
     @RequestMapping(value = "/soa/voucher/getUsableCount", method = RequestMethod.POST)
     public int getUsableCount(@RequestParam("reqVo") IOrderPeriodQueryReqVo reqVo);
 
-    //TODO 1 获取优惠额度(IOrderPeriodQueryReqVo)
-    //TODO 2 使用优惠券参数(IOrderPeriodQueryReqVo)
+    //TODO 1 获取优惠额度(参数IOrderPeriodQueryReqVo)
+    //TODO 2 使用优惠券(参数IOrderPeriodQueryReqVo)
 
 }
