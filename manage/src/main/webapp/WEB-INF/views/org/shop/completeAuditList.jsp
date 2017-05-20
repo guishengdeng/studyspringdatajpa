@@ -69,7 +69,8 @@
                     chk_value.push($(this).val());
                 });
                 if (chk_value.length == 0) {
-                    alert('你还没有选择任何内容！');
+                    $(".msgClass").html("你还没有选择任何内容！");
+                    $("#cat-disable-confirm-modal").modal();
                     return false;
                 }
                 return chk_value;
@@ -90,10 +91,12 @@
                     dataType: 'json',
                     success: function (data) {
                         if (data==true) {
-                            alert("修改成功");
+                            $(".msgClass").html("修改成功！");
+                            $("#cat-disable-confirm-modal").modal();
                             window.location.href = "/shops/completeAuditList.do";
                         } else {
-                            alert("修改失败")
+                            $(".msgClass").html("修改失败！");
+                            $("#cat-disable-confirm-modal").modal();
                         }
                     },
                     error: function () {
@@ -112,6 +115,9 @@
                 $("input[type='checkbox']").each(function () {
                     this.checked = true;
                 })
+            });
+            $(".btn-cancel-ban").click(function () {
+                $("#cat-disable-confirm-modal").modal("hide");
             });
 
         </script>
@@ -236,6 +242,25 @@
                             </table>
                             <gbck:springPagePagination url="/shops/completeAuditList.do" springPage="${shopSearchResVoPage}"/>
                             <br><br><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="cat-disable-confirm-modal" role="dialog" class="modal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <button type="button" class="bootbox-close-button close"
+                                    data-dismiss="modal" aria-hidden="true">
+                            </button>
+                            <div class="bootbox-body"><span class="msgClass"></span><span
+                                    id="name-of-ban-cat"></span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-cancel-ban btn-primary">
+                                确认
+                            </button>
                         </div>
                     </div>
                 </div>
