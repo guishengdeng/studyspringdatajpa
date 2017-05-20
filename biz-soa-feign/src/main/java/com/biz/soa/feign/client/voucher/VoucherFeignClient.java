@@ -1,21 +1,18 @@
 package com.biz.soa.feign.client.voucher;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.vo.order.resp.IOrderPeriodQueryReqVo;
 import com.biz.soa.feign.hystrix.voucher.VoucherFeignClientHystrix;
+import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+import java.util.Map;
 /**
  * 
  * @author yang
@@ -51,4 +48,8 @@ public interface VoucherFeignClient {
      */
     @RequestMapping(value = "/soa/voucher/getUsableCount", method = RequestMethod.POST)
     public int getUsableCount(@RequestParam("reqVo") IOrderPeriodQueryReqVo reqVo);
+
+    //TODO 1 获取优惠额度(IOrderPeriodQueryReqVo)
+    //TODO 2 使用优惠券参数(IOrderPeriodQueryReqVo)
+
 }
