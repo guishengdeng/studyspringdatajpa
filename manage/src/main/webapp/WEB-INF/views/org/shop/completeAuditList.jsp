@@ -91,12 +91,10 @@
                     dataType: 'json',
                     success: function (data) {
                         if (data==true) {
-                            $(".msgClass").html("修改成功！");
-                            $("#cat-disable-confirm-modal").modal();
+                            alert("修改成功！");
                             window.location.href = "/shops/completeAuditList.do";
                         } else {
-                            $(".msgClass").html("修改失败！");
-                            $("#cat-disable-confirm-modal").modal();
+                            alert("修改失败！");
                         }
                     },
                     error: function () {
