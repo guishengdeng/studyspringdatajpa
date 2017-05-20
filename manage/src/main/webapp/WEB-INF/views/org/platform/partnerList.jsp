@@ -51,7 +51,7 @@
                                 </a>
                             </h3>
                             <form action="/platform/partnerList.do" method="get">
-                                <input type="hidden" value="<c:out value="${vo.platformId}"/>" />
+                                <input type="hidden" value="<c:out value="${vo.platformId}"/>" name="platformId" />
                                     合伙人ID<input name="id" type="text" placeholder="平台公司ID"  value="<c:out value="${vo.id}"/>" autocomplete="off"  style="width: 100px;height: 30px;">&nbsp;
                                     合伙人姓名<input name="corporateName" type="text" placeholder="法人姓名" value="<c:out value="${vo.corporateName}"/>"  autocomplete="off" style="width: 100px;height: 30px;">&nbsp;
                                     法人手机<input name="mobile" type="text" placeholder="手机号码" value="<c:out value="${vo.mobile}"/>" autocomplete="off" style="width: 100px;height: 30px;">&nbsp;

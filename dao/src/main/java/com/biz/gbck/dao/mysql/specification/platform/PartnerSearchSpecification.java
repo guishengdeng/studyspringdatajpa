@@ -35,6 +35,11 @@ public class PartnerSearchSpecification implements Specification<PartnerPo>{
 			predicates.add(predicate);
 		}
 
+		if (reqVo.getPlatformId() != null) {
+			Predicate predicate = criteriaBuilder.equal(root.get("platformId"),reqVo.getPlatformId());
+			predicates.add(predicate);
+		}
+
 		if(StringUtils.isNotBlank(reqVo.getCorporateName())){
 			String sqlName = "%" + reqVo.getCorporateName().trim() + "%";
 			predicates.add(criteriaBuilder.like(root.get("corporateName").as(String.class), sqlName));
