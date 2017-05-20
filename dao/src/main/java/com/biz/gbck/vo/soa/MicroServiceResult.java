@@ -21,7 +21,25 @@ public class MicroServiceResult<T> implements Serializable {
 
     private T data;
 
-    @JsonIgnore
+    public MicroServiceResult() {
+
+    }
+
+    public static <T> MicroServiceResult<T> buildSuccess(){
+
+        MicroServiceResult<T> result = new MicroServiceResult<>();
+        result.setStatus(SUCCESS_STATUS);
+        return result;
+    }
+
+    public static <T> MicroServiceResult<T> buildSuccess(T data){
+
+        MicroServiceResult<T> result = buildSuccess();
+        result.setData(data);
+        return result;
+    }
+
+	@JsonIgnore
     private Exception exception;
 
     public int getStatus() {

@@ -1,6 +1,6 @@
 package com.biz.soa.feign.client.cover;
 
-import com.biz.service.cover.CoverService;
+import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.soa.feign.hystrix.cover.CoverFeignClientHystrix;
 import com.biz.vo.cover.CoverReqVO;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -13,10 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @date 5/15/17
  */
 @FeignClient(name = "depotnextdoor-mix-service", fallback = CoverFeignClientHystrix.class)
-public interface CoverFeignClient extends CoverService {
+public interface CoverFeignClient {
 
-	@Override
 	@RequestMapping(value = "soa/cover/homepage", method = RequestMethod.POST)
-	Object getHomePage(@RequestBody CoverReqVO reqVo);
+	MicroServiceResult getHomePage(@RequestBody CoverReqVO reqVo);
 
 }
