@@ -22,9 +22,7 @@ import com.biz.gbck.vo.cart.ShopCartListSettleReqVo;
 import com.biz.gbck.vo.cart.ShopCartRespVo;
 import com.biz.gbck.vo.order.event.UserOrderCancelEvent;
 import com.biz.gbck.vo.order.req.*;
-import com.biz.gbck.vo.order.resp.OrderItemRespVo;
-import com.biz.gbck.vo.order.resp.OrderRespVo;
-import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
+import com.biz.gbck.vo.order.resp.*;
 import com.biz.gbck.vo.payment.resp.PaymentRespVo;
 import com.biz.gbck.vo.stock.StockItemVO;
 import com.biz.gbck.vo.stock.UpdatePartnerLockStockReqVO;
@@ -33,13 +31,17 @@ import com.biz.soa.order.builder.OrderBuilder;
 import com.biz.soa.order.builder.OrderRespVoBuilder;
 import com.biz.soa.order.builder.OrderReturnBuilder;
 import com.biz.soa.order.builder.OrderSettlePageRespVoBuilder;
+import com.biz.soa.order.util.OrderUtil;
 import com.google.common.collect.Lists;
 import org.codelogger.utils.CollectionUtils;
+import org.codelogger.utils.ValueUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -113,24 +115,43 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         if (logger.isDebugEnabled()) {
             logger.debug("订单结算-------请求vo: {}", reqVo);
         }
+        String userId = reqVo.getUserId();
+        UserRo userRo = userFeignClient.findUser(Long.valueOf(userId));
+        SystemAsserts.notNull(userRo, "用户不存在");
+        //TODO 获取shop信息
+        ShopRo shopRo = null;
+        SystemAsserts.notNull(userRo, "用户所在店铺不存在");
+
         ShopCartListSettleReqVo cartSettleReqVo = new ShopCartListSettleReqVo();
         BeanUtils.copyProperties(reqVo, cartSettleReqVo);
 
-        ShopCartRespVo cartInfo = shopCartService.getSettleResult(cartSettleReqVo);
+        ShopCartRespVo cartInfo = shopCartService.getCartItemsInfo(cartSettleReqVo);
         SystemAsserts.notNull(cartInfo);
-
         List<OrderItemRespVo> settleOrderItemVos = Lists.transform(cartInfo.getItems(), new
                 ShopCartItemRespVo2OrderItemRespVo());
-
-        List<PaymentType> supportedPaymentTypes = paymentService.getSupportedPaymentTypes(reqVo.getUserId());
-        List<Integer> paymentTypes = Lists.transform(supportedPaymentTypes, input -> input.getValue());
-        OrderSettlePageRespVo settleResult = OrderSettlePageRespVoBuilder.createBuilder().setItems
-                (settleOrderItemVos).setPaymentTyps(paymentTypes).setCoupons(null).setPromtions(null).setBuyerInfo
-                (null, null, null).build();
+        this.validProduct(reqVo, settleOrderItemVos);
+        int couponCount = this.getUsableCouponCount(reqVo, settleOrderItemVos);
+        List<PaymentType> supportedPaymentTypes = paymentService.getSupportedPaymentTypes(userId);
+        List<Integer> paymentTypes = supportedPaymentTypes.stream().filter(Objects::nonNull).map
+                (PaymentType::getValue).collect(Collectors.toList());
+        OrderSettlePageRespVo settleResult = OrderSettlePageRespVoBuilder.createBuilder().setBuyerInfo(shopRo)
+                .setItems(settleOrderItemVos).setPaymentTyps(paymentTypes).setCoupons(couponCount).setPromotions(null).build();
         if (logger.isDebugEnabled()) {
             logger.debug("订单结算-------请求: {}, 返回值: {}", reqVo, settleResult);
         }
         return settleResult;
+    }
+
+    //获取可用优惠券
+    private int getUsableCouponCount(OrderSettlePageReqVo reqVo, List<? extends IProduct> products) {
+        OrderPromotionReqVo promotionReqVo = new OrderPromotionReqVo();
+        int orderAmount = OrderUtil.calcOrderAmount(products);
+        promotionReqVo.setUserId(Long.valueOf(reqVo.getUserId()));
+        promotionReqVo.setProducts(products);
+        promotionReqVo.setOrderAmount(orderAmount);
+        //TODO 优惠券服务
+
+        return 0;
     }
 
     /**
@@ -170,7 +191,6 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         order.setOrderReturnId(orderReturn.getId());
     }
 
-
     @Override
     public Order getOrder(Long id) {
         return super.getOrder(id);
@@ -200,7 +220,11 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         Timers timers = Timers.createAndBegin(logger.isDebugEnabled());
 
         //TODO 1.校验(黑名单、限购)
-        //
+        UserRo userRo = userFeignClient.findUser(Long.valueOf(reqVo.getUserId()));
+        SystemAsserts.notNull(userRo, "用户不存在");
+        //TODO 获取shop信息
+        ShopRo shopRo = null;
+        SystemAsserts.notNull(userRo, "用户店铺不存在");
 
         OrderSettlePageReqVo settleReqVo = new OrderSettlePageReqVo();
         settleReqVo.setUserId(reqVo.getUserId());
@@ -212,11 +236,6 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         SystemAsserts.notEmpty(items, "未获取到结算明细信息");
 
 
-        UserRo userRo = userFeignClient.findUser(Long.valueOf(reqVo.getUserId()));
-        SystemAsserts.notNull(userRo, "用户不存在");
-        //TODO 获取shop信息
-        ShopRo shopRo = null;
-        SystemAsserts.notNull(userRo, "用户店铺不存在");
 
         long id = idService.nextId();
         String orderCode = sequenceService.generateOrderCode();
@@ -265,6 +284,18 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         }
 
         return orderItems;
+    }
+
+    private void validProduct(OrderSettlePageReqVo reqVo, List<OrderItemRespVo> settleOrderItemVos) {
+        SystemAsserts.isTrue(reqVo.getItems().size() == settleOrderItemVos.size(), "商品不存在");
+        for (ProductItemReqVo reqItemVo : reqVo.getItems()) {
+            for (OrderItemRespVo settleItemVo : settleOrderItemVos) {
+                if (Objects.equals(reqItemVo.getProductId(), settleItemVo.getProductId())) {
+                    SystemAsserts.isTrue(settleItemVo.canBuy(), String.format("商品[%s]已经下架不能购买!不能下单"));
+                    SystemAsserts.isTrue(ValueUtils.getValue(reqItemVo.getQuantity() <= ValueUtils.getValue(settleItemVo.getStock())), String.format("商品[%s]库存不足!不能下单"));
+                }
+            }
+        }
     }
 
 

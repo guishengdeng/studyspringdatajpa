@@ -91,7 +91,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
     }
 
     @Override
-    public ShopCartRespVo getCartInfo(ShopCartListReqVo reqVo) throws DepotNextDoorException {
+    public ShopCartRespVo getCartItemsInfo(ShopCartListReqVo reqVo) throws DepotNextDoorException {
         if (logger.isDebugEnabled()) {
             logger.debug("获取购物车信息-------请求vo: {}", reqVo);
         }
@@ -109,10 +109,14 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
             return cartRespVo;
         }
 
-        //创建时间排倒序输出
-        shopCartItemRos.sort((o1, o2) -> (int) (o2.getCreateTimestamp().getTime() - o1.getCreateTimestamp().getTime()));
+        List<ShopCartItemRo> usableCartItemRos;
+        if (reqVo instanceof  ShopCartListSettleReqVo) { //结算+创建订单
+            usableCartItemRos = this.filterShopCartItemRosForSettle((ShopCartListSettleReqVo) reqVo, shopCartItemRos);
+        } else { //购物车展示
+            usableCartItemRos = shopCartItemRos;
+        }
 
-        cartRespVo = this.getCartRespInfo(userId, shopCartItemRos);
+        cartRespVo = this.generateCartRespInfo(userId, usableCartItemRos);
 
         if (logger.isDebugEnabled()) {
             logger.debug("获取购物车信息-------请求: {}, 返回值: {}", reqVo, cartRespVo);
@@ -132,7 +136,6 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
 
         shopCartItemRedisDao.deleteByUserIdAndProductIds(Long.valueOf(reqVo.getUserId()), reqVo.getProductIds());
     }
-
 
     @Override
     public ShopCartNumRespVo getCartNum(ShopCartNumReqVo reqVo) throws DepotNextDoorException {
@@ -160,39 +163,11 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         return cartItemRespVo;
     }
 
-    @Override
-    public ShopCartRespVo getSettleResult(ShopCartListSettleReqVo reqVo) throws DepotNextDoorException {
-        if (logger.isDebugEnabled()) {
-            logger.debug("获取结算商品信息-------请求vo: {}", reqVo);
-        }
-
-        ShopCartRespVo cartRespVo = new ShopCartRespVo();
-        String userId = reqVo.getUserId();
-        List<ShopCartItemRo> shopCartItemRos = shopCartItemRedisDao.findByUserId(Long.valueOf(userId));
-        if (CollectionUtils.isEmpty(shopCartItemRos)) {
-            logger.warn("购物车商品为空.");
-            return cartRespVo;
-        }
-
-        Map<String, ShopCartItemRo> productIdToCartItemRo = newHashMap();
-        for (ShopCartItemRo shopCartItemRo : shopCartItemRos) {
-            productIdToCartItemRo.put(shopCartItemRo.getProductId(), shopCartItemRo);
-        }
-
-        List<ShopCartItemRo> usableCartItemRos = newArrayList();
-        for (ProductItemReqVo itemReqVo : reqVo.getItems()) {
-            ShopCartItemRo cartItemRo = productIdToCartItemRo.get(itemReqVo.getProductId());
-            if (cartItemRo != null) {
-                usableCartItemRos.add(cartItemRo);
-            }
-        }
-        return this.getCartRespInfo(Long.valueOf(userId), usableCartItemRos);
-    }
 
     /**
      * 获取商品信息
      */
-    private ShopCartRespVo getCartRespInfo(Long userId, List<ShopCartItemRo> shopCartItemRos) throws
+    private ShopCartRespVo generateCartRespInfo(Long userId, List<ShopCartItemRo> shopCartItemRos) throws
             DepotNextDoorException {
 
         List<Long> productIds = shopCartItemRos.stream().filter(ro -> ro != null && ro.getProductId() != null).map(ro ->
@@ -220,19 +195,37 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         return ShopCartRespVoBuilder.createBuilder().setItems(cartItemRespVos).setOrderAmount(orderAmount).setCartNum(cartNum).build();
     }
 
+    //订单结算
+    private List<ShopCartItemRo> filterShopCartItemRosForSettle(ShopCartListSettleReqVo reqVo, List<ShopCartItemRo> shopCartItemRos) {
+        Map<String, ShopCartItemRo> productIdToCartItemRo = newHashMap();
+        for (ShopCartItemRo shopCartItemRo : shopCartItemRos) {
+            productIdToCartItemRo.put(shopCartItemRo.getProductId(), shopCartItemRo);
+        }
 
-    private Map<String, ProductAppListItemVo> getProductIdToProductVoMap(List<Long> productIds, UserRo userRo) throws CartItemProductInvalidException {
+        List<ShopCartItemRo> usableCartItemRos = newArrayList();
+        for (ProductItemReqVo itemReqVo : reqVo.getItems()) {
+            ShopCartItemRo cartItemRo = productIdToCartItemRo.get(itemReqVo.getProductId());
+            if (cartItemRo != null) {
+                usableCartItemRos.add(cartItemRo);
+            }
+        }
+        return usableCartItemRos;
+    }
+
+    //获取商品信息且map
+    private Map<String, ProductAppListItemVo> getProductIdToProductVoMap(List<Long> productIds, UserRo userRo) throws
+            CartItemProductInvalidException {
         PurchaseProductReqVO productReqVo = new PurchaseProductReqVO();
         productReqVo.setProductIds(productIds);
         productReqVo.setSellerId(userRo.getPartnerId());
         productReqVo.setCompanyGroupId(1l); //TODO companyGroupId
         MicroServiceResult<List<ProductAppListItemVo>> productResult = productFeignClient.getPurchaseProducts
                 (productReqVo);
-        if (!productResult.isSuccess() || productResult.getData() == null ) {
+        if (!productResult.isSuccess() || productResult.getData() == null) {
             throw new CartItemProductInvalidException("获取商品信息失败");
         }
-        return productResult.getData().stream().collect
-                (Collectors.toMap(ProductAppListItemVo::getId, Function.identity()));
+        return productResult.getData().stream().collect(Collectors.toMap(ProductAppListItemVo::getId, Function
+                .identity()));
     }
 
     /**

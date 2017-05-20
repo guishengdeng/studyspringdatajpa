@@ -24,6 +24,7 @@ public class ShopCartItemRespVo2OrderItemRespVo implements Function<ShopCartItem
             itemVo.setQuantity(input.getQuantity());
             itemVo.setMarketPrice(input.getMarketPrice());
             itemVo.setPrice(input.getPrice());
+            itemVo.setStock(input.getStock());
             return itemVo;
         }
         return null;

@@ -67,6 +67,12 @@ public class OrderItemRespVo implements IProduct, Comparable<OrderItemRespVo>, S
      */
     private Boolean returnFlag;
 
+    /**
+     * 库存
+     */
+    @JsonIgnore
+    private Integer stock;
+
 
     public OrderItemRespVo() {
     }
@@ -146,6 +152,14 @@ public class OrderItemRespVo implements IProduct, Comparable<OrderItemRespVo>, S
         this.quantity = quantity;
     }
 
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
     public ItemType getItemType() {
         return itemType;
     }
@@ -166,6 +180,11 @@ public class OrderItemRespVo implements IProduct, Comparable<OrderItemRespVo>, S
     public int compareTo(OrderItemRespVo o) {
         return this.productCode != null && o.productCode != null ? this.productCode.compareTo(o.productCode) : this
                 .productCode != null ? 1 : -1;
+    }
+
+    public boolean canBuy() {
+        //TODO 状态判断
+        return true;
     }
 
 
