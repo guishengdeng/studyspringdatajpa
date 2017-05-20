@@ -55,6 +55,7 @@ public class RestConfig {
         return new OssConfig(
                 environment.getProperty("biz.oss.remoteEndpoint"),
                 environment.getProperty("biz.oss.localEndpoint"),
+                environment.getProperty("biz.oss.userId"),
                 environment.getProperty("biz.oss.accessKeyId"),
                 environment.getProperty("biz.oss.accessKeySecret"),
                 environment.getProperty("biz.oss.productBucketName"),

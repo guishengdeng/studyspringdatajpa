@@ -1,7 +1,5 @@
 package com.biz.manage.controller.category;
 
-import com.biz.gbck.dao.mysql.po.product.meta.Category;
-import com.biz.gbck.dao.mysql.po.product.meta.ExtendProperty;
 import com.biz.gbck.dao.mysql.po.product.meta.ProductExtend;
 import com.biz.service.product.backend.CategoryService;
 import com.biz.service.product.backend.ProductExtendService;
@@ -33,9 +31,9 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("product/categories")
 public class CategoryControllers {
 
-   /* @Autowired*/
+    @Autowired
     private CategoryService categoryService;
-   /* @Autowired*/
+    @Autowired(required = false)
     private ProductExtendService productExtendService;
     @GetMapping
     @PreAuthorize("hasAuthority('OPT_CATEGORY_LIST')")

@@ -62,9 +62,24 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:7777/eureka
-
+      defaultZone: http://local:7777/eureka/
+    registry-fetch-interval-seconds: 1
+  instance:
+    prefer-ip-address: true
+  server:
+    eviction-interval-timer-in-ms: 1000
 security:
   basic:
     enabled: false
     authorize-mode: none
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+ribbon:
+  ReadTimeout: 30000
+feign:
+  hystrix:
+    enabled: true

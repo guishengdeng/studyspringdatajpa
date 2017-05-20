@@ -32,11 +32,11 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("product/extendProperty")
 public class ExtendPropertyController {
 
-    /*@Autowired*/
+    @Autowired(required = false)
     private ExtendPropertyService extendPropertyService;
-   /* @Autowired*/
+    @Autowired(required = false)
     private ProductExtendService productExtendService;
-    /*@Autowired*/
+    @Autowired
     private CategoryService categoryService;
 
     @RequestMapping("/detail/{id}")

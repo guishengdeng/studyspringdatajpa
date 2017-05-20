@@ -20,16 +20,35 @@ public class OssConfig {
 
     private String auditBucketName; //资质
 
+    private String userId;
+
     public OssConfig() {
     }
 
-    public OssConfig(String remoteEndpoint, String localEndpoint, String accessKeyId, String accessSecret, String productBucketName, String auditBucketName) {
+    public OssConfig(String remoteEndpoint, String localEndpoint, String accessKeyId, String accessSecret, String productBucketName, String auditBucketName, String userId) {
         this.remoteEndpoint = remoteEndpoint;
         this.localEndpoint = localEndpoint;
         this.accessKeyId = accessKeyId;
         this.accessSecret = accessSecret;
         this.productBucketName = productBucketName;
         this.auditBucketName = auditBucketName;
+        this.userId = userId;
+    }
+
+    /**
+     * {@linkplain OssConfig#userId}
+     */
+    public String getUserId() {
+
+        return userId;
+    }
+
+    /**
+     * {@linkplain OssConfig#userId}
+     */
+    public void setUserId(String userId) {
+
+        this.userId = userId;
     }
 
     public String getRemoteEndpoint() {
