@@ -216,6 +216,7 @@ public class ProductPrototype implements Serializable {
         } else {
             showStatus = ProductShowStatus.OFF_SALE;
         }
-        return new PurchaseProductItemVO(appListItemVo, showStatus);
+        Integer minQuantity = this.productRO.getMinQuantity(), maxQuantity = this.productRO.getMaxQuantity();
+        return new PurchaseProductItemVO(appListItemVo, showStatus, minQuantity, maxQuantity);
     }
 }
