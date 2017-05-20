@@ -129,13 +129,15 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         SystemAsserts.notNull(cartInfo);
         List<OrderItemRespVo> settleOrderItemVos = Lists.transform(cartInfo.getItems(), new
                 ShopCartItemRespVo2OrderItemRespVo());
+
         this.validProduct(reqVo, settleOrderItemVos);
         int couponCount = this.getUsableCouponCount(reqVo, settleOrderItemVos);
+
         List<PaymentType> supportedPaymentTypes = paymentService.getSupportedPaymentTypes(userId);
         List<Integer> paymentTypes = supportedPaymentTypes.stream().filter(Objects::nonNull).map
                 (PaymentType::getValue).collect(Collectors.toList());
         OrderSettlePageRespVo settleResult = OrderSettlePageRespVoBuilder.createBuilder().setBuyerInfo(shopRo)
-                .setItems(settleOrderItemVos).setPaymentTyps(paymentTypes).setCoupons(couponCount).setPromotions(null).build();
+                .setItems(settleOrderItemVos).setPaymentTypes(paymentTypes).setCoupons(couponCount).setPromotions(null).build();
         if (logger.isDebugEnabled()) {
             logger.debug("订单结算-------请求: {}, 返回值: {}", reqVo, settleResult);
         }
@@ -144,9 +146,10 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
 
     //获取可用优惠券
     private int getUsableCouponCount(OrderSettlePageReqVo reqVo, List<? extends IProduct> products) {
-        OrderPromotionReqVo promotionReqVo = new OrderPromotionReqVo();
+        OrderCouponReqVo promotionReqVo = new OrderCouponReqVo();
         int orderAmount = OrderUtil.calcOrderAmount(products);
         promotionReqVo.setUserId(Long.valueOf(reqVo.getUserId()));
+        promotionReqVo.setPaymentType(reqVo.getPaymentType());
         promotionReqVo.setProducts(products);
         promotionReqVo.setOrderAmount(orderAmount);
         //TODO 优惠券服务

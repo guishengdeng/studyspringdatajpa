@@ -1,6 +1,7 @@
 package com.biz.gbck.vo.order.req;
 
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
+import com.biz.gbck.enums.order.PaymentType;
 
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -27,6 +28,11 @@ public class OrderSettlePageReqVo extends CommonReqVoBindUserId {
      */
     private List<Long> usedCoupons;
 
+    /**
+     * 支付方式 {@link PaymentType}
+     */
+    private Integer paymentType;
+
     public List<ProductItemReqVo> getItems() {
         return items;
     }
@@ -41,5 +47,13 @@ public class OrderSettlePageReqVo extends CommonReqVoBindUserId {
 
     public void setUsedCoupons(List<Long> usedCoupons) {
         this.usedCoupons = usedCoupons;
+    }
+
+    public Integer getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(Integer paymentType) {
+        this.paymentType = paymentType;
     }
 }

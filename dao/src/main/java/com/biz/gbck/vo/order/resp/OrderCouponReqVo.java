@@ -10,15 +10,24 @@ import java.util.List;
  * @reviewer
  * @see
  */
-public class OrderPromotionReqVo implements IOrderPeriodQueryReqVo {
+public class OrderCouponReqVo implements IOrderPeriodQueryReqVo {
 
     private static final long serialVersionUID = -8415628255360674537L;
 
+    //用户id
     private Long userId;
 
+    //订单总金额
     private Integer orderAmount;
 
+    //商品明细
     private List<? extends IProduct> products;
+
+    //支付方式
+    private Integer paymentType;
+
+    //所选优惠券类型id集合
+    private List<Long> coupons;
 
 
     @Override
@@ -46,6 +55,23 @@ public class OrderPromotionReqVo implements IOrderPeriodQueryReqVo {
 
     public void setProducts(List<? extends IProduct> products) {
         this.products = products;
+    }
+
+    @Override
+    public Integer getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(Integer paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public List<Long> getCoupons() {
+        return coupons;
+    }
+
+    public void setCoupons(List<Long> coupons) {
+        this.coupons = coupons;
     }
 }
 

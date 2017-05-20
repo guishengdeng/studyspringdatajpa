@@ -1,5 +1,6 @@
 package com.biz.gbck.vo.order.resp;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  * @reviewer
  * @see
  */
-public interface IOrderPeriodQueryReqVo {
+public interface IOrderPeriodQueryReqVo extends Serializable {
 
     //用户id
     Long getUserId();
@@ -20,6 +21,12 @@ public interface IOrderPeriodQueryReqVo {
 
     //商品明细
     List<? extends IProduct> getProducts();
+
+    //支付方式
+    Integer getPaymentType();
+
+    //所选优惠券类型id集合
+    List<Long> getCoupons();
 
 
 

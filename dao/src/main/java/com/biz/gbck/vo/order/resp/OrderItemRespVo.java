@@ -2,6 +2,7 @@ package com.biz.gbck.vo.order.resp;
 
 import com.biz.gbck.dao.mysql.po.order.OrderItem;
 import com.biz.gbck.enums.order.ItemType;
+import com.biz.gbck.enums.product.ProductShowStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
@@ -66,6 +67,12 @@ public class OrderItemRespVo implements IProduct, Comparable<OrderItemRespVo>, S
      * 是否已经申请退货
      */
     private Boolean returnFlag;
+
+    /**
+     * 状态
+     */
+    @JsonIgnore
+    private Integer status;
 
     /**
      * 库存
@@ -152,6 +159,14 @@ public class OrderItemRespVo implements IProduct, Comparable<OrderItemRespVo>, S
         this.quantity = quantity;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public Integer getStock() {
         return stock;
     }
@@ -183,8 +198,7 @@ public class OrderItemRespVo implements IProduct, Comparable<OrderItemRespVo>, S
     }
 
     public boolean canBuy() {
-        //TODO 状态判断
-        return true;
+        return this.status != null && this.status == ProductShowStatus.NORMAL.getValue();
     }
 
 

@@ -53,7 +53,7 @@ public class OrderSettlePageRespVoBuilder {
     }
 
     //支付方式
-    public OrderSettlePageRespVoBuilder setPaymentTyps(List<Integer> paymentTyps){
+    public OrderSettlePageRespVoBuilder setPaymentTypes(List<Integer> paymentTyps){
         this.respVo.setPaymentTypes(paymentTyps);
         return this;
     }
