@@ -3,18 +3,23 @@ package com.biz.soa.order.service.frontend;
 import com.biz.core.asserts.SystemAsserts;
 import com.biz.gbck.dao.redis.repository.cart.ShopCartItemRedisDao;
 import com.biz.gbck.dao.redis.ro.cart.ShopCartItemRo;
+import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.exceptions.DepotNextDoorException;
-import com.biz.gbck.exceptions.cart.CartItemInvalidException;
-import com.biz.gbck.exceptions.cart.CartItemNotExistException;
+import com.biz.gbck.exceptions.cart.CartItemProductInvalidException;
 import com.biz.gbck.exceptions.cart.IllegalParameterException;
 import com.biz.gbck.vo.cart.*;
 import com.biz.gbck.vo.order.req.ProductItemReqVo;
+import com.biz.gbck.vo.product.gbck.request.PurchaseProductReqVO;
+import com.biz.gbck.vo.product.gbck.response.ProductAppListItemVo;
+import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.gbck.vo.stock.PartnerStockReqVO;
 import com.biz.gbck.vo.stock.PartnerStockRespVO;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.cart.ShopCartService;
-import com.biz.service.stock.StockService;
-import com.google.common.collect.Lists;
+import com.biz.soa.feign.client.org.UserFeignClient;
+import com.biz.soa.feign.client.product.ProductFeignClient;
+import com.biz.soa.feign.client.stock.StockFeignClient;
+import com.biz.soa.order.builder.ShopCartRespVoBuilder;
 import org.apache.commons.collections.CollectionUtils;
 import org.codelogger.utils.StringUtils;
 import org.codelogger.utils.ValueUtils;
@@ -23,10 +28,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.newHashMap;
+import static java.util.stream.Collectors.toList;
 
 /**
  * 购物车service
@@ -43,7 +50,13 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
     private ShopCartItemRedisDao shopCartItemRedisDao;
 
     @Autowired(required = false)
-    private StockService stockService;
+    private StockFeignClient stockFeignClient;
+
+    @Autowired(required = false)
+    private ProductFeignClient productFeignClient;
+
+    @Autowired(required = false)
+    private UserFeignClient userFeignClient;
 
 
     @Override
@@ -78,7 +91,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
     }
 
     @Override
-    public ShopCartRespVo getCartInfo(ShopCartListReqVo reqVo) throws DepotNextDoorException {
+    public ShopCartRespVo getCartItemsInfo(ShopCartListReqVo reqVo) throws DepotNextDoorException {
         if (logger.isDebugEnabled()) {
             logger.debug("获取购物车信息-------请求vo: {}", reqVo);
         }
@@ -88,19 +101,22 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         }
 
         ShopCartRespVo cartRespVo = new ShopCartRespVo();
-        String userId = reqVo.getUserId();
-        List<ShopCartItemRo> shopCartItemRos = shopCartItemRedisDao.findByUserId(Long.valueOf(userId));
+        Long userId = Long.valueOf(reqVo.getUserId());
+        List<ShopCartItemRo> shopCartItemRos = shopCartItemRedisDao.findByUserId(userId);
 
         if (CollectionUtils.isEmpty(shopCartItemRos)) {
             logger.warn("购物车商品为空.");
             return cartRespVo;
         }
 
-        //创建时间排倒序输出
-        shopCartItemRos.sort((o1, o2) -> (int) (o2.getCreateTimestamp().getTime() - o1.getCreateTimestamp().getTime()));
+        List<ShopCartItemRo> usableCartItemRos;
+        if (reqVo instanceof  ShopCartListSettleReqVo) { //结算+创建订单
+            usableCartItemRos = this.filterShopCartItemRosForSettle((ShopCartListSettleReqVo) reqVo, shopCartItemRos);
+        } else { //购物车展示
+            usableCartItemRos = shopCartItemRos;
+        }
 
-        //TODO 获取商品信息
-        this.getProductInfo(reqVo, shopCartItemRos);
+        cartRespVo = this.generateCartRespInfo(userId, usableCartItemRos);
 
         if (logger.isDebugEnabled()) {
             logger.debug("获取购物车信息-------请求: {}, 返回值: {}", reqVo, cartRespVo);
@@ -120,30 +136,6 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
 
         shopCartItemRedisDao.deleteByUserIdAndProductIds(Long.valueOf(reqVo.getUserId()), reqVo.getProductIds());
     }
-
-    @Override
-    public void updateCartItemQuantity(ShopCartItemUpdateReqVo reqVo) throws DepotNextDoorException {
-        if (logger.isDebugEnabled()) {
-            logger.debug("更新购物车数量-------请求vo: {}", reqVo);
-        }
-
-        if (reqVo == null || reqVo.getUserId() == null || reqVo.getProductId() == null) {
-            logger.warn("添加购物车参数不合法");
-            throw new IllegalParameterException("参数不合法");
-        }
-
-        this.validQuantity(Long.valueOf(reqVo.getUserId()), Long.valueOf(reqVo.getProductId()), reqVo.getQuantity());
-        ShopCartItemRo shopCartItemRo = shopCartItemRedisDao.findByUserIdAndProductId(Long.valueOf(reqVo.getUserId())
-                , reqVo.getProductId());
-        if (shopCartItemRo != null) {
-            shopCartItemRo.setQuantity(reqVo.getQuantity());
-            shopCartItemRo.setSelected(true);
-            shopCartItemRedisDao.save(shopCartItemRo);
-        } else {
-            throw new CartItemNotExistException("购物车商品不存在");
-        }
-    }
-
 
     @Override
     public ShopCartNumRespVo getCartNum(ShopCartNumReqVo reqVo) throws DepotNextDoorException {
@@ -171,45 +163,85 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         return cartItemRespVo;
     }
 
+
     /**
      * 获取商品信息
      */
-    private void getProductInfo(ShopCartListReqVo reqVo, List<ShopCartItemRo> shopCartItemRos) throws
+    private ShopCartRespVo generateCartRespInfo(Long userId, List<ShopCartItemRo> shopCartItemRos) throws
             DepotNextDoorException {
-        List<Long> productIds = newArrayList();
-        if (reqVo instanceof ShopCartListSettleReqVo) {
-            ShopCartListSettleReqVo cartSettleReqVo = (ShopCartListSettleReqVo) reqVo;
-            Map<String, ShopCartItemRo> productIdToCartItemRo = newHashMap();
-            for (ShopCartItemRo shopCartItemRo : shopCartItemRos) {
-                productIdToCartItemRo.put(shopCartItemRo.getProductId(), shopCartItemRo);
-            }
 
-            for (ProductItemReqVo itemReqVo : cartSettleReqVo.getItems()) {
-                ShopCartItemRo cartItemRo = productIdToCartItemRo.get(itemReqVo.getProductId());
-                if (cartItemRo == null || itemReqVo.getQuantity() < 1 || !Objects.equals(cartItemRo.getQuantity(),
-                        itemReqVo.getQuantity())) {
-                    throw new CartItemInvalidException("结算商品信息不匹配");
-                } else {
-                    productIds.add(Long.valueOf(itemReqVo.getProductId()));
-                }
+        List<Long> productIds = shopCartItemRos.stream().filter(ro -> ro != null && ro.getProductId() != null).map(ro ->
+                    Long.valueOf(ro.getProductId())).collect(toList());
+
+        UserRo userRo = this.getUserInfo(userId);
+        Map<String, ProductAppListItemVo> productIdToProductItemVo = this.getProductIdToProductVoMap(productIds, userRo);
+
+        int orderAmount = 0;
+        int cartNum = 0;
+        List<ShopCartItemRespVo> cartItemRespVos = newArrayList();
+        for (ShopCartItemRo shopCartItemRo : shopCartItemRos) {
+            ProductAppListItemVo productItemVo = productIdToProductItemVo.get(shopCartItemRo.getId());
+            if (productItemVo != null) {
+                ShopCartItemRespVo cartItemRespVo = new ShopCartItemRespVo(productItemVo);
+                cartItemRespVo.setQuantity(shopCartItemRo.getQuantity());
+                cartItemRespVo.setCreateTime(shopCartItemRo.getCreateTimestamp());
+                cartItemRespVo.setUpdateTime(shopCartItemRo.getUpdateTimestamp());
+                cartItemRespVos.add(cartItemRespVo);
+                orderAmount += ValueUtils.getValue(cartItemRespVo.getQuantity()) * cartItemRespVo.getPrice();
+                cartNum += ValueUtils.getValue(cartItemRespVo.getQuantity());
             }
-        } else {
-            productIds = Lists.transform(shopCartItemRos, input -> Long.valueOf(input.getProductId()));
+        }
+        cartItemRespVos.sort((o1, o2) -> (int) (o2.getCreateTime().getTime() - o1.getCreateTime().getTime()));
+        return ShopCartRespVoBuilder.createBuilder().setItems(cartItemRespVos).setOrderAmount(orderAmount).setCartNum(cartNum).build();
+    }
+
+    //订单结算
+    private List<ShopCartItemRo> filterShopCartItemRosForSettle(ShopCartListSettleReqVo reqVo, List<ShopCartItemRo> shopCartItemRos) {
+        Map<String, ShopCartItemRo> productIdToCartItemRo = newHashMap();
+        for (ShopCartItemRo shopCartItemRo : shopCartItemRos) {
+            productIdToCartItemRo.put(shopCartItemRo.getProductId(), shopCartItemRo);
         }
 
-        //TODO 获取刘伟接口
+        List<ShopCartItemRo> usableCartItemRos = newArrayList();
+        for (ProductItemReqVo itemReqVo : reqVo.getItems()) {
+            ShopCartItemRo cartItemRo = productIdToCartItemRo.get(itemReqVo.getProductId());
+            if (cartItemRo != null) {
+                usableCartItemRos.add(cartItemRo);
+            }
+        }
+        return usableCartItemRos;
+    }
+
+    //获取商品信息且map
+    private Map<String, ProductAppListItemVo> getProductIdToProductVoMap(List<Long> productIds, UserRo userRo) throws
+            CartItemProductInvalidException {
+        PurchaseProductReqVO productReqVo = new PurchaseProductReqVO();
+        productReqVo.setProductIds(productIds);
+        productReqVo.setSellerId(userRo.getPartnerId());
+        productReqVo.setCompanyGroupId(1l); //TODO companyGroupId
+        MicroServiceResult<List<ProductAppListItemVo>> productResult = productFeignClient.getPurchaseProducts
+                (productReqVo);
+        if (!productResult.isSuccess() || productResult.getData() == null) {
+            throw new CartItemProductInvalidException("获取商品信息失败");
+        }
+        return productResult.getData().stream().collect(Collectors.toMap(ProductAppListItemVo::getId, Function
+                .identity()));
     }
 
     /**
      * 校验数量
-     *
-     * @throws DepotNextDoorException
      */
     private void validQuantity(Long userId, Long productId, int quantity) throws DepotNextDoorException {
-        //TODO 根据用户拿对应合伙人id
-        Long partnerId = null;
-        PartnerStockRespVO stockRespVO = stockService.getStock(new PartnerStockReqVO(partnerId, productId));
+        UserRo userRo = this.getUserInfo(userId);
+        Long partnerId = userRo.getPartnerId();
+        PartnerStockRespVO stockRespVO = stockFeignClient.getStock(new PartnerStockReqVO(partnerId, productId));
         SystemAsserts.notNull(stockRespVO, "库存不足");
-        SystemAsserts.isTrue(quantity <= stockRespVO.getQuantity(), "库存不足");
+        SystemAsserts.isTrue(quantity <= ValueUtils.getValue(stockRespVO.getQuantity()), "库存不足");
+    }
+
+    private UserRo getUserInfo(Long userId) throws DepotNextDoorException {
+        UserRo userRo = userFeignClient.findUser(userId);
+        SystemAsserts.notNull(userRo);
+        return userRo;
     }
 }

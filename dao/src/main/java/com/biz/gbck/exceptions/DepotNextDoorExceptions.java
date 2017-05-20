@@ -343,7 +343,8 @@ public interface DepotNextDoorExceptions {
 
         ORDER_NOT_EXIST(3001, "订单不存在"),
         ORDER_PAYED(3002, "订单已经支付"),
-        ORDER_NOT_ALLOWED_RETURN(3003, "订单当前状态不允许申请售后");
+        ORDER_NOT_ALLOWED_RETURN(3003, "订单当前状态不允许申请售后"),
+        ORDER_PRODUCT_NOT_EXIST(3004, "订单商品不存在");
 
         private int code;
         private String description;
