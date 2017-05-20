@@ -12,9 +12,8 @@ import com.biz.core.enums.EnumerableValue;
  */
 public enum ProductShowStatus implements EnumerableValue {
 
-    NORMAL(0), //正常
-    OFF_SALE(1), //下架
-    INSUFFICIENT_STOCK(2), //库存不足
+    NORMAL(10), //正常
+    OFF_SALE(0), //下架
     ;
 
     private int value;
