@@ -32,19 +32,19 @@ public interface StockFeignClient {
     List<PartnerStockRespVO> getStocks(@RequestBody PartnerStocksReqVO reqVo);
 
     /**
-     * 添加购物车
+     * 批量更新库存
      */
     @RequestMapping("/soa/stock/app/updateStocks")
     void updateStocks(@RequestBody List<UpdatePartnerStockReqVO> reqVos);
 
     /**
-     * 添加购物车
+     * 批量更新锁定库存
      */
     @RequestMapping("/soa/stock/app/updateLockStocks")
     void orderUpdateLockStocks(@RequestBody List<UpdatePartnerLockStockReqVO> reqVos);
 
     /**
-     * 添加购物车
+     * 释放锁定库存
      */
     @RequestMapping("/soa/stock/app/releaseLockStock")
     void releaseLockStock() ;

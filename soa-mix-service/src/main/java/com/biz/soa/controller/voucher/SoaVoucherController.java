@@ -16,6 +16,7 @@ import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.util.DateTool;
+import com.biz.gbck.vo.order.resp.IOrderPeriodQueryReqVo;
 import com.biz.gbck.vo.voucher.VoucherVo;
 import com.biz.soa.base.SoaBaseController;
 import com.biz.soa.service.voucher.VoucherService;
@@ -143,6 +144,6 @@ public class SoaVoucherController extends SoaBaseController{
      */
     @PostMapping(value="/getUsableCount")
     public int getUsableCount(IOrderPeriodQueryReqVo reqVo){
-    	
+		return voucherService.getUserUseableVoucherCount(reqVo.getUserId());
     }
 }

@@ -64,6 +64,7 @@ eureka:
     service-url:
       defaultZone: http://peer1:7777/eureka/
 
+
 security:
   basic:
     enabled: false

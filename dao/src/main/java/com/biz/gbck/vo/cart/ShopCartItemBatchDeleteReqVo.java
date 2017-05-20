@@ -12,7 +12,7 @@ import static com.google.common.collect.Sets.newHashSet;
  * @author lei
  * @date 2017/01/12
  */
-public class ShopCartItemBatchDeleteReqVo extends BaseRequestVo {
+public class ShopCartItemBatchDeleteReqVo extends BaseShopCartReqVo {
 
     private static final long serialVersionUID = -7024451311062313823L;
 
