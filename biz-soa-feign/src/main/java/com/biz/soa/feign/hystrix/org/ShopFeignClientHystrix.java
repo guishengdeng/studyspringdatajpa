@@ -125,4 +125,9 @@ public class ShopFeignClientHystrix implements ShopFeignClient {
     public JSONResult deleteBlackList(@RequestBody List<String> shopIds) {
         return null;
     }
+
+    @Override
+    public Boolean saveUpdateDetail(@RequestBody ShopAuditReqVo shopAuditReqVo) {
+        return null;
+    }
 }

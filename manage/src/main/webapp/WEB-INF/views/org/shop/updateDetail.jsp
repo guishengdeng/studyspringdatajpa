@@ -155,7 +155,7 @@
                                 </a>
                             </span>
                             </h3>
-                            <form action="shops/updateDetail.do" method="post"
+                            <form action="shops/saveUpdateDetail.do" method="post"
                                   class="form-horizontal" role="form" id="auditId">
                                 <input name="shopId" type="hidden" value="${shopDetailResVo.shopId}">
                                 <input type="hidden" name="shopDetailId" value="${shopDetailResVo.shopDetailId}">
@@ -302,15 +302,19 @@
                                                 <input type="text" name="businessLicenceId"
                                                        value="${shopDetailResVo.businessLicenceId}">
                                             </div>
-                                            <div class="field">
+                                            <div class="col-xs-6 col-sm-4 col-md-3">
                                                 <label>酒类流通许可证ID:</label>
                                                 <input type="text" name="liquorSellLicenceId"
                                                        value="${shopDetailResVo.liquorSellLicenceId}">
                                             </div>
-                                        </div>
+                                            <div class="col-xs-6 col-sm-4 col-md-3">
+                                                <label>法人身份证ID:</label>
+                                                <input type="text" name="corporateId"
+                                                       value="${shopDetailResVo.corporateId}">
+                                            </div>
                                         <br>
                                     </div>
-                                </div>
+                                </div><br>
                                 <div class="row ">
                                     审核结果:
                                     <select name="auditStatus" class="search audit-select required text" id="auditStatus" onchange="showHidden()">
@@ -345,6 +349,9 @@
                                         </a>
                                     </div>
                                 </div>
+                                <c:if test="${msg != null}">
+                                <span >提示:</span> <span style="color: red"><c:out value="${msg}"/></span>
+                                </c:if>
                             </form>
                         </div>
                     </div>

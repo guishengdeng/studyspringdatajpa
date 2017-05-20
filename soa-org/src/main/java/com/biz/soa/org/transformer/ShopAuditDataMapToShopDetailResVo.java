@@ -51,6 +51,7 @@ public class ShopAuditDataMapToShopDetailResVo implements Function<ShopAuditData
                     vo.setReason(detailPo.getReason());
                     vo.setCreateTime(detailPo.getCreateTime());
                     vo.setAuditStatus(detailPo.getAuditStatus());
+                    vo.setCorporateId(qualificationPo.getCorporateId());
                     vo.setShopQualificationId(qualificationPo.getId());
                     vo.setShopPhoto(qualificationPo.getShopPhoto());
                     vo.setBusinessLicence(qualificationPo.getBusinessLicence());

@@ -146,9 +146,9 @@ public class ShopController extends BaseController {
     /**
      * 进入商户修改详情页面
      */
-    @RequestMapping(value = "updateDetail",method = RequestMethod.GET)
+    @RequestMapping(value = "updateDetail")
     @PreAuthorize("hasAuthority('OPT_SHOP_UPDATE')")
-    public ModelAndView updateDetail( @RequestParam("shopId") Long shopId) {
+    public ModelAndView updateDetail( @RequestParam("shopId") Long shopId,Integer msg) {
         logger.debug("Received /shops/updateDetail GET request.");
         ModelAndView modelAndView = new ModelAndView("/org/shop/updateDetail");
         ShopDetailResVo shopDetailResVo =
@@ -166,21 +166,29 @@ public class ShopController extends BaseController {
         }
         modelAndView.addObject("shopDetailResVo", shopDetailResVo);
         List<AuditStatus> auditStatusList =
-                newArrayList(AuditStatus.NORMAL, AuditStatus.AUDIT_FAILED);
+                newArrayList(AuditStatus.NORMAL, AuditStatus.AUDIT_FAILED,AuditStatus.WAIT_FOR_AUDIT);
         modelAndView.addObject("auditStatusList", auditStatusList).
                 addObject("auditRejectReasons", auditRejectReasons);
+        if(msg != null){
+            modelAndView.addObject("msg",msg==1?"修改成功":"修改失败");
+        }
         return modelAndView;
     }
 
     /**
      * 保存修改信息
      */
-    @RequestMapping(value = "updateDetail",method = RequestMethod.POST)
+    @RequestMapping(value = "saveUpdateDetail",method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('OPT_SHOP_UPDATE')")
-    public ModelAndView saveUpdateDetail( @RequestParam("shopId") Long shopId) {
-        logger.debug("Received /shops/updateDetail POST request.");
-        ModelAndView modelAndView = new ModelAndView("redirect:/shops/completeAuditList.do");
-
+    public ModelAndView saveUpdateDetail(ShopAuditReqVo shopAuditReqVo) {
+        logger.debug("Received /shops/saveUpdateDetail POST request.");
+        shopAuditReqVo.setHandler(AuthorityUtil.getLoginUsername());
+        Integer msg= 1 ;
+        Boolean judge=shopFeignClient.saveUpdateDetail(shopAuditReqVo);
+        if(!judge){
+            msg=0;
+        }
+        ModelAndView modelAndView = new ModelAndView("redirect:/shops/updateDetail.do?shopId="+shopAuditReqVo.getShopId()+"&msg="+msg+"");
         return modelAndView;
     }
 

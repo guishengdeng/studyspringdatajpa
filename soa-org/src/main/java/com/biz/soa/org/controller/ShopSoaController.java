@@ -259,5 +259,13 @@ public class ShopSoaController extends BaseRestController {
         return shopSoaService.findShop(id);
     }
 
+    /**
+     *后台修改商户详情
+     */
+    @RequestMapping(value = "saveUpdateDetail", method = RequestMethod.POST)
+    public Boolean saveUpdateDetail(@RequestBody ShopAuditReqVo shopAuditReqVo) {
+        return shopSoaService.saveUpdateDetail(shopAuditReqVo);
+    }
+
 
 }

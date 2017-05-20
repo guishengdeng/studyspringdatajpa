@@ -89,11 +89,6 @@ public interface ShopSoaService {
     ShopDetailPo findLatestDetail(ShopDetailOrQualificationGetReqVo reqVo)
             throws CommonException;
 
-    /**
-     * 审核商户详情
-     */
-
-    ShopDetailPo auditShopDetail(ShopAuditReqVo reqVo) throws CommonException;
 
     /**
      * 更新用户资质
@@ -106,21 +101,6 @@ public interface ShopSoaService {
     ShopQualificationPo findLatestQualification(ShopDetailOrQualificationGetReqVo reqVo)
             throws CommonException;
 
-    /**
-     * 审核商户资质
-     */
-
-    ShopQualificationPo auditShopQualification(ShopAuditReqVo reqVo);
-
-    /**
-     * 审核修改shopPO数据
-     */
-    ShopPo auditUpdateShopPo(ShopAuditReqVo reqVo);
-
-    /**
-     * 商户统一审核接口
-     */
-    void auditShop(ShopAuditReqVo reqVo) throws CommonException;
 
     /**
      * 修改商户类型
@@ -133,13 +113,10 @@ public interface ShopSoaService {
     /**
      * 后台审核 保存 店铺信息
      */
-    void updateShopDetailStatus(ShopDetailPo shopDetailPo, String priceDepotId,
-                                String deliveryDepotId, String assartDepotId, String supportPaymentIds,
-                                List<Integer> businessTagIds, List<Integer> priceTagIds);
+    void updateShopDetailStatus(ShopDetailPo shopDetailPo);
 
     void updateShopQualificationAuditStatusToWaitForAudit(Long shopId);
 
-    void syncShopQualificationToShop(ShopQualificationPo shopQualificationPo);
 
     /**
      * rest 变更收货地址
@@ -196,7 +173,6 @@ public interface ShopSoaService {
 
     List<SearchShopRespVo> searchShops(SearchShopReqVo vo);
 
-    ShopRo updateShop(ShopEditVo shopEditVo, String loginUsername);
 
     List<ShopPo> findShopByDepotId(String depotId);
 
@@ -367,7 +343,18 @@ public interface ShopSoaService {
 
     boolean isShopCanCreateOrder(String shopId);
 
+    /**
+     *后台修改商户详情，资质，shopPo 相关数据
+     */
+    Boolean saveUpdateDetail(ShopAuditReqVo shopAuditReqVo);
 
-   /* DepotPo getOnlineDepotByShopId(Long shopId, Integer districtId);*/
+
+    /**
+     * 商户统一审核接口
+     */
+    void auditShop(ShopAuditReqVo reqVo) throws CommonException;
+
+
+
 
 }

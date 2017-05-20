@@ -302,15 +302,20 @@
                                                 <input type="text" name="businessLicenceId"
                                                        value="${shopDetailResVo.businessLicenceId}">
                                             </div>
-                                            <div class="field">
+                                            <div class="col-xs-6 col-sm-4 col-md-3">
                                                 <label>酒类流通许可证ID:</label>
                                                 <input type="text" name="liquorSellLicenceId"
                                                        value="${shopDetailResVo.liquorSellLicenceId}">
                                             </div>
+                                            <div class="col-xs-6 col-sm-4 col-md-3">
+                                                <label>法人身份证ID:</label>
+                                                <input type="text" name="corporateId"
+                                                       value="${shopDetailResVo.corporateId}">
+                                            </div>
                                         </div>
                                         <br>
                                     </div>
-                                </div>
+                                </div><br>
                                 <div class="row ">
                                     审核结果:
                                     <select name="auditStatus" class="search audit-select required text" id="auditStatus" onchange="showHidden()">

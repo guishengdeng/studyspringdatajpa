@@ -144,5 +144,9 @@ public interface ShopFeignClient {
     @RequestMapping(value = "soa/shop/deleteBlackList", method = RequestMethod.POST)
     JSONResult deleteBlackList(@RequestBody List<String> shopIds);
 
-
+    /**
+     *后台修改商户详情
+     */
+    @RequestMapping(value = "soa/shop/saveUpdateDetail", method = RequestMethod.POST)
+    Boolean saveUpdateDetail(@RequestBody ShopAuditReqVo shopAuditReqVo);
 }
