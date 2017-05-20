@@ -9,8 +9,16 @@ import com.aliyuncs.http.ProtocolType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.sts.model.v20150401.AssumeRoleRequest;
 import com.aliyuncs.sts.model.v20150401.AssumeRoleResponse;
+import org.codelogger.utils.DateUtils;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by defei on 5/12/17.
@@ -46,6 +54,15 @@ public class StsTest {
 		System.out.println("SecurityToken: " + response.getCredentials().getSecurityToken());
 		System.out.println("AccessKeyId: " + response.getCredentials().getAccessKeyId());
 		System.out.println("AccessKeySecret: " + response.getCredentials().getAccessKeySecret());
+	}
+
+	@Ignore
+	@Test
+	public void test1() throws ParseException {
+
+		String time = "2017-05-19T08:09:44Z";
+		Date date = DateUtils.getDateOfHoursBack(-8, DateUtils.getDateFromString(time, "yyyy-MM-dd'T'HH:mm:ss'Z'"));
+		System.out.println(DateUtils.getDateFormat(date, "yyyy0-MM-dd HH:mm:ss"));
 	}
 
 }
