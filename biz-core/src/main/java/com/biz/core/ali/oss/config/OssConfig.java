@@ -18,15 +18,34 @@ public class OssConfig {
 
 	private String bucketName;
 
+    private String userId;
+
     public OssConfig() {
     }
 
-    public OssConfig(String remoteEndpoint, String localEndpoint, String accessKeyId, String accessSecret, String bucketName) {
+    public OssConfig(String remoteEndpoint, String localEndpoint, String userId, String accessKeyId, String accessSecret, String bucketName) {
         this.remoteEndpoint = remoteEndpoint;
         this.localEndpoint = localEndpoint;
+        this.userId = userId;
         this.accessKeyId = accessKeyId;
         this.accessSecret = accessSecret;
         this.bucketName = bucketName;
+    }
+
+    /**
+     * {@linkplain OssConfig#userId}
+     */
+    public String getUserId() {
+
+        return userId;
+    }
+
+    /**
+     * {@linkplain OssConfig#userId}
+     */
+    public void setUserId(String userId) {
+
+        this.userId = userId;
     }
 
     public String getRemoteEndpoint() {

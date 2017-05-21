@@ -1,5 +1,6 @@
 package com.biz.soa.controller.cover;
 
+import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.service.cover.CoverService;
 import com.biz.soa.base.SoaBaseController;
 import com.biz.vo.cover.CoverReqVO;
@@ -22,9 +23,9 @@ public class SoaCoverController extends SoaBaseController {
 	private CoverService coverService;
 
 	@RequestMapping(value = "homepage", method = RequestMethod.POST)
-	public Object appProductList(@RequestBody CoverReqVO reqVo) {
+	public MicroServiceResult appProductList(@RequestBody CoverReqVO reqVo) {
 
-		return coverService.getHomePage(reqVo);
+		return render200(coverService.getHomePage(reqVo));
 	}
 
 }

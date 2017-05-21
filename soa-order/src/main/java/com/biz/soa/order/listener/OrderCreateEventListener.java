@@ -7,7 +7,7 @@ import com.biz.gbck.vo.order.event.OrderCancelEvent;
 import com.biz.gbck.vo.stock.StockItemVO;
 import com.biz.gbck.vo.stock.UpdatePartnerLockStockReqVO;
 import com.biz.service.order.frontend.OrderFrontendService;
-import com.biz.service.stock.StockService;
+import com.biz.soa.feign.client.stock.StockFeignClient;
 import com.google.common.collect.Lists;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class OrderCreateEventListener extends AbstractBizEventListener<OrderCanc
     private OrderFrontendService orderFrontendService;
 
     @Autowired(required = false)
-    private StockService stockService;
+    private StockFeignClient stockFeignClient;
 
 
     @Override
@@ -59,7 +59,7 @@ public class OrderCreateEventListener extends AbstractBizEventListener<OrderCanc
             logger.debug("订单取消事件-------释放锁定库存vo:{}", releaseLockReqVo);
         }
         try {
-            stockService.orderUpdateLockStocks(newArrayList(releaseLockReqVo));
+            stockFeignClient.orderUpdateLockStocks(newArrayList(releaseLockReqVo));
         } catch (Exception e) {
             logger.error("订单取消事件-------订单[orderId={}, orderCode={}]释放锁定库存失败", order.getId(), orderCode, e);
         }

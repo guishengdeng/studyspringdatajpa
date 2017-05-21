@@ -30,7 +30,7 @@ import static org.codelogger.utils.ExceptionUtils.iae;
  * <p/>
  * Created by defei on 2017/05/17 12:11.
  */
-@Service
+@Service("catService")
 public class CatServiceImpl extends AbstractRepositorySupportService<CatPO> implements CatService {
 
 	private static final Logger logger = LoggerFactory.getLogger(CatServiceImpl.class);

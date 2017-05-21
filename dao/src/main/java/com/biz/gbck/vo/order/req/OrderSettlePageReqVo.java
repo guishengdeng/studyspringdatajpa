@@ -1,6 +1,6 @@
 package com.biz.gbck.vo.order.req;
 
-import com.biz.gbck.vo.user.BaseRequestVo;
+import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -15,7 +15,7 @@ import static com.google.common.collect.Lists.newArrayList;
  * @reviewer
  * @see
  */
-public class OrderSettlePageReqVo extends BaseRequestVo {
+public class OrderSettlePageReqVo extends CommonReqVoBindUserId {
 
     private static final long serialVersionUID = 6996880845265569000L;
 

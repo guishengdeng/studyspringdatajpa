@@ -53,7 +53,7 @@ public class ProductFeignClientHystrix implements ProductFeignClient {
     }
 
     @Override
-    public MicroServiceResult<ProductAppListItemVo> getPurchaseProducts(PurchaseProductReqVO reqVO) {
+    public MicroServiceResult<List<ProductAppListItemVo>> getPurchaseProducts(PurchaseProductReqVO reqVO) {
         return null;
     }
 }

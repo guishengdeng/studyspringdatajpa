@@ -54,6 +54,20 @@ biz:
     accessKeyId: LTAIcBsZ7zY66tku
     accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
     bucketName: gbck-test
+  amqp:
+    host: 127.0.0.1
+    username: guest
+    password: guest
+    port: 5672
+    maxRetry: 3
+    retryElapse: 1000
+    promotion:
+      exchange: biz.rmq.promotion
+      queue:
+        prefix: soaPromotion
+        idx: 1
+        zookeeper:
+          path: /biz/gbck/promotion/queue/idx
 
 server:
   session:
@@ -63,6 +77,7 @@ eureka:
   client:
     service-url:
       defaultZone: http://peer1:7777/eureka/, http://peer2:8888/eureka/, http://peer3:9999/eureka/
+    registry-fetch-interval-seconds: 1
 
 security:
   basic:
