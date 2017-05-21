@@ -1,6 +1,8 @@
 package com.biz.service.partner.interfaces;
 
 import com.biz.gbck.common.exception.CommonException;
+import com.biz.gbck.dao.mysql.po.org.PartnerPo;
+import com.biz.gbck.dao.mysql.po.org.PlatformPo;
 import com.biz.gbck.exceptions.partner.PartnerExceptions;
 import com.biz.vo.partner.PartnerDetailRespVo;
 import com.biz.vo.partner.PartnerRegisterReqVo;
@@ -22,4 +24,10 @@ public interface PartnerService {
     PartnerDetailRespVo findById(Long id);
 
     void updatePartnerStatus(PartnerReqVo partnerReqVo) throws CommonException;
+
+    List<PartnerPo>  listByName(String name);
+
+    List<PartnerPo>  findByIds(Iterable<Long> iterable);
+
+    List<PartnerPo> findAll();
 }

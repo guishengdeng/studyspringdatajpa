@@ -37,6 +37,7 @@ import java.util.Set;
 @Service
 public class PartnerServiceImpl implements PartnerService{
 
+
     private Logger logger = LoggerFactory.getLogger(PartnerServiceImpl.class);
 
     @Autowired
@@ -82,6 +83,10 @@ public class PartnerServiceImpl implements PartnerService{
         return id == null ? null : new PartnerPo2PartnerDetailRespVo().apply(partnerRepository.findOne(id));
     }
 
+    public PartnerServiceImpl() {
+        super();
+    }
+
     @Override
     public void updatePartnerStatus(PartnerReqVo partnerReqVo) throws CommonException {
         if(partnerReqVo == null || partnerReqVo.getId() == null) {
@@ -105,5 +110,19 @@ public class PartnerServiceImpl implements PartnerService{
             }
         }
         partnerRepository.save(partnerPo);
+    }
+    @Override
+    public List<PartnerPo> listByName(String name) {
+        return partnerRepository.getIdsByNameLike(name);
+    }
+
+    @Override
+    public List<PartnerPo> findAll() {
+        return partnerRepository.findAll();
+    }
+
+    @Override
+    public List<PartnerPo> findByIds(Iterable<Long> iterable) {
+        return partnerRepository.findAll(iterable);
     }
 }

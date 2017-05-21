@@ -4,6 +4,7 @@ import com.biz.gbck.dao.mysql.po.org.PartnerPo;
 import com.biz.gbck.dao.mysql.po.org.PlatformPo;
 import com.biz.gbck.vo.org.ShopSearchVo;
 import com.biz.gbck.vo.platform.PartnerSearchVo;
+import com.biz.gbck.vo.platform.PlatFormRespVo;
 import com.biz.gbck.vo.platform.PlatformSearchVo;
 import org.springframework.data.domain.Page;
 
@@ -24,4 +25,10 @@ public interface PlatformService {
     Page<PartnerPo> findPartnerList(PartnerSearchVo reqVo);
 
     PartnerPo findPartnerById(Long id);
+
+    List<PlatFormRespVo>  poList2VoList(List<PlatformPo> platformPos);
+
+    List<PlatformPo>  findByIds(Iterable<Long> iterable);
+
+    List<PlatformPo>  listByName(String name);
 }

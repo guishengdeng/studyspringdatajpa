@@ -8,9 +8,12 @@ import com.biz.gbck.dao.mysql.specification.platform.PartnerSearchSpecification;
 import com.biz.gbck.dao.mysql.specification.platform.PlatformSearchSpecification;
 import com.biz.gbck.vo.org.ShopSearchVo;
 import com.biz.gbck.vo.platform.PartnerSearchVo;
+import com.biz.gbck.vo.platform.PlatFormRespVo;
 import com.biz.gbck.vo.platform.PlatformSearchVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.org.interfaces.PlatformService;
+import com.google.common.collect.Lists;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -55,5 +58,34 @@ public class PlatformServiceImpl extends AbstractBaseService implements Platform
     @Override
     public PartnerPo findPartnerById(Long id) {
         return partnerRepository.findOne(id);
+    }
+
+    /**
+     *
+     * 将集合po转化成集合vo,用户前端页面在用户查询订单时
+     * ，前端做模糊查询
+     */
+    @Override
+    public List<PlatFormRespVo> poList2VoList(List<PlatformPo> platformPos) {
+        List<PlatFormRespVo> voList = Lists.newArrayList();
+        if(CollectionUtils.isNotEmpty(platformPos)){
+            for(PlatformPo po: platformPos){
+                PlatFormRespVo vo = new PlatFormRespVo();
+                vo.setId(po.getId());
+                vo.setPlatFormName(po.getName());
+                voList.add(vo);
+            }
+        }
+        return voList;
+    }
+
+    @Override
+    public List<PlatformPo> listByName(String name) {
+        return platformRepository.getIdsByNameLike(name);
+    }
+
+    @Override
+    public List<PlatformPo> findByIds(Iterable<Long> iterable) {
+        return platformRepository.findAll(iterable);
     }
 }
