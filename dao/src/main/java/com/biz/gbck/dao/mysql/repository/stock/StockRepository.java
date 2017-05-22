@@ -4,7 +4,10 @@ import com.biz.gbck.dao.mysql.po.stock.Stock;
 import com.biz.gbck.vo.stock.StockShowVo;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -12,5 +15,8 @@ import java.util.List;
  */
 public interface StockRepository extends JpaSpecificationExecutor<Stock>, CommonJpaRepository<Stock, Long>, StockDao {
 
-    List<StockShowVo> findList();
+    @Transactional
+    @Query("SELECT s  FROM Stock s WHERE s.productId = :productId")
+    Stock findByProductId(@Param("productId")Long  productId);
+
 }

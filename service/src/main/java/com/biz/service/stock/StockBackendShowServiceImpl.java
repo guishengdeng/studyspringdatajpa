@@ -1,35 +1,59 @@
 package com.biz.service.stock;
 
+import com.biz.gbck.dao.mysql.po.product.master.Product;
 import com.biz.gbck.dao.mysql.po.stock.Stock;
+import com.biz.gbck.dao.mysql.repository.product.ProductRepository;
 import com.biz.gbck.dao.mysql.repository.stock.StockRepository;
-import com.biz.gbck.dao.mysql.specification.stock.StockSpecification;
+import com.biz.gbck.dao.mysql.specification.stock.ProductSpecification;
+import com.biz.gbck.vo.product.ProductShowVo;
 import com.biz.gbck.vo.stock.StockShowVo;
-import com.biz.service.product.frontend.ProductService;
-import com.biz.service.stock.StockBackendService;
+import com.biz.service.AbstractBaseService;
+import com.biz.service.product.backend.ProductBackendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by lzz on 2017/5/17.
  */
 @Service
-public class StockBackendShowServiceImpl implements StockBackendService {
+public class StockBackendShowServiceImpl extends AbstractBaseService implements StockBackendService, ProductBackendService {
 
     @Autowired
     private StockRepository stockRepository;
 
-    @Override
-    public List<StockShowVo> find() {
-        return stockRepository.findList();
-    }
+    @Autowired
+    private ProductRepository productRepository;
 
-//    @Override
-//    public Page<Stock> findList(StockShowVo stockShowVo) {
-//        List<StockShowVo> list = stockRepository.findList();
-//        return stockRepository.findAll(new StockSpecification(stockShowVo), new PageRequest(stockShowVo.getPage() - 1, stockShowVo.getPageSize()));
-//    }
+    @Override
+    public Page<StockShowVo> searchList(ProductShowVo productShowVo) {
+        Page<Product> page = productRepository.findAll(new ProductSpecification(productShowVo), new PageRequest(productShowVo.getPage() - 1, productShowVo.getPageSize()));
+        List<Product> list = page.getContent();
+        List<StockShowVo> listStock = new ArrayList<StockShowVo>();
+        /**
+         * 遍历list向stockShowVo注入元素
+         */
+        for (int i = 0; i<list.size(); i++){
+            StockShowVo stockShowVo = new StockShowVo();
+            Product product = (Product) list.get(i);
+            stockShowVo.setProductId(product.getId());
+            stockShowVo.setProductCode(product.getProductCode());
+            stockShowVo.setName(product.getName());
+            stockShowVo.setBrandName(product.getBrand().getName());
+            stockShowVo.setCategoryName(product.getCategory().getName());
+            stockShowVo.setStandard(product.getStandard());
+            Stock stock = stockRepository.findByProductId(product.getId());
+            stockShowVo.setQuantity(stock.getQuantity());
+            stockShowVo.setPage(productShowVo.getPage());
+            stockShowVo.setPageSize(productShowVo.getPageSize());
+            listStock.add(stockShowVo);
+        }
+            Page<StockShowVo> pageStock = new PageImpl<StockShowVo>(listStock,new PageRequest(productShowVo.getPage()-1,productShowVo.getPageSize()),listStock.size());
+                return pageStock;
+    }
 }

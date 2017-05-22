@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -46,4 +47,5 @@ public interface BrandRepository extends CommonJpaRepository<Brand, Long>, JpaSp
     List<Brand> findGroupByname();
     //    @Query("select new com.biz.soa.vo.vendor.BrandStreetVo() from Brand b ")
     //    List<Brand> findByDeleteFlag(@Param("categoryId") Long id, Pageable pageable);
+
 }

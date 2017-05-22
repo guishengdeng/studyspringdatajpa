@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * Created by lzz on 2017/5/19.
  */
+@Deprecated
 public class StockBackendFeignClientHystrix implements StockBackendFeignClient {
 
     @Override
@@ -17,8 +18,4 @@ public class StockBackendFeignClientHystrix implements StockBackendFeignClient {
         return null;
     }
 
-    @Override
-    public List<StockShowVo> find() {
-        return null;
-    }
 }

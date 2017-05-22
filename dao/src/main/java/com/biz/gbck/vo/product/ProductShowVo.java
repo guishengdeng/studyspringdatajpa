@@ -1,21 +1,16 @@
-package com.biz.gbck.vo.stock;
+package com.biz.gbck.vo.product;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
 
 /**
- * 库存Vo
- * Created by lzz on 2017/5/17.
+ * 搜索商品VO
+ * Created by lzz on 2017/5/19.
  */
-public class StockShowVo implements Serializable {
+public class ProductShowVo implements Serializable {
 
-    private static final long serialVersionUID = 4812282780325449250L;
-
-    /**
-     * 商品Id
-     */
-    private Long productId;
+    private static final long serialVersionUID = -2203231226165706575L;
 
     /**
      * 商品编码
@@ -27,6 +22,9 @@ public class StockShowVo implements Serializable {
      */
     private String name;
 
+    /**
+     * 品牌名
+     */
     private String brandName;
 
     /**
@@ -34,23 +32,11 @@ public class StockShowVo implements Serializable {
      */
     private String categoryName;
 
-    private Integer Quantity;
-
-    private String standard;
-
     @Min(1)
     private Integer page = 1;
 
     @Max(100)
     private Integer pageSize = 20;
-
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
 
     public String getProductCode() {
         return productCode;
@@ -82,22 +68,6 @@ public class StockShowVo implements Serializable {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
-    }
-
-    public Integer getQuantity() {
-        return Quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        Quantity = quantity;
-    }
-
-    public String getStandard() {
-        return standard;
-    }
-
-    public void setStandard(String standard) {
-        this.standard = standard;
     }
 
     public Integer getPage() {

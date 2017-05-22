@@ -14,18 +14,8 @@ import java.util.List;
  */
 @Repository
 public class StockRepositoryImpl extends CommonJpaRepositoryBean<Stock,Long> implements StockDao{
-
     @Autowired
     public StockRepositoryImpl(EntityManager em) {
         super(Stock.class, em);
-    }
-
-    List<StockShowVo> findList(){
-        Query query = getEntityManager().createNativeQuery(
-                "SELECT op.id AS id, op.name AS name, op.product_code AS productCode, op.brand_id AS brand,"
-                        + "op.standard AS standard, op.category AS category FROM pro_product op LEFT JOIN sto_stock sto ON sto.product_id = op.id",
-                "StockBackenkBinding");
-
-        return query.getResultList();
     }
 }

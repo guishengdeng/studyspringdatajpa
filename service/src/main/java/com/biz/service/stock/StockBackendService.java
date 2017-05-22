@@ -1,8 +1,11 @@
 package com.biz.service.stock;
 
-import com.biz.gbck.dao.mysql.po.stock.Stock;
+import com.biz.gbck.dao.mysql.po.product.master.Product;
+import com.biz.gbck.vo.product.ProductShowVo;
+import com.biz.gbck.vo.product.backend.BootstrapTablePageResult;
 import com.biz.gbck.vo.stock.StockShowVo;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -12,8 +15,8 @@ import java.util.List;
 public interface StockBackendService {
 
     /**
-     * 在页面做分页展示
+     * 库存查询
+     * @return
      */
-    Page<Stock> findList(StockShowVo stockShowVo);
-    List<StockShowVo> find();
+    Page<StockShowVo> searchList(ProductShowVo productShowVo);
 }

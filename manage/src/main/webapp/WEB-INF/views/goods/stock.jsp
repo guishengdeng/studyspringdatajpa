@@ -8,10 +8,11 @@
 <gbck:page title="库存日志">
     <jsp:attribute name="css">
         <style type="text/css">
-            #cat-table .name{
+            #cat-table .name {
                 min-width: 150px;
             }
-            #cat-table .operate, #cat-table .status{
+
+            #cat-table .operate, #cat-table .status {
                 min-width: 80px;
             }
         </style>
@@ -46,19 +47,25 @@
                             <form action="goods/stock.do" method="get">
                                 <div class="col-md-3 inline">
                                     <label>商品编码</label>
-                                    <input name="companyName" value='<c:out value="${stockShowVo.productCode}" />' type="text" placeholder="商品编码"  autocomplete="off">
+                                    <input name="productCode" value='<c:out value="${productShowVo.productCode}" />'
+                                           type="text" placeholder="商品编码" autocomplete="off">
                                 </div>
                                 <div class="col-md-3 inline">
                                     <label>商品名称</label>
-                                    <input name="productId" value='<c:out value="${stockShowVo.productName}" />' type="text" placeholder="商品名称"  autocomplete="off">
+                                    <input name="name" value='<c:out value="${productShowVo.name}" />' type="text"
+                                           placeholder="商品名称" autocomplete="off">
                                 </div>
                                 <div class="col-md-3 inline">
                                     <label>品牌</label>
-                                    <input name="productName" value='<c:out value="${stockShowVo.brand}" />' type="text" placeholder="品牌"  autocomplete="off">
+                                    <input name="brandName" value='<c:out value="${productShowVo.brandName}" />'
+                                           type="text" placeholder="品牌" autocomplete="off">
                                 </div>
                                 <div class="col-md-2 inline">
                                     <label>商品类别</label>
-                                    <gbck:commonStatusSelect fieldName="status" selectedStatus="${stockShowVo.category}" withNone="true" enableLabel="红酒" disableLabel="白酒"/>
+                                    <gbck:stockCategorySelect fieldName="categoryName"
+                                                              selectedStatus="${productShowVo.categoryName}"
+                                                              withNone="true" spiritLabel="白酒" berrLabel="啤酒"
+                                                              redWineLabel="红酒" foreignWineLable="洋酒" elseLabel="其他"/>
                                 </div>
                                 <div class="inline">
                                     <button type="submit" class="btn btn-info btn-sm">
@@ -73,26 +80,26 @@
                                 <tr>
                                     <th class="name">商品编码</th>
                                     <th class="status">商品名称</th>
-                                    <th  class="status">商品类别</th>
-                                    <th  class="status">品牌</th>
-                                    <th  class="status">单位</th>
+                                    <th class="status">商品类别</th>
+                                    <th class="status">品牌</th>
+                                    <th class="status">单位</th>
                                     <th class="status">库存数量</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <c:forEach items="${page.content}" var="stock">
-                                    <tr id="tr-${stock.id}">
-                                        <td><c:out value="${stock.productCode}" /></td>
-                                        <td><c:out value="${stock.productName}" /></td>
-                                        <td><c:out value="${stock.category}"/></td>
-                                        <td><c:out value="${stock.brand}"/></td>
+                                    <tr id="tr-${stock.productId}">
+                                        <td><c:out value="${stock.productCode}"/></td>
+                                        <td><c:out value="${stock.name}"/></td>
+                                        <td><c:out value="${stock.categoryName}"/></td>
+                                        <td><c:out value="${stock.brandName}"/></td>
                                         <td><c:out value="${stock.standard}"/></td>
                                         <td><c:out value="${stock.quantity}"/></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
                             </table>
-                            <gbck:springPagePagination url="goods/stock.do" springPage="${page}" />
+                            <gbck:springPagePagination url="goods/stock.do" springPage="${page}"/>
                         </div><!-- /.span -->
                     </div><!-- /.row -->
                     <!-- PAGE CONTENT ENDS -->
