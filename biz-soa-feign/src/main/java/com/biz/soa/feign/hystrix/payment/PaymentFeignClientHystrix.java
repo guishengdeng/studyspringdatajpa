@@ -34,7 +34,7 @@ public class PaymentFeignClientHystrix implements PaymentFeignClient {
     }
 
     @Override
-    public WechatPayResp getWechatParam(IWechatPaymentReqVo req, Long orderId) {
+    public WechatPayResp getWechatParam(IWechatPaymentReqVo req) {
         return null;
     }
 

@@ -30,8 +30,8 @@ public class AdvertisementController {
 
     @GetMapping("list")
     @PreAuthorize("hasAuthority('OPT_ADVERTISEMENTS_LIST')")
-    public ModelAndView toList() {
-        List<AdvertisementVo> advertisements = advertisementService.findAdvertisementByStatus(CommonStatusEnum.ENABLE.getValue());
+    public ModelAndView toList(@RequestParam(defaultValue = "ENABLE") CommonStatusEnum status) {
+        List<AdvertisementVo> advertisements = advertisementService.findAdvertisementByStatus(status);
         return new ModelAndView("manage/advertisement/list").addObject("advertisements",advertisements);
     }
 
