@@ -5,11 +5,9 @@ import com.biz.gbck.enums.purchase.OperationStatus;
 import com.biz.gbck.enums.purchase.UserType;
 import com.biz.support.jpa.po.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * 收货单
@@ -36,6 +34,11 @@ public class RecipientOrder extends BaseEntity {
      */
     @Column(length = 50)
     private String orderCode;
+
+
+    //入库明细
+    @OneToMany(mappedBy = "recipientOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RecipientOrderItem> items;
 
     /**
      * 出入库类型
@@ -97,6 +100,14 @@ public class RecipientOrder extends BaseEntity {
 
     public void setOrderCode(String orderCode) {
         this.orderCode = orderCode;
+    }
+
+    public List<RecipientOrderItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<RecipientOrderItem> items) {
+        this.items = items;
     }
 
     public InOutType getInOutType() {
