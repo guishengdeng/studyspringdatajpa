@@ -1,27 +1,25 @@
-package com.biz.rest.config;
+package com.biz.payment.config;
 
-import com.aliyun.oss.OSSClient;
-import com.biz.core.ali.oss.config.OssConfig;
 import com.biz.core.event.BizEventMulticaster;
 import com.biz.core.event.BizEventPublisher;
 import com.biz.core.transaction.BizTransactionManager;
 import com.biz.service.IdService;
-import java.beans.PropertyVetoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import java.beans.PropertyVetoException;
 
 /**
  * Created by david-liu on 2017/05/12 11:47.
  */
 @Configuration
-public class RestConfig {
+public class PaymentConfig {
 
     private Environment environment;
 
-    public RestConfig(@Autowired Environment environment) {
+    public PaymentConfig(@Autowired Environment environment) {
         this.environment = environment;
     }
 
@@ -50,30 +48,6 @@ public class RestConfig {
         return jpaTransactionManager;
     }
 
-    @Bean
-    public OssConfig ossConfig() {
-        OssConfig ossConfig = new OssConfig();
-        ossConfig.setRemoteEndpoint(environment.getProperty("biz.oss.remoteEndpoint"));
-        ossConfig.setLocalEndpoint(environment.getProperty("biz.oss.localEndpoint"));
-        ossConfig.setAccessKeyId(environment.getProperty("biz.oss.accessKeyId"));
-        ossConfig.setAccessSecret(environment.getProperty("biz.oss.accessKeySecret"));
-        ossConfig.setBucketName(environment.getProperty("biz.oss.bucketName"));
-        return new OssConfig(
-                environment.getProperty("biz.oss.remoteEndpoint"),
-                environment.getProperty("biz.oss.localEndpoint"),
-                environment.getProperty("biz.oss.accessKeyId"),
-                environment.getProperty("biz.oss.accessKeySecret"),
-                environment.getProperty("biz.oss.bucketName")
-        );
-    }
-
-    @Bean
-    public OSSClient ossClient() {
-        String endpoint = environment.getProperty("biz.oss.remoteEndpoint");
-        String accessKeyId = environment.getProperty("biz.oss.accessKeyId");
-        String secretAccessKey = environment.getProperty("biz.oss.accessKeySecret");
-        return new OSSClient(endpoint, accessKeyId, secretAccessKey);
-    }
 
 
 }
