@@ -4,24 +4,24 @@ import com.biz.core.util.StringTool;
 import com.biz.gbck.dao.redis.ro.product.master.ProductRO;
 import com.biz.gbck.dao.redis.ro.product.price.PriceRO;
 import com.biz.gbck.dao.redis.ro.product.promotion.SimpleSpecialOfferPromotionRO;
+import com.biz.gbck.enums.product.ProductShowStatus;
+import com.biz.gbck.enums.product.SaleStatusEnum;
 import com.biz.gbck.vo.product.ProductPropertyContentVo;
 import com.biz.gbck.vo.product.gbck.ProductPropertyVo;
-import com.biz.gbck.vo.product.gbck.response.ProductAppDetailRespVO;
-import com.biz.gbck.vo.product.gbck.response.ProductAppListItemVo;
-import com.biz.gbck.vo.product.gbck.response.ProductFieldVo;
-import com.biz.gbck.vo.product.gbck.response.ProductItemVO;
+import com.biz.gbck.vo.product.gbck.response.*;
 import com.biz.gbck.vo.search.ProductIdxVO;
 import com.biz.gbck.vo.stock.ProductStockVO;
 import com.biz.soa.product.service.interfaces.ProductPriceGenerator;
 import com.biz.soa.product.service.interfaces.impl.DepotNextDoorPriceGenerator;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import org.apache.commons.collections.CollectionUtils;
+import org.codelogger.utils.StringUtils;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import org.apache.commons.collections.CollectionUtils;
-import org.codelogger.utils.StringUtils;
 
 /**
  * 商品原型数据VO
@@ -202,5 +202,17 @@ public class ProductPrototype implements Serializable {
         idxVO.setSaleStatus(this.productRO.getSaleStatus());
         idxVO.setSalesVolume(this.productRO.getSalesVolume());
         return idxVO;
+    }
+
+    public PurchaseProductItemVO toPurchaseProductItemVO() {
+        ProductAppListItemVo appListItemVo = this.toAppListItemVO();
+        ProductShowStatus showStatus;
+        if (this.productRO.getSaleStatus() == SaleStatusEnum.ON_SALE.getValue()) {
+            showStatus = ProductShowStatus.NORMAL;
+        } else {
+            showStatus = ProductShowStatus.OFF_SALE;
+        }
+        Integer minQuantity = this.productRO.getMinQuantity(), maxQuantity = this.productRO.getMaxQuantity();
+        return new PurchaseProductItemVO(appListItemVo, showStatus, minQuantity, maxQuantity);
     }
 }

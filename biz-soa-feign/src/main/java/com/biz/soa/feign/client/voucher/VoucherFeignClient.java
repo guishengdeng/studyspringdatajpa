@@ -61,4 +61,7 @@ public interface VoucherFeignClient {
      */
     @RequestMapping(value="/getAvailableVouchers",method=RequestMethod.POST)
     public  List<ShopCraftVoucherVo> availableVouchers(@RequestParam("userId") Long userId,@RequestBody List<? extends IOrderItemVo> itemVos);
+
+    //TODO 1 获取优惠额度(参数IOrderPeriodQueryReqVo)
+    //TODO 2 使用优惠券(参数IOrderPeriodQueryReqVo)
 }
