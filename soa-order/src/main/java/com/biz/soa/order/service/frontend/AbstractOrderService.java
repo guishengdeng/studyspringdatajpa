@@ -8,7 +8,6 @@ import com.biz.gbck.dao.mysql.repository.order.OrderReturnRepository;
 import com.biz.gbck.dao.redis.repository.order.OrderRedisDao;
 import com.biz.gbck.enums.order.OrderStatus;
 import com.biz.gbck.exceptions.DepotNextDoorException;
-import com.biz.gbck.exceptions.order.PaymentException;
 import com.biz.gbck.transform.order.Order2OrderRo;
 import com.biz.gbck.vo.IdReqVo;
 import com.biz.gbck.vo.payment.resp.PaymentQueryResultRespVo;
@@ -18,6 +17,7 @@ import com.biz.service.cart.ShopCartService;
 import com.biz.soa.feign.client.org.ShopFeignClient;
 import com.biz.soa.feign.client.org.UserFeignClient;
 import com.biz.soa.feign.client.stock.StockFeignClient;
+import com.biz.soa.feign.client.voucher.VoucherFeignClient;
 import com.biz.soa.order.service.payment.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -59,6 +59,9 @@ public abstract class AbstractOrderService extends AbstractBaseService {
 
     @Autowired(required = false)
     protected StockFeignClient stockFeignClient;
+
+    @Autowired(required = false)
+    protected VoucherFeignClient voucherFeignClient;
 
     protected Order getOrder(Long id) {
         return orderRepository.findOne(id);
