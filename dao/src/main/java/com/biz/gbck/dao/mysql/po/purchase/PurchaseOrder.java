@@ -194,11 +194,4 @@ public class PurchaseOrder extends BaseEntity {
         this.shipping = shipping;
     }
 
-    public PurchaseAudit getAudit() {
-        return audit;
-    }
-
-    public void setAudit(PurchaseAudit audit) {
-        this.audit = audit;
-    }
 }
