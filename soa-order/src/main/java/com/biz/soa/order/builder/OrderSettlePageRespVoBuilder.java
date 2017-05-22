@@ -27,12 +27,6 @@ public class OrderSettlePageRespVoBuilder {
         return builder;
     }
 
-    //运费
-    public OrderSettlePageRespVoBuilder setFreight(Integer freight){
-        this.respVo.setFreight(freight);
-        return this;
-    }
-
     //明细&订单总金额
     public OrderSettlePageRespVoBuilder setItems(List<OrderItemRespVo> items){
         this.respVo.setItems(items);
@@ -40,8 +34,29 @@ public class OrderSettlePageRespVoBuilder {
         return this;
     }
 
+    //运费
+    public OrderSettlePageRespVoBuilder setFreight(Integer freight){
+        this.respVo.setFreight(freight);
+        return this;
+    }
+
+    //优惠券抵扣金额
+    public OrderSettlePageRespVoBuilder setVoucherAmount(Integer voucherAmount){
+        //TODO
+        this.respVo.setVoucherAmount(voucherAmount);
+        return this;
+    }
+
+    //优惠活动减免金额
+    public OrderSettlePageRespVoBuilder setFreeAmount(Integer freeAmount){
+        //TODO
+        this.respVo.setFreeAmount(freeAmount);
+        return this;
+    }
+
     //付款促销活动
     public OrderSettlePageRespVoBuilder setPromotions(List<OrderPromotionRespVo> promotions){
+        //TODO
         this.respVo.setPromotions(promotions);
         return this;
     }
@@ -71,7 +86,15 @@ public class OrderSettlePageRespVoBuilder {
         SystemAsserts.notNull(respVo.getBuyerName(), "收货人信息为空");
         SystemAsserts.notNull(respVo.getBuyerMobile(), "收货人电话为空");
         SystemAsserts.notNull(respVo.getBuyerAddress(), "收货人地址为空");
+        this.calcPayAmount();
         return this.respVo;
+    }
+
+    //计算支付金额
+    private void calcPayAmount() {
+        Integer payAmount = this.respVo.getOrderAmount() - this.respVo.getFreeAmount() - this.respVo.getVoucherAmount() - this
+                .respVo.getFreight();
+        this.respVo.setPayAmount(payAmount);
     }
 
 }

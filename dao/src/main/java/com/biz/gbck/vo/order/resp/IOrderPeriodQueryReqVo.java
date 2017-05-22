@@ -28,6 +28,8 @@ public interface IOrderPeriodQueryReqVo extends Serializable {
     //所选优惠券类型id集合
     List<Long> getCoupons();
 
+    Long getOrderId();
+
 
 
 }

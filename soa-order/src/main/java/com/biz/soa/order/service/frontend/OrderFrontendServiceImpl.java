@@ -133,7 +133,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
     @Override
     public OrderSettlePageRespVo getSettleResult(OrderSettlePageReqVo reqVo) throws DepotNextDoorException {
         if (logger.isDebugEnabled()) {
-            logger.debug("订单结算-------请求vo: {}", reqVo);
+            logger.debug("订单结算-------请求vo: {}. 创建订单: {}", reqVo, reqVo instanceof OrderCreateReqVo);
         }
         String userId = reqVo.getUserId();
         UserRo userRo = userFeignClient.findUser(Long.valueOf(userId));
@@ -149,20 +149,42 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         SystemAsserts.notNull(cartInfo);
         List<OrderItemRespVo> settleOrderItemVos = Lists.transform(cartInfo.getItems(), new
                 ShopCartItemRespVo2OrderItemRespVo());
-
+        OrderSettlePageRespVoBuilder builder = OrderSettlePageRespVoBuilder.createBuilder();
+        builder.setBuyerInfo(shopRo);
+        builder.setItems(settleOrderItemVos);
         this.validProduct(reqVo, settleOrderItemVos);
-        int couponCount = this.getUsableCouponCount(reqVo, settleOrderItemVos);
+        if (reqVo instanceof OrderCreateReqVo) {
+            //
+        } else {
+            List<PaymentType> supportedPaymentTypes = paymentService.getSupportedPaymentTypes(userId);
+            List<Integer> paymentTypes = supportedPaymentTypes.stream().filter(Objects::nonNull).map
+                    (PaymentType::getValue).collect(Collectors.toList());
+            builder.setPaymentTypes(paymentTypes);
+            OrderPromotionRespVo usablePromotion =  this.getUsablePromotion(reqVo, settleOrderItemVos);
+            builder.setPromotions(newArrayList(usablePromotion));
+            builder.setFreeAmount(null); //TODO 获取促销活动抵扣金额
 
-        List<PaymentType> supportedPaymentTypes = paymentService.getSupportedPaymentTypes(userId);
-        List<Integer> paymentTypes = supportedPaymentTypes.stream().filter(Objects::nonNull).map
-                (PaymentType::getValue).collect(Collectors.toList());
-        //TODO 优惠促销
-        OrderSettlePageRespVo settleResult = OrderSettlePageRespVoBuilder.createBuilder().setBuyerInfo(shopRo)
-                .setItems(settleOrderItemVos).setPaymentTypes(paymentTypes).setCoupons(couponCount).setPromotions(null).build();
+            //根据促销信息获取优惠券数量
+            int couponCount = this.getUsableCouponCount(reqVo, settleOrderItemVos);
+            builder.setCoupons(couponCount);
+            builder.setVoucherAmount(null); //TODO 获取优惠券抵扣金额
+
+        }
+        OrderSettlePageRespVo settleResult = builder.build();
         if (logger.isDebugEnabled()) {
             logger.debug("订单结算-------请求: {}, 返回值: {}", reqVo, settleResult);
         }
         return settleResult;
+    }
+
+    private OrderPromotionRespVo getUsablePromotion(OrderSettlePageReqVo reqVo, List<? extends IProduct>  products) {
+        OrderPromotionReqVo promoReqVo = new OrderPromotionReqVo();
+        int orderAmount = OrderUtil.calcOrderAmount(products);
+        promoReqVo.setUserId(Long.valueOf(reqVo.getUserId()));
+        promoReqVo.setProducts(products);
+        promoReqVo.setOrderAmount(orderAmount);
+        // 获取促销信息
+        return null;
     }
 
     //获取可用优惠券
@@ -253,8 +275,8 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         List<OrderItemRespVo> items = settleResult.getItems();
         SystemAsserts.notEmpty(items, "未获取到结算明细信息");
 
-
-
+        //TODO 使用优惠券
+        //TODO 促销活动
         long id = idService.nextId();
         String orderCode = sequenceService.generateOrderCode();
         Order order = OrderBuilder.createBuilder(reqVo).setUserInfo(userRo, shopRo).setItems(this.transOrderItems(items)).setFreeAmount

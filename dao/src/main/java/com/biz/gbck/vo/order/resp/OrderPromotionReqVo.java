@@ -3,14 +3,14 @@ package com.biz.gbck.vo.order.resp;
 import java.util.List;
 
 /**
- * 优惠券请求Vo
+ * 促销请求Vo
  *
  * @author lei
  * @date 2017年05月20日
  * @reviewer
  * @see
  */
-public class OrderCouponReqVo implements IOrderPeriodQueryReqVo {
+public class OrderPromotionReqVo implements IOrderPeriodQueryReqVo {
 
     private static final long serialVersionUID = -8415628255360674537L;
 
@@ -22,16 +22,6 @@ public class OrderCouponReqVo implements IOrderPeriodQueryReqVo {
 
     //商品明细
     private List<? extends IProduct> products;
-
-    //支付方式
-    private Integer paymentType;
-
-    //所选优惠券类型id集合
-    private List<Long> coupons;
-
-    //订单id
-    private Long orderId;
-
 
     @Override
     public Long getUserId() {
@@ -62,27 +52,17 @@ public class OrderCouponReqVo implements IOrderPeriodQueryReqVo {
 
     @Override
     public Integer getPaymentType() {
-        return paymentType;
+        return null;
     }
 
-    public void setPaymentType(Integer paymentType) {
-        this.paymentType = paymentType;
-    }
-
+    @Override
     public List<Long> getCoupons() {
-        return coupons;
+        return null;
     }
 
-    public void setCoupons(List<Long> coupons) {
-        this.coupons = coupons;
-    }
-
+    @Override
     public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+        return null;
     }
 }
 
