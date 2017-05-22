@@ -89,8 +89,6 @@ public class PurchaseOrder extends BaseEntity {
     @Embedded
     private OrderShipping shipping;
 
-    @Embedded
-    private PurchaseAudit audit;
 
     public String getOrderCode() {
         return orderCode;

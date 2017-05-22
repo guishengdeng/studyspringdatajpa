@@ -13,15 +13,11 @@ import com.biz.core.enums.converter.BaseEnumValueConverter;
  * @see
  */
 public enum PurchaseOrderStatus implements EnumerableValue {
-	NEW(1, "新建"),
-	AUDITING(5, "审批中"),
-	REJECT(10, "否决"),
-	CREATE_ORDER(15, "生成订单"),
+	NEW(1, "生成订单"),
 	PACKAGE(20, "备货中"),
 	DELIVERED(30, "已发货"),
 	SIGNED_PART(40, "部分收货"),
-	SIGNED_ALL(50, "已收货"),
-	CANCEL(60,"取消");
+	SIGNED_ALL(50, "已收货");
 
 
 
