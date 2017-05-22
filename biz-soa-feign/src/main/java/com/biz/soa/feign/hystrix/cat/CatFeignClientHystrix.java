@@ -4,12 +4,12 @@ import com.biz.gbck.dao.mysql.po.demo.CatPO;
 import com.biz.gbck.dao.mysql.po.demo.SaleStatusEnum;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.demo.CatSearchVO;
+import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.gbck.vo.spring.PageVO;
 import com.biz.soa.feign.client.cat.CatFeignClient;
 import com.biz.vo.demo.CatReqVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,48 +32,50 @@ public class CatFeignClientHystrix implements CatFeignClient {
 	}
 
 	@Override
-	public CatPO save(@RequestBody CatReqVO vo) {
+	public MicroServiceResult<CatPO> save(@RequestBody CatReqVO vo) {
 
-		return null;
+		return MicroServiceResult.buildSuccess();
 	}
 
 	@Override
-	public CatPO getByName(@RequestParam("name") String name) {
+	public MicroServiceResult<CatPO> getByName(@RequestParam("name") String name) {
 
-		return null;
+		return MicroServiceResult.buildSuccess();
 	}
 
 	@Override
-	public List<CatPO> listByStatus(@RequestParam("status") CommonStatusEnum status) {
+	public MicroServiceResult<List<CatPO>> listByStatus(@RequestParam("status") CommonStatusEnum status) {
 
-		return null;
+		return MicroServiceResult.buildSuccess();
 	}
 
 	@Override
-	public List<CatPO> listBySaleStatus(@RequestParam("saleStatus") SaleStatusEnum saleStatus) {
+	public MicroServiceResult<List<CatPO>> listBySaleStatus(@RequestParam("saleStatus") SaleStatusEnum saleStatus) {
 
-		return null;
+		return MicroServiceResult.buildSuccess();
 	}
 
 	@Override
-	public PageVO<CatPO> searchCat(@RequestBody CatSearchVO reqVo) {
+	public MicroServiceResult<PageVO<CatPO>> searchCat(@RequestBody CatSearchVO reqVo) {
 
-		return null;
+		return MicroServiceResult.buildSuccess();
 	}
 
 	@Override
-	public void updateSaleStatus(@RequestParam("id") Long id, @RequestParam("saleStatus") SaleStatusEnum saleStatus) {
+	public MicroServiceResult updateSaleStatus(@RequestParam("id") Long id, @RequestParam("saleStatus") SaleStatusEnum saleStatus) {
 
+		return MicroServiceResult.buildSuccess();
 	}
 
 	@Override
-	public CatPO get(Long id) {
+	public MicroServiceResult<CatPO> get(@RequestParam("id") Long id) {
 
-		return null;
+		return MicroServiceResult.buildSuccess();
 	}
 
 	@Override
-	public void remove(Long id) {
+	public MicroServiceResult remove(@RequestParam("id") Long id) {
 
+		return MicroServiceResult.buildSuccess();
 	}
 }
