@@ -53,7 +53,7 @@ public interface VoucherService{
      * @throws CommonException
      */
     public void dispatcherVoucher(List<Long> userIds, VoucherTypeRo voucherTypeRo,
-        int dispatcherCnt, String handler);
+    		Integer dispatcherCnt, String handler);
     /**
      * 发放优惠券
      *
@@ -61,7 +61,7 @@ public interface VoucherService{
      * @param voucherTypeRo
      * @param quantity
      */
-    public void dispatcherVoucher(Long userId, VoucherTypeRo voucherTypeRo, int quantity,
+    public void dispatcherVoucher(Long userId, VoucherTypeRo voucherTypeRo, Integer quantity,
         String handler); 
     
     public boolean validateDispatcherAction(List<Long> userIds, Long shopTypeId, Long voucherTypeId,

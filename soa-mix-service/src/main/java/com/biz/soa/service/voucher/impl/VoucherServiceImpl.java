@@ -28,6 +28,7 @@ import com.biz.gbck.dao.redis.repository.voucher.VoucherTypeRedisDao;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
+import com.biz.gbck.dao.redis.ro.product.bbc.ProductRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherConfigureRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
@@ -70,8 +71,8 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	@Autowired
 	private VoucherTypeService voucherTypeService;
 	
-//	@Autowired
-//	private ShopFeignClient shopFeignClient;
+	@Autowired
+	private ShopFeignClient shopFeignClient;
 //	
 //	@Autowired
 //	private NoticeFeignClient noticeFeignClient;
@@ -89,7 +90,7 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	private VoucherConfigureService configureService;
 	
 //	@Autowired
-//	private ProductRedisDao productRedisDao;
+//	private ProductFeignClient productRedisDao;
 	
 	@Autowired 
 	private VoucherDao voucherRepositoryImpl;
@@ -241,19 +242,20 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	}
 
 	@Override
-	public void dispatcherVoucher(List<Long> userIds, VoucherTypeRo voucherTypeRo, int dispatcherCnt, String handler) {
+	public void dispatcherVoucher(List<Long> userIds, VoucherTypeRo voucherTypeRo, Integer dispatcherCnt, String loginUsername) {
 		for (Long userId : userIds) {
-          dispatcherVoucher(userId, voucherTypeRo, dispatcherCnt, handler);
+          dispatcherVoucher(userId, voucherTypeRo, dispatcherCnt, loginUsername);
       }
 	}
 
 	@Override
-	public void dispatcherVoucher(Long userId, VoucherTypeRo voucherTypeRo, int quantity, String handler) {
+	public void dispatcherVoucher(Long userId, VoucherTypeRo voucherTypeRo, Integer quantity, String loginUsername) {
 		logger.debug("Dispatch {} 数量 {} to users {}", voucherTypeRo.getName(), quantity, userId);
       for (int i = 0; i < quantity; i++) {
           VoucherRo ro = voucherRedisDao.bindVoucherToUser(userId, voucherTypeRo);
+          System.out.println("RO:"+ro.getId()+"and:"+ro.getVoucherTypeId());
           if (ro != null) {
-              voucherRepository.save((new VoucherRoToVoucherPo(handler)).apply(ro));
+              voucherRepository.save((new VoucherRoToVoucherPo(loginUsername)).apply(ro));
               String title = "您收到新的优惠券";
               String content =
                   "您收到一张" + voucherTypeRo.getFaceValue() / 100 + "元 " + voucherTypeRo.getName()
@@ -392,16 +394,17 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	@Override
 	public List<ShopCraftVoucherVo> getAvailableVouchers(Long userId, List<? extends IOrderItemVo> itemVos)
 			throws Exception {
+		// TODO
 //		 Map<Long, List<VoucherRo>> categoryVouchersMap = divideUnusedVouchersByCategory(userId);
-//		         ShopRo shopRo = shopService.findShopByUserId(userId);
-//		         Map<Integer, Integer> costMap = Maps.newHashMap();
-//		         List<Integer> categories = Lists.newArrayList();
+//		         ShopRo shopRo = shopFeignClient.findShopByUserId(userId);
+//		         Map<Long, Long> costMap = Maps.newHashMap();
+//		         List<Long> categories = Lists.newArrayList();
 //		         for (IOrderItemVo orderItemVo : itemVos) {
 //		             ProductRo productRo = productRedisDao.get(orderItemVo.getProductId().toString());
 //		             DepotProductRo depotProductRo = depotProductService
 //		                 .getDepotProductRo(orderItemVo.getProductId(), shopRo.getDepotId());
 //		             if (costMap.containsKey(productRo.getCategoryId())) {
-//		                 int cost =
+//		            	 Long cost =
 //		                     costMap.get(productRo.getCategoryId()) + depotProductRo.getSalePrice() * orderItemVo
 //		                         .getQuantity();
 //		                 costMap.put(productRo.getCategoryId(), cost);
@@ -415,7 +418,7 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 //		         }
 //		 
 //		         List<ShopCraftVoucherVo> voucherVos = Lists.newArrayList();
-//		         for (Integer categoryId : categories) {
+//		         for (Long categoryId : categories) {
 //		             List<VoucherRo> categoryVouchers = categoryVouchersMap.get(categoryId);
 //		             Map<Long, List<VoucherRo>> voucherTypeVouchers =
 //		                 divideVouchersByVoucherType(categoryVouchers);
@@ -426,8 +429,8 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 //		             }
 //		         }
 //		 
-//		         int totalCost = 0;
-//		         for (int cost : costMap.values()) {
+//		         Long totalCost = (long) 0;
+//		         for (Long cost : costMap.values()) {
 //		             totalCost = totalCost + cost;
 //		         }
 //		         List<VoucherRo> categoryVouchers = categoryVouchersMap.get(VoucherCategory.NONE.getValue());
@@ -438,13 +441,13 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 //		                 buildShopCraftVoucherVo(voucherTypeId, voucherTypeVouchers.get(voucherTypeId),
 //		                     totalCost));
 //		         }
-//		         return sort(voucherVos);
-		         return null;
+//		         return voucherVos;
+		return null;
 	}
 	
   @SuppressWarnings("unused")
   private ShopCraftVoucherVo buildShopCraftVoucherVo(Long voucherTypeId,
-	  List<VoucherRo> voucherRos, Integer cost){
+	  List<VoucherRo> voucherRos, Long cost){
 	  VoucherTypeRo voucherTypeRo = voucherTypeService.getVoucherTypeRoById(voucherTypeId);
 	  int maxCount = 0;
 	
@@ -484,6 +487,7 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	  voucherVo.setExpireTime(voucherRos.get(0).getExpireTime());
 	  voucherVo.setCategoryInfo(voucherTypeRo.getLimitInfo());
 	  voucherVo.setCategoryId(voucherTypeRo.getCategoryId());
+	  voucherVo.setPaymentType(voucherTypeRo.getPaymentType());
 	  if (voucherTypeRo.getProductIds() != null && !"".equals(voucherTypeRo.getProductIds())) {
 	      voucherVo.setProductIds(voucherTypeRo.getProductIds());
 	  } else {

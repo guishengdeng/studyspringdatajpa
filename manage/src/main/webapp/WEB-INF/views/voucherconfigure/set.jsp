@@ -167,7 +167,7 @@
                                 <td>${vouchercfg.voucherTypename}</td>
                                 <td>${vouchercfg.quantity}</td>
                                 <td>
-                                    <a class="btn btn-xs btn-info"
+                                    <a class="btn btn-xs btn-info btn-delete-vouchercfg"
                                        data-config="${vouchercfg.voucherconfigure}"
                                        data-type="${vouchercfg.voucherType}">
                                         <i class="ace-icon fa fa-trash-o bigger-80"></i><span> 删除</span>

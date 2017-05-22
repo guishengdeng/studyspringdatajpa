@@ -41,6 +41,7 @@ import com.biz.manage.util.POIUtil;
 import com.biz.manage.vo.voucher.DispatcherVoucherVo;
 import com.biz.manage.vo.voucher.VoucherBatchGrantReqVo;
 import com.biz.service.org.interfaces.ShopTypeService;
+import com.biz.service.org.interfaces.UserService;
 import com.biz.soa.feign.client.org.UserFeignClient;
 import com.biz.soa.feign.client.voucher.VoucherFeignClient;
 import com.biz.soa.feign.client.voucher.VoucherTypeFeignClient;
