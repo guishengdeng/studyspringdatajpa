@@ -2,6 +2,7 @@ package com.biz.gbck.dao.redis.repository.advertisement;
 
 import com.biz.gbck.dao.redis.CrudRedisDao;
 import com.biz.gbck.dao.redis.ro.advertisement.AdvertisementRo;
+import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.redis.util.RedisUtil;
 import org.springframework.stereotype.Repository;
 
@@ -31,8 +32,8 @@ public class AdvertisementRedisDao extends CrudRedisDao<AdvertisementRo, String>
         return getKeyByParams("status",status);
     }
 
-    public List<AdvertisementRo> findAdvertisementByStatus(Integer status) {
-        String key = statusMappingKey(status);
+    public List<AdvertisementRo> findAdvertisementByStatus(CommonStatusEnum status) {
+        String key = statusMappingKey(status.getValue());
         Set<byte[]> bytes = zRange(key, 0, -1);
         List<AdvertisementRo> ros = findByIds(bytes);
         return ros;
