@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author: defei
  * @date 5/15/17
  */
-@FeignClient(name = "depotnextdoor-mix-service", fallback = CoverFeignClientHystrix.class)
+@FeignClient(name = "soa-mix-service", fallback = CoverFeignClientHystrix.class)
 public interface CoverFeignClient {
 
 	@RequestMapping(value = "soa/cover/homepage", method = RequestMethod.POST)
