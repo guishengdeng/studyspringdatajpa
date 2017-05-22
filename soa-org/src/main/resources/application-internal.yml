@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: depotnextdoor-rest
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: depotapp
@@ -15,8 +13,9 @@ spring:
       test-on-return: false
       test-while-idle: true
       validation-query: SELECT 1
+
   jpa:
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: update
     database: mysql
@@ -24,6 +23,12 @@ spring:
     properties:
       hibernate:
         enable_lazy_load_no_trans: true
+  session:
+    redis:
+      flush-mode: immediate
+  application:
+    name: soa-org
+
 biz:
   soa:
     idx: 1
@@ -43,35 +48,32 @@ biz:
     port: 6379
     name:
     password:
+  amqp:
+    host: 10.4.100.196
+    username: guest
+    password: guest
+    port: 5672
+    maxRetry: 3
+    retryElapse: 1000
   oss:
     remoteEndpoint: oss-cn-beijing.aliyuncs.com
     localEndpoint: oss-cn-beijing-internal.aliyuncs.com
     accessKeyId: LTAIcBsZ7zY66tku
     accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
     bucketName: gbck-test
-    userId: 1526565267726025
-  amqp:
-    username: guest
-    password: guest
-    port: 5672
-    host: 10.4.100.196
-    maxRetry: 3
-    retryElapse: 1000
+
 server:
-  port: 8999
+  session:
+    timeout: 1200
+  port: 8679
 eureka:
   client:
     service-url:
-      defaultZone: http://10.4.100.194:7777/eureka/
-    registry-fetch-interval-seconds: 1
+      defaultZone: http://10.4.100.195:7777/eureka/,http://10.4.100.196:7777/eureka/
   instance:
     prefer-ip-address: true
   server:
     eviction-interval-timer-in-ms: 1000
-security:
-  basic:
-    enabled: false
-    authorize-mode: none
 hystrix:
   command:
     default:
@@ -83,3 +85,9 @@ ribbon:
 feign:
   hystrix:
     enabled: true
+security:
+  basic:
+    enabled: false
+management:
+  security:
+    enabled: false

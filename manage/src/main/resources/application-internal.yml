@@ -1,6 +1,9 @@
 spring:
-  application:
-    name: depotnextdoor-rest
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: depotapp
@@ -15,6 +18,7 @@ spring:
       test-on-return: false
       test-while-idle: true
       validation-query: SELECT 1
+
   jpa:
     show-sql: false
     hibernate:
@@ -24,6 +28,10 @@ spring:
     properties:
       hibernate:
         enable_lazy_load_no_trans: true
+  session:
+    redis:
+      flush-mode: immediate
+
 biz:
   soa:
     idx: 1
@@ -49,37 +57,16 @@ biz:
     accessKeyId: LTAIcBsZ7zY66tku
     accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
     bucketName: gbck-test
-    userId: 1526565267726025
-  amqp:
-    username: guest
-    password: guest
-    port: 5672
-    host: 10.4.100.196
-    maxRetry: 3
-    retryElapse: 1000
+
 server:
-  port: 8999
+  session:
+    timeout: 1200
 eureka:
   client:
     service-url:
-      defaultZone: http://10.4.100.194:7777/eureka/
+      defaultZone: http://10.4.100.195:7777/eureka/,http://10.4.100.196:7777/eureka/
     registry-fetch-interval-seconds: 1
   instance:
     prefer-ip-address: true
   server:
     eviction-interval-timer-in-ms: 1000
-security:
-  basic:
-    enabled: false
-    authorize-mode: none
-hystrix:
-  command:
-    default:
-      execution:
-        timeout:
-          enabled: false
-ribbon:
-  ReadTimeout: 30000
-feign:
-  hystrix:
-    enabled: true
