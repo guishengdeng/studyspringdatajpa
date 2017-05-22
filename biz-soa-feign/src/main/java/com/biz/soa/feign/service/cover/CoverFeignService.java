@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 /**
  * Created by defei on 5/20/17.
  */
-@Service
+@Service("coverFeignService")
 public class CoverFeignService extends AbstractFeignService implements CoverService {
 
 	@Autowired
