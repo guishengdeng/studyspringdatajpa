@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: manage
   mvc:
     view:
       prefix: /WEB-INF/views/
@@ -7,8 +9,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: root
-    url: jdbc:mysql://127.0.0.1:3306/gbck-test?characterEncoding=utf-8
+    password:
+    url: jdbc:mysql://127.0.0.1:3306/depotnextdoor?characterEncoding=utf-8
     dbcp2:
       initial-size: 5
       max-total: 10
@@ -20,7 +22,7 @@ spring:
       validation-query: SELECT 1
 
   jpa:
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: update
     database: mysql
@@ -61,7 +63,13 @@ biz:
 server:
   session:
     timeout: 1200
+
 eureka:
   client:
     service-url:
-      defaultZone: http://10.4.100.194:7777/eureka/,http://10.4.100.195:7777/eureka/,http://10.4.100.196:7777/eureka/
+      defaultZone: http://localhost:7777/eureka/
+    registry-fetch-interval-seconds: 1
+  instance:
+    prefer-ip-address: true
+  server:
+    eviction-interval-timer-in-ms: 1000

@@ -19,7 +19,7 @@ import static com.google.common.collect.Maps.newLinkedHashMap;
  * <p/>
  * Created by defei on 2017/05/17 12:11.
  */
-@Service
+@Service("coverServiceImpl")
 public class CoverServiceImpl extends AbstractBaseService implements CoverService {
 
 	private static final Logger logger = LoggerFactory.getLogger(CoverServiceImpl.class);
@@ -60,9 +60,11 @@ public class CoverServiceImpl extends AbstractBaseService implements CoverServic
 
 		Map<String, Object> imageShowcase = newLinkedHashMap();
 		imageShowcase.put("type", "ImageShowcase");
-		imageShowcase.put("left", mockItem("https://static.depotnextdoor.com/b2b/7.25shouyecangkurexiao/1461801862.jpg", null));
-		imageShowcase.put("rightTop", mockItem("https://static.depotnextdoor.com/b2b/8.15%e6%b4%8b%e9%85%92%e8%b6%b4/dujiashangpin.jpg", null));
-		imageShowcase.put("rightBottom", mockItem("https://static.depotnextdoor.com/b2b/%e6%b7%98%e5%ae%9d%e5%8c%ba8.25/%e6%b7%98%e5%ae%9d%e5%8c%ba.png", null));
+		List<Map<String, String>> items = newArrayList();
+		items.add(mockItem("https://static.depotnextdoor.com/b2b/7.25shouyecangkurexiao/1461801862.jpg", null));
+		items.add(mockItem("https://static.depotnextdoor.com/b2b/8.15%e6%b4%8b%e9%85%92%e8%b6%b4/dujiashangpin.jpg", null));
+		items.add(mockItem("https://static.depotnextdoor.com/b2b/%e6%b7%98%e5%ae%9d%e5%8c%ba8.25/%e6%b7%98%e5%ae%9d%e5%8c%ba.png", null));
+		imageShowcase.put("items", items);
 		return imageShowcase;
 	}
 
