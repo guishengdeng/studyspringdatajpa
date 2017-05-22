@@ -275,8 +275,8 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         List<OrderItemRespVo> items = settleResult.getItems();
         SystemAsserts.notEmpty(items, "未获取到结算明细信息");
 
-        //TODO 使用优惠券
-        //TODO 促销活动
+        //TODO 使用和保存优惠券
+        //TODO 保存促销活动
         long id = idService.nextId();
         String orderCode = sequenceService.generateOrderCode();
         Order order = OrderBuilder.createBuilder(reqVo).setUserInfo(userRo, shopRo).setItems(this.transOrderItems(items)).setFreeAmount
