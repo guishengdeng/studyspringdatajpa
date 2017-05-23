@@ -14,13 +14,13 @@ import java.util.List;
  * @see
  */
 public interface StockService {
-    PartnerStockRespVO getStock(PartnerStockReqVO reqVo) throws DepotNextDoorException;
+    CompanyStockRespVO getStock(CompanyStockReqVO reqVo) throws DepotNextDoorException;
 
-    List<PartnerStockRespVO> getStocks(PartnerStocksReqVO reqVo) throws DepotNextDoorException;
+    List<CompanyStockRespVO> getStocks(CompanyStocksReqVO reqVo) throws DepotNextDoorException;
 
-    void updateStocks(List<UpdatePartnerStockReqVO> reqVos) throws DepotNextDoorException;
+    void updateStocks(List<UpdateCompanyStockReqVO> reqVos) throws DepotNextDoorException;
 
-    void orderUpdateLockStocks(List<UpdatePartnerLockStockReqVO> reqVos) throws DepotNextDoorException;
+    void orderUpdateLockStocks(List<UpdateCompanyLockStockReqVO> reqVos) throws DepotNextDoorException;
 
     void releaseLockStocks();
 }

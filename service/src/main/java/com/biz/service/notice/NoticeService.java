@@ -51,84 +51,84 @@ public class NoticeService extends CommonService {
     private MessageService messageService;*/
 
 
-
-    public NoticePo saveAndSend(NoticePo po, List<Long> userIds) {
-        if (po == null) {
-            throw new IllegalArgumentException("noticepo is null");
-        }
-        if (po.getId() == null)
-            po.setId(idService.nextId());
-
-        noticeRepository.save(po);
-        noticeRedisDao.save((new NoticePoToNoticeRo()).apply(po));
-        List<Long> sendToUsers = null;
-
-        if (CollectionUtils.isNotEmpty(userIds)) {
-            sendToUsers = userIds;
-        } else if (po.getShopType() != null) {
-            sendToUsers = userRepository.findUserIdsByShopType(po.getShopType().getId());
-        } else if (po.getSaleArea() != null) {
-            sendToUsers = userRepository.findUserIdsBySaleAreaId(po.getSaleArea().getId());
-        }
-        for (Long userId : sendToUsers) {
-            doSend(po, userId);
-        }
-        return po;
-    }
-    public void doSend(NoticePo notice, Long userId) {
-
-        UserRo user = userRedisDao.get(userId);
-        if (user != null) {
-            if (notice.getId() == null)
-                notice.setId(idService.nextId());
-
-            noticeRepository.save(notice);
-            noticeRedisDao.addToUser(notice.getId(), userId);
-            int remainMsgCount = noticeRedisDao.getRemainMSgCount(user.getId()).intValue();
-            if (remainMsgCount == 0) {
-                remainMsgCount++;
-            }
-
-            Notification pushMsg = new Notification();
-            pushMsg.setNotifyType(NotifyType.P2P);
-
-            pushMsg.setTarget(user.getLastToken());
-            pushMsg.setPlatform(getPlatfrom(user));
-            pushMsg.setSendType(NotificationSendType.ALERT);
-            pushMsg.setPushMessage(
-                    new PushMessage(remainMsgCount, notice.getContent(), notice.getUrl()));
-            try {
-                sendNotification(pushMsg); //推送消息
-            } catch (CommonException e) {
-                logger.warn("发送推送消息到用户[{}]失败", userId);
-            }
-        }
-    }
-
-    /**
-     * 获取用户最后登录的手机
-     * @param user
-     * @return
-     */
-    public String getPlatfrom(UserRo user) {
-        String lastFlag = user.getLastUserAgent();
-        if (StringUtils.equalsIgnoreCase(lastFlag, "appstore"))
-            return NotificationPlatform.IOS;
-        else if (StringUtils.containsIgnoreCase(lastFlag, "mi"))
-            return NotificationPlatform.MI;
-        else
-            return NotificationPlatform.ANDROID;
-    }
-
-    /**
-     * 发送消息
-     * @param notification
-     * @throws CommonException
-     */
-    public void sendNotification(Notification notification) throws CommonException {
-
-       /* messageService.sendMessage(BizBaseQueue.MQ_CLIENT_PUSH_MSG, SimpleBizMessage.newMessage(notification));*/ // TODO: 17-4-28
-    }
+//
+//    public NoticePo saveAndSend(NoticePo po, List<Long> userIds) {
+//        if (po == null) {
+//            throw new IllegalArgumentException("noticepo is null");
+//        }
+//        if (po.getId() == null)
+//            po.setId(idService.nextId());
+//
+//        noticeRepository.save(po);
+//        noticeRedisDao.save((new NoticePoToNoticeRo()).apply(po));
+//        List<Long> sendToUsers = null;
+//
+//        if (CollectionUtils.isNotEmpty(userIds)) {
+//            sendToUsers = userIds;
+//        } else if (po.getShopType() != null) {
+//            sendToUsers = userRepository.findUserIdsByShopType(po.getShopType().getId());
+//        } else if (po.getSaleArea() != null) {
+//            sendToUsers = userRepository.findUserIdsBySaleAreaId(po.getSaleArea().getId());
+//        }
+//        for (Long userId : sendToUsers) {
+//            doSend(po, userId);
+//        }
+//        return po;
+//    }
+//    public void doSend(NoticePo notice, Long userId) {
+//
+//        UserRo user = userRedisDao.get(userId);
+//        if (user != null) {
+//            if (notice.getId() == null)
+//                notice.setId(idService.nextId());
+//
+//            noticeRepository.save(notice);
+//            noticeRedisDao.addToUser(notice.getId(), userId);
+//            int remainMsgCount = noticeRedisDao.getRemainMSgCount(user.getId()).intValue();
+//            if (remainMsgCount == 0) {
+//                remainMsgCount++;
+//            }
+//
+//            Notification pushMsg = new Notification();
+//            pushMsg.setNotifyType(NotifyType.P2P);
+//
+//            pushMsg.setTarget(user.getLastToken());
+//            pushMsg.setPlatform(getPlatfrom(user));
+//            pushMsg.setSendType(NotificationSendType.ALERT);
+//            pushMsg.setPushMessage(
+//                    new PushMessage(remainMsgCount, notice.getContent(), notice.getUrl()));
+//            try {
+//                sendNotification(pushMsg); //推送消息
+//            } catch (CommonException e) {
+//                logger.warn("发送推送消息到用户[{}]失败", userId);
+//            }
+//        }
+//    }
+//
+//    /**
+//     * 获取用户最后登录的手机
+//     * @param user
+//     * @return
+//     */
+//    public String getPlatfrom(UserRo user) {
+//        String lastFlag = user.getLastUserAgent();
+//        if (StringUtils.equalsIgnoreCase(lastFlag, "appstore"))
+//            return NotificationPlatform.IOS;
+//        else if (StringUtils.containsIgnoreCase(lastFlag, "mi"))
+//            return NotificationPlatform.MI;
+//        else
+//            return NotificationPlatform.ANDROID;
+//    }
+//
+//    /**
+//     * 发送消息
+//     * @param notification
+//     * @throws CommonException
+//     */
+//    public void sendNotification(Notification notification) throws CommonException {
+//
+//       /* messageService.sendMessage(BizBaseQueue.MQ_CLIENT_PUSH_MSG, SimpleBizMessage.newMessage(notification));*/
+//    }
 
 
 

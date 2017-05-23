@@ -19,6 +19,11 @@
               "columnDefs": [{"targets": [7], "orderable": false}],
           });
 
+
+            function newShop() {
+                alert("哎呀程序猿GG把这忘记了!")
+            }
+
         </script>
     </jsp:attribute>
     <jsp:body>
@@ -51,14 +56,8 @@
                                     商户ID <input name="id" type="text" placeholder="商户ID"  value="<c:out value="${vo.id}"/>" autocomplete="off"  style="width: 100px;height: 30px;">&nbsp;
                                     商户名称 <input name="name" type="text" placeholder="商户名称" value="<c:out value="${vo.name}"/>"  autocomplete="off" style="width: 100px;height: 30px;">&nbsp;
                                     手机号码<input name="mobile" type="text" placeholder="手机号码" value="<c:out value="${vo.mobile}"/>" autocomplete="off" style="width: 100px;height: 30px;">&nbsp;
-                                     商户类型
-                                <select name="shopType" style="width: 100px;height: 30px;">
-                                    <option value="" selected >请选择</option>
-                                    <c:forEach items="${shopTypes}" var="shopType">
-                                    <option  <c:if test="${shopType.id == vo.shopType.id}">selected </c:if>
-                                            value="<c:out value="${shopType.id}"/>"><c:out value="${shopType.name}"/></option>
-                                    </c:forEach>
-                                </select>
+                                <gbck:shopType fieldName="shopTypeId" fieldClasses="field"
+                                                 shopTypeId="${vo.shopTypeId}"/>
                                 <div class="inline ">
                                     <button type="submit" class="btn btn-info btn-sm" style="width: 100px;height: 30px;">
                                         <i class="ace-icon fa fa-search bigger-110"></i>搜索
@@ -66,13 +65,13 @@
                                 </div>
                             </form>
                             <div class="inline pull-right">
-                                <button type="submit" class="btn btn-info btn-sm">
+                                <button  class="btn btn-info btn-sm" onclick="newShop()">
                                     <i class="ace-icon fa  fa-cloud-upload bigger-110"></i>导入商户
                                 </button>
                             </div>
                             <div class="inline pull-right">
-                                <a type="submit" class="btn btn-success btn-sm">
-                                    <i class="ace-icon fa glyphicon-plus bigger-110"></i>新增商户
+                                <a  class="btn btn-success btn-sm" href="shops/new.do">
+                                    <i class="ace-icon fa glyphicon-plus bigger-110" ></i>新增商户
                                 </a>
                             </div>
                             <div class="hr hr-18 dotted"></div>
@@ -92,17 +91,17 @@
                                 </thead>
                                 <tbody>
                                 <c:forEach items="${shopSearchResVoPage.content}" var="shopDetail">
-                                    <tr id="tr-${shopDetail.id}">
-                                        <td><c:out value="${shopDetail.shop.id}"/></td>
+                                    <tr id="tr-${shopDetail.shopDetailId}">
+                                        <td><c:out value="${shopDetail.shopId}"/></td>
                                         <td><c:out value="${shopDetail.name}"/></td>
-                                        <td><c:out value="${shopDetail.shopType.name}"/></td>
+                                        <td><c:out value="${shopDetail.shopTypeName}"/></td>
                                         <td><c:out value="${shopDetail.shopAddress}"/></td>
                                         <td><c:out value="${shopDetail.mobile}"/></td>
                                         <td>${shopDetail.auditStatus==25 || shopDetail.auditStatus==20?"待审核":null}</td>
                                         <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${shopDetail.createTime}"/></td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
-                                                <a href="/shops/audit.do?shopId=<c:out value="${shopDetail.shop.id}"/>"
+                                                <a href="/shops/audit.do?shopId=<c:out value="${shopDetail.shopId}"/>"
                                                    class="btn btn-minier btn-info btn ">
                                                     <i class="ace-icon fa fa-pencil bigger-120"></i>
                                                     审核

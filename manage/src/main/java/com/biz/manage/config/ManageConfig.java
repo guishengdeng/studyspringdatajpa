@@ -100,7 +100,8 @@ public class ManageConfig {
         ossConfig.setLocalEndpoint(environment.getProperty("biz.oss.localEndpoint"));
         ossConfig.setAccessKeyId(environment.getProperty("biz.oss.accessKeyId"));
         ossConfig.setAccessSecret(environment.getProperty("biz.oss.accessKeySecret"));
-        ossConfig.setBucketName(environment.getProperty("biz.oss.bucketName"));
+        ossConfig.setProductBucketName(environment.getProperty("biz.oss.productBucketName"));
+        ossConfig.setAuditBucketName(environment.getProperty("biz.oss.auditBucketName"));
         return ossConfig;
     }
 

@@ -4,14 +4,8 @@ import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
 import com.biz.gbck.dao.mysql.po.org.ShopPo;
 import com.biz.gbck.enums.CommonStatusEnum;
-import com.biz.gbck.vo.org.ShopAuditDataMap;
-import com.biz.gbck.vo.org.ShopAuditReqVo;
-import com.biz.gbck.vo.org.ShopChangeDeliveryAddressReqVo;
-import com.biz.gbck.vo.org.ShopDetailOrQualificationGetReqVo;
-import com.biz.gbck.vo.org.ShopSearchVo;
-import com.biz.gbck.vo.org.ShopUpdateDetailReqVo;
-import com.biz.gbck.vo.org.ShopUpdateQualificationReqVo;
-import com.biz.gbck.vo.org.UserChangeDeliveryNameReqVo;
+import com.biz.gbck.vo.org.*;
+import com.biz.gbck.vo.spring.PageVO;
 import com.biz.soa.feign.client.org.ShopFeignClient;
 import com.biz.support.web.handler.JSONResult;
 import org.springframework.data.domain.Page;
@@ -68,12 +62,12 @@ public class ShopFeignClientHystrix implements ShopFeignClient {
     }
 
     @Override
-    public Page<ShopDetailPo> findShopAuditDataOfWaitForAudit(@RequestBody ShopSearchVo reqVo) {
+    public PageVO<ShopDetailResVo> findShopAuditDataOfWaitForAudit(@RequestBody ShopSearchVo reqVo) {
         return null;
     }
 
     @Override
-    public ShopAuditDataMap findShopAuditDataOfWaitForAuditByShopId(@RequestBody Long shopId) {
+    public ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(@RequestBody Long shopId) {
         return null;
     }
 
@@ -89,6 +83,11 @@ public class ShopFeignClientHystrix implements ShopFeignClient {
 
     @Override
     public Boolean updateShopStatus(@RequestParam("id") Long id, @RequestParam("shopStatus") CommonStatusEnum shopStatus) {
+        return null;
+    }
+
+    @Override
+    public ShopPo findShopRoById(@RequestParam("id") Long id) {
         return null;
     }
 
@@ -124,6 +123,11 @@ public class ShopFeignClientHystrix implements ShopFeignClient {
 
     @Override
     public JSONResult deleteBlackList(@RequestBody List<String> shopIds) {
+        return null;
+    }
+
+    @Override
+    public Boolean saveUpdateDetail(@RequestBody ShopAuditReqVo shopAuditReqVo) {
         return null;
     }
 }

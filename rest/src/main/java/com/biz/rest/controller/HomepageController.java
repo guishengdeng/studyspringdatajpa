@@ -1,6 +1,7 @@
 package com.biz.rest.controller;
 
 import com.biz.service.cover.CoverService;
+import com.biz.support.web.handler.JSONResult;
 import com.biz.vo.cover.CoverReqVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,7 @@ public class HomepageController extends BaseRestController {
 	public Object productList(HttpServletRequest request, HttpServletResponse response) {
 
 		CoverReqVO reqVo = new CoverReqVO();
-		return coverService.getHomePage(reqVo);
+		return new JSONResult(coverService.getHomePage(reqVo));
 	}
 
 }

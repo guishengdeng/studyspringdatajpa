@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -76,4 +77,6 @@ public interface ShopRepository extends CommonJpaRepository<ShopPo, Long>, ShopD
     @Query("From ShopPo s WHERE s.detailAuditStatus = :auditStatus AND s.qualificationAuditStatus = :auditStatus order by s.createTime desc")
     List<ShopPo> findByAuditStatus(@Param("auditStatus") Integer auditStatus);
 
+    @Query("SELECT id FROM ShopPo WHERE businessLicenceId = :businessLicenceId ")
+    List<Long>  findShopByBusinessLicenceId(@Param("businessLicenceId") String businessLicenceId);
 }

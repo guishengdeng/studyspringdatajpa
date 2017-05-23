@@ -48,7 +48,8 @@ biz:
     localEndpoint: oss-cn-beijing-internal.aliyuncs.com
     accessKeyId: LTAIcBsZ7zY66tku
     accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
-    bucketName: gbck-test
+    productBucketName: gbck-test
+    auditBucketName: gbck-test-qualification
   amqp:
     username: guest
     password: guest
@@ -61,7 +62,11 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://10.4.100.194:7777/eureka/,http://10.4.100.195:7777/eureka/,http://10.4.100.196:7777/eureka/
+<<<<<<< HEAD
+      defaultZone: http://local:7777/eureka/
+=======
+      defaultZone: http://10.4.100.194:7777/eureka/
+>>>>>>> dev
     registry-fetch-interval-seconds: 1
   instance:
     prefer-ip-address: true
