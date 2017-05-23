@@ -15,7 +15,7 @@
             fullTextSearch: true
         });
     })
-    $(function(){
+   /* $(function(){
         $('.dept_select').chosen();
-    });
+    });*/
 </script>

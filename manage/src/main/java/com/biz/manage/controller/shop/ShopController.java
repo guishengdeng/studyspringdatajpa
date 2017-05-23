@@ -198,6 +198,16 @@ public class ShopController extends BaseController {
         return modelAndView;
     }
 
+    /**
+     * 进入店铺创建页面
+     */
+    @RequestMapping(value = "new", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('OPT_SHOP_SAVE')")
+    public ModelAndView forwardToShopCreatePage() {
+        logger.debug("Received /shops GET request.");
+        return new ModelAndView("org/shop/new");
+    }
+
 
 
     /**
@@ -229,16 +239,7 @@ public class ShopController extends BaseController {
         return new ModelAndView(format("redirect:/shops/%s.do", shopRo.getId()));
     }*/
 
-    /**
-     * 进入店铺创建页面
-     */
-    @RequestMapping(value = "new", method = RequestMethod.GET)
-    @PreAuthorize("hasAuthority('OPT_SHOP_SAVE')")
-    public ModelAndView forwardToShopCreatePage() {
 
-        logger.debug("Received /shops GET request.");
-        return new ModelAndView("shop/new");
-    }
 
     /**
      * 查看店铺详情

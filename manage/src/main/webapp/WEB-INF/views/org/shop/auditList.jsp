@@ -19,6 +19,11 @@
               "columnDefs": [{"targets": [7], "orderable": false}],
           });
 
+
+            function newShop() {
+                alert("哎呀程序猿GG把这忘记了!")
+            }
+
         </script>
     </jsp:attribute>
     <jsp:body>
@@ -60,13 +65,13 @@
                                 </div>
                             </form>
                             <div class="inline pull-right">
-                                <button type="submit" class="btn btn-info btn-sm">
+                                <button  class="btn btn-info btn-sm" onclick="newShop()">
                                     <i class="ace-icon fa  fa-cloud-upload bigger-110"></i>导入商户
                                 </button>
                             </div>
                             <div class="inline pull-right">
-                                <a type="submit" class="btn btn-success btn-sm">
-                                    <i class="ace-icon fa glyphicon-plus bigger-110"></i>新增商户
+                                <a  class="btn btn-success btn-sm" href="shops/new.do">
+                                    <i class="ace-icon fa glyphicon-plus bigger-110" ></i>新增商户
                                 </a>
                             </div>
                             <div class="hr hr-18 dotted"></div>
