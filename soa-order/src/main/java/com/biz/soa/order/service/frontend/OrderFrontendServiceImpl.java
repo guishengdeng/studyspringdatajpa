@@ -66,7 +66,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         }
         SystemAsserts.notNull(reqVo);
         OrderShowStatus status = OrderShowStatus.valueOf(reqVo.getStatus());
-        SystemAsserts.notNull("status", "订单状态不合法");
+        SystemAsserts.notNull(status, "订单状态不合法");
         Long userId = Long.valueOf(reqVo.getUserId());
         List<Long> orderIds = orderRedisDao.findOrderIdsByUserIdWithPeriod(userId, status, reqVo.getLastFlag(), reqVo
                 .getSize());
