@@ -112,7 +112,7 @@
                 ){
                     return;
                 }
-                $.get("shops/isBusinessLicenceIdExist.do?businessLicenceId=" + businessLicenceId + "", function (isExist) {
+                $.get("shops/findShopByBusinessLicenceId.do?businessLicenceId=" + businessLicenceId + "", function (isExist) {
                     if (isExist) {
                         $("input[name='businessLicenceId']").val("")
                         $(".msgClass").html("营业执照ID已经存在！");

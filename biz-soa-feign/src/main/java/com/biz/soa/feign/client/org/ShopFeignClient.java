@@ -98,6 +98,12 @@ public interface ShopFeignClient {
     Boolean isBusinessLicenceIdExist(@RequestParam("businessLicenceId") String businessLicenceId,
                                             @RequestParam("shopId") Long shopId);
 
+    /**
+     * 判断businessLicenceId在数据库中是否已经存在 不限商户查询
+     */
+    @RequestMapping(value = "soa/shop/findShopByBusinessLicenceId", method = RequestMethod.POST)
+    Boolean findShopByBusinessLicenceId(@RequestParam("businessLicenceId") String businessLicenceId);
+
 
     /**
      * 商户统一审核接口

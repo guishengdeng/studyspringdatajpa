@@ -77,6 +77,11 @@ public class ShopFeignClientHystrix implements ShopFeignClient {
     }
 
     @Override
+    public Boolean findShopByBusinessLicenceId(@RequestParam("businessLicenceId") String businessLicenceId) {
+        return null;
+    }
+
+    @Override
     public void auditShop(@RequestBody ShopAuditReqVo reqVo) throws CommonException {
 
     }
