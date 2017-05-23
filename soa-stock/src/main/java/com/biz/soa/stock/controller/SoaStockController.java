@@ -31,7 +31,7 @@ public class SoaStockController extends SoaBaseController {
      * 获取库存
      */
     @RequestMapping("/app/getStock")
-    public PartnerStockRespVO getStock(@RequestBody PartnerStockReqVO reqVo) throws DepotNextDoorException{
+    public CompanyStockRespVO getStock(@RequestBody CompanyStockReqVO reqVo) throws DepotNextDoorException{
 
         return stockService.getStock(reqVo);
     }
@@ -40,7 +40,7 @@ public class SoaStockController extends SoaBaseController {
      * 获取批量库存
      */
     @RequestMapping("/app/getStocks")
-    public List<PartnerStockRespVO> getStocks(@RequestBody PartnerStocksReqVO reqVo) throws DepotNextDoorException{
+    public List<CompanyStockRespVO> getStocks(@RequestBody CompanyStocksReqVO reqVo) throws DepotNextDoorException{
         return stockService.getStocks(reqVo);
     }
 
@@ -48,7 +48,7 @@ public class SoaStockController extends SoaBaseController {
      * 添加购物车
      */
     @RequestMapping("/app/updateStocks")
-    public void updateStocks(@RequestBody List<UpdatePartnerStockReqVO> reqVos) throws DepotNextDoorException{
+    public void updateStocks(@RequestBody List<UpdateCompanyStockReqVO> reqVos) throws DepotNextDoorException{
         stockService.updateStocks(reqVos);
     }
 
@@ -56,7 +56,7 @@ public class SoaStockController extends SoaBaseController {
      * 添加购物车
      */
     @RequestMapping("/app/updateLockStocks")
-    public void orderUpdateLockStocks(@RequestBody List<UpdatePartnerLockStockReqVO> reqVos) throws DepotNextDoorException{
+    public void orderUpdateLockStocks(@RequestBody List<UpdateCompanyLockStockReqVO> reqVos) throws DepotNextDoorException{
         stockService.orderUpdateLockStocks(reqVos);
     }
 
