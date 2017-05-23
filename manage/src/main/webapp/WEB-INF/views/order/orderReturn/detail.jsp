@@ -211,7 +211,7 @@
                             <div class="profile-info-row">
                                 <c:forEach items="${orderReturn.images}" var="image">
                                     <div class="profile-info-value">
-                                        <img height="150" class="thumbnail inline no-margin-bottom" alt="Domain Owner's Avatar" src="assets/images/avatars/profile-pic.jpg">
+                                        <img height="150" class="thumbnail inline no-margin-bottom" alt="Domain Owner's Avatar" src="${image}">
                                     </div>
                                 </c:forEach>
                             </div>
