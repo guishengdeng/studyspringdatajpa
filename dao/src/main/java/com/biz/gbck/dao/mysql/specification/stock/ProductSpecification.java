@@ -37,7 +37,7 @@ public class ProductSpecification implements Specification<Product> {
         }
 
         if (StringUtils.isNotBlank(productShowVo.getProductCode())){
-            Predicate predicate = criteriaBuilder.like(root.get("productCode").as(String.class), productShowVo.getProductCode().trim());
+            Predicate predicate = criteriaBuilder.like(root.get("productCode").as(String.class), "%" +productShowVo.getProductCode().trim() + "%");
             predicates.add(predicate);
         }
 

@@ -34,7 +34,7 @@ public class StockShowVo implements Serializable {
      */
     private String categoryName;
 
-    private Integer Quantity;
+    private Integer Quantity ;
 
     private String standard;
 

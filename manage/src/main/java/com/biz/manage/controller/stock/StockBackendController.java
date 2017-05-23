@@ -32,7 +32,7 @@ public class StockBackendController extends BaseController {
 
     @GetMapping("stock")
     @PreAuthorize("hasAuthority('OPT_STOCK_LIST')")
-    public ModelAndView Search(@ModelAttribute("productShowVo") ProductShowVo productShowVo) {
+    public ModelAndView Search( ProductShowVo productShowVo) {
         Page<StockShowVo> page= stockBackendService.searchList(productShowVo);
         return new ModelAndView("goods/stock").addObject("page", page);
     }

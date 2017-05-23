@@ -9,10 +9,12 @@ import com.biz.gbck.vo.product.ProductShowVo;
 import com.biz.gbck.vo.stock.StockShowVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.product.backend.ProductBackendService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,28 +34,46 @@ public class StockBackendShowServiceImpl extends AbstractBaseService implements 
 
     @Override
     public Page<StockShowVo> searchList(ProductShowVo productShowVo) {
-        Page<Product> page = productRepository.findAll(new ProductSpecification(productShowVo), new PageRequest(productShowVo.getPage() - 1, productShowVo.getPageSize()));
+        Integer quantity = 0;
+        Page<Product> page = productRepository.findAll(new ProductSpecification(productShowVo),
+                new PageRequest(productShowVo.getPage() - 1, productShowVo.getPageSize(), new Sort(Sort.Direction.ASC, "productCode")));
         List<Product> list = page.getContent();
         List<StockShowVo> listStock = new ArrayList<StockShowVo>();
         /**
          * 遍历list向stockShowVo注入元素
          */
-        for (int i = 0; i<list.size(); i++){
+        for (int i = 0; i < list.size(); i++) {
             StockShowVo stockShowVo = new StockShowVo();
             Product product = (Product) list.get(i);
-            stockShowVo.setProductId(product.getId());
-            stockShowVo.setProductCode(product.getProductCode());
-            stockShowVo.setName(product.getName());
-            stockShowVo.setBrandName(product.getBrand().getName());
-            stockShowVo.setCategoryName(product.getCategory().getName());
-            stockShowVo.setStandard(product.getStandard());
+            if (product.getId() != null) {
+                stockShowVo.setProductId(product.getId());
+            }
+            if (StringUtils.isNotBlank(product.getProductCode())) {
+                stockShowVo.setProductCode(product.getProductCode());
+            }
+            if (StringUtils.isNotBlank(product.getName())) {
+                stockShowVo.setName(product.getName());
+            }
+            if (StringUtils.isNotBlank(product.getBrand().getName())) {
+                stockShowVo.setBrandName(product.getBrand().getName());
+            }
+            if (StringUtils.isNotBlank(product.getCategory().getName())) {
+                stockShowVo.setCategoryName(product.getCategory().getName());
+            }
+            if (StringUtils.isNotBlank(product.getStandard())) {
+                stockShowVo.setStandard(product.getStandard());
+            }
             Stock stock = stockRepository.findByProductId(product.getId());
-            stockShowVo.setQuantity(stock.getQuantity());
+            if (stock != null && stock.getQuantity() != null) {
+                stockShowVo.setQuantity(stock.getQuantity());
+            } else {
+                stockShowVo.setQuantity(quantity);
+            }
             stockShowVo.setPage(productShowVo.getPage());
             stockShowVo.setPageSize(productShowVo.getPageSize());
             listStock.add(stockShowVo);
         }
-            Page<StockShowVo> pageStock = new PageImpl<StockShowVo>(listStock,new PageRequest(productShowVo.getPage()-1,productShowVo.getPageSize()),listStock.size());
-                return pageStock;
+        Page<StockShowVo> pageStock = new PageImpl<StockShowVo>(listStock, new PageRequest(productShowVo.getPage() - 1, productShowVo.getPageSize()), listStock.size());
+        return pageStock;
     }
 }

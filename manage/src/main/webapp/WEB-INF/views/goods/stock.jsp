@@ -60,13 +60,20 @@
                                     <input name="brandName" value='<c:out value="${productShowVo.brandName}" />'
                                            type="text" placeholder="品牌" autocomplete="off">
                                 </div>
-                                <div class="col-md-2 inline">
+                                <%--<div class="col-md-2 inline">--%>
+                                    <%--<label>商品类别</label>--%>
+                                    <%--<gbck:stockCategorySelect fieldName="categoryName"--%>
+                                                              <%--selectedStatus="${productShowVo.categoryName}"--%>
+                                                              <%--withNone="true" spiritLabel="白酒" berrLabel="啤酒"--%>
+                                                              <%--redWineLabel="红酒" foreignWineLable="洋酒" elseLabel="其他"/>--%>
+                                <%--</div>--%>
+
+                                    <div class="col-md-2 inline">
                                     <label>商品类别</label>
                                     <gbck:stockCategorySelect fieldName="categoryName"
-                                                              selectedStatus="${productShowVo.categoryName}"
-                                                              withNone="true" spiritLabel="白酒" berrLabel="啤酒"
-                                                              redWineLabel="红酒" foreignWineLable="洋酒" elseLabel="其他"/>
-                                </div>
+                                    selectedStatus="${productShowVo.categoryName}"
+                                    withNone="true" />
+                                    </div>
                                 <div class="inline">
                                     <button type="submit" class="btn btn-info btn-sm">
                                         <i class="ace-icon fa fa-search bigger-110"></i>搜索
@@ -91,7 +98,13 @@
                                     <tr id="tr-${stock.productId}">
                                         <td><c:out value="${stock.productCode}"/></td>
                                         <td><c:out value="${stock.name}"/></td>
-                                        <td><c:out value="${stock.categoryName}"/></td>
+                                        <td>
+                                            <c:if test="${stock.categoryName.trim() eq 'SPIRIT'}">白酒</c:if>
+                                            <c:if test="${stock.categoryName.trim() eq 'BEER'}">啤酒</c:if>
+                                            <c:if test="${stock.categoryName.trim() eq 'RED_WINE'}">红酒</c:if>
+                                            <c:if test="${stock.categoryName.trim() eq 'FOREIGN_WINE'}">洋酒</c:if>
+                                            <c:if test="${stock.categoryName.trim() eq 'ELSE_WINE'}">其他</c:if>
+                                        </td>
                                         <td><c:out value="${stock.brandName}"/></td>
                                         <td><c:out value="${stock.standard}"/></td>
                                         <td><c:out value="${stock.quantity}"/></td>
