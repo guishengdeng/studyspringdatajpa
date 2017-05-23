@@ -70,6 +70,9 @@ feign:
 hystrix:
   command:
     default:
+      isolation:
+        thread:
+          timeoutInMilliseconds: 5000
       execution:
         timeout:
           enabled: false

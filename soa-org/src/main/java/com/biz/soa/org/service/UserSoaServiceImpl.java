@@ -227,8 +227,8 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
                 .equals(userLoginResVo.getQualificationAuditStatus(), AuditStatus.NORMAL.getValue())){
             ShopPo shopPo = shopSoaService.findShopPo(Long.parseLong(shopRo.getId())); // TODO: 17-4-27 根据商户id获取shopPo
 //            if(shopPo.getShopLevel() == ShopLevel.VIP_20){
-            userLoginResVo.setDetailAuditStatus(AuditStatus.NORMAL.getValue());
-            userLoginResVo.setQualificationAuditStatus(AuditStatus.NORMAL.getValue());
+//            userLoginResVo.setDetailAuditStatus(AuditStatus.NEED_INFO.getValue());
+//            userLoginResVo.setQualificationAuditStatus(AuditStatus.NEED_INFO.getValue());
 //            }
         }
        /*userLoginResVo.setLuckMoneyCount(voucherService.getUserUseableVoucherCount(userRo.getId()));*/// TODO: 17-4-27 获取用户可用优惠券数量

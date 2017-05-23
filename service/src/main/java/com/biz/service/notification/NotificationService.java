@@ -28,7 +28,7 @@ public class NotificationService extends CommonService {
 
     @Autowired
     private UserRepository userRepository;
-
+/*
     public void sendNotification(String admin, NotifyVo notifyVo) throws CommonException {
         List<Long> userIds = getUserIdsByNotifyVo(notifyVo);
         NoticePo noticePo = new NoticePo();
@@ -44,7 +44,7 @@ public class NotificationService extends CommonService {
             sourceId = notifyVo.getShopTypeId();
             for (String shopType : sourceId.split(",")) {
 //                List<Long> shopTypeUserIds =
-//                    userService.findUserIdByShopType(Long.valueOf(StringUtils.trimAllWhitespace(shopType))); // TODO: 17-4-26 没实现对应方法
+//                    userService.findUserIdByShopType(Long.valueOf(StringUtils.trimAllWhitespace(shopType)));
 //                userIds.addAll(shopTypeUserIds);
             }
         } else {
@@ -54,11 +54,11 @@ public class NotificationService extends CommonService {
 //                    userIds.add(Long.valueOf(userRo.getId()));
 //                }
             } else {
-//                userIds = userService.findAllUserIdByAuditStatus(AuditStatus.NORMAL);// TODO: 17-4-26 没实现对应方法
+//                userIds = userService.findAllUserIdByAuditStatus(AuditStatus.NORMAL);
             }
         }
         return userIds;
-    }
+    }*/
 
 
 }

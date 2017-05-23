@@ -28,7 +28,7 @@ biz:
   soa:
     idx: 1
   zookeeper:
-    url: zookeeper://10.4.100.194:2181
+    url: zookeeper://127.0.0.1:2181
     soaIdx:
       path: /biz/gbck/boot/soaIdx
     #redis:
@@ -49,6 +49,7 @@ biz:
     accessKeyId: LTAIcBsZ7zY66tku
     accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
     bucketName: gbck-test
+    userId: 1526565267726025
   amqp:
     username: guest
     password: guest
@@ -61,8 +62,10 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://10.4.100.194:7777/eureka/,http://10.4.100.195:7777/eureka/,http://10.4.100.196:7777/eureka/
+      defaultZone: http://localhost:7777/eureka/
     registry-fetch-interval-seconds: 1
+  server:
+    eviction-interval-timer-in-ms: 1000
 security:
   basic:
     enabled: false

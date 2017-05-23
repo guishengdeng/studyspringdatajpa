@@ -1,6 +1,9 @@
 package com.biz.gbck.dao.mysql.po.purchase;
 
+import com.biz.gbck.enums.order.AuditStatus;
+
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Embeddable;
 import java.sql.Timestamp;
 
@@ -15,6 +18,9 @@ import java.sql.Timestamp;
 @Embeddable
 public class PurchaseAudit {
 
+    @Convert(converter = AuditStatus.Converter.class)
+    private AuditStatus auditStatus;
+
     //审核人
     @Column(length = 50)
     private String auditor;
@@ -25,6 +31,14 @@ public class PurchaseAudit {
 
     //审核时间
     private Timestamp auditTimestamp;
+
+    public AuditStatus getAuditStatus() {
+        return auditStatus;
+    }
+
+    public void setAuditStatus(AuditStatus auditStatus) {
+        this.auditStatus = auditStatus;
+    }
 
     public String getAuditor() {
         return auditor;

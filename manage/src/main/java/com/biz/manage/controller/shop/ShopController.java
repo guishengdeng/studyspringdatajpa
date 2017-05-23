@@ -9,10 +9,8 @@ import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.user.AuditRejectReason;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopTypeStatus;
-import com.biz.gbck.vo.org.ShopAuditDataMap;
-import com.biz.gbck.vo.org.ShopAuditReqVo;
-import com.biz.gbck.vo.org.ShopAuditVo;
-import com.biz.gbck.vo.org.ShopSearchVo;
+import com.biz.gbck.vo.org.*;
+import com.biz.gbck.vo.spring.PageVO;
 import com.biz.manage.controller.BaseController;
 import com.biz.manage.util.AuthorityUtil;
 import com.biz.service.org.interfaces.ShopService;
@@ -43,20 +41,7 @@ import static com.google.common.collect.Lists.newArrayList;
 @Secured("ROLE_SHOP")
 public class ShopController extends BaseController {
     private static final Logger logger = LoggerFactory.getLogger(ShopController.class);
-    @Autowired
-    private UserService userService;
 
-    @Autowired
-    private ShopService shopService;
-
-    /* @Autowired
-     private DepotEmployeeService depotEmployeeService;*/
-
-    /*@Autowired
-    private DepotService depotService;*/
-
-    @Autowired
-    private ShopTypeService shopTypeService;
 
     @Autowired
     private ShopFeignClient shopFeignClient;
@@ -64,8 +49,6 @@ public class ShopController extends BaseController {
     @Autowired
     private UserFeignClient userFeignClient;
 
-   /* @Autowired
-    private GeoService geoService;*/
 
     /**
      * 列出所有未审核通过的商铺
@@ -80,9 +63,8 @@ public class ShopController extends BaseController {
         vo.setAuditStatus( AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue());
         vo.setAuditStatusTwo(AuditStatus.WAIT_FOR_AUDIT.getValue());
         ModelAndView mav = new ModelAndView("/org/shop/auditList");
-        Page<ShopDetailPo> shopSearchResVoPage = shopFeignClient.findShopAuditDataOfWaitForAudit(vo);
+        Page<ShopDetailResVo> shopSearchResVoPage = shopFeignClient.findShopAuditDataOfWaitForAudit(vo);
         mav.addObject("shopSearchResVoPage", shopSearchResVoPage);
-        mav.addObject("shopTypes", shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL));
         mav.addObject("vo", vo);
         return mav;
     }
@@ -102,9 +84,8 @@ public class ShopController extends BaseController {
            vo.setAuditStatus( AuditStatus.NORMAL.getValue());
            vo.setAuditStatusTwo( AuditStatus.AUDIT_FAILED.getValue());
        }
-        Page<ShopDetailPo> shopSearchResVoPage = shopFeignClient.findShopAuditDataOfWaitForAudit(vo);
+        PageVO<ShopDetailResVo> shopSearchResVoPage = shopFeignClient.findShopAuditDataOfWaitForAudit(vo);
         mav.addObject("shopSearchResVoPage", shopSearchResVoPage);
-        mav.addObject("shopTypes", shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL));
         return mav;
     }
 
@@ -118,38 +99,38 @@ public class ShopController extends BaseController {
 
         logger.debug("Received /shops/audit GET request with shopId:{}.", shopId);
         ModelAndView modelAndView = new ModelAndView("/org/shop/auditDetail");
-        ShopAuditDataMap shopAuditDataMap =
+        ShopDetailResVo shopDetailResVo =
                 shopFeignClient.findShopAuditDataOfWaitForAuditByShopId(shopId);
-        ShopAuditVo shopAuditVo = CollectionUtils.getFirstOrNull(shopAuditDataMap.values());
         List<AuditRejectReason> auditRejectReasons = newArrayList();
-        if (shopAuditVo != null) {
-            if (shopAuditVo.getShopDetail() != null) {
+        if (shopDetailResVo != null) {
                 auditRejectReasons.add(AuditRejectReason.DETAIL_INVALID);
-            }
-            if (shopAuditVo.getShopQualification() != null) {
                 for (AuditRejectReason auditRejectReason : AuditRejectReason.values()) {
                     if (auditRejectReason != AuditRejectReason.DETAIL_INVALID)
                         auditRejectReasons.add(auditRejectReason);
                 }
-            }
         } else {
             logger.debug("No audit data for shopId:{}.", shopId);
             return modelAndView;
         }
-        modelAndView.addObject("auditData", shopAuditVo);
+        modelAndView.addObject("shopDetailResVo", shopDetailResVo);
         List<AuditStatus> auditStatusList =
                 newArrayList(AuditStatus.NORMAL, AuditStatus.AUDIT_FAILED);
-        modelAndView.addObject("auditStatusList", auditStatusList)
-                .addObject("auditRejectReasons", auditRejectReasons).addObject("emp", null)
-                .addObject("shopTypes", shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL));
-     /*shopAuditVo.getShop()==null? null: depotEmployeeService.getDepotEmployeeById(shopAuditVo.getShop().getInviterCode())*/
+        modelAndView.addObject("auditStatusList", auditStatusList).
+                addObject("auditRejectReasons", auditRejectReasons);
         return modelAndView;
     }
 
 
+    /**
+     * 判断营业执照id是否存在
+     * @param businessLicenceId
+     * @param shopId
+     * @return
+     */
     @RequestMapping(value = "isBusinessLicenceIdExist", method = RequestMethod.GET)
     @ResponseBody
-    public Boolean isBusinessLicenceIdExist(@RequestParam("businessLicenceId") String businessLicenceId, @RequestParam("shopId") Long shopId) {
+    public Boolean isBusinessLicenceIdExist(@RequestParam("businessLicenceId") String businessLicenceId,
+                                            @RequestParam("shopId") Long shopId) {
 
         return shopFeignClient.isBusinessLicenceIdExist(businessLicenceId, shopId);
     }
@@ -167,6 +148,67 @@ public class ShopController extends BaseController {
         shopFeignClient.auditShop(shopAuditReqVo);
         return mav;
     }
+
+    /**
+     * 进入商户修改详情页面
+     */
+    @RequestMapping(value = "updateDetail")
+    @PreAuthorize("hasAuthority('OPT_SHOP_UPDATE')")
+    public ModelAndView updateDetail( @RequestParam("shopId") Long shopId,Integer msg) {
+        logger.debug("Received /shops/updateDetail GET request.");
+        ModelAndView modelAndView = new ModelAndView("/org/shop/updateDetail");
+        ShopDetailResVo shopDetailResVo =
+                shopFeignClient.findShopAuditDataOfWaitForAuditByShopId(shopId);
+        List<AuditRejectReason> auditRejectReasons = newArrayList();
+        if (shopDetailResVo != null) {
+            auditRejectReasons.add(AuditRejectReason.DETAIL_INVALID);
+            for (AuditRejectReason auditRejectReason : AuditRejectReason.values()) {
+                if (auditRejectReason != AuditRejectReason.DETAIL_INVALID)
+                    auditRejectReasons.add(auditRejectReason);
+            }
+        } else {
+            logger.debug("No audit data for shopId:{}.", shopId);
+            return modelAndView;
+        }
+        modelAndView.addObject("shopDetailResVo", shopDetailResVo);
+        List<AuditStatus> auditStatusList =
+                newArrayList(AuditStatus.NORMAL, AuditStatus.AUDIT_FAILED,AuditStatus.WAIT_FOR_AUDIT);
+        modelAndView.addObject("auditStatusList", auditStatusList).
+                addObject("auditRejectReasons", auditRejectReasons);
+        if(msg != null){
+            modelAndView.addObject("msg",msg==1?"修改成功":"修改失败");
+        }
+        return modelAndView;
+    }
+
+    /**
+     * 保存修改信息
+     */
+    @RequestMapping(value = "saveUpdateDetail",method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('OPT_SHOP_UPDATE')")
+    public ModelAndView saveUpdateDetail(ShopAuditReqVo shopAuditReqVo) {
+        logger.debug("Received /shops/saveUpdateDetail POST request.");
+        shopAuditReqVo.setHandler(AuthorityUtil.getLoginUsername());
+        Integer msg= 1 ;
+        Boolean judge=shopFeignClient.saveUpdateDetail(shopAuditReqVo);
+        if(!judge){
+            msg=0;
+        }
+        ModelAndView modelAndView = new ModelAndView("redirect:/shops/updateDetail.do?shopId="+shopAuditReqVo.getShopId()+"&msg="+msg+"");
+        return modelAndView;
+    }
+
+    /**
+     * 进入店铺创建页面
+     */
+    @RequestMapping(value = "new", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('OPT_SHOP_SAVE')")
+    public ModelAndView forwardToShopCreatePage() {
+        logger.debug("Received /shops GET request.");
+        return new ModelAndView("org/shop/new");
+    }
+
+
 
     /**
      * 店铺搜索
@@ -197,16 +239,7 @@ public class ShopController extends BaseController {
         return new ModelAndView(format("redirect:/shops/%s.do", shopRo.getId()));
     }*/
 
-    /**
-     * 进入店铺创建页面
-     */
-    @RequestMapping(value = "new", method = RequestMethod.GET)
-    @PreAuthorize("hasAuthority('OPT_SHOP_SAVE')")
-    public ModelAndView forwardToShopCreatePage() {
 
-        logger.debug("Received /shops GET request.");
-        return new ModelAndView("shop/new");
-    }
 
     /**
      * 查看店铺详情
@@ -244,13 +277,11 @@ public class ShopController extends BaseController {
     @PreAuthorize("hasAuthority('OPT_SHOP_UPDATE')")
     @ResponseBody
     public Boolean updateShopStatus( Long shopId) {
-        // todo liubin
-//        CommonStatusEnum status = shopService.findShopPo(shopId).getStatus();
-//        return shopService.updateShopStatus(shopId,
-//                Objects.equals(status,CommonStatusEnum.ENABLE) ?
-//                        CommonStatusEnum.DISABLE :
-//                        CommonStatusEnum.ENABLE);
-        return Boolean.FALSE;
+        CommonStatusEnum status = shopFeignClient.findShopRoById(shopId).getStatus();
+        return shopFeignClient.updateShopStatus(shopId,
+                Objects.equals(status,CommonStatusEnum.ENABLE) ?
+                        CommonStatusEnum.DISABLE :
+                        CommonStatusEnum.ENABLE);
     }
 
     /**

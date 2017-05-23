@@ -69,7 +69,8 @@
                     chk_value.push($(this).val());
                 });
                 if (chk_value.length == 0) {
-                    alert('你还没有选择任何内容！');
+                    $(".msgClass").html("你还没有选择任何内容！");
+                    $("#cat-disable-confirm-modal").modal();
                     return false;
                 }
                 return chk_value;
@@ -90,10 +91,10 @@
                     dataType: 'json',
                     success: function (data) {
                         if (data==true) {
-                            alert("修改成功");
+                            alert("修改成功！");
                             window.location.href = "/shops/completeAuditList.do";
                         } else {
-                            alert("修改失败")
+                            alert("修改失败！");
                         }
                     },
                     error: function () {
@@ -113,6 +114,13 @@
                     this.checked = true;
                 })
             });
+            $(".btn-cancel-ban").click(function () {
+                $("#cat-disable-confirm-modal").modal("hide");
+            });
+
+            function newShop() {
+                alert("哎呀程序猿GG把这忘记了!")
+            }
 
         </script>
     </jsp:attribute>
@@ -154,14 +162,8 @@
                                     商户ID <input name="id" type="text" placeholder="商户ID"  value="<c:out value="${vo.id}"/>" autocomplete="off"  style="width: 100px;height: 30px;">&nbsp;
                                     商户名称 <input name="name" type="text" placeholder="商户名称" value="<c:out value="${vo.name}"/>"  autocomplete="off" style="width: 100px;height: 30px;">&nbsp;
                                     手机号码<input name="mobile" type="text" placeholder="手机号码" value="<c:out value="${vo.mobile}"/>" autocomplete="off" style="width: 100px;height: 30px;">&nbsp;
-                                     商户类型
-                                <select name="shopType" style="width: 100px;height: 30px;">
-                                    <option value="" selected >请选择</option>
-                                    <c:forEach items="${shopTypes}" var="shopType">
-                                    <option  <c:if test="${shopType.id == vo.shopType.id}">selected </c:if>
-                                            value="<c:out value="${shopType.id}"/>"><c:out value="${shopType.name}"/></option>
-                                    </c:forEach>
-                                </select>
+                                <gbck:shopType fieldName="shopTypeId" fieldClasses="field"
+                                                 shopTypeId="${vo.shopTypeId}"/>
                                 <div class="inline "><div class="inline pull-right"><i style="color:white;">_</i></div>
                                     <button type="submit" class="btn btn-info btn-sm" style="height: 30px;">
                                         <i class="ace-icon fa fa-search bigger-110"></i>搜索
@@ -180,7 +182,7 @@
                             </div><div class="inline pull-right"><i style="color:white;">_</i></div>
                             <div class="inline pull-right">
                                 <from id="downDate">
-                                    <button type="submit" class="btn btn-success btn-sm">
+                                    <button class="btn btn-success btn-sm" onclick="newShop()">
                                         <i class="ace-icon fa fa-download bigger-110"></i>导出
                                     </button>
                                 </from>
@@ -212,26 +214,26 @@
                                 </thead>
                                 <tbody>
                                 <c:forEach items="${shopSearchResVoPage.content}" var="shopDetail">
-                                    <tr id="tr_${shopDetail.id}">
+                                    <tr id="tr_${shopDetail.shopDetailId}">
                                         <td style="width:80px">
-                                            <input  name="shop_ids" class="ace" type="checkbox" value="<c:out value='${shopDetail.shop.id}'/>"/>
+                                            <input  name="shop_ids" class="ace" type="checkbox" value="<c:out value='${shopDetail.shopId}'/>"/>
                                             <span class="lbl"></span>
                                         </td>
-                                        <td><c:out value="${shopDetail.shop.id}"/></td>
+                                        <td><c:out value="${shopDetail.shopId}"/></td>
                                         <td><c:out value="${shopDetail.name}"/></td>
-                                        <td><c:out value="${shopDetail.shopType.name}"/></td>
+                                        <td><c:out value="${shopDetail.shopTypeName}"/></td>
                                         <td><c:out value="${shopDetail.shopAddress}"/></td>
                                         <td><c:out value="${shopDetail.mobile}"/></td>
-                                        <td class="${shopDetail.shop.status eq "ENABLE"?"col_green":"col_red"}" id="shop_${shopDetail.shop.id}"><span id="span_${shopDetail.shop.id}">${shopDetail.shop.status eq "ENABLE"?"启用":"禁用"}</span></td>
+                                        <td class="${shopDetail.shopStatus eq "ENABLE"?"col_green":"col_red"}" id="shop_${shopDetail.shopId}"><span id="span_${shopDetail.shopId}">${shopDetail.shopStatus eq "ENABLE"?"启用":"禁用"}</span></td>
                                         <td style="color:${shopDetail.auditStatus==30?"green":"red"}">${shopDetail.auditStatus==30?"审核通过":"审核未通过"}</td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
-                                                <a class="btn btn-xs btn-info" href="#">
+                                                <a class="btn btn-xs btn-info" href="/shops/updateDetail.do?shopId=<c:out value='${shopDetail.shopId}'/>">
                                                     <i class="ace-icon fa fa-pencil bigger-120"></i><span>编辑</span>
                                                 </a>&nbsp;
-                                                <a class="btn btn-xs btn-danger" id="a_${shopDetail.shop.id}" onclick="updateShopStatus('${shopDetail.shop.id}')">
-                                                    <i id="but_${shopDetail.shop.id}" class="ace-icon fa fa-lock bigger-120"></i>
-                                                    <span id="butName_${shopDetail.shop.id}">禁用</span>
+                                                <a class="btn btn-xs btn-danger" id="a_${shopDetail.shopId}" onclick="updateShopStatus('${shopDetail.shopId}')">
+                                                    <i id="but_${shopDetail.shopId}" class="ace-icon fa fa-lock bigger-120"></i>
+                                                    <span id="butName_${shopDetail.shopId}">禁用</span>
                                                 </a>
                                             </div>
                                         </td>
@@ -242,6 +244,25 @@
                             </table>
                             <gbck:springPagePagination url="/shops/completeAuditList.do" springPage="${shopSearchResVoPage}"/>
                             <br><br><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="cat-disable-confirm-modal" role="dialog" class="modal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <button type="button" class="bootbox-close-button close"
+                                    data-dismiss="modal" aria-hidden="true">
+                            </button>
+                            <div class="bootbox-body"><span class="msgClass"></span><span
+                                    id="name-of-ban-cat"></span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-cancel-ban btn-primary">
+                                确认
+                            </button>
                         </div>
                     </div>
                 </div>

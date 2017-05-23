@@ -6,20 +6,14 @@ import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
 import com.biz.gbck.dao.mysql.po.org.ShopPo;
 import com.biz.gbck.dao.mysql.po.org.ShopQualificationPo;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
+import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.enums.CommonStatusEnum;
+import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopTypeStatus;
 import com.biz.gbck.transform.org.ShopDetailPoToShopUpdateDetailVo;
-import com.biz.gbck.vo.org.ShopAuditDataMap;
-import com.biz.gbck.vo.org.ShopAuditReqVo;
-import com.biz.gbck.vo.org.ShopChangeDeliveryAddressReqVo;
-import com.biz.gbck.vo.org.ShopDetailOrQualificationGetReqVo;
-import com.biz.gbck.vo.org.ShopSearchVo;
-import com.biz.gbck.vo.org.ShopUpdateDetailReqVo;
-import com.biz.gbck.vo.org.ShopUpdateQualificationReqVo;
-import com.biz.gbck.vo.org.SimpleShopDetail;
-import com.biz.gbck.vo.org.SimpleShopQualification;
-import com.biz.gbck.vo.org.UserChangeDeliveryNameReqVo;
+import com.biz.gbck.vo.org.*;
+import com.biz.gbck.vo.spring.PageVO;
 import com.biz.soa.org.service.interfaces.ShopSoaService;
 import com.biz.soa.org.service.interfaces.ShopTypeSoaService;
 import com.biz.soa.org.util.RestUtil;
@@ -66,8 +60,8 @@ public class ShopSoaController extends BaseRestController {
 
 //        ShopUpdateDetailReqVo shopUpdateDetailReqVo =
 //            RestUtil.parseBizData(request, ShopUpdateDetailReqVo.class);
-//        logger.debug("Received /shops/updateDetail POST request with ShopUpdateDetailReqVo:{}",
-//            shopUpdateDetailReqVo);
+        logger.info("Received /shops/updateDetail POST request with ShopUpdateDetailReqVo:{}",
+            shopUpdateDetailReqVo);
         if (shopUpdateDetailReqVo.getName().length() > maxShopNameLength) {
             throw new CommonException("店招名称长度不能超过" + maxShopNameLength,
                 ExceptionCode.Global.PARAMETER_ERROR);
@@ -85,7 +79,7 @@ public class ShopSoaController extends BaseRestController {
 
 //        ShopDetailOrQualificationGetReqVo shopDetailOrQualificationGetReqVo =
 //            RestUtil.parseBizData(request, ShopDetailOrQualificationGetReqVo.class);
-        logger.debug("Received /shops/latestDetail POST request with shopId:{}, userId:{}",
+        logger.info("Received /shops/latestDetail POST request with shopId:{}, userId:{}",
             shopDetailOrQualificationGetReqVo.getShopId(),
             shopDetailOrQualificationGetReqVo.getUserId());
         ShopDetailPo latestDetail = shopSoaService.findLatestDetail(shopDetailOrQualificationGetReqVo);
@@ -103,7 +97,7 @@ public class ShopSoaController extends BaseRestController {
 
 //        ShopUpdateQualificationReqVo updateQualificationReqVo =
 //            RestUtil.parseBizData(request, ShopUpdateQualificationReqVo.class);
-        logger.debug(
+        logger.info(
             "Received /shops/updateQualification POST request with ShopUpdateQualificationReqVo:{}",
             updateQualificationReqVo);
         shopSoaService.updateQualification(updateQualificationReqVo);
@@ -119,7 +113,7 @@ public class ShopSoaController extends BaseRestController {
 
 //        ShopDetailOrQualificationGetReqVo shopDetailOrQualificationGetReqVo =
 //            RestUtil.parseBizData(request, ShopDetailOrQualificationGetReqVo.class);
-        logger.debug("Received /shops/latestQualification POST request with shopId:{}, userId:{}",
+        logger.info("Received /shops/latestQualification POST request with shopId:{}, userId:{}",
             shopDetailOrQualificationGetReqVo.getShopId(),
             shopDetailOrQualificationGetReqVo.getUserId());
         ShopQualificationPo latestQualification =
@@ -134,7 +128,7 @@ public class ShopSoaController extends BaseRestController {
      */
     @RequestMapping(value = "types", method = RequestMethod.POST)
     public JSONResult listShopTypes() {
-        logger.debug("Received /shops/types GET request.");
+        logger.info("Received /shops/types GET request.");
         List<ShopTypeRo> normalShopTypes = shopTypeSoaService.findAllShopTypeRo(ShopTypeStatus.NORMAL);
         return new JSONResult(normalShopTypes);
     }
@@ -148,7 +142,7 @@ public class ShopSoaController extends BaseRestController {
 
 //        ShopChangeDeliveryAddressReqVo changeDeliveryAddressReqVo =
 //            RestUtil.parseBizData(request, ShopChangeDeliveryAddressReqVo.class);
-        logger.debug(
+        logger.info(
             "Received /shops/updateDeliveryAddress POST request with ShopChangeDeliveryAddressReqVo:{}",
             changeDeliveryAddressReqVo);
         shopSoaService.changeDeliveryAddress(changeDeliveryAddressReqVo);
@@ -164,7 +158,7 @@ public class ShopSoaController extends BaseRestController {
 
 //        UserChangeDeliveryNameReqVo changeDeliveryAddressReqVo =
 //            RestUtil.parseBizData(request, UserChangeDeliveryNameReqVo.class);
-        logger.debug(
+        logger.info(
             "Received /shops/updateDeliveryName POST request with userId:{}, deliveryName:{}",
             changeDeliveryAddressReqVo.getUserId(), changeDeliveryAddressReqVo.getDeliveryName());
         shopSoaService.changeDeliveryName(changeDeliveryAddressReqVo);
@@ -177,14 +171,17 @@ public class ShopSoaController extends BaseRestController {
 
 //        ShopDetailOrQualificationGetReqVo shopDetailOrQualificationGetReqVo =
 //            RestUtil.parseBizData(request, ShopDetailOrQualificationGetReqVo.class);
-        logger.debug("Received /shops/getUpdateAddressStatus request with shopID:{}",
+        logger.info("Received /shops/getUpdateAddressStatus request with shopID:{}",
             shopDetailOrQualificationGetReqVo.getShopId());
         ShopDetailPo latestDetail = shopSoaService.findLatestDetail(shopDetailOrQualificationGetReqVo);
         return new JSONResult(new ShopDetailPoToShopUpdateDetailVo().apply(latestDetail));
     }
 
+    /**
+     *获取所有条件审核商户
+     */
     @RequestMapping(value = "findShopAuditDataOfWaitForAudit", method = RequestMethod.POST)
-    public Page<ShopDetailPo> findShopAuditDataOfWaitForAudit(@RequestBody ShopSearchVo reqVo) {
+    public PageVO<ShopDetailResVo> findShopAuditDataOfWaitForAudit(@RequestBody ShopSearchVo reqVo) {
         return shopSoaService.findShopAuditDataOfWaitForAudit(reqVo);
     }
 
@@ -192,7 +189,7 @@ public class ShopSoaController extends BaseRestController {
      * 获取单个商户待审核信息
      */
     @RequestMapping(value = "findShopAuditDataOfWaitForAuditByShopId", method = RequestMethod.POST)
-    public ShopAuditDataMap findShopAuditDataOfWaitForAuditByShopId(@RequestBody Long shopId) {
+    public ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(@RequestBody Long shopId) {
         return shopSoaService.findShopAuditDataOfWaitForAuditByShopId(shopId);
     }
 
@@ -205,8 +202,13 @@ public class ShopSoaController extends BaseRestController {
         return shopSoaService.isBusinessLicenceIdExist(businessLicenceId, shopId);
     }
 
+    @RequestMapping(value = "findShopByBusinessLicenceId", method = RequestMethod.POST)
+    public Boolean findShopByBusinessLicenceId(@RequestParam("businessLicenceId") String businessLicenceId) {
+        return shopSoaService.isBusinessLicenceIdExist(businessLicenceId,null);
+    }
+
     /**
-     * 商户统一审核接口
+     * 商户统一审核接口 保存审核信息
      */
     @RequestMapping(value = "auditShop", method = RequestMethod.POST)
     public void auditShop(@RequestBody ShopAuditReqVo reqVo) throws CommonException {
@@ -256,5 +258,19 @@ public class ShopSoaController extends BaseRestController {
         shopSoaService.deleteBlackList(shopIds);
         return new JSONResult();
     }
+
+    @RequestMapping(value = "findShopRoById", method = RequestMethod.POST)
+    public ShopRo findShopRoById(@RequestParam("id") Long id) throws CommonException{
+        return shopSoaService.findShop(id);
+    }
+
+    /**
+     *后台修改商户详情
+     */
+    @RequestMapping(value = "saveUpdateDetail", method = RequestMethod.POST)
+    public Boolean saveUpdateDetail(@RequestBody ShopAuditReqVo shopAuditReqVo) {
+        return shopSoaService.saveUpdateDetail(shopAuditReqVo);
+    }
+
 
 }

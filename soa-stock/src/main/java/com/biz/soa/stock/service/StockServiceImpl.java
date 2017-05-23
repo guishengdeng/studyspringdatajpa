@@ -2,14 +2,13 @@ package com.biz.soa.stock.service;
 
 import com.biz.core.util.DateUtil;
 import com.biz.gbck.dao.redis.repository.stock.OrderStockLockRedisDao;
-import com.biz.gbck.dao.redis.repository.stock.PartnerStockLockRedisDao;
-import com.biz.gbck.dao.redis.repository.stock.PartnerStockRedisDao;
-import com.biz.gbck.dao.redis.ro.stock.PartnerStockLockRo;
-import com.biz.gbck.dao.redis.ro.stock.PartnerStockRo;
+import com.biz.gbck.dao.redis.repository.stock.CompanyStockLockRedisDao;
+import com.biz.gbck.dao.redis.repository.stock.CompanyStockRedisDao;
+import com.biz.gbck.dao.redis.ro.stock.CompanyStockLockRo;
+import com.biz.gbck.dao.redis.ro.stock.CompanyStockRo;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.stock.*;
 import com.biz.service.AbstractBaseService;
-import com.biz.service.stock.StockService;
 import com.google.common.base.Stopwatch;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -42,111 +41,111 @@ public class StockServiceImpl extends AbstractBaseService implements StockServic
     private OrderStockLockRedisDao orderStockLockRedisDao;
 
     @Autowired
-    private PartnerStockRedisDao partnerStockRedisDao;
+    private CompanyStockRedisDao companyStockRedisDao;
 
     @Autowired
-    private PartnerStockLockRedisDao partnerStockLockRedisDao;
+    private CompanyStockLockRedisDao companyStockLockRedisDao;
 
 
     @Override
-    public PartnerStockRespVO getStock(PartnerStockReqVO reqVo) throws DepotNextDoorException {
+    public CompanyStockRespVO getStock(CompanyStockReqVO reqVo) throws DepotNextDoorException {
         if (logger.isDebugEnabled()) {
-            logger.debug("合伙人库存查询-------请求vo: {}", reqVo);
+            logger.debug("公司库存查询-------请求vo: {}", reqVo);
         }
 
-        if (reqVo == null || reqVo.getPartnerId() == null || reqVo.getProductId() == null) {
-            logger.warn("合伙人库存查询-------参数不合法: {}", reqVo);
+        if (reqVo == null || reqVo.getCompanyId() == null || reqVo.getProductId() == null) {
+            logger.warn("公司库存查询-------参数不合法: {}", reqVo);
             return null;
         }
-        PartnerStockRespVO respVo = new PartnerStockRespVO();
-        Long partnerId = reqVo.getPartnerId();
+        CompanyStockRespVO respVo = new CompanyStockRespVO();
+        Long companyId = reqVo.getCompanyId();
         Long productId = respVo.getProductId();
 
-        respVo.setPartnerId(partnerId);
+        respVo.setCompanyId(companyId);
         respVo.setProductId(productId);
 
-        Integer availablePartnerStock = this.getAvailablePartnertStock(partnerId, productId);
+        Integer availablePartnerStock = this.getAvailablePartnertStock(companyId, productId);
         respVo.setQuantity(availablePartnerStock);
 
         if (logger.isDebugEnabled()) {
-            logger.debug("合伙人库存查询-------请求: {}, 返回值: {}", reqVo, respVo);
+            logger.debug("公司库存查询-------请求: {}, 返回值: {}", reqVo, respVo);
         }
         return respVo;
     }
 
     @Override
-    public List<PartnerStockRespVO> getStocks(PartnerStocksReqVO reqVo) throws DepotNextDoorException {
+    public List<CompanyStockRespVO> getStocks(CompanyStocksReqVO reqVo) throws DepotNextDoorException {
         if (logger.isDebugEnabled()) {
-            logger.debug("合伙人批量库存查询-------请求vo: {}", reqVo);
+            logger.debug("公司批量库存查询-------请求vo: {}", reqVo);
         }
 
-        List<PartnerStockRespVO> respVos = newArrayList();
-        if (reqVo == null || reqVo.getPartnerId() == null || CollectionUtils.isEmpty(reqVo.getProductIds())) {
-            logger.warn("合伙人批量库存查询-------参数不合法: {}", reqVo);
+        List<CompanyStockRespVO> respVos = newArrayList();
+        if (reqVo == null || reqVo.getCompanyId() == null || CollectionUtils.isEmpty(reqVo.getProductIds())) {
+            logger.warn("公司批量库存查询-------参数不合法: {}", reqVo);
             return respVos;
         }
-        Long partnerId = reqVo.getPartnerId();
+        Long companyId = reqVo.getCompanyId();
         List<Long> productIds = reqVo.getProductIds();
-        Map<Long, Integer> productIdToAvailableQuantity = this.getAvailablePartnertStocks(partnerId, newLinkedHashSet
+        Map<Long, Integer> productIdToAvailableQuantity = this.getAvailablePartnertStocks(companyId, newLinkedHashSet
                 (productIds));
         for (Long productId : productIds) {
             Integer availableQuantity = ValueUtils.getValue(productIdToAvailableQuantity.get(productId));
-            respVos.add(new PartnerStockRespVO(partnerId, productId, availableQuantity));
+            respVos.add(new CompanyStockRespVO(companyId, productId, availableQuantity));
         }
 
         if (logger.isDebugEnabled()) {
-            logger.debug("合伙人批量库存查询-------请求: {}, 返回值: {}", reqVo, respVos);
+            logger.debug("公司批量库存查询-------请求: {}, 返回值: {}", reqVo, respVos);
         }
         return respVos;
     }
 
     @Override
-    public void updateStocks(List<UpdatePartnerStockReqVO> reqVos) throws DepotNextDoorException {
+    public void updateStocks(List<UpdateCompanyStockReqVO> reqVos) throws DepotNextDoorException {
         if (logger.isDebugEnabled()) {
-            logger.debug("合伙人库存更新-------请求vo: {}", reqVos);
+            logger.debug("公司库存更新-------请求vo: {}", reqVos);
         }
         if (CollectionUtils.isEmpty(reqVos)) {
-            logger.warn("合伙人库存更新-------参数不合法: {}", reqVos);
+            logger.warn("公司库存更新-------参数不合法: {}", reqVos);
             return;
         }
 
         Map<String, Integer> keyToQuantity = newHashMap();
-        List<PartnerStockRo> stockRos = newArrayList();
-        for (UpdatePartnerStockReqVO reqVo : reqVos) {
-            if (reqVo == null || reqVo.getPartnerId() == null || reqVo.getProductId() == null) {
-                logger.warn("合伙人Lock库存参数无效!");
+        List<CompanyStockRo> stockRos = newArrayList();
+        for (UpdateCompanyStockReqVO reqVo : reqVos) {
+            if (reqVo == null || reqVo.getCompanyId() == null || reqVo.getProductId() == null) {
+                logger.warn("公司Lock库存参数无效!");
                 return;
             }
-            Long partnerId = reqVo.getPartnerId();
+            Long companyId = reqVo.getCompanyId();
             Long productId = reqVo.getProductId();
-            PartnerStockRo stockLockRo = new PartnerStockRo(partnerId, productId, null);
+            CompanyStockRo stockLockRo = new CompanyStockRo(companyId, productId, null);
             stockRos.add(stockLockRo);
-            keyToQuantity.put(PartnerStockRedisDao.getHashKey(partnerId, productId), reqVo.getQuantity());
+            keyToQuantity.put(CompanyStockRedisDao.getHashKey(companyId, productId), reqVo.getQuantity());
 
         }
 
-        partnerStockRedisDao.updateQuantities(keyToQuantity);
-        partnerStockRedisDao.save(stockRos);
+        companyStockRedisDao.updateQuantities(keyToQuantity);
+        companyStockRedisDao.save(stockRos);
     }
 
     @Override
-    public void orderUpdateLockStocks(List<UpdatePartnerLockStockReqVO> reqVos) throws DepotNextDoorException {
+    public void orderUpdateLockStocks(List<UpdateCompanyLockStockReqVO> reqVos) throws DepotNextDoorException {
         if (logger.isDebugEnabled()) {
-            logger.debug("合伙人Lock库存更新-------请求vo: {}", reqVos);
+            logger.debug("公司Lock库存更新-------请求vo: {}", reqVos);
         }
         if (CollectionUtils.isEmpty(reqVos)) {
-            logger.warn("合伙人Lock库存更新-------参数不合法: {}", reqVos);
+            logger.warn("公司Lock库存更新-------参数不合法: {}", reqVos);
             return;
         }
-        for (UpdatePartnerLockStockReqVO lockVo : reqVos) {
-            if (lockVo == null || StringUtils.isBlank(lockVo.getOrderCode()) || lockVo.getPartnerId() == null) {
-                logger.warn("合伙人Lock库存参数无效!");
+        for (UpdateCompanyLockStockReqVO lockVo : reqVos) {
+            if (lockVo == null || StringUtils.isBlank(lockVo.getOrderCode()) || lockVo.getCompanyId() == null) {
+                logger.warn("公司Lock库存参数无效!");
                 return;
             }
             String orderCode = lockVo.getOrderCode();
-            Long partnerId = lockVo.getPartnerId();
+            Long companyId = lockVo.getCompanyId();
             Map<String, Integer> keyToLockQuantity = newHashMap();
-            List<PartnerStockLockRo> stockLockRos = newArrayList();
+            List<CompanyStockLockRo> stockLockRos = newArrayList();
             boolean releaseStock = false; //是否为释放库存(即存在数量为负认为释放库存)
             for (StockItemVO item : lockVo.getItems()) {
                 if (item != null && item.getProductId() != null) {
@@ -155,15 +154,15 @@ public class StockServiceImpl extends AbstractBaseService implements StockServic
                         releaseStock = true;
                     }
                     Long productId = item.getProductId();
-                    PartnerStockLockRo stockLockRo = new PartnerStockLockRo(partnerId, productId, null);
+                    CompanyStockLockRo stockLockRo = new CompanyStockLockRo(companyId, productId, null);
                     stockLockRos.add(stockLockRo);
-                    keyToLockQuantity.put(PartnerStockLockRedisDao.getHashKey(partnerId, productId), quantity);
+                    keyToLockQuantity.put(CompanyStockLockRedisDao.getHashKey(companyId, productId), quantity);
                 } else {
-                    logger.warn("合伙人Lock库存更新-------item参数不合法: {}", item);
+                    logger.warn("公司Lock库存更新-------item参数不合法: {}", item);
                 }
             }
-            partnerStockLockRedisDao.updateQuantities(keyToLockQuantity);
-            partnerStockLockRedisDao.save(stockLockRos);
+            companyStockLockRedisDao.updateQuantities(keyToLockQuantity);
+            companyStockLockRedisDao.save(stockLockRos);
 
             if (releaseStock) { //释放库存
                 orderStockLockRedisDao.removeInvalidOrderStockLockKeys(orderCode, keyToLockQuantity.keySet());
@@ -209,23 +208,23 @@ public class StockServiceImpl extends AbstractBaseService implements StockServic
 
 
     /**
-     * 批量获取合伙人可用库存
+     * 批量获取公司可用库存
      *
-     * @param partnerId
+     * @param companyId
      * @param productIds
      * @return
      */
-    private Map<Long, Integer> getAvailablePartnertStocks(Long partnerId, Set<Long> productIds) {
+    private Map<Long, Integer> getAvailablePartnertStocks(Long companyId, Set<Long> productIds) {
         Map<Long, Integer> productIdToAvailabletStock = newHashMap();
-        List<PartnerStockRo> partnerStockRos = partnerStockRedisDao.findByPartnerIdAndProductIds(partnerId, productIds);
-        List<PartnerStockLockRo> partnerStockLockRos = partnerStockLockRedisDao.findByParnterIdAndProductId
-                (partnerId, productIds);
-        for (PartnerStockRo partnerStockRo : partnerStockRos) {
-            Long productId = partnerStockRo.getProductId();
-            Integer availableQuantity = partnerStockRo.getQuantity();
-            for (PartnerStockLockRo partnerStockLockRo : partnerStockLockRos) {
-                if (Objects.equals(productId, partnerStockLockRo.getProductId())) {
-                    availableQuantity = this.calcAvailableStock(availableQuantity, partnerStockLockRo.getQuantity());
+        List<CompanyStockRo> companyStockRos = companyStockRedisDao.findByCompanyIdAndProductIds(companyId, productIds);
+        List<CompanyStockLockRo> companyStockLockRos = companyStockLockRedisDao.findByCompanyIdAndProductId
+                (companyId, productIds);
+        for (CompanyStockRo companyStockRo : companyStockRos) {
+            Long productId = companyStockRo.getProductId();
+            Integer availableQuantity = companyStockRo.getQuantity();
+            for (CompanyStockLockRo companyStockLockRo : companyStockLockRos) {
+                if (Objects.equals(productId, companyStockLockRo.getProductId())) {
+                    availableQuantity = this.calcAvailableStock(availableQuantity, companyStockLockRo.getQuantity());
                 }
             }
             productIdToAvailabletStock.put(productId, availableQuantity);
@@ -234,15 +233,15 @@ public class StockServiceImpl extends AbstractBaseService implements StockServic
     }
 
     /**
-     * 获取合伙人可用库存
+     * 获取公司可用库存
      *
-     * @param partnerId
+     * @param companyId
      * @param productId
      * @return
      */
-    private Integer getAvailablePartnertStock(Long partnerId, Long productId) {
-        Integer quantity = partnerStockRedisDao.getByQuantityPartnerIdAndProductId(partnerId, productId);
-        Integer lockQuantity = partnerStockLockRedisDao.getQuantityByPartnerIdAndProductId(partnerId, productId);
+    private Integer getAvailablePartnertStock(Long companyId, Long productId) {
+        Integer quantity = companyStockRedisDao.getByQuantityCompanyIdAndProductId(companyId, productId);
+        Integer lockQuantity = companyStockLockRedisDao.getQuantityByCompanyIdAndProductId(companyId, productId);
         return this.calcAvailableStock(quantity, lockQuantity);
     }
 

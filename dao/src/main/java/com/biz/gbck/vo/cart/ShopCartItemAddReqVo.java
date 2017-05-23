@@ -12,7 +12,7 @@ import java.sql.Timestamp;
  * @author lei
  * @date 2017/01/12
  */
-public class ShopCartItemAddReqVo extends BaseRequestVo {
+public class ShopCartItemAddReqVo extends BaseShopCartReqVo {
 
     /**
      * 商品编码

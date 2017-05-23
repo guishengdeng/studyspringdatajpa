@@ -2,7 +2,7 @@ server:
   port: 8900
 spring:
   application:
-    name: depotnextdoor-mix-service
+    name: soa-mix-service
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
@@ -58,6 +58,8 @@ management:
 eureka:
   client:
     service-url:
-      defaultZone: http://10.4.100.194:7777/eureka/,http://10.4.100.195:7777/eureka/,http://10.4.100.196:7777/eureka/
+      defaultZone: http://127.0.0.1:7777/eureka/
   instance:
     prefer-ip-address: true
+  server:
+    eviction-interval-timer-in-ms: 1000
