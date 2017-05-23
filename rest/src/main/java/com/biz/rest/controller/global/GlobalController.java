@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,14 +25,14 @@ public class GlobalController extends BaseRestController {
 
 
 
-    @RequestMapping("/init")
+    @RequestMapping(value = "/init", method = RequestMethod.POST)
     public JSONResult init(HttpServletRequest request) {
         logger.debug("Received rest /init/init GET request.");
         return globalFeignClient.getAppConfigMap();
     }
 
 
-    @RequestMapping("upgrade")
+    @RequestMapping(value = "upgrade", method = RequestMethod.POST)
     public JSONResult upgrade(
             @RequestParam(value = "ver", required = true, defaultValue = "0") String ver,
             @RequestParam(value = "os", required = true, defaultValue = "") String os,

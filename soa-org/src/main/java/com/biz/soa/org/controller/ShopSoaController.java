@@ -202,6 +202,11 @@ public class ShopSoaController extends BaseRestController {
         return shopSoaService.isBusinessLicenceIdExist(businessLicenceId, shopId);
     }
 
+    @RequestMapping(value = "findShopByBusinessLicenceId", method = RequestMethod.POST)
+    public Boolean findShopByBusinessLicenceId(@RequestParam("businessLicenceId") String businessLicenceId) {
+        return shopSoaService.isBusinessLicenceIdExist(businessLicenceId,null);
+    }
+
     /**
      * 商户统一审核接口 保存审核信息
      */

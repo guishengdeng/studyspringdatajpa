@@ -107,9 +107,12 @@
 
 
             $("input[name='businessLicenceId']").blur(function () {
-                var shopId=$().val();
                 var businessLicenceId = $("input[name='businessLicenceId']").val();
-                $.get("shops/isBusinessLicenceIdExist.do?businessLicenceId=" + businessLicenceId + "&shopId=", function (isExist) {
+                if(businessLicenceId == null || businessLicenceId== "" || businessLicenceId== undefined
+                ){
+                    return;
+                }
+                $.get("shops/isBusinessLicenceIdExist.do?businessLicenceId=" + businessLicenceId + "", function (isExist) {
                     if (isExist) {
                         $("input[name='businessLicenceId']").val("")
                         $(".msgClass").html("营业执照ID已经存在！");
@@ -210,9 +213,7 @@
                                             <span>注册地址:</span>
                                             <gbck:geo provinceFieldName="provinceId" cityFieldName="cityId"
                                                         districtFieldName="districtId"
-                                                      provinceId=""
-                                                      cityId=""
-                                                      districtId=""/>
+                                                      provinceId="" cityId="" districtId=""/>
                                         </div>
                                     </div>
                                 </div>

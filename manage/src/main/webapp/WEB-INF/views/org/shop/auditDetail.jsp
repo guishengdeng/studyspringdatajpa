@@ -112,6 +112,10 @@
 
             $("input[name='businessLicenceId']").blur(function () {
                 var businessLicenceId = $("input[name='businessLicenceId']").val();
+                if(businessLicenceId == null || businessLicenceId== "" || businessLicenceId== undefined
+                ){
+                    return;
+                }
                 $.get("shops/isBusinessLicenceIdExist.do?businessLicenceId=" + businessLicenceId + "&shopId=${shopDetailResVo.shopId}", function (isExist) {
                     if (isExist) {
                         $("input[name='businessLicenceId']").val("")

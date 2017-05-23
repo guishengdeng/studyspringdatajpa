@@ -905,6 +905,10 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
         if (isBlank(businessLicenceId)) {
             return true;
         }
+        if(shopId == null){
+            return CollectionUtils.isNotEmpty(
+                    shopRepository.findShopByBusinessLicenceId(businessLicenceId));
+        }
         return CollectionUtils.isNotEmpty(
                 shopRepository.findShopIdBybusinessLicenceId(businessLicenceId, getValue(shopId)));
     }

@@ -6,6 +6,7 @@ import com.biz.soa.feign.hystrix.sms.SMSFeignClientHystrix;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 
 /**
@@ -18,13 +19,13 @@ public interface SMSFeignClient {
     /**
      * 短信发送
      */
-    @RequestMapping(value = "soa/sms/send")
+    @RequestMapping(value = "soa/sms/send", method = RequestMethod.POST)
     void sendSMS(@RequestBody SMSSentReqVo smsSentReqVo);
 
     /**
      * 验证短信验证码是否正确, 不会让验码失效
      * @return true 正确 false 不正确
      */
-    @RequestMapping(value = "soa/sms/validate")
+    @RequestMapping(value = "soa/sms/validate", method = RequestMethod.POST)
     Boolean validateSMSCode(@RequestBody SMSValidateReqVo reqVo);
 }
