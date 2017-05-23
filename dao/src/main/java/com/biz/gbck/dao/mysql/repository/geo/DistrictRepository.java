@@ -33,4 +33,6 @@ public interface DistrictRepository
     DistrictPo findByCityAndBaiduname(CityPo city, String receiveCountry);
 
     List<DistrictPo> findByCityIdAndName(Integer cityId, String name);
+
+    List<DistrictPo> findByCityIdAndStatus(Integer cityId, Integer status);
 }

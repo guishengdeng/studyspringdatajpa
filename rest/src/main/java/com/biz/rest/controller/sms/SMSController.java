@@ -34,7 +34,8 @@ import javax.servlet.http.HttpServletRequest;
     /**
      * 发送验证码短信
      */
-    @RequestMapping(value = "send", method = RequestMethod.POST) public JSONResult sendSMS(
+    @RequestMapping(value = "send", method = RequestMethod.POST)
+    public JSONResult sendSMS(
         HttpServletRequest request) throws CommonException {
         String clientIP = HttpServletHelper.getClientIP(request);
         SMSSentReqVo smsSentReqVo = RestUtil.parseBizData(request, SMSSentReqVo.class);
@@ -46,7 +47,8 @@ import javax.servlet.http.HttpServletRequest;
     /**
      * 验证短信验证码是否正确, 不会让验码失效
      */
-    @RequestMapping(value = "validate", method = RequestMethod.POST) public JSONResult validate(
+    @RequestMapping(value = "validate", method = RequestMethod.POST)
+    public JSONResult validate(
         HttpServletRequest request) throws CommonException {
         String clientIP = HttpServletHelper.getClientIP(request);
         SMSValidateReqVo reqVo = RestUtil.parseBizData(request, SMSValidateReqVo.class);

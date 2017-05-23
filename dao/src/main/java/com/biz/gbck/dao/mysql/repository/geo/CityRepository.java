@@ -24,6 +24,10 @@ public interface CityRepository extends CommonJpaRepository<CityPo, Integer>, Ci
 
 
     List<CityPo> findByProvinceIdAndName(Integer provinceId, String name);
+
+    List<CityPo> findByProvinceIdAndStatus(Integer provinceId, Integer status);
+
+
 }
 
 

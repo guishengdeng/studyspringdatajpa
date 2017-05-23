@@ -18,7 +18,7 @@ public class ShopSearchVo {
 	/**
 	 * 商户类型
 	 */
-	private ShopTypePo shopType;
+	private Long shopTypeId;
 
 	/**
 	 * 公司名称
@@ -56,12 +56,12 @@ public class ShopSearchVo {
 		this.id = id;
 	}
 
-	public ShopTypePo getShopType() {
-		return shopType;
+	public Long getShopTypeId() {
+		return shopTypeId;
 	}
 
-	public void setShopType(ShopTypePo shopType) {
-		this.shopType = shopType;
+	public void setShopTypeId(Long shopTypeId) {
+		this.shopTypeId = shopTypeId;
 	}
 
 	public String getName() {
