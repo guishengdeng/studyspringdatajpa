@@ -14,6 +14,7 @@ import com.biz.gbck.common.model.order.IOrderItemVo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
+import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.order.resp.IOrderPeriodQueryReqVo;
 import com.biz.soa.feign.hystrix.voucher.VoucherFeignClientHystrix;
 import com.biz.vo.voucher.ShopCraftVoucherVo;
@@ -68,7 +69,7 @@ public interface VoucherFeignClient {
      * @return
      */
     @RequestMapping(value="/soa/voucher/getVoucherlimit",method=RequestMethod.POST)
-    public int getVoucherLimit(@RequestBody IOrderPeriodQueryReqVo iOrderPeriodQueryReqVo);
+    public int getVoucherLimit(@RequestBody IOrderPeriodQueryReqVo iOrderPeriodQueryReqVo) throws DepotNextDoorException;
     
     /**
      * 使用优惠券

@@ -48,7 +48,7 @@ public class SoaOrderController extends SoaBaseController {
 
     //取消订单
     @RequestMapping("/app/cancel")
-    public JSONResult cancelOrder(@RequestBody IdReqVo reqVo) {
+    public JSONResult cancelOrder(@RequestBody IdReqVo reqVo) throws DepotNextDoorException {
         orderService.cancelOrder(reqVo);
         return new JSONResult();
     }

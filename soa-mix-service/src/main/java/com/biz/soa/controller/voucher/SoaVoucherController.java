@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.biz.gbck.common.exception.CommonException;
-import com.biz.gbck.common.exception.ExceptionCode;
 import com.biz.gbck.common.model.order.IOrderItemVo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherLimitType;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherTypeStatus;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
+import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.DepotNextDoorExceptions;
 import com.biz.gbck.util.DateTool;
 import com.biz.gbck.vo.order.resp.IOrderPeriodQueryReqVo;
@@ -170,28 +170,30 @@ public class SoaVoucherController extends SoaBaseController{
     /**
      * 优惠券使用
      * @param iOrderPeriodQueryReqVo
+     * @throws DepotNextDoorException 
      */
     @RequestMapping(value="/useVoucher",method=RequestMethod.POST)
-    public void useVoucher(@RequestBody IOrderPeriodQueryReqVo iOrderPeriodQueryReqVo){
+    public void useVoucher(@RequestBody IOrderPeriodQueryReqVo iOrderPeriodQueryReqVo) throws DepotNextDoorException{
     	Long userId = iOrderPeriodQueryReqVo.getUserId();
     	List<Long> vouTypeIds = iOrderPeriodQueryReqVo.getCoupons();
     	for (Long ids : vouTypeIds) {
     		VoucherTypeRo voucherTypeRo = voucherTypeService.getVoucherTypeRoById(ids);
     		 VoucherRo voucherRo = voucherService.fetchVoucher(userId, voucherTypeRo);
-    		 //orderId
+    		 //订单id
     		 Long orderId = null;
-    		 voucherService.useVoucher(iOrderPeriodQueryReqVo.getUserId(), voucherRo.getId(), null, iOrderPeriodQueryReqVo.getOrderAmount());
+    		 voucherService.useVoucher(iOrderPeriodQueryReqVo.getUserId(), voucherRo.getId(), null, getVoucherLimit(iOrderPeriodQueryReqVo));
 		}
     }
     
     /**
-     * 获取优惠额度
+     * 计算优惠券优惠金额
      * @param iOrderPeriodQueryReqVo
      * @return
      * @throws CommonException 
+     * @throws DepotNextDoorException 
      */
     @RequestMapping(value = "/getVoucherlimit",method=RequestMethod.POST)
-    public int getVoucherLimit(@RequestBody IOrderPeriodQueryReqVo iOrderPeriodQueryReqVo) throws CommonException{
+    public int getVoucherLimit(@RequestBody IOrderPeriodQueryReqVo iOrderPeriodQueryReqVo) throws DepotNextDoorException{
 		int voucherLimit =0; ;
 		//优惠券类型id
     	List<Long> voucherTypeIds = iOrderPeriodQueryReqVo.getCoupons();
@@ -209,10 +211,19 @@ public class SoaVoucherController extends SoaBaseController{
     	return voucherLimit;
     }
     
-    private int getIntLimit(Long voucherTypeId,Integer voucherCount,List<? extends IProduct> iProduct,Long userId){
+    /**
+     * @param voucherTypeId
+     * @param voucherCount
+     * @param iProduct
+     * @param userId
+     * @return
+     * @throws DepotNextDoorException
+     */
+    private int getIntLimit(Long voucherTypeId,Integer voucherCount,List<? extends IProduct> iProduct,Long userId) throws DepotNextDoorException{
     	VoucherTypeRo voucherTypeRo = voucherTypeService.getVoucherTypeRoById(voucherTypeId);
         if (voucherTypeRo == null) {
-            throw DepotNextDoorExceptions.Voucher.VOUCHER_NOT_EXISTS;
+//            throw DepotNextDoorExceptions.Voucher.VOUCHER_NOT_EXISTS;
+        	throw new DepotNextDoorException(DepotNextDoorExceptions.Voucher.VOUCHER_NOT_EXISTS.toString());
         }
         if (voucherCount == null || voucherCount == 0) {
             return 0;
@@ -220,8 +231,8 @@ public class SoaVoucherController extends SoaBaseController{
         //验证付款类型与优惠券设定的支付方式是否满足
         // 优惠券是否可叠加使用判断
         if (voucherTypeRo.getTypeStatus() == VoucherTypeStatus.MUTEX && voucherCount > 1) {
-            throw new CommonException("优惠券"+ voucherTypeRo.getName()+"一次只能使用一张",
-                    ExceptionCode.Voucher.VOUCHER_VALIDATE_ERROR);
+//            throw new CommonException("优惠券"+ voucherTypeRo.getName()+"一次只能使用一张",
+//                    ExceptionCode.Voucher.VOUCHER_VALIDATE_ERROR);
         }
         // 计算可用优惠券的商品
 //        iProduct = this.calculateVoucherAbleProductItem(iProduct);
@@ -231,7 +242,8 @@ public class SoaVoucherController extends SoaBaseController{
         Collection<VoucherRo> useableVouchers = voucherService
                 .findUsableVouchersByUserIdAndVoucherType(userId, voucherTypeId);
         if (org.apache.commons.collections.CollectionUtils.isEmpty(useableVouchers) || useableVouchers.size() < voucherCount) {
-            throw new CommonException("优惠券可用数量不足", ExceptionCode.Voucher.VOUCHER_SHORTAGE_ERROR);
+//            throw new CommonException("优惠券可用数量不足", ExceptionCode.Voucher.VOUCHER_SHORTAGE_ERROR);
+        	throw new DepotNextDoorException(DepotNextDoorExceptions.Voucher.VOUCHER_SHORTAGE_ERROR.toString());
         }
         // 校验当前选择的优惠券是否满足当前所选购商品
         boolean isCheckUseVoucherType = false;// 是否可使用当前选择的优惠券<针对选择了优惠券的情况下使用>  true为可使用  false为不可使用
@@ -277,7 +289,8 @@ public class SoaVoucherController extends SoaBaseController{
                 + "] productIds[" + voucherTypeRo.getProductIds() + "]  isCheckUseVoucherType["
                 + isCheckUseVoucherType + "]");
         if (!isCheckUseVoucherType) {
-            throw new CommonException("所选优惠券不支持选购商品", ExceptionCode.Voucher.VOUCHER_VALIDATE_ERROR);
+//            throw new CommonException("所选优惠券不支持选购商品", ExceptionCode.Voucher.VOUCHER_VALIDATE_ERROR);
+        	throw new DepotNextDoorException(DepotNextDoorExceptions.Voucher.VOUCHER_VALIDATE_ERROR.toString());
         }
         // 订单限额判断
         logger.debug("选购商品未达到优惠券订单限额>>>  voucherTypePaymentLimit[" + voucherTypeRo.getPaymentLimit()
@@ -285,8 +298,9 @@ public class SoaVoucherController extends SoaBaseController{
                 + totalPayLimitAmount + "]");
         if (voucherTypeRo.getPaymentLimit() > 0
                 && totalPayLimitAmount < voucherTypeRo.getPaymentLimit() * voucherCount) {
-            throw new CommonException("选购商品未达到优惠券订单限额",
-                    ExceptionCode.Voucher.VOUCHER_VALIDATE_ERROR);
+//            throw new CommonException("选购商品未达到优惠券订单限额",
+//                    ExceptionCode.Voucher.VOUCHER_VALIDATE_ERROR);
+        	throw new DepotNextDoorException(DepotNextDoorExceptions.Voucher.VOUCHER_VALIDATE_ERROR.toString());
         }
         // 选择优惠券的优惠金额
         int maxOffsetAmount = voucherTypeRo.getFaceValue()*voucherCount;
