@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 /**
- * 出库单明细
+ * 收货单明细
  *
  * @author lei
  * @date 2017年04月20日
@@ -22,17 +22,17 @@ public class RecipientOrderItem extends BaseEntity {
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "recipient_order_id")
-    private DeliveryOrder deliveryOrder;
+    private RecipientOrder recipientOrder;
 
     @Embedded
     private ProductItem productItem;
 
-    public DeliveryOrder getDeliveryOrder() {
-        return deliveryOrder;
+    public RecipientOrder getRecipientOrder() {
+        return recipientOrder;
     }
 
-    public void setDeliveryOrder(DeliveryOrder deliveryOrder) {
-        this.deliveryOrder = deliveryOrder;
+    public void setRecipientOrder(RecipientOrder recipientOrder) {
+        this.recipientOrder = recipientOrder;
     }
 
     public ProductItem getProductItem() {

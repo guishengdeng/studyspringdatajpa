@@ -1,4 +1,4 @@
-package com.biz.soa.order.builder;
+package com.biz.soa.order.util;
 
 import com.biz.gbck.vo.order.resp.IProduct;
 import org.codelogger.utils.ValueUtils;
@@ -6,16 +6,16 @@ import org.codelogger.utils.ValueUtils;
 import java.util.List;
 
 /**
- * 订单抽象 Builder
+ * 订单辅助工具
  *
  * @author lei
- * @date 2017年05月03日
+ * @date 2017年05月20日
  * @reviewer
  * @see
  */
-public class AbstractOrderBuilder {
+public class OrderUtil {
 
-    Integer calcOrderAmount(List<? extends IProduct> productVos) {
+    public static Integer calcOrderAmount(List<? extends IProduct> productVos) {
         int orderAmount = 0;
         for (IProduct productVo : productVos) {
             orderAmount += ValueUtils.getValue(productVo.getPrice()) * ValueUtils.getValue(productVo.getQuantity());

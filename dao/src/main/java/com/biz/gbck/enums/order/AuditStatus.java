@@ -12,9 +12,10 @@ import com.biz.core.enums.converter.BaseEnumValueConverter;
  * @see
  */
 public enum AuditStatus implements EnumerableValue {
-    WAITING_AUDIT(0),//待审核
-    PASS(1),//审核通过
-    REJECT(2); //审核不通过
+    CANCEL(0),//待审核
+    WAITING_AUDIT(1),//待审核
+    REJECT(5),//审核不通过
+    PASS(10);//审核通过
 
     private int value;
 

@@ -1,9 +1,11 @@
 package com.biz.soa.order.builder;
 
 import com.biz.core.asserts.SystemAsserts;
+import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.vo.order.resp.OrderItemRespVo;
 import com.biz.gbck.vo.order.resp.OrderPromotionRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
+import com.biz.soa.order.util.OrderUtil;
 
 import java.util.List;
 
@@ -15,7 +17,7 @@ import java.util.List;
  * @reviewer
  * @see
  */
-public class OrderSettlePageRespVoBuilder extends AbstractOrderBuilder {
+public class OrderSettlePageRespVoBuilder {
 
     private OrderSettlePageRespVo respVo;
 
@@ -34,12 +36,12 @@ public class OrderSettlePageRespVoBuilder extends AbstractOrderBuilder {
     //明细&订单总金额
     public OrderSettlePageRespVoBuilder setItems(List<OrderItemRespVo> items){
         this.respVo.setItems(items);
-        this.respVo.setOrderAmount(super.calcOrderAmount(items));
+        this.respVo.setOrderAmount(OrderUtil.calcOrderAmount(items));
         return this;
     }
 
     //付款促销活动
-    public OrderSettlePageRespVoBuilder setPromtions(List<OrderPromotionRespVo> promotions){
+    public OrderSettlePageRespVoBuilder setPromotions(List<OrderPromotionRespVo> promotions){
         this.respVo.setPromotions(promotions);
         return this;
     }
@@ -57,10 +59,10 @@ public class OrderSettlePageRespVoBuilder extends AbstractOrderBuilder {
     }
 
     //收货人信息
-    public OrderSettlePageRespVoBuilder setBuyerInfo(String buyerName, String buyerMobile, String buyerAddress){
-        this.respVo.setBuyerName(buyerName);
-        this.respVo.setBuyerMobile(buyerMobile);
-        this.respVo.setBuyerAddress(buyerAddress);
+    public OrderSettlePageRespVoBuilder setBuyerInfo(ShopRo shopRo){
+        this.respVo.setBuyerName(shopRo.getDeliveryName());
+        this.respVo.setBuyerMobile(shopRo.getDeliveryMobile());
+        this.respVo.setBuyerAddress(shopRo.getDeliveryAddress());
         return this;
     }
 

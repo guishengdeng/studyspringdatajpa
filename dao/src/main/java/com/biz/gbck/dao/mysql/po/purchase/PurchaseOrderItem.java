@@ -1,6 +1,5 @@
 package com.biz.gbck.dao.mysql.po.purchase;
 
-import com.biz.gbck.enums.product.ProductUnit;
 import com.biz.support.jpa.po.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;

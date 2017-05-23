@@ -20,23 +20,16 @@ public interface ShopCartService {
     void addCartItem(ShopCartItemAddReqVo reqVo) throws DepotNextDoorException;
 
     /**
-     * 获取购物车信息
+     * 获取购物车商品信息
      * @param reqVo
-     * @return
      */
-    ShopCartRespVo getCartInfo(ShopCartListReqVo reqVo) throws DepotNextDoorException;
+    ShopCartRespVo getCartItemsInfo(ShopCartListReqVo reqVo) throws DepotNextDoorException;
 
     /**
      * 批量删除购物车商品
      * @param reqVo
      */
     void deleteCartItems(ShopCartItemBatchDeleteReqVo reqVo) throws DepotNextDoorException;
-
-    /**
-     * 购物车数量更新
-     * @param reqVo
-     */
-    void updateCartItemQuantity(ShopCartItemUpdateReqVo reqVo) throws DepotNextDoorException;
 
 
     /**
