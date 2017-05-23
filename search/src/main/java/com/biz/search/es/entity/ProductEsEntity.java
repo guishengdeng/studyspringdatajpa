@@ -60,13 +60,13 @@ public class ProductEsEntity implements Serializable {
     /**
      * 名称
      */
-    @Field(type = FieldType.String, index = FieldIndex.not_analyzed, store = true)
+    @Field(type = FieldType.String, index = FieldIndex.analyzed, analyzer = "ik", searchAnalyzer = "ik_smart", store = true)
     private String name;
 
     /**
      * 子标题
      */
-    @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
+    @Field(type = FieldType.String, index = FieldIndex.analyzed)
     private String subTitle;
 
     /**
