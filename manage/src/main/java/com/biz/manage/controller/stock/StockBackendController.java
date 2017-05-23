@@ -28,12 +28,12 @@ import java.util.List;
 public class StockBackendController extends BaseController {
 
     @Autowired
-   private StockBackendService stockBackendService;
+    private StockBackendService stockBackendService;
 
-    @GetMapping("stock")
+    @RequestMapping("stock")
     @PreAuthorize("hasAuthority('OPT_STOCK_LIST')")
-    public ModelAndView Search( ProductShowVo productShowVo) {
-        Page<StockShowVo> page= stockBackendService.searchList(productShowVo);
+    public ModelAndView Search(ProductShowVo productShowVo) {
+        Page<StockShowVo> page = stockBackendService.searchList(productShowVo);
         return new ModelAndView("goods/stock").addObject("page", page);
     }
 

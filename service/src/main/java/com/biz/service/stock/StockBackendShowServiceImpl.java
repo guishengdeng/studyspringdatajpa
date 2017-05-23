@@ -34,6 +34,8 @@ public class StockBackendShowServiceImpl extends AbstractBaseService implements 
 
     @Override
     public Page<StockShowVo> searchList(ProductShowVo productShowVo) {
+
+        //库存数量
         Integer quantity = 0;
         Page<Product> page = productRepository.findAll(new ProductSpecification(productShowVo),
                 new PageRequest(productShowVo.getPage() - 1, productShowVo.getPageSize(), new Sort(Sort.Direction.ASC, "productCode")));

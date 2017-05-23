@@ -44,7 +44,7 @@
                             <h3 class="header smaller lighter blue">
                                 库存日志
                             </h3>
-                            <form action="goods/stock.do" method="get">
+                            <form action="goods/stock.do" method="POST">
                                 <div class="col-md-3 inline">
                                     <label>商品编码</label>
                                     <input name="productCode" value='<c:out value="${productShowVo.productCode}" />'
@@ -60,14 +60,6 @@
                                     <input name="brandName" value='<c:out value="${productShowVo.brandName}" />'
                                            type="text" placeholder="品牌" autocomplete="off">
                                 </div>
-                                <%--<div class="col-md-2 inline">--%>
-                                    <%--<label>商品类别</label>--%>
-                                    <%--<gbck:stockCategorySelect fieldName="categoryName"--%>
-                                                              <%--selectedStatus="${productShowVo.categoryName}"--%>
-                                                              <%--withNone="true" spiritLabel="白酒" berrLabel="啤酒"--%>
-                                                              <%--redWineLabel="红酒" foreignWineLable="洋酒" elseLabel="其他"/>--%>
-                                <%--</div>--%>
-
                                     <div class="col-md-2 inline">
                                     <label>商品类别</label>
                                     <gbck:stockCategorySelect fieldName="categoryName"
