@@ -12,7 +12,7 @@ import static com.google.common.collect.Lists.newArrayList;
  *
  * @author lei
  */
-public class UpdatePartnerLockStockReqVO implements Serializable {
+public class UpdateCompanyLockStockReqVO implements Serializable {
     private static final long serialVersionUID = 1740147389692009015L;
 
     public static final int DEFAULT_ALIVE_TIME = 60; //默认失效时间
@@ -25,7 +25,7 @@ public class UpdatePartnerLockStockReqVO implements Serializable {
     /**
      * 合伙人id(必选)
      */
-    private Long partnerId;
+    private Long companyId;
 
 
     /**
@@ -46,21 +46,21 @@ public class UpdatePartnerLockStockReqVO implements Serializable {
         this.orderCode = orderCode;
     }
 
-    public UpdatePartnerLockStockReqVO() {
+    public UpdateCompanyLockStockReqVO() {
     }
 
-    public UpdatePartnerLockStockReqVO(String orderCode, Long partnerId, List<StockItemVO> items) {
+    public UpdateCompanyLockStockReqVO(String orderCode, Long companyId, List<StockItemVO> items) {
         this.orderCode = orderCode;
-        this.partnerId = partnerId;
+        this.companyId = companyId;
         this.items = items;
     }
 
-    public Long getPartnerId() {
-        return partnerId;
+    public Long getCompanyId() {
+        return companyId;
     }
 
-    public void setPartnerId(Long partnerId) {
-        this.partnerId = partnerId;
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
     }
 
     public List<StockItemVO> getItems() {

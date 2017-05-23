@@ -5,12 +5,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import java.io.Serializable;
 
 /**
- *  单个商品(合伙人)库存 返回vo
+ *  单个商品库存 返回vo
 
  *
  * @author lei
  */
-public class PartnerStockReqVO implements Serializable {
+public class CompanyStockReqVO implements Serializable {
     private static final long serialVersionUID = 2184303947507749926L;
     /**
      * 商品id(必选)
@@ -20,10 +20,10 @@ public class PartnerStockReqVO implements Serializable {
     /**
      * 合伙人id(必选)
      */
-    private Long partnerId;
+    private Long companyId;
 
-    public PartnerStockReqVO(Long partnerId, Long productId) {
-        this.partnerId = partnerId;
+    public CompanyStockReqVO(Long companyId, Long productId) {
+        this.companyId = companyId;
         this.productId = productId;
     }
 
@@ -35,12 +35,12 @@ public class PartnerStockReqVO implements Serializable {
         this.productId = productId;
     }
 
-    public Long getPartnerId() {
-        return partnerId;
+    public Long getCompanyId() {
+        return companyId;
     }
 
-    public void setPartnerId(Long partnerId) {
-        this.partnerId = partnerId;
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
     }
 
     @Override

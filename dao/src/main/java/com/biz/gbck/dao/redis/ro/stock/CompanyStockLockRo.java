@@ -7,22 +7,22 @@ import com.biz.redis.annotation.Ro;
 import com.biz.redis.bean.BaseRedisObject;
 
 /**
- * 合伙人库存 全量
+ * 公司库存 全量
  *
  * @author lei
  */
-@Ro(key = "stock:partner:lock")
-public class PartnerStockLockRo extends BaseRedisObject<String> {
+@Ro(key = "stock:company:lock")
+public class CompanyStockLockRo extends BaseRedisObject<String> {
 
     /**
-     * stock:partner:lock:partnerId:productId
+     * stock:company:lock:companyId:productId
      */
     private String id;
 
     /**
      * 合伙人编号
      **/
-    private Long partnerId;
+    private Long companyId;
 
     /**
      * 商品id
@@ -35,13 +35,13 @@ public class PartnerStockLockRo extends BaseRedisObject<String> {
     @RedisWriteIgnore(type = RedisWriteIgnore.IgnoreType.NULL)
     private Integer quantity = 0;
 
-    public PartnerStockLockRo() {
+    public CompanyStockLockRo() {
     }
 
-    public PartnerStockLockRo(Long partnerId, Long productId, Integer quantity) {
+    public CompanyStockLockRo(Long companyId, Long productId, Integer quantity) {
         this();
-        this.id = String.format("%s%s%s", partnerId, Constant.SEPARATOR, productId);
-        this.partnerId = partnerId;
+        this.id = String.format("%s%s%s", companyId, Constant.SEPARATOR, productId);
+        this.companyId = companyId;
         this.productId = productId;
         this.quantity = quantity;
         this.setUpdateTimestamp(DateUtil.now());
@@ -57,12 +57,12 @@ public class PartnerStockLockRo extends BaseRedisObject<String> {
         this.id = id;
     }
 
-    public Long getPartnerId() {
-        return partnerId;
+    public Long getCompanyId() {
+        return companyId;
     }
 
-    public void setPartnerId(Long partnerId) {
-        this.partnerId = partnerId;
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
     }
 
     public Long getProductId() {
