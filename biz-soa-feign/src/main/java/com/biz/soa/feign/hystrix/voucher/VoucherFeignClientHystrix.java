@@ -60,5 +60,17 @@ public class VoucherFeignClientHystrix implements VoucherFeignClient {
 		return null;
 	}
 
+	@Override
+	public int getVoucherLimit(IOrderPeriodQueryReqVo iOrderPeriodQueryReqVo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void useVoucher(IOrderPeriodQueryReqVo iOrderPeriodQueryReqVo) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

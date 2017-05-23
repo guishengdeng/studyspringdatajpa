@@ -8,7 +8,7 @@ import com.biz.gbck.vo.payment.resp.PaidRespVo;
 import com.biz.gbck.vo.payment.resp.PaymentQueryResultRespVo;
 import com.biz.gbck.vo.payment.resp.WechatPayResp;
 import com.biz.pay.wechat.res.WechatPayNotifyRespVo;
-import com.biz.soa.feign.hystrix.order.OrderFeignClientHystrix;
+import com.biz.soa.feign.hystrix.payment.PaymentFeignClientHystrix;
 import com.biz.support.web.handler.JSONResult;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +25,7 @@ import java.util.Map;
  * @reviewer
  * @see
  */
-@FeignClient(name = "soa-order", fallback = OrderFeignClientHystrix.class)
+@FeignClient(name = "soa-order", fallback = PaymentFeignClientHystrix.class)
 public interface PaymentFeignClient {
 
     //查询支付状态
@@ -34,11 +34,11 @@ public interface PaymentFeignClient {
 
     //获取支付宝支付参数
     @RequestMapping("/soa/payment/app/alipay")
-    AlipaySignRespVo getAlipaySign(@RequestParam Long orderId);
+    AlipaySignRespVo getAlipaySign(@RequestParam("orderId") Long orderId);
 
     //获取支付宝支付参数
     @RequestMapping("/soa/payment/app/wechat")
-    WechatPayResp getWechatParam(@RequestBody IWechatPaymentReqVo req, @RequestParam("orderId") Long orderId);
+    WechatPayResp getWechatParam(@RequestBody IWechatPaymentReqVo req);
 
     //支付宝继续支付
     @RequestMapping("/soa/payment/app/alipay")

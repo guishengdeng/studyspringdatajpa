@@ -24,6 +24,12 @@ public interface VoucherService{
     public Collection<VoucherRo> findUsableVouchersByUserIdAndVoucherType(Long userId,
         Long voucherTypeId);
     
+    /**
+     * 拿优惠券
+     * @param userId
+     * @param voucherTypeRo
+     * @return
+     */
     public VoucherRo fetchVoucher(Long userId, VoucherTypeRo voucherTypeRo);
     
     public void useVoucher(Long userId, Long voucherId, Long orderId, Integer offSetAmount);
@@ -32,6 +38,12 @@ public interface VoucherService{
     public Map<String, List<VoucherRo>> allVouchers(Long userId);
     
     public List<VoucherPo> listAllVouchersByUserId(Long userId);
+    
+    /**
+     * 未用过的优惠券
+     * @param userId
+     * @return
+     */
     public Map<Long, VoucherRo> unusedVouchers(Long userId);
     /**
      * 获取用户可用优惠券数量

@@ -19,7 +19,7 @@ import static com.google.common.collect.Maps.newLinkedHashMap;
  * <p/>
  * Created by defei on 2017/05/17 12:11.
  */
-@Service
+@Service("coverServiceImpl")
 public class CoverServiceImpl extends AbstractBaseService implements CoverService {
 
 	private static final Logger logger = LoggerFactory.getLogger(CoverServiceImpl.class);

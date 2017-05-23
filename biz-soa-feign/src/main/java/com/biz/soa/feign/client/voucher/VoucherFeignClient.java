@@ -59,9 +59,21 @@ public interface VoucherFeignClient {
      * @param itemVos
      * @return
      */
-    @RequestMapping(value="/getAvailableVouchers",method=RequestMethod.POST)
+    @RequestMapping(value="/soa/voucher/getAvailableVouchers",method=RequestMethod.POST)
     public  List<ShopCraftVoucherVo> availableVouchers(@RequestParam("userId") Long userId,@RequestBody List<? extends IOrderItemVo> itemVos);
 
-    //TODO 1 获取优惠额度(参数IOrderPeriodQueryReqVo)
-    //TODO 2 使用优惠券(参数IOrderPeriodQueryReqVo)
+    /**
+     * 获取优惠额度
+     * @param iOrderPeriodQueryReqVo
+     * @return
+     */
+    @RequestMapping(value="/soa/voucher/getVoucherlimit",method=RequestMethod.POST)
+    public int getVoucherLimit(@RequestBody IOrderPeriodQueryReqVo iOrderPeriodQueryReqVo);
+    
+    /**
+     * 使用优惠券
+     * @param iOrderPeriodQueryReqVo
+     */
+    @RequestMapping(value="/soa/voucher/useVoucher",method=RequestMethod.POST)
+    public void useVoucher(@RequestBody IOrderPeriodQueryReqVo iOrderPeriodQueryReqVo);
 }
