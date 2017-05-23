@@ -158,7 +158,7 @@
                                 <c:forEach items="${orderReturns.content}" var="orderReturn">
                                     <tr id="tr-${orderReturn.id}" role="row">
                                         <td>
-                                            <a href="${pageContext.request.contextPath}/orderReturn/detail?returnCode=${orderReturn.returnCode}">
+                                            <a href="${pageContext.request.contextPath}/orderReturn/detail?id=${orderReturn.id}">
                                                 <c:out value="${orderReturn.returnCode}"/></a></td>
                                         <td><c:out value="${orderReturn.order.orderCode}"/></td>
                                         <td><c:out value="${orderReturn.returnAmount}"/></td>
@@ -168,10 +168,10 @@
                                         <td><c:out value="${orderReturn.refundStatus.desc}"/></td>
                                         <td><c:choose>
                                             <c:when test="${orderReturn.status.desc eq '已审核'}">
-                                                <a href="${pageContext.request.contextPath}/orderReturn/detail?returnCode=${orderReturn.returnCode}">查看</a>
+                                                <a href="${pageContext.request.contextPath}/orderReturn/detail?id=${orderReturn.id}">查看</a>
                                             </c:when>
                                             <c:otherwise>
-                                                <a href="${pageContext.request.contextPath}/orderReturn/audit?returnCode=${orderReturn.returnCode}">
+                                                <a href="${pageContext.request.contextPath}/orderReturn/audit?id=${orderReturn.id}">
                                                     审核 </a>
                                             </c:otherwise>
                                         </c:choose>

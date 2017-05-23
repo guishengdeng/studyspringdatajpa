@@ -1,4 +1,4 @@
-package com.biz.service.order.frontend;
+package com.biz.service.order.backend;
 
 import com.biz.gbck.dao.mysql.po.order.OrderReturn;
 import com.biz.gbck.dao.mysql.po.order.OrderReturnItem;
@@ -12,9 +12,9 @@ import java.util.List;
 /**
  * Created by liqi1 on 2017/5/18.
  */
-public interface OrderReturnFrontendService {
+public interface OrderReturnBackendService {
 
-    OrderReturn getOrderReturn(String returnCode);
+    OrderReturn getOrderReturn(Long id);
 
     Page<OrderReturn> listOrderReturns(OrderReturnListReqVo reqVo);
 

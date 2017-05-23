@@ -158,7 +158,7 @@
                         <c:forEach items="${orderReturn.images}" var="image">
                             <div class="profile-info-value">
                                 <img height="150" class="thumbnail inline no-margin-bottom" alt="Domain Owner's Avatar"
-                                     src="assets/images/avatars/profile-pic.jpg">
+                                     src="${image}">
                             </div>
                         </c:forEach>
 
@@ -249,7 +249,7 @@
                                             </select>
                                         </c:if>
                                     </div>
-                                    <input name="returnCode" value="${orderReturn.returnCode}" hidden/>
+                                    <input name="id" value="${orderReturn.id}" hidden/>
                                     <br>
                                     <div class="col-md-8 inline" style="padding-left: 65px;">
                                         <button class="btn btn-primary no-border"

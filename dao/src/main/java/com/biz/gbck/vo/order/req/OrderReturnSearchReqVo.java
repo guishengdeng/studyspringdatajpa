@@ -13,6 +13,12 @@ import java.sql.Timestamp;
 public class OrderReturnSearchReqVo  {
 
     /**
+     * 退货单ID
+     */
+
+    private Long id;
+
+    /**
      * 退货单状态
      */
     private ReturnStatus status;
@@ -54,6 +60,13 @@ public class OrderReturnSearchReqVo  {
     @Max(100)
     private Integer pageSize = 20;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public ReturnStatus getStatus() {
         return status;

@@ -1,21 +1,16 @@
 package com.biz.manage.controller.order;
 
 import com.biz.gbck.dao.mysql.po.order.OrderReturn;
-import com.biz.gbck.dao.mysql.po.order.OrderReturnItem;
 import com.biz.gbck.vo.order.req.OrderReturnAuditReqVo;
-import com.biz.gbck.vo.order.req.OrderReturnListReqVo;
 import com.biz.gbck.vo.order.req.OrderReturnSearchReqVo;
 import com.biz.manage.controller.BaseController;
 import com.biz.manage.servlet.ManageServlet;
-import com.biz.service.order.frontend.OrderReturnFrontendService;
+import com.biz.service.order.backend.OrderReturnBackendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 /**
  * Created by liqi1 on 2017/5/18.
@@ -25,7 +20,7 @@ import java.util.List;
 public class OrderReturnController extends BaseController {
 
     @Autowired
-    private OrderReturnFrontendService orderReturnService;
+    private OrderReturnBackendService orderReturnService;
 
     @GetMapping
 //    @PreAuthorize("hasAuthority('OPT_ORDERRETURN_LIST')")
@@ -34,17 +29,10 @@ public class OrderReturnController extends BaseController {
         return new ModelAndView("order/orderReturn/searchResult","orderReturns",orderReturns);
     }
 
-    @PostMapping
-//    @PreAuthorize("hasAuthority('OPT_ORDERRETURN_LIST')")
-    public ModelAndView search(@ModelAttribute("reqVo") OrderReturnSearchReqVo reqVo){
-        Page<OrderReturn> orderReturns = orderReturnService.searchOrderReturn(reqVo);
-        return new ModelAndView("order/orderReturn/searchResult","orderReturns",orderReturns);
-    }
-
     @GetMapping(value = "/detail")
 //    @PreAuthorize("hasAuthority('OPT_ORDERRETURN_ITEM')")
-    public ModelAndView getItem(String returnCode){
-        OrderReturn orderReturn = orderReturnService.getOrderReturn(returnCode);
+    public ModelAndView getItem(Long id){
+        OrderReturn orderReturn = orderReturnService.getOrderReturn(id);
         return new ModelAndView("order/orderReturn/detail","orderReturn",orderReturn);
     }
 
@@ -59,8 +47,8 @@ public class OrderReturnController extends BaseController {
 
     @GetMapping(value = "audit")
 //    @PreAuthorize("hasAuthority('OPT_ORDERRETURN_AUDIT')")
-    public ModelAndView audit(String returnCode){
-        OrderReturn orderReturn = orderReturnService.getOrderReturn(returnCode);
+    public ModelAndView audit(Long id){
+        OrderReturn orderReturn = orderReturnService.getOrderReturn(id);
         return new ModelAndView("order/orderReturn/audit","orderReturn",orderReturn);
     }
 

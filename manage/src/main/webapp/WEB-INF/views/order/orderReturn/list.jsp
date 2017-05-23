@@ -107,7 +107,7 @@
                                 <tbody>
                                 <c:forEach items="${orderReturns.content}" var="orderReturn">
                                     <tr id="tr-${orderReturn.id}" role="row">
-                                        <td><a href="${pageContext.request.contextPath}/orderReturn/detail?orderReturn=${orderReturn.returnCode}"> <c:out value="${orderReturn.returnCode}"/></a></td>
+                                        <td><a href="${pageContext.request.contextPath}/orderReturn/detail?id=${orderReturn.id}"> <c:out value="${orderReturn.returnCode}"/></a></td>
                                         <td><c:out value="${orderReturn.order.orderCode}"/></td>
                                         <td><c:out value="${orderReturn.returnAmount}"/></td>
                                         <td><fmt:formatDate type="both" value="${orderReturn.createTimestamp}"/></td>

@@ -12,6 +12,11 @@ import java.sql.Timestamp;
 public class OrderReturnAuditReqVo  {
 
     /**
+     * 请求退货单Id
+     */
+    private Long Id;
+
+    /**
      * 退货单号
      */
     private String returnCode;
@@ -34,6 +39,14 @@ public class OrderReturnAuditReqVo  {
      * 是否立即退款
      */
     private String isRefundNow;
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
+    }
 
     public String getReturnCode() {
         return returnCode;
