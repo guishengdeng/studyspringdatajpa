@@ -1,4 +1,4 @@
-package com.biz.rest.controller.payment;
+package com.biz.payment.controller;
 
 import com.biz.gbck.mo.WechatNotifyMessage;
 import com.biz.pay.wechat.lang.Keys;
