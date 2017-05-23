@@ -7,6 +7,7 @@ import com.biz.gbck.vo.payment.resp.AlipaySignRespVo;
 import com.biz.gbck.vo.payment.resp.PaidRespVo;
 import com.biz.gbck.vo.payment.resp.PaymentQueryResultRespVo;
 import com.biz.gbck.vo.payment.resp.WechatPayResp;
+import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.pay.wechat.res.WechatPayNotifyRespVo;
 import com.biz.soa.feign.client.payment.PaymentFeignClient;
 import com.biz.support.web.handler.JSONResult;
@@ -24,17 +25,17 @@ import java.util.Map;
 public class PaymentFeignClientHystrix implements PaymentFeignClient {
 
     @Override
-    public PaymentQueryResultRespVo queryPaid(IdReqVo reqVo) {
+    public MicroServiceResult<PaymentQueryResultRespVo> queryPaid(IdReqVo reqVo) {
         return null;
     }
 
     @Override
-    public AlipaySignRespVo getAlipaySign(Long orderId) {
+    public MicroServiceResult<AlipaySignRespVo> getAlipaySign(Long orderId) {
         return null;
     }
 
     @Override
-    public WechatPayResp getWechatParam(IWechatPaymentReqVo req) {
+    public MicroServiceResult<WechatPayResp> getWechatParam(IWechatPaymentReqVo req) {
         return null;
     }
 
