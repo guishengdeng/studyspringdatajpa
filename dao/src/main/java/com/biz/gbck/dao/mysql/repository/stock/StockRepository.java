@@ -20,6 +20,6 @@ public interface StockRepository extends JpaSpecificationExecutor<Stock>, Common
     @Query("SELECT s  FROM Stock s WHERE s.productId = :productId")
     Stock findByProductId(@Param("productId")Long  productId);
 
-    Page<Stock> findByProductIdInAnAndCompanyId(Set<Long> productIds, Long companyId, Pageable pageable);
+    Page<Stock> findByCompanyIdAndProductIdIn(Long companyId, Set<Long> productIds, Pageable pageable);
 
 }
