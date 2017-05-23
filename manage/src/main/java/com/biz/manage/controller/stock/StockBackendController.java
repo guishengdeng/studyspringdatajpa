@@ -25,7 +25,7 @@ public class StockBackendController extends BaseController {
 
     @RequestMapping("stock")
     @PreAuthorize("hasAuthority('OPT_STOCK_LIST')")
-    public ModelAndView Search(ProductShowVo productShowVo) {
+    public ModelAndView search(ProductShowVo productShowVo) {
         Page<StockShowVo> page = stockBackendService.searchList(productShowVo);
         return new ModelAndView("goods/stock").addObject("page", page);
     }
