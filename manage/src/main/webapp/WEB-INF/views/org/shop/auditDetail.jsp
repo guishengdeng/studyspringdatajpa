@@ -81,6 +81,11 @@
                     $("#cat-disable-confirm-modal").modal();
                     return false;
                 }
+                if (businessIdIsExist) {
+                    $(".msgClass").html("营业执照ID已经存在！");
+                    $("#cat-disable-confirm-modal").modal();
+                    return false;
+                }
 
                     var auditStatus = $("#auditStatus").val();
                 if(auditStatus == null || auditStatus == undefined || auditStatus == "" ){
@@ -103,6 +108,18 @@
             }
             $(".btn-cancel-ban").click(function () {
                 $("#cat-disable-confirm-modal").modal("hide");
+            });
+
+            $("input[name='businessLicenceId']").blur(function () {
+                var businessLicenceId = $("input[name='businessLicenceId']").val();
+                $.get("shops/isBusinessLicenceIdExist.do?businessLicenceId=" + businessLicenceId + "&shopId=${shopDetailResVo.shopId}", function (isExist) {
+                    if (isExist) {
+                        $("input[name='businessLicenceId']").val("")
+                        $(".msgClass").html("营业执照ID已经存在！");
+                        $("#cat-disable-confirm-modal").modal();
+                    }
+                    businessIdIsExist = isExist;
+                });
             });
 
 
