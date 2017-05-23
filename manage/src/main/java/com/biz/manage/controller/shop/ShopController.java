@@ -121,6 +121,12 @@ public class ShopController extends BaseController {
     }
 
 
+    /**
+     * 判断营业执照id是否存在
+     * @param businessLicenceId
+     * @param shopId
+     * @return
+     */
     @RequestMapping(value = "isBusinessLicenceIdExist", method = RequestMethod.GET)
     @ResponseBody
     public Boolean isBusinessLicenceIdExist(@RequestParam("businessLicenceId") String businessLicenceId,
