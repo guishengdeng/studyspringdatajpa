@@ -25,7 +25,7 @@ import java.util.List;
  * @reviewer
  * @see
  */
-public class OrderBuilder extends AbstractOrderBuilder {
+public class OrderBuilder {
 
     private Order order;
 

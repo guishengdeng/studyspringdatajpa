@@ -6,22 +6,20 @@ import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
-import com.biz.core.ali.oss.BucketResVo;
-import com.biz.core.ali.oss.OssBucket;
 import com.biz.core.exceptions.BizSystemException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.io.*;
-import java.util.List;
 
-import static com.google.common.collect.Lists.newArrayList;
+import java.io.*;
 
 /**
  * Oss工具类
  */
 public class  OssUtil {
     private static Logger logger = LoggerFactory.getLogger(OssUtil.class);
+
+
     /**
      * oss服务端异常公共方法
      *
@@ -105,16 +103,6 @@ public class  OssUtil {
      */
     public static String getOssResourceUriPrefix(String bucketName, String endPoint){
     	return String.format("https://%s.%s/", bucketName, endPoint);
-    }
-
-    /**
-     *获取隔壁仓库Oss上传bucket集合
-     */
-    public static List<BucketResVo> getOssBuckets() {
-        List<BucketResVo> bucketResVos=newArrayList();
-        bucketResVos.add(new BucketResVo(OssBucket.PRODUCT.getType(),OssBucket.PRODUCT.getName()));
-        bucketResVos.add(new BucketResVo(OssBucket.AUDIT.getType(),OssBucket.AUDIT.getName()));
-        return bucketResVos;
     }
     
     

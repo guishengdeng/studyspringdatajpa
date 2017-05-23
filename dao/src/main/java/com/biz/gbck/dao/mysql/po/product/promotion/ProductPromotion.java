@@ -3,7 +3,6 @@ package com.biz.gbck.dao.mysql.po.product.promotion;
 import com.biz.gbck.enums.product.promotion.PromotionOrientEnum;
 import com.biz.gbck.enums.product.promotion.PromotionRoundEnum;
 import com.biz.support.jpa.converter.ListLongConverter;
-import com.biz.support.jpa.converter.ListStringConverter;
 import com.biz.support.jpa.po.BaseEntity;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -118,36 +117,43 @@ public class ProductPromotion extends BaseEntity {
     /**
      * 执行单位(促销价和销售价的差价由谁买单)
      */
-    @Column
-    private String executeDepartment;
+    @Column(columnDefinition = "TEXT")
+    @Convert(converter = ListLongConverter.class)
+    private List<Long> executeDepartment;
 
     /**
      * 所有能参与促销的商品编码集合
      */
     @Column(columnDefinition = "TEXT")
-    @Convert(converter = ListStringConverter.class)
-    private String orientedProducts;
+    @Convert(converter = ListLongConverter.class)
+    private List<Long> orientedProducts;
 
     /**
      * 不能参与促销的商品编码集合
      */
     @Column(columnDefinition = "TEXT")
-    @Convert(converter = ListStringConverter.class)
-    private String excludeProducts;
+    @Convert(converter = ListLongConverter.class)
+    private List<Long> excludeProducts;
 
     /**
      * 能参与促销的分类
      */
     @Column(columnDefinition = "TEXT")
     @Convert(converter = ListLongConverter.class)
-    private String orientedCategories;
+    private List<Long> orientedCategories;
 
     /**
      * 不能参与促销的分类
      */
     @Column(columnDefinition = "TEXT")
     @Convert(converter = ListLongConverter.class)
-    private String excludeCategories;
+    private List<Long> excludeCategories;
+
+    /**
+     * 促销描述信息
+     */
+    @Column
+    private String description;
 
     public Long getCompanyId() {
         return companyId;
@@ -261,51 +267,59 @@ public class ProductPromotion extends BaseEntity {
         isExclusive = exclusive;
     }
 
-    public String getExecuteDepartment() {
-        return executeDepartment;
-    }
-
-    public void setExecuteDepartment(String executeDepartment) {
-        this.executeDepartment = executeDepartment;
-    }
-
-    public String getOrientedProducts() {
-        return orientedProducts;
-    }
-
-    public void setOrientedProducts(String orientedProducts) {
-        this.orientedProducts = orientedProducts;
-    }
-
-    public String getExcludeProducts() {
-        return excludeProducts;
-    }
-
-    public void setExcludeProducts(String excludeProducts) {
-        this.excludeProducts = excludeProducts;
-    }
-
-    public String getOrientedCategories() {
-        return orientedCategories;
-    }
-
-    public void setOrientedCategories(String orientedCategories) {
-        this.orientedCategories = orientedCategories;
-    }
-
-    public String getExcludeCategories() {
-        return excludeCategories;
-    }
-
-    public void setExcludeCategories(String excludeCategories) {
-        this.excludeCategories = excludeCategories;
-    }
-
     public String getRoundCycle() {
         return roundCycle;
     }
 
     public void setRoundCycle(String roundCycle) {
         this.roundCycle = roundCycle;
+    }
+
+    public List<Long> getExecuteDepartment() {
+        return executeDepartment;
+    }
+
+    public void setExecuteDepartment(List<Long> executeDepartment) {
+        this.executeDepartment = executeDepartment;
+    }
+
+    public List<Long> getOrientedProducts() {
+        return orientedProducts;
+    }
+
+    public void setOrientedProducts(List<Long> orientedProducts) {
+        this.orientedProducts = orientedProducts;
+    }
+
+    public List<Long> getExcludeProducts() {
+        return excludeProducts;
+    }
+
+    public void setExcludeProducts(List<Long> excludeProducts) {
+        this.excludeProducts = excludeProducts;
+    }
+
+    public List<Long> getOrientedCategories() {
+        return orientedCategories;
+    }
+
+    public void setOrientedCategories(List<Long> orientedCategories) {
+        this.orientedCategories = orientedCategories;
+    }
+
+    public List<Long> getExcludeCategories() {
+        return excludeCategories;
+    }
+
+    public void setExcludeCategories(List<Long> excludeCategories) {
+        this.excludeCategories = excludeCategories;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

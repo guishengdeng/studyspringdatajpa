@@ -17,18 +17,20 @@
                 $("#userSelector").removeClass("sho");
                 $("#selectType").addClass("sho");
                 $("#shopTypeId").val(null);
-
+                $("select[name='shopTypeId']").removeAttr("shopTypeClass","required text");
             });
             $("#notifyType2").click(function () {
                 $("#userSelector").addClass("sho");
                 $("#selectType").removeClass("sho");
                 $("#mobile").val(null);
+                $("select[name='shopTypeId']").attr("shopTypeClass","required text");
             });
             $("#notifyType3").click(function () {
                 $("#userSelector").addClass("sho");
                 $("#selectType").addClass("sho");
                 $("#shopTypeId").val(null);
                 $("#mobile").val(null);
+                $("select[name='shopTypeId']").removeAttr("shopTypeClass","required text");
             });
         </script>
     </jsp:attribute>
@@ -90,8 +92,8 @@
                             <div class="col-sm-9">
                                 <input id="title" type="text" name="title"
                                        placeholder="消息标题"
-                                       maxlength="255" minlength="1"
-                                        class="required text col-xs-12 col-sm-12">
+                                       maxlength="15" minlength="1"
+                                        class="required text col-xs-12 col-sm-12 ">
 
                             </div>
                         </div>
@@ -100,25 +102,20 @@
                                 户手机号码
                             </label>
                             <div class="col-sm-9">
-                                <input id="mobile" type="text" name="mobile"
+                                <input id="mobile" type="text" name="mobile"  pattern="^(((13[0-9])|(15[^4,\\D])|(18[0-9])|(17[0,6-8])|(14[57]))+\d{8})$"
                                        placeholder="户手机号码"
                                        maxlength="13" minlength="1"
-                                       class="required text col-xs-12 col-sm-12">
+                                       class="required text col-xs-12 col-sm-12 regExp">
 
                             </div>
                         </div>
                         <div class="form-group shopTypeSelector sho" id="selectType">
-                            <label class="col-sm-2 control-label no-padding-right"
-                                   for="shopTypeId">商户类型
-                            </label>
                             <div class="col-sm-9">
-                                <select name="shopTypeId"  id="shopTypeId"  class="required text col-xs-12 col-sm-12">
-                                    <option value="" selected>请选择</option>
-                                    <option value="1">test1</option>
-                                    <option value="2">test2</option>
-                                    <option value="3">test3</option>
-                                </select>
-                            </div>
+                                <label class="col-sm-2 control-label no-padding-right" for="mobile">
+                                </label>
+                            <gbck:shopType fieldName="shopTypeId" fieldClasses="field" shopTypeClass="required text"
+                                           shopTypeId="${shopDetailResVo.shopTypeId}"/>
+                                </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label no-padding-right" for="notifyContent">
@@ -127,7 +124,7 @@
                             <div class="col-sm-9">
                                 <textarea id="notifyContent" type="text" name="notifyContent"
                                        placeholder="推送内容"
-                                       maxlength="255" minlength="1"
+                                       maxlength="50" minlength="1"
                                         class="required text col-xs-12 col-sm-12"></textarea>
 
                             </div>

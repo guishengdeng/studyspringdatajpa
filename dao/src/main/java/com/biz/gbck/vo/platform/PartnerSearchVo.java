@@ -5,7 +5,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 /**
- * 用于查询平台公司列表
+ * 用于查询合伙人列表
  * Created by dylan on 2017-05-04
  */
 public class PartnerSearchVo {

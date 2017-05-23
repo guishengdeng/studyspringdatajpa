@@ -120,6 +120,11 @@ public class ProductRO extends BaseRedisObject<Long> {
     private Integer minQuantity;
 
     /**
+     * 最大购买数量
+     */
+    private Integer maxQuantity;
+
+    /**
      * Seo 标题
      */
     private String seoTitle;
@@ -471,6 +476,14 @@ public class ProductRO extends BaseRedisObject<Long> {
 
     public void setApartTagImages(String apartTagImages) {
         this.apartTagImages = apartTagImages;
+    }
+
+    public Integer getMaxQuantity() {
+        return maxQuantity;
+    }
+
+    public void setMaxQuantity(Integer maxQuantity) {
+        this.maxQuantity = maxQuantity;
     }
 
     public String getApartTagImage() {

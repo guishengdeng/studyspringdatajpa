@@ -125,23 +125,6 @@ public class ShopPo extends Company {
      */
     @Column(length = 48) private String tel;
 
-//    /**
-//     * 价格门店
-//     */
-//    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "depotId") private DepotPo depot;
-//
-//    /**
-//     * 开荒门店
-//     */
-//    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "assartDepotId") private DepotPo
-//        assartDepot;
-//
-//    /**
-//     * 配送门店
-//     */
-//    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "deliveryDepotId") private DepotPo
-//        deliveryDepot;
-
     /**
      * 店铺经度
      */
@@ -200,12 +183,12 @@ public class ShopPo extends Company {
     /**
      * 营业执照
      */
-    @Column(length = 50) private String businessLicence;
+    @Column(length = 300) private String businessLicence;
 
     /**
      * 门头照片
      */
-    @Column(length = 50) private String shopPhoto;
+    @Column(length = 300) private String shopPhoto;
 
     /**
      * 酒类流通许可证ID
@@ -215,7 +198,7 @@ public class ShopPo extends Company {
     /**
      * 酒类流通许可证
      */
-    @Column(length = 50) private String liquorSellLicence;
+    @Column(length = 300) private String liquorSellLicence;
 
     /**
      * 法人身份证Id
@@ -225,33 +208,12 @@ public class ShopPo extends Company {
     /**
      * 法人身份证
      */
-    @Column(length = 50) private String corporateIdPhoto;
+    @Column(length = 300) private String corporateIdPhoto;
 
     /**
      * 创建时间
      */
     private Timestamp createTime = DateUtil.now();
-
-    /**
-     * 智选价格标签
-     */
-//    @ManyToMany(fetch = FetchType.LAZY) @JoinTable(name = "shop_pricetag",
-//
-//        joinColumns = {@JoinColumn(name = "shop_id", referencedColumnName = "id")},
-//        inverseJoinColumns = {@JoinColumn(name = "pricetag_id", referencedColumnName = "id")},
-//        uniqueConstraints = {@UniqueConstraint(columnNames = {"shop_id", "pricetag_id"})})
-//
-//    private List<PriceTagPo> priceTags;
-
-//    /**
-//     * 智选分类标签
-//     */
-//    @ManyToMany(fetch = FetchType.LAZY) @JoinTable(name = "shop_businesstag",
-//        joinColumns = {@JoinColumn(name = "shop_id", referencedColumnName = "id")},
-//        inverseJoinColumns = {@JoinColumn(name = "businesstag_id", referencedColumnName = "id")},
-//        uniqueConstraints = {@UniqueConstraint(columnNames = {"shop_id", "businesstag_id"})})
-//
-//    private List<BusinessTagPo> businessTags;
 
     /**
      * 销售区域

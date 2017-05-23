@@ -43,7 +43,7 @@ import java.util.Date;
         }
 
         return new ModelAndView("manage/promotion/list", "promotions",
-            promotionService.findNormal(new PageRequest(number, size, null))).addObject("imgURL", OssUtil.getOssResourceUriPrefix(config.getBucketName(), config.getRemoteEndpoint()));
+            promotionService.findNormal(new PageRequest(number, size, null))).addObject("imgURL", OssUtil.getOssResourceUriPrefix(config.getProductBucketName(), config.getRemoteEndpoint()));
     }
 
     @RequestMapping(value = "new", method = RequestMethod.GET)  @PreAuthorize("hasAuthority('OPT_PROMOTION_SAVE')")

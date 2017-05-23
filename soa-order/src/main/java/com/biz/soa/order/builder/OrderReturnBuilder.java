@@ -22,7 +22,7 @@ import static com.google.common.collect.Lists.newArrayList;
  * @reviewer
  * @see
  */
-public class OrderReturnBuilder extends AbstractOrderBuilder {
+public class OrderReturnBuilder {
 
     private IdService idService;
 

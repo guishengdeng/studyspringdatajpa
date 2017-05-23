@@ -89,8 +89,6 @@ public class PurchaseOrder extends BaseEntity {
     @Embedded
     private OrderShipping shipping;
 
-    @Embedded
-    private PurchaseAudit audit;
 
     public String getOrderCode() {
         return orderCode;
@@ -196,11 +194,4 @@ public class PurchaseOrder extends BaseEntity {
         this.shipping = shipping;
     }
 
-    public PurchaseAudit getAudit() {
-        return audit;
-    }
-
-    public void setAudit(PurchaseAudit audit) {
-        this.audit = audit;
-    }
 }

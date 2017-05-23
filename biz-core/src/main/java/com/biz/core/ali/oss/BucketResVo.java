@@ -12,9 +12,9 @@ public class BucketResVo {
     public BucketResVo() {
     }
 
-    public BucketResVo(String name, String type) {
-        this.name = name;
+    public BucketResVo(String type, String name) {
         this.type = type;
+        this.name = name;
     }
 
     public String getType() {

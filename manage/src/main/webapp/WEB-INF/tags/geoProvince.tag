@@ -4,7 +4,7 @@
 <%@ attribute name="provinceId" required="false" type="java.lang.Integer" %>
 <%@ attribute name="fieldClasses" required="false" type="java.lang.String" %>
 <%@ attribute name="multipe" required="false" type="java.lang.Boolean" description="是否支持多选" %>
-    <select name="${fieldName}" class="search" ${multipe ? 'multiple' : ''} >
+    <select name="${fieldName}" class=" dept_select" ${multipe ? 'multiple' : ''} >
         <option value="">请选择</option>
         <depot:province provinceId="${provinceId}"/>
     </select>
@@ -15,4 +15,7 @@
             fullTextSearch: true
         });
     })
+   /* $(function(){
+        $('.dept_select').chosen();
+    });*/
 </script>
