@@ -68,4 +68,13 @@ server:
 eureka:
   client:
     service-url:
+<<<<<<< HEAD
       defaultZone: http://local:7777/eureka/
+=======
+      defaultZone: http://localhost:7777/eureka/
+    registry-fetch-interval-seconds: 1
+  instance:
+    prefer-ip-address: true
+  server:
+    eviction-interval-timer-in-ms: 1000
+>>>>>>> dev

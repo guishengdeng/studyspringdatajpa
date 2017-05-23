@@ -62,4 +62,12 @@ biz:
 server:
   session:
     timeout: 1200
-
+eureka:
+  client:
+    service-url:
+      defaultZone: http://10.4.100.194:7777/eureka/
+    registry-fetch-interval-seconds: 1
+  instance:
+    prefer-ip-address: true
+  server:
+    eviction-interval-timer-in-ms: 1000

@@ -10,7 +10,6 @@ import com.biz.gbck.transform.order.Order2OrderRo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.SequenceService;
 import com.biz.service.cart.ShopCartService;
-import com.biz.service.stock.StockService;
 import com.biz.soa.feign.client.org.ShopFeignClient;
 import com.biz.soa.feign.client.org.UserFeignClient;
 import com.biz.soa.feign.client.stock.StockFeignClient;
