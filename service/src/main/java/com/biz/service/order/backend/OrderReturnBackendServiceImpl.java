@@ -47,7 +47,7 @@ public class OrderReturnBackendServiceImpl extends AbstractRepositorySupportServ
     private OrderReturnRepository orderReturnRepository;
 
     @Autowired
-    OssConfig config;
+    private OssConfig config;
 
     @Override
     protected CommonJpaRepository<OrderReturn, Long> getRepository() {
@@ -108,7 +108,7 @@ public class OrderReturnBackendServiceImpl extends AbstractRepositorySupportServ
     public List<String> getOssResourceUri(List<String> sources) {
         List<String> images = new ArrayList<>();
         for (String imageName : sources) {
-            String imageUrl = OssUtil.getOssResourceUri(config.getBucketName(), config.getRemoteEndpoint(), imageName);
+            String imageUrl = OssUtil.getOssResourceUri(config.getProductBucketName(), config.getRemoteEndpoint(), imageName);
             images.add(imageUrl);
         }
         return images;
