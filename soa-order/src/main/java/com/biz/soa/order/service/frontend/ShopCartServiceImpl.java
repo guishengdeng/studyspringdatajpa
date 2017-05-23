@@ -11,6 +11,7 @@ import com.biz.gbck.vo.cart.*;
 import com.biz.gbck.vo.order.req.ProductItemReqVo;
 import com.biz.gbck.vo.product.gbck.request.PurchaseProductReqVO;
 import com.biz.gbck.vo.product.gbck.response.ProductAppListItemVo;
+import com.biz.gbck.vo.product.gbck.response.PurchaseProductItemVO;
 import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.gbck.vo.stock.PartnerStockReqVO;
 import com.biz.gbck.vo.stock.PartnerStockRespVO;
@@ -219,7 +220,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         productReqVo.setProductIds(productIds);
         productReqVo.setSellerId(userRo.getPartnerId());
         productReqVo.setCompanyGroupId(1l); //TODO companyGroupId
-        MicroServiceResult<List<ProductAppListItemVo>> productResult = productFeignClient.getPurchaseProducts
+        MicroServiceResult<List<PurchaseProductItemVO>> productResult = productFeignClient.getPurchaseProducts
                 (productReqVo);
         if (!productResult.isSuccess() || productResult.getData() == null) {
             throw new CartItemProductInvalidException("获取商品信息失败");
