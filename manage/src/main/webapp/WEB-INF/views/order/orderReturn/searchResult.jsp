@@ -167,7 +167,7 @@
                                         <td><c:out value="${orderReturn.status.desc}"/></td>
                                         <td><c:out value="${orderReturn.refundStatus.desc}"/></td>
                                         <td><c:choose>
-                                            <c:when test="${orderReturn.status.desc eq '已审核'}">
+                                            <c:when test="${orderReturn.status eq 'AUDITED'}">
                                                 <a href="${pageContext.request.contextPath}/orderReturn/detail?id=${orderReturn.id}">查看</a>
                                             </c:when>
                                             <c:otherwise>

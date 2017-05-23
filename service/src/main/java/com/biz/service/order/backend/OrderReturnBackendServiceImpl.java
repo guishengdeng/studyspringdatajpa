@@ -6,7 +6,6 @@ import com.biz.core.util.DateUtil;
 import com.biz.gbck.dao.mysql.po.order.OrderReturn;
 import com.biz.gbck.dao.mysql.po.order.OrderReturnAudit;
 import com.biz.gbck.dao.mysql.repository.order.OrderReturnRepository;
-import com.biz.gbck.dao.mysql.specification.order.OrderReturnSearchSpecification;
 import com.biz.gbck.enums.order.AuditStatus;
 import com.biz.gbck.enums.order.RefundStatus;
 import com.biz.gbck.enums.order.ReturnStatus;
@@ -20,10 +19,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -38,7 +36,7 @@ public class OrderReturnBackendServiceImpl extends AbstractRepositorySupportServ
     /**
      * 是否立即退款
      */
-    private static final String IS_REUND_NOW = "REFUND_NOW";
+    private static final String REUND_NOW = "REFUND_NOW";
 
     private static final String NOT_REUND_NOW = "NOT_REFUND_NOW";
 
@@ -68,13 +66,14 @@ public class OrderReturnBackendServiceImpl extends AbstractRepositorySupportServ
 
     @Override
     public Page<OrderReturn> searchOrderReturn(OrderReturnSearchReqVo reqVo) {
-        Page<OrderReturn> orderReturns = orderReturnRepository.findAll(new OrderReturnSearchSpecification(reqVo), new PageRequest(reqVo.getPage() - 1, reqVo.getPageSize(), Sort.Direction.DESC, "createTimestamp"));
+        Page<OrderReturn> orderReturns = orderReturnRepository.search(reqVo, new PageRequest(reqVo.getPage() - 1, reqVo.getPageSize()));
         for (OrderReturn orderReturn:orderReturns) {
             orderReturn.setImages(getOssResourceUri(orderReturn.getImages()));
         }
         return orderReturns;
     }
 
+    @Transactional
     @Override
     public void auditOrderReturn(OrderReturnAuditReqVo reqVo) {
         OrderReturn orderReturn = orderReturnRepository.findOne(reqVo.getId());
@@ -84,7 +83,7 @@ public class OrderReturnBackendServiceImpl extends AbstractRepositorySupportServ
         //设置退货单更新状态时间
         orderReturn.setUpdateTimestamp(DateUtil.now());
         //设置退款时间(条件：通过审核、退货类型为退货且选择立即退款)
-        boolean flag = Objects.equals(orderReturn.getReturnType(), ReturnType.RETURN) && Objects.equals(reqVo.getIsRefundNow(), IS_REUND_NOW) && Objects.equals(reqVo.getAuditStatus(), AuditStatus.PASS);
+        boolean flag = Objects.equals(orderReturn.getReturnType(), ReturnType.RETURN) && Objects.equals(reqVo.getIsRefundNow(), REUND_NOW) && Objects.equals(reqVo.getAuditStatus(), AuditStatus.PASS);
         if (flag) {
             orderReturnAudit.setRefundTimestamp(DateUtil.now());
             orderReturn.setRefundStatus(RefundStatus.REFUNDED);
