@@ -21,7 +21,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
 import org.codelogger.utils.StringUtils;
-import org.codelogger.utils.ValueUtils;
 
 /**
  * 商品原型数据VO
@@ -208,11 +207,7 @@ public class ProductPrototype implements Serializable {
         ProductAppListItemVo appListItemVo = this.toAppListItemVO();
         ProductShowStatus showStatus;
         if (this.productRO.getSaleStatus() == SaleStatusEnum.ON_SALE.getValue()) {
-            if (ValueUtils.getValue(this.stockVO.getStock()) > 0) {
-                showStatus = ProductShowStatus.NORMAL;
-            } else {
-                showStatus = ProductShowStatus.INSUFFICIENT_STOCK;
-            }
+            showStatus = ProductShowStatus.NORMAL;
         } else {
             showStatus = ProductShowStatus.OFF_SALE;
         }
