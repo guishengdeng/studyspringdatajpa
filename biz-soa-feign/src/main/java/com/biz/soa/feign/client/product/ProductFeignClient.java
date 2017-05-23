@@ -45,6 +45,6 @@ public interface ProductFeignClient {
     MicroServiceResult<List<ProductIdxVO>> getSearchIncrIndices(@RequestBody IncrProductIdxReqVo reqVo);
 
     @RequestMapping(value = "/soa/product/purchaseProducts", method = RequestMethod.POST)
-    MicroServiceResult<MicroServiceResult<List<PurchaseProductItemVO>>> getPurchaseProducts(@RequestBody PurchaseProductReqVO reqVO);
+    MicroServiceResult<List<PurchaseProductItemVO>> getPurchaseProducts(@RequestBody PurchaseProductReqVO reqVO);
 
 }

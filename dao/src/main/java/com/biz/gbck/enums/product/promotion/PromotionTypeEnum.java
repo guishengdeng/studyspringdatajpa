@@ -18,7 +18,10 @@ public enum PromotionTypeEnum implements EnumerableNameAndValueAndDescription {
     STAIR_CUT(7, "阶梯满减", "阶梯满减"),
     STAIR_GIFT(8, "阶梯满赠", "阶梯满赠"),
     STANDARD_COMBINATION(9, "组合促销", "组合促销"),
-    QUANTITY_COMBINATION(10, "数量组合", "数量组合");
+    QUANTITY_COMBINATION(10, "数量组合", "数量组合"),
+    CATEGORY_ACCOUNT_CUT(11, "分类满减", "分类满减"),
+    COMBINATION_ACCOUNT_CUT(12, "组合满减", "组合满减"),
+    WHOLE_ORDER_ACCOUNT_CUT(13, "整单满减", "整单满减");
 
     PromotionTypeEnum(int value, String name, String description) {
         this.value = value;
