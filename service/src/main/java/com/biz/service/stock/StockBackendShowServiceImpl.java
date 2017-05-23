@@ -33,12 +33,12 @@ public class StockBackendShowServiceImpl extends AbstractBaseService implements 
     private ProductRepository productRepository;
 
     @Override
-    public Page<StockShowVo> searchList(ProductShowVo productShowVo) {
+    public Page<StockShowVo> searchList(ProductShowVo reqVo) {
 
         //库存数量
         Integer quantity = 0;
-        Page<Product> page = productRepository.findAll(new ProductSpecification(productShowVo),
-                new PageRequest(productShowVo.getPage() - 1, productShowVo.getPageSize(), new Sort(Sort.Direction.ASC, "productCode")));
+        Page<Product> page = productRepository.findAll(new ProductSpecification(reqVo),
+                new PageRequest(reqVo.getPage() - 1, reqVo.getPageSize(), new Sort(Sort.Direction.ASC, "productCode")));
         List<Product> list = page.getContent();
         List<StockShowVo> listStock = new ArrayList<StockShowVo>();
         /**
@@ -71,11 +71,11 @@ public class StockBackendShowServiceImpl extends AbstractBaseService implements 
             } else {
                 stockShowVo.setQuantity(quantity);
             }
-            stockShowVo.setPage(productShowVo.getPage());
-            stockShowVo.setPageSize(productShowVo.getPageSize());
+            stockShowVo.setPage(reqVo.getPage());
+            stockShowVo.setPageSize(reqVo.getPageSize());
             listStock.add(stockShowVo);
         }
-        Page<StockShowVo> pageStock = new PageImpl<StockShowVo>(listStock, new PageRequest(productShowVo.getPage() - 1, productShowVo.getPageSize()), listStock.size());
+        Page<StockShowVo> pageStock = new PageImpl<StockShowVo>(listStock, new PageRequest(reqVo.getPage() - 1, reqVo.getPageSize()), listStock.size());
         return pageStock;
     }
 }
