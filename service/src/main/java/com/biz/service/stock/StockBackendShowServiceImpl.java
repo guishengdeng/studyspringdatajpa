@@ -32,7 +32,6 @@ public class StockBackendShowServiceImpl extends AbstractBaseService implements 
     @Autowired
     private ProductRepository productRepository;
 
-    @Override
     public Page<StockShowVo> searchList(ProductShowVo reqVo) {
 
         //库存数量
@@ -79,3 +78,29 @@ public class StockBackendShowServiceImpl extends AbstractBaseService implements 
         return pageStock;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
