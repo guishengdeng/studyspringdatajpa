@@ -15,10 +15,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +40,7 @@ public class GlobalSoaController extends BaseRestController{
      * @param request
      * @return
      */
-    @RequestMapping("/init")
+    @RequestMapping(value = "/init", method = RequestMethod.POST)
     public JSONResult init(HttpServletRequest request) {
         logger.debug("Received soa-org /init/init GET request.");
         Map result = new HashMap();
@@ -62,7 +59,7 @@ public class GlobalSoaController extends BaseRestController{
      * @param request
      * @return
      */
-    @RequestMapping("upgrade")
+    @RequestMapping(value = "upgrade", method = RequestMethod.POST)
     public JSONResult upgrade(
             @RequestParam(value = "ver", required = true, defaultValue = "0") String ver,
             @RequestParam(value = "os", required = true, defaultValue = "") String os,
@@ -83,7 +80,7 @@ public class GlobalSoaController extends BaseRestController{
      * @param os
      * @return
      */
-    @RequestMapping("findUpgradeByOs")
+    @RequestMapping(value = "findUpgradeByOs", method = RequestMethod.POST)
     public List<UpgradeRo> findUpgradeByOs(@RequestParam("os") String os) {
         return upgradeSoaService.findAll(os);
     }
@@ -92,7 +89,7 @@ public class GlobalSoaController extends BaseRestController{
      * 根据id删除对应升级配置
      * @param id
      */
-    @RequestMapping("deleteUpgradeById")
+    @RequestMapping(value = "deleteUpgradeById", method = RequestMethod.POST)
     public void deleteUpgradeById(@RequestParam("id") String id) {
         upgradeSoaService.delete(id);
     }
@@ -101,7 +98,7 @@ public class GlobalSoaController extends BaseRestController{
      * 添加升级配置
      * @param upgrade
      */
-    @RequestMapping("saveUpgrade")
+    @RequestMapping(value = "saveUpgrade", method = RequestMethod.POST)
     public void saveUpgrade(@RequestBody AddUpgradeVo upgrade) {
         upgradeSoaService.save(upgrade);
     }
@@ -112,7 +109,7 @@ public class GlobalSoaController extends BaseRestController{
      * @param os
      * @return
      */
-    @RequestMapping("verifyVersion")
+    @RequestMapping(value = "verifyVersion", method = RequestMethod.POST)
     public boolean verifyVersion(@RequestParam("version") String version, @RequestParam("os") String os) {
         return upgradeSoaService.verifyVersion(version,os);
     }

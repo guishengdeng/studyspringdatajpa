@@ -9,7 +9,7 @@ import java.util.List;
  *  批量商品(合伙人)库存 返回vo
  * @author lei
  */
-public class PartnerStocksReqVO implements Serializable {
+public class CompanyStocksReqVO implements Serializable {
 
     private static final long serialVersionUID = 2184303947507749926L;
     /**
@@ -20,7 +20,7 @@ public class PartnerStocksReqVO implements Serializable {
     /**
      * 合伙人id(必选)
      */
-    private Long partnerId;
+    private Long companyId;
 
     public List<Long> getProductIds() {
         return productIds;
@@ -30,12 +30,12 @@ public class PartnerStocksReqVO implements Serializable {
         this.productIds = productIds;
     }
 
-    public Long getPartnerId() {
-        return partnerId;
+    public Long getCompanyId() {
+        return companyId;
     }
 
-    public void setPartnerId(Long partnerId) {
-        this.partnerId = partnerId;
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
     }
     @Override
     public String toString() {

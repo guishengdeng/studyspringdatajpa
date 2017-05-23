@@ -118,6 +118,10 @@
                 $("#cat-disable-confirm-modal").modal("hide");
             });
 
+            function newShop() {
+                alert("哎呀程序猿GG把这忘记了!")
+            }
+
         </script>
     </jsp:attribute>
     <jsp:body>
@@ -178,7 +182,7 @@
                             </div><div class="inline pull-right"><i style="color:white;">_</i></div>
                             <div class="inline pull-right">
                                 <from id="downDate">
-                                    <button type="submit" class="btn btn-success btn-sm">
+                                    <button class="btn btn-success btn-sm" onclick="newShop()">
                                         <i class="ace-icon fa fa-download bigger-110"></i>导出
                                     </button>
                                 </from>

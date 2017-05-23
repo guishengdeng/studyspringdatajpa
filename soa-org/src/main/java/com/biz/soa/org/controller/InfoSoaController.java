@@ -12,10 +12,7 @@ import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,7 +39,7 @@ public class InfoSoaController extends BaseRestController{
     /**
      *rest给用户发送消息列表
      */
-    @RequestMapping("/notices")
+    @RequestMapping(value = "/notices", method = RequestMethod.POST)
     public Object notices(@RequestBody ListNoticeAfterLastReqVo reqVo,
             HttpServletRequest httpRequest, HttpServletResponse response) {
         List<NoticeRo> roList =
@@ -56,7 +53,7 @@ public class InfoSoaController extends BaseRestController{
      * @param name 后台登录用户
      * @param notifyVo 消息参数
      */
-    @RequestMapping("/sendNotification")
+    @RequestMapping(value = "/sendNotification", method = RequestMethod.POST)
     public void sendNotification (@RequestParam("name") String name, @RequestBody NotifyVo notifyVo)
             throws CommonException {
          noticeSoaService.sendNotification(name,notifyVo);

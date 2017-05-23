@@ -81,7 +81,11 @@
                     $("#cat-disable-confirm-modal").modal();
                     return false;
                 }
-
+                if (businessIdIsExist) {
+                    $(".msgClass").html("营业执照ID已经存在！");
+                    $("#cat-disable-confirm-modal").modal();
+                    return false;
+                }
                     var auditStatus = $("#auditStatus").val();
                 if(auditStatus == null || auditStatus == undefined || auditStatus == "" ){
                     $(".msgClass").html("请选择审核结果！");
@@ -105,6 +109,22 @@
                 $("#cat-disable-confirm-modal").modal("hide");
             });
 
+
+            $("input[name='businessLicenceId']").blur(function () {
+                var businessLicenceId = $("input[name='businessLicenceId']").val();
+                if(businessLicenceId == null || businessLicenceId== "" || businessLicenceId== undefined
+                ){
+                    return;
+                }
+                $.get("shops/isBusinessLicenceIdExist.do?businessLicenceId=" + businessLicenceId + "&shopId=${shopDetailResVo.shopId}", function (isExist) {
+                    if (isExist) {
+                        $("input[name='businessLicenceId']").val("")
+                        $(".msgClass").html("营业执照ID已经存在！");
+                        $("#cat-disable-confirm-modal").modal();
+                    }
+                    businessIdIsExist = isExist;
+                });
+            });
 
         </script>
     </jsp:attribute>

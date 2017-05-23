@@ -9,7 +9,7 @@ import java.io.Serializable;
  *
  * @author lei
  */
-public class UpdatePartnerStockReqVO implements Serializable {
+public class UpdateCompanyStockReqVO implements Serializable {
     private static final long serialVersionUID = 1740147389692009015L;
 
     /**
@@ -20,7 +20,7 @@ public class UpdatePartnerStockReqVO implements Serializable {
     /**
      * 合伙人id(必选)
      */
-    private Long partnerId;
+    private Long companyId;
 
     /**
      * 库存更新数量(正数即加库存, 负数即减库存)
@@ -36,12 +36,12 @@ public class UpdatePartnerStockReqVO implements Serializable {
         this.productId = productId;
     }
 
-    public Long getPartnerId() {
-        return partnerId;
+    public Long getCompanyId() {
+        return companyId;
     }
 
-    public void setPartnerId(Long partnerId) {
-        this.partnerId = partnerId;
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
     }
 
     public int getQuantity() {
