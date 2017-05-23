@@ -1,10 +1,12 @@
 package com.biz.rest.controller;
 
 import com.biz.service.cover.CoverService;
+import com.biz.support.web.handler.JSONResult;
 import com.biz.vo.cover.CoverReqVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,7 @@ public class HomepageController extends BaseRestController {
 	private static final Logger logger = LoggerFactory.getLogger(HomepageController.class);
 
 	@Autowired
+	@Qualifier("coverFeignService")
 	private CoverService coverService;
 
 	@PostConstruct
@@ -40,7 +43,7 @@ public class HomepageController extends BaseRestController {
 	public Object productList(HttpServletRequest request, HttpServletResponse response) {
 
 		CoverReqVO reqVo = new CoverReqVO();
-		return coverService.getHomePage(reqVo);
+		return new JSONResult(coverService.getHomePage(reqVo));
 	}
 
 }

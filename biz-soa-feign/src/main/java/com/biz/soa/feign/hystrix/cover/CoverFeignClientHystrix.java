@@ -1,5 +1,6 @@
 package com.biz.soa.feign.hystrix.cover;
 
+import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.soa.feign.client.cover.CoverFeignClient;
 import com.biz.vo.cover.CoverReqVO;
 import org.slf4j.Logger;
@@ -24,10 +25,10 @@ public class CoverFeignClientHystrix implements CoverFeignClient {
 	}
 
 	@Override
-	public Object getHomePage(@RequestBody CoverReqVO reqVo) {
+	public MicroServiceResult getHomePage(@RequestBody CoverReqVO reqVo) {
 
 		logger.debug("Called me...");
-		return "{}";
+		return MicroServiceResult.buildSuccess("{}");
 	}
 
 }

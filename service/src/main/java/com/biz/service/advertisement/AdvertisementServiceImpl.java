@@ -77,8 +77,8 @@ public class AdvertisementServiceImpl extends AbstractBaseService implements Adv
     }
 
     @Override
-    public List<AdvertisementVo> findAdvertisementByStatus(Integer status) {
-        List<AdvertisementRo> ros = advertisementRedisDao.findAdvertisementByStatus(CommonStatusEnum.ENABLE.getValue());
+    public List<AdvertisementVo> findAdvertisementByStatus(CommonStatusEnum status) {
+        List<AdvertisementRo> ros = advertisementRedisDao.findAdvertisementByStatus(status);
         Collections.sort(ros);
         return Lists.transform(ros, new AdvertisementRo2AdvertisementVo());
     }

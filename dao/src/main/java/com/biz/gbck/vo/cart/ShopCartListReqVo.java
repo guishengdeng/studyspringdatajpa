@@ -1,6 +1,5 @@
 package com.biz.gbck.vo.cart;
 
-import com.biz.gbck.vo.user.BaseRequestVo;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
