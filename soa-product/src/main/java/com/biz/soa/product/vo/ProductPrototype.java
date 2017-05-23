@@ -115,6 +115,7 @@ public class ProductPrototype implements Serializable {
     public ProductAppListItemVo toAppListItemVO() {
         ProductAppListItemVo itemVo = new ProductAppListItemVo();
         itemVo.setId(String.valueOf(this.productRO.getId()));
+        itemVo.setCategoryId(String.valueOf(this.productRO.getCategoryId()));
         itemVo.setProductName(this.productRO.getName());
         itemVo.setProductCode(this.productRO.getProductCode());
         itemVo.setLogo(String.format("%s.jpg", this.productRO.getLogo()));

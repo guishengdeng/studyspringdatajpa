@@ -80,6 +80,11 @@ public class OrderItemRespVo implements IProduct, Comparable<OrderItemRespVo>, S
     @JsonIgnore
     private Integer stock;
 
+    /**
+     * 分类
+     */
+    private Long categoryId;
+
 
     public OrderItemRespVo() {
     }
@@ -93,6 +98,7 @@ public class OrderItemRespVo implements IProduct, Comparable<OrderItemRespVo>, S
         this.setLogo(orderItem.getLogo());
         this.setPrice(orderItem.getPrice());
         this.setQuantity(orderItem.getQuantity());
+        this.setCategoryId(orderItem.getCategoryId());
     }
 
     public Long getId() {
@@ -189,6 +195,15 @@ public class OrderItemRespVo implements IProduct, Comparable<OrderItemRespVo>, S
 
     public void setReturnFlag(Boolean returnFlag) {
         this.returnFlag = returnFlag;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    @Override
+    public Long getCategoryId() {
+        return categoryId;
     }
 
     @Override
