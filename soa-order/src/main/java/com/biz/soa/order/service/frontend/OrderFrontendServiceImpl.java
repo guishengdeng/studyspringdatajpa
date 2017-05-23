@@ -20,6 +20,7 @@ import com.biz.gbck.vo.IdReqVo;
 import com.biz.gbck.vo.PageRespVo;
 import com.biz.gbck.vo.cart.ShopCartListSettleReqVo;
 import com.biz.gbck.vo.cart.ShopCartRespVo;
+import com.biz.gbck.vo.order.event.SystemOrderCancelEvent;
 import com.biz.gbck.vo.order.event.UserOrderCancelEvent;
 import com.biz.gbck.vo.order.req.*;
 import com.biz.gbck.vo.order.resp.*;
@@ -96,16 +97,35 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
 
     @Transactional
     @Override
-    public void cancelOrder(IdReqVo reqVo) {
+    public void cancelOrder(IdReqVo reqVo) throws DepotNextDoorException  {
         if (logger.isDebugEnabled()) {
             logger.debug("取消订单-------请求vo: {}", reqVo);
         }
+        super.queryPayStatus(reqVo.getId());
         Order order = orderRepository.findOne(reqVo.getId());
+        super.validUser(order, reqVo);
         SystemAsserts.notNull(order, "订单不存在");
-        if (order.isCancelable(false)) {
+        SystemAsserts.isTrue(order.isCancelable(false), "订单状态已经发生变化，不能取消");
+        order = super.updateOrderStatus(order, OrderStatus.CANCELED);
+        super.publishEventUsingTx(new UserOrderCancelEvent(this, order.getId()));
+
+    }
+
+    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
+    public void systemCancelOrder(Long orderId) throws DepotNextDoorException  {
+        logger.info("系统取消订单-------请求vo: {}", orderId);
+        super.queryPayStatus(orderId);
+        Order order = orderRepository.findOne(orderId);
+        SystemAsserts.notNull(order, "订单不存在");
+        if (order.isPayTimeout()) {
             order = super.updateOrderStatus(order, OrderStatus.CANCELED);
-            super.publishEventUsingTx(new UserOrderCancelEvent(this, order.getId()));
+            logger.info("系统取消订单[orderId={}]成功", order.getId());
+        } else {
+            if (logger.isDebugEnabled()) {
+                logger.debug("系统不能取消订单[orderId={}]", order.getId());
+            }
         }
+        super.publishEventUsingTx(new SystemOrderCancelEvent(this, order.getId()));
 
     }
 
@@ -136,6 +156,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         List<PaymentType> supportedPaymentTypes = paymentService.getSupportedPaymentTypes(userId);
         List<Integer> paymentTypes = supportedPaymentTypes.stream().filter(Objects::nonNull).map
                 (PaymentType::getValue).collect(Collectors.toList());
+        //TODO 优惠促销
         OrderSettlePageRespVo settleResult = OrderSettlePageRespVoBuilder.createBuilder().setBuyerInfo(shopRo)
                 .setItems(settleOrderItemVos).setPaymentTypes(paymentTypes).setCoupons(couponCount).setPromotions(null).build();
         if (logger.isDebugEnabled()) {
@@ -146,15 +167,13 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
 
     //获取可用优惠券
     private int getUsableCouponCount(OrderSettlePageReqVo reqVo, List<? extends IProduct> products) {
-        OrderCouponReqVo promotionReqVo = new OrderCouponReqVo();
+        OrderCouponReqVo couponReqVo = new OrderCouponReqVo();
         int orderAmount = OrderUtil.calcOrderAmount(products);
-        promotionReqVo.setUserId(Long.valueOf(reqVo.getUserId()));
-        promotionReqVo.setPaymentType(reqVo.getPaymentType());
-        promotionReqVo.setProducts(products);
-        promotionReqVo.setOrderAmount(orderAmount);
-        //TODO 优惠券服务
-
-        return 0;
+        couponReqVo.setUserId(Long.valueOf(reqVo.getUserId()));
+        couponReqVo.setPaymentType(reqVo.getPaymentType());
+        couponReqVo.setProducts(products);
+        couponReqVo.setOrderAmount(orderAmount);
+        return voucherFeignClient.getUsableCount(couponReqVo);
     }
 
     /**
@@ -208,12 +227,8 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
 
 
     private List<OrderRespVo> buildOrderVos(List<Order> orders) throws DepotNextDoorException {
-        List<OrderRespVo> orderRespVos = newArrayList();
-        for (Order order : orders) {
-            OrderRespVo respVo = OrderRespVoBuilder.createBuilder(order).setItems(order.getItems()).build();
-            orderRespVos.add(respVo);
-        }
-        return orderRespVos;
+        return orders.stream().map(o -> OrderRespVoBuilder.createBuilder(o).setItems(o.getItems()).build()).collect
+                (Collectors.toList());
     }
 
     /**

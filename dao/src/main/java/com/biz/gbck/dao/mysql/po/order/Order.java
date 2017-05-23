@@ -342,6 +342,16 @@ public class Order extends BaseEntity {
                 .isBefore(expireTimestamp);
     }
 
+
+    /**
+     * 判断是否 超过付款期限（服务端使用，不给客户端返回）
+     */
+    public boolean isPayTimeout() {
+        return status == OrderStatus.CREATED && payStatus == PaymentStatus.UN_PAY && System.currentTimeMillis() >
+                (this.expireTimestamp == null ? getCreateTimestamp() == null ? 0 : getCreateTimestamp().getTime() :
+                        this.expireTimestamp.getTime());
+    }
+
     /**
      * 是否可取消
      * @param isAdmin 是否管理人员
