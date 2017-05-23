@@ -7,12 +7,15 @@ import com.depotnearby.exception.CommonException;
 import com.depotnearby.exception.CommonRuntimeException;
 import com.depotnearby.rest.bean.Constant;
 import com.depotnearby.vo.CommonReqVo;*/
+
 import com.biz.gbck.common.exception.CommonRuntimeException;
 import com.biz.gbck.common.exception.ExceptionCode;
 import com.biz.gbck.common.model.InitGlobalParams;
 import com.biz.gbck.common.vo.CommonReqVo;
+import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.rest.bean.Constant;
 import com.biz.support.web.assist.GlobalParams;
+import com.biz.support.web.handler.JSONResult;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -169,6 +172,14 @@ public class RestUtil {
             }
             throw new CommonRuntimeException("业务参数约束出错:" + errorInfo,
                 ExceptionCode.Global.PARAMETER_ERROR);
+        }
+    }
+
+    public static JSONResult parseBizResult(MicroServiceResult result) {
+        if (result.getStatus() == MicroServiceResult.SUCCESS_STATUS) {
+            return new JSONResult(result.getData());
+        } else {
+            return new JSONResult(result.getStatus(), result.getMsg());
         }
     }
 

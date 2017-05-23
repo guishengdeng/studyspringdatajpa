@@ -11,9 +11,10 @@ import com.biz.gbck.vo.cart.*;
 import com.biz.gbck.vo.order.req.ProductItemReqVo;
 import com.biz.gbck.vo.product.gbck.request.PurchaseProductReqVO;
 import com.biz.gbck.vo.product.gbck.response.ProductAppListItemVo;
+import com.biz.gbck.vo.product.gbck.response.PurchaseProductItemVO;
 import com.biz.gbck.vo.soa.MicroServiceResult;
-import com.biz.gbck.vo.stock.PartnerStockReqVO;
-import com.biz.gbck.vo.stock.PartnerStockRespVO;
+import com.biz.gbck.vo.stock.CompanyStockReqVO;
+import com.biz.gbck.vo.stock.CompanyStockRespVO;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.cart.ShopCartService;
 import com.biz.soa.feign.client.org.UserFeignClient;
@@ -219,7 +220,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         productReqVo.setProductIds(productIds);
         productReqVo.setSellerId(userRo.getPartnerId());
         productReqVo.setCompanyGroupId(1l); //TODO companyGroupId
-        MicroServiceResult<List<ProductAppListItemVo>> productResult = productFeignClient.getPurchaseProducts
+        MicroServiceResult<List<PurchaseProductItemVO>> productResult = productFeignClient.getPurchaseProducts
                 (productReqVo);
         if (!productResult.isSuccess() || productResult.getData() == null) {
             throw new CartItemProductInvalidException("获取商品信息失败");
@@ -234,7 +235,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
     private void validQuantity(Long userId, Long productId, int quantity) throws DepotNextDoorException {
         UserRo userRo = this.getUserInfo(userId);
         Long partnerId = userRo.getPartnerId();
-        PartnerStockRespVO stockRespVO = stockFeignClient.getStock(new PartnerStockReqVO(partnerId, productId));
+        CompanyStockRespVO stockRespVO = stockFeignClient.getStock(new CompanyStockReqVO(partnerId, productId));
         SystemAsserts.notNull(stockRespVO, "库存不足");
         SystemAsserts.isTrue(quantity <= ValueUtils.getValue(stockRespVO.getQuantity()), "库存不足");
     }

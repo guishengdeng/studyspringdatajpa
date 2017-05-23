@@ -25,4 +25,6 @@ public interface ProvinceRepository
     ProvincePo findByName(String name);
 
     List<ProvincePo> findAll();
+
+    List<ProvincePo> findByStatus(Integer status);
 }

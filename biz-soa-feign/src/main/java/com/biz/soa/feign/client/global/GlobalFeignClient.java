@@ -1,11 +1,16 @@
 package com.biz.soa.feign.client.global;
 
+import com.biz.gbck.dao.redis.ro.upgrade.UpgradeRo;
+import com.biz.gbck.vo.upgrade.AddUpgradeVo;
 import com.biz.soa.feign.hystrix.global.GlobalFeignClientHystrix;
 import com.biz.support.web.handler.JSONResult;
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 
 
 /**
@@ -17,7 +22,7 @@ public interface GlobalFeignClient {
     /**
      * 获取启动上报返回参数
      */
-    @RequestMapping(value = "/init/init")
+    @RequestMapping(value = "soa/init/init", method = RequestMethod.POST)
     JSONResult getAppConfigMap();
 
     /**
@@ -27,7 +32,38 @@ public interface GlobalFeignClient {
      * @param inhourse 是否强制升级
      * @return
      */
-    @RequestMapping(value = "/init/upgrade")
+    @RequestMapping(value = "soa/init/upgrade", method = RequestMethod.POST)
     JSONResult needUpgrade(@RequestParam("os")String os, @RequestParam("ver")String ver,
                            @RequestParam("inhourse")String inhourse);
+
+    /**
+     * 根据型号查询升级配置集合
+     * @param os
+     * @return
+     */
+    @RequestMapping(value = "soa/init/findUpgradeByOs", method = RequestMethod.POST)
+    List<UpgradeRo> findUpgradeByOs(@RequestParam("os") String os);
+
+    /**
+     * 根据id删除对应升级配置
+     * @param id
+     */
+    @RequestMapping(value = "soa/init/deleteUpgradeById", method = RequestMethod.POST)
+    void deleteUpgradeById(@RequestParam("id") String id);
+
+    /**
+     * 添加升级配置
+     * @param upgrade
+     */
+    @RequestMapping(value = "soa/init/saveUpgrade", method = RequestMethod.POST)
+    void saveUpgrade(@RequestBody AddUpgradeVo upgrade);
+
+    /**
+     * 判断给的升级版本号码是否存在
+     * @param version
+     * @param os
+     * @return
+     */
+    @RequestMapping(value = "soa/init/verifyVersion", method = RequestMethod.POST)
+    boolean verifyVersion(@RequestParam("version") String version, @RequestParam("os") String os);
 }

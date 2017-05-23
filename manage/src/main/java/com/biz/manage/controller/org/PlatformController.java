@@ -1,19 +1,18 @@
 package com.biz.manage.controller.org;
 
-import com.biz.gbck.dao.mysql.po.org.PartnerPo;
-import com.biz.gbck.dao.mysql.po.org.PlatformPo;
+import com.biz.gbck.vo.platform.PartnerSearchResVo;
 import com.biz.gbck.vo.platform.PartnerSearchVo;
+import com.biz.gbck.vo.platform.PlatformResSearchVo;
 import com.biz.gbck.vo.platform.PlatformSearchVo;
-import com.biz.service.org.interfaces.PlatformService;
+import com.biz.gbck.vo.spring.PageVO;
+import com.biz.soa.feign.client.org.PlatformFeignClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,8 +25,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Secured("ROLE_PLATFORM")
 public class PlatformController {
     private static final Logger logger = LoggerFactory.getLogger(PlatformController.class);
+
     @Autowired
-    private PlatformService platformService;
+    private PlatformFeignClient platformFeignClient;
 
     /**
      * 进入平台公司列表
@@ -37,7 +37,7 @@ public class PlatformController {
     public ModelAndView platformList(PlatformSearchVo vo) {
         logger.debug("Received /platform/platformList GET request.");
         ModelAndView mav = new ModelAndView("org/platform/platformList");
-        Page<PlatformPo> platformSearchResVoPage = platformService.findPlatformList(vo);
+        PageVO<PlatformResSearchVo> platformSearchResVoPage = platformFeignClient.findPlatformList(vo);
         mav.addObject("platformSearchResVoPage", platformSearchResVoPage);
         mav.addObject("vo", vo);
         return mav;
@@ -51,7 +51,7 @@ public class PlatformController {
     public ModelAndView findPartnerList(PartnerSearchVo vo) {
         logger.debug("Received /platform/partnerList GET request.");
         ModelAndView mav = new ModelAndView("org/platform/partnerList");
-        Page<PartnerPo> partnerSearchResVoPage = platformService.findPartnerList(vo);
+        PageVO<PartnerSearchResVo> partnerSearchResVoPage = platformFeignClient.findPartnerList(vo);
         mav.addObject("partnerSearchResVoPage", partnerSearchResVoPage);
         mav.addObject("vo", vo);
         return mav;
@@ -62,11 +62,12 @@ public class PlatformController {
     public ModelAndView partnerEdit( Long id) {
         logger.debug("Received /platform/partnerEdit GET request.");
         ModelAndView mav = new ModelAndView("org/platform/partnerEdit");
-        PartnerPo partnerPo=platformService.findPartnerById(id);
-        mav.addObject("partner",partnerPo);
+        PartnerSearchResVo partnerSearchResVo=platformFeignClient.findPartnerById(id);
+        mav.addObject("partner",partnerSearchResVo);
         return mav;
     }
 
+/*
 
     @GetMapping(value = "/add")
     @PreAuthorize("hasAuthority('OPT_PLATFORM_EDIT')")
@@ -80,6 +81,7 @@ public class PlatformController {
     public ModelAndView edit(@PathVariable Long id) {
         return new ModelAndView("", "companyGroup", platformService.findOne(id));
     }
+*/
 
 //
 //    @PostMapping(value = "/save")

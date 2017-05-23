@@ -1,5 +1,6 @@
 package com.biz.gbck.dao.redis.repository.org;
 
+import com.biz.core.util.DateUtil;
 import com.biz.gbck.common.ro.RedisKeyGenerator;
 import com.biz.gbck.dao.redis.CrudRedisDao;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
@@ -26,7 +27,9 @@ public class ShopRedisDao extends CrudRedisDao<ShopRo,String> {
             String key = this.getChannelAndChannelUserIdToShopIdHashKey(shopRo.getChannel(), shopRo.getChannelUserId());
             set(key, RedisUtil.toByteArray(shopRo.getId()));
         }
-
+        if(shopRo.getCreateTime()==null){
+            shopRo.setCreateTime(DateUtil.now());
+        }
         zadd(this.getAllShopSortSetKey(), shopRo.getCreateTime().getTime(), RedisUtil.toByteArray(shopRo.getId()));
     }
 

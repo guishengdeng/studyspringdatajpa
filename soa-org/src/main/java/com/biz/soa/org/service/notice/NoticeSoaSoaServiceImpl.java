@@ -14,14 +14,18 @@ import com.biz.gbck.dao.redis.repository.notice.NoticeRedisDao;
 import com.biz.gbck.dao.redis.repository.org.UserRedisDao;
 import com.biz.gbck.dao.redis.ro.notice.NoticeRo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
+import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.transform.notice.NoticePoToNoticeRo;
 import com.biz.message.MessageService;
 import com.biz.message.SimpleBizMessage;
 import com.biz.message.queue.BizBaseQueue;
 import com.biz.service.CommonService;
+import com.biz.soa.org.service.interfaces.UserSoaService;
 import com.biz.soa.org.service.notice.interfaces.NoticeSoaService;
+import com.biz.vo.notify.NotifyVo;
+import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.codelogger.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +37,7 @@ import java.util.List;
 /**
  * 用户消息
  *
- * @author gongshutao
+ * @author dylan 17.5.22
  */
 @Service
 public class NoticeSoaSoaServiceImpl extends CommonService implements NoticeSoaService {
@@ -55,9 +59,53 @@ public class NoticeSoaSoaServiceImpl extends CommonService implements NoticeSoaS
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private UserSoaService userSoaService;
 
-    @Override
-    public NoticePo saveAndSend(NoticePo po, List<Long> userIds) {
+
+
+    public void sendNotification(String admin, NotifyVo notifyVo){
+        List<Long> userIds = getUserIdsByNotifyVo(notifyVo);
+        NoticePo noticePo = new NoticePo();
+        noticePo.setTitle(notifyVo.getTitle());
+        noticePo.setContent(notifyVo.getNotifyContent());
+        this.saveAndSend(noticePo, userIds);
+    }
+
+    /**
+     * 判断后台消息发送对象
+     * @param notifyVo
+     * @return
+     */
+    private List<Long> getUserIdsByNotifyVo(NotifyVo notifyVo) {
+        List<Long> userIds = Lists.newArrayList();
+        String sourceId;
+        if (org.codelogger.utils.StringUtils.isNotBlank(notifyVo.getShopTypeId())) {
+            sourceId = notifyVo.getShopTypeId();
+            for (String shopType : sourceId.split(",")) {
+                List<Long> shopTypeUserIds =
+                    userSoaService.findUserIdByShopType(Long.valueOf(StringUtils.trimAllWhitespace(shopType)));
+                userIds.addAll(shopTypeUserIds);
+            }
+        } else {
+            if(org.codelogger.utils.StringUtils.isNotBlank(notifyVo.getMobile())) {
+               UserRo userRo = userSoaService.findUserByMobile(notifyVo.getMobile());
+                if(userRo != null){
+                    userIds.add(Long.valueOf(userRo.getId()));
+                }
+            } else {
+                userIds = userSoaService.findAllUserIdByAuditStatus(AuditStatus.NORMAL);
+            }
+        }
+        return userIds;
+    }
+
+
+
+
+
+
+    private NoticePo saveAndSend(NoticePo po, List<Long> userIds) {
         if (po == null) {
             throw new IllegalArgumentException("noticepo is null");
         }
@@ -81,8 +129,26 @@ public class NoticeSoaSoaServiceImpl extends CommonService implements NoticeSoaS
         return po;
     }
 
+
+    /**
+     * 获取未收用户消息
+     * @param userId
+     * @param lastNoticeId 客户端保存最后一条消息
+     * @return
+     */
     @Override
-    public void doSend(NoticePo notice, Long userId) {
+    public List<NoticeRo> findUserNoticeAfter(Long userId, Long lastNoticeId) {
+        List<NoticeRo> result = noticeRedisDao.findAfter(userId, lastNoticeId);
+        noticeRedisDao.deleteAfter(userId, lastNoticeId);
+        return result;
+    }
+
+    /**
+     * 封装要发送的消息
+     * @param notice
+     * @param userId
+     */
+    private void doSend(NoticePo notice, Long userId) {
 
         UserRo user = userRedisDao.get(userId);
         if (user != null) {
@@ -112,10 +178,12 @@ public class NoticeSoaSoaServiceImpl extends CommonService implements NoticeSoaS
         }
     }
 
-    @Override
-    public String getPlatfrom(UserRo user) {
+    /**
+     * 获取用户最后登录的手机
+     */
+    private String getPlatfrom(UserRo user) {
         String lastFlag = user.getLastUserAgent();
-        if (StringUtils.equalsIgnoreCase(lastFlag, "appstore"))
+        if (org.apache.commons.lang3.StringUtils.equalsIgnoreCase(lastFlag, "appstore"))
             return NotificationPlatform.IOS;
         else if (StringUtils.containsIgnoreCase(lastFlag, "mi"))
             return NotificationPlatform.MI;
@@ -123,18 +191,14 @@ public class NoticeSoaSoaServiceImpl extends CommonService implements NoticeSoaS
             return NotificationPlatform.ANDROID;
     }
 
-    @Override
-    public void sendNotification(Notification notification) throws CommonException {
 
+    /**
+     * 发送消息
+     */
+    private void sendNotification(Notification notification) throws CommonException {
         messageService.sendMessage(BizBaseQueue.MQ_CLIENT_PUSH_MSG, SimpleBizMessage.newMessage(notification));
     }
 
-    @Override
-    public List<NoticeRo> findUserNoticeAfter(Long userId, Long lastNoticeId) {
-        List<NoticeRo> result = noticeRedisDao.findAfter(userId, lastNoticeId);
-        noticeRedisDao.deleteAfter(userId, lastNoticeId);
-        return result;
-    }
 
 
 }

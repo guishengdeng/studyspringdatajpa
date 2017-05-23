@@ -6,6 +6,7 @@ import com.biz.gbck.vo.product.gbck.request.PurchaseProductReqVO;
 import com.biz.gbck.vo.product.gbck.response.ProductAppDetailRespVO;
 import com.biz.gbck.vo.product.gbck.response.ProductAppListItemVo;
 import com.biz.gbck.vo.product.gbck.response.ProductAppListRespVO;
+import com.biz.gbck.vo.product.gbck.response.PurchaseProductItemVO;
 import java.util.List;
 
 /**
