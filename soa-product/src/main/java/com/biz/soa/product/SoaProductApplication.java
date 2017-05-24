@@ -2,6 +2,8 @@ package com.biz.soa.product;
 
 import com.biz.service.product.impl.BrandServiceImpl;
 import com.biz.service.product.impl.CategoryServiceImpl;
+import com.biz.service.product.impl.ExtendPropertyServiceImpl;
+import com.biz.service.product.impl.ProductExtendServiceImpl;
 import com.biz.service.system.InitManager;
 import com.biz.support.jpa.repository.CommonRepositoryFactoryBean;
 import org.springframework.boot.SpringApplication;
@@ -26,7 +28,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan(basePackages = "com.biz", excludeFilters = {
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = InitManager.class),
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = BrandServiceImpl.class),
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = CategoryServiceImpl.class)
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = CategoryServiceImpl.class),
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = ExtendPropertyServiceImpl.class),
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = ProductExtendServiceImpl.class)
 })
 @EnableJpaRepositories(basePackages = "com.biz", repositoryFactoryBeanClass = CommonRepositoryFactoryBean.class)
 @EntityScan(basePackages = "com.biz")
