@@ -202,7 +202,7 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
         }
 
         // 前端传入搜索字段过滤
-        List<ProductSearchFieldVo> productSearchFields = reqVo.getProductSearchFields();
+        List<ProductSearchFieldVo> productSearchFields = reqVo.getFields();
         if (CollectionUtils.isNotEmpty(productSearchFields)) {
             productSearchFields.forEach(searchField -> {
                 String fieldName = searchField.getField();
@@ -304,6 +304,8 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
         });
         stopWatch.stop();
         ProductFilterVO priceFieldVO = new ProductFilterVO();
+        priceFieldVO.setLabel("价格");
+        priceFieldVO.setField("salePrice");
         priceFieldVO.setFilterItems(priceFields);
         List<ProductFilterVO> filters = Lists.newArrayList();
         stopWatch.start("indeed property items");

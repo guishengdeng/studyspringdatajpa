@@ -44,7 +44,7 @@ public class OrderReturnBackendServiceImpl extends AbstractRepositorySupportServ
     @Autowired
     private OrderReturnRepository orderReturnRepository;
 
-    @Autowired
+    @Autowired(required = false)
     private OssConfig config;
 
     @Override

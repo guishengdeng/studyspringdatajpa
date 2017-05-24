@@ -1,5 +1,6 @@
 package com.biz.gbck.vo.order.resp;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,9 +11,14 @@ import java.util.List;
  * @reviewer
  * @see
  */
-public class OrderPromotionReqVo implements IOrderPeriodQueryReqVo {
+public class OrderPromotionReqVo implements Serializable, IOrderPeriodQueryReqVo {
 
-    private static final long serialVersionUID = -8415628255360674537L;
+    private static final long serialVersionUID = -513598021053330981L;
+
+    /**
+     * 用户组ID
+     */
+    private Long companyGroupId;
 
     //用户id
     private Long userId;
@@ -63,6 +69,14 @@ public class OrderPromotionReqVo implements IOrderPeriodQueryReqVo {
     @Override
     public Long getOrderId() {
         return null;
+    }
+
+    public Long getCompanyGroupId() {
+        return companyGroupId;
+    }
+
+    public void setCompanyGroupId(Long companyGroupId) {
+        this.companyGroupId = companyGroupId;
     }
 }
 
