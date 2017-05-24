@@ -1,5 +1,7 @@
 package com.biz.core.ali.oss.config;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 /**
  * oss 属性配置类
  * @author jun.liu(by xiaoyu)
@@ -98,5 +100,10 @@ public class OssConfig {
 
     public void setAuditBucketName(String auditBucketName) {
         this.auditBucketName = auditBucketName;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

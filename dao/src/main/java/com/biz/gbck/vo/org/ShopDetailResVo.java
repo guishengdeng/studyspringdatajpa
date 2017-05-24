@@ -2,6 +2,8 @@ package com.biz.gbck.vo.org;
 
 
 import com.biz.core.util.DateUtil;
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -348,5 +350,10 @@ public class ShopDetailResVo implements Serializable {
 
     public void setShopStatus(String shopStatus) {
         this.shopStatus = shopStatus;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

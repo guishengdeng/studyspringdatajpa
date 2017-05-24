@@ -5,8 +5,11 @@ import com.biz.gbck.dao.mysql.po.org.ShopQualificationPo;
 import com.biz.gbck.vo.org.ShopAuditDataMap;
 import com.biz.gbck.vo.org.ShopAuditVo;
 import com.biz.gbck.vo.org.ShopDetailResVo;
+import com.biz.service.org.interfaces.ShopService;
 import com.google.common.base.Function;
 import org.codelogger.utils.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 
@@ -14,6 +17,8 @@ import java.io.Serializable;
  * Created by root on 17-5-18.
  */
 public class ShopAuditDataMapToShopDetailResVo implements Function<ShopAuditDataMap, ShopDetailResVo>, Serializable {
+
+    private static final Logger logger = LoggerFactory.getLogger(ShopAuditDataMapToShopDetailResVo.class);
     @Override
     public ShopDetailResVo apply(ShopAuditDataMap input) {
         ShopDetailResVo vo=null;
@@ -60,6 +65,8 @@ public class ShopAuditDataMapToShopDetailResVo implements Function<ShopAuditData
                     vo.setBusinessLicenceName(qualificationPo.getBusinessLicenceName());
                     vo.setBusinessLicenceId(qualificationPo.getBusinessLicenceId());
                     vo.setLiquorSellLicenceId(qualificationPo.getLiquorSellLicenceId());
+
+                    logger.info("ShopDetailResVo vo is {}", vo.toString());
                 }
             }
         }
