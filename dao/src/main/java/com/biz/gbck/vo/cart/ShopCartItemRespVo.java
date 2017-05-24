@@ -1,7 +1,7 @@
 package com.biz.gbck.vo.cart;
 
 import com.biz.gbck.enums.order.ItemType;
-import com.biz.gbck.vo.product.gbck.response.ProductAppListItemVo;
+import com.biz.gbck.vo.product.gbck.response.PurchaseProductItemVO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -35,6 +35,11 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
      * 商品Id
      */
     private String productId;
+
+    /**
+     * 分类Id
+     */
+    private Long categoryId;
 
     /**
      * 商品编码
@@ -116,7 +121,7 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
     public ShopCartItemRespVo() {
     }
 
-    public ShopCartItemRespVo(ProductAppListItemVo itemVo) {
+    public ShopCartItemRespVo(PurchaseProductItemVO itemVo) {
         this();
         this.setProductId(itemVo.getId());
         this.setProductCode(itemVo.getProductCode());
@@ -128,10 +133,12 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
         if (itemVo.getSupportSpecialOffer() && ValueUtils.getValue(itemVo.getSpecialOfferPrice()) > 0) {
             this.setPrice(itemVo.getSpecialOfferPrice());
         }
-        this.setMaxQuantity(null);
-        this.setMinQuantity(null);
+        this.setMaxQuantity(itemVo.getMaxQuantity());
+        this.setMinQuantity(itemVo.getMinQuantity());
+        this.setStatus(itemVo.getShowStatus().getValue());
         this.setStandard(null);
         this.setSubTitle(null);
+        this.setCategoryId(itemVo.getCategoryId());
     }
 
 
@@ -277,6 +284,14 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
 
     public void setItemType(ItemType itemType) {
         this.itemType = itemType;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
     @Override

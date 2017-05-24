@@ -14,8 +14,9 @@ import com.biz.gbck.vo.search.ProductIdxVO;
 import com.biz.gbck.vo.search.TotalProductIdxReqVo;
 import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.soa.feign.client.product.ProductFeignClient;
-import java.util.List;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * Created by david-liu on 2017/05/17 00:22.

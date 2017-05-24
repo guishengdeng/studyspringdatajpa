@@ -2,7 +2,7 @@ spring:
   application:
     name: soa-order
   profiles:
-    active: local
+    active: dev
 
   datasource:
     driver-class-name: com.mysql.jdbc.Driver

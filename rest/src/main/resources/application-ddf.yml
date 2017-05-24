@@ -50,6 +50,7 @@ biz:
     accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
     bucketName: gbck-test
     userId: 1526565267726025
+    auditBucketName: gbck-test-qualification
   amqp:
     username: guest
     password: guest

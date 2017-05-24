@@ -145,4 +145,9 @@ public class OrderItem extends BaseEntity implements IProduct {
     public void setItemType(ItemType itemType) {
         this.itemType = itemType;
     }
+
+    @Override
+    public Long getCategoryId() {
+        return null;
+    }
 }

@@ -27,7 +27,7 @@ spring:
     redis:
       flush-mode: immediate
   application:
-    name: soa-org
+    name: soa-order
 
 biz:
   soa:

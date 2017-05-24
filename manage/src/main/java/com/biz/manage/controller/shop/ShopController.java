@@ -136,6 +136,17 @@ public class ShopController extends BaseController {
     }
 
     /**
+     * 判断营业执照id是否存在 不限商户
+     */
+    @RequestMapping(value = "findShopByBusinessLicenceId", method = RequestMethod.GET)
+    @ResponseBody
+    public Boolean findShopByBusinessLicenceId(
+            @RequestParam("businessLicenceId") String businessLicenceId) {
+
+        return shopFeignClient.findShopByBusinessLicenceId(businessLicenceId);
+    }
+
+    /**
      * 保存审核信息
      */
     @RequestMapping(value = "audit", method = RequestMethod.POST)

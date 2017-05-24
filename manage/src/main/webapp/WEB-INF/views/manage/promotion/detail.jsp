@@ -40,7 +40,7 @@
                     };
                     $.ajax({
                         type: "POST",
-                        url: "upload/uploadTest.do",
+                        url: "upload/uploadProduct.do",
                         enctype: 'multipart/form-data',
                         data: dataObj
                     }).done(function (data) {
@@ -48,7 +48,7 @@
                         if (data.status == 'success') {
                             layer.msg("上传图片成功");
                             hidden_input.val(data.name);
-                            preview();
+                            $('#image').attr('src', data.uri);
                         } else {
                             layer.msg("上传图片失败");
                         }
