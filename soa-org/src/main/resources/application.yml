@@ -2,7 +2,7 @@ spring:
   application:
     name: soa-org
   profiles:
-    active: dev
+    active: lb
 
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
