@@ -33,6 +33,7 @@ public class AliStsController extends BaseRestController {
 	public AliStsVO getOssToken() throws ClientException {
 		if (logger.isDebugEnabled()) {
 			logger.debug("received oss sts request.");
+			logger.debug("oss config: {}", ossConfig);
 		}
 		AssumeRoleResponse.Credentials newSts = getNewSts();
 		return new AliStsVO(newSts.getAccessKeyId(), newSts.getAccessKeySecret(), newSts.getSecurityToken(), DateUtils
