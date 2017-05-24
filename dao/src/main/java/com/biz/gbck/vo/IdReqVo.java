@@ -19,6 +19,13 @@ public class IdReqVo extends CommonReqVoBindUserId {
     @NotNull(message = "id不能为null")
     private Long id;
 
+    public IdReqVo() {
+    }
+
+    public IdReqVo(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }

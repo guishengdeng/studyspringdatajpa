@@ -26,7 +26,9 @@ public interface OrderFrontendService {
 
     OrderRespVo getOrderDetail(IdReqVo reqVo) throws DepotNextDoorException;
 
-    void cancelOrder(IdReqVo reqVo);
+    void cancelOrder(IdReqVo reqVo) throws DepotNextDoorException ;
+
+    void systemCancelOrder(Long orderId) throws DepotNextDoorException;
 
     OrderSettlePageRespVo getSettleResult(OrderSettlePageReqVo reqVo) throws DepotNextDoorException;
 

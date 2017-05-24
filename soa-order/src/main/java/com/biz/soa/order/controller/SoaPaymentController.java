@@ -7,10 +7,10 @@ import com.biz.gbck.vo.payment.resp.AlipaySignRespVo;
 import com.biz.gbck.vo.payment.resp.PaidRespVo;
 import com.biz.gbck.vo.payment.resp.PaymentQueryResultRespVo;
 import com.biz.gbck.vo.payment.resp.WechatPayResp;
+import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.pay.wechat.res.WechatPayNotifyRespVo;
 import com.biz.soa.base.SoaBaseController;
 import com.biz.soa.order.service.payment.PaymentService;
-import com.biz.support.web.handler.JSONResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,23 +33,32 @@ public class SoaPaymentController extends SoaBaseController {
 
     //查询支付状态
     @RequestMapping("/app/queryPaid")
-    public JSONResult queryPaid(@RequestBody IdReqVo reqVo) throws PaymentException {
-        PaymentQueryResultRespVo paidResultRespVo = paymentService.queryPaid(reqVo);
-        return new JSONResult(paidResultRespVo);
+    public MicroServiceResult<PaymentQueryResultRespVo> queryPaid(@RequestBody IdReqVo reqVo) {
+        try {
+            return render200(paymentService.queryPaid(reqVo));
+        } catch (Exception e) {
+            return render500(e);
+        }
     }
 
     //支付宝继续支付
     @RequestMapping("/app/alipay")
-    public JSONResult alipay(@RequestBody IdReqVo reqVo) throws PaymentException {
-        AlipaySignRespVo responseVo = paymentService.getAlipaySign(reqVo.getId());
-        return new JSONResult(responseVo);
+    public MicroServiceResult<AlipaySignRespVo> alipay(@RequestBody IdReqVo reqVo) {
+        try {
+            return render200(paymentService.getAlipaySign(reqVo.getId()));
+        } catch (Exception e) {
+            return render500(e);
+        }
     }
 
     //微信继续支付
     @RequestMapping("/app/wechat")
-    public JSONResult wecaht(@RequestBody WechatOrderReqVo reqVo) throws PaymentException {
-        WechatPayResp respVo = paymentService.wechatPay(reqVo, reqVo.getOrderId());
-        return new JSONResult(respVo);
+    public MicroServiceResult<WechatPayResp> wecaht(@RequestBody WechatOrderReqVo reqVo) {
+        try {
+            return render200(paymentService.wechatPay(reqVo, reqVo.getOrderId()));
+        } catch (Exception e) {
+            return render500(e);
+        }
     }
 
 

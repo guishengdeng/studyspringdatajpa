@@ -7,15 +7,16 @@ import com.biz.gbck.vo.product.gbck.request.ProductAppDetailReqVo;
 import com.biz.gbck.vo.product.gbck.request.ProductAppListReqVo;
 import com.biz.gbck.vo.product.gbck.request.PurchaseProductReqVO;
 import com.biz.gbck.vo.product.gbck.response.ProductAppDetailRespVO;
-import com.biz.gbck.vo.product.gbck.response.ProductAppListItemVo;
 import com.biz.gbck.vo.product.gbck.response.ProductAppListRespVO;
+import com.biz.gbck.vo.product.gbck.response.PurchaseProductItemVO;
 import com.biz.gbck.vo.search.IncrProductIdxReqVo;
 import com.biz.gbck.vo.search.ProductIdxVO;
 import com.biz.gbck.vo.search.TotalProductIdxReqVo;
 import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.soa.feign.client.product.ProductFeignClient;
-import java.util.List;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * Created by david-liu on 2017/05/17 00:22.
@@ -53,7 +54,7 @@ public class ProductFeignClientHystrix implements ProductFeignClient {
     }
 
     @Override
-    public MicroServiceResult<List<ProductAppListItemVo>> getPurchaseProducts(PurchaseProductReqVO reqVO) {
+    public MicroServiceResult<List<PurchaseProductItemVO>> getPurchaseProducts(PurchaseProductReqVO reqVO) {
         return null;
     }
 }

@@ -50,7 +50,16 @@ public class OrderBuilder {
 
         //收货信息
         OrderConsignee consignee = new OrderConsignee();
-        consignee.setName(shopRo.getDeliveryName());
+        //收货人姓名(优先顺序: 收货人姓名>法人姓名>店铺名称)
+        if (StringUtils.isNotEmpty(shopRo.getDeliveryName())) {
+            consignee.setName(shopRo.getDeliveryName());
+        } else {
+            if (StringUtils.isNotEmpty(shopRo.getCorporateName())) {
+                consignee.setName(shopRo.getCorporateName());
+            } else {
+                consignee.setName(shopRo.getName());
+            }
+        }
         consignee.setMobile(shopRo.getDeliveryMobile());
         if (shopRo.getProvinceId() != null) {
             consignee.setProvinceId(shopRo.getProvinceId().intValue());
