@@ -97,12 +97,13 @@ public class ShopController extends BaseController {
     public ModelAndView auditShopDetail(
             @RequestParam("shopId") Long shopId, HttpServletRequest request) throws Exception {
 
-        logger.debug("Received /shops/audit GET request with shopId:{}.", shopId);
+        logger.info("Received /shops/audit GET request with shopId:{}.", shopId);
         ModelAndView modelAndView = new ModelAndView("/org/shop/auditDetail");
         ShopDetailResVo shopDetailResVo =
                 shopFeignClient.findShopAuditDataOfWaitForAuditByShopId(shopId);
         List<AuditRejectReason> auditRejectReasons = newArrayList();
         if (shopDetailResVo != null) {
+            logger.info("Received /shops/audit GET request with shopDetailVo:{}.", shopDetailResVo.getName());
                 auditRejectReasons.add(AuditRejectReason.DETAIL_INVALID);
                 for (AuditRejectReason auditRejectReason : AuditRejectReason.values()) {
                     if (auditRejectReason != AuditRejectReason.DETAIL_INVALID)
