@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: internal
   mvc:
     view:
       prefix: /WEB-INF/views/
