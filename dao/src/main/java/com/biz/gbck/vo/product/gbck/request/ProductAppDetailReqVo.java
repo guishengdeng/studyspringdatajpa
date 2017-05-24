@@ -22,7 +22,7 @@ public class ProductAppDetailReqVo implements GlobalParamsAware, Serializable {
      * 商品编码
      */
     @NotNull(message = "商品ID不能为空")
-    private Long productId;
+    private Long id;
 
     /**
      * 价格组ID
@@ -34,12 +34,12 @@ public class ProductAppDetailReqVo implements GlobalParamsAware, Serializable {
      */
     private GlobalParams globalParams;
 
-    public Long getProductId() {
-        return productId;
+    public Long getId() {
+        return id;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getPriceGroupId() {
@@ -72,8 +72,9 @@ public class ProductAppDetailReqVo implements GlobalParamsAware, Serializable {
     public String toString() {
         return "ProductAppDetailReqVo{" +
                 "sellerId=" + sellerId +
-                ", productId=" + productId +
+                ", id=" + id +
                 ", priceGroupId=" + priceGroupId +
+                ", globalParams=" + globalParams +
                 '}';
     }
 }
