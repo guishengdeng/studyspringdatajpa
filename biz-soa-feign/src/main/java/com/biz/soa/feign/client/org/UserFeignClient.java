@@ -117,6 +117,15 @@ public interface UserFeignClient {
      */
     @RequestMapping(value = "findUserIdByShopType", method = RequestMethod.POST)
     List<Long> findUserIdByShopType(@RequestParam("shopTypeId") Long shopTypeId);
+
+    /**
+     * 根据商户Id和是否是店长查找用户Id
+     * @param shopId
+     * @param isAdmin
+     * @return
+     */
+    @RequestMapping(value = "findAdminUserIdsByShopId", method = RequestMethod.POST)
+    List<Long> findAdminUserIdsByShopId(@RequestParam("shopId") Long shopId, @RequestParam("isAdmin") Boolean isAdmin);
 }
 
 

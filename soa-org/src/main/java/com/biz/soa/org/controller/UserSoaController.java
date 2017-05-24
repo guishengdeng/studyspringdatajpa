@@ -214,4 +214,9 @@ public class UserSoaController extends BaseRestController {
     public List<Long> findUserIdByShopType(@RequestParam("shopTypeId") Long shopTypeId) {
         return userSoaService.findUserIdByShopType(shopTypeId);
     }
+
+    @RequestMapping(value = "findAdminUserIdsByShopId", method = RequestMethod.POST)
+    public List<Long> findAdminUserIdsByShopId(@RequestParam("shopId") Long shopId, @RequestParam("isAdmin") Boolean isAdmin) {
+        return userSoaService.findAdminUserIdsByShopId(shopId, isAdmin);
+    }
 }
