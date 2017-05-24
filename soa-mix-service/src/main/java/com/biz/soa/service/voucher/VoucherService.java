@@ -117,4 +117,14 @@ public interface VoucherService{
         Map<String, Object> searchParams);
     
 	public PageVO<VoucherTypePo> searchVoucher(VoucherSearchVo reqVo);
+
+	/**
+     * 用户组优惠券批量发放
+     * @param userIdGroupsType 用户组类型
+     * @param voucherTypeRo	优惠券类型
+     * @param dispatcherCnt	发放数量
+     * @param loginUsername 发放人
+     */
+	public void dispatcherUserGroupsVoucher(String userIdGroupsType, VoucherTypeRo voucherTypeRo, Integer dispatcherCnt,
+			String loginUsername);
 }

@@ -90,4 +90,15 @@ public interface VoucherFeignClient {
      */
     @RequestMapping(value="/soa/voucher/searchVoucher",method=RequestMethod.POST)
     public PageVO<VoucherTypePo> searchVoucher(@RequestBody VoucherSearchVo voucherSearchVo);
+    
+    /**
+     * 用户组优惠券批量发放
+     * @param userIdGroupsType 用户组类型
+     * @param voucherTypeRo	优惠券类型
+     * @param dispatcherCnt	发放数量
+     * @param loginUsername 发放人
+     */
+    @RequestMapping(value="/soa/voucher/dispatcherUserGroupsVoucher",method=RequestMethod.POST)
+    public void dispatcherUserGroupsVoucher(@RequestParam("userIdGroupsType") String userIdGroupsType, @RequestBody VoucherTypeRo voucherTypeRo, 
+			@RequestParam("dispatcherCnt") Integer dispatcherCnt,@RequestParam("loginUsername")	String loginUsername);
 }

@@ -46,5 +46,4 @@ public interface ProductFeignClient {
 
     @RequestMapping(value = "/soa/product/purchaseProducts", method = RequestMethod.POST)
     MicroServiceResult<List<PurchaseProductItemVO>> getPurchaseProducts(@RequestBody PurchaseProductReqVO reqVO);
-
 }

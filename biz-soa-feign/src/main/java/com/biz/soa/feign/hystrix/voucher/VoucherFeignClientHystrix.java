@@ -81,5 +81,12 @@ public class VoucherFeignClientHystrix implements VoucherFeignClient {
 		return null;
 	}
 
+	@Override
+	public void dispatcherUserGroupsVoucher(String userIdGroupsType, VoucherTypeRo voucherTypeRo, Integer dispatcherCnt,
+			String loginUsername) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

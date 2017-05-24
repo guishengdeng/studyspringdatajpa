@@ -187,6 +187,7 @@ public class SoaVoucherController extends SoaBaseController{
     		VoucherTypeRo voucherTypeRo = voucherTypeService.getVoucherTypeRoById(ids);
     		 VoucherRo voucherRo = voucherService.fetchVoucher(userId, voucherTypeRo);
     		 //订单id
+    		 //TODO
     		 Long orderId = null;
     		 voucherService.useVoucher(iOrderPeriodQueryReqVo.getUserId(), voucherRo.getId(), null, getVoucherLimit(iOrderPeriodQueryReqVo));
 		}
@@ -323,4 +324,18 @@ public class SoaVoucherController extends SoaBaseController{
 	PageVO<VoucherTypePo> searchVoucher(@RequestBody VoucherSearchVo reqVo) {
 		return voucherService.searchVoucher(reqVo);
 	}
+    
+    
+    /**
+     * 用户组优惠券批量发放
+     * @param userIdGroupsType 用户组类型
+     * @param voucherTypeRo	优惠券类型
+     * @param dispatcherCnt	发放数量
+     * @param loginUsername 发放人
+     */
+    @RequestMapping(value="/dispatcherUserGroupsVoucher",method=RequestMethod.POST)
+    public void dispatcherUserGroupsVoucher(@RequestParam("userIdGroupsType") String userIdGroupsType, @RequestBody VoucherTypeRo voucherTypeRo, 
+			@RequestParam("dispatcherCnt") Integer dispatcherCnt,@RequestParam("loginUsername")	String loginUsername){
+    	voucherService.dispatcherUserGroupsVoucher(userIdGroupsType, voucherTypeRo, dispatcherCnt, loginUsername);
+    }
 }

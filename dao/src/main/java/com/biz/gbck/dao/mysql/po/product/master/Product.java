@@ -4,9 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.biz.gbck.dao.mysql.po.product.meta.*;
 import com.biz.gbck.dao.mysql.po.product.price.PriceGroup;
 import com.biz.gbck.dao.mysql.po.product.promotion.singleProduct.*;
-import com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder.AccountPerUnitCutPromotion;
-import com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder.MultipleIncrementGiftPromotion;
-import com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder.StairCutPromotion;
+import com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder.*;
 import com.biz.gbck.dao.mysql.po.tag.SaleTag;
 import com.biz.gbck.vo.product.PropertyItemVo;
 import com.biz.support.jpa.converter.ListStringConverter;
@@ -283,6 +281,18 @@ public class Product extends BaseEntity {
      */
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<SinglePurchaseGiftPromotionProduct> singlePurchaseGiftPromotionProducts;
+
+    @ManyToMany
+    @JoinTable(name = "pro_promotion_combination_reach_cut_product",
+            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "promotion_id", referencedColumnName = "id")})
+    private List<CombinationReachCutPromotion> combinationReachCutPromotions;
+
+    @ManyToMany
+    @JoinTable(name = "pro_promotion_combination_stair_cut_product",
+            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "promotion_id", referencedColumnName = "id")})
+    private List<CombinationStairCutPromotion> combinationStairCutPromotions;
 
     public String getBreif() {
         return breif;
@@ -653,5 +663,21 @@ public class Product extends BaseEntity {
 
     public void setStandard(String standard) {
         this.standard = standard;
+    }
+
+    public List<CombinationReachCutPromotion> getCombinationReachCutPromotions() {
+        return combinationReachCutPromotions;
+    }
+
+    public void setCombinationReachCutPromotions(List<CombinationReachCutPromotion> combinationReachCutPromotions) {
+        this.combinationReachCutPromotions = combinationReachCutPromotions;
+    }
+
+    public List<CombinationStairCutPromotion> getCombinationStairCutPromotions() {
+        return combinationStairCutPromotions;
+    }
+
+    public void setCombinationStairCutPromotions(List<CombinationStairCutPromotion> combinationStairCutPromotions) {
+        this.combinationStairCutPromotions = combinationStairCutPromotions;
     }
 }

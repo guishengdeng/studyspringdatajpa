@@ -255,6 +255,9 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
       }
 	}
 
+	/**
+	 * 批量发放优惠券
+	 */
 	@Override
 	public void dispatcherVoucher(Long userId, VoucherTypeRo voucherTypeRo, Integer quantity, String loginUsername) {
 		logger.debug("Dispatch {} 数量 {} to users {}", voucherTypeRo.getName(), quantity, userId);
@@ -405,54 +408,53 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	public List<ShopCraftVoucherVo> getAvailableVouchers(Long userId, List<? extends IOrderItemVo> itemVos)
 			throws Exception {
 		// TODO
-//		 Map<Long, List<VoucherRo>> categoryVouchersMap = divideUnusedVouchersByCategory(userId);
-//		         ShopRo shopRo = shopFeignClient.findShopByUserId(userId);
-//		         Map<Long, Long> costMap = Maps.newHashMap();
-//		         List<Long> categories = Lists.newArrayList();
-//		         for (IOrderItemVo orderItemVo : itemVos) {
+		 Map<Long, List<VoucherRo>> categoryVouchersMap = divideUnusedVouchersByCategory(userId);
+		         ShopRo shopRo = shopFeignClient.findShopByUserId(userId);
+		         Map<Long, Long> costMap = Maps.newHashMap();
+		         List<Long> categories = Lists.newArrayList();
+		         for (IOrderItemVo orderItemVo : itemVos) {
 //		             ProductRo productRo = productRedisDao.get(orderItemVo.getProductId().toString());
 //		             DepotProductRo depotProductRo = depotProductService
 //		                 .getDepotProductRo(orderItemVo.getProductId(), shopRo.getDepotId());
-//		             if (costMap.containsKey(productRo.getCategoryId())) {
-//		            	 Long cost =
-//		                     costMap.get(productRo.getCategoryId()) + depotProductRo.getSalePrice() * orderItemVo
-//		                         .getQuantity();
-//		                 costMap.put(productRo.getCategoryId(), cost);
-//		             } else {
-//		                 costMap.put(productRo.getCategoryId(),
-//		                     depotProductRo.getSalePrice() * orderItemVo.getQuantity());
-//		             }
-//		             if (!categories.contains(productRo.getCategoryId())) {
-//		                 categories.add(productRo.getCategoryId());
-//		             }
-//		         }
-//		 
-//		         List<ShopCraftVoucherVo> voucherVos = Lists.newArrayList();
-//		         for (Long categoryId : categories) {
-//		             List<VoucherRo> categoryVouchers = categoryVouchersMap.get(categoryId);
-//		             Map<Long, List<VoucherRo>> voucherTypeVouchers =
-//		                 divideVouchersByVoucherType(categoryVouchers);
-//		             for (Map.Entry<Long, List<VoucherRo>> voucherTypeVouchersEntity : voucherTypeVouchers
-//		                 .entrySet()) {
-//		                 voucherVos.add(buildShopCraftVoucherVo(voucherTypeVouchersEntity.getKey(),
-//		                     voucherTypeVouchersEntity.getValue(), costMap.get(categoryId)));
-//		             }
-//		         }
-//		 
-//		         Long totalCost = (long) 0;
-//		         for (Long cost : costMap.values()) {
-//		             totalCost = totalCost + cost;
-//		         }
-//		         List<VoucherRo> categoryVouchers = categoryVouchersMap.get(VoucherCategory.NONE.getValue());
-//		         Map<Long, List<VoucherRo>> voucherTypeVouchers =
-//		             divideVouchersByVoucherType(categoryVouchers);
-//		         for (Long voucherTypeId : voucherTypeVouchers.keySet()) {
-//		             voucherVos.add(
-//		                 buildShopCraftVoucherVo(voucherTypeId, voucherTypeVouchers.get(voucherTypeId),
-//		                     totalCost));
-//		         }
-//		         return voucherVos;
-		return null;
+		             if (costMap.containsKey(orderItemVo.getCategoryId())) {
+		            	 Long cost =
+		                     costMap.get(orderItemVo.getCategoryId()) + orderItemVo.getPrice() * orderItemVo
+		                         .getQuantity();
+		                 costMap.put(orderItemVo.getCategoryId(), cost);
+		             } else {
+		                 costMap.put(orderItemVo.getCategoryId(),
+		                		 orderItemVo.getPrice() * orderItemVo.getQuantity());
+		             }
+		             if (!categories.contains(orderItemVo.getCategoryId())) {
+		                 categories.add(orderItemVo.getCategoryId());
+		             }
+		         }
+		 
+		         List<ShopCraftVoucherVo> voucherVos = Lists.newArrayList();
+		         for (Long categoryId : categories) {
+		             List<VoucherRo> categoryVouchers = categoryVouchersMap.get(categoryId);
+		             Map<Long, List<VoucherRo>> voucherTypeVouchers =
+		                 divideVouchersByVoucherType(categoryVouchers);
+		             for (Map.Entry<Long, List<VoucherRo>> voucherTypeVouchersEntity : voucherTypeVouchers
+		                 .entrySet()) {
+		                 voucherVos.add(buildShopCraftVoucherVo(voucherTypeVouchersEntity.getKey(),
+		                     voucherTypeVouchersEntity.getValue(), costMap.get(categoryId)));
+		             }
+		         }
+		 
+		         Long totalCost = (long) 0;
+		         for (Long cost : costMap.values()) {
+		             totalCost = totalCost + cost;
+		         }
+		         List<VoucherRo> categoryVouchers = categoryVouchersMap.get(VoucherCategory.NONE.getValue());
+		         Map<Long, List<VoucherRo>> voucherTypeVouchers =
+		             divideVouchersByVoucherType(categoryVouchers);
+		         for (Long voucherTypeId : voucherTypeVouchers.keySet()) {
+		             voucherVos.add(
+		                 buildShopCraftVoucherVo(voucherTypeId, voucherTypeVouchers.get(voucherTypeId),
+		                     totalCost));
+		         }
+		         return voucherVos;
 	}
 	
   @SuppressWarnings("unused")
@@ -544,5 +546,15 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	@Override
 	public PageVO<VoucherTypePo> searchVoucher(VoucherSearchVo reqVo) {
 		return new PageVO<VoucherTypePo>(voucherTypeRepository.findAll(new VoucherSearchSpecification(reqVo), new PageRequest(reqVo.getPage()-1, reqVo.getPageSize(), Sort.Direction.DESC, "startTime")));
+	}
+
+	@Override
+	public void dispatcherUserGroupsVoucher(String userIdGroupsType, VoucherTypeRo voucherTypeRo, Integer dispatcherCnt,
+			String loginUsername) {
+		
+		//通过用户组type获取用户组ids
+		List<Long> userIds = null;//userFeignClient
+		dispatcherVoucher(userIds, voucherTypeRo, dispatcherCnt, loginUsername);		
+				
 	}
 }

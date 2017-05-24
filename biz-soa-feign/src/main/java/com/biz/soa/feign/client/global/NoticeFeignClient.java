@@ -7,6 +7,7 @@ import com.biz.vo.notify.NotifyVo;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "soa-org", fallback = NoticeFeignClientHystrix.class)
 public interface NoticeFeignClient {
 
-    @RequestMapping(value = "soa/info/notices")
+    @RequestMapping(value = "soa/info/notices", method = RequestMethod.POST)
     JSONResult findUserNoticeAfter(@RequestBody ListNoticeAfterLastReqVo reqVo);
 
     /**
@@ -24,6 +25,6 @@ public interface NoticeFeignClient {
      * @param name 后台登录用户
      * @param notifyVo 消息参数
      */
-    @RequestMapping(value = "soa/info/sendNotification")
+    @RequestMapping(value = "soa/info/sendNotification", method = RequestMethod.POST)
     void sendNotification(@RequestParam("name")String name, @RequestBody  NotifyVo notifyVo);
 }

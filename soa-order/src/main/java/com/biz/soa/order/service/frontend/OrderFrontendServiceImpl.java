@@ -26,7 +26,7 @@ import com.biz.gbck.vo.order.req.*;
 import com.biz.gbck.vo.order.resp.*;
 import com.biz.gbck.vo.payment.resp.PaymentRespVo;
 import com.biz.gbck.vo.stock.StockItemVO;
-import com.biz.gbck.vo.stock.UpdatePartnerLockStockReqVO;
+import com.biz.gbck.vo.stock.UpdateCompanyLockStockReqVO;
 import com.biz.service.order.frontend.OrderFrontendService;
 import com.biz.soa.order.builder.OrderBuilder;
 import com.biz.soa.order.builder.OrderRespVoBuilder;
@@ -269,11 +269,11 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
 
     //锁定库存
     private void lockStock(Order order) throws DepotNextDoorException {
-        List<UpdatePartnerLockStockReqVO> lockStockReqVOS = newArrayList();
+        List<UpdateCompanyLockStockReqVO> lockStockReqVOS = newArrayList();
 
-        UpdatePartnerLockStockReqVO lockReqVo = new UpdatePartnerLockStockReqVO();
+        UpdateCompanyLockStockReqVO lockReqVo = new UpdateCompanyLockStockReqVO();
         lockReqVo.setOrderCode(order.getOrderCode());
-        lockReqVo.setPartnerId(order.getSellerId());
+        lockReqVo.setCompanyId(order.getSellerId());
         List<StockItemVO> items = Lists.transform(order.getItems(), new OrderItem2StockItemVO(false));
         lockReqVo.setItems(items);
 

@@ -61,7 +61,7 @@ public class ProductServiceImpl extends AbstractProductService implements Produc
         String returnLastFlag = reqVo.getLastFlag();
         if (CollectionUtils.isNotEmpty(searchedProductIds)) {
             if (StringUtils.isEmpty(reqVo.getLastFlag())) {
-                Integer endElementIndex = Math.max(20, orderedProductIds.size());
+                Integer endElementIndex = Math.min(20, searchedProductIds.size());
                 IntStream.range(0, endElementIndex).forEach(index -> orderedProductIds.add(searchedProductIds.get(index)));
                 returnLastFlag = String.valueOf(searchedProductIds.get(endElementIndex - 1));
             } else {

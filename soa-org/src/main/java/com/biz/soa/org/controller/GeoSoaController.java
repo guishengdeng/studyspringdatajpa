@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,13 +21,13 @@ public class GeoSoaController extends BaseRestController{
     @Autowired
     private GeoSoaService geoSoaService;
 
-    @RequestMapping("/findRegionByParentAreaLevelAndParentId")
+    @RequestMapping(value = "/findRegionByParentAreaLevelAndParentId", method = RequestMethod.POST)
     public List<SimpleRegionVo> findRegionByParentAreaLevelAndParentId(@RequestParam("areaLevel") Integer areaLevel,
                                                                        @RequestParam("regionId") Integer regionId) {
         return geoSoaService.findRegionByParentAreaLevelAndParentId(areaLevel,regionId);
     }
 
-    @RequestMapping("/findRegionByLevel")
+    @RequestMapping(value = "/findRegionByLevel", method = RequestMethod.POST)
     public List<SimpleRegionVo> findRegionByLevel(@RequestParam("levelProvince") int levelProvince) {
         return geoSoaService.findRegionByLevel(levelProvince);
     }
