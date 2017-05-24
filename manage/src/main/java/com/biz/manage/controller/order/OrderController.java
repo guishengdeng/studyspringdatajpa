@@ -4,6 +4,8 @@ import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.dao.mysql.po.org.PartnerPo;
 import com.biz.gbck.dao.mysql.po.org.PlatformPo;
 import com.biz.gbck.vo.order.req.OrderQueryReqVo;
+import com.biz.gbck.vo.platform.PartnerRespVo;
+import com.biz.gbck.vo.platform.PlatFormRespVo;
 import com.biz.service.order.backend.OrderBackendService;
 import com.biz.service.org.interfaces.PlatformService;
 import com.biz.service.partner.interfaces.PartnerService;
@@ -43,10 +45,10 @@ public class OrderController {
     @PreAuthorize("hasAuthority('OPT_ORDER_LIST')")
     public ModelAndView list(OrderQueryReqVo vo){
         Page<Order> page = orderBackendService.queryOrdersByCondition(vo);
-        List<PlatformPo> platformPos = platformService.findAll();
-        List<PartnerPo> partnerPos = partnerService.findAll();
+        List<PlatFormRespVo> platFormRespVo = platformService.getNotDuplicatedName();
+        List<PartnerRespVo> partnerRespVos = partnerService.getNotDuplicatePartnerName();
         return new ModelAndView("ord/order/list","orderPage",orderBackendService.pageOrder2PageRespVo(page))
-                .addObject("platformPos",platformPos)
-                .addObject("partnerPos",partnerPos);
+                .addObject("platFormRespVo",platFormRespVo)
+                .addObject("partnerRespVos",partnerRespVos);
     }
 }

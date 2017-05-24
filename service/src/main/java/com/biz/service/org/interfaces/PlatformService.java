@@ -31,4 +31,6 @@ public interface PlatformService {
     List<PlatformPo>  findByIds(Iterable<Long> iterable);
 
     List<PlatformPo>  listByName(String name);
+
+    List<PlatFormRespVo> getNotDuplicatedName();
 }

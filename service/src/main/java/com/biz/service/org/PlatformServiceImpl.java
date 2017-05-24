@@ -85,6 +85,20 @@ public class PlatformServiceImpl extends AbstractBaseService implements Platform
     }
 
     @Override
+    public List<PlatFormRespVo> getNotDuplicatedName() {
+         List<String> list = platformRepository.removeDuplicateName();
+        List<PlatFormRespVo> listVo = Lists.newArrayList();
+         if(CollectionUtils.isNotEmpty(list)){
+             for(String name :list){
+                 PlatFormRespVo vo = new PlatFormRespVo();
+                 vo.setPlatFormName(name);
+                 listVo.add(vo);
+             }
+         }
+        return listVo;
+    }
+
+    @Override
     public List<PlatformPo> findByIds(Iterable<Long> iterable) {
         return platformRepository.findAll(iterable);
     }

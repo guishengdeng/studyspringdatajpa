@@ -24,10 +24,8 @@ public interface OrderBackendService {
 
     Page<Order> queryOrdersByCondition(OrderQueryReqVo vo);
 
-    //
-
     /**
-     * 将page<Order> 转化成List<OrderResponseVo>
+     * 将Page<Order> 转化成Page<OrderResponseVo>
      */
     Page<OrderResponseVo> pageOrder2PageRespVo(Page<Order> page);
 }

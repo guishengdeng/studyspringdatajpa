@@ -10,6 +10,7 @@ import com.biz.gbck.dao.mysql.repository.org.PartnerRepository;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.partner.ApprovalStatus;
 import com.biz.gbck.exceptions.partner.PartnerExceptions;
+import com.biz.gbck.vo.platform.PartnerRespVo;
 import com.biz.service.IdService;
 import com.biz.service.partner.interfaces.PartnerService;
 import com.biz.service.partner.specification.PartnerSpecification;
@@ -116,9 +117,20 @@ public class PartnerServiceImpl implements PartnerService{
         return partnerRepository.getIdsByNameLike(name);
     }
 
+
+
     @Override
-    public List<PartnerPo> findAll() {
-        return partnerRepository.findAll();
+    public List<PartnerRespVo> getNotDuplicatePartnerName() {
+        List<String> list = partnerRepository.removeDuplicatedName();
+        List<PartnerRespVo> voList = Lists.newArrayList();
+        if(CollectionUtils.isNotEmpty(list)){
+            for(String name : list){
+                PartnerRespVo vo = new PartnerRespVo();
+                vo.setPartnerName(name);
+                voList.add(vo);
+            }
+        }
+        return voList;
     }
 
     @Override

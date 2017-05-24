@@ -35,6 +35,9 @@
                 }).on("dp.change", function (e) {
                     $('#beginTimestamp').data("DateTimePicker").maxDate(e.date);
                 });
+                $('.js-example-basic-multiple').select2({
+                     width:"200px",
+                });
 
             });
 
@@ -78,7 +81,13 @@
                                                 <div class="row">
                                                     <div class="col-xs-8 col-sm-11">
                                                         <div class="input-group">
-                                                            <input name="platFormCompanyName" class="input-sm form-control" value='<c:out value="${orderReqVo.username}"/>' type="text" placeholder=""/>
+                                                            <%--<input name="platFormCompanyName" class="input-sm form-control" value='<c:out value="${orderReqVo.username}"/>' type="text" placeholder=""/>--%>
+                                                                <%--js-example-basic-multiple --%>
+                                                                <select id="platForm" class="js-example-basic-multiple" name="platFormCompanyName" onchange="">
+                                                                    <c:forEach  items="${platFormRespVo}" var="platForm">
+                                                                        <option value="${platForm.platFormName}" >${platForm.platFormName}</option>
+                                                                    </c:forEach>
+                                                                </select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -89,7 +98,12 @@
                                                     <div class="col-xs-8 col-sm-11">
                                                         <%--input-daterange--%>
                                                         <div class="input-group">
-                                                            <input name="partnerName" class="input-sm form-control" value='<c:out value="${orderReqVo.username}"/>' type="text" placeholder=""/>
+                                                            <%--<input name="partnerName" class="input-sm form-control" value='<c:out value="${orderReqVo.username}"/>' type="text" placeholder=""/>--%>
+                                                                <select id="partner" class="js-example-basic-multiple" name="partnerName">
+                                                                    <c:forEach  items="${partnerRespVos}" var="partner">
+                                                                        <option value="${partner.partnerName}" >${partner.partnerName}</option>
+                                                                    </c:forEach>
+                                                                </select>
                                                         </div>
                                                     </div>
                                                 </div>

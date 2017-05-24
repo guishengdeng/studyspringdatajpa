@@ -1,26 +1,21 @@
 package com.biz.soa.service.partner;
 
 import com.biz.gbck.common.exception.CommonException;
+import com.biz.gbck.dao.mysql.po.org.PartnerPo;
 import com.biz.gbck.dao.mysql.repository.org.PartnerRepository;
 import com.biz.gbck.exceptions.partner.PartnerExceptions;
+import com.biz.gbck.vo.platform.PartnerRespVo;
 import com.biz.service.partner.interfaces.PartnerService;
 import com.biz.vo.partner.PartnerDetailRespVo;
 import com.biz.vo.partner.PartnerRegisterReqVo;
 import com.biz.vo.partner.PartnerReqVo;
+import com.google.common.collect.Lists;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * PartnerServiceImpl
- *
- * @author guisheng.deng
- * @date 2017年05月18日
- * @reviewer
- * @description
- * @see
- */
 @Service
 public class PartnerServiceImpl implements PartnerService {
     @Autowired
@@ -51,7 +46,28 @@ public class PartnerServiceImpl implements PartnerService {
     }
 
     @Override
-    public List<Long> getIdList(String name) {
+    public List<PartnerPo> listByName(String name) {
         return partnerRepository.getIdsByNameLike(name);
     }
+
+    @Override
+    public List<PartnerPo> findByIds(Iterable<Long> iterable) {
+        return partnerRepository.findAll(iterable);
+    }
+
+    @Override
+    public List<PartnerRespVo> getNotDuplicatePartnerName() {
+        List<String> list = partnerRepository.removeDuplicatedName();
+        List<PartnerRespVo> voList = Lists.newArrayList();
+        if(CollectionUtils.isNotEmpty(list)){
+            for(String name : list){
+                PartnerRespVo vo = new PartnerRespVo();
+                vo.setPartnerName(name);
+                voList.add(vo);
+            }
+        }
+        return voList;
+    }
+
+
 }

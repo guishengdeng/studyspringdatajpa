@@ -19,4 +19,6 @@ public interface PlatformRepository extends CommonJpaRepository<PlatformPo, Long
     @Query("SELECT pp FROM PlatformPo pp WHERE pp.name like %?1% ")
     List<PlatformPo> getIdsByNameLike(String name);
 
+    @Query("SELECT DISTINCT pp.name FROM PlatformPo pp")
+    List<String> removeDuplicateName();
 }

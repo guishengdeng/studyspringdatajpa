@@ -37,6 +37,7 @@ public class OrderBackendServiceImpl extends AbstractBaseService implements Orde
     private PlatformService platformService;
     @Autowired
     private PartnerService partnerService;
+
     private OrderQueryReqVo reqVo;
     @Override
     public List<Order> listOrder() {
@@ -86,6 +87,7 @@ public class OrderBackendServiceImpl extends AbstractBaseService implements Orde
                 responseVos.add(responseVo);
             }
         }
+        //将vo集合封装成Page对象。
         Page<OrderResponseVo> responseVoPage = new PageImpl<OrderResponseVo>
                 (responseVos,new PageRequest(reqVo.getPage()-1,reqVo.getPageSize()),responseVos.size());
         return responseVoPage;

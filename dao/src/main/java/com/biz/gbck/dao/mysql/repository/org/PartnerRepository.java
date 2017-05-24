@@ -19,6 +19,8 @@ public interface PartnerRepository extends CommonJpaRepository<PartnerPo, Long>,
     @Query("SELECT pp FROM PartnerPo pp WHERE pp.name like %?1% ")
     List<PartnerPo> getIdsByNameLike(String name);
 
+    @Query("SELECT  DISTINCT pp.name FROM PartnerPo pp")
+    List<String>  removeDuplicatedName();
 
 
 }
