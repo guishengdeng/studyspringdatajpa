@@ -99,6 +99,22 @@ public interface UserFeignClient {
     @RequestMapping(value = "findUserPoByAccount", method = RequestMethod.POST)
     UserPo findUserPoByAccount(@RequestParam("account") String account);
 
+    /**
+     * 根据商户审核状态查找用户
+     * @param auditStatus
+     * @return
+     * @throws DepotNextDoorException
+     */
+    @RequestMapping(value = "findAllUserByAuditStatus", method = RequestMethod.POST)
+    List<UserPo> findAllUserByAuditStatus(@RequestParam("auditStatus") AuditStatus auditStatus) throws DepotNextDoorException;
+
+    /**
+     * 根据商户类型查找用户Ids
+     * @param shopTypeId
+     * @return
+     */
+    @RequestMapping(value = "findUserIdByShopType", method = RequestMethod.POST)
+    List<Long> findUserIdByShopType(@RequestParam("shopTypeId") Long shopTypeId);
 }
 
 

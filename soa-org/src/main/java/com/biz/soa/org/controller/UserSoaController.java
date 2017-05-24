@@ -5,6 +5,8 @@ import com.biz.gbck.common.exception.ExceptionCode;
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
+import com.biz.gbck.enums.user.AuditStatus;
+import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.org.AutoLoginReqVo;
 import com.biz.gbck.vo.org.ChangePwdVo;
 import com.biz.gbck.vo.org.ForgotPasswordReqVo;
@@ -31,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -196,5 +199,16 @@ public class UserSoaController extends BaseRestController {
         return userSoaService.findUser(userId);
     }
 
+    /**
+     * 根据店铺审核状态查询所有userPo
+     */
+    @RequestMapping(value = "findAllUserByAuditStatus", method = RequestMethod.POST)
+    public List<UserPo> findAllUserByAuditStatus(@RequestParam("auditStatus") AuditStatus auditStatus) throws DepotNextDoorException {
+        return userSoaService.findAllUserByAuditStatus(auditStatus);
+    }
 
+    @RequestMapping(value = "findUserIdByShopType", method = RequestMethod.POST)
+    public List<Long> findUserIdByShopType(@RequestParam("shopTypeId") Long shopTypeId) {
+        return userSoaService.findUserIdByShopType(shopTypeId);
+    }
 }

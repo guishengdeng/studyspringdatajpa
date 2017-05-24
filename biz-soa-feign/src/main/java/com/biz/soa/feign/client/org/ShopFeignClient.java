@@ -158,4 +158,6 @@ public interface ShopFeignClient {
      */
     @RequestMapping(value = "soa/shop/saveUpdateDetail", method = RequestMethod.POST)
     Boolean saveUpdateDetail(@RequestBody ShopAuditReqVo shopAuditReqVo);
+
+
 }
