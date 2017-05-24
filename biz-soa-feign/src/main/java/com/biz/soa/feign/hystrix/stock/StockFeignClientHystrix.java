@@ -12,22 +12,22 @@ import java.util.List;
 @Component
 public class StockFeignClientHystrix implements StockFeignClient {
     @Override
-    public PartnerStockRespVO getStock(PartnerStockReqVO reqVo) {
+    public CompanyStockRespVO getStock(CompanyStockReqVO reqVo) {
         return null;
     }
 
     @Override
-    public List<PartnerStockRespVO> getStocks(PartnerStocksReqVO reqVo) {
+    public List<CompanyStockRespVO> getStocks(CompanyStocksReqVO reqVo) {
         return null;
     }
 
     @Override
-    public void updateStocks(List<UpdatePartnerStockReqVO> reqVos) {
+    public void updateStocks(List<UpdateCompanyStockReqVO> reqVos) {
 
     }
 
     @Override
-    public void orderUpdateLockStocks(List<UpdatePartnerLockStockReqVO> reqVos) {
+    public void orderUpdateLockStocks(List<UpdateCompanyLockStockReqVO> reqVos) {
 
     }
 

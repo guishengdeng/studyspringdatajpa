@@ -3,9 +3,9 @@ spring:
     name: depotnextdoor-rest
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    username: depotapp
-    password: Depot*123456
-    url: jdbc:mysql://10.4.100.198:3306/depotnextdoor?characterEncoding=utf-8
+    username: root
+    password:
+    url: jdbc:mysql://127.0.0.1:3306/depotnextdoor?characterEncoding=utf-8
     dbcp2:
       initial-size: 5
       max-total: 10
@@ -28,7 +28,7 @@ biz:
   soa:
     idx: 1
   zookeeper:
-    url: zookeeper://10.4.100.194:2181
+    url: zookeeper://127.0.0.1:2181
     soaIdx:
       path: /biz/gbck/boot/soaIdx
     #redis:
@@ -39,7 +39,7 @@ biz:
     timeBetweenEvictionRunsMillis: 30000
     minEvictableIdleTimeMillis: 30000
     testOnBorrow: true
-    host: 10.4.100.196
+    host: 127.0.0.1
     port: 6379
     name:
     password:
@@ -48,8 +48,9 @@ biz:
     localEndpoint: oss-cn-beijing-internal.aliyuncs.com
     accessKeyId: LTAIcBsZ7zY66tku
     accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
-    bucketName: gbck-test
     userId: 1526565267726025
+    productBucketName: gbck-test
+    auditBucketName: gbck-test-qualification
   amqp:
     username: guest
     password: guest
@@ -62,7 +63,7 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://10.4.100.194:7777/eureka/
+      defaultZone: http://127.0.0.1:7777/eureka/
     registry-fetch-interval-seconds: 1
   instance:
     prefer-ip-address: true

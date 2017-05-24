@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  * Created by dylan on 2017-5-16
  */
 @RestController
-@RequestMapping("sms") public class SMSController extends BaseRestController {
+@RequestMapping("soa/sms") public class SMSController extends BaseRestController {
 
     @Autowired
     private SmsSoaService smsSoaService;

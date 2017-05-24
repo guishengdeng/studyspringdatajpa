@@ -85,8 +85,8 @@ public class UserSoaController extends BaseRestController {
     public JSONResult login(@RequestBody UserLoginReqVo userLoginReqVo) throws CommonException {
 //        UserLoginReqVo userLoginReqVo = RestUtil.parseBizData(request, UserLoginReqVo.class);
 //        String clientIP = HttpServletHelper.getClientIP(request);
-//        logger.debug("Received /users/login POST request with account:{} from ip:{}",
-//            userLoginReqVo.getAccount(), clientIP);
+        logger.info("Received /users/login POST request with account:{} from ip:{}",
+            userLoginReqVo.getAccount(), userLoginReqVo.getIp());
 //        userLoginReqVo.setIp(clientIP);
 //        Stopwatch stopwatch = Stopwatch.createStarted();
         UserLoginResVo userLoginResVo = userSoaService.login(userLoginReqVo);
@@ -113,8 +113,8 @@ public class UserSoaController extends BaseRestController {
     public JSONResult autoLogin(@RequestBody AutoLoginReqVo reqVo) throws CommonException {
 
 //        AutoLoginReqVo reqVo = RestUtil.parseBizData(request, AutoLoginReqVo.class);
-//        logger.debug("Received /users tokenChange request with account:{} from ip:{}",
-//            reqVo.getUserId());
+        logger.debug("Received /users tokenChange request with account:{} from ip:{}",
+            reqVo.getUserId());
 
         UserLoginResVo userLoginResVo = userSoaService.autoLogin(reqVo);
         return new JSONResult(userLoginResVo);

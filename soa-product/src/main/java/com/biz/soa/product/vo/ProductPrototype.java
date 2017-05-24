@@ -22,6 +22,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.apache.commons.collections.CollectionUtils;
+import org.codelogger.utils.StringUtils;
 
 /**
  * 商品原型数据VO

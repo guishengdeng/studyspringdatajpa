@@ -1,6 +1,6 @@
 package com.biz.gbck.dao.mysql.po.product.meta;
 
-import com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder.StairCutPromotion;
+import com.biz.gbck.dao.mysql.po.product.promotion.wholeOrder.CategoryAccountReachCutPromotion;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.product.backend.ICategoryVo;
 import com.biz.support.jpa.po.BaseEntity;
@@ -110,8 +110,23 @@ public class Category extends BaseEntity implements Serializable {
     @Column
     private Boolean deleteFlag = Boolean.FALSE;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<StairCutPromotion> stairCutPromotions;
+    /**
+     * 分类倍增满减
+     */
+    @ManyToMany
+    @JoinTable(name = "pro_promotion_category_account_reach_cut_category",
+            joinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "promotion_id", referencedColumnName = "id")})
+    private List<CategoryAccountReachCutPromotion> categoryAccountReachCutPromotions;
+
+    /**
+     * 分类阶梯满减
+     */
+    @ManyToMany
+    @JoinTable(name = "pro_promotion_category_account_stair_cut_category",
+            joinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "promotion_id", referencedColumnName = "id")})
+    private List<CategoryAccountReachCutPromotion> categoryAccountStairCutPromotions;
 
     public String getName() {
         return name;
@@ -225,12 +240,20 @@ public class Category extends BaseEntity implements Serializable {
         deleteFlag = delete;
     }
 
-    public List<StairCutPromotion> getStairCutPromotions() {
-        return stairCutPromotions;
+    public List<CategoryAccountReachCutPromotion> getCategoryAccountReachCutPromotions() {
+        return categoryAccountReachCutPromotions;
     }
 
-    public void setStairCutPromotions(List<StairCutPromotion> stairCutPromotions) {
-        this.stairCutPromotions = stairCutPromotions;
+    public void setCategoryAccountReachCutPromotions(List<CategoryAccountReachCutPromotion> categoryAccountReachCutPromotions) {
+        this.categoryAccountReachCutPromotions = categoryAccountReachCutPromotions;
+    }
+
+    public List<CategoryAccountReachCutPromotion> getCategoryAccountStairCutPromotions() {
+        return categoryAccountStairCutPromotions;
+    }
+
+    public void setCategoryAccountStairCutPromotions(List<CategoryAccountReachCutPromotion> categoryAccountStairCutPromotions) {
+        this.categoryAccountStairCutPromotions = categoryAccountStairCutPromotions;
     }
 
     /**
@@ -245,24 +268,5 @@ public class Category extends BaseEntity implements Serializable {
         this.setSeoTitle(categoryVo.getSeoTitle());
         this.setSeoKeywords(categoryVo.getSeoKeywords());
         this.setSeoDescription(categoryVo.getSeoDescription());
-    }
-
-    @Override
-    public String toString() {
-        return "Category{" +
-                "name='" + name + '\'' +
-                ", idx=" + idx +
-                ", logo='" + logo + '\'' +
-                ", status=" + status +
-                ", parent=" + parent +
-                ", children=" + children +
-                ", brands=" + brands +
-                ", productExtends=" + productExtends +
-                ", productFilters=" + productFilters +
-                ", seoTitle='" + seoTitle + '\'' +
-                ", seoKeywords='" + seoKeywords + '\'' +
-                ", seoDescription='" + seoDescription + '\'' +
-                ", deleteFlag=" + deleteFlag +
-                '}';
     }
 }

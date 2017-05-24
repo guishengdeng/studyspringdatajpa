@@ -56,7 +56,16 @@ biz:
     localEndpoint: oss-cn-beijing-internal.aliyuncs.com
     accessKeyId: LTAIcBsZ7zY66tku
     accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
-    bucketName: gbck-test
+    productBucketName: gbck-test
+    auditBucketName: gbck-test-qualification
+  amqp:
+    username: guest
+    password: guest
+    port: 15672
+    host: 127.0.0.1
+    maxRetry: 3
+    retryElapse: 1000
+
 
 server:
   session:
@@ -66,7 +75,7 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://peer1:7777/eureka/
+      defaultZone: http://local:7777/eureka/
 
 security:
   basic:

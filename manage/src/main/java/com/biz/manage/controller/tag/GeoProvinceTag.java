@@ -3,7 +3,7 @@ package com.biz.manage.controller.tag;
 
 import com.biz.gbck.common.model.geo.IArea;
 import com.biz.gbck.vo.geo.SimpleRegionVo;
-import com.biz.service.geo.interfaces.GeoService;
+import com.biz.soa.feign.client.global.GeoFeignClient;
 import com.biz.util.SpringContextUtil;
 
 import javax.servlet.jsp.JspException;
@@ -24,8 +24,8 @@ public class GeoProvinceTag extends TagSupport {
 
     @Override public int doStartTag() throws JspException {
 
-        GeoService geoService = SpringContextUtil.getBean(GeoService.class);
-        List<SimpleRegionVo> provinces = geoService.findRegionByLevel(IArea.LEVEL_PROVINCE);
+        GeoFeignClient geoFeignClient = SpringContextUtil.getBean(GeoFeignClient.class);
+        List<SimpleRegionVo> provinces = geoFeignClient.findRegionByLevel(IArea.LEVEL_PROVINCE);
         JspWriter out = pageContext.getOut();
         try {
             for (SimpleRegionVo data : provinces) {

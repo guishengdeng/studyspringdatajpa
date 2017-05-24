@@ -1,5 +1,6 @@
 package com.biz.soa.org.config;
 
+import com.biz.core.ali.oss.config.OssConfig;
 import com.biz.core.event.BizEventMulticaster;
 import com.biz.core.event.BizEventPublisher;
 import com.biz.core.transaction.BizTransactionManager;
@@ -19,6 +20,12 @@ import org.springframework.orm.jpa.JpaTransactionManager;
  */
 @Configuration
 public class OrgConfig {
+
+    private Environment environment;
+
+    public OrgConfig(@Autowired Environment environment) {
+        this.environment = environment;
+    }
 
     @Bean
     public IdService idService(@Autowired Environment environment) {
@@ -43,6 +50,19 @@ public class OrgConfig {
         BizTransactionManager jpaTransactionManager = new BizTransactionManager();
         jpaTransactionManager.setEventPublisher(bizEventPublisher);
         return jpaTransactionManager;
+    }
+
+    @Bean
+    public OssConfig ossConfig() {
+        return new OssConfig(
+                environment.getProperty("biz.oss.remoteEndpoint"),
+                environment.getProperty("biz.oss.localEndpoint"),
+                environment.getProperty("biz.oss.accessKeyId"),
+                environment.getProperty("biz.oss.accessKeySecret"),
+                environment.getProperty("biz.oss.productBucketName"),
+                environment.getProperty("biz.oss.auditBucketName"),
+                environment.getProperty("biz.oss.userId")
+        );
     }
 
 }

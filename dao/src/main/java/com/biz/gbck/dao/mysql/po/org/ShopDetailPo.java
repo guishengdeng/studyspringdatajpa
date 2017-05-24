@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -23,7 +24,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "shop_detail")
-public class ShopDetailPo {
+public class ShopDetailPo implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

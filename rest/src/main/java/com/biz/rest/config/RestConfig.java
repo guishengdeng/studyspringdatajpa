@@ -58,7 +58,8 @@ public class RestConfig {
                 environment.getProperty("biz.oss.userId"),
                 environment.getProperty("biz.oss.accessKeyId"),
                 environment.getProperty("biz.oss.accessKeySecret"),
-                environment.getProperty("biz.oss.bucketName")
+                environment.getProperty("biz.oss.productBucketName"),
+                environment.getProperty("biz.oss.auditBucketName")
         );
     }
 

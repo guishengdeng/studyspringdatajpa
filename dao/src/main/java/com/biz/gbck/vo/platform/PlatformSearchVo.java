@@ -5,13 +5,14 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 /**
+ *
  * 用于查询平台公司列表
  * Created by dylan on 2017-05-04
  */
 public class PlatformSearchVo {
 
 	/**
-	 * 合伙人ID
+	 * 平台公司ID
 	 */
 	private Long id;
 

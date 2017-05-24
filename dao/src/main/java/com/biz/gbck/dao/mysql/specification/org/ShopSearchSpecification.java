@@ -42,8 +42,8 @@ public class ShopSearchSpecification implements Specification<ShopDetailPo>{
 			predicates.add(criteriaBuilder.like(root.get("mobile").as(String.class), sqlName));
 		}
 
-		if(reqVo.getShopType() != null){
-			Predicate predicate = criteriaBuilder.equal(root.get("shopType"),reqVo.getShopType());
+		if(reqVo.getShopTypeId() != null){
+			Predicate predicate = criteriaBuilder.equal(root.get("shopType"),reqVo.getShopTypeId());
 			predicates.add(predicate);
 		}
 
