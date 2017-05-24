@@ -5,6 +5,8 @@ import com.biz.gbck.common.exception.ExceptionCode;
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
+import com.biz.gbck.enums.user.AuditStatus;
+import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.org.AutoLoginReqVo;
 import com.biz.gbck.vo.org.ChangePwdVo;
 import com.biz.gbck.vo.org.ForgotPasswordReqVo;
@@ -15,12 +17,10 @@ import com.biz.gbck.vo.org.UserLoginResVo;
 import com.biz.gbck.vo.org.UserRegisterReqVo;
 import com.biz.gbck.vo.org.ValidateUserLoginPwdReqVo;
 import com.biz.service.org.interfaces.UserService;
+import com.biz.gbck.vo.org.*;
 import com.biz.soa.org.service.interfaces.UserSoaService;
 import com.biz.soa.org.util.Constant;
-import com.biz.soa.org.util.RestUtil;
 import com.biz.support.web.handler.JSONResult;
-import com.biz.support.web.util.HttpServletHelper;
-import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -196,5 +197,26 @@ public class UserSoaController extends BaseRestController {
         return userSoaService.findUser(userId);
     }
 
+    @RequestMapping(value = "findUserInfo", method = RequestMethod.POST)
+    public UserInfoVo finUserInfo(@RequestParam("userId") Long userId) throws CommonException {
+        return userSoaService.findUserInfo(userId);
+    }
 
+    /**
+     * 根据店铺审核状态查询所有userPo
+     */
+    @RequestMapping(value = "findAllUserByAuditStatus", method = RequestMethod.POST)
+    public List<UserPo> findAllUserByAuditStatus(@RequestParam("auditStatus") AuditStatus auditStatus) throws DepotNextDoorException {
+        return userSoaService.findAllUserByAuditStatus(auditStatus);
+    }
+
+    @RequestMapping(value = "findUserIdByShopType", method = RequestMethod.POST)
+    public List<Long> findUserIdByShopType(@RequestParam("shopTypeId") Long shopTypeId) {
+        return userSoaService.findUserIdByShopType(shopTypeId);
+    }
+
+    @RequestMapping(value = "findAdminUserIdsByShopId", method = RequestMethod.POST)
+    public List<Long> findAdminUserIdsByShopId(@RequestParam("shopId") Long shopId, @RequestParam("isAdmin") Boolean isAdmin) {
+        return userSoaService.findAdminUserIdsByShopId(shopId, isAdmin);
+    }
 }

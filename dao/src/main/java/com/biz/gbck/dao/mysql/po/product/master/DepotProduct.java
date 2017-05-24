@@ -3,6 +3,7 @@ package com.biz.gbck.dao.mysql.po.product.master;
 import com.biz.gbck.dao.mysql.po.product.price.Price;
 import com.biz.gbck.enums.product.SaleStatusEnum;
 import com.biz.support.jpa.po.BaseEntity;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -16,10 +17,16 @@ public class DepotProduct extends BaseEntity {
     private static final long serialVersionUID = 8502833232356155046L;
 
     /**
-     * 公司ID
+     * 当前公司ID
      */
     @Column(nullable = false)
     private Long companyId;
+
+    /**
+     * 当前公司归属上级划分的客户组ID
+     */
+    @Column(nullable = false)
+    private Long companyGroupId;
 
     /**
      * 对应商品
@@ -28,9 +35,18 @@ public class DepotProduct extends BaseEntity {
     @ManyToOne
     private Product product;
 
+    /**
+     * 采购价格
+     */
     @JoinColumn(name = "price_id")
     @OneToOne
     private Price price;
+
+    /**
+     * 公司客户组商品
+     */
+    @OneToMany(mappedBy = "depotProduct")
+    private List<CompanyGroupProduct> companyGroupProducts;
 
     /**
      * 上下架状态
@@ -69,5 +85,21 @@ public class DepotProduct extends BaseEntity {
 
     public void setPrice(Price price) {
         this.price = price;
+    }
+
+    public Long getCompanyGroupId() {
+        return companyGroupId;
+    }
+
+    public void setCompanyGroupId(Long companyGroupId) {
+        this.companyGroupId = companyGroupId;
+    }
+
+    public List<CompanyGroupProduct> getCompanyGroupProducts() {
+        return companyGroupProducts;
+    }
+
+    public void setCompanyGroupProducts(List<CompanyGroupProduct> companyGroupProducts) {
+        this.companyGroupProducts = companyGroupProducts;
     }
 }

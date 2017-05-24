@@ -23,6 +23,7 @@ import com.biz.gbck.vo.zsgf.ZsgfLoanQueryReqVo;
 import com.biz.manage.vo.FailDetail;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -359,4 +360,6 @@ public interface ShopSoaService {
      * @return
      */
     List<ShopDetailResVo> findAllWaitForShop();
+
+
 }

@@ -8,14 +8,13 @@ import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.org.*;
 import com.biz.soa.feign.hystrix.org.UserFeignClientHystrix;
 import com.biz.support.web.handler.JSONResult;
-
-import java.util.List;
-
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 /**
  * @author: liubin
@@ -99,6 +98,34 @@ public interface UserFeignClient {
     @RequestMapping(value = "findUserPoByAccount", method = RequestMethod.POST)
     UserPo findUserPoByAccount(@RequestParam("account") String account);
 
+    @RequestMapping(value = "/soa/user/findUserInfo", method = {RequestMethod.GET, RequestMethod.POST})
+    UserInfoVo findUserInfo(@RequestParam("userId") Long userId) throws DepotNextDoorException;
+
+    /**
+     * 根据商户审核状态查找用户
+     * @param auditStatus
+     * @return
+     * @throws DepotNextDoorException
+     */
+    @RequestMapping(value = "findAllUserByAuditStatus", method = RequestMethod.POST)
+    List<UserPo> findAllUserByAuditStatus(@RequestParam("auditStatus") AuditStatus auditStatus) throws DepotNextDoorException;
+
+    /**
+     * 根据商户类型查找用户Ids
+     * @param shopTypeId
+     * @return
+     */
+    @RequestMapping(value = "findUserIdByShopType", method = RequestMethod.POST)
+    List<Long> findUserIdByShopType(@RequestParam("shopTypeId") Long shopTypeId);
+
+    /**
+     * 根据商户Id和是否是店长查找用户Id
+     * @param shopId
+     * @param isAdmin
+     * @return
+     */
+    @RequestMapping(value = "findAdminUserIdsByShopId", method = RequestMethod.POST)
+    List<Long> findAdminUserIdsByShopId(@RequestParam("shopId") Long shopId, @RequestParam("isAdmin") Boolean isAdmin);
 }
 
 
