@@ -18,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @RestController
 @Secured("ROLE_STOCK")
-@RequestMapping("goods")
 public class StockBackendController extends BaseController {
 
     @Autowired
@@ -26,8 +25,8 @@ public class StockBackendController extends BaseController {
 
     @RequestMapping("stock")
     @PreAuthorize("hasAuthority('OPT_STOCK_LIST')")
-    public ModelAndView search(ProductShowVo reqVo) {
-        Page<StockShowVo> page = stockBackendService.searchList(reqVo);
+    public ModelAndView List(ProductShowVo reqVo) {
+        Page<StockShowVo> page = stockBackendService.findList(reqVo);
         return new ModelAndView("goods/stock").addObject("page", page);
     }
 
