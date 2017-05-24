@@ -219,4 +219,9 @@ public class UserSoaController extends BaseRestController {
     public List<Long> findAdminUserIdsByShopId(@RequestParam("shopId") Long shopId, @RequestParam("isAdmin") Boolean isAdmin) {
         return userSoaService.findAdminUserIdsByShopId(shopId, isAdmin);
     }
+
+    @RequestMapping(value = "findUserIdByCompanyGroupId", method = RequestMethod.POST)
+    List<Long> findUserIdByCompanyGroupId(@RequestParam("companyGroupId") Long companyGroupId) {
+        return userSoaService.findUserIdByCompanyGroupId(companyGroupId);
+    }
 }

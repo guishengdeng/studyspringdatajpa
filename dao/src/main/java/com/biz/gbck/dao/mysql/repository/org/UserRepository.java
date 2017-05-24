@@ -101,4 +101,7 @@ public interface UserRepository extends JpaRepository<UserPo, Long>, UserDao {
 
     @Query("FROM UserPo u WHERE u.shop.detailAuditStatus = :auditStatus AND u.shop.qualificationAuditStatus = :auditStatus order by u.createTime desc")
     List<UserPo> findAllUserByAuditStatusTwo(@Param("auditStatus") Integer auditStatus);
+
+    @Query("SELECT id FROM UserPo u where u.shop.childGroup.id = :companyGroupId")
+    List<Long> findUserIdByCompanyGroupId(@Param("companyGroupId") Long companyGroupId);
 }
