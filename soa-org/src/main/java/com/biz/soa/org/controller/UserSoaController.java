@@ -17,12 +17,10 @@ import com.biz.gbck.vo.org.UserLoginResVo;
 import com.biz.gbck.vo.org.UserRegisterReqVo;
 import com.biz.gbck.vo.org.ValidateUserLoginPwdReqVo;
 import com.biz.service.org.interfaces.UserService;
+import com.biz.gbck.vo.org.*;
 import com.biz.soa.org.service.interfaces.UserSoaService;
 import com.biz.soa.org.util.Constant;
-import com.biz.soa.org.util.RestUtil;
 import com.biz.support.web.handler.JSONResult;
-import com.biz.support.web.util.HttpServletHelper;
-import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -197,6 +195,11 @@ public class UserSoaController extends BaseRestController {
     @RequestMapping(value = "findUser", method = RequestMethod.POST)
     public UserRo findUser(@RequestParam("userId") Long userId) throws CommonException {
         return userSoaService.findUser(userId);
+    }
+
+    @RequestMapping(value = "findUserInfo", method = RequestMethod.POST)
+    public UserInfoVo finUserInfo(@RequestParam("userId") Long userId) throws CommonException {
+        return userSoaService.findUserInfo(userId);
     }
 
     /**

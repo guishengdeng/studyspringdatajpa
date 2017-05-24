@@ -1,6 +1,9 @@
 package com.biz.gbck.vo.order.resp;
 
+import com.biz.gbck.dao.redis.ro.org.ShopRo;
+import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.enums.order.PaymentType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.util.List;
@@ -77,6 +80,12 @@ public class OrderSettlePageRespVo implements Serializable {
      * 买家收货地址
      */
     private String buyerAddress;
+
+    @JsonIgnore
+    private UserRo userRo;
+
+    @JsonIgnore
+    private ShopRo shopRo;
 
     public Integer getOrderAmount() {
         return orderAmount;
@@ -180,6 +189,22 @@ public class OrderSettlePageRespVo implements Serializable {
 
     public void setPromotions(List<OrderPromotionRespVo> promotions) {
         this.promotions = promotions;
+    }
+
+    public UserRo getUserRo() {
+        return userRo;
+    }
+
+    public void setUserRo(UserRo userRo) {
+        this.userRo = userRo;
+    }
+
+    public ShopRo getShopRo() {
+        return shopRo;
+    }
+
+    public void setShopRo(ShopRo shopRo) {
+        this.shopRo = shopRo;
     }
 }
 

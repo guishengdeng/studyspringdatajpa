@@ -269,8 +269,7 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
         shopPo.setLiquorSellLicence(isNotBlank(shopEditVo.getLiquorSellLicence()) ?
                 shopEditVo.getLiquorSellLicence() :
                 null); //酒类流通许可证
-        shopPo
-                .setLiquorSellLicenceId(isNotBlank(shopEditVo.getLiquorSellLicenceId()) ?    //酒类流通许可证ID
+        shopPo.setLiquorSellLicenceId(isNotBlank(shopEditVo.getLiquorSellLicenceId()) ?    //酒类流通许可证ID
                         shopEditVo.getLiquorSellLicenceId() : null);
         shopPo.setCorporateIdPhoto(
                 isNotBlank(shopEditVo.getCorporateIdPhoto()) ? shopEditVo.getCorporateIdPhoto() : null); //法人身份证

@@ -2,6 +2,7 @@ package com.biz.soa.order.builder;
 
 import com.biz.core.asserts.SystemAsserts;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
+import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.vo.order.resp.OrderItemRespVo;
 import com.biz.gbck.vo.order.resp.OrderPromotionRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
@@ -37,6 +38,18 @@ public class OrderSettlePageRespVoBuilder {
     //运费
     public OrderSettlePageRespVoBuilder setFreight(Integer freight){
         this.respVo.setFreight(freight);
+        return this;
+    }
+
+    //用户ro
+    public OrderSettlePageRespVoBuilder setUserRo(UserRo userRo){
+        this.respVo.setUserRo(userRo);
+        return this;
+    }
+
+    //店铺ro
+    public OrderSettlePageRespVoBuilder setShopRo(ShopRo shopRo){
+        this.respVo.setShopRo(shopRo);
         return this;
     }
 

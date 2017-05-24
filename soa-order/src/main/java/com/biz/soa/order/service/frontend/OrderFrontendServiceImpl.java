@@ -137,10 +137,10 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         }
         String userId = reqVo.getUserId();
         UserRo userRo = userFeignClient.findUser(Long.valueOf(userId));
-        SystemAsserts.notNull(userRo, "用户不存在");
-        //TODO 获取shop信息
-        ShopRo shopRo = null;
-        SystemAsserts.notNull(userRo, "用户所在店铺不存在");
+        BusinessAsserts.notNull(userRo, DepotNextDoorExceptions.User.USER_NOT_EXIST);
+
+        ShopRo shopRo = shopFeignClient.findShopRoById(userRo.getShopId());
+        SystemAsserts.notNull(shopRo, "您的店铺信息有误，请联系客服处理");
 
         ShopCartListSettleReqVo cartSettleReqVo = new ShopCartListSettleReqVo();
         BeanUtils.copyProperties(reqVo, cartSettleReqVo);
@@ -150,6 +150,8 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         List<OrderItemRespVo> settleOrderItemVos = Lists.transform(cartInfo.getItems(), new
                 ShopCartItemRespVo2OrderItemRespVo());
         OrderSettlePageRespVoBuilder builder = OrderSettlePageRespVoBuilder.createBuilder();
+        builder.setUserRo(userRo);
+        builder.setShopRo(shopRo);
         builder.setBuyerInfo(shopRo);
         builder.setItems(settleOrderItemVos);
         this.validProduct(reqVo, settleOrderItemVos);
@@ -259,13 +261,6 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
     private Order createOrder(OrderCreateReqVo reqVo) throws DepotNextDoorException {
         Timers timers = Timers.createAndBegin(logger.isDebugEnabled());
 
-        //TODO 1.校验(黑名单、限购)
-        UserRo userRo = userFeignClient.findUser(Long.valueOf(reqVo.getUserId()));
-        SystemAsserts.notNull(userRo, "用户不存在");
-        //TODO 获取shop信息
-        ShopRo shopRo = null;
-        SystemAsserts.notNull(userRo, "用户店铺不存在");
-
         OrderSettlePageReqVo settleReqVo = new OrderSettlePageReqVo();
         settleReqVo.setUserId(reqVo.getUserId());
         settleReqVo.setUsedCoupons(reqVo.getUsedCoupons());
@@ -279,7 +274,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         //TODO 保存促销活动
         long id = idService.nextId();
         String orderCode = sequenceService.generateOrderCode();
-        Order order = OrderBuilder.createBuilder(reqVo).setUserInfo(userRo, shopRo).setItems(this.transOrderItems(items)).setFreeAmount
+        Order order = OrderBuilder.createBuilder(reqVo).setUserInfo(settleResult.getUserRo(), settleResult.getShopRo()).setItems(this.transOrderItems(items)).setFreeAmount
                 (settleResult.getOrderAmount()).setVoucherAmount(settleResult.getVoucherAmount()).setPayAmount
                 (settleResult.getPayAmount()).setPaymentType(PaymentType.valueOf(reqVo.getPaymentType())).build(id,
                 orderCode);
