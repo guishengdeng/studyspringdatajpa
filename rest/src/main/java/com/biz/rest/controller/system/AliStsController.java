@@ -34,6 +34,7 @@ public class AliStsController extends BaseRestController {
 		if (logger.isDebugEnabled()) {
 			logger.debug("received oss sts request.");
 		}
+		logger.info("oss config: {}", ossConfig);
 		AssumeRoleResponse.Credentials newSts = getNewSts();
 		return new AliStsVO(newSts.getAccessKeyId(), newSts.getAccessKeySecret(), newSts.getSecurityToken(), DateUtils
 		  .getDateOfHoursBack(-8, DateUtils.getDateFromString(newSts.getExpiration(), "yyyy-MM-dd'T'HH:mm:ss'Z'")).getTime());
