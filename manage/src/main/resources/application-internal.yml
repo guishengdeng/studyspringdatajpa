@@ -33,8 +33,6 @@ spring:
   session:
     redis:
       flush-mode: immediate
-server:
-  port: 7099
 biz:
   soa:
     idx: 1
@@ -62,6 +60,7 @@ biz:
     bucketName: gbck-test
 
 server:
+  port: 7099
   session:
     timeout: 1200
 eureka:
