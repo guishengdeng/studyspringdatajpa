@@ -33,7 +33,8 @@ spring:
   session:
     redis:
       flush-mode: immediate
-
+server:
+  port: 7099
 biz:
   soa:
     idx: 1
