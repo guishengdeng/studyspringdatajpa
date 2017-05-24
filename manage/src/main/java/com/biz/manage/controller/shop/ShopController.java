@@ -103,14 +103,14 @@ public class ShopController extends BaseController {
                 shopFeignClient.findShopAuditDataOfWaitForAuditByShopId(shopId);
         List<AuditRejectReason> auditRejectReasons = newArrayList();
         if (shopDetailResVo != null) {
-            logger.info("Received /shops/audit GET request with shopDetailVo:{}.", shopDetailResVo.getName());
+            logger.info("Received /shops/audit GET request with shopDetailVo:{}.",shopDetailResVo);
                 auditRejectReasons.add(AuditRejectReason.DETAIL_INVALID);
                 for (AuditRejectReason auditRejectReason : AuditRejectReason.values()) {
                     if (auditRejectReason != AuditRejectReason.DETAIL_INVALID)
                         auditRejectReasons.add(auditRejectReason);
                 }
         } else {
-            logger.debug("No audit data for shopId:{}.", shopId);
+            logger.info("No audit data for shopId:{}.", shopId);
             return modelAndView;
         }
         modelAndView.addObject("shopDetailResVo", shopDetailResVo);
