@@ -354,7 +354,9 @@ public interface ShopSoaService {
      */
     void auditShop(ShopAuditReqVo reqVo) throws CommonException;
 
-
-
-
+    /**
+     * 查询所有没审核的商户
+     * @return
+     */
+    List<ShopDetailResVo> findAllWaitForShop();
 }
