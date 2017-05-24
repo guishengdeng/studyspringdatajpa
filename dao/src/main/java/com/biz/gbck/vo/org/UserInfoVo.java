@@ -5,6 +5,7 @@ import com.biz.gbck.dao.redis.ro.org.UserRo;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.codelogger.utils.ArrayUtils;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -21,6 +22,11 @@ import java.util.stream.Collectors;
 public class UserInfoVo implements Serializable {
 
     private static final long serialVersionUID = 4786928677281986988L;
+
+    /**
+     * 用户id
+     */
+    private String userId;
 
     /**
      * 账号
@@ -171,6 +177,7 @@ public class UserInfoVo implements Serializable {
 
 
     public UserInfoVo(UserRo userRo, ShopRo shopRo) {
+        this.setUserId(userRo.getId());
         this.setAccount(userRo.getAccount());
         this.setName(userRo.getName());
         this.setMobile(userRo.getMobile());
@@ -204,6 +211,14 @@ public class UserInfoVo implements Serializable {
         this.setPlatformId(userRo.getPlatformId());
         this.setCompanyGroupId(shopRo.getCompanyGroupId());
 
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getAccount() {
@@ -444,6 +459,21 @@ public class UserInfoVo implements Serializable {
 
     public void setCompanyGroupId(Long companyGroupId) {
         this.companyGroupId = companyGroupId;
+    }
+
+    //收货人姓名(优先顺序: 收货人姓名>法人姓名>店铺名称)
+    public String getUsableDeliveryName() {
+        String usableDeliveryName;
+        if (StringUtils.isNotEmpty(this.getDeliveryName())) {
+            usableDeliveryName = this.getDeliveryName();
+        } else {
+            if (StringUtils.isNotEmpty(this.getCorporateName())) {
+                usableDeliveryName = this.getCorporateName();
+            } else {
+                usableDeliveryName = this.getShopName();
+            }
+        }
+        return deliveryName;
     }
 
     @Override
