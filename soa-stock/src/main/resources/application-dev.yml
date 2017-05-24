@@ -58,7 +58,7 @@ biz:
 server:
   session:
     timeout: 1200
-  port: 8679
+  port: 8681
 eureka:
   client:
     service-url:

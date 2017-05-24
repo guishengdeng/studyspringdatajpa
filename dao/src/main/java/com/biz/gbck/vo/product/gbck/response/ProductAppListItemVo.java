@@ -1,5 +1,7 @@
 package com.biz.gbck.vo.product.gbck.response;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -211,5 +213,10 @@ public class ProductAppListItemVo implements Serializable {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

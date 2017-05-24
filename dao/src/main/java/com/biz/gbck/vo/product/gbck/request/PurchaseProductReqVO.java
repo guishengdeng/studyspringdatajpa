@@ -1,9 +1,11 @@
 package com.biz.gbck.vo.product.gbck.request;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
-import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Created by david-liu on 2017/05/17 00:49.
@@ -51,5 +53,10 @@ public class PurchaseProductReqVO implements Serializable {
 
     public void setSellerId(Long sellerId) {
         this.sellerId = sellerId;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

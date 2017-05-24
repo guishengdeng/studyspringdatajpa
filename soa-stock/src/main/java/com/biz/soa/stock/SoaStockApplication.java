@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * SOA-Product Application
+ * SOA-stock Application
  *
  * Created by lei on 2017/04/26 10:37.
  */
