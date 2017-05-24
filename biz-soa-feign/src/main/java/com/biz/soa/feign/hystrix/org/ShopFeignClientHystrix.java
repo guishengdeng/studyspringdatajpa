@@ -67,9 +67,10 @@ public class ShopFeignClientHystrix implements ShopFeignClient {
     }
 
     @Override
-    public ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(@RequestBody Long shopId) {
+    public ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(@RequestParam("shopId") Long shopId) {
         return null;
     }
+
 
     @Override
     public Boolean isBusinessLicenceIdExist(@RequestParam("businessLicenceId") String businessLicenceId, @RequestParam("shopId") Long shopId) {

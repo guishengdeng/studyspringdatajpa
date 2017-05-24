@@ -123,6 +123,86 @@
             });
 
         </script>
+        <script>
+            $("#app_updata").click(function () {
+                console.log(${pageContext.request.contextPath})
+            });
+            $("#appdelete_button").click(function () {
+                $("#logo_container").val('');
+                $("#image").hide();
+            });
+            /*
+             * 隐藏上传需要的file
+             */
+            $('#logo_file').hide();
+
+            //如果之前有上传过图片，将图片展示出来
+            if ($('#logo_container').val() != '') {
+                preview();
+            }
+
+            //点击上传图片，弹出选择框
+            $('#update_shopPhoto').on('click', function () {
+                var logo_file = $(this).next();
+                logo_file.click();
+            });
+            /**
+             * 上传图片
+             */
+            $('#logo_file').on('change', function () {
+                $("#image").show();
+                var hidden_input = $(this).next();
+                var file = this.files[0];
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var base64stream = this.result;
+                    var dataObj = {
+                        base64stream: base64stream
+                    };
+                    $.ajax({
+                        type: "POST",
+                        url: "upload/uploadProduct.do",
+                        enctype: 'multipart/form-data',
+                        data: dataObj
+                    }).done(function (data) {
+                        if (data.status == 'success') {
+                            hidden_input.val(data.name);
+                            $('#image').attr('src', data.uri);
+                        } else {
+                        }
+                    });
+                };
+                reader.readAsDataURL(file);
+            });
+
+            /**
+             * 预览图片
+             */
+            function preview() {
+                var image_container = $('#logo_container');
+                $.ajax({
+                    method: 'post',
+                    data: {image_name: image_container.val()},
+                    url: "upload/preview.do"
+                }).done(function (data) {
+                    $('#image').attr('src', data.uri);
+                });
+            }
+
+            /**
+             * 上传资质
+             */
+            function updateAudit(type){
+                var logo_file = $(this).next();
+                logo_file.click();
+            }
+            /**
+             * 删除资质
+             */
+            function deleteAudit(type){
+
+            }
+        </script>
     </jsp:attribute>
     <jsp:attribute name="css">
         <style>
@@ -228,7 +308,7 @@
                                     </div>
                                 </div>
                                 <br>
-                                <br>
+                                <br><input type="file" id="logo_file" value=""/>
                                 <div class="ui raised segment">
                                     <span>商户资质:</span>
                                     <div>
@@ -237,19 +317,28 @@
                                                 <div>
                                                     <ul class="ace-thumbnails clearfix">
                                                         <li>
-                                                            <a href="" title="Photo Title" data-rel="colorbox" name="shopPhoto">
-                                                                <img width="150" height="150" alt="150x150" src="" />
+                                                            <a id="a_shopPhoto" title="Photo Title" data-rel="colorbox">
+                                                                <img  id="img_shopPhoto" width="150" height="150" alt="150x150" />
                                                             </a>
-
                                                             <div class="tags">
                                                             <span class="label-holder">
                                                                 <span class="label label-info">门头照片</span>
                                                             </span>
                                                             </div>
+                                                            <div class="tools tools-bottom">
+                                                                <button id="update_shopPhoto">
+                                                                    <i class="ace-icon fa fa-pencil"></i>
+                                                                </button>
+
+                                                                <a  id="delete_shopPhoto" onclick="deleteAudit(1)">
+                                                                    <i class="ace-icon fa fa-times red"></i>
+                                                                </a>
+                                                            </div>
+                                                            <input type="hidden" name="shopPhoto" id="shopPhoto"/>
                                                         </li>
                                                         <li>
-                                                            <a href="" title="Photo Title" data-rel="colorbox" name="businessLicence">
-                                                                <img width="150" height="150" alt="150x150" src="" />
+                                                            <a id="a_businessLicence" title="Photo Title" data-rel="colorbox">
+                                                                <img id="img_businessLicence" width="150" height="150" alt="150x150" src="" />
                                                             </a>
 
                                                             <div class="tags">
@@ -257,10 +346,20 @@
                                                                 <span class="label label-info">营业执照</span>
                                                             </span>
                                                             </div>
+                                                            <div class="tools tools-bottom">
+                                                                <a id="update_businessLicence" onclick="updateAudit(2)">
+                                                                    <i class="ace-icon fa fa-pencil"></i>
+                                                                </a>
+
+                                                                <a id="delete_businessLicence" onclick="deleteAudit(2)">
+                                                                    <i class="ace-icon fa fa-times red"></i>
+                                                                </a>
+                                                            </div>
+                                                            <input type="hidden" name="businessLicence" id="businessLicence"/>
                                                         </li>
                                                         <li>
-                                                            <a href="" title="Photo Title" data-rel="colorbox" name="liquorSellLicence">
-                                                                <img width="150" height="150" alt="150x150" src="" />
+                                                            <a id="a_liquorSellLicence" title="Photo Title" data-rel="colorbox" >
+                                                                <img id="img_liquorSellLicence" width="150" height="150" alt="150x150" src="" />
                                                             </a>
 
                                                             <div class="tags">
@@ -268,10 +367,20 @@
                                                                 <span class="label label-info">酒类流通许可证</span>
                                                             </span>
                                                             </div>
+                                                            <div class="tools tools-bottom">
+                                                                <a id="update_liquorSellLicence"  onclick="updateAudit(3)">
+                                                                    <i class="ace-icon fa fa-pencil"></i>
+                                                                </a>
+
+                                                                <a id="delete_liquorSellLicence" onclick="deleteAudit(3)">
+                                                                    <i class="ace-icon fa fa-times red"></i>
+                                                                </a>
+                                                            </div>
+                                                            <input type="hidden" name="liquorSellLicence" id="liquorSellLicence"/>
                                                         </li>
                                                         <li>
-                                                            <a href="" title="Photo Title" data-rel="colorbox" name="corporateIdPhoto">
-                                                                <img width="150" height="150" alt="150x150" src="" />
+                                                            <a id="a_corporateIdPhoto" title="Photo Title" data-rel="colorbox" >
+                                                                <img id="img_corporateIdPhoto" width="150" height="150" alt="150x150" />
                                                             </a>
 
                                                             <div class="tags">
@@ -279,6 +388,16 @@
                                                                 <span class="label label-info">法人身份证</span>
                                                             </span>
                                                             </div>
+                                                            <div class="tools tools-bottom">
+                                                                <a id="update_corporateIdPhoto"  onclick="updateAudit(4)">
+                                                                    <i class="ace-icon fa fa-pencil"></i>
+                                                                </a>
+
+                                                                <a id="delete_corporateIdPhoto" onclick="deleteAudit(4)">
+                                                                    <i class="ace-icon fa fa-times red"></i>
+                                                                </a>
+                                                            </div>
+                                                            <input type="hidden" name="corporateIdPhoto" id="corporateIdPhoto"/>
                                                         </li>
                                                     </ul>
                                                 </div>

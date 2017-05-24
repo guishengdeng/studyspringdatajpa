@@ -88,7 +88,7 @@ public interface ShopFeignClient {
      * 获取单个商户待审核信息
      */
     @RequestMapping(value = "soa/shop/findShopAuditDataOfWaitForAuditByShopId", method = RequestMethod.POST)
-    ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(@RequestBody Long shopId);
+    ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(@RequestParam("shopId") Long shopId);
 
 
     /**
