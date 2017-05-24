@@ -181,6 +181,7 @@ public class ShopSoaController extends BaseRestController {
      */
     @RequestMapping(value = "findShopAuditDataOfWaitForAuditByShopId", method = RequestMethod.POST)
     public ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(@RequestParam("shopId") Long shopId) {
+        logger.info("request soa/org/findShopAuditDataOfWaitForAuditByShopId shopId:{}",shopId);
         return shopSoaService.findShopAuditDataOfWaitForAuditByShopId(shopId);
     }
 

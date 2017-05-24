@@ -97,19 +97,20 @@ public class ShopController extends BaseController {
     public ModelAndView auditShopDetail(
             @RequestParam("shopId") Long shopId, HttpServletRequest request) throws Exception {
 
-        logger.debug("Received /shops/audit GET request with shopId:{}.", shopId);
+        logger.info("Received /shops/audit GET request with shopId:{}.", shopId);
         ModelAndView modelAndView = new ModelAndView("/org/shop/auditDetail");
         ShopDetailResVo shopDetailResVo =
                 shopFeignClient.findShopAuditDataOfWaitForAuditByShopId(shopId);
         List<AuditRejectReason> auditRejectReasons = newArrayList();
         if (shopDetailResVo != null) {
+            logger.info("Received /shops/audit GET request with shopDetailVo:{}.",shopDetailResVo);
                 auditRejectReasons.add(AuditRejectReason.DETAIL_INVALID);
                 for (AuditRejectReason auditRejectReason : AuditRejectReason.values()) {
                     if (auditRejectReason != AuditRejectReason.DETAIL_INVALID)
                         auditRejectReasons.add(auditRejectReason);
                 }
         } else {
-            logger.debug("No audit data for shopId:{}.", shopId);
+            logger.info("No audit data for shopId:{}.", shopId);
             return modelAndView;
         }
         modelAndView.addObject("shopDetailResVo", shopDetailResVo);
@@ -288,9 +289,9 @@ public class ShopController extends BaseController {
     @PreAuthorize("hasAuthority('OPT_SHOP_UPDATE')")
     @ResponseBody
     public Boolean updateShopStatus( Long shopId) {
-        CommonStatusEnum status = shopFeignClient.findShopPoById(shopId).getStatus();
+        Integer status = shopFeignClient.findShopRoById(shopId).getStatus();
         return shopFeignClient.updateShopStatus(shopId,
-                Objects.equals(status,CommonStatusEnum.ENABLE) ?
+                Objects.equals(status,CommonStatusEnum.ENABLE.getValue()) ?
                         CommonStatusEnum.DISABLE :
                         CommonStatusEnum.ENABLE);
     }
