@@ -289,9 +289,9 @@ public class ShopController extends BaseController {
     @PreAuthorize("hasAuthority('OPT_SHOP_UPDATE')")
     @ResponseBody
     public Boolean updateShopStatus( Long shopId) {
-        CommonStatusEnum status = shopFeignClient.findShopRoById(shopId).getStatus();
+        Integer status = shopFeignClient.findShopRoById(shopId).getStatus();
         return shopFeignClient.updateShopStatus(shopId,
-                Objects.equals(status,CommonStatusEnum.ENABLE) ?
+                Objects.equals(status,CommonStatusEnum.ENABLE.getValue()) ?
                         CommonStatusEnum.DISABLE :
                         CommonStatusEnum.ENABLE);
     }
