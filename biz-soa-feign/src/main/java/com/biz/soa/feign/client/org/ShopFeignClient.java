@@ -2,6 +2,7 @@ package com.biz.soa.feign.client.org;
 
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.org.ShopPo;
+import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.org.*;
 import com.biz.gbck.vo.spring.PageVO;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 
 import java.util.List;
 
