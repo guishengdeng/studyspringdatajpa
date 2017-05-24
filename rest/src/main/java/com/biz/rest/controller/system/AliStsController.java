@@ -8,8 +8,10 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.sts.model.v20150401.AssumeRoleRequest;
 import com.aliyuncs.sts.model.v20150401.AssumeRoleResponse;
 import com.biz.core.ali.oss.config.OssConfig;
+import com.biz.gbck.exceptions.DepotNextDoorExceptions;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.rest.vo.AliStsVO;
+import com.biz.support.web.handler.JSONResult;
 import org.codelogger.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,14 +32,16 @@ public class AliStsController extends BaseRestController {
 	private OssConfig ossConfig;
 
 	@RequestMapping("oss")
-	public AliStsVO getOssToken() throws ClientException {
-		if (logger.isDebugEnabled()) {
-			logger.debug("received oss sts request.");
+	public JSONResult getOssToken() {
+		try {
+			AssumeRoleResponse.Credentials newSts = getNewSts();
+			return new JSONResult(new AliStsVO(newSts.getAccessKeyId(), newSts.getAccessKeySecret(), newSts
+					.getSecurityToken(), DateUtils.getDateOfHoursBack(-8, DateUtils.getDateFromString(newSts
+					.getExpiration(), "yyyy-MM-dd'T'HH:mm:ss'Z'")).getTime()));
+		} catch (Exception e) {
+			return new JSONResult(DepotNextDoorExceptions.Global.STS_ERROR.getCode(), DepotNextDoorExceptions.Global
+					.STS_ERROR.getDescription());
 		}
-		logger.info("oss config: {}", ossConfig);
-		AssumeRoleResponse.Credentials newSts = getNewSts();
-		return new AliStsVO(newSts.getAccessKeyId(), newSts.getAccessKeySecret(), newSts.getSecurityToken(), DateUtils
-		  .getDateOfHoursBack(-8, DateUtils.getDateFromString(newSts.getExpiration(), "yyyy-MM-dd'T'HH:mm:ss'Z'")).getTime());
 	}
 
 	private AssumeRoleResponse.Credentials getNewSts() throws ClientException {
