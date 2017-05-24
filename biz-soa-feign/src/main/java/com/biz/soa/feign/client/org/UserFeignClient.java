@@ -89,13 +89,13 @@ public interface UserFeignClient {
     /**
      * 通过电话号码查用户
      */
-    @RequestMapping(value = "findUserPoByMobile", method = RequestMethod.POST)
+    @RequestMapping(value = "/soa/user/findUserPoByMobile", method = RequestMethod.POST)
     UserPo findUserPoByMobile(@RequestParam("mobile") String mobile);
 
     /**
      * 通过电话号码查用户
      */
-    @RequestMapping(value = "findUserPoByAccount", method = RequestMethod.POST)
+    @RequestMapping(value = "/soa/user/findUserPoByAccount", method = RequestMethod.POST)
     UserPo findUserPoByAccount(@RequestParam("account") String account);
 
     @RequestMapping(value = "/soa/user/findUserInfo", method = {RequestMethod.GET, RequestMethod.POST})
@@ -107,7 +107,7 @@ public interface UserFeignClient {
      * @return
      * @throws DepotNextDoorException
      */
-    @RequestMapping(value = "findAllUserByAuditStatus", method = RequestMethod.POST)
+    @RequestMapping(value = "/soa/userfindAllUserByAuditStatus", method = RequestMethod.POST)
     List<UserPo> findAllUserByAuditStatus(@RequestParam("auditStatus") AuditStatus auditStatus) throws DepotNextDoorException;
 
     /**
@@ -115,7 +115,7 @@ public interface UserFeignClient {
      * @param shopTypeId
      * @return
      */
-    @RequestMapping(value = "findUserIdByShopType", method = RequestMethod.POST)
+    @RequestMapping(value = "/soa/user/findUserIdByShopType", method = RequestMethod.POST)
     List<Long> findUserIdByShopType(@RequestParam("shopTypeId") Long shopTypeId);
 
     /**
@@ -124,8 +124,16 @@ public interface UserFeignClient {
      * @param isAdmin
      * @return
      */
-    @RequestMapping(value = "findAdminUserIdsByShopId", method = RequestMethod.POST)
+    @RequestMapping(value = "/soa/user/findAdminUserIdsByShopId", method = RequestMethod.POST)
     List<Long> findAdminUserIdsByShopId(@RequestParam("shopId") Long shopId, @RequestParam("isAdmin") Boolean isAdmin);
+
+    /**
+     * 根据用户组id取用户Id
+     * @param companyGroupId
+     * @return
+     */
+    @RequestMapping(value = "/soa/user/findUserIdByCompanyGroupId", method = RequestMethod.POST)
+    List<Long> findUserIdByCompanyGroupId(@RequestParam("companyGroupId") Long companyGroupId);
 }
 
 
