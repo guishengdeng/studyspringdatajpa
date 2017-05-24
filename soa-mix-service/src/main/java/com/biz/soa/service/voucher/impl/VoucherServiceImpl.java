@@ -11,44 +11,48 @@ import java.util.Objects;
 
 import org.codelogger.utils.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.biz.gbck.common.model.order.IOrderItemVo;
 import com.biz.gbck.common.model.voucher.VoucherConfigure;
 import com.biz.gbck.common.voucher.VoucherRoToVoucherPo;
+import com.biz.gbck.dao.mysql.po.org.ShopPo;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherCategory;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
+import com.biz.gbck.dao.mysql.po.voucher.VoucherTypePo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherTypeStatus;
 import com.biz.gbck.dao.mysql.repository.voucher.VoucherDao;
 import com.biz.gbck.dao.mysql.repository.voucher.VoucherRepository;
+import com.biz.gbck.dao.mysql.repository.voucher.VoucherTypeRepository;
+import com.biz.gbck.dao.mysql.specification.voucher.VoucherSearchSpecification;
 //import com.biz.gbck.dao.redis.repository.product.bbc.ProductRedisDao;
 import com.biz.gbck.dao.redis.repository.voucher.VoucherRedisDao;
 import com.biz.gbck.dao.redis.repository.voucher.VoucherTypeRedisDao;
-import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
-import com.biz.gbck.dao.redis.ro.product.bbc.ProductRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherConfigureRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeWithQuantity;
-import com.biz.gbck.enums.user.AuditStatus;
-import com.biz.gbck.enums.user.ShopTypeStatus;
 import com.biz.gbck.util.DateTool;
 import com.biz.gbck.vo.product.frontend.ProductListItemVo;
+import com.biz.gbck.vo.spring.PageVO;
 import com.biz.gbck.vo.voucher.UserVoucherStatisticResultVo;
+import com.biz.gbck.vo.voucher.VoucherSearchVo;
 import com.biz.service.AbstractBaseService;
-import com.biz.service.org.interfaces.ShopTypeService;
 import com.biz.service.predicate.VoucherNotExpirePredicate;
 import com.biz.service.predicate.VoucherTypePredicate;
+import com.biz.soa.feign.client.global.NoticeFeignClient;
+import com.biz.soa.feign.client.org.ShopFeignClient;
+import com.biz.soa.feign.client.org.ShopTypeFeignClient;
+import com.biz.soa.feign.client.sms.SMSFeignClient;
 import com.biz.soa.service.voucher.VoucherConfigureService;
 import com.biz.soa.service.voucher.VoucherService;
 import com.biz.soa.service.voucher.VoucherTypeService;
-import com.biz.soa.feign.client.global.NoticeFeignClient;
-import com.biz.soa.feign.client.org.ShopFeignClient;
-import com.biz.soa.feign.client.org.UserFeignClient;
-import com.biz.soa.feign.client.sms.SMSFeignClient;
+import com.biz.vo.notify.NotifyVo;
 import com.biz.vo.voucher.ShopCraftVoucherVo;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
@@ -69,22 +73,25 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	private VoucherRepository voucherRepository;
 	
 	@Autowired
+	private VoucherTypeRepository voucherTypeRepository;
+	
+	@Autowired
 	private VoucherTypeService voucherTypeService;
 	
 	@Autowired
 	private ShopFeignClient shopFeignClient;
-//	
-//	@Autowired
-//	private NoticeFeignClient noticeFeignClient;
 	
-//	@Autowired
-//	private ShopTypeService shopTypeService;
+	@Autowired
+	private NoticeFeignClient noticeFeignClient;
+	
+	@Autowired
+	private ShopTypeFeignClient shopTypeFeignClient;
 	
 //	@Autowired
 //	private UserFeignClient userFeignClient;
 	
-//	@Autowired
-//	private SMSFeignClient sMSFeignClient;
+	@Autowired
+	private SMSFeignClient sMSFeignClient;
 	
 	@Autowired
 	private VoucherConfigureService configureService;
@@ -209,9 +216,9 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	public int getAvailVoucherCount(List<ProductListItemVo> items, UserRo userRo) throws Exception {
 		int count = 0;
 		// TODO Auto-generated method stub
-      ShopRo shopRo = null;//shopFeignClient.findShop(userRo.getShopId());
+      ShopPo shopRo = shopFeignClient.findShopRoById(userRo.getShopId());
       List<Long> categoryIds = new ArrayList<Long>();
-      Long shopTypeId = shopRo.getShopTypeId();
+      Long shopTypeId = shopRo.getShopType().getId();
       Map<Long, List<VoucherRo>> categoryVouchersMap =  divideUnusedVouchersByCategory(Long.parseLong(userRo.getId()));
 
       for (ProductListItemVo item : items) {
@@ -262,6 +269,10 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
                       + "，购买商品结算可抵扣现金哟，点击查看详情";
               try {
             	// TODO Auto-generated method stub
+            	  NotifyVo notifyVo = new NotifyVo();
+            	  notifyVo.setTitle(title);
+            	  notifyVo.setNotifyContent(content);
+            	  //TODO
 //            	  noticeFeignClient.sendMsgToUser(userId, title, content,
 //                      "depotnearby://redirect?target=voucherList");
               } catch (Exception e) {
@@ -281,9 +292,8 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
       int voucherTypeVoucherCount = voucherRedisDao.getVoucherTypeVoucherCount(voucherTypeId);
       if (shopTypeId == null) {
           if (CollectionUtils.isEmpty(userIds)) {
-              List<ShopTypeRo> shopTypes =null;
-            		// TODO Auto-generated method stub
-//                  shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL);
+        	  ///TODO
+              List<ShopTypeRo> shopTypes =  null;//shopTypeFeignClient.findAllShopTypeRo(ShopTypeStatus.NORMAL);
               for (ShopTypeRo ro : shopTypes) {
             	// TODO Auto-generated method stub
 //                  userCount = userCount + userFeignClient.findUserIdByShopType(Long.valueOf(ro.getId())).size();
@@ -526,5 +536,13 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	          userUnusedVouchersMap.get(resultVo.getVoucherTypeId().longValue()).size();
 	  resultVo.setUserVoucherRemianCount(voucherTypeVoucherCount);
 	  return resultVo;
+	}
+	
+	/**
+	 * 搜索列表
+	 */
+	@Override
+	public PageVO<VoucherTypePo> searchVoucher(VoucherSearchVo reqVo) {
+		return new PageVO<VoucherTypePo>(voucherTypeRepository.findAll(new VoucherSearchSpecification(reqVo), new PageRequest(reqVo.getPage()-1, reqVo.getPageSize(), Sort.Direction.DESC, "startTime")));
 	}
 }

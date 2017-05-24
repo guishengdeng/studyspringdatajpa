@@ -7,9 +7,12 @@ import org.springframework.stereotype.Component;
 
 import com.biz.gbck.common.model.order.IOrderItemVo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
+import com.biz.gbck.dao.mysql.po.voucher.VoucherTypePo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.vo.order.resp.IOrderPeriodQueryReqVo;
+import com.biz.gbck.vo.spring.PageVO;
+import com.biz.gbck.vo.voucher.VoucherSearchVo;
 import com.biz.soa.feign.client.voucher.VoucherFeignClient;
 import com.biz.vo.voucher.ShopCraftVoucherVo;
 
@@ -70,6 +73,12 @@ public class VoucherFeignClientHystrix implements VoucherFeignClient {
 	public void useVoucher(IOrderPeriodQueryReqVo iOrderPeriodQueryReqVo) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public PageVO<VoucherTypePo> searchVoucher(VoucherSearchVo voucherSearchVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

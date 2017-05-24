@@ -17,29 +17,7 @@
         </style>
     </jsp:attribute>
     <jsp:attribute name="script">
-        <script type="applivoucherion/javascript">
-            <sec:authorize access="hasAuthority('OPT_voucher_DELETE')">
-            $(".voucher-ban-btn").click(function () {
-
-                $("#id-of-voucher").val($(this).data("id"));
-                $("#name-of-ban-voucher").html($(this).data("name"));
-                $("#voucher-disable-confirm-modal").modal();
-            });
-            $(".btn-cancel-ban").click(function () {
-                $("#voucher-disable-confirm-modal").modal("hide");
-            });
-            $(".btn-confirm-ban").click(function () {
-                var voucherId = $("#id-of-voucher").val();
-                $.post("demo/vouchers/delete.do", {
-                    "id": voucherId
-                }, function (result) {
-                    if (result) {
-                        $("#tr-" + voucherId).remove();
-                    }
-                }, "json");
-                $("#voucher-disable-confirm-modal").modal("hide");
-            });
-            </sec:authorize>
+        <script type="text/javascript">
             $(function(){
                 $("#voucher-table").DataTable({
                     "lengthMenu": [[10,20,50,-1], [10, 20, 50, "所有"]],
@@ -50,7 +28,6 @@
         </script>
     </jsp:attribute>
     <jsp:body>
-        <jsp:include page="component/navigations.jsp"/>
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
                 <li>
@@ -97,24 +74,15 @@
                                         <td><c:out value="${voucher.name}" /></td>
                                         <td><c:out value="${voucher.description}"/></td>
                                         <td><c:out value="${voucher.saleStatus.name}"/></td>
-                                        <td><c:out value="${voucher.status eq 'ENABLE' ? '存活' : '死亡'}"/></td>
+                                        <td><c:out value=""/></td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
-                                                <sec:authorize access="hasAuthority('OPT_voucher_CREATE')">
+<%--                                                 <sec:authorize access="hasAuthority('OPT_voucher_CREATE')"> --%>
                                                     <a href="manage/vouchers/detail.do?voucherId=${voucher.id}"
                                                        class="btn btn-minier btn-info">
                                                         <i class="ace-icon fa fa-pencil bigger-120"></i>
                                                     </a>
-                                                </sec:authorize>
-                                                <sec:authorize access="hasAuthority('OPT_voucher_DELETE')">
-                                                    <c:if test="${param.enabled != 'false'}">
-                                                        <a data-id="${voucher.id}"
-                                                           data-name='<c:out value="${voucher.name}"/>'
-                                                           class="btn btn-minier btn-danger voucher-ban-btn">
-                                                            <i class="ace-icon fa fa-ban bigger-120"></i>
-                                                        </a>
-                                                    </c:if>
-                                                </sec:authorize>
+<%--                                                 </sec:authorize> --%>
                                             </div>
                                         </td>
                                     </tr>
@@ -123,7 +91,6 @@
                             </table>
                         </div><!-- /.span -->
                     </div><!-- /.row -->
-                    <sec:authorize access="hasAuthority('OPT_voucher_DELETE')">
                     <input type="hidden" id="id-of-voucher">
                     <div id="voucher-disable-confirm-modal" role="dialog" class="modal" tabindex="-1">
                         <div class="modal-dialog">
@@ -147,7 +114,6 @@
                             </div>
                         </div>
                     </div>
-                    </sec:authorize>
                     <!-- PAGE CONTENT ENDS -->
                 </div><!-- /.col -->
             </div><!-- /.row -->

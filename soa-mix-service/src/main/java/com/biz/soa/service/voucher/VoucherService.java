@@ -7,11 +7,15 @@ import java.util.Map;
 import com.biz.gbck.common.model.order.IOrderItemVo;
 import com.biz.gbck.common.model.voucher.VoucherConfigure;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
+import com.biz.gbck.dao.mysql.po.voucher.VoucherTypePo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
+import com.biz.gbck.vo.PageVo;
 import com.biz.gbck.vo.product.frontend.ProductListItemVo;
+import com.biz.gbck.vo.spring.PageVO;
 import com.biz.gbck.vo.voucher.UserVoucherStatisticResultVo;
+import com.biz.gbck.vo.voucher.VoucherSearchVo;
 import com.biz.vo.voucher.ShopCraftVoucherVo;
 
 public interface VoucherService{
@@ -111,4 +115,6 @@ public interface VoucherService{
 
     public List<UserVoucherStatisticResultVo> findUserOrderStatsBy(
         Map<String, Object> searchParams);
+    
+	public PageVO<VoucherTypePo> searchVoucher(VoucherSearchVo reqVo);
 }

@@ -22,7 +22,9 @@ import org.codelogger.utils.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,16 +34,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
+import com.biz.gbck.dao.mysql.po.voucher.VoucherTypePo;
 import com.biz.gbck.dao.redis.repository.voucher.VoucherTypeRedisDao;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.enums.user.ShopTypeStatus;
+import com.biz.gbck.vo.voucher.VoucherSearchVo;
 import com.biz.manage.util.AuthorityUtil;
 import com.biz.manage.util.POIUtil;
 import com.biz.manage.vo.voucher.DispatcherVoucherVo;
 import com.biz.manage.vo.voucher.VoucherBatchGrantReqVo;
 import com.biz.service.org.interfaces.ShopTypeService;
-import com.biz.service.org.interfaces.UserService;
 import com.biz.soa.feign.client.org.UserFeignClient;
 import com.biz.soa.feign.client.voucher.VoucherFeignClient;
 import com.biz.soa.feign.client.voucher.VoucherTypeFeignClient;
@@ -357,4 +360,16 @@ public class VoucherController {
         }
         return userIds;
     }
+    
+    @RequestMapping("voucherList")
+    public ModelAndView voucherList(@ModelAttribute("vsVo") VoucherSearchVo vsVo){
+    	ModelAndView view = new ModelAndView("/vouchers/searchResult");
+    	Page<VoucherTypePo>  page = voucherService.searchVoucher(vsVo);
+    	for (VoucherTypePo voucherTypePo : page) {
+			System.out.println(voucherTypePo.getName());
+		}
+    	view.addObject("vouchers",page);
+        return view;
+    }
+
 }

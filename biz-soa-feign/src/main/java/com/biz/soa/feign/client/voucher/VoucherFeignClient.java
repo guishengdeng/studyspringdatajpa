@@ -11,11 +11,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.biz.gbck.common.model.order.IOrderItemVo;
+import com.biz.gbck.dao.mysql.po.demo.CatPO;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
+import com.biz.gbck.dao.mysql.po.voucher.VoucherTypePo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.order.resp.IOrderPeriodQueryReqVo;
+import com.biz.gbck.vo.soa.MicroServiceResult;
+import com.biz.gbck.vo.spring.PageVO;
+import com.biz.gbck.vo.voucher.VoucherSearchVo;
 import com.biz.soa.feign.hystrix.voucher.VoucherFeignClientHystrix;
 import com.biz.vo.voucher.ShopCraftVoucherVo;
 /**
@@ -77,4 +82,12 @@ public interface VoucherFeignClient {
      */
     @RequestMapping(value="/soa/voucher/useVoucher",method=RequestMethod.POST)
     public void useVoucher(@RequestBody IOrderPeriodQueryReqVo iOrderPeriodQueryReqVo);
+    
+    
+    /**
+     * 后台优惠券列表
+     * @return
+     */
+    @RequestMapping(value="/soa/voucher/searchVoucher",method=RequestMethod.POST)
+    public PageVO<VoucherTypePo> searchVoucher(@RequestBody VoucherSearchVo voucherSearchVo);
 }

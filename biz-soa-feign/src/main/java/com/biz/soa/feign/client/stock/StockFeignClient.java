@@ -1,7 +1,7 @@
 package com.biz.soa.feign.client.stock;
 
 import com.biz.gbck.vo.stock.*;
-import com.biz.soa.feign.hystrix.order.OrderFeignClientHystrix;
+import com.biz.soa.feign.hystrix.stock.StockFeignClientHystrix;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +16,7 @@ import java.util.List;
  * @reviewer
  * @see
  */
-@FeignClient(name = "soa-order", fallback = OrderFeignClientHystrix.class)
+@FeignClient(name = "soa-order", fallback = StockFeignClientHystrix.class)
 public interface StockFeignClient {
 
     /**

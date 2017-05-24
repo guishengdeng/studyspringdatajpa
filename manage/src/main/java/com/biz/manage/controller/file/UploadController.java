@@ -57,7 +57,7 @@ public class UploadController {
     public JSONResult fileUpload(MultipartFile file, HttpServletRequest request) {
         String key = request.getParameter(UPLOAD_NAME_PARAM);
         try {
-            PutObjectRequest req = new PutObjectRequest(config.getBucketName(), key, file.getInputStream
+            PutObjectRequest req = new PutObjectRequest(config.getProductBucketName(), key, file.getInputStream
                     ());
             OssUtil.putObject(ossClient, req);
             return new JSONResult(0, "上传成功");
@@ -78,7 +78,7 @@ public class UploadController {
     public JSONResult uploadAndGetFileName(MultipartFile file, HttpServletRequest request) {
         try {
             final String key = StringUtils.getRandomString(32);
-            PutObjectRequest req = new PutObjectRequest(config.getBucketName(), key, file.getInputStream());
+            PutObjectRequest req = new PutObjectRequest(config.getProductBucketName(), key, file.getInputStream());
             OssUtil.putObject(ossClient, req);
             return new JSONResult(key);
         } catch (Exception e) {
@@ -94,9 +94,9 @@ public class UploadController {
         try {
             ImageUtil.Base64stream2imageTransResult imageTransResult = ImageUtil.base64stream2image(base64stream);
             String key = String.format(UUID.randomUUID().toString(), imageTransResult.imagePattern);
-            PutObjectRequest req = new PutObjectRequest(config.getBucketName(), key, imageTransResult.stream);
+            PutObjectRequest req = new PutObjectRequest(config.getProductBucketName(), key, imageTransResult.stream);
             OssUtil.putObject(ossClient, req);
-            String imageUri = OssUtil.getOssResourceUri(config.getBucketName(), config.getRemoteEndpoint(), key);
+            String imageUri = OssUtil.getOssResourceUri(config.getProductBucketName(), config.getRemoteEndpoint(), key);
             return new JSONResult(imageUri);
         } catch (Exception e) {
             logger.error("上传失败", e);
@@ -114,7 +114,7 @@ public class UploadController {
     public JSONObject sourceUri(HttpServletRequest request) {
         String imageName = request.getParameter(PREVIEW_PARAM);
         JSONObject json = new JSONObject();
-        json.put(URI_FLAG, OssUtil.getOssResourceUri(config.getBucketName(), config.getRemoteEndpoint(), imageName));
+        json.put(URI_FLAG, OssUtil.getOssResourceUri(config.getProductBucketName(), config.getRemoteEndpoint(), imageName));
         return json;
     }
 
@@ -134,7 +134,7 @@ public class UploadController {
         try {
             ImageUtil.Base64stream2imageTransResult imageTransResult = ImageUtil.base64stream2image(base64stream);
             key = String.format(UUID.randomUUID().toString(), imageTransResult.imagePattern);
-            req = new PutObjectRequest(config.getBucketName(), key, imageTransResult.stream);
+            req = new PutObjectRequest(config.getProductBucketName(), key, imageTransResult.stream);
         } catch (IOException e) {
             logger.error("转换base64图片编码出错", e);
             jsonObject.put(STATUS, ERROR_FLAG);

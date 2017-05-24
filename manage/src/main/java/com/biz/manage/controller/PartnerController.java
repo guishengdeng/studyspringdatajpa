@@ -105,10 +105,10 @@ public class PartnerController {
             return;
         }
         if (StringUtils.isNoneBlank(detailRespVo.getBusinessLicense())) {
-            detailRespVo.setBusinessLicense(OssUtil.getOssResourceUri(config.getBucketName(), config.getRemoteEndpoint(), detailRespVo.getBusinessLicense()));
+            detailRespVo.setBusinessLicense(OssUtil.getOssResourceUri(config.getProductBucketName(), config.getRemoteEndpoint(), detailRespVo.getBusinessLicense()));
         }
         if (StringUtils.isNoneBlank(detailRespVo.getWinePermit())) {
-            detailRespVo.setWinePermit(OssUtil.getOssResourceUri(config.getBucketName(), config.getRemoteEndpoint(), detailRespVo.getWinePermit()));
+            detailRespVo.setWinePermit(OssUtil.getOssResourceUri(config.getProductBucketName(), config.getRemoteEndpoint(), detailRespVo.getWinePermit()));
         }
     }
 

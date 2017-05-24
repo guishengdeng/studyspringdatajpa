@@ -73,4 +73,15 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>
+
+    <tag>
+        <name>shopType</name>
+        <tag-class>com.biz.manage.controller.tag.ShopTypeTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>shopTypeId</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
 </taglib>

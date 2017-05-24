@@ -15,23 +15,10 @@ import com.biz.gbck.dao.mysql.po.payment.ZsgfLoanApplyPo;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.user.AuditStatus;
-import com.biz.gbck.vo.org.ChangePaymentPwdReqVo;
-import com.biz.gbck.vo.org.SearchShopRespVo;
-import com.biz.gbck.vo.org.ShopAuditDataMap;
-import com.biz.gbck.vo.org.ShopAuditReqVo;
-import com.biz.gbck.vo.org.ShopChangeDeliveryAddressReqVo;
-import com.biz.gbck.vo.org.ShopDetailOrQualificationGetReqVo;
-import com.biz.gbck.vo.org.ShopEditVo;
-import com.biz.gbck.vo.org.ShopExportVo;
-import com.biz.gbck.vo.org.ShopSearchVo;
-import com.biz.gbck.vo.org.ShopUpdateDetailReqVo;
-import com.biz.gbck.vo.org.ShopUpdateQualificationReqVo;
-import com.biz.gbck.vo.org.ShopsInfoExportVo;
-import com.biz.gbck.vo.org.User20VIPVo;
-import com.biz.gbck.vo.org.UserChangeDeliveryNameReqVo;
-import com.biz.gbck.vo.org.UserVo;
+import com.biz.gbck.vo.org.*;
 import com.biz.gbck.vo.search.SearchShopReqVo;
 import com.biz.gbck.vo.search.ShopQueryReqVo;
+import com.biz.gbck.vo.spring.PageVO;
 import com.biz.gbck.vo.zsgf.ZsgfLoanQueryReqVo;
 import com.biz.manage.vo.FailDetail;
 import org.springframework.data.domain.Page;
@@ -102,11 +89,6 @@ public interface ShopSoaService {
     ShopDetailPo findLatestDetail(ShopDetailOrQualificationGetReqVo reqVo)
             throws CommonException;
 
-    /**
-     * 审核商户详情
-     */
-
-    ShopDetailPo auditShopDetail(ShopAuditReqVo reqVo) throws CommonException;
 
     /**
      * 更新用户资质
@@ -119,21 +101,6 @@ public interface ShopSoaService {
     ShopQualificationPo findLatestQualification(ShopDetailOrQualificationGetReqVo reqVo)
             throws CommonException;
 
-    /**
-     * 审核商户资质
-     */
-
-    ShopQualificationPo auditShopQualification(ShopAuditReqVo reqVo);
-
-    /**
-     * 审核修改shopPO数据
-     */
-    ShopPo auditUpdateShopPo(ShopAuditReqVo reqVo);
-
-    /**
-     * 商户统一审核接口
-     */
-    void auditShop(ShopAuditReqVo reqVo) throws CommonException;
 
     /**
      * 修改商户类型
@@ -146,13 +113,10 @@ public interface ShopSoaService {
     /**
      * 后台审核 保存 店铺信息
      */
-    void updateShopDetailStatus(ShopDetailPo shopDetailPo, String priceDepotId,
-                                String deliveryDepotId, String assartDepotId, String supportPaymentIds,
-                                List<Integer> businessTagIds, List<Integer> priceTagIds);
+    void updateShopDetailStatus(ShopDetailPo shopDetailPo);
 
     void updateShopQualificationAuditStatusToWaitForAudit(Long shopId);
 
-    void syncShopQualificationToShop(ShopQualificationPo shopQualificationPo);
 
     /**
      * rest 变更收货地址
@@ -172,13 +136,13 @@ public interface ShopSoaService {
     /**
      * 获取所有商户
      */
-    Page<ShopDetailPo> findShopAuditDataOfWaitForAudit(ShopSearchVo reqVo);
+    PageVO<ShopDetailResVo> findShopAuditDataOfWaitForAudit(ShopSearchVo reqVo);
 
 
     /**
      * 获取单个商户待审核信息
      */
-    ShopAuditDataMap findShopAuditDataOfWaitForAuditByShopId(Long shopId);
+    ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(Long shopId);
 
     void syncAllShopFromMysqlToRedis(Integer pageSize);
 
@@ -209,7 +173,6 @@ public interface ShopSoaService {
 
     List<SearchShopRespVo> searchShops(SearchShopReqVo vo);
 
-    ShopRo updateShop(ShopEditVo shopEditVo, String loginUsername);
 
     List<ShopPo> findShopByDepotId(String depotId);
 
@@ -380,7 +343,18 @@ public interface ShopSoaService {
 
     boolean isShopCanCreateOrder(String shopId);
 
+    /**
+     *后台修改商户详情，资质，shopPo 相关数据
+     */
+    Boolean saveUpdateDetail(ShopAuditReqVo shopAuditReqVo);
 
-   /* DepotPo getOnlineDepotByShopId(Long shopId, Integer districtId);*/
+
+    /**
+     * 商户统一审核接口
+     */
+    void auditShop(ShopAuditReqVo reqVo) throws CommonException;
+
+
+
 
 }

@@ -55,7 +55,7 @@ public class QueueAutomaticCreationProcessor implements SmartInitializingSinglet
         }
         MessageAdmin admin = findMessageAdmin();
         for (QueueDefinition def : definitions) {
-            admin.createQueueIfNecessary(def, this.maxRetry, this.retryElapse);
+           /* admin.createQueueIfNecessary(def, this.maxRetry, this.retryElapse);*/ // TODO: 17-5-19 dylan 开放会有异常等待解决
         }
     }
 
