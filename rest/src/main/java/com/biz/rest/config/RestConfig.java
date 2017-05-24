@@ -6,12 +6,13 @@ import com.biz.core.event.BizEventMulticaster;
 import com.biz.core.event.BizEventPublisher;
 import com.biz.core.transaction.BizTransactionManager;
 import com.biz.service.IdService;
-import java.beans.PropertyVetoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.jpa.JpaTransactionManager;
+
+import java.beans.PropertyVetoException;
 
 /**
  * Created by david-liu on 2017/05/12 11:47.
@@ -55,12 +56,12 @@ public class RestConfig {
         return new OssConfig(
                 environment.getProperty("biz.oss.remoteEndpoint"),
                 environment.getProperty("biz.oss.localEndpoint"),
-                environment.getProperty("biz.oss.userId"),
                 environment.getProperty("biz.oss.accessKeyId"),
                 environment.getProperty("biz.oss.accessKeySecret"),
                 environment.getProperty("biz.oss.productBucketName"),
-                environment.getProperty("biz.oss.auditBucketName")
-        );
+                environment.getProperty("biz.oss.auditBucketName"),
+                environment.getProperty("biz.oss.userId")
+                );
     }
 
     @Bean
