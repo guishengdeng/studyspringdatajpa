@@ -15,9 +15,6 @@ import com.biz.soa.product.service.interfaces.ProductPriceGenerator;
 import com.biz.soa.product.service.interfaces.impl.DepotNextDoorPriceGenerator;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import org.apache.commons.collections.CollectionUtils;
-import org.codelogger.utils.StringUtils;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
@@ -155,7 +152,7 @@ public class ProductPrototype implements Serializable {
                 return vo;
             }));
         }
-        respVO.setLogo(this.productRO.getLogo());
+        respVO.setLogo(String.format("%s.jpg", this.productRO.getLogo()));
         if (StringUtils.isNotBlank(this.productRO.getImages())) {
             List<String> productImages = StringTool.split(this.productRO.getImages(), ",").stream().map(image -> String.format("%s.jpg", image)).collect(Collectors.toList());
             respVO.setImages(productImages);
