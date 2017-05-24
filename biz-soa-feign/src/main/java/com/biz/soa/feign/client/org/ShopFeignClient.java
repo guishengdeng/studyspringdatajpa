@@ -119,6 +119,12 @@ public interface ShopFeignClient {
     @RequestMapping(value = "soa/shop/findShopRoById", method = RequestMethod.POST)
     ShopRo findShopRoById(@RequestParam("id") Long id);
 
+    /**
+     *根据id查询对应商户
+     */
+    @RequestMapping(value = "soa/shop/findShopPoById", method = RequestMethod.POST)
+    ShopPo findShopPoById(@RequestParam("id") Long id);
+
 
     /**
      * 物理删除，慎用
