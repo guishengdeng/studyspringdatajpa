@@ -94,7 +94,7 @@ public class ShopFeignClientHystrix implements ShopFeignClient {
     }
 
     @Override
-    public ShopPo findShopRoById(@RequestParam("id") Long id) {
+    public ShopRo findShopRoById(@RequestParam("id") Long id) {
         return null;
     }
 
