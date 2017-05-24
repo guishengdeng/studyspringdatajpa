@@ -1,7 +1,6 @@
 package com.biz.soa.feign.client.org;
 
 import com.biz.gbck.common.exception.CommonException;
-import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
 import com.biz.gbck.dao.mysql.po.org.ShopPo;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.org.*;
@@ -9,8 +8,6 @@ import com.biz.gbck.vo.spring.PageVO;
 import com.biz.soa.feign.hystrix.org.ShopFeignClientHystrix;
 import com.biz.support.web.handler.JSONResult;
 import org.springframework.cloud.netflix.feign.FeignClient;
-/*import org.springframework.data.domain.Page;*/
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

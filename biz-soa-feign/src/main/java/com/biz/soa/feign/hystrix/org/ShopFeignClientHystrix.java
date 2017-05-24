@@ -3,6 +3,7 @@ package com.biz.soa.feign.hystrix.org;
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
 import com.biz.gbck.dao.mysql.po.org.ShopPo;
+import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.org.*;
 import com.biz.gbck.vo.spring.PageVO;

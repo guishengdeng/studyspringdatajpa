@@ -11,6 +11,7 @@ import com.biz.gbck.vo.cart.*;
 import com.biz.gbck.vo.order.req.ProductItemReqVo;
 import com.biz.gbck.vo.product.gbck.request.PurchaseProductReqVO;
 import com.biz.gbck.vo.product.gbck.response.ProductAppListItemVo;
+import com.biz.gbck.vo.product.gbck.response.PurchaseProductItemVO;
 import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.gbck.vo.stock.CompanyStockReqVO;
 import com.biz.gbck.vo.stock.CompanyStockRespVO;
@@ -174,13 +175,13 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
                     Long.valueOf(ro.getProductId())).collect(toList());
 
         UserRo userRo = this.getUserInfo(userId);
-        Map<String, ProductAppListItemVo> productIdToProductItemVo = this.getProductIdToProductVoMap(productIds, userRo);
+        Map<String, PurchaseProductItemVO> productIdToProductItemVo = this.getProductIdToProductVoMap(productIds, userRo);
 
         int orderAmount = 0;
         int cartNum = 0;
         List<ShopCartItemRespVo> cartItemRespVos = newArrayList();
         for (ShopCartItemRo shopCartItemRo : shopCartItemRos) {
-            ProductAppListItemVo productItemVo = productIdToProductItemVo.get(shopCartItemRo.getId());
+            PurchaseProductItemVO productItemVo = productIdToProductItemVo.get(shopCartItemRo.getId());
             if (productItemVo != null) {
                 ShopCartItemRespVo cartItemRespVo = new ShopCartItemRespVo(productItemVo);
                 cartItemRespVo.setQuantity(shopCartItemRo.getQuantity());
@@ -213,13 +214,13 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
     }
 
     //获取商品信息且map
-    private Map<String, ProductAppListItemVo> getProductIdToProductVoMap(List<Long> productIds, UserRo userRo) throws
+    private Map<String, PurchaseProductItemVO> getProductIdToProductVoMap(List<Long> productIds, UserRo userRo) throws
             CartItemProductInvalidException {
         PurchaseProductReqVO productReqVo = new PurchaseProductReqVO();
         productReqVo.setProductIds(productIds);
         productReqVo.setSellerId(userRo.getPartnerId());
         productReqVo.setCompanyGroupId(1l); //TODO companyGroupId
-        MicroServiceResult<List<ProductAppListItemVo>> productResult = productFeignClient.getPurchaseProducts
+        MicroServiceResult<List<PurchaseProductItemVO>> productResult = productFeignClient.getPurchaseProducts
                 (productReqVo);
         if (!productResult.isSuccess() || productResult.getData() == null) {
             throw new CartItemProductInvalidException("获取商品信息失败");

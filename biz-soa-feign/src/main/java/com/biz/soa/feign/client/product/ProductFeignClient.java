@@ -7,8 +7,8 @@ import com.biz.gbck.vo.product.gbck.request.ProductAppDetailReqVo;
 import com.biz.gbck.vo.product.gbck.request.ProductAppListReqVo;
 import com.biz.gbck.vo.product.gbck.request.PurchaseProductReqVO;
 import com.biz.gbck.vo.product.gbck.response.ProductAppDetailRespVO;
-import com.biz.gbck.vo.product.gbck.response.ProductAppListItemVo;
 import com.biz.gbck.vo.product.gbck.response.ProductAppListRespVO;
+import com.biz.gbck.vo.product.gbck.response.PurchaseProductItemVO;
 import com.biz.gbck.vo.search.IncrProductIdxReqVo;
 import com.biz.gbck.vo.search.ProductIdxVO;
 import com.biz.gbck.vo.search.TotalProductIdxReqVo;
@@ -45,6 +45,5 @@ public interface ProductFeignClient {
     MicroServiceResult<List<ProductIdxVO>> getSearchIncrIndices(@RequestBody IncrProductIdxReqVo reqVo);
 
     @RequestMapping(value = "/soa/product/purchaseProducts", method = RequestMethod.POST)
-    MicroServiceResult<List<ProductAppListItemVo>> getPurchaseProducts(@RequestBody PurchaseProductReqVO reqVO);
-
+    MicroServiceResult<List<PurchaseProductItemVO>> getPurchaseProducts(@RequestBody PurchaseProductReqVO reqVO);
 }

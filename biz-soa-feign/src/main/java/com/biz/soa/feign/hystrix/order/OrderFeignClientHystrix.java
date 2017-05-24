@@ -6,6 +6,7 @@ import com.biz.gbck.vo.order.req.*;
 import com.biz.gbck.vo.order.resp.OrderRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
 import com.biz.gbck.vo.payment.resp.PaymentRespVo;
+import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.soa.feign.client.order.OrderFeignClient;
 import org.springframework.stereotype.Component;
 
@@ -20,47 +21,47 @@ import org.springframework.stereotype.Component;
 public class OrderFeignClientHystrix implements OrderFeignClient {
 
     @Override
-    public PageRespVo allTypeOrders(OrderListReqVo reqVo) {
+    public MicroServiceResult<PageRespVo> allTypeOrders(OrderListReqVo reqVo) {
         return null;
     }
 
     @Override
-    public OrderRespVo orderDetail(IdReqVo reqVo) {
+    public MicroServiceResult<OrderRespVo> orderDetail(IdReqVo reqVo) {
         return null;
     }
 
     @Override
-    public void cancelOrder(IdReqVo reqVo) {
-
-    }
-
-    @Override
-    public OrderSettlePageRespVo settle(OrderSettlePageReqVo reqVo) {
+    public MicroServiceResult cancelOrder(IdReqVo reqVo) {
         return null;
     }
 
     @Override
-    public PaymentRespVo createOrderNoPay(OrderCreateReqVo reqVo) {
+    public MicroServiceResult<OrderSettlePageRespVo> settle(OrderSettlePageReqVo reqVo) {
         return null;
     }
 
     @Override
-    public PaymentRespVo createOrderAlipay(OrderCreateReqVo reqVo) {
+    public MicroServiceResult<PaymentRespVo> createOrderNoPay(OrderCreateReqVo reqVo) {
         return null;
     }
 
     @Override
-    public PaymentRespVo createOrderWechat(OrderCreateWechatReqVo reqVo) {
+    public MicroServiceResult<PaymentRespVo> createOrderAlipay(OrderCreateReqVo reqVo) {
         return null;
     }
 
     @Override
-    public void applyReturn(OrderApplyReturnReqVo reqVo) {
-
+    public MicroServiceResult<PaymentRespVo> createOrderWechat(OrderCreateWechatReqVo reqVo) {
+        return null;
     }
 
     @Override
-    public String getTestString() {
+    public MicroServiceResult applyReturn(OrderApplyReturnReqVo reqVo) {
+        return null;
+    }
+
+    @Override
+    public MicroServiceResult<String> getTestString() {
         return null;
     }
 

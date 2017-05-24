@@ -29,12 +29,6 @@ public class SinglePurchaseGiftPromotionProduct extends BaseEntity {
     private Product product;
 
     /**
-     * 促销价
-     */
-    @Column
-    private Integer promotionPrice;
-
-    /**
      * 达标数量限制
      */
     @Column
@@ -52,20 +46,18 @@ public class SinglePurchaseGiftPromotionProduct extends BaseEntity {
     @Column
     private Integer giftQuantityLimit;
 
+    /**
+     * 是否限制赠品库存
+     */
+    @Column
+    private Boolean isLimitStock = Boolean.TRUE;
+
     public Product getProduct() {
         return product;
     }
 
     public void setProduct(Product product) {
         this.product = product;
-    }
-
-    public Integer getPromotionPrice() {
-        return promotionPrice;
-    }
-
-    public void setPromotionPrice(Integer promotionPrice) {
-        this.promotionPrice = promotionPrice;
     }
 
     public Integer getQuantityLimit() {
@@ -90,5 +82,21 @@ public class SinglePurchaseGiftPromotionProduct extends BaseEntity {
 
     public void setGiftQuantityLimit(Integer giftQuantityLimit) {
         this.giftQuantityLimit = giftQuantityLimit;
+    }
+
+    public SinglePurchaseGiftPromotion getSinglePurchaseGiftPromotion() {
+        return singlePurchaseGiftPromotion;
+    }
+
+    public void setSinglePurchaseGiftPromotion(SinglePurchaseGiftPromotion singlePurchaseGiftPromotion) {
+        this.singlePurchaseGiftPromotion = singlePurchaseGiftPromotion;
+    }
+
+    public Boolean getLimitStock() {
+        return isLimitStock;
+    }
+
+    public void setLimitStock(Boolean limitStock) {
+        isLimitStock = limitStock;
     }
 }
