@@ -189,7 +189,7 @@ public class ShopSoaController extends BaseRestController {
      * 获取单个商户待审核信息
      */
     @RequestMapping(value = "findShopAuditDataOfWaitForAuditByShopId", method = RequestMethod.POST)
-    public ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(@RequestBody Long shopId) {
+    public ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(@RequestParam("shopId") Long shopId) {
         return shopSoaService.findShopAuditDataOfWaitForAuditByShopId(shopId);
     }
 

@@ -85,7 +85,7 @@ public interface ShopFeignClient {
      * 获取单个商户待审核信息
      */
     @RequestMapping(value = "soa/shop/findShopAuditDataOfWaitForAuditByShopId", method = RequestMethod.POST)
-    ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(@RequestBody Long shopId);
+    ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(@RequestParam("shopId") Long shopId);
 
 
     /**
@@ -94,6 +94,12 @@ public interface ShopFeignClient {
     @RequestMapping(value = "soa/shop/isBusinessLicenceIdExist", method = RequestMethod.POST)
     Boolean isBusinessLicenceIdExist(@RequestParam("businessLicenceId") String businessLicenceId,
                                             @RequestParam("shopId") Long shopId);
+
+    /**
+     * 判断businessLicenceId在数据库中是否已经存在 不限商户查询
+     */
+    @RequestMapping(value = "soa/shop/findShopByBusinessLicenceId", method = RequestMethod.POST)
+    Boolean findShopByBusinessLicenceId(@RequestParam("businessLicenceId") String businessLicenceId);
 
 
     /**
