@@ -1,11 +1,10 @@
 package com.biz.soa.order.builder;
 
 import com.biz.core.asserts.SystemAsserts;
-import com.biz.gbck.dao.redis.ro.org.ShopRo;
-import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.vo.order.resp.OrderItemRespVo;
 import com.biz.gbck.vo.order.resp.OrderPromotionRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
+import com.biz.gbck.vo.org.UserInfoVo;
 import com.biz.soa.order.util.OrderUtil;
 
 import java.util.List;
@@ -38,18 +37,6 @@ public class OrderSettlePageRespVoBuilder {
     //运费
     public OrderSettlePageRespVoBuilder setFreight(Integer freight){
         this.respVo.setFreight(freight);
-        return this;
-    }
-
-    //用户ro
-    public OrderSettlePageRespVoBuilder setUserRo(UserRo userRo){
-        this.respVo.setUserRo(userRo);
-        return this;
-    }
-
-    //店铺ro
-    public OrderSettlePageRespVoBuilder setShopRo(ShopRo shopRo){
-        this.respVo.setShopRo(shopRo);
         return this;
     }
 
@@ -87,10 +74,11 @@ public class OrderSettlePageRespVoBuilder {
     }
 
     //收货人信息
-    public OrderSettlePageRespVoBuilder setBuyerInfo(ShopRo shopRo){
-        this.respVo.setBuyerName(shopRo.getDeliveryName());
-        this.respVo.setBuyerMobile(shopRo.getDeliveryMobile());
-        this.respVo.setBuyerAddress(shopRo.getDeliveryAddress());
+    public OrderSettlePageRespVoBuilder setBuyerInfo(UserInfoVo userInfoVo){
+        this.respVo.setBuyerName(userInfoVo.getUsableDeliveryName());
+        this.respVo.setBuyerMobile(userInfoVo.getDeliveryMobile());
+        this.respVo.setBuyerAddress(userInfoVo.getDeliveryAddress());
+        this.respVo.setUserInfoVo(userInfoVo);
         return this;
     }
 
