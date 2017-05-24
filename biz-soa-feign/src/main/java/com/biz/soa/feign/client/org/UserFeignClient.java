@@ -98,7 +98,7 @@ public interface UserFeignClient {
     @RequestMapping(value = "findUserPoByAccount", method = RequestMethod.POST)
     UserPo findUserPoByAccount(@RequestParam("account") String account);
 
-    @RequestMapping(value = "/soa/user/findUserInfo", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/soa/user/findUserInfo", method =RequestMethod.POST)
     UserInfoVo findUserInfo(@RequestParam("userId") Long userId) throws DepotNextDoorException;
 
     /**

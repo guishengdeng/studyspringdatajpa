@@ -37,6 +37,22 @@ public class PartnerSearchVo {
 	@Max(100)
 	private Integer pageSize = 20;
 
+	public PartnerSearchVo() {
+	}
+
+	public PartnerSearchVo(Long platformId) {
+		this.platformId = platformId;
+		this.pageSize=Integer.MAX_VALUE;
+	}
+
+	public PartnerSearchVo(Long id, String corporateName, String mobile, Long platformId, Integer page, Integer pageSize) {
+		this.id = id;
+		this.corporateName = corporateName;
+		this.mobile = mobile;
+		this.platformId = platformId;
+		this.page = page;
+		this.pageSize = pageSize;
+	}
 
 	public Long getId() {
 		return id;

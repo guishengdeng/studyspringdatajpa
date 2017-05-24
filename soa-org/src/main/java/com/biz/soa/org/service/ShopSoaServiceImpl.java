@@ -12,23 +12,14 @@ import com.biz.gbck.common.vo.statistic.ShopAuditStatisticResultVo;
 import com.biz.gbck.dao.mysql.po.geo.CityPo;
 import com.biz.gbck.dao.mysql.po.geo.DistrictPo;
 import com.biz.gbck.dao.mysql.po.geo.ProvincePo;
-import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
-import com.biz.gbck.dao.mysql.po.org.ShopLevel;
-import com.biz.gbck.dao.mysql.po.org.ShopPo;
-import com.biz.gbck.dao.mysql.po.org.ShopQualificationPo;
-import com.biz.gbck.dao.mysql.po.org.ShopTypePo;
-import com.biz.gbck.dao.mysql.po.org.UserPo;
+import com.biz.gbck.dao.mysql.po.org.*;
 import com.biz.gbck.dao.mysql.po.payment.LoanApplyType;
 import com.biz.gbck.dao.mysql.po.payment.ZsgfApplyStatus;
 import com.biz.gbck.dao.mysql.po.payment.ZsgfLoanApplyPo;
 import com.biz.gbck.dao.mysql.repository.geo.CityRepository;
 import com.biz.gbck.dao.mysql.repository.geo.DistrictRepository;
 import com.biz.gbck.dao.mysql.repository.geo.ProvinceRepository;
-import com.biz.gbck.dao.mysql.repository.org.ShopDetailRepository;
-import com.biz.gbck.dao.mysql.repository.org.ShopQualificationRepository;
-import com.biz.gbck.dao.mysql.repository.org.ShopRepository;
-import com.biz.gbck.dao.mysql.repository.org.ShopTypeRepository;
-import com.biz.gbck.dao.mysql.repository.org.UserRepository;
+import com.biz.gbck.dao.mysql.repository.org.*;
 import com.biz.gbck.dao.mysql.specification.org.ShopSearchSpecification;
 import com.biz.gbck.dao.redis.repository.org.ShopRedisDao;
 import com.biz.gbck.dao.redis.repository.org.UserRedisDao;
@@ -148,6 +139,9 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
 
     @Autowired
     private ShopSoaService shopSoaService;
+
+    @Autowired
+    private PartnerRepository partnerRepository;
 
 //    @Autowired
 //    private IdPool idPool;
@@ -1582,6 +1576,16 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
             shop = shopDetailRepository.findOne(reqVo.getShopDetailId()).getShop();
         } else {
             shop = shopQualificationRepository.findOne(reqVo.getShopQualificationId()).getShop();
+        }
+        if(reqVo.getPartnerId() != null){
+            shop.setPartner(partnerRepository.findOne(reqVo.getPartnerId())); //set城市合伙人
+        }
+        this.save(shop);//修改城市合伙人
+        Set<UserPo> userPos=shop.getUsers();
+        if(CollectionUtils.isNotEmpty(userPos)){
+            for(UserPo userPo:userPos){
+                userSoaService.saveUser(userPo);
+            }
         }
         String mobile = shop.getMobile();
       /* 消息发送  if (reqVo.getAuditStatus() == AuditStatus.NORMAL) {

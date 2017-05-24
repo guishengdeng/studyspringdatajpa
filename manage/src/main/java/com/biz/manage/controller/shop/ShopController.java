@@ -7,17 +7,22 @@ import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
 import com.biz.gbck.dao.mysql.po.org.ShopPo;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
+import com.biz.gbck.dao.mysql.po.security.Admin;
 import com.biz.gbck.enums.CommonStatusEnum;
+import com.biz.gbck.enums.org.CompanyLevel;
 import com.biz.gbck.enums.user.AuditRejectReason;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopTypeStatus;
 import com.biz.gbck.vo.org.*;
+import com.biz.gbck.vo.platform.PartnerSearchResVo;
+import com.biz.gbck.vo.platform.PartnerSearchVo;
 import com.biz.gbck.vo.spring.PageVO;
 import com.biz.manage.controller.BaseController;
 import com.biz.manage.util.AuthorityUtil;
 import com.biz.service.org.interfaces.ShopService;
 import com.biz.service.org.interfaces.ShopTypeService;
 import com.biz.service.org.interfaces.UserService;
+import com.biz.soa.feign.client.org.PlatformFeignClient;
 import com.biz.soa.feign.client.org.ShopFeignClient;
 import com.biz.soa.feign.client.org.UserFeignClient;
 import org.apache.commons.lang.StringUtils;
@@ -53,6 +58,9 @@ public class ShopController extends BaseController {
 
     @Autowired
     private OssConfig config;
+
+    @Autowired
+    private PlatformFeignClient platformFeignClient;
 
 
     /**
@@ -131,6 +139,24 @@ public class ShopController extends BaseController {
                 newArrayList(AuditStatus.NORMAL, AuditStatus.AUDIT_FAILED);
         modelAndView.addObject("auditStatusList", auditStatusList).
                 addObject("auditRejectReasons", auditRejectReasons);
+        Admin admin=(Admin) AuthorityUtil.getLoginUser();
+        if(admin != null && admin.getCompany() != null){
+            if(admin.getCompany().getCompanyLevel() == CompanyLevel.ORG_PLATFORM){
+                PageVO<PartnerSearchResVo> partners = platformFeignClient.findPartnerList(new PartnerSearchVo(admin.getCompany().getId()));
+                modelAndView.addObject("partners", partners.getContent());
+            }
+        }
+        /**-----下面为测试数据需要删除--------**/
+        PageVO<PartnerSearchResVo> partners = new PageVO<PartnerSearchResVo>();
+        List<PartnerSearchResVo> partnerSearchResVos=newArrayList();
+        PartnerSearchResVo vo=new PartnerSearchResVo();
+        vo.setId(359874944668536832l);vo.setName("测试公司");
+        partnerSearchResVos.add(vo);
+        PartnerSearchResVo vo2=new PartnerSearchResVo();
+        vo2.setId(359884283051511808l);vo2.setName("茅台");
+        partnerSearchResVos.add(vo2);
+        partners.setContent(partnerSearchResVos);
+        modelAndView.addObject("partners", partners.getContent());
         return modelAndView;
     }
 
@@ -204,6 +230,13 @@ public class ShopController extends BaseController {
                 newArrayList(AuditStatus.NORMAL, AuditStatus.AUDIT_FAILED,AuditStatus.WAIT_FOR_AUDIT);
         modelAndView.addObject("auditStatusList", auditStatusList).
                 addObject("auditRejectReasons", auditRejectReasons);
+        Admin admin=(Admin) AuthorityUtil.getLoginUser();
+        if(admin != null && admin.getCompany() != null){
+            if(admin.getCompany().getCompanyLevel() == CompanyLevel.ORG_PLATFORM){
+                PageVO<PartnerSearchResVo> partners = platformFeignClient.findPartnerList(new PartnerSearchVo(admin.getCompany().getId()));
+                modelAndView.addObject("partners", partners.getContent());
+            }
+        }
         if(msg != null){
             modelAndView.addObject("msg",msg==1?"修改成功":"修改失败");
         }
