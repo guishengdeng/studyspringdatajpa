@@ -56,6 +56,7 @@ import com.biz.soa.org.event.ShopQualificationUpdateEvent;
 import com.biz.soa.org.service.interfaces.ShopSoaService;
 import com.biz.soa.org.service.interfaces.UserSoaService;
 import com.biz.soa.org.transformer.ShopAuditDataMapToShopDetailResVo;
+import com.biz.soa.org.transformer.ShopAuditDataMapToShopDetailResVos;
 import com.biz.soa.org.transformer.ShopDetailPoPageToShopDetailResVoPage;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -1613,14 +1614,42 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
         }*/
     }
 
+    @Override
+    public  List<ShopDetailResVo>  findAllWaitForShop() {
+        List<ShopDetailPo> shopsOfDetailWaitForAudit = shopDetailRepository
+                .findByAuditStatusInOrderByCreateTimeDesc(
+                        newArrayList(AuditStatus.WAIT_FOR_AUDIT.getValue(),
+                                AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue()));
 
+        List<ShopQualificationPo> shopsOfQualificationWaitForAudit = shopQualificationRepository
+                .findByAuditStatusInOrderByIdDesc(newArrayList(AuditStatus.WAIT_FOR_AUDIT.getValue(),
+                        AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue()));
 
+        ShopAuditDataMap shopAuditDataMap =
+                new ShopAuditDataMap(shopsOfDetailWaitForAudit, shopsOfQualificationWaitForAudit);
+        List<Long> shopNeedToRemove = newArrayList();
+        for (Map.Entry<Long, ShopAuditVo> shopAuditVoEntry : shopAuditDataMap.entrySet()) {
 
-
-
-
-
-
+            Long shopId = shopAuditVoEntry.getKey();
+            if (shopAuditVoEntry.getValue().getShopQualification() == null
+                    && shopAuditVoEntry.getValue().getShopDetail() != null && !Objects
+                    .equals(shopAuditVoEntry.getValue().getShopDetail().getAuditStatus(),
+                            AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue())) {
+                shopNeedToRemove.add(shopId);
+                continue;
+            }
+            if (shopAuditVoEntry.getValue().getShopDetail() == null) {
+                List<ShopDetailPo> shopDetails =
+                        shopDetailRepository.findByShopIdOrderByIdDesc(shopId);
+                shopAuditVoEntry.getValue()
+                        .setShopDetail(CollectionUtils.getFirstOrNull(shopDetails));
+            }
+        }
+        for (Long shopId : shopNeedToRemove) {
+            shopAuditDataMap.remove(shopId);
+        }
+        return  new ShopAuditDataMapToShopDetailResVos().apply(shopAuditDataMap);
+    }
 
 
     /**

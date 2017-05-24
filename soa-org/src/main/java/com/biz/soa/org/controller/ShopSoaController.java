@@ -170,6 +170,14 @@ public class ShopSoaController extends BaseRestController {
     }
 
     /**
+     * 获取所有未审核商户
+     */
+    @RequestMapping(value = "findAllWaitForShop", method = RequestMethod.POST)
+    public List<ShopDetailResVo> findAllWaitForShop(){
+        return shopSoaService.findAllWaitForShop();
+    }
+
+    /**
      *获取所有条件审核商户
      */
     @RequestMapping(value = "findShopAuditDataOfWaitForAudit", method = RequestMethod.POST)

@@ -1,6 +1,8 @@
 package com.biz.manage.controller.shop;
 
 
+import com.biz.core.ali.oss.config.OssConfig;
+import com.biz.core.ali.oss.util.OssUtil;
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
 import com.biz.gbck.dao.mysql.po.org.ShopPo;
@@ -49,23 +51,26 @@ public class ShopController extends BaseController {
     @Autowired
     private UserFeignClient userFeignClient;
 
+    @Autowired
+    private OssConfig config;
+
 
     /**
-     * 列出所有未审核通过的商铺
+     * 列出所有未审核通过的商铺 ShopSearchVo vo
      */
     @GetMapping
     @RequestMapping(value = "auditList")
     @PreAuthorize("hasAuthority('OPT_SHOP_AUDITLIST')")
-    public ModelAndView listShopOfWaitForAudit(ShopSearchVo vo)
+    public ModelAndView listShopOfWaitForAudit()
             throws CommonException {
 
         logger.debug("Received /shops/auditList GET request.");
-        vo.setAuditStatus( AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue());
-        vo.setAuditStatusTwo(AuditStatus.WAIT_FOR_AUDIT.getValue());
+      /*  vo.setAuditStatus( AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue());
+        vo.setAuditStatusTwo(AuditStatus.WAIT_FOR_AUDIT.getValue());*/
         ModelAndView mav = new ModelAndView("/org/shop/auditList");
-        Page<ShopDetailResVo> shopSearchResVoPage = shopFeignClient.findShopAuditDataOfWaitForAudit(vo);
-        mav.addObject("shopSearchResVoPage", shopSearchResVoPage);
-        mav.addObject("vo", vo);
+        List<ShopDetailResVo> vos = shopFeignClient.findAllWaitForShop();
+        mav.addObject("vos", vos);
+        /*mav.addObject("vo", vo);*/
         return mav;
     }
 
@@ -91,6 +96,10 @@ public class ShopController extends BaseController {
 
     /**
      * 进入商户审核界面
+     * corporateIdPhoto; //法人身份证
+     * liquorSellLicence; //酒类流通许可证
+     * shopPhoto; //门头照片
+     * businessLicence; //营业执照
      */
     @RequestMapping(value = "audit", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('OPT_SHOP_AUDIT')")
@@ -109,6 +118,10 @@ public class ShopController extends BaseController {
                     if (auditRejectReason != AuditRejectReason.DETAIL_INVALID)
                         auditRejectReasons.add(auditRejectReason);
                 }
+            shopDetailResVo.setCorporateIdPhoto(this.findImgUrl(shopDetailResVo.getCorporateIdPhoto()));
+            shopDetailResVo.setLiquorSellLicence(this.findImgUrl(shopDetailResVo.getLiquorSellLicence()));
+            shopDetailResVo.setShopPhoto(this.findImgUrl(shopDetailResVo.getShopPhoto()));
+            shopDetailResVo.setBusinessLicence(this.findImgUrl(shopDetailResVo.getBusinessLicence()));
         } else {
             logger.info("No audit data for shopId:{}.", shopId);
             return modelAndView;
@@ -178,6 +191,10 @@ public class ShopController extends BaseController {
                 if (auditRejectReason != AuditRejectReason.DETAIL_INVALID)
                     auditRejectReasons.add(auditRejectReason);
             }
+            shopDetailResVo.setCorporateIdPhoto(this.findImgUrl(shopDetailResVo.getCorporateIdPhoto()));
+            shopDetailResVo.setLiquorSellLicence(this.findImgUrl(shopDetailResVo.getLiquorSellLicence()));
+            shopDetailResVo.setShopPhoto(this.findImgUrl(shopDetailResVo.getShopPhoto()));
+            shopDetailResVo.setBusinessLicence(this.findImgUrl(shopDetailResVo.getBusinessLicence()));
         } else {
             logger.debug("No audit data for shopId:{}.", shopId);
             return modelAndView;
@@ -688,5 +705,21 @@ public class ShopController extends BaseController {
                 .addObject("shopStatusList", shopStatusList)
                 .addObject("emp", depotEmployeeService.getDepotEmployeeById(shop.getInviterCode()));
     }*/
+
+    /**
+     * 查询图片地址
+     * @param imageName
+     * @return
+     */
+    private String findImgUrl(String imageName){
+        if(StringUtils.isNotBlank(imageName)){
+        try{
+            return OssUtil.getOssResourceUri(config.getProductBucketName(), config.getRemoteEndpoint(), imageName);
+        }catch (Exception e){
+          e.printStackTrace();
+        }
+        }
+        return "";
+    }
 
 }
