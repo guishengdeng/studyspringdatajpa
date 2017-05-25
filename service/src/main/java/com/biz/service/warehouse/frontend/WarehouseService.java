@@ -1,5 +1,6 @@
 package com.biz.service.warehouse.frontend;
 
+import com.biz.gbck.enums.org.CompanyLevel;
 import com.biz.gbck.vo.warehouse.WarehouseResponseVo;
 import java.util.List;
 
@@ -31,6 +32,8 @@ public interface WarehouseService {
      * @return 单个省仓的具体信息
      */
     WarehouseResponseVo findByProvinceId(Integer provinceId);
+
+
 
 }
 

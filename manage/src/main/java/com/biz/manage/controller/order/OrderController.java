@@ -14,9 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -43,12 +41,18 @@ public class OrderController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('OPT_ORDER_LIST')")
-    public ModelAndView list(OrderQueryReqVo vo){
+    public ModelAndView list(@ModelAttribute OrderQueryReqVo vo){
         Page<Order> page = orderBackendService.queryOrdersByCondition(vo);
         List<PlatFormRespVo> platFormRespVo = platformService.getNotDuplicatedName();
         List<PartnerRespVo> partnerRespVos = partnerService.getNotDuplicatePartnerName();
         return new ModelAndView("ord/order/list","orderPage",orderBackendService.pageOrder2PageRespVo(page))
                 .addObject("platFormRespVo",platFormRespVo)
                 .addObject("partnerRespVos",partnerRespVos);
+    }
+    @PostMapping("/findPartners")
+    @PreAuthorize("hasAuthority('OPT_ORDER_LIST')")
+    @ResponseBody
+    public List<PartnerRespVo> findPartnersByPlatFormId(Long platFormId){
+        return partnerService.getPartnersByPlatFormId(platFormId);
     }
 }

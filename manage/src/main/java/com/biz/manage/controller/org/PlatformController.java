@@ -1,10 +1,9 @@
 package com.biz.manage.controller.org;
 
-import com.biz.gbck.vo.platform.PartnerSearchResVo;
-import com.biz.gbck.vo.platform.PartnerSearchVo;
-import com.biz.gbck.vo.platform.PlatformResSearchVo;
-import com.biz.gbck.vo.platform.PlatformSearchVo;
+import com.biz.gbck.enums.org.CompanyLevel;
+import com.biz.gbck.vo.platform.*;
 import com.biz.gbck.vo.spring.PageVO;
+import com.biz.service.org.interfaces.PlatformService;
 import com.biz.soa.feign.client.org.PlatformFeignClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +12,12 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 /**
  * 平台公司
@@ -28,6 +31,9 @@ public class PlatformController {
 
     @Autowired
     private PlatformFeignClient platformFeignClient;
+
+    @Autowired
+    private PlatformService platformService;
 
     /**
      * 进入平台公司列表
@@ -93,6 +99,13 @@ public class PlatformController {
 //        return new ModelAndView("redirect:/companyGroup/list.do");
 //    }
 
+      @PostMapping("/findByCompanyLevel")
+      @PreAuthorize("hasAuthority('OPT_PLATFORM_LIST')")
+      @ResponseBody
+      public List<PlatFormRespVo> findByCompanyLevel(CompanyLevel companyLevel){
+
+          return platformService.getRespVoByCompanyLevel(companyLevel);
+      }
 
 
 }

@@ -30,6 +30,15 @@ OrderQueryReqVo implements Serializable {
     //在没给查询条件时,默认是根据订单日期进行查询
     private String beginTimestamp = "2010/02/01 14:20:14";
     private String endTimestamp = "2017/05/31 16:19:42";
+    private Long platFormId;
+
+    public Long getPlatFormId() {
+        return platFormId;
+    }
+
+    public void setPlatFormId(Long platFormId) {
+        this.platFormId = platFormId;
+    }
 
     @Min(1)
     private Integer page = 1;

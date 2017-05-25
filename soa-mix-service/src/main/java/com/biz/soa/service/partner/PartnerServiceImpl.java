@@ -47,7 +47,7 @@ public class PartnerServiceImpl implements PartnerService {
 
     @Override
     public List<PartnerPo> listByName(String name) {
-        return partnerRepository.getIdsByNameLike(name);
+        return partnerRepository.getPartnerPosByName(name);
     }
 
     @Override

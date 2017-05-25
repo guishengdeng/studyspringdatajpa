@@ -47,9 +47,9 @@ public class OrderBackendServiceImpl extends AbstractBaseService implements Orde
     @Override
     public Page<Order> queryOrdersByCondition(OrderQueryReqVo vo) {
         this.reqVo = vo;
-        List<PlatformPo> platformPos = platformService.listByName(vo.getPlatFormCompanyName());
+       // List<PlatformPo> platformPos = platformService.listByName(vo.getPlatFormCompanyName());
         List<PartnerPo> partnerPos = partnerService.listByName(vo.getPartnerName());
-        return orderRepository.findAll(new OrderSearchSpecification(vo,platformPos,partnerPos),new PageRequest(vo.getPage()-1,vo.getPageSize()));
+        return orderRepository.findAll(new OrderSearchSpecification(vo,partnerPos),new PageRequest(vo.getPage()-1,vo.getPageSize()));
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.biz.service.partner.interfaces;
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.org.PartnerPo;
 import com.biz.gbck.dao.mysql.po.org.PlatformPo;
+import com.biz.gbck.enums.org.CompanyLevel;
 import com.biz.gbck.exceptions.partner.PartnerExceptions;
 import com.biz.gbck.vo.platform.PartnerRespVo;
 import com.biz.vo.partner.PartnerDetailRespVo;
@@ -31,4 +32,8 @@ public interface PartnerService {
     List<PartnerPo>  findByIds(Iterable<Long> iterable);
 
     List<PartnerRespVo> getNotDuplicatePartnerName();
+
+    List<PartnerRespVo> getPartnersByPlatFormId(Long id);
+
+    List<PartnerRespVo> getRespVoByCompanyLevel(CompanyLevel companyLevel);
 }

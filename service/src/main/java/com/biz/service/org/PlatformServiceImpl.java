@@ -6,6 +6,7 @@ import com.biz.gbck.dao.mysql.repository.org.PartnerRepository;
 import com.biz.gbck.dao.mysql.repository.org.PlatformRepository;
 import com.biz.gbck.dao.mysql.specification.platform.PartnerSearchSpecification;
 import com.biz.gbck.dao.mysql.specification.platform.PlatformSearchSpecification;
+import com.biz.gbck.enums.org.CompanyLevel;
 import com.biz.gbck.vo.org.ShopSearchVo;
 import com.biz.gbck.vo.platform.PartnerSearchVo;
 import com.biz.gbck.vo.platform.PlatFormRespVo;
@@ -86,12 +87,13 @@ public class PlatformServiceImpl extends AbstractBaseService implements Platform
 
     @Override
     public List<PlatFormRespVo> getNotDuplicatedName() {
-         List<String> list = platformRepository.removeDuplicateName();
-        List<PlatFormRespVo> listVo = Lists.newArrayList();
+         List<PlatformPo> list = platformRepository.findAll();
+         List<PlatFormRespVo> listVo = Lists.newArrayList();
          if(CollectionUtils.isNotEmpty(list)){
-             for(String name :list){
+             for(PlatformPo platformPo : list){
                  PlatFormRespVo vo = new PlatFormRespVo();
-                 vo.setPlatFormName(name);
+                 vo.setPlatFormName(platformPo.getName());
+                 vo.setId(platformPo.getId());
                  listVo.add(vo);
              }
          }
@@ -101,5 +103,20 @@ public class PlatformServiceImpl extends AbstractBaseService implements Platform
     @Override
     public List<PlatformPo> findByIds(Iterable<Long> iterable) {
         return platformRepository.findAll(iterable);
+    }
+
+    @Override
+    public List<PlatFormRespVo> getRespVoByCompanyLevel(CompanyLevel companyLevel) {
+        List<PlatFormRespVo> voList = Lists.newArrayList();
+        List<PlatformPo> poList = platformRepository.findByCompanyLevel(companyLevel);
+        if(CollectionUtils.isNotEmpty(poList)){
+            for(PlatformPo platformPo : poList){
+                PlatFormRespVo vo = new PlatFormRespVo();
+                vo.setId(platformPo.getId());
+                vo.setPlatFormName(platformPo.getName());
+                voList.add(vo);
+            }
+        }
+        return voList;
     }
 }

@@ -32,11 +32,11 @@ import java.util.List;
  */
 public class OrderSearchSpecification implements Specification<Order> {
     private OrderQueryReqVo vo;
-    private List<PlatformPo> platformPos;
+    //private List<PlatformPo> platformPos;
     private List<PartnerPo> partnerPos;
-    public OrderSearchSpecification(OrderQueryReqVo vo,List<PlatformPo> platformPos,List<PartnerPo> partnerPos){
+    public OrderSearchSpecification(OrderQueryReqVo vo,List<PartnerPo> partnerPos){
         this.vo = vo;
-        this.platformPos = platformPos;
+        //this.platformPos = platformPos;
         this.partnerPos = partnerPos;
     }
 
@@ -66,14 +66,14 @@ public class OrderSearchSpecification implements Specification<Order> {
             Predicate predicate = criteriaBuilder.equal(root.get("sellerId"), partnerPo.getId());
             predicates.add(predicate);*/
         }
-        if(StringUtils.isNotBlank(vo.getPlatFormCompanyName())){
-            //List<Long> idList = platformRepository.getIdsByNameLike(vo.getPlatFormCompanyName());
+        if(vo.getPlatFormId() != null){//vo.getPlatFormCompanyName()
             CriteriaBuilder.In<Long> in = criteriaBuilder.in(root.get("companyId"));
-            if(platformPos != null){
+           /* if(platformPos != null){
                 for(PlatformPo item : platformPos){
                     in.value(item.getId());
                 }
-            }
+            }*/
+             in.value(vo.getPlatFormId());
              predicates.add(in);
            /* PlatformPo po = platformRepository.findByName(vo.getPlatFormCompanyName());
             Predicate predicate = criteriaBuilder.equal(root.get("companyId"), platformPo.getId());

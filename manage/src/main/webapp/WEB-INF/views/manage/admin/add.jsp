@@ -1,14 +1,20 @@
+<%@page import="com.biz.gbck.enums.org.CompanyLevel" %>
 <%@page contentType="text/html; charset=utf-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="depotnextdoor" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%--这是用户--%>
+<%
+    request.setAttribute("_companyLevelArray_", CompanyLevel.values());
+%>
 <depotnextdoor:page title="用户列表edit">
-
     <jsp:attribute name="script">
         <script type="application/javascript">
-             $('#confirm').on("click",function(){
+            $(function(){
+                $('#companyLevelSons').hide();
+            });
+            $('#confirm').on("click",function(){
                  var cmd = $('#cmd').val();
                  var username = $('#username').val().trim();
 
@@ -43,6 +49,57 @@
                      }
                  });
              });
+             function changeCompanyLevel(value){
+                 if(value == "" || !value){
+                     layer.msg("请手动选择后台账号级别");
+                     return false;
+                 }
+                 if(value == "ORG_PLATFORM"){
+                     $.ajax({
+                         method : "POST",
+                         url : "platform/findByCompanyLevel.do",
+                         data : {"companyLevel":value}
+                     }).done(function(result){
+                         $('#companyLevelSons').show();
+                         $('#companyLabel').html("公司");
+                         $('#companySelect').empty();
+                         for(var index=0;index<result.length;index++){
+                             $('#companySelect').show();
+                              $('#companySelect').append('<option value="'+result[index].id+'">'+result[index].platFormName+'</option>');
+                         }
+                     });
+                 }
+                 if(value == "ORG_PARTNER"){
+                     $.ajax({
+                         method : "POST",
+                         url : "partner/findByCompanyLevel.do",
+                         data : {"companyLevel":value}
+                     }).done(function(result){
+                         $('#companyLevelSons').show();
+                         $('#companyLabel').html("合伙人");
+                         $('#companySelect').empty();
+                         for(var index=0;index<result.length;index++){
+                             $('#companySelect').show();
+                             $('#companySelect').append('<option value="'+result[index].id+'">'+result[index].partnerName+'</option>');
+                         }
+                     });
+                 }
+                 if(value == "ORG_WAREHOUSE"){
+                     $.ajax({
+                         method : "POST",
+                         url : "wareHouse/findByCompanyLevel.do",
+                         data : {"companyLevel":value}
+                     }).done(function(result){
+                         $('#companyLevelSons').show();
+                         $('#companyLabel').html("隔壁仓库");
+                         $('#companySelect').empty();
+                         for(var index=0;index<result.length;index++){
+                             $('#companySelect').show();
+                             $('#companySelect').append('<option value="'+result[index].id+'">'+result[index].name+'</option>');
+                         }
+                     });
+                 }
+             }
         </script>
         <script type="application/javascript">
             <c:forEach items="${admin.roles}" var="role" varStatus="status">
@@ -100,7 +157,7 @@
 
                                             <div class="col-sm-9">
                                                 <input ${empty admin ? '' : 'readonly'}
-                                                        class="required col-xs-10 col-sm-5"
+                                                        class="col-xs-10 col-sm-5"
                                                         type="text"
                                                         id="username"
                                                         placeholder=""
@@ -136,6 +193,31 @@
                                         <input type="text" id="name" name="name" placeholder=""
                                                value="<c:out value='${admin.name}'/>"
                                                 class="col-xs-10 col-sm-5">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right"
+                                           for="name">
+                                        后台账号级别
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <select name="companyLevel" onchange="changeCompanyLevel(this.value)">
+                                            <option value="">请选择</option>
+                                            <c:forEach items="${_companyLevelArray_}" var="_companyLevel_" varStatus="status" begin="0" end="2" step="1"><%--${fn:length(_companyLevelArray_) - 1}--%>
+                                                <option value="${_companyLevel_.name()}">${_companyLevel_.name}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="companyLevelSons">
+                                    <label class="col-sm-3 control-label no-padding-right"
+                                           for="name" id="companyLabel">
+
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <select name="company" id="companySelect" style="display: none;">
+                                               <option value="">请选择</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <c:if test="${not empty admin.username}">

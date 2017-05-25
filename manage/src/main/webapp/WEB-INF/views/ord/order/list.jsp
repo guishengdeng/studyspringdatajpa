@@ -40,7 +40,28 @@
                 });
 
             });
-
+            function changePlatForm(id){
+                $('#partner').empty();
+                $.ajax({
+                    method : "POST",
+                    url : "orders/findPartners.do",
+                    data : {platFormId:id}
+                }).done(function(result){
+                    $('#partner').empty();
+                      for(var index=0;index<result.length;index++){
+                           $('#partner').append('<option value="'+result[index].partnerName+'">'+result[index].partnerName+'</option>');
+                      }
+                });
+            }
+            $('#query').on('click',function(){
+                   var platForm = $('#platForm').val();
+                   if(platForm=="xxx" || !platForm){
+                       layer.msg("请手动选择平台公司");
+                       return false;
+                   }
+                document.queryName.action = "orders.do";
+                document.queryName.submit();
+            });
         </script>
     </jsp:attribute>
     <jsp:body>
@@ -75,7 +96,7 @@
                                        </span>
                                     </h3>
                                     <%--用作查询的表单框--%>
-                                    <form action="orders.do" method="get" class="form-group">
+                                    <form action="" method="get" class="form-group" name="queryName">
                                             <div class="col-md-3">
                                                 <label>平台公司</label>
                                                 <div class="row">
@@ -83,9 +104,10 @@
                                                         <div class="input-group">
                                                             <%--<input name="platFormCompanyName" class="input-sm form-control" value='<c:out value="${orderReqVo.username}"/>' type="text" placeholder=""/>--%>
                                                                 <%--js-example-basic-multiple --%>
-                                                                <select id="platForm" class="js-example-basic-multiple" name="platFormCompanyName" onchange="">
+                                                                <select id="platForm" class="js-example-basic-multiple" name="platFormId" onchange="changePlatForm(this.value)">
+                                                                    <option value="xxx" >请选择平台公司</option>
                                                                     <c:forEach  items="${platFormRespVo}" var="platForm">
-                                                                        <option value="${platForm.platFormName}" >${platForm.platFormName}</option>
+                                                                        <option value="${platForm.id}" >${platForm.platFormName}</option>
                                                                     </c:forEach>
                                                                 </select>
                                                         </div>
@@ -100,9 +122,10 @@
                                                         <div class="input-group">
                                                             <%--<input name="partnerName" class="input-sm form-control" value='<c:out value="${orderReqVo.username}"/>' type="text" placeholder=""/>--%>
                                                                 <select id="partner" class="js-example-basic-multiple" name="partnerName">
-                                                                    <c:forEach  items="${partnerRespVos}" var="partner">
+                                                                    <option value="" >请选择城市合伙人</option>
+                                                                        <%-- <c:forEach  items="${partnerRespVos}" var="partner">
                                                                         <option value="${partner.partnerName}" >${partner.partnerName}</option>
-                                                                    </c:forEach>
+                                                                    </c:forEach>--%>
                                                                 </select>
                                                         </div>
                                                     </div>
@@ -127,7 +150,7 @@
                                                 <div class="row">
                                                     <div class="col-xs-8 col-sm-11">
                                                         <div class="input-daterange input-group">
-                                                            <button type="submit" class="btn btn-info btn-sm">
+                                                            <button type="button" class="btn btn-info btn-sm" id="query">
                                                                 <i class="ace-icon fa fa-search bigger-110"></i>搜索
                                                             </button>
                                                         </div>
