@@ -166,8 +166,8 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
             }
 
             //根据促销信息获取优惠券数量
-            int couponCount = this.getUsableCouponCount(reqVo, settleOrderItemVos);
-            builder.setCoupons(couponCount);
+//TODO            int couponCount = this.getUsableCouponCount(reqVo, settleOrderItemVos);
+//            builder.setCoupons(couponCount);
 //            builder.setVoucherAmount(null); //TODO 获取优惠券抵扣金额
 
         }
