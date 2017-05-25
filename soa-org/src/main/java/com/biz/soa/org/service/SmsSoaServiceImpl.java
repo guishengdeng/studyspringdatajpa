@@ -154,12 +154,10 @@ public class SmsSoaServiceImpl extends CommonService implements SmsSoaService {
      */
     public Boolean validateSMSCode(String mobile, SMSType smsType, String smsCode)
             throws CommonException {
-        // todo liubin
-//        validateSMSParameters(mobile, smsType, smsCode);
-//        logger.debug("validate {} smsCode[{}] for mobile[{}]", smsType, smsCode, mobile);
-//        SMSRo smsRo = smsRedisDao.findSMSCode(mobile, smsType);
-//        return smsRo != null && smsCode.equalsIgnoreCase(smsRo.getCode());
-        return true;
+        validateSMSParameters(mobile, smsType, smsCode);
+        logger.info("validate {} smsCode[{}] for mobile[{}]", smsType, smsCode, mobile);
+        SMSRo smsRo = smsRedisDao.findSMSCode(mobile, smsType);
+        return smsRo != null && smsCode.equalsIgnoreCase(smsRo.getCode());
     }
 
     private void validateSMSParameters(String mobile, SMSType smsType, String smsCode)
