@@ -121,7 +121,7 @@ public class GlobalSoaController extends BaseRestController{
     public List<BucketResVo> getOssBuckets() {
         List<BucketResVo> bucketResVos=newArrayList();
         bucketResVos.add(new BucketResVo("product",config.getProductBucketName()));
-        bucketResVos.add(new BucketResVo("audit",config.getProductBucketName()));
+        bucketResVos.add(new BucketResVo("audit",config.getAuditBucketName()));
         return bucketResVos;
     }
 
