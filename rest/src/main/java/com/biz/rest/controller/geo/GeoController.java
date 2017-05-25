@@ -32,7 +32,7 @@ import java.util.List;
 
 
     /**
-     * 获取1,2,3（省市县）级菜单对应集合
+     * 获取所有省
      * @return
      */
     @ResponseBody

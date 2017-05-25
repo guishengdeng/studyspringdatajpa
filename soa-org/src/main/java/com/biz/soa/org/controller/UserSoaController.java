@@ -164,6 +164,7 @@ public class UserSoaController extends BaseRestController {
      */
     @RequestMapping(value = "findUserPoByMobile", method = RequestMethod.POST)
     public UserPo findUserPoByMobile(@RequestParam("mobile") String mobile) {
+        logger.info("findUserPoByMobile mobile is {}", mobile);
         return userSoaService.findUserPoByMobile(mobile);
     }
 
