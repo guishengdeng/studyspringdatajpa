@@ -35,6 +35,8 @@ public class AmqpMessageService extends AbstractBaseMessageService {
 
     @Override
     public AmqpSendStatus send(QueueDefinition queue, BizMessage<?> message) {
+        logger.info("send to queue {}", message.getPayload().toString());
+
         return send(getRouter(queue), message.getPayload(), this.maxRetry, this.retryElapse);
     }
 
