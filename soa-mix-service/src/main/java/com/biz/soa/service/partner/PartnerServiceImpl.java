@@ -3,8 +3,10 @@ package com.biz.soa.service.partner;
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.org.PartnerPo;
 import com.biz.gbck.dao.mysql.repository.org.PartnerRepository;
+import com.biz.gbck.enums.org.CompanyLevel;
 import com.biz.gbck.exceptions.partner.PartnerExceptions;
 import com.biz.gbck.vo.platform.PartnerRespVo;
+import com.biz.gbck.vo.warehouse.WarehouseResponseVo;
 import com.biz.service.partner.interfaces.PartnerService;
 import com.biz.vo.partner.PartnerDetailRespVo;
 import com.biz.vo.partner.PartnerRegisterReqVo;
@@ -67,6 +69,16 @@ public class PartnerServiceImpl implements PartnerService {
             }
         }
         return voList;
+    }
+
+    @Override
+    public List<PartnerRespVo> getPartnersByPlatFormId(Long id) {
+        return null;
+    }
+
+    @Override
+    public List<WarehouseResponseVo> getRespVoByCompanyLevel(CompanyLevel companyLevel) {
+        return null;
     }
 
 

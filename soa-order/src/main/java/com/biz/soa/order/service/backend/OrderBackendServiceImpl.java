@@ -18,7 +18,7 @@ import java.util.List;
  * @reviewer
  * @see
  */
-@Service
+@Service("soaOrderBackendServiceImpl")
 public class OrderBackendServiceImpl extends AbstractOrderService implements OrderBackendService {
 
     @Override
