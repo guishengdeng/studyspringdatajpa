@@ -32,6 +32,12 @@ public interface ShopCartService {
      */
     void deleteCartItems(ShopCartItemBatchDeleteReqVo reqVo) throws DepotNextDoorException;
 
+    /**
+     * 购物车数量更新
+     * @param reqVo
+     */
+    ShopCartRespVo updateCartItemQuantity(ShopCartItemUpdateReqVo reqVo) throws DepotNextDoorException;
+
 
     /**
      * 获取购物车数量

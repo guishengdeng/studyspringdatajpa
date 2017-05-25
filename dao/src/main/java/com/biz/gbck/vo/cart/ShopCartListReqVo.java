@@ -1,5 +1,6 @@
 package com.biz.gbck.vo.cart;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
@@ -11,6 +12,17 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class ShopCartListReqVo extends BaseShopCartReqVo {
 
     private static final long serialVersionUID = 2010073680708198043L;
+
+    @JsonIgnore
+    private boolean showDetail = true;
+
+    public boolean isShowDetail() {
+        return showDetail;
+    }
+
+    public void setShowDetail(boolean showDetail) {
+        this.showDetail = showDetail;
+    }
 
     public ShopCartListReqVo() {
     }

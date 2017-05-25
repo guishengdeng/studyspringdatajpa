@@ -26,6 +26,9 @@ public interface ShopCartFeignClient {
     @RequestMapping(value = "/soa/shopcart/app/delete", method = RequestMethod.POST)
     MicroServiceResult<ShopCartRespVo> deleteCartItems(ShopCartItemBatchDeleteReqVo reqVo);
 
+    @RequestMapping(value = "/soa/shopcart/app/updateQuantity", method = RequestMethod.POST)
+    MicroServiceResult<ShopCartRespVo> updateItemQuantity(ShopCartItemUpdateReqVo reqVo);
+
     @RequestMapping(value = "/soa/shopcart/app/cartNum", method = RequestMethod.POST)
     MicroServiceResult<ShopCartNumRespVo> getCartNum(@RequestBody ShopCartNumReqVo reqVo);
 

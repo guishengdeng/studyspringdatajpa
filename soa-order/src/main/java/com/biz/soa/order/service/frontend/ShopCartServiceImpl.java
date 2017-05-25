@@ -7,6 +7,7 @@ import com.biz.gbck.dao.redis.repository.cart.ShopCartItemRedisDao;
 import com.biz.gbck.dao.redis.ro.cart.ShopCartItemRo;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.DepotNextDoorExceptions;
+import com.biz.gbck.exceptions.cart.CartItemNotExistException;
 import com.biz.gbck.exceptions.cart.CartItemProductInvalidException;
 import com.biz.gbck.exceptions.cart.IllegalParameterException;
 import com.biz.gbck.vo.cart.*;
@@ -136,6 +137,38 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         }
 
         shopCartItemRedisDao.deleteByUserIdAndProductIds(reqVo.getUserId(), reqVo.getProductIds());
+    }
+
+
+    @Override
+    public ShopCartRespVo updateCartItemQuantity(ShopCartItemUpdateReqVo reqVo) throws DepotNextDoorException {
+        if (logger.isDebugEnabled()) {
+            logger.debug("Update shop cart count updateVo: {}", reqVo);
+        }
+
+        if (reqVo == null || reqVo.getUserId() == null) {
+            logger.warn("添加购物车参数不合法");
+            throw new IllegalParameterException("参数不合法");
+        }
+        SystemAsserts.isTrue(reqVo.getQuantity() > 0, "购物车更新数量不能小于0");
+        ShopCartItemRo shopCartItemRo = shopCartItemRedisDao.findByUserIdAndProductId(reqVo.getUserId(), reqVo
+                .getProductId());
+        if (shopCartItemRo != null) {
+            shopCartItemRo.setQuantity(reqVo.getQuantity());
+            shopCartItemRo.setSelected(true);
+            shopCartItemRedisDao.save(shopCartItemRo);
+        } else {
+            throw new CartItemNotExistException("购物车商品不存在");
+        }
+        ShopCartNumReqVo cartNumReqVo = new ShopCartNumReqVo();
+        cartNumReqVo.setUserId(reqVo.getUserId());
+        ShopCartNumRespVo cartNum = this.getCartNum(cartNumReqVo);
+        ShopCartRespVo shopCartRespVo = ShopCartRespVoBuilder.createBuilder().setCartNum(cartNum.getCartNum()).build();
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("更新购物车数量-------请求: {}, 返回值: {}", reqVo, shopCartRespVo);
+        }
+        return shopCartRespVo;
     }
 
     @Override

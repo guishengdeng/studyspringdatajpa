@@ -54,6 +54,15 @@ public class ShopCartController extends BaseRestController {
     /**
      * 添加购物车
      */
+    @RequestMapping("updateQuantity")
+    public JSONResult updateItemQuantity(HttpServletRequest request) {
+        ShopCartItemUpdateReqVo reqVo = RestUtil.parseBizData(request, ShopCartItemUpdateReqVo.class);
+        return RestUtil.parseBizResult(shopCartFeignClient.updateItemQuantity(reqVo));
+    }
+
+    /**
+     * 添加购物车
+     */
     @RequestMapping("delete")
     public JSONResult deleteCartItem(HttpServletRequest request) {
         ShopCartItemBatchDeleteReqVo reqVo = RestUtil.parseBizData(request, ShopCartItemBatchDeleteReqVo.class);
