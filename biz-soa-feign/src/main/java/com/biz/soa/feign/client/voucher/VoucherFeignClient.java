@@ -36,7 +36,7 @@ public interface VoucherFeignClient {
 	public List<VoucherPo> listAllVouchersByUserId(@RequestParam("userId") Long userId);
 
 	@RequestMapping(value = "/soa/voucher/validateAction", method = RequestMethod.POST)
-	public boolean validateDispatcherAction(@RequestBody List<Long> userIds, @RequestParam("shopTypeId") Long shopTypeId, 
+	public Boolean validateDispatcherAction(@RequestBody List<Long> userIds, @RequestParam("shopTypeId") Long shopTypeId,
 				@RequestParam("voucherTypeId") Long voucherTypeId, @RequestParam("dispatcherCnt") int dispatcherCnt);
 
 	@RequestMapping(value = "/soa/voucher/dispatcherVoucher", method = RequestMethod.POST)
