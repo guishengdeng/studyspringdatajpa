@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.biz.gbck.common.model.voucher.VoucherConfigure;
@@ -35,7 +37,7 @@ public class VoucherConfigureController extends SoaBaseController{
 	 * @param voucherType
 	 */
 	@PostMapping(value="/del")
-	public void delete(VoucherConfigure voucherconfigure, Long voucherType) {
+	public void delete(@RequestParam("voucherconfigure") VoucherConfigure voucherconfigure, @RequestParam("voucherType") Long voucherType) {
 		voucherConfigureService.delete(voucherconfigure, voucherType);
 	}
 
@@ -46,7 +48,7 @@ public class VoucherConfigureController extends SoaBaseController{
 	 * @param parseInt
 	 */
 	@PostMapping(value="/save")
-	public void save(VoucherConfigure voucherconfigure, Long voucherType, int parseInt) {
+	public void save(@RequestParam("voucherconfigure") VoucherConfigure voucherconfigure, @RequestParam("voucherType") Long voucherType, @RequestParam("parseInt") int parseInt) {
 		try {
 			voucherConfigureService.save(voucherconfigure, voucherType, parseInt);
 		} catch (Exception e) {
@@ -60,7 +62,7 @@ public class VoucherConfigureController extends SoaBaseController{
 	 * @return
 	 */
 	@PostMapping(value="/getVoucherConfi")
-	public VoucherConfigureRo getVoucherConfigureRo(String voucherconfigure) {
+	public VoucherConfigureRo getVoucherConfigureRo(@RequestParam("voucherconfigure") String voucherconfigure) {
 		return voucherConfigureService.getVoucherConfigureRo(voucherconfigure);
 	}
 }

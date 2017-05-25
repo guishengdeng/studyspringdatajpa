@@ -9,6 +9,8 @@ public class ShopCraftVoucherVo implements Comparable<ShopCraftVoucherVo> {
     private Integer faceValue;
 
     private Integer paymentLimit;
+    
+    private String paymentType;
 
     private Integer maxCount;
 
@@ -114,6 +116,14 @@ public class ShopCraftVoucherVo implements Comparable<ShopCraftVoucherVo> {
 
 	public void setProductIds(String productIds) {
 		this.productIds = productIds;
+	}
+
+	public String getPaymentType() {
+		return paymentType;
+	}
+
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
 	}
 
 	@Override public int compareTo(ShopCraftVoucherVo o) {

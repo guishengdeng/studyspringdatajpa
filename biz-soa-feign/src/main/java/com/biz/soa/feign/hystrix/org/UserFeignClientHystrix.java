@@ -87,7 +87,9 @@ public class UserFeignClientHystrix implements UserFeignClient {
 
     @Override
     public UserInfoVo findUserInfo(Long userId) throws DepotNextDoorException {
-        return null;
+        UserInfoVo testVo = new UserInfoVo();
+        testVo.setName("test");
+        return testVo;
     }
 
     @Override
@@ -109,4 +111,5 @@ public class UserFeignClientHystrix implements UserFeignClient {
     public List<Long> findUserIdByCompanyGroupId(@RequestParam("companyGroupId") Long companyGroupId) {
         return null;
     }
+    
 }
