@@ -149,9 +149,12 @@
                 </div>
             </form></div></div>
             <c:if test="${not empty vouchercfglist}">
-                <div class="page-content">
-                    <a class="col-xs-2 label label-lg label-info arrowed-in arrowed-right">现有优惠券配置</a>
-                    <table class="table  table-bordered table-hover">
+            <div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">现有优惠券配置</h3>
+				</div>
+				<div class="panel-body">
+					<table class="table  table-bordered table-hover">
                         <thead>
                         <tr>
                             <th>优惠券营销类型</th>
@@ -177,7 +180,8 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                </div>
+				</div>
+			</div>
             </c:if>
         </div>
     </jsp:body>

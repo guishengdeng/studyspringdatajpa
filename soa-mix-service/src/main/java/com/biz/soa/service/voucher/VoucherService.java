@@ -112,7 +112,7 @@ public interface VoucherService{
      * 获取可用优惠券
      */
     public List<ShopCraftVoucherVo> getAvailableVouchers(Long userId,
-        List<? extends IProduct> itemVos) throws Exception;
+    		List<? extends IProduct> itemVos) throws Exception;
 
     public List<UserVoucherStatisticResultVo> findUserOrderStatsBy(
         Map<String, Object> searchParams);
@@ -126,6 +126,6 @@ public interface VoucherService{
      * @param dispatcherCnt	发放数量
      * @param loginUsername 发放人
      */
-	public void dispatcherUserGroupsVoucher(String userIdGroupsType, VoucherTypeRo voucherTypeRo, Integer dispatcherCnt,
+	public void dispatcherUserGroupsVoucher(Long userIdGroupsId, VoucherTypeRo voucherTypeRo, Integer dispatcherCnt,
 			String loginUsername);
 }

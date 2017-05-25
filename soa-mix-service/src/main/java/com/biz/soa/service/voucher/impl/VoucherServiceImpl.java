@@ -26,16 +26,19 @@ import com.biz.gbck.dao.mysql.repository.voucher.VoucherDao;
 import com.biz.gbck.dao.mysql.repository.voucher.VoucherRepository;
 import com.biz.gbck.dao.mysql.repository.voucher.VoucherTypeRepository;
 import com.biz.gbck.dao.mysql.specification.voucher.VoucherSearchSpecification;
-//import com.biz.gbck.dao.redis.repository.product.bbc.ProductRedisDao;
+import com.biz.gbck.dao.redis.repository.product.ProductRedisDao;
 import com.biz.gbck.dao.redis.repository.voucher.VoucherRedisDao;
 import com.biz.gbck.dao.redis.repository.voucher.VoucherTypeRedisDao;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
+import com.biz.gbck.dao.redis.ro.product.bbc.ProductRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherConfigureRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeWithQuantity;
+import com.biz.gbck.enums.user.AuditStatus;
+import com.biz.gbck.enums.user.ShopTypeStatus;
 import com.biz.gbck.util.DateTool;
 import com.biz.gbck.vo.order.resp.IProduct;
 import com.biz.gbck.vo.product.frontend.ProductListItemVo;
@@ -48,6 +51,7 @@ import com.biz.service.predicate.VoucherTypePredicate;
 import com.biz.soa.feign.client.global.NoticeFeignClient;
 import com.biz.soa.feign.client.org.ShopFeignClient;
 import com.biz.soa.feign.client.org.ShopTypeFeignClient;
+import com.biz.soa.feign.client.org.UserFeignClient;
 import com.biz.soa.feign.client.sms.SMSFeignClient;
 import com.biz.soa.service.voucher.VoucherConfigureService;
 import com.biz.soa.service.voucher.VoucherService;
@@ -87,8 +91,8 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	@Autowired
 	private ShopTypeFeignClient shopTypeFeignClient;
 	
-//	@Autowired
-//	private UserFeignClient userFeignClient;
+	@Autowired
+	private UserFeignClient userFeignClient;
 	
 	@Autowired
 	private SMSFeignClient sMSFeignClient;
@@ -96,11 +100,11 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	@Autowired
 	private VoucherConfigureService configureService;
 	
-//	@Autowired
-//	private ProductFeignClient productRedisDao;
-	
 	@Autowired 
 	private VoucherDao voucherRepositoryImpl;
+	
+	@Autowired
+	private ProductRedisDao productRedisDao;
 	
 	@Override
 	public Collection<VoucherRo> findUsableVouchersByUserIdAndVoucherType(Long userId, Long voucherTypeId) {
@@ -294,16 +298,15 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
       int voucherTypeVoucherCount = voucherRedisDao.getVoucherTypeVoucherCount(voucherTypeId);
       if (shopTypeId == null) {
           if (CollectionUtils.isEmpty(userIds)) {
-        	  ///TODO
-              List<ShopTypeRo> shopTypes =  null;//shopTypeFeignClient.findAllShopTypeRo(ShopTypeStatus.NORMAL);
+              List<ShopTypeRo> shopTypes =  shopTypeFeignClient.findAllShopTypeRo();
               for (ShopTypeRo ro : shopTypes) {
-            	// TODO Auto-generated method stub
-//                  userCount = userCount + userFeignClient.findUserIdByShopType(Long.valueOf(ro.getId())).size();
+            	  if(ro.getStatus().equals(ShopTypeStatus.NORMAL)){//判断可用商铺类型
+            		  userCount = userCount + userFeignClient.findUserIdByShopType(Long.valueOf(ro.getId())).size();
+            	  }
               }
           }
       } else {
-    	// TODO Auto-generated method stub
-//          userCount = userFeignClient.findUserIdByShopType(shopTypeId).size();
+          userCount = userFeignClient.findUserIdByShopType(shopTypeId).size();
       }
       if ((userCount * dispatcherCount > voucherTypeVoucherCount) || (
           userIds.size() * dispatcherCount > voucherTypeVoucherCount)) {
@@ -328,8 +331,7 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
       String title = "您有一张优惠卷即将到期";
       boolean needMessageFlag = false;
       int voucherCount = 0;
-   // TODO Auto-generated method stub
-      List<UserPo> users = null;//userFeignClient.findAllUserByAuditStatus(AuditStatus.NORMAL);
+      List<UserPo> users = userFeignClient.findAllUserByAuditStatus(AuditStatus.NORMAL);
       for (UserPo user : users) {
           Long userId = user.getId();
           List<VoucherRo> voucherRos = this.voucherRedisDao.listAllUsableVoucher(userId);
@@ -410,6 +412,7 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 		         Map<Long, Long> costMap = Maps.newHashMap();
 		         List<Long> categories = Lists.newArrayList();
 		         for (IProduct orderItemVo : itemVos) {
+//		        	 ProductRo productRo = productRedisDao.get(orderItemVo.getProductId().toString());
 		             if (costMap.containsKey(orderItemVo.getCategoryId())) {
 		            	 Long cost =
 		                     costMap.get(orderItemVo.getCategoryId()) + orderItemVo.getPrice() * orderItemVo
@@ -542,12 +545,14 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	}
 
 	@Override
-	public void dispatcherUserGroupsVoucher(String userIdGroupsType, VoucherTypeRo voucherTypeRo, Integer dispatcherCnt,
+	public void dispatcherUserGroupsVoucher(Long userIdGroupsId, VoucherTypeRo voucherTypeRo, Integer dispatcherCnt,
 			String loginUsername) {
-		
 		//通过用户组type获取用户组ids
-		List<Long> userIds = null;//userFeignClient
-		dispatcherVoucher(userIds, voucherTypeRo, dispatcherCnt, loginUsername);		
+		List<Long> userIds = userFeignClient.findUserIdByCompanyGroupId(userIdGroupsId);
+		if(userIds != null && userIds.size() > 0){
+			//批量发放
+			dispatcherVoucher(userIds, voucherTypeRo, dispatcherCnt, loginUsername);	
+		}
 				
 	}
 }

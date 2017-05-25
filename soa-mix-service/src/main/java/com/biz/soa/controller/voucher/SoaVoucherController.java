@@ -171,7 +171,7 @@ public class SoaVoucherController extends SoaBaseController{
      * @throws Exception 
      */
     @PostMapping(value="/getAvailableVouchers")
-    public  List<ShopCraftVoucherVo> availableVouchers(@RequestParam("userId") Long userId,@RequestBody List<? extends IProduct> itemVos) throws Exception{
+    public  List<ShopCraftVoucherVo> availableVouchers(@RequestParam("userId") Long userId,@RequestBody List<IProduct> itemVos) throws Exception{
     	 return voucherService.getAvailableVouchers(userId, itemVos);
      }
     
@@ -333,7 +333,7 @@ public class SoaVoucherController extends SoaBaseController{
      * @param loginUsername 发放人
      */
     @RequestMapping(value="/dispatcherUserGroupsVoucher",method=RequestMethod.POST)
-    public void dispatcherUserGroupsVoucher(@RequestParam("userIdGroupsType") String userIdGroupsType, @RequestBody VoucherTypeRo voucherTypeRo, 
+    public void dispatcherUserGroupsVoucher(@RequestParam("userIdGroupsType") Long userIdGroupsType, @RequestBody VoucherTypeRo voucherTypeRo, 
 			@RequestParam("dispatcherCnt") Integer dispatcherCnt,@RequestParam("loginUsername")	String loginUsername){
     	voucherService.dispatcherUserGroupsVoucher(userIdGroupsType, voucherTypeRo, dispatcherCnt, loginUsername);
     }

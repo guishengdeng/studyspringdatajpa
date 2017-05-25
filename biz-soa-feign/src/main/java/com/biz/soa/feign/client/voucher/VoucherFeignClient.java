@@ -20,6 +20,7 @@ import com.biz.gbck.vo.order.resp.IProduct;
 import com.biz.gbck.vo.spring.PageVO;
 import com.biz.gbck.vo.voucher.VoucherSearchVo;
 import com.biz.soa.feign.hystrix.voucher.VoucherFeignClientHystrix;
+import com.biz.support.web.handler.JSONResult;
 import com.biz.vo.voucher.ShopCraftVoucherVo;
 /**
  * 
@@ -33,7 +34,7 @@ public interface VoucherFeignClient {
 	 * 获取优惠券列表
 	 */
 	@RequestMapping(value = "/soa/voucher/all", method = RequestMethod.POST)
-	public Map<String, List<VoucherRo>> allVouchers(@PathVariable("userId") String userId);
+	public JSONResult allVouchers(@RequestParam("userId") String userId);
 
 	@RequestMapping(value = "/soa/voucher/listAllVouchersByUserId", method = RequestMethod.POST)
 	public List<VoucherPo> listAllVouchersByUserId(@RequestParam("userId") Long userId);
@@ -64,7 +65,7 @@ public interface VoucherFeignClient {
      * @return
      */
     @RequestMapping(value="/soa/voucher/getAvailableVouchers",method=RequestMethod.POST)
-    public  List<ShopCraftVoucherVo> availableVouchers(@RequestParam("userId") Long userId,@RequestBody List<? extends IProduct> itemVos);
+    public  List<ShopCraftVoucherVo> getAvailableVouchers(@RequestParam("userId") Long userId,@RequestBody List<? extends IProduct> itemVos);
 
     /**
      * 获取优惠额度
@@ -97,6 +98,6 @@ public interface VoucherFeignClient {
      * @param loginUsername 发放人
      */
     @RequestMapping(value="/soa/voucher/dispatcherUserGroupsVoucher",method=RequestMethod.POST)
-    public void dispatcherUserGroupsVoucher(@RequestParam("userIdGroupsType") String userIdGroupsType, @RequestBody VoucherTypeRo voucherTypeRo, 
+    public void dispatcherUserGroupsVoucher(@RequestParam("userIdGroupsType") Long userIdGroupsId, @RequestBody VoucherTypeRo voucherTypeRo, 
 			@RequestParam("dispatcherCnt") Integer dispatcherCnt,@RequestParam("loginUsername")	String loginUsername);
 }
