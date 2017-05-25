@@ -135,6 +135,7 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
         }
         this.setMaxQuantity(itemVo.getMaxQuantity());
         this.setMinQuantity(itemVo.getMinQuantity());
+        this.setStock(itemVo.getStock());
         this.setStatus(itemVo.getShowStatus().getValue());
         this.setStandard(null);
         this.setSubTitle(null);
