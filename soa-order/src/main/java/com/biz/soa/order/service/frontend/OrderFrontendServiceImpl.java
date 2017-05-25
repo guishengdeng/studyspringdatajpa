@@ -24,6 +24,9 @@ import com.biz.gbck.vo.order.req.*;
 import com.biz.gbck.vo.order.resp.*;
 import com.biz.gbck.vo.org.UserInfoVo;
 import com.biz.gbck.vo.payment.resp.PaymentRespVo;
+import com.biz.gbck.vo.product.promotion.OrderActivePromotionItemVO;
+import com.biz.gbck.vo.product.promotion.OrderPromotionRespVO;
+import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.gbck.vo.stock.StockItemVO;
 import com.biz.gbck.vo.stock.UpdateCompanyLockStockReqVO;
 import com.biz.service.order.frontend.OrderFrontendService;
@@ -154,15 +157,15 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         } else {
             List<Integer> supportedPaymentTypes = paymentService.getSupportedPaymentTypes(userId);
             builder.setPaymentTypes(supportedPaymentTypes);
-            OrderPromotionRespVo usablePromotion = this.getUsablePromotion(userInfo, settleOrderItemVos);
-            if (usablePromotion != null) {
-                builder.setPromotions(newArrayList(usablePromotion));
-                builder.setFreeAmount(0); //TODO 获取促销活动抵扣金额
+            OrderPromotionRespVO promotion = this.getUsablePromotion(userInfo, settleOrderItemVos);
+            if (promotion != null) {
+                List<OrderPromotionRespVo> promotionRespVos = Lists.transform(promotion.getActivePromotionItems(),
+                        OrderPromotionRespVo::new);
+                builder.setPromotions(promotionRespVos);
+                builder.setFreeAmount(promotion.getPromotionCutOrderAmount());
             }
-
             //根据促销信息获取优惠券数量
-            Integer couponCount = this.getUsableCouponCount(reqVo, settleOrderItemVos.stream().map(o ->
-                    (ProductInfoVo) o).collect(Collectors.toList()));
+            Integer couponCount = this.getUsableCouponCount(reqVo, this.filterCouponProduct(settleOrderItemVos, promotion));
             builder.setCoupons(couponCount);
             builder.setVoucherAmount(0); //TODO 获取优惠券抵扣金额
 
@@ -174,7 +177,26 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         return settleResult;
     }
 
-    private OrderPromotionRespVo getUsablePromotion(UserInfoVo userInfo, List<? extends IProduct>  products) {
+    //过滤请求优惠券商品信息
+    private List<ProductInfoVo> filterCouponProduct(List<OrderItemRespVo> settleOrderItemVos, OrderPromotionRespVO promotion) {
+        List<ProductInfoVo> couponProducts = newArrayList();
+        if (promotion != null && CollectionUtils.isNotEmpty(promotion.getActivePromotionItems())){
+            for (OrderItemRespVo settleOrderItemVo : settleOrderItemVos) {
+                boolean valid = false;
+                for (OrderActivePromotionItemVO promotionItemVO : promotion.getActivePromotionItems()) {
+                    if (settleOrderItemVo.getProductId().equals(promotionItemVO.getProductId()) && promotionItemVO.getAllowVoucher())     {
+                        valid = true;
+                    }
+                }
+                if (valid){
+                    couponProducts.add(settleOrderItemVo);
+                }
+            }
+        }
+        return couponProducts;
+    }
+
+    private OrderPromotionRespVO getUsablePromotion(UserInfoVo userInfo, List<? extends IProduct>  products) {
         OrderPromotionReqVo promoReqVo = new OrderPromotionReqVo();
         int orderAmount = OrderUtil.calcOrderAmount(products);
         promoReqVo.setUserId(Long.valueOf(userInfo.getUserId()));
@@ -182,7 +204,14 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         promoReqVo.setProducts(products);
         promoReqVo.setOrderAmount(orderAmount);
         // 获取促销信息
-
+        MicroServiceResult<OrderPromotionRespVO> promotionResult = promotionFeignClient
+                .orderProductsPromotion(promoReqVo);
+        if (logger.isDebugEnabled()) {
+            logger.debug("满足促销: {}", promotionResult);
+        }
+        if (promotionResult != null && promotionResult.isSuccess()) {
+            return promotionResult.getData();
+        }
         return null;
     }
 
