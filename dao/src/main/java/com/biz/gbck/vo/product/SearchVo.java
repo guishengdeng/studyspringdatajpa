@@ -8,7 +8,7 @@ import java.io.Serializable;
  * 搜索商品VO
  * Created by lzz on 2017/5/19.
  */
-public class ProductShowVo implements Serializable {
+public class SearchVo implements Serializable {
 
     private static final long serialVersionUID = -2203231226165706575L;
 
@@ -31,6 +31,11 @@ public class ProductShowVo implements Serializable {
      * 规格
      */
     private String categoryName;
+
+    /**
+     * 公司ID
+     */
+    private Long companyId;
 
     @Min(1)
     private Integer page = 1;
@@ -68,6 +73,14 @@ public class ProductShowVo implements Serializable {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
     }
 
     public Integer getPage() {

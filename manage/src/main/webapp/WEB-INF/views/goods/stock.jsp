@@ -44,11 +44,7 @@
                             <h3 class="header smaller lighter blue">
                                 库存日志
                             </h3>
-<<<<<<< HEAD
-                            <form action="goods/stock.do" method="post">
-=======
-                            <form action="goods/stock.do" method="POST">
->>>>>>> 0ea63a8d47a6ab2b97423197de63e1b904125f13
+                            <form action="stock.do" method="POST">
                                 <div class="col-md-3 inline">
                                     <label>商品编码</label>
                                     <input name="productCode" value='<c:out value="${productShowVo.productCode}" />'
@@ -64,11 +60,8 @@
                                     <input name="brandName" value='<c:out value="${productShowVo.brandName}" />'
                                            maxlength="225" type="text" placeholder="品牌" autocomplete="off">
                                 </div>
-<<<<<<< HEAD
+
                                 <div class="col-md-2 inline">
-=======
-                                    <div class="col-md-2 inline">
->>>>>>> 0ea63a8d47a6ab2b97423197de63e1b904125f13
                                     <label>商品类别</label>
                                     <gbck:stockCategorySelect fieldName="categoryName"
                                                               selectedStatus="${productShowVo.categoryName}"
@@ -112,7 +105,7 @@
                                 </c:forEach>
                                 </tbody>
                             </table>
-                            <gbck:springPagePagination url="goods/stock.do" springPage="${page}"/>
+                            <gbck:springPagePagination url="stock.do" springPage="${page}"/>
                         </div><!-- /.span -->
                     </div><!-- /.row -->
                     <!-- PAGE CONTENT ENDS -->
