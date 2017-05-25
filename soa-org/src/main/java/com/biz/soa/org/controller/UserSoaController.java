@@ -181,7 +181,7 @@ public class UserSoaController extends BaseRestController {
         return userSoaService.findUser(userId);
     }
 
-    @PostMapping(value = "soa/user/findUserInfo")
+    @PostMapping(value = "findUserInfo")
     public UserInfoVo finUserInfo(@RequestParam("userId") Long userId) throws CommonException {
         if (logger.isDebugEnabled()) {
             logger.debug("Received findUserInfo request. userId: {}", userId);
