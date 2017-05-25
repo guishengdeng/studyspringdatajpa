@@ -1,7 +1,6 @@
 package com.biz.soa.feign.hystrix.org;
 
 import com.biz.gbck.common.exception.CommonException;
-import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
 import com.biz.gbck.dao.mysql.po.org.ShopPo;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.enums.CommonStatusEnum;
@@ -9,7 +8,6 @@ import com.biz.gbck.vo.org.*;
 import com.biz.gbck.vo.spring.PageVO;
 import com.biz.soa.feign.client.org.ShopFeignClient;
 import com.biz.support.web.handler.JSONResult;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -68,12 +66,18 @@ public class ShopFeignClientHystrix implements ShopFeignClient {
     }
 
     @Override
-    public ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(@RequestBody Long shopId) {
+    public ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(@RequestParam("shopId") Long shopId) {
+        return null;
+    }
+
+
+    @Override
+    public Boolean isBusinessLicenceIdExist(@RequestParam("businessLicenceId") String businessLicenceId, @RequestParam("shopId") Long shopId) {
         return null;
     }
 
     @Override
-    public Boolean isBusinessLicenceIdExist(@RequestParam("businessLicenceId") String businessLicenceId, @RequestParam("shopId") Long shopId) {
+    public Boolean findShopByBusinessLicenceId(@RequestParam("businessLicenceId") String businessLicenceId) {
         return null;
     }
 
@@ -88,7 +92,12 @@ public class ShopFeignClientHystrix implements ShopFeignClient {
     }
 
     @Override
-    public ShopPo findShopRoById(@RequestParam("id") Long id) {
+    public ShopRo findShopRoById(@RequestParam("id") Long id) {
+        return null;
+    }
+
+    @Override
+    public ShopPo findShopPoById(Long id) {
         return null;
     }
 

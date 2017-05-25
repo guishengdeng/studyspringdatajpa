@@ -17,6 +17,11 @@ public class ProductAppListItemVo implements Serializable {
     private String id;
 
     /**
+     * 分类ID
+     */
+    private Long categoryId;
+
+    /**
      * 商品名称
      */
     private String productName;
@@ -118,6 +123,14 @@ public class ProductAppListItemVo implements Serializable {
 
     public void setProductCode(String productCode) {
         this.productCode = productCode;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getLogo() {

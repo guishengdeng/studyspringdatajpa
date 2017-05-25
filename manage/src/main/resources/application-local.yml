@@ -70,3 +70,4 @@ eureka:
     prefer-ip-address: true
   server:
     eviction-interval-timer-in-ms: 1000
+

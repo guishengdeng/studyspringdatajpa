@@ -12,6 +12,7 @@ import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.vo.PageVo;
+import com.biz.gbck.vo.order.resp.IProduct;
 import com.biz.gbck.vo.product.frontend.ProductListItemVo;
 import com.biz.gbck.vo.spring.PageVO;
 import com.biz.gbck.vo.voucher.UserVoucherStatisticResultVo;
@@ -111,7 +112,7 @@ public interface VoucherService{
      * 获取可用优惠券
      */
     public List<ShopCraftVoucherVo> getAvailableVouchers(Long userId,
-        List<? extends IOrderItemVo> itemVos) throws Exception;
+        List<? extends IProduct> itemVos) throws Exception;
 
     public List<UserVoucherStatisticResultVo> findUserOrderStatsBy(
         Map<String, Object> searchParams);

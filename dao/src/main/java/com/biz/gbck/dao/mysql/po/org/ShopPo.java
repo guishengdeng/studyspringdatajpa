@@ -265,7 +265,7 @@ public class ShopPo extends Company {
     private Long channelUserId;
 
     /**
-     * 渠道，参看{@linkplain com.depotnearby.common.shop.ShopChannel}. 数据为其value
+     * 渠道，参看{@linkplain com.biz.gbck.enums.user.ShopChannel}. 数据为其value
      */
     private Integer channel;
 

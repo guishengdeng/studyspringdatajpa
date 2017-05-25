@@ -12,6 +12,8 @@ import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+
+import static com.google.common.collect.Lists.newArrayList;
 import static java.lang.String.format;
 
 /**
@@ -28,8 +30,10 @@ public class GeoDistrictTag extends TagSupport {
     @Override public int doStartTag() throws JspException {
 
         GeoFeignClient geoFeignClient = SpringContextUtil.getBean(GeoFeignClient.class);
-        List<SimpleRegionVo> cities =
-                geoFeignClient.findRegionByParentAreaLevelAndParentId(IArea.LEVEL_CITY, cityId);
+        List<SimpleRegionVo> cities =newArrayList();
+        if(cityId != null){
+            cities = geoFeignClient.findRegionByParentAreaLevelAndParentId(IArea.LEVEL_CITY, cityId);
+        }
         JspWriter out = pageContext.getOut();
         try {
             for (SimpleRegionVo data : cities) {

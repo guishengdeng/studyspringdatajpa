@@ -37,6 +37,11 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
     private String productId;
 
     /**
+     * 分类Id
+     */
+    private Long categoryId;
+
+    /**
      * 商品编码
      */
     private String productCode;
@@ -133,6 +138,7 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
         this.setStatus(itemVo.getShowStatus().getValue());
         this.setStandard(null);
         this.setSubTitle(null);
+        this.setCategoryId(itemVo.getCategoryId());
     }
 
 
@@ -278,6 +284,14 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
 
     public void setItemType(ItemType itemType) {
         this.itemType = itemType;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
     @Override

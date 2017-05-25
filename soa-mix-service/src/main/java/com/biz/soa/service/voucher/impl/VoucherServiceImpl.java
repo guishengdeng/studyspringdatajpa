@@ -15,10 +15,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.biz.gbck.common.model.order.IOrderItemVo;
 import com.biz.gbck.common.model.voucher.VoucherConfigure;
 import com.biz.gbck.common.voucher.VoucherRoToVoucherPo;
-import com.biz.gbck.dao.mysql.po.org.ShopPo;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherCategory;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
@@ -31,6 +29,7 @@ import com.biz.gbck.dao.mysql.specification.voucher.VoucherSearchSpecification;
 //import com.biz.gbck.dao.redis.repository.product.bbc.ProductRedisDao;
 import com.biz.gbck.dao.redis.repository.voucher.VoucherRedisDao;
 import com.biz.gbck.dao.redis.repository.voucher.VoucherTypeRedisDao;
+import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherConfigureRo;
@@ -38,6 +37,7 @@ import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeWithQuantity;
 import com.biz.gbck.util.DateTool;
+import com.biz.gbck.vo.order.resp.IProduct;
 import com.biz.gbck.vo.product.frontend.ProductListItemVo;
 import com.biz.gbck.vo.spring.PageVO;
 import com.biz.gbck.vo.voucher.UserVoucherStatisticResultVo;
@@ -215,10 +215,9 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	@Override
 	public int getAvailVoucherCount(List<ProductListItemVo> items, UserRo userRo) throws Exception {
 		int count = 0;
-		// TODO Auto-generated method stub
-      ShopPo shopRo = shopFeignClient.findShopRoById(userRo.getShopId());
+      ShopRo shopRo = shopFeignClient.findShopRoById(userRo.getShopId());
       List<Long> categoryIds = new ArrayList<Long>();
-      Long shopTypeId = shopRo.getShopType().getId();
+      Long shopTypeId = shopRo.getShopTypeId();
       Map<Long, List<VoucherRo>> categoryVouchersMap =  divideUnusedVouchersByCategory(Long.parseLong(userRo.getId()));
 
       for (ProductListItemVo item : items) {
@@ -405,17 +404,12 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	}
 
 	@Override
-	public List<ShopCraftVoucherVo> getAvailableVouchers(Long userId, List<? extends IOrderItemVo> itemVos)
+	public List<ShopCraftVoucherVo> getAvailableVouchers(Long userId, List<? extends IProduct> itemVos)
 			throws Exception {
-		// TODO
 		 Map<Long, List<VoucherRo>> categoryVouchersMap = divideUnusedVouchersByCategory(userId);
-		         ShopRo shopRo = shopFeignClient.findShopByUserId(userId);
 		         Map<Long, Long> costMap = Maps.newHashMap();
 		         List<Long> categories = Lists.newArrayList();
-		         for (IOrderItemVo orderItemVo : itemVos) {
-//		             ProductRo productRo = productRedisDao.get(orderItemVo.getProductId().toString());
-//		             DepotProductRo depotProductRo = depotProductService
-//		                 .getDepotProductRo(orderItemVo.getProductId(), shopRo.getDepotId());
+		         for (IProduct orderItemVo : itemVos) {
 		             if (costMap.containsKey(orderItemVo.getCategoryId())) {
 		            	 Long cost =
 		                     costMap.get(orderItemVo.getCategoryId()) + orderItemVo.getPrice() * orderItemVo
@@ -423,13 +417,12 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 		                 costMap.put(orderItemVo.getCategoryId(), cost);
 		             } else {
 		                 costMap.put(orderItemVo.getCategoryId(),
-		                		 orderItemVo.getPrice() * orderItemVo.getQuantity());
+		                		 Long.valueOf(orderItemVo.getPrice() * orderItemVo.getQuantity()));
 		             }
 		             if (!categories.contains(orderItemVo.getCategoryId())) {
 		                 categories.add(orderItemVo.getCategoryId());
 		             }
 		         }
-		 
 		         List<ShopCraftVoucherVo> voucherVos = Lists.newArrayList();
 		         for (Long categoryId : categories) {
 		             List<VoucherRo> categoryVouchers = categoryVouchersMap.get(categoryId);

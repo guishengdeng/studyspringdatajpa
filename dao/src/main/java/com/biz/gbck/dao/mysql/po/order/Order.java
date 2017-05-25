@@ -80,6 +80,20 @@ public class Order extends BaseEntity {
     private Integer payAmount = 0;
 
     /**
+     * 订单优惠券
+     */
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OrderBy(value = "id asc")
+    private List<OrderCoupon> coupons;
+
+    /**
+     * 订单促销活动
+     */
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OrderBy(value = "id asc")
+    private List<OrderPromotion> promotions;
+
+    /**
      * 订单状态
      */
     @Convert(converter = OrderStatus.Converter.class)
@@ -227,6 +241,22 @@ public class Order extends BaseEntity {
 
     public void setPayAmount(Integer payAmount) {
         this.payAmount = payAmount;
+    }
+
+    public List<OrderCoupon> getCoupons() {
+        return coupons;
+    }
+
+    public void setCoupons(List<OrderCoupon> coupons) {
+        this.coupons = coupons;
+    }
+
+    public List<OrderPromotion> getPromotions() {
+        return promotions;
+    }
+
+    public void setPromotions(List<OrderPromotion> promotions) {
+        this.promotions = promotions;
     }
 
     public OrderStatus getStatus() {

@@ -1,10 +1,9 @@
 package com.biz.soa.order.controller;
 
-import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.cart.*;
+import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.service.cart.ShopCartService;
 import com.biz.soa.base.SoaBaseController;
-import com.biz.support.web.handler.JSONResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,13 +26,15 @@ public class SoaShopCartController extends SoaBaseController {
      * 添加购物车
      */
     @RequestMapping("/app/add")
-    public JSONResult addCartItem(@RequestBody ShopCartItemAddReqVo reqVo) throws DepotNextDoorException {
-        shopCartService.addCartItem(reqVo);
-
-        ShopCartListReqVo cartListReqVo = new ShopCartListReqVo();
-        cartListReqVo.setUserId(reqVo.getUserId());
-        ShopCartRespVo respVo = shopCartService.getCartItemsInfo(cartListReqVo);
-        return new JSONResult(respVo);
+    public MicroServiceResult<ShopCartRespVo> addCartItem(@RequestBody ShopCartItemAddReqVo reqVo) {
+        try {
+            shopCartService.addCartItem(reqVo);
+            ShopCartListReqVo cartListReqVo = new ShopCartListReqVo();
+            cartListReqVo.setUserId(reqVo.getUserId());
+            return render200(shopCartService.getCartItemsInfo(cartListReqVo));
+        } catch (Exception e) {
+            return render500(e);
+        }
     }
 
 
@@ -41,36 +42,44 @@ public class SoaShopCartController extends SoaBaseController {
      * 获取购物车列表
      */
     @RequestMapping("/app/list")
-    public JSONResult getCartInfo(@RequestBody ShopCartListReqVo reqVo) throws DepotNextDoorException {
-        ShopCartRespVo respVo = shopCartService.getCartItemsInfo(reqVo);
-        return new JSONResult(respVo);
+    public MicroServiceResult<ShopCartRespVo> getCartInfo(@RequestBody ShopCartListReqVo reqVo) {
+        try {
+            return render200(shopCartService.getCartItemsInfo(reqVo));
+        } catch (Exception e) {
+            return render500(e);
+        }
     }
 
     /**
      * 添加购物车
      */
     @RequestMapping("/app/delete")
-    public JSONResult deleteCartItem(@RequestBody ShopCartItemBatchDeleteReqVo reqVo) throws DepotNextDoorException {
-        shopCartService.deleteCartItems(reqVo);
-
-        ShopCartListReqVo cartListReqVo = new ShopCartListReqVo();
-        cartListReqVo.setUserId(reqVo.getUserId());
-        ShopCartRespVo respVo = shopCartService.getCartItemsInfo(cartListReqVo);
-        return new JSONResult(respVo);
+    public MicroServiceResult<ShopCartRespVo> deleteCartItem(@RequestBody ShopCartItemBatchDeleteReqVo reqVo) {
+        try {
+            shopCartService.deleteCartItems(reqVo);
+            ShopCartListReqVo cartListReqVo = new ShopCartListReqVo();
+            cartListReqVo.setUserId(reqVo.getUserId());
+            return render200(shopCartService.getCartItemsInfo(cartListReqVo));
+        } catch (Exception e) {
+            return render500(e);
+        }
     }
 
     @RequestMapping("/app/cartNum")
     @ResponseBody
-    public JSONResult cartNum(@RequestBody ShopCartNumReqVo reqVo) throws DepotNextDoorException {
-        ShopCartNumRespVo respVo = shopCartService.getCartNum(reqVo);
-        return new JSONResult(respVo);
+    public MicroServiceResult<ShopCartNumRespVo> cartNum(@RequestBody ShopCartNumReqVo reqVo) {
+        try {
+            return render200(shopCartService.getCartNum(reqVo));
+        } catch (Exception e) {
+            return render500(e);
+        }
     }
 
 
 
     @GetMapping(value = "/test")
-    public String getTestString() {
-        return "I am a test String";
+    public MicroServiceResult<String> getTestString() {
+        return render200("I am a test String");
     }
 
 }

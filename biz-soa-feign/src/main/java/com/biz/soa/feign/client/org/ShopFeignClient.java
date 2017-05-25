@@ -1,7 +1,6 @@
 package com.biz.soa.feign.client.org;
 
 import com.biz.gbck.common.exception.CommonException;
-import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
 import com.biz.gbck.dao.mysql.po.org.ShopPo;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.enums.CommonStatusEnum;
@@ -10,13 +9,10 @@ import com.biz.gbck.vo.spring.PageVO;
 import com.biz.soa.feign.hystrix.org.ShopFeignClientHystrix;
 import com.biz.support.web.handler.JSONResult;
 import org.springframework.cloud.netflix.feign.FeignClient;
-/*import org.springframework.data.domain.Page;*/
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 
 import java.util.List;
 
@@ -99,6 +95,12 @@ public interface ShopFeignClient {
     Boolean isBusinessLicenceIdExist(@RequestParam("businessLicenceId") String businessLicenceId,
                                             @RequestParam("shopId") Long shopId);
 
+    /**
+     * 判断businessLicenceId在数据库中是否已经存在 不限商户查询
+     */
+    @RequestMapping(value = "soa/shop/findShopByBusinessLicenceId", method = RequestMethod.POST)
+    Boolean findShopByBusinessLicenceId(@RequestParam("businessLicenceId") String businessLicenceId);
+
 
     /**
      * 商户统一审核接口
@@ -115,7 +117,13 @@ public interface ShopFeignClient {
      *根据id查询对应商户
      */
     @RequestMapping(value = "soa/shop/findShopRoById", method = RequestMethod.POST)
-    ShopPo findShopRoById(@RequestParam("id") Long id);
+    ShopRo findShopRoById(@RequestParam("id") Long id);
+
+    /**
+     *根据id查询对应商户
+     */
+    @RequestMapping(value = "soa/shop/findShopPoById", method = RequestMethod.POST)
+    ShopPo findShopPoById(@RequestParam("id") Long id);
 
 
     /**

@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -170,7 +171,7 @@ public class SoaVoucherController extends SoaBaseController{
      * @throws Exception 
      */
     @PostMapping(value="/getAvailableVouchers")
-    public  List<ShopCraftVoucherVo> availableVouchers(@RequestParam("userId") Long userId,@RequestBody List<? extends IOrderItemVo> itemVos) throws Exception{
+    public  List<ShopCraftVoucherVo> availableVouchers(@RequestParam("userId") Long userId,@RequestBody List<? extends IProduct> itemVos) throws Exception{
     	 return voucherService.getAvailableVouchers(userId, itemVos);
      }
     
@@ -187,9 +188,8 @@ public class SoaVoucherController extends SoaBaseController{
     		VoucherTypeRo voucherTypeRo = voucherTypeService.getVoucherTypeRoById(ids);
     		 VoucherRo voucherRo = voucherService.fetchVoucher(userId, voucherTypeRo);
     		 //订单id
-    		 //TODO
-    		 Long orderId = null;
-    		 voucherService.useVoucher(iOrderPeriodQueryReqVo.getUserId(), voucherRo.getId(), null, getVoucherLimit(iOrderPeriodQueryReqVo));
+    		 Long orderId = iOrderPeriodQueryReqVo.getOrderId();
+    		 voucherService.useVoucher(iOrderPeriodQueryReqVo.getUserId(), voucherRo.getId(), orderId, getVoucherLimit(iOrderPeriodQueryReqVo));
 		}
     }
     
@@ -264,11 +264,10 @@ public class SoaVoucherController extends SoaBaseController{
                         && voucherTypeRo.getCategoryId() != null)) {
             for (IProduct item : iProduct) {
                 int currentProductPayAmount = item.getPrice() * item.getQuantity();
-                //TODO
-//                if (Objects.equals(voucherTypeRo.getCategoryId(), item.categoryId)) {
-//                    totalPayLimitAmount += currentProductPayAmount;
-//                    isCheckUseVoucherType = true;
-//                }
+                if (Objects.equals(voucherTypeRo.getCategoryId(), item.getCategoryId())) {
+                    totalPayLimitAmount += currentProductPayAmount;
+                    isCheckUseVoucherType = true;
+                }
                 totalAmount += currentProductPayAmount;
             }
         } else if (voucherTypeRo.getVoucherLimitType() == VoucherLimitType.BY_PRODUCTS || (

@@ -5,30 +5,21 @@ import com.biz.gbck.common.exception.ExceptionCode;
 import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
 import com.biz.gbck.dao.mysql.po.org.ShopPo;
 import com.biz.gbck.dao.mysql.po.org.ShopQualificationPo;
-import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.enums.CommonStatusEnum;
-import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopTypeStatus;
 import com.biz.gbck.transform.org.ShopDetailPoToShopUpdateDetailVo;
 import com.biz.gbck.vo.org.*;
 import com.biz.gbck.vo.spring.PageVO;
 import com.biz.soa.org.service.interfaces.ShopSoaService;
 import com.biz.soa.org.service.interfaces.ShopTypeSoaService;
-import com.biz.soa.org.util.RestUtil;
 import com.biz.support.web.handler.JSONResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -190,6 +181,7 @@ public class ShopSoaController extends BaseRestController {
      */
     @RequestMapping(value = "findShopAuditDataOfWaitForAuditByShopId", method = RequestMethod.POST)
     public ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(@RequestBody Long shopId) {
+        logger.info("request soa/org/findShopAuditDataOfWaitForAuditByShopId shopId:{}",shopId);
         return shopSoaService.findShopAuditDataOfWaitForAuditByShopId(shopId);
     }
 
@@ -258,10 +250,14 @@ public class ShopSoaController extends BaseRestController {
         shopSoaService.deleteBlackList(shopIds);
         return new JSONResult();
     }
-    
     @RequestMapping(value = "findShopRoById", method = RequestMethod.POST)
     public ShopRo findShopRoById(@RequestParam("id") Long id) throws CommonException{
         return shopSoaService.findShop(id);
+    }
+
+    @RequestMapping(value = "findShopPoById", method = RequestMethod.POST)
+    public ShopPo findShopPoById(@RequestParam("id") Long id) throws CommonException{
+        return shopSoaService.findShopPo(id);
     }
 
     /**

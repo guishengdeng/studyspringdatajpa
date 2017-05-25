@@ -10,15 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.biz.gbck.common.model.order.IOrderItemVo;
-import com.biz.gbck.dao.mysql.po.demo.CatPO;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherTypePo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.order.resp.IOrderPeriodQueryReqVo;
-import com.biz.gbck.vo.soa.MicroServiceResult;
+import com.biz.gbck.vo.order.resp.IProduct;
 import com.biz.gbck.vo.spring.PageVO;
 import com.biz.gbck.vo.voucher.VoucherSearchVo;
 import com.biz.soa.feign.hystrix.voucher.VoucherFeignClientHystrix;
@@ -66,7 +64,7 @@ public interface VoucherFeignClient {
      * @return
      */
     @RequestMapping(value="/soa/voucher/getAvailableVouchers",method=RequestMethod.POST)
-    public  List<ShopCraftVoucherVo> availableVouchers(@RequestParam("userId") Long userId,@RequestBody List<? extends IOrderItemVo> itemVos);
+    public  List<ShopCraftVoucherVo> availableVouchers(@RequestParam("userId") Long userId,@RequestBody List<? extends IProduct> itemVos);
 
     /**
      * 获取优惠额度

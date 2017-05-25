@@ -5,12 +5,12 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import com.biz.gbck.common.model.order.IOrderItemVo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherTypePo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.vo.order.resp.IOrderPeriodQueryReqVo;
+import com.biz.gbck.vo.order.resp.IProduct;
 import com.biz.gbck.vo.spring.PageVO;
 import com.biz.gbck.vo.voucher.VoucherSearchVo;
 import com.biz.soa.feign.client.voucher.VoucherFeignClient;
@@ -58,7 +58,7 @@ public class VoucherFeignClientHystrix implements VoucherFeignClient {
 	}
 
 	@Override
-	public List<ShopCraftVoucherVo> availableVouchers(Long userId, List<? extends IOrderItemVo> itemVos) {
+	public List<ShopCraftVoucherVo> availableVouchers(Long userId, List<? extends IProduct> itemVos) {
 		// TODO Auto-generated method stub
 		return null;
 	}
