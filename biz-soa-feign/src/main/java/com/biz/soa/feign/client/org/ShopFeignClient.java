@@ -81,6 +81,9 @@ public interface ShopFeignClient {
     @RequestMapping(value = "soa/shop/findShopAuditDataOfWaitForAudit", method = RequestMethod.POST)
     PageVO<ShopDetailResVo> findShopAuditDataOfWaitForAudit(@RequestBody ShopSearchVo reqVo);
 
+    @RequestMapping(value = "soa/shop/findAllWaitForShop", method = RequestMethod.POST)
+    List<ShopDetailResVo> findAllWaitForShop();
+
     /**
      * 获取单个商户待审核信息
      */
@@ -158,4 +161,6 @@ public interface ShopFeignClient {
      */
     @RequestMapping(value = "soa/shop/saveUpdateDetail", method = RequestMethod.POST)
     Boolean saveUpdateDetail(@RequestBody ShopAuditReqVo shopAuditReqVo);
+
+
 }

@@ -115,6 +115,11 @@ public class ShopAuditReqVo {
      */
     private Long shopId;
 
+    /**
+     * 商户合伙人id
+     */
+    private Long partnerId;
+
     public BigDecimal getLongitude() {
         return longitude;
     }
@@ -305,5 +310,13 @@ public class ShopAuditReqVo {
 
     public void setInviterCode(String inviterCode) {
         this.inviterCode = inviterCode;
+    }
+
+    public Long getPartnerId() {
+        return partnerId;
+    }
+
+    public void setPartnerId(Long partnerId) {
+        this.partnerId = partnerId;
     }
 }

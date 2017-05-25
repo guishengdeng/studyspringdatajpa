@@ -78,6 +78,8 @@ public class ShopDetailResVo implements Serializable {
 
     private String partnerName; //城市合伙人名称
 
+    private Long partnerId; //城市合伙人id
+
     private String shopStatus; //商户状态
 
     public Long getShopDetailId() {
@@ -342,6 +344,14 @@ public class ShopDetailResVo implements Serializable {
 
     public void setPartnerName(String partnerName) {
         this.partnerName = partnerName;
+    }
+
+    public Long getPartnerId() {
+        return partnerId;
+    }
+
+    public void setPartnerId(Long partnerId) {
+        this.partnerId = partnerId;
     }
 
     public String getShopStatus() {

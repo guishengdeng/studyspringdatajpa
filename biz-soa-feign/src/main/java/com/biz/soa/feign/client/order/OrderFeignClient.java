@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @reviewer
  * @see
  */
+//
 @FeignClient(name = "soa-order", fallback = OrderFeignClientHystrix.class)
 public interface OrderFeignClient {
 
