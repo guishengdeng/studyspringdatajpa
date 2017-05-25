@@ -32,7 +32,6 @@ import com.biz.gbck.dao.redis.repository.voucher.VoucherTypeRedisDao;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
-import com.biz.gbck.dao.redis.ro.product.bbc.ProductRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherConfigureRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
@@ -415,12 +414,12 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 //		        	 ProductRo productRo = productRedisDao.get(orderItemVo.getProductId().toString());
 		             if (costMap.containsKey(orderItemVo.getCategoryId())) {
 		            	 Long cost =
-		                     costMap.get(orderItemVo.getCategoryId()) + orderItemVo.getPrice() * orderItemVo
+		                     costMap.get(orderItemVo.getCategoryId()) + orderItemVo.getSalePrice() * orderItemVo
 		                         .getQuantity();
 		                 costMap.put(orderItemVo.getCategoryId(), cost);
 		             } else {
 		                 costMap.put(orderItemVo.getCategoryId(),
-		                		 Long.valueOf(orderItemVo.getPrice() * orderItemVo.getQuantity()));
+		                		 Long.valueOf(orderItemVo.getSalePrice() * orderItemVo.getQuantity()));
 		             }
 		             if (!categories.contains(orderItemVo.getCategoryId())) {
 		                 categories.add(orderItemVo.getCategoryId());

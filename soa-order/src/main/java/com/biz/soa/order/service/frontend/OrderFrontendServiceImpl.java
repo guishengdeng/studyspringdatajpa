@@ -307,7 +307,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
             orderItem.setProductCode(item.getProductCode());
             orderItem.setName(item.getName());
             orderItem.setLogo(item.getLogo());
-            orderItem.setPrice(item.getPrice());
+            orderItem.setPrice(item.getSalePrice());
             orderItem.setMarketPrice(item.getMarketPrice());
             orderItem.setQuantity(item.getQuantity());
             orderItem.setItemType(item.getItemType());

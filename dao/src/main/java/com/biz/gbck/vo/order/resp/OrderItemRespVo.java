@@ -46,7 +46,7 @@ public class OrderItemRespVo implements IProduct, Comparable<OrderItemRespVo>, S
     /**
      * 单价
      */
-    private Integer price;
+    private Integer salePrice;
 
     /**
      * 市场价
@@ -96,7 +96,7 @@ public class OrderItemRespVo implements IProduct, Comparable<OrderItemRespVo>, S
         this.setProductCode(orderItem.getProductCode());
         this.setName(orderItem.getName());
         this.setLogo(orderItem.getLogo());
-        this.setPrice(orderItem.getPrice());
+        this.setSalePrice(orderItem.getSalePrice());
         this.setQuantity(orderItem.getQuantity());
         this.setCategoryId(orderItem.getCategoryId());
     }
@@ -141,12 +141,12 @@ public class OrderItemRespVo implements IProduct, Comparable<OrderItemRespVo>, S
         this.name = name;
     }
 
-    public Integer getPrice() {
-        return price;
+    public Integer getSalePrice() {
+        return salePrice;
     }
 
-    public void setPrice(Integer price) {
-        this.price = price;
+    public void setSalePrice(Integer salePrice) {
+        this.salePrice = salePrice;
     }
 
     public Integer getMarketPrice() {

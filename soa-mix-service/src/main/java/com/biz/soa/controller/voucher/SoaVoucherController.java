@@ -1,25 +1,6 @@
 package com.biz.soa.controller.voucher;
 
-import static com.google.common.collect.Lists.newArrayList;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.biz.gbck.common.exception.CommonException;
-import com.biz.gbck.common.model.order.IOrderItemVo;
-import com.biz.gbck.dao.mysql.po.demo.CatPO;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherLimitType;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherTypePo;
@@ -29,10 +10,8 @@ import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.DepotNextDoorExceptions;
 import com.biz.gbck.util.DateTool;
-import com.biz.gbck.vo.demo.CatSearchVO;
 import com.biz.gbck.vo.order.resp.IOrderPeriodQueryReqVo;
 import com.biz.gbck.vo.order.resp.IProduct;
-import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.gbck.vo.spring.PageVO;
 import com.biz.gbck.vo.voucher.VoucherSearchVo;
 import com.biz.gbck.vo.voucher.VoucherVo;
@@ -42,6 +21,12 @@ import com.biz.soa.service.voucher.VoucherTypeService;
 import com.biz.support.web.handler.JSONResult;
 import com.biz.vo.voucher.ShopCraftVoucherVo;
 import com.google.common.collect.Maps;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.*;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 @RestController
 @RequestMapping(value = "/soa/voucher")
@@ -263,7 +248,7 @@ public class SoaVoucherController extends SoaBaseController{
                 voucherTypeRo.getVoucherLimitType() == null
                         && voucherTypeRo.getCategoryId() != null)) {
             for (IProduct item : iProduct) {
-                int currentProductPayAmount = item.getPrice() * item.getQuantity();
+                int currentProductPayAmount = item.getSalePrice() * item.getQuantity();
                 if (Objects.equals(voucherTypeRo.getCategoryId(), item.getCategoryId())) {
                     totalPayLimitAmount += currentProductPayAmount;
                     isCheckUseVoucherType = true;
@@ -273,7 +258,7 @@ public class SoaVoucherController extends SoaBaseController{
         } else if (voucherTypeRo.getVoucherLimitType() == VoucherLimitType.BY_PRODUCTS || (
                 voucherTypeRo.getVoucherLimitType() == null && voucherTypeRo.getProductIds() != null)) {
             for (IProduct item : iProduct) {
-                int currentProductPayAmount = item.getPrice() * item.getQuantity();
+                int currentProductPayAmount = item.getSalePrice() * item.getQuantity();
 
                 logger.debug("校验当前选择的优惠券是否满足当前所选购商品>>>voucherTypeRoProductIds[" + voucherTypeRo
                         .getProductIds() + "],goodsProductId[" + item.getProductId() + "],result["
@@ -287,7 +272,7 @@ public class SoaVoucherController extends SoaBaseController{
             }
         } else {// 全可用
             for (IProduct item : iProduct) {
-                totalPayLimitAmount += item.getPrice() * item.getQuantity();
+                totalPayLimitAmount += item.getSalePrice() * item.getQuantity();
             isCheckUseVoucherType = true;
             totalAmount = totalPayLimitAmount;
             }

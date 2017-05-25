@@ -235,7 +235,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
                 cartItemRespVo.setCreateTime(shopCartItemRo.getCreateTimestamp());
                 cartItemRespVo.setUpdateTime(shopCartItemRo.getUpdateTimestamp());
                 cartItemRespVos.add(cartItemRespVo);
-                orderAmount += ValueUtils.getValue(cartItemRespVo.getQuantity()) * cartItemRespVo.getPrice();
+                orderAmount += ValueUtils.getValue(cartItemRespVo.getQuantity()) * cartItemRespVo.getSalePrice();
                 cartNum += ValueUtils.getValue(cartItemRespVo.getQuantity());
             }
         }
