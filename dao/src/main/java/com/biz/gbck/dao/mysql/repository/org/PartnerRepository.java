@@ -1,9 +1,14 @@
 package com.biz.gbck.dao.mysql.repository.org;
 
 import com.biz.gbck.dao.mysql.po.org.PartnerPo;
+import com.biz.gbck.enums.org.CompanyLevel;
 import com.biz.support.jpa.repository.CommonJpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author: liubin
@@ -12,4 +17,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PartnerRepository extends CommonJpaRepository<PartnerPo, Long>, PartnerDao, JpaSpecificationExecutor<PartnerPo> {
 
+    @Query("SELECT pp FROM PartnerPo pp WHERE pp.name like %?1% ")
+    List<PartnerPo> getPartnerPosByName(String name);
+
+    @Query("SELECT  DISTINCT pp.name FROM PartnerPo pp")
+    List<String>  removeDuplicatedName();
+
+    @Query("FROM PartnerPo pp WHERE pp.platform.id =:platFormId")
+    List<PartnerPo> getPartnersByPlatFormId(@Param("platFormId") Long id);
+    // List<PartnerPo> findByPlatFormId(Long id);
+
+    List<PartnerPo> findByCompanyLevel(CompanyLevel companyLevel);
 }
