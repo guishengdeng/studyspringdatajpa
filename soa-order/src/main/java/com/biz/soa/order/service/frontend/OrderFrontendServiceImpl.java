@@ -157,17 +157,16 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
             OrderPromotionRespVo usablePromotion = this.getUsablePromotion(userInfo, settleOrderItemVos);
             if (usablePromotion != null) {
                 builder.setPromotions(newArrayList(usablePromotion));
-                builder.setFreeAmount(null); //TODO 获取促销活动抵扣金额
+                builder.setFreeAmount(0); //TODO 获取促销活动抵扣金额
             }
 
             //根据促销信息获取优惠券数量
             Integer couponCount = this.getUsableCouponCount(reqVo, settleOrderItemVos.stream().map(o ->
                     (ProductInfoVo) o).collect(Collectors.toList()));
             builder.setCoupons(couponCount);
-            builder.setVoucherAmount(null); //TODO 获取优惠券抵扣金额
+            builder.setVoucherAmount(0); //TODO 获取优惠券抵扣金额
 
         }
-        logger.debug("build!!");
         OrderSettlePageRespVo settleResult = builder.build();
         if (logger.isDebugEnabled()) {
             logger.debug("订单结算-------请求: {}, 返回值: {}", reqVo, settleResult);
