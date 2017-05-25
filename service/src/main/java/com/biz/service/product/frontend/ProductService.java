@@ -19,7 +19,7 @@ public interface ProductService {
 
     ProductAppDetailRespVO productDetail(ProductAppDetailReqVo reqVo);
 
-    List<ProductAppListItemVo> purchaseProducts(PurchaseProductReqVO reqVO);
+    List<PurchaseProductItemVO> purchaseProducts(PurchaseProductReqVO reqVO);
 
 
 }
