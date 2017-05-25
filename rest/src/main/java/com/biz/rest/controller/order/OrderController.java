@@ -8,6 +8,7 @@ import com.biz.gbck.vo.order.req.*;
 import com.biz.gbck.vo.order.resp.OrderRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
 import com.biz.gbck.vo.payment.resp.PaymentRespVo;
+import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.rest.util.RestUtil;
 import com.biz.service.order.frontend.OrderFrontendService;
@@ -36,34 +37,30 @@ public class OrderController extends BaseRestController {
 
     //订单列表
     @RequestMapping("/list")
-    public JSONResult allTypeOrders(HttpServletRequest request) throws DepotNextDoorException {
+    public JSONResult allTypeOrders(HttpServletRequest request){
         OrderListReqVo reqVo = RestUtil.parseBizData(request, OrderListReqVo.class);
-        PageRespVo pageRespVo = orderFeignClient.allTypeOrders(reqVo);
-        return new JSONResult(pageRespVo);
+        return RestUtil.parseBizResult(orderFeignClient.allTypeOrders(reqVo));
     }
 
     //订单详情
     @RequestMapping("/detail")
     public JSONResult orderDetail(HttpServletRequest request) throws DepotNextDoorException {
         IdReqVo reqVo = RestUtil.parseBizData(request, IdReqVo.class);
-        OrderRespVo orderRespVo = orderFeignClient.orderDetail(reqVo);
-        return new JSONResult(orderRespVo);
+        return RestUtil.parseBizResult(orderFeignClient.orderDetail(reqVo));
     }
 
     //取消订单
     @RequestMapping("/cancel")
     public JSONResult cancelOrder(HttpServletRequest request) {
         IdReqVo reqVo = RestUtil.parseBizData(request, IdReqVo.class);
-        orderFeignClient.cancelOrder(reqVo);
-        return new JSONResult();
+        return RestUtil.parseBizResult(orderFeignClient.cancelOrder(reqVo));
     }
 
     //结算
     @RequestMapping("/settle")
     public JSONResult settle(HttpServletRequest request) throws DepotNextDoorException {
         OrderSettlePageReqVo reqVo = RestUtil.parseBizData(request, OrderSettlePageReqVo.class);
-        OrderSettlePageRespVo respVo = orderFeignClient.settle(reqVo);
-        return new JSONResult(respVo);
+        return RestUtil.parseBizResult(orderFeignClient.settle(reqVo));
     }
 
     //货到付款结算
@@ -71,8 +68,7 @@ public class OrderController extends BaseRestController {
     public JSONResult createOrderNoPay(HttpServletRequest request) throws DepotNextDoorException {
         OrderCreateReqVo reqVo = RestUtil.parseBizData(request, OrderCreateReqVo.class);
         reqVo.setPaymentType(PaymentType.PAY_ON_DELIVERY.getValue());
-        PaymentRespVo respVo = orderFeignClient.createOrderNoPay(reqVo);
-        return new JSONResult(respVo);
+        return RestUtil.parseBizResult(orderFeignClient.createOrderNoPay(reqVo));
     }
 
     //支付宝结算
@@ -80,8 +76,7 @@ public class OrderController extends BaseRestController {
     public JSONResult createOrderAlipay(HttpServletRequest request) throws DepotNextDoorException {
         OrderCreateReqVo reqVo = RestUtil.parseBizData(request, OrderCreateReqVo.class);
         reqVo.setPaymentType(PaymentType.ALIPAY.getValue());
-        PaymentRespVo respVo = orderFeignClient.createOrderAlipay(reqVo);
-        return new JSONResult(respVo);
+        return RestUtil.parseBizResult(orderFeignClient.createOrderNoPay(reqVo));
     }
 
     //微信结算
@@ -89,16 +84,14 @@ public class OrderController extends BaseRestController {
     public JSONResult createOrderWechat(HttpServletRequest request) throws DepotNextDoorException {
         OrderCreateWechatReqVo reqVo = RestUtil.parseBizData(request, OrderCreateWechatReqVo.class);
         reqVo.setPaymentType(PaymentType.WECHAT.getValue());
-        PaymentRespVo respVo = orderFeignClient.createOrderWechat(reqVo);
-        return new JSONResult(respVo);
+        return RestUtil.parseBizResult(orderFeignClient.createOrderNoPay(reqVo));
     }
 
     //申请退货
     @RequestMapping("/applyReturn")
     public JSONResult applyReturn(HttpServletRequest request) {
         OrderApplyReturnReqVo reqVo = RestUtil.parseBizData(request, OrderApplyReturnReqVo.class);
-        orderFeignClient.applyReturn(reqVo);
-        return new JSONResult();
+        return RestUtil.parseBizResult(orderFeignClient.applyReturn(reqVo));
     }
 
 

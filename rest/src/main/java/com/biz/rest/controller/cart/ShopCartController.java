@@ -38,14 +38,7 @@ public class ShopCartController extends BaseRestController {
     @RequestMapping("add")
     public JSONResult addCartItem(HttpServletRequest request) {
         ShopCartItemAddReqVo reqVo = RestUtil.parseBizData(request, ShopCartItemAddReqVo.class);
-
-        try {
-            shopCartFeignClient.addCartItem(reqVo);
-            return new JSONResult();
-        } catch (Exception e) {
-            logger.error("添加购物车出错.", e);
-            return new JSONResult(-1, "添加购物车出错");
-        }
+        return RestUtil.parseBizResult(shopCartFeignClient.addCartItem(reqVo));
     }
 
 
@@ -55,13 +48,16 @@ public class ShopCartController extends BaseRestController {
     @RequestMapping("list")
     public JSONResult getCartInfo(HttpServletRequest request) {
         ShopCartListReqVo reqVo = RestUtil.parseBizData(request, ShopCartListReqVo.class);
-        try {
-            ShopCartRespVo respVo = shopCartFeignClient.getCartInfo(reqVo);
-            return new JSONResult(respVo);
-        } catch (Exception e) {
-            logger.error("添加购物车出错.", e);
-            return new JSONResult(-1, "获取购物车信息出错");
-        }
+        return RestUtil.parseBizResult(shopCartFeignClient.getCartInfo(reqVo));
+    }
+
+    /**
+     * 添加购物车
+     */
+    @RequestMapping("updateQuantity")
+    public JSONResult updateItemQuantity(HttpServletRequest request) {
+        ShopCartItemUpdateReqVo reqVo = RestUtil.parseBizData(request, ShopCartItemUpdateReqVo.class);
+        return RestUtil.parseBizResult(shopCartFeignClient.updateItemQuantity(reqVo));
     }
 
     /**
@@ -70,27 +66,14 @@ public class ShopCartController extends BaseRestController {
     @RequestMapping("delete")
     public JSONResult deleteCartItem(HttpServletRequest request) {
         ShopCartItemBatchDeleteReqVo reqVo = RestUtil.parseBizData(request, ShopCartItemBatchDeleteReqVo.class);
-        try {
-            shopCartFeignClient.deleteCartItems(reqVo);
-            ShopCartRespVo respVo = shopCartFeignClient.getCartInfo(new ShopCartListReqVo());
-            return new JSONResult(respVo);
-        } catch (Exception e) {
-            logger.error("添加购物车出错.", e);
-            return new JSONResult(-1, "删除购物车商品");
-        }
+        return RestUtil.parseBizResult(shopCartFeignClient.deleteCartItems(reqVo));
     }
 
     @RequestMapping("cartNum")
     @ResponseBody
     public JSONResult cartNum(HttpServletRequest request) {
         ShopCartNumReqVo reqVo = RestUtil.parseBizData(request, ShopCartNumReqVo.class);
-        try {
-            ShopCartNumRespVo respVo = shopCartFeignClient.getCartNum(reqVo);
-            return new JSONResult(respVo);
-        } catch (Exception e) {
-            logger.error("取购物车数量异常", e);
-            return new JSONResult(-1, "获取购物车数量出错");
-        }
+        return RestUtil.parseBizResult(shopCartFeignClient.getCartNum(reqVo));
     }
 
 

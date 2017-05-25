@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
@@ -26,7 +28,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableFeignClients(basePackages = "com.biz.soa.feign")
 @EnableEurekaClient
 @EnableTransactionManagement
-public class Application extends SpringBootServletInitializer {
+public class Application extends SpringBootServletInitializer implements EmbeddedServletContainerCustomizer{
 
     public static void main(String[] args) throws Throwable {
         SpringApplication.run(Application.class, args);
@@ -46,6 +48,12 @@ public class Application extends SpringBootServletInitializer {
     public Filter manageFilter(){
         return new ManageFilter();
     }
+
+	@Override
+	public void customize(ConfigurableEmbeddedServletContainer arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 }

@@ -1,23 +1,13 @@
 package com.biz.soa.promotion.controller;
 
-import com.biz.gbck.vo.product.gbck.response.ProductAppListItemPromotionVo;
+import com.biz.gbck.vo.order.resp.OrderPromotionReqVo;
+import com.biz.gbck.vo.product.promotion.OrderPromotionRespVO;
 import com.biz.gbck.vo.product.promotion.TestPromotionVo;
-import com.biz.gbck.vo.product.promotion.soa.singleProduct.request.ProductSimpleSpecialOfferReqVo;
-import com.biz.gbck.vo.product.promotion.soa.singleProduct.request.ProductSingleProductPromotionReqVo;
-import com.biz.gbck.vo.product.promotion.soa.singleProduct.request.ProductsSimpleSpecialOfferReqVo;
-import com.biz.gbck.vo.product.promotion.soa.singleProduct.response.ProductPromotionCutRespVo;
-import com.biz.gbck.vo.product.promotion.soa.singleProduct.response.ProductSimpleSpecialOfferRespVo;
-import com.biz.gbck.vo.product.promotion.soa.singleProduct.response.ProductSingleProductPromotionRespVo;
-import com.biz.gbck.vo.product.promotion.soa.singleProduct.response.ProductsSimpleSpecialOfferRespVo;
-import com.biz.soa.base.SoaBaseController;
 import com.biz.gbck.vo.soa.MicroServiceResult;
-import java.util.List;
+import com.biz.soa.base.SoaBaseController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 商品促销Controller
@@ -37,29 +27,9 @@ public class PromotionSaleController extends SoaBaseController {
         return testPromotionVo;
     }
 
-    @PostMapping(value = "/singleProduct/list")
-    public ProductSingleProductPromotionRespVo singleProductPromotionList(ProductSingleProductPromotionReqVo reqVo) {
-        return new ProductSingleProductPromotionRespVo();
-    }
-
-    @PostMapping(value = "/simpleSpecialOffer/list")
-    public ProductsSimpleSpecialOfferRespVo simpleSpecialOfferPromotions(ProductsSimpleSpecialOfferReqVo reqVo) {
-        return new ProductsSimpleSpecialOfferRespVo();
-    }
-
-    @PostMapping(value = "/simpleSpecialOffer")
-    public ProductSimpleSpecialOfferRespVo simpleSpecialOfferPromotion(ProductSimpleSpecialOfferReqVo reqVo) {
-        return new ProductSimpleSpecialOfferRespVo();
-    }
-
-    @PostMapping(value = "/computePromotionCut")
-    public ProductPromotionCutRespVo promotionCut() {
-        return null;
-    }
-
-    @PostMapping(value = "/appProductListPromotions")
-    public MicroServiceResult<List<ProductAppListItemPromotionVo>> productPromotions() {
-        return null;
+    @PostMapping(value = "order")
+    public MicroServiceResult<OrderPromotionRespVO> orderProductsPromotion(@RequestBody OrderPromotionReqVo reqVo) {
+        return new MicroServiceResult<>();
     }
 
 }

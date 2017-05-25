@@ -1,6 +1,8 @@
 package com.biz.gbck.enums.order;
 
 
+import org.codelogger.utils.ValueUtils;
+
 /**
  * 订单展示状态
  *
@@ -24,7 +26,7 @@ public enum OrderShowStatus {
     CANCELED;
 
     public static OrderShowStatus valueOf(Integer status) {
-        if (status == 0) {
+        if (ValueUtils.getValue(status) == 0) {
             return ALL;
         } else if (status == OrderStatus.PRE_PAY.getValue()) {
             return PRE_PAY;

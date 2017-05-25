@@ -7,6 +7,7 @@ import com.biz.gbck.vo.payment.resp.AlipaySignRespVo;
 import com.biz.gbck.vo.payment.resp.PaidRespVo;
 import com.biz.gbck.vo.payment.resp.PaymentQueryResultRespVo;
 import com.biz.gbck.vo.payment.resp.WechatPayResp;
+import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.pay.wechat.res.WechatPayNotifyRespVo;
 import com.biz.soa.feign.hystrix.payment.PaymentFeignClientHystrix;
 import com.biz.support.web.handler.JSONResult;
@@ -30,15 +31,15 @@ public interface PaymentFeignClient {
 
     //查询支付状态
     @RequestMapping("/soa/payment/app/queryPaid")
-    PaymentQueryResultRespVo queryPaid(@RequestBody IdReqVo reqVo);
+    MicroServiceResult<PaymentQueryResultRespVo> queryPaid(@RequestBody IdReqVo reqVo);
 
     //获取支付宝支付参数
     @RequestMapping("/soa/payment/app/alipay")
-    AlipaySignRespVo getAlipaySign(@RequestParam("orderId") Long orderId);
+    MicroServiceResult<AlipaySignRespVo> getAlipaySign(@RequestParam("orderId") Long orderId);
 
     //获取支付宝支付参数
     @RequestMapping("/soa/payment/app/wechat")
-    WechatPayResp getWechatParam(@RequestBody IWechatPaymentReqVo req);
+    MicroServiceResult<WechatPayResp> getWechatParam(@RequestBody IWechatPaymentReqVo req);
 
     //支付宝继续支付
     @RequestMapping("/soa/payment/app/alipay")

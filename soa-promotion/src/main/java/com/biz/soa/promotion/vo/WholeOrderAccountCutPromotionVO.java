@@ -22,6 +22,14 @@ public class WholeOrderAccountCutPromotionVO extends ProductPromotionVO {
      */
     private List<ReachCutPromotionVo> promotionRules;
 
+    public WholeOrderAccountCutPromotionVO() {
+    }
+
+    public WholeOrderAccountCutPromotionVO(CutPromotionTypeEnum cutPromotionType, List<ReachCutPromotionVo> promotionRules) {
+        this.cutPromotionType = cutPromotionType;
+        this.promotionRules = promotionRules;
+    }
+
     public CutPromotionTypeEnum getCutPromotionType() {
         return cutPromotionType;
     }

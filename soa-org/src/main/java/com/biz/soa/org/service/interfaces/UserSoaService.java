@@ -10,15 +10,7 @@ import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.enums.user.AuditStatus;
-import com.biz.gbck.vo.org.AutoLoginReqVo;
-import com.biz.gbck.vo.org.ChangePwdVo;
-import com.biz.gbck.vo.org.ForgotPasswordReqVo;
-import com.biz.gbck.vo.org.UserChangeAvatarReqVo;
-import com.biz.gbck.vo.org.UserChangeMobileReqVo;
-import com.biz.gbck.vo.org.UserCreateVo;
-import com.biz.gbck.vo.org.UserLoginReqVo;
-import com.biz.gbck.vo.org.UserLoginResVo;
-import com.biz.gbck.vo.org.UserRegisterReqVo;
+import com.biz.gbck.vo.org.*;
 import com.biz.gbck.vo.search.bbc.SearchUserReqVo;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -219,6 +211,8 @@ public interface UserSoaService {
      * 注册失败到OMS用户列表, 定时任务
      */
     void registerFailedUsers();
+
+    UserInfoVo findUserInfo(Long userId) throws CommonException;
 
     //UserResponseVo findByMemberIdCondition(MemberIdRequestVo memberIdRequestVo); //刘伟引入的
 }

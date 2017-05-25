@@ -35,24 +35,21 @@ public class PaymentController extends BaseRestController {
     @RequestMapping("/queryPaid")
     public JSONResult queryPaid(HttpServletRequest request) throws PaymentException {
         IdReqVo reqVo = RestUtil.parseBizData(request, IdReqVo.class);
-        PaymentQueryResultRespVo paidResultRespVo = paymentFeignClient.queryPaid(reqVo);
-        return new JSONResult(paidResultRespVo);
+        return RestUtil.parseBizResult(paymentFeignClient.queryPaid(reqVo));
     }
 
     //支付宝继续支付
     @RequestMapping("/alipay")
     public JSONResult alipay(HttpServletRequest request) throws PaymentException {
         IdReqVo reqVo = RestUtil.parseBizData(request, IdReqVo.class);
-        AlipaySignRespVo responseVo = paymentFeignClient.getAlipaySign(reqVo.getId());
-        return new JSONResult(responseVo);
+        return RestUtil.parseBizResult(paymentFeignClient.getAlipaySign(reqVo.getId()));
     }
 
     //微信继续支付
     @RequestMapping("/wechat")
     public JSONResult wecaht(HttpServletRequest request) throws PaymentException {
         WechatOrderReqVo reqVo = RestUtil.parseBizData(request, WechatOrderReqVo.class);
-        WechatPayResp respVo = paymentFeignClient.getWechatParam(reqVo);
-        return new JSONResult(respVo);
+        return RestUtil.parseBizResult(paymentFeignClient.getWechatParam(reqVo));
     }
 
 
