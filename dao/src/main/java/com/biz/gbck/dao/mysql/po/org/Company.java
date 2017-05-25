@@ -62,8 +62,8 @@ public class Company extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private CommonStatusEnum status;
 
-    @Enumerated(value = EnumType.STRING)
     @Column
+    @Enumerated(value = EnumType.STRING)
     private CompanyLevel companyLevel;
 
     /**

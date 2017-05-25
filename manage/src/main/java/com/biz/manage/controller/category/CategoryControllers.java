@@ -43,14 +43,7 @@ public class CategoryControllers {
     }
     @RequestMapping("{id}")
     @PreAuthorize("hasAuthority('OPT_CATEGORY_DETAIL')")
-    public String  detail(@PathVariable Long id, Model model,HttpSession session){
-        JSONArray json = new JSONArray();
-        if(productExtendService.findByCategoryId(id) != null){
-            for(ProductExtend item : productExtendService.findByCategoryId(id)){
-                json.add(JSONObject.fromObject("{\"name\":\""+item.getName()+"\",\"id\":\""+item.getId()+"\"}"));
-            }
-        }
-        session.setAttribute("currJson",json);
+    public String  detail(@PathVariable Long id, Model model){
         model.addAttribute("currentProductExtend",productExtendService.findByCategoryId(id));
         model.addAttribute("categoryId",id);
         return "manage/productextend/list";

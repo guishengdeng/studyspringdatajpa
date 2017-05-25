@@ -44,7 +44,7 @@ public class ProductController extends BaseRestController {
         reqVo.setSellerId(1L);
         MicroServiceResult<ProductAppDetailRespVO> productDetail = productFeignClient.getProductDetail(reqVo);
         if (productDetail.getStatus() == MicroServiceResult.SUCCESS_STATUS) {
-            return new JSONResult(productDetail);
+            return new JSONResult(productDetail.getData());
         } else {
             return new JSONResult(productDetail.getStatus(), productDetail.getMsg());
         }

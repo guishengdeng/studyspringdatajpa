@@ -175,8 +175,11 @@ public class UserInfoVo implements Serializable {
      */
     private Long companyGroupId;
 
+    public UserInfoVo() {
+    }
 
     public UserInfoVo(UserRo userRo, ShopRo shopRo) {
+        this();
         this.setUserId(userRo.getId());
         this.setAccount(userRo.getAccount());
         this.setName(userRo.getName());

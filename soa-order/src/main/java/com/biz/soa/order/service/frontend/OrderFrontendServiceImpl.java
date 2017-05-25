@@ -156,7 +156,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
             List<Integer> paymentTypes = supportedPaymentTypes.stream().filter(Objects::nonNull).map
                     (PaymentType::getValue).collect(Collectors.toList());
             builder.setPaymentTypes(paymentTypes);
-            OrderPromotionRespVo usablePromotion =  this.getUsablePromotion(reqVo, settleOrderItemVos);
+            OrderPromotionRespVo usablePromotion =  this.getUsablePromotion(userInfo, settleOrderItemVos);
             builder.setPromotions(newArrayList(usablePromotion));
             builder.setFreeAmount(null); //TODO 获取促销活动抵扣金额
 
@@ -173,13 +173,15 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         return settleResult;
     }
 
-    private OrderPromotionRespVo getUsablePromotion(OrderSettlePageReqVo reqVo, List<? extends IProduct>  products) {
+    private OrderPromotionRespVo getUsablePromotion(UserInfoVo userInfo, List<? extends IProduct>  products) {
         OrderPromotionReqVo promoReqVo = new OrderPromotionReqVo();
         int orderAmount = OrderUtil.calcOrderAmount(products);
-        promoReqVo.setUserId(Long.valueOf(reqVo.getUserId()));
+        promoReqVo.setUserId(Long.valueOf(userInfo.getUserId()));
+        promoReqVo.setCompanyGroupId(userInfo.getCompanyGroupId());
         promoReqVo.setProducts(products);
         promoReqVo.setOrderAmount(orderAmount);
         // 获取促销信息
+
         return null;
     }
 

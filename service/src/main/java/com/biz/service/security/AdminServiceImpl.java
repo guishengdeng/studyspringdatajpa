@@ -104,7 +104,7 @@ public class AdminServiceImpl extends AbstractBaseService implements UserDetails
 
     /**
      * 用户管理页面进行分页查询
-     * findAll方法继承自JpaSpecificationExcutor接口
+     * findAll方法继承自JpaSpecificationExecutor接口
      * @param
      * @return
      */
@@ -119,15 +119,10 @@ public class AdminServiceImpl extends AbstractBaseService implements UserDetails
      */
     @Override
     public Boolean isExistAdmin(String username,String cmd) throws AdminNotFoundException {
-        Admin user = adminRepository.findOne(username);
-        List<Admin> list = adminRepository.findAll();
+        Admin user = adminRepository.findOne(username.trim());
          if(user != null){
               if(cmd.equals("edit")){
-                  for(Admin item : list){
-                      if(item.getUsername().equals(user.getUsername())){
-                          return Boolean.TRUE;
-                      }
-                  }
+                  return Boolean.TRUE;
               }
             return Boolean.FALSE;
         }

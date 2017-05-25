@@ -31,6 +31,7 @@ public class SoaShopCartController extends SoaBaseController {
             shopCartService.addCartItem(reqVo);
             ShopCartListReqVo cartListReqVo = new ShopCartListReqVo();
             cartListReqVo.setUserId(reqVo.getUserId());
+            cartListReqVo.setShowDetail(false);
             return render200(shopCartService.getCartItemsInfo(cartListReqVo));
         } catch (Exception e) {
             return render500(e);
@@ -45,6 +46,18 @@ public class SoaShopCartController extends SoaBaseController {
     public MicroServiceResult<ShopCartRespVo> getCartInfo(@RequestBody ShopCartListReqVo reqVo) {
         try {
             return render200(shopCartService.getCartItemsInfo(reqVo));
+        } catch (Exception e) {
+            return render500(e);
+        }
+    }
+
+    /**
+     * 更新购物车数量
+     */
+    @RequestMapping("/app/updateQuantity")
+    public MicroServiceResult<ShopCartRespVo> updateItemQuantity(@RequestBody ShopCartItemUpdateReqVo reqVo) {
+        try {
+            return render200(shopCartService.updateCartItemQuantity(reqVo));
         } catch (Exception e) {
             return render500(e);
         }
