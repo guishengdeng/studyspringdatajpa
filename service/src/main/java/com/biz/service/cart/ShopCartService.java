@@ -1,5 +1,6 @@
 package com.biz.service.cart;
 
+import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.cart.*;
 
@@ -31,9 +32,20 @@ public interface ShopCartService {
      */
     void deleteCartItems(ShopCartItemBatchDeleteReqVo reqVo) throws DepotNextDoorException;
 
+    /**
+     * 购物车数量更新
+     * @param reqVo
+     */
+    ShopCartRespVo updateCartItemQuantity(ShopCartItemUpdateReqVo reqVo) throws DepotNextDoorException;
+
 
     /**
      * 获取购物车数量
      */
     ShopCartNumRespVo getCartNum(ShopCartNumReqVo reqVo) throws DepotNextDoorException ;
+
+    /**
+     * 清空购物车,一般下单后操作
+     */
+    void cleanCart(CommonReqVoBindUserId reqVo);
 }

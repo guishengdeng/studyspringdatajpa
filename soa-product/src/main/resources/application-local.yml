@@ -1,9 +1,9 @@
+server:
+  port: 8900
+  connection-timeout: 30000
 spring:
-  mvc:
-    view:
-      prefix: /WEB-INF/views/
-      suffix: .jsp
-
+  application:
+    name: depotnextdoor-product
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
@@ -24,13 +24,9 @@ spring:
     hibernate:
       ddl-auto: update
     database: mysql
-    open-in-view: true
-    properties:
-      hibernate:
-        enable_lazy_load_no_trans: true
-  session:
-    redis:
-      flush-mode: immediate
+  cloud:
+    inetutils:
+      timeout-seconds: 30
 
 biz:
   soa:
@@ -51,35 +47,36 @@ biz:
     port: 6379
     name:
     password:
-  oss:
-    remoteEndpoint: oss-cn-beijing.aliyuncs.com
-    localEndpoint: oss-cn-beijing-internal.aliyuncs.com
-    accessKeyId: LTAIcBsZ7zY66tku
-    accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
-    productBucketName: gbck-test
-    auditBucketName: gbck-test-qualification
   amqp:
+    host: 127.0.0.1
     username: guest
     password: guest
-    port: 15672
-    host: 127.0.0.1
+    port: 5672
     maxRetry: 3
     retryElapse: 1000
-
-
-server:
-  session:
-    timeout: 1200
-  port: 8679
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:7777/eureka/
-
 security:
   basic:
     enabled: false
 management:
   security:
     enabled: false
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:7777/eureka/
+    registry-fetch-interval-seconds: 1
+  instance:
+    prefer-ip-address: true
+  server:
+    eviction-interval-timer-in-ms: 1000
+ribbon:
+  ReadTimeout: 30000
+feign:
+  hystrix:
+    enabled: true
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false

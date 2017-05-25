@@ -1,14 +1,9 @@
 spring:
-  mvc:
-    view:
-      prefix: /WEB-INF/views/
-      suffix: .jsp
-
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password:
-    url: jdbc:mysql://127.0.0.1:3306/gbck?characterEncoding=utf-8
+    url: jdbc:mysql://127.0.0.1:3306/biz
     dbcp2:
       initial-size: 5
       max-total: 10
@@ -31,7 +26,6 @@ spring:
   session:
     redis:
       flush-mode: immediate
-
 biz:
   soa:
     idx: 1
@@ -39,8 +33,8 @@ biz:
     url: zookeeper://127.0.0.1:2181
     soaIdx:
       path: /biz/gbck/boot/soaIdx
-    #redis:
-    #  path: /biz/gbck/boot/redis
+    redis:
+      path: /biz/gbck/boot/redis
   redis:
     maxTotal: 120
     maxIdle: 10
@@ -56,30 +50,8 @@ biz:
     localEndpoint: oss-cn-beijing-internal.aliyuncs.com
     accessKeyId: LTAIcBsZ7zY66tku
     accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
-    productBucketName: gbck-test
-    auditBucketName: gbck-test-qualification
-  amqp:
-    username: guest
-    password: guest
-    port: 15672
-    host: 127.0.0.1
-    maxRetry: 3
-    retryElapse: 1000
-
+    bucketName: gbck-test
 
 server:
   session:
     timeout: 1200
-  port: 8679
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:7777/eureka/
-
-security:
-  basic:
-    enabled: false
-management:
-  security:
-    enabled: false
