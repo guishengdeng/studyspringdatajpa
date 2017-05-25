@@ -287,8 +287,11 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
     private void validQuantity(String userId, Long productId, int quantity) throws DepotNextDoorException {
         SystemAsserts.isTrue(quantity > 0, "添加数量应大于0, 添加购物车失败");
         UserInfoVo userInfo = this.getUserInfo(userId);
-        CompanyStockRespVO stockRespVO = stockFeignClient.getStock(new CompanyStockReqVO(userInfo.getPartnerId(),
-                productId));
+        CompanyStockReqVO reqVo = new CompanyStockReqVO(userInfo.getPartnerId(), productId);
+        CompanyStockRespVO stockRespVO = stockFeignClient.getStock(reqVo);
+        if (logger.isDebugEnabled()) {
+            logger.debug("购物车验证库存,请求:{}, 返回值: {}", reqVo, stockRespVO);
+        }
         SystemAsserts.notNull(stockRespVO, "库存不足, 添加购物车失败");
         SystemAsserts.isTrue(quantity <= ValueUtils.getValue(stockRespVO.getQuantity()), "库存不足");
     }
