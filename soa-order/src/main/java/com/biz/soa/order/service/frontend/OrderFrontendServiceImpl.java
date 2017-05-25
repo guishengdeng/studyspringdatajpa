@@ -161,7 +161,8 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
             }
 
             //根据促销信息获取优惠券数量
-            Integer couponCount = this.getUsableCouponCount(reqVo, settleOrderItemVos);
+            Integer couponCount = this.getUsableCouponCount(reqVo, settleOrderItemVos.stream().map(o ->
+                    (ProductInfoVo) o).collect(Collectors.toList()));
             builder.setCoupons(couponCount);
             builder.setVoucherAmount(null); //TODO 获取优惠券抵扣金额
 
@@ -186,7 +187,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
     }
 
     //获取可用优惠券
-    private Integer getUsableCouponCount(OrderSettlePageReqVo reqVo, List<? extends IProduct> products) {
+    private Integer getUsableCouponCount(OrderSettlePageReqVo reqVo, List<ProductInfoVo> products) {
         OrderCouponReqVo couponReqVo = new OrderCouponReqVo();
         int orderAmount = OrderUtil.calcOrderAmount(products);
         couponReqVo.setUserId(Long.valueOf(reqVo.getUserId()));
