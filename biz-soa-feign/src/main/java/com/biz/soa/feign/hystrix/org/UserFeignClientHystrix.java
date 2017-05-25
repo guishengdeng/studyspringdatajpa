@@ -111,4 +111,5 @@ public class UserFeignClientHystrix implements UserFeignClient {
     public List<Long> findUserIdByCompanyGroupId(@RequestParam("companyGroupId") Long companyGroupId) {
         return null;
     }
+    
 }
