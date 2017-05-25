@@ -4,7 +4,6 @@ import com.biz.gbck.dao.mysql.po.security.Resource;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.manage.controller.BaseController;
 import com.biz.service.IdService;
-import com.biz.service.security.interfaces.MenuItemService;
 import com.biz.service.security.interfaces.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;

@@ -5,7 +5,6 @@ import com.biz.gbck.dao.mysql.repository.admin.RoleRepository;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.security.interfaces.RoleService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -56,7 +55,7 @@ public class RoleServiceImpl extends AbstractBaseService implements RoleService 
      */
     @Override
     public Boolean isExist(Role param) {
-        Role role = roleRepository.getRoleCondition(param.getName().trim());
+        Role role = roleRepository.getRoleByCondition(param.getName().trim());
         if(role != null){
              if(param.getId() != null && param.getId().equals(role.getId())){
                  return Boolean.TRUE;

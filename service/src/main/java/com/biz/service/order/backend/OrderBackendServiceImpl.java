@@ -4,7 +4,6 @@ import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.dao.mysql.po.org.PartnerPo;
 import com.biz.gbck.dao.mysql.po.org.PlatformPo;
 import com.biz.gbck.dao.mysql.repository.order.OrderRepository;
-import com.biz.gbck.dao.mysql.repository.org.PartnerRepository;
 import com.biz.gbck.dao.mysql.specification.order.OrderSearchSpecification;
 import com.biz.gbck.vo.order.req.OrderQueryReqVo;
 import com.biz.gbck.vo.order.resp.OrderResponseVo;

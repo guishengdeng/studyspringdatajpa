@@ -5,8 +5,6 @@ import com.biz.gbck.exceptions.product.AdminNotFoundException;
 import com.biz.gbck.vo.admin.AdminReqVo;
 import com.biz.manage.controller.BaseController;
 import com.biz.manage.util.AuthorityUtil;
-import com.biz.service.org.interfaces.PlatformService;
-import com.biz.service.partner.interfaces.PartnerService;
 import com.biz.service.security.interfaces.AdminService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

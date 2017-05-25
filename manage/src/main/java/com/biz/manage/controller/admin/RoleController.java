@@ -5,8 +5,6 @@ import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.manage.controller.BaseController;
 import com.biz.service.IdService;
 import com.biz.service.security.interfaces.MainMenuService;
-import com.biz.service.security.interfaces.MenuItemService;
-import com.biz.service.security.interfaces.ResourceService;
 import com.biz.service.security.interfaces.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;

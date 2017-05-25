@@ -1,6 +1,5 @@
 package com.biz.gbck.dao.mysql.repository.admin;
 
-import com.biz.gbck.dao.mysql.po.security.MainMenu;
 import com.biz.gbck.dao.mysql.po.security.MenuItem;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.support.jpa.repository.CommonJpaRepository;

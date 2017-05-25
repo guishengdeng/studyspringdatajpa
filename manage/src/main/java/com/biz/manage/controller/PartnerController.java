@@ -5,11 +5,8 @@ import com.biz.core.ali.oss.util.OssUtil;
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.common.exception.ExceptionCode;
 import com.biz.gbck.dao.mysql.po.security.Admin;
-import com.biz.gbck.enums.org.CompanyLevel;
 import com.biz.gbck.enums.partner.ApprovalStatus;
 import com.biz.gbck.exceptions.partner.PartnerExceptions;
-import com.biz.gbck.vo.platform.PartnerRespVo;
-import com.biz.gbck.vo.platform.PlatFormRespVo;
 import com.biz.manage.servlet.ManageServlet;
 import com.biz.service.partner.interfaces.PartnerService;
 import com.biz.support.web.handler.JSONResult;
@@ -26,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 
 /**

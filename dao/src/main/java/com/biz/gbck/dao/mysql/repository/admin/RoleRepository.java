@@ -23,6 +23,6 @@ public interface RoleRepository extends CommonJpaRepository<Role, Long>, RoleDao
     List<Role> getByStatus(CommonStatusEnum status);
 
     @Query("FROM Role role WHERE role.name = :name")
-    Role  getRoleCondition(@Param("name") String roleName);
+    Role getRoleByCondition(@Param("name") String roleName);
 
 }
