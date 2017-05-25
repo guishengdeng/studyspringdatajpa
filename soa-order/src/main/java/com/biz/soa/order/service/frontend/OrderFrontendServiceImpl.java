@@ -167,6 +167,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
             builder.setVoucherAmount(null); //TODO 获取优惠券抵扣金额
 
         }
+        logger.debug("build!!");
         OrderSettlePageRespVo settleResult = builder.build();
         if (logger.isDebugEnabled()) {
             logger.debug("订单结算-------请求: {}, 返回值: {}", reqVo, settleResult);
