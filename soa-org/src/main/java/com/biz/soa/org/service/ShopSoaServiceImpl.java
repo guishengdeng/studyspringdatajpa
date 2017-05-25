@@ -1560,6 +1560,22 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
                 && shopAuditReqVo.getShopQualificationId() != null){
             this.updateShopQualification(shopAuditReqVo);
             this.updateShopDetail(shopAuditReqVo);
+            ShopPo shop;
+            if (shopAuditReqVo.getShopDetailId() != null) {
+                shop = shopDetailRepository.findOne(shopAuditReqVo.getShopDetailId()).getShop();
+            } else {
+                shop = shopQualificationRepository.findOne(shopAuditReqVo.getShopQualificationId()).getShop();
+            }
+            if(shopAuditReqVo.getPartnerId() != null){
+                shop.setPartner(partnerRepository.findOne(shopAuditReqVo.getPartnerId())); //set城市合伙人
+            }
+            this.save(shop);//修改城市合伙人
+            Set<UserPo> userPos=shop.getUsers();
+            if(CollectionUtils.isNotEmpty(userPos)){
+                for(UserPo userPo:userPos){
+                    userSoaService.saveUser(userPo);
+                }
+            }
             return true;
         }
         return false;

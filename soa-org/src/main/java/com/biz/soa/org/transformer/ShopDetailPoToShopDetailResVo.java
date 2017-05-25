@@ -29,6 +29,7 @@ import java.io.Serializable;
             vo.setMobile(input.getMobile());
             vo.setAuditStatus(input.getAuditStatus());
             vo.setCreateTime(input.getCreateTime());
+            vo.setDeliveryAddress(input.getDeliveryAddress());
         }
         return vo;
     }
