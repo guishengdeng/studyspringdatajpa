@@ -168,9 +168,9 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
         SortBuilder sortBuilder;
         if (StringUtils.equalsIgnoreCase("saleVolumeAsc", sort)) {
             sortBuilder = SortBuilders.fieldSort("salesVolume").order(SortOrder.ASC);
-        } else if (StringUtils.equalsIgnoreCase("salePrice", sort)) {
+        } else if (StringUtils.equalsIgnoreCase("salePriceAsc", sort)) {
             sortBuilder = SortBuilders.fieldSort("salePrice").order(SortOrder.ASC);
-        } else if (StringUtils.equalsIgnoreCase("salePrice", sort)) {
+        } else if (StringUtils.equalsIgnoreCase("salePriceDesc", sort)) {
             sortBuilder = SortBuilders.fieldSort("salePrice").order(SortOrder.DESC);
         } else {
             sortBuilder = SortBuilders.fieldSort("salesVolume").order(SortOrder.DESC);
