@@ -1,6 +1,6 @@
 package com.biz.soa.stock.controller;
 
-import com.biz.gbck.dao.mysql.po.stock.Stock;
+import com.biz.gbck.dao.mysql.po.stock.CompanyStock;
 import com.biz.gbck.vo.stock.StockShowVo;
 import com.biz.soa.base.SoaBaseController;
 import org.springframework.data.domain.Page;
@@ -20,8 +20,8 @@ public class SoaStockBackendController extends SoaBaseController{
 //    @Qualifier("stockBackendService")
 //    private StockBackendService stockBackendService;
 
-    @RequestMapping(value = "findList", method = RequestMethod.POST)
-    Page<Stock> findList(@RequestBody StockShowVo stockShowVo){
+    @RequestMapping(value = "search", method = RequestMethod.POST)
+    Page<CompanyStock> search(@RequestBody StockShowVo stockShowVo){
         return null;
     }
 

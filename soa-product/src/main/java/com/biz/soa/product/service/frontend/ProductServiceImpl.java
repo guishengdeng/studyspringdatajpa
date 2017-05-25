@@ -1,14 +1,13 @@
 package com.biz.soa.product.service.frontend;
 
 import com.alibaba.fastjson.JSON;
-import com.biz.gbck.dao.mysql.po.product.master.Product;
-import com.biz.gbck.vo.product.SearchVo;
 import com.biz.gbck.vo.product.gbck.request.ProductAppDetailReqVo;
 import com.biz.gbck.vo.product.gbck.request.ProductAppListReqVo;
 import com.biz.gbck.vo.product.gbck.request.PurchaseProductReqVO;
 import com.biz.gbck.vo.product.gbck.response.ProductAppDetailRespVO;
 import com.biz.gbck.vo.product.gbck.response.ProductAppListItemVo;
 import com.biz.gbck.vo.product.gbck.response.ProductAppListRespVO;
+import com.biz.gbck.vo.product.gbck.response.PurchaseProductItemVO;
 import com.biz.gbck.vo.search.ProductSearchResultEntityVo;
 import com.biz.gbck.vo.search.ProductSearchResultVo;
 import com.biz.gbck.vo.soa.MicroServiceResult;
@@ -112,7 +111,7 @@ public class ProductServiceImpl extends AbstractProductService implements Produc
     }
 
     @Override
-    public List<ProductAppListItemVo> purchaseProducts(PurchaseProductReqVO reqVO) {
+    public List<PurchaseProductItemVO> purchaseProducts(PurchaseProductReqVO reqVO) {
         Preconditions.checkArgument(Objects.nonNull(reqVO)
                 && CollectionUtils.isNotEmpty(reqVO.getProductIds())
                 && Objects.nonNull(reqVO.getCompanyGroupId()) && Objects.nonNull(reqVO.getSellerId()));

@@ -1,12 +1,8 @@
 package com.biz.service.stock;
 
 import com.biz.gbck.dao.mysql.po.product.master.Product;
-import com.biz.gbck.dao.mysql.po.security.Admin;
-import com.biz.gbck.dao.mysql.po.stock.Stock;
-import com.biz.gbck.dao.mysql.repository.admin.AdminRepository;
-import com.biz.gbck.dao.mysql.repository.product.ProductRepository;
+import com.biz.gbck.dao.mysql.po.stock.CompanyStock;
 import com.biz.gbck.dao.mysql.repository.stock.StockRepository;
-import com.biz.gbck.dao.mysql.specification.stock.ProductSpecification;
 import com.biz.gbck.vo.product.SearchVo;
 import com.biz.gbck.vo.stock.StockShowVo;
 import com.biz.service.AbstractBaseService;
@@ -45,9 +41,9 @@ public class StockBackendShowServiceImpl extends AbstractBaseService implements 
                 productIdToProductMap.put(product.getId(), product);
             }
             Set<Long> productIds = productIdToProductMap.keySet();
-            Page<Stock> stockPage = stockRepository.findByCompanyIdAndProductIdIn(reqVo.getCompanyId(), productIds,
+            Page<CompanyStock> stockPage = stockRepository.findByCompanyIdAndProductIdIn(reqVo.getCompanyId(), productIds,
                     new PageRequest(reqVo.getPage() - 1, reqVo.getPageSize(), new Sort(Sort.Direction.ASC, "productId")));
-            for (Stock sto : stockPage) {
+            for (CompanyStock sto : stockPage) {
                 StockShowVo stockShowVo = new StockShowVo();
                 stockShowVo.setQuantity(sto.getQuantity());
                 stockShowVo.setProductId(sto.getProductId());
