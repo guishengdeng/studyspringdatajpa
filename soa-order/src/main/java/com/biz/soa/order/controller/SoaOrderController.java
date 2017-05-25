@@ -6,6 +6,7 @@ import com.biz.gbck.vo.PageRespVo;
 import com.biz.gbck.vo.order.req.*;
 import com.biz.gbck.vo.order.resp.OrderRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
+import com.biz.gbck.vo.org.UserInfoVo;
 import com.biz.gbck.vo.payment.resp.PaymentRespVo;
 import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.service.order.frontend.OrderFrontendService;
@@ -124,9 +125,9 @@ public class SoaOrderController extends SoaBaseController {
     }
 
     @GetMapping(value = "/app/userInfo")
-    public MicroServiceResult<String> findUserInfo(@RequestParam("userId") String userId) {
+    public MicroServiceResult<UserInfoVo> findUserInfo(@RequestParam("userId") String userId) {
         try {
-            render200(userFeignClient.findUserInfo(Long.valueOf(userId)));
+            return render200(userFeignClient.findUserInfo(Long.valueOf(userId)));
         } catch (Exception e) {
             return render500(e);
         }
