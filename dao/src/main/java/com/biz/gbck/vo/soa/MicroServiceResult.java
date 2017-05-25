@@ -1,6 +1,8 @@
 package com.biz.gbck.vo.soa;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.io.Serializable;
 
 /**
@@ -77,4 +79,11 @@ public class MicroServiceResult<T> implements Serializable {
     public boolean isSuccess() {
         return this.status == SUCCESS_STATUS;
     }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 }
+
+

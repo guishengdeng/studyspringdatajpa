@@ -65,7 +65,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
 
 
     @Override
-    public void addCartItem(ShopCartItemAddReqVo reqVo) throws DepotNextDoorException {
+    public ShopCartRespVo addCartItem(ShopCartItemAddReqVo reqVo) throws DepotNextDoorException {
         if (logger.isDebugEnabled()) {
             logger.debug("添加购物车商品-------请求vo: {}", reqVo);
         }
@@ -90,6 +90,18 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         }
         shopCartItemRo.setQuantity(quantity);
         shopCartItemRedisDao.save(shopCartItemRo);
+
+        ShopCartNumReqVo cartNumReqVo = new ShopCartNumReqVo();
+        cartNumReqVo.setUserId(reqVo.getUserId());
+        ShopCartNumRespVo cartNum = this.getCartNum(cartNumReqVo);
+        ShopCartRespVo shopCartRespVo = ShopCartRespVoBuilder.createBuilder().setCartNum(cartNum.getCartNum()).build();
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("添加购物车-------请求: {}, 返回值: {}", reqVo, shopCartRespVo);
+        }
+        return shopCartRespVo;
+
+
     }
 
     @Override
@@ -141,7 +153,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
 
 
     @Override
-    public ShopCartRespVo updateCartItemQuantity(ShopCartItemUpdateReqVo reqVo) throws DepotNextDoorException {
+    public void updateCartItemQuantity(ShopCartItemUpdateReqVo reqVo) throws DepotNextDoorException {
         if (logger.isDebugEnabled()) {
             logger.debug("Update shop cart count updateVo: {}", reqVo);
         }
@@ -160,15 +172,6 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         } else {
             throw new CartItemNotExistException("购物车商品不存在");
         }
-        ShopCartNumReqVo cartNumReqVo = new ShopCartNumReqVo();
-        cartNumReqVo.setUserId(reqVo.getUserId());
-        ShopCartNumRespVo cartNum = this.getCartNum(cartNumReqVo);
-        ShopCartRespVo shopCartRespVo = ShopCartRespVoBuilder.createBuilder().setCartNum(cartNum.getCartNum()).build();
-
-        if (logger.isDebugEnabled()) {
-            logger.debug("更新购物车数量-------请求: {}, 返回值: {}", reqVo, shopCartRespVo);
-        }
-        return shopCartRespVo;
     }
 
     @Override
