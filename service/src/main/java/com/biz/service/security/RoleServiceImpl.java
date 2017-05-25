@@ -48,4 +48,21 @@ public class RoleServiceImpl extends AbstractBaseService implements RoleService 
     public List<Role> findByStatus(CommonStatusEnum status) {
         return roleRepository.getByStatus(status);
     }
+
+    /**
+     *
+     *用于判定：在修改或添加角色名称时,数据库是否是该角色名称
+     * 存在则返回false,否则返回true
+     */
+    @Override
+    public Boolean isExist(Role param) {
+        Role role = roleRepository.getRoleCondition(param.getName().trim());
+        if(role != null){
+             if(param.getId() != null && param.getId().equals(role.getId())){
+                 return Boolean.TRUE;
+             }
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+    }
 }

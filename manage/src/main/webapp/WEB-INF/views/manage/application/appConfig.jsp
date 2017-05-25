@@ -17,7 +17,7 @@
                 height: 200px;
             }
 
-            #app_url {
+            #app_pictureUrl {
                 width: 350px;
                 height: 280px;
             }
@@ -148,10 +148,11 @@
                                     搜索热词 </label>
                                 <div class="col-sm-9">
                                     <input type="text" id="form-field-2" name="hotKeyWord"
-                                           value=" <c:out value='${appVo.hotKeyWord}'/>"
+                                           onkeyup="this.value=this.value.replace(/\s+/g,'')"
+                                           value="<c:out value='${appVo.hotKeyWord}'/>"
                                            maxlength="20"
                                            placeholder="例：茅台 五粮液 剑南春"
-                                           class="col-xs-10 col-sm-5 required text">
+                                           class="col-xs-10 col-sm-5 valid required text">
                                 </div>
                             </div>
                                 <%--页遮罩图片URL--%>
@@ -159,12 +160,12 @@
                                 <label class="col-sm-3 control-label no-padding-right">
                                     首页遮罩图片URL
                                 </label>
-                                <div class="col-md-9" id="app_url">
+                                <div class="col-md-9" id="app_pictureUrl">
                                     <img id="image" src=""/>
                                     <div class="btn btn-primary" id="logo_button">修改图片</div>
                                     <input type="file" id="logo_file" value=""/>
                                     <input name="pictureUrl" type="ime-mode:disabled" id="logo_container"
-                                           value="<c:out value='${appVo.pictureUrl}'/>" class="col-xs-10 col-sm-5"
+                                           value="<c:out value="${appVo.pictureUrl}"/>" class="col-xs-10 col-sm-5"
                                            readonly>
                                     <button id="appdelete_button" class="btn btn-primary" type="button">
                                         删除图片
@@ -172,17 +173,15 @@
                                 </div>
                             </div>
                                 <%--页遮罩图片URL--%>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label no-padding-right" for="form-field-4">
+                            <div class="form-group ">
+                                <label class="col-sm-3 control-label no-padding-right" for="app_url">
                                     首页遮罩跳转URL </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" id="form-field-4" name="url"
-                                           onkeyup="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
-                                           onafterpaste="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
-                                           value=" <c:out value='${appVo.url}'/>"
-                                           maxlength="100" placeholder="首页遮罩跳转URL "
-                                           class="col-xs-10 col-sm-5 required text">
+                                    <input type="text" id="app_url" name="url" class="col-xs-10 col-sm-5  regExp text"
+                                           value="<c:out value="${appVo.url}"/>"
+                                           pattern="https?://[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?[^\x00-\x7F]+\ *(?:[^\x00-\x7F]| )*"
+                                           maxlength="100" placeholder="首页遮罩跳转URL "/>
                                 </div>
                             </div>
 
@@ -224,11 +223,10 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
 
                                 <div class="col-sm-9">
                                     <input type="text" id="form-field-1-2" name="shareUrl"
-                                           onkeyup="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
-                                           onafterpaste="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
+                                           pattern="https?://[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?[^\x00-\x7F]+\ *(?:[^\x00-\x7F]| )*"
                                            value="<c:out value='${appVo.shareUrl}'/>"
                                            maxlength="100" placeholder="红包分享页url"
-                                           class="col-xs-10 col-sm-5 required text">
+                                           class="col-xs-10 col-sm-5 regExp text">
                                 </div>
                             </div>
 
@@ -238,11 +236,10 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
 
                                 <div class="col-sm-9">
                                     <input type="text" id="form-field-1-3" name="recommedUrl"
-                                           onkeyup="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
-                                           onafterpaste="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
+                                           pattern="https?://[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?[^\x00-\x7F]+\ *(?:[^\x00-\x7F]| )*"
                                            value="<c:out value='${appVo.recommedUrl}'/>"
                                            maxlength="100" placeholder="推荐有礼url"
-                                           class="col-xs-10 col-sm-5 required text">
+                                           class="col-xs-10 col-sm-5 regExp text">
                                 </div>
                             </div>
 
@@ -252,11 +249,10 @@ gbcklogo144x144.png" class="col-xs-10 col-sm-5 required text">
 
                                 <div class="col-sm-9">
                                     <input type="text" id="form-field-1-4" name="appDownloadUrl"
-                                           onkeyup="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
-                                           onafterpaste="this.value=this.value.replace(/[\u4e00-\u9fa5]{0,}/g,'')"
-                                           maxlength="100" value=" <c:out value='${appVo.appDownloadUrl}'/>"
-                                           placeholder="app下载页
-面" class="col-xs-10 col-sm-5 required text">
+                                           value="<c:out value="${appVo.appDownloadUrl}"/>"
+                                           pattern="https?://[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?[^\x00-\x7F]+\ *(?:[^\x00-\x7F]| )*"
+                                           maxlength="100"
+                                           placeholder="app下载页面" class="col-xs-10 col-sm-5 regExp text">
                                 </div>
                             </div>
 

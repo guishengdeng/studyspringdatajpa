@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.biz.gbck.dao.mysql.po.voucher.VoucherTypePo;
@@ -45,7 +46,7 @@ public class SoaVoucherTypeController extends SoaBaseController{
 	 * @return
 	 */
 	@PostMapping(value="/getVoucherType")
-	public VoucherTypePo getVoucherTypeById(Long id) {
+	public VoucherTypePo getVoucherTypeById(@RequestParam("id") Long id) {
 		return voucherTypeService.getVoucherTypeById(id);
 	}
 
@@ -55,7 +56,7 @@ public class SoaVoucherTypeController extends SoaBaseController{
 	 */
 	
 	@PostMapping(value="/update")
-	public void update(VoucherTypeVo voucherTypeVo) {
+	public void update(@RequestBody VoucherTypeVo voucherTypeVo) {
 		voucherTypeService.update(voucherTypeVo);
 	}
 
@@ -65,7 +66,7 @@ public class SoaVoucherTypeController extends SoaBaseController{
 	 * @param addIssueCount
 	 */
 	@PostMapping(value="/addCount")
-	public void addVoucherTypeIssueCount(Long id, int addIssueCount) {
+	public void addVoucherTypeIssueCount(@RequestParam("id") Long id, @RequestParam("addIssueCount") int addIssueCount) {
 		voucherTypeService.addVoucherTypeIssueCount(id, addIssueCount);
 	}
 
@@ -74,7 +75,7 @@ public class SoaVoucherTypeController extends SoaBaseController{
 	 * @param id
 	 */
 	@PostMapping(value="/del")
-	public void deleteVoucherType(Long id) {
+	public void deleteVoucherType(@RequestParam("id") Long id) {
 		voucherTypeService.deleteVoucherType(id);
 	}
 	

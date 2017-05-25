@@ -1,6 +1,6 @@
 package com.biz.soa.org.transformer;
 
-import com.biz.gbck.dao.mysql.po.org.PlatformPo;;
+import com.biz.gbck.dao.mysql.po.org.PlatformPo;
 import com.biz.gbck.vo.platform.PlatformResSearchVo;
 import com.biz.gbck.vo.spring.PageVO;
 import com.google.common.base.Function;

@@ -4,12 +4,17 @@ import com.biz.core.util.DateUtil;
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.common.exception.ExceptionCode;
 import com.biz.gbck.dao.mysql.po.org.PartnerPo;
+import com.biz.gbck.dao.mysql.po.org.PlatformPo;
 import com.biz.gbck.dao.mysql.po.security.Admin;
 import com.biz.gbck.dao.mysql.repository.admin.AdminRepository;
 import com.biz.gbck.dao.mysql.repository.org.PartnerRepository;
 import com.biz.gbck.enums.CommonStatusEnum;
+import com.biz.gbck.enums.org.CompanyLevel;
 import com.biz.gbck.enums.partner.ApprovalStatus;
 import com.biz.gbck.exceptions.partner.PartnerExceptions;
+import com.biz.gbck.vo.platform.PartnerRespVo;
+import com.biz.gbck.vo.platform.PlatFormRespVo;
+import com.biz.gbck.vo.warehouse.WarehouseResponseVo;
 import com.biz.service.IdService;
 import com.biz.service.partner.interfaces.PartnerService;
 import com.biz.service.partner.specification.PartnerSpecification;
@@ -36,6 +41,7 @@ import java.util.Set;
  */
 @Service
 public class PartnerServiceImpl implements PartnerService{
+
 
     private Logger logger = LoggerFactory.getLogger(PartnerServiceImpl.class);
 
@@ -82,6 +88,10 @@ public class PartnerServiceImpl implements PartnerService{
         return id == null ? null : new PartnerPo2PartnerDetailRespVo().apply(partnerRepository.findOne(id));
     }
 
+    public PartnerServiceImpl() {
+        super();
+    }
+
     @Override
     public void updatePartnerStatus(PartnerReqVo partnerReqVo) throws CommonException {
         if(partnerReqVo == null || partnerReqVo.getId() == null) {
@@ -105,5 +115,60 @@ public class PartnerServiceImpl implements PartnerService{
             }
         }
         partnerRepository.save(partnerPo);
+    }
+    @Override
+    public List<PartnerPo> listByName(String name) {
+        return partnerRepository.getPartnerPosByName(name);
+    }
+
+
+    @Override
+    public List<PartnerRespVo> getPartnersByPlatFormId(Long id) {
+        List<PartnerPo> list = partnerRepository.getPartnersByPlatFormId(id);
+        List<PartnerRespVo> voList = Lists.newArrayList();
+        if(CollectionUtils.isNotEmpty(list)){
+            for(PartnerPo item :list){
+                PartnerRespVo vo = new PartnerRespVo();
+                vo.setId(item.getId());
+                vo.setPartnerName(item.getName());
+                voList.add(vo);
+            }
+        }
+        return voList;
+    }
+
+    @Override
+    public List<PartnerRespVo> getNotDuplicatePartnerName() {
+        List<String> list = partnerRepository.removeDuplicatedName();
+        List<PartnerRespVo> voList = Lists.newArrayList();
+        if(CollectionUtils.isNotEmpty(list)){
+            for(String name : list){
+                PartnerRespVo vo = new PartnerRespVo();
+                vo.setPartnerName(name);
+                voList.add(vo);
+            }
+        }
+        return voList;
+    }
+
+    @Override
+    public List<PartnerPo> findByIds(Iterable<Long> iterable) {
+        return partnerRepository.findAll(iterable);
+    }
+
+    @Override
+    public List<WarehouseResponseVo> getRespVoByCompanyLevel(CompanyLevel companyLevel) {
+        List<WarehouseResponseVo> voList = Lists.newArrayList();
+        List<PartnerPo> poList = partnerRepository.findByCompanyLevel(companyLevel);
+        if(CollectionUtils.isNotEmpty(poList)){
+            for(PartnerPo partnerPo : poList){
+                WarehouseResponseVo vo = new WarehouseResponseVo();
+                vo.setId(partnerPo.getId());
+                vo.setName(partnerPo.getName());
+                vo.setCompanyLevel(companyLevel);
+                voList.add(vo);
+            }
+        }
+        return voList;
     }
 }

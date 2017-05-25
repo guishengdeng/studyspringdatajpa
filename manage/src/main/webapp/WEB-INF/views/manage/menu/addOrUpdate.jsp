@@ -11,11 +11,11 @@
                  var data = $('#mainMenu_form').serialize();
                  var name = $('#name').val();
                  var icon = $('#icon').val();
-                 if(name == ""){
+                 if(!name){
                      layer.msg("菜单名称不能为空");
                      return false;
                  }
-                 if(icon == ""){
+                 if(!icon){
                      layer.msg("图标不能为空");
                      return false;
                  }
@@ -113,7 +113,7 @@
                                     </label>
                                     <div class="col-sm-9">
                                         <input id="icon" type="text" name="icon"  placeholder="图标" value="<c:out value='${mainMenu.icon}'/>"
-                                               maxlength="10" class="required col-xs-10 col-sm-5"/>
+                                               maxlength="80" class="required col-xs-10 col-sm-5"/>
                                     </div>
                                 </div>
                                 <div class="form-group">

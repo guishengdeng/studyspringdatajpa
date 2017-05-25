@@ -2,6 +2,9 @@ package com.biz.gbck.vo.product.backend;
 
 import com.biz.gbck.dao.mysql.po.tag.SaleStatusEnum;
 import com.biz.gbck.enums.CommonStatusEnum;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * @author lzz
@@ -21,20 +24,28 @@ public class SaleTagVo implements ISaleTagVo {
     /**
      * 销售标签名称
      */
+    @NotNull(message = "销售标签名称不能为空")
+    @NotBlank(message = "销售标签名称不能为空")
     private String name;
 
     /**
      * 前台展示
      */
+    @NotNull(message = "前台展示不能为空")
+    @NotBlank(message = "前台展示不能为空")
     private String showName;
 
     /**
      * 标签
      */
+    @NotNull(message = "标签不能为空")
+    @NotBlank(message = "标签不能为空")
     private String tag;
+
     /**
      * 销售标签显示顺序
      */
+    @NotNull(message = "销售标签显示顺序不能为空")
     private Integer idx;
 
     /**
@@ -45,7 +56,9 @@ public class SaleTagVo implements ISaleTagVo {
     /**
      * 标签的启用禁用状态
      */
+    @NotNull(message = "标签的启用禁用状态不能为空")
     private SaleStatusEnum saleStatus;
+
     /**
      * 状态（删除状态）
      */

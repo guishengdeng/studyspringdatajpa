@@ -297,7 +297,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
     private UserInfoVo getUserInfo(String userId) throws DepotNextDoorException {
         UserInfoVo userInfo = userFeignClient.findUserInfo(Long.valueOf(userId));
         if (logger.isDebugEnabled()) {
-            logger.debug("购物车获取用户信息: {}", userInfo);
+            logger.debug("购物车[userId={}]获取用户信息user: {}", userId, userInfo);
         }
         BusinessAsserts.notNull(userInfo, DepotNextDoorExceptions.User.USER_NOT_EXIST);
         SystemAsserts.notNull(userInfo.getPartnerId(), "合伙人不能为空");

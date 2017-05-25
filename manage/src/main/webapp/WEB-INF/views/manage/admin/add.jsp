@@ -1,25 +1,35 @@
+<%@page import="com.biz.gbck.enums.org.CompanyLevel" %>
 <%@page contentType="text/html; charset=utf-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="depotnextdoor" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%--这是用户--%>
+<%
+    request.setAttribute("_companyLevelArray_", CompanyLevel.values());
+%>
 <depotnextdoor:page title="用户列表edit">
-
     <jsp:attribute name="script">
         <script type="application/javascript">
-             $('#confirm').on("click",function(){
-                 var data = $('#admin_form').serialize();
+            $(function(){
+                $('#companyLevelSons').hide();
+            });
+            $('#confirm').on("click",function(){
                  var cmd = $('#cmd').val();
-                 var username = $('#username').val();
-                 var password = $('#password').val();
+                 var username = $('#username').val().trim();
+
                   if(cmd == "add"){
-                      if(username == ""){
+                      var password = $('#password').val().trim();
+                      if(!username){
                           layer.msg("用户名不能为空");
                           return false;
                       }
-                      if(password == ""){
+                      if(!password){
                           layer.msg("密码不能为空");
+                          return false;
+                      }
+                      if(password.length<6 ||password.length>20){
+                          layer.msg("密码长度只能是6-20的字符");
                           return false;
                       }
                   }
@@ -39,6 +49,63 @@
                      }
                  });
              });
+             function changeCompanyLevel(value){
+                 if(value == "" || !value){
+                     layer.msg("请手动选择后台账号级别");
+                     return false;
+                 }
+                     $.ajax({
+                         method : "POST",
+                         url : "wareHouse/findByCompanyLevel.do",
+                         data : {"companyLevel":value}
+                     }).done(function(result){
+                         console.log(result);
+                         $('#companyLevelSons').show();
+                         if(result[0].companyLevel =="ORG_PLATFORM"){
+                             $('#companyLabel').html("公司");
+                         }else if(result[0].companyLevel =="ORG_PARTNER"){
+                             $('#companyLabel').html("合伙人");
+                         }else{
+                             $('#companyLabel').html("隔壁仓库");
+                         }
+                         $('#companySelect').empty();
+                         for(var index=0;index<result.length;index++){
+                             $('#companySelect').show();
+                              $('#companySelect').append('<option value="'+result[index].id+'">'+result[index].name+'</option>');
+                         }
+                     });
+
+                 /*if(value == "ORG_PARTNER"){
+                     $.ajax({
+                         method : "POST",
+                         url : "partner/findByCompanyLevel.do",
+                         data : {"companyLevel":value}
+                     }).done(function(result){
+                         $('#companyLevelSons').show();
+                         $('#companyLabel').html("合伙人");
+                         $('#companySelect').empty();
+                         for(var index=0;index<result.length;index++){
+                             $('#companySelect').show();
+                             $('#companySelect').append('<option value="'+result[index].id+'">'+result[index].partnerName+'</option>');
+                         }
+                     });
+                 }*/
+                 /*if(value == "ORG_WAREHOUSE"){
+                     $.ajax({
+                         method : "POST",
+                         url : "wareHouse/findByCompanyLevel.do",
+                         data : {"companyLevel":value}
+                     }).done(function(result){
+                         $('#companyLevelSons').show();
+                         $('#companyLabel').html("隔壁仓库");
+                         $('#companySelect').empty();
+                         for(var index=0;index<result.length;index++){
+                             $('#companySelect').show();
+                             $('#companySelect').append('<option value="'+result[index].id+'">'+result[index].name+'</option>');
+                         }
+                     });
+                 }*/
+             }
         </script>
         <script type="application/javascript">
             <c:forEach items="${admin.roles}" var="role" varStatus="status">
@@ -96,16 +163,16 @@
 
                                             <div class="col-sm-9">
                                                 <input ${empty admin ? '' : 'readonly'}
-                                                        class="required col-xs-10 col-sm-5"
+                                                        class="col-xs-10 col-sm-5"
                                                         type="text"
                                                         id="username"
-                                                        placeholder="用户名"
+                                                        placeholder=""
                                                         name="username"
                                                         value="${admin.username}"/>
                                                 <p class="help-block">用户名一旦注册,便不能修改</p>
                                             </div>
                                       </div>
-                                <c:if test="${empty admin}">
+                                <c:if test="${empty admin}"><%--说明是做添加操作--%>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label no-padding-right"
                                                for="password">
@@ -113,11 +180,14 @@
                                         </label>
 
                                         <div class="col-sm-9">
-                                            <input type="password" id="password" placeholder="密码"  value="<c:out value='${admin.password}'/> "
+                                            <input type="password" id="password" placeholder="密码"   value="<c:out value='${admin.password}'/> "
                                                    name="password" class="required col-xs-10 col-sm-5" maxlength="20" minlength="6">
 
                                         </div>
                                     </div>
+                                </c:if>
+                                <c:if test="${not empty admin}"><%--说明是做修改操作--%>
+                                    <input type="hidden" name="password" value="<c:out value="${admin.password}"/>"/>
                                 </c:if>
                                 <%--由于sql语句要求一定要传入密码参数，所以，这里需要给定一个隐藏的input标签--%>
                                 <%--<input type="hidden" value="${admin.password}"
@@ -134,6 +204,31 @@
                                                 class="col-xs-10 col-sm-5">
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right"
+                                           for="name">
+                                        后台账号级别
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <select name="companyLevel" onchange="changeCompanyLevel(this.value)">
+                                            <option value="">请选择</option>
+                                            <c:forEach items="${_companyLevelArray_}" var="_companyLevel_" varStatus="status" begin="0" end="2" step="1"><%--${fn:length(_companyLevelArray_) - 1}--%>
+                                                <option value="${_companyLevel_.name()}">${_companyLevel_.name}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="companyLevelSons">
+                                    <label class="col-sm-3 control-label no-padding-right"
+                                           for="name" id="companyLabel">
+
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <select name="company" id="companySelect" style="display: none;">
+                                               <option value="">请选择</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <c:if test="${not empty admin.username}">
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label no-padding-right"
@@ -141,7 +236,7 @@
                                             启用状态
                                         </label>
                                         <div class="col-sm-9">
-                                                <depotnextdoor:commonStatusRadio fieldName="status" selectedStatus="${admin.status}" inline="true" enableLabel="启用" disableLabel="启用"/>
+                                                <depotnextdoor:commonStatusRadio fieldName="status" selectedStatus="${admin.status}" inline="true" enableLabel="启用" disableLabel="禁用"/>
 
                                         </div>
                                     </div>

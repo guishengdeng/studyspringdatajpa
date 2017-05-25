@@ -388,5 +388,32 @@ public interface DepotNextDoorExceptions {
         }
     }
 
+    enum Voucher implements ExceptionType {
+        OWNER_ERROR(2500,"无权查看优惠券"),
+        VOUCHER_NOT_EXISTS(2501,"优惠券不存在"),
+        VOUCHER_NOT_CURRENT_SHOP(2502,"店铺券不属于当前店铺"),
+        VOUCHER_SHOP_FULL_CALCULATE_ERROR(2503,"店铺满减券金额计算错误"),
+        VOUCHER_PAYMENT_NOT_SUPPORT(2504,"优惠券不支持支付方式错误"),
+        VOUCHER_HAS_EXPIRED(2505,"优惠券已经过期错误"),
+        VOUCHER_OFFSET_COUNT_ERROR(2506,"优惠券减免金额校验错误"),
+        VOUCHER_VALIDATE_ERROR(2507,"优惠券校验出错"),
+        VOUCHER_SHORTAGE_ERROR(2508,"优惠券不足");
+
+    	private int code;
+        private String description;
+        
+    	Voucher(int code, String description) {
+            this.code = code;
+            this.description = description;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+    }
 
 }

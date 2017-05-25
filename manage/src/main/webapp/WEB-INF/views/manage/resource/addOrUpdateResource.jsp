@@ -10,11 +10,11 @@
                 var data = $('#resource_form').serialize();
                 var name = $('#name').val();
                 var symbol = $('#symbol').val().trim();
-                if(name == ""){
+                if(!name){
                     layer.msg("名称不能为空");
                     return false;
                 }
-                if(symbol == ""){
+                if(!symbol){
                     layer.msg("权限不能为空");
                     return false;
                 }
@@ -107,7 +107,7 @@
                                         权限
                                     </label>
                                     <div class="col-sm-9">
-                                        <input type="text" id="symbol" name="symbol" placeholder="请输入权限" pattern="(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+));?)+"
+                                        <input type="text" id="symbol" name="symbol" placeholder="请输入权限" pattern="(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+))(;|,)?)+"
                                                value="<c:out value='${resource.symbol}'/>" class="regExp text col-xs-10 col-sm-5">
                                         <p class="help-block">例如:OPT_XXX_XXX或者ROLE_XXX</p>
                                     </div>
