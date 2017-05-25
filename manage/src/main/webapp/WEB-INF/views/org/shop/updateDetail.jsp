@@ -206,10 +206,13 @@
 											</span>
                                     </div>
                                     <div class="col-xs-6 col-sm-4 col-md-3">
-                                        <span>城市合伙人:</span>
-											<span class="input-icon">
-												<input type="text" value="${shopDetailResVo.partnerName}" readonly="readonly">
-											</span>
+                                        城市合伙人:
+                                        <select name="partnerId" style="width: 170px">
+                                            <option value="">请选择</option>
+                                            <c:forEach items="${partners}" var="partner">
+                                                <option value="${partner.id}">${partner.name}</option>
+                                            </c:forEach>
+                                        </select>
                                     </div>
                                 </div>
                                 <br>

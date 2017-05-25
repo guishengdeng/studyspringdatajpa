@@ -1,21 +1,28 @@
 package com.biz.manage.controller.shop;
 
 
+import com.biz.core.ali.oss.config.OssConfig;
+import com.biz.core.ali.oss.util.OssUtil;
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
 import com.biz.gbck.dao.mysql.po.org.ShopPo;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
+import com.biz.gbck.dao.mysql.po.security.Admin;
 import com.biz.gbck.enums.CommonStatusEnum;
+import com.biz.gbck.enums.org.CompanyLevel;
 import com.biz.gbck.enums.user.AuditRejectReason;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopTypeStatus;
 import com.biz.gbck.vo.org.*;
+import com.biz.gbck.vo.platform.PartnerSearchResVo;
+import com.biz.gbck.vo.platform.PartnerSearchVo;
 import com.biz.gbck.vo.spring.PageVO;
 import com.biz.manage.controller.BaseController;
 import com.biz.manage.util.AuthorityUtil;
 import com.biz.service.org.interfaces.ShopService;
 import com.biz.service.org.interfaces.ShopTypeService;
 import com.biz.service.org.interfaces.UserService;
+import com.biz.soa.feign.client.org.PlatformFeignClient;
 import com.biz.soa.feign.client.org.ShopFeignClient;
 import com.biz.soa.feign.client.org.UserFeignClient;
 import org.apache.commons.lang.StringUtils;
@@ -57,23 +64,29 @@ public class ShopController extends BaseController {
     @Autowired
     private UserFeignClient userFeignClient;
 
+    @Autowired
+    private OssConfig config;
+
+    @Autowired
+    private PlatformFeignClient platformFeignClient;
+
 
     /**
-     * 列出所有未审核通过的商铺
+     * 列出所有未审核通过的商铺 ShopSearchVo vo
      */
     @GetMapping
     @RequestMapping(value = "auditList")
     @PreAuthorize("hasAuthority('OPT_SHOP_AUDITLIST')")
-    public ModelAndView listShopOfWaitForAudit(ShopSearchVo vo)
+    public ModelAndView listShopOfWaitForAudit()
             throws CommonException {
 
         logger.debug("Received /shops/auditList GET request.");
-        vo.setAuditStatus( AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue());
-        vo.setAuditStatusTwo(AuditStatus.WAIT_FOR_AUDIT.getValue());
+      /*  vo.setAuditStatus( AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue());
+        vo.setAuditStatusTwo(AuditStatus.WAIT_FOR_AUDIT.getValue());*/
         ModelAndView mav = new ModelAndView("/org/shop/auditList");
-        Page<ShopDetailResVo> shopSearchResVoPage = shopFeignClient.findShopAuditDataOfWaitForAudit(vo);
-        mav.addObject("shopSearchResVoPage", shopSearchResVoPage);
-        mav.addObject("vo", vo);
+        List<ShopDetailResVo> vos = shopFeignClient.findAllWaitForShop();
+        mav.addObject("vos", vos);
+        /*mav.addObject("vo", vo);*/
         return mav;
     }
 
@@ -99,6 +112,10 @@ public class ShopController extends BaseController {
 
     /**
      * 进入商户审核界面
+     * corporateIdPhoto; //法人身份证
+     * liquorSellLicence; //酒类流通许可证
+     * shopPhoto; //门头照片
+     * businessLicence; //营业执照
      */
     @RequestMapping(value = "audit", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('OPT_SHOP_AUDIT')")
@@ -117,6 +134,10 @@ public class ShopController extends BaseController {
                     if (auditRejectReason != AuditRejectReason.DETAIL_INVALID)
                         auditRejectReasons.add(auditRejectReason);
                 }
+            shopDetailResVo.setCorporateIdPhoto(this.findImgUrl(shopDetailResVo.getCorporateIdPhoto()));
+            shopDetailResVo.setLiquorSellLicence(this.findImgUrl(shopDetailResVo.getLiquorSellLicence()));
+            shopDetailResVo.setShopPhoto(this.findImgUrl(shopDetailResVo.getShopPhoto()));
+            shopDetailResVo.setBusinessLicence(this.findImgUrl(shopDetailResVo.getBusinessLicence()));
         } else {
             logger.info("No audit data for shopId:{}.", shopId);
             return modelAndView;
@@ -126,6 +147,24 @@ public class ShopController extends BaseController {
                 newArrayList(AuditStatus.NORMAL, AuditStatus.AUDIT_FAILED);
         modelAndView.addObject("auditStatusList", auditStatusList).
                 addObject("auditRejectReasons", auditRejectReasons);
+        Admin admin=(Admin) AuthorityUtil.getLoginUser();
+        if(admin != null && admin.getCompany() != null){
+            if(admin.getCompany().getCompanyLevel() == CompanyLevel.ORG_PLATFORM){
+                PageVO<PartnerSearchResVo> partners = platformFeignClient.findPartnerList(new PartnerSearchVo(admin.getCompany().getId()));
+                modelAndView.addObject("partners", partners.getContent());
+            }
+        }
+        /**-----下面为测试数据需要删除--------**/
+        PageVO<PartnerSearchResVo> partners = new PageVO<PartnerSearchResVo>();
+        List<PartnerSearchResVo> partnerSearchResVos=newArrayList();
+        PartnerSearchResVo vo=new PartnerSearchResVo();
+        vo.setId(359874944668536832l);vo.setName("测试公司");
+        partnerSearchResVos.add(vo);
+        PartnerSearchResVo vo2=new PartnerSearchResVo();
+        vo2.setId(359884283051511808l);vo2.setName("茅台");
+        partnerSearchResVos.add(vo2);
+        partners.setContent(partnerSearchResVos);
+        modelAndView.addObject("partners", partners.getContent());
         return modelAndView;
     }
 
@@ -186,6 +225,10 @@ public class ShopController extends BaseController {
                 if (auditRejectReason != AuditRejectReason.DETAIL_INVALID)
                     auditRejectReasons.add(auditRejectReason);
             }
+            shopDetailResVo.setCorporateIdPhoto(this.findImgUrl(shopDetailResVo.getCorporateIdPhoto()));
+            shopDetailResVo.setLiquorSellLicence(this.findImgUrl(shopDetailResVo.getLiquorSellLicence()));
+            shopDetailResVo.setShopPhoto(this.findImgUrl(shopDetailResVo.getShopPhoto()));
+            shopDetailResVo.setBusinessLicence(this.findImgUrl(shopDetailResVo.getBusinessLicence()));
         } else {
             logger.debug("No audit data for shopId:{}.", shopId);
             return modelAndView;
@@ -195,6 +238,13 @@ public class ShopController extends BaseController {
                 newArrayList(AuditStatus.NORMAL, AuditStatus.AUDIT_FAILED,AuditStatus.WAIT_FOR_AUDIT);
         modelAndView.addObject("auditStatusList", auditStatusList).
                 addObject("auditRejectReasons", auditRejectReasons);
+        Admin admin=(Admin) AuthorityUtil.getLoginUser();
+        if(admin != null && admin.getCompany() != null){
+            if(admin.getCompany().getCompanyLevel() == CompanyLevel.ORG_PLATFORM){
+                PageVO<PartnerSearchResVo> partners = platformFeignClient.findPartnerList(new PartnerSearchVo(admin.getCompany().getId()));
+                modelAndView.addObject("partners", partners.getContent());
+            }
+        }
         if(msg != null){
             modelAndView.addObject("msg",msg==1?"修改成功":"修改失败");
         }
@@ -696,5 +746,21 @@ public class ShopController extends BaseController {
                 .addObject("shopStatusList", shopStatusList)
                 .addObject("emp", depotEmployeeService.getDepotEmployeeById(shop.getInviterCode()));
     }*/
+
+    /**
+     * 查询图片地址
+     * @param imageName
+     * @return
+     */
+    private String findImgUrl(String imageName){
+        if(StringUtils.isNotBlank(imageName)){
+        try{
+            return OssUtil.getOssResourceUri(config.getProductBucketName(), config.getRemoteEndpoint(), imageName);
+        }catch (Exception e){
+          e.printStackTrace();
+        }
+        }
+        return "";
+    }
 
 }

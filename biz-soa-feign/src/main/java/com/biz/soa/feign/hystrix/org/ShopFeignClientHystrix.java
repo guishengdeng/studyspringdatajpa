@@ -66,6 +66,11 @@ public class ShopFeignClientHystrix implements ShopFeignClient {
     }
 
     @Override
+    public List<ShopDetailResVo> findAllWaitForShop() {
+        return null;
+    }
+
+    @Override
     public ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(@RequestParam("shopId") Long shopId) {
         return null;
     }
