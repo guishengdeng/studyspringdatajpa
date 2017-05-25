@@ -19,6 +19,10 @@ import org.codelogger.utils.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Objects;
+
 import static org.codelogger.utils.ExceptionUtils.iae;
 
 
@@ -53,25 +57,51 @@ public class AppServiceImpl extends AbstractBaseService implements AppService {
             appRepository.save(appVoToAppPo.apply(appVo));
         } else if (appVo.getId() != null && Objects.equals(appVo.getId(), app.getId())) {
             app.setId(appVo.getId());
-            app.setTel(appVo.getTel());
-            app.setPictureUrl(appVo.getPictureUrl());
-            app.setUrl(appVo.getUrl());
-            app.setHotKeyWord(appVo.getHotKeyWord());
-            app.setContent(appVo.getContent());
-            app.setTel(appVo.getTel());
-            app.setTitle(appVo.getTitle());
-            app.setIcon(appVo.getIcon());
-            app.setShareUrl(appVo.getShareUrl());
-            app.setRecommedUrl(appVo.getRecommedUrl());
-            app.setAppDownloadUrl(appVo.getAppDownloadUrl());
+            app.setTel(appVo.getTel().trim());
+            app.setPictureUrl(appVo.getPictureUrl().trim());
+            app.setUrl(appVo.getUrl().trim());
+            app.setHotKeyWord(appVo.getHotKeyWord().trim());
+            app.setContent(appVo.getContent().trim());
+            app.setTel(appVo.getTel().trim());
+            app.setTitle(appVo.getTitle().trim());
+            app.setIcon(appVo.getIcon().trim());
+            app.setShareUrl(appVo.getShareUrl().trim());
+            app.setRecommedUrl(appVo.getRecommedUrl().trim());
+            app.setAppDownloadUrl(appVo.getAppDownloadUrl().trim());
             app.setAmount(appVo.getAmount());
-            app.setTabOne(appVo.getTabOne());
-            app.setTabTwo(appVo.getTabTwo());
+            app.setTabOne(appVo.getTabOne().trim());
+            app.setTabTwo(appVo.getTabTwo().trim());
             appRepository.save(app);
         } else {
             //id不为空且数据库中没有找到相对应的数据（异常处理）
         }
 
+    }
+
+    @Override
+    public AppVo findLastData() {
+        Long id = null;
+        AppVo appVo = new AppVo();
+        if (appRepository.findLastData() != null && appRepository.findLastData().size() != 0) {
+            id = Long.valueOf(String.valueOf(appRepository.findLastData().get(0)));
+            App app = appRepository.findOne(id);
+            appVo.setId(app.getId());
+            appVo.setTel(app.getTel());
+            appVo.setPictureUrl(app.getPictureUrl());
+            appVo.setUrl(app.getUrl());
+            appVo.setHotKeyWord(app.getHotKeyWord());
+            appVo.setContent(app.getContent());
+            appVo.setTel(app.getTel());
+            appVo.setTitle(app.getTitle());
+            appVo.setIcon(app.getIcon());
+            appVo.setShareUrl(app.getShareUrl());
+            appVo.setRecommedUrl(app.getRecommedUrl());
+            appVo.setAppDownloadUrl(app.getAppDownloadUrl());
+            appVo.setAmount(app.getAmount());
+            appVo.setTabOne(app.getTabOne());
+            appVo.setTabTwo(app.getTabTwo());
+        }
+        return id != null ? appVo : null;
     }
 
     @Override
