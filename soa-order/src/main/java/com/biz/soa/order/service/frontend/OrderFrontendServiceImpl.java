@@ -152,9 +152,9 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         if (reqVo instanceof OrderCreateReqVo) {
             //
         } else {
-            List<PaymentType> supportedPaymentTypes = paymentService.getSupportedPaymentTypes(userId);
+            List<Long> supportedPaymentTypes = paymentService.getSupportedPaymentTypes(userId);
             List<Integer> paymentTypes = supportedPaymentTypes.stream().filter(Objects::nonNull).map
-                    (PaymentType::getValue).collect(Collectors.toList());
+                    (Long::intValue).collect(Collectors.toList());
             builder.setPaymentTypes(paymentTypes);
             OrderPromotionRespVo usablePromotion =  this.getUsablePromotion(userInfo, settleOrderItemVos);
             builder.setPromotions(newArrayList(usablePromotion));
@@ -193,6 +193,9 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         couponReqVo.setPaymentType(reqVo.getPaymentType());
         couponReqVo.setProducts(products);
         couponReqVo.setOrderAmount(orderAmount);
+        if (voucherFeignClient == null) {
+            return 0;
+        }
         return voucherFeignClient.getUsableCount(couponReqVo);
     }
 
