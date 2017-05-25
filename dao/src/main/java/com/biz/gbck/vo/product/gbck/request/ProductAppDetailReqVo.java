@@ -2,8 +2,9 @@ package com.biz.gbck.vo.product.gbck.request;
 
 import com.biz.support.web.assist.GlobalParams;
 import com.biz.support.web.assist.GlobalParamsAware;
-import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * App商品详情请求Vo
