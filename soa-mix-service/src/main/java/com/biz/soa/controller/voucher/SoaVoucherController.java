@@ -147,7 +147,7 @@ public class SoaVoucherController extends SoaBaseController{
      * @return
      */
     @PostMapping(value="/getUsableCount")
-    public int getUsableCount(@RequestBody OrderCouponReqVo reqVo){
+    public Integer getUsableCount(@RequestBody OrderCouponReqVo reqVo){
 		return voucherService.getUserUseableVoucherCount(reqVo.getUserId());
     }
     
