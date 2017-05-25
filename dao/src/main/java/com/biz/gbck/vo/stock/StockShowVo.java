@@ -33,14 +33,14 @@ public class StockShowVo implements Serializable {
     private String brandName;
 
     /**
-     * 规格
+     * 商品类别
      */
     private String categoryName;
 
     /**
-     * 库存数量
+     * 数量
      */
-    private Integer Quantity ;
+    private Integer Quantity;
 
     /**
      * 单位

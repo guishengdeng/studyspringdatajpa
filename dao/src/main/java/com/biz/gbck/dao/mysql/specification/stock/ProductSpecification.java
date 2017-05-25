@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.mysql.specification.stock;
 
 import com.biz.gbck.dao.mysql.po.product.master.Product;
-import com.biz.gbck.vo.product.ProductShowVo;
+import com.biz.gbck.vo.product.SearchVo;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
@@ -16,9 +16,9 @@ import java.util.List;
  */
 public class ProductSpecification implements Specification<Product> {
 
-    private ProductShowVo productShowVo;
+    private SearchVo productShowVo;
 
-    public ProductSpecification(ProductShowVo productVo) {
+    public ProductSpecification(SearchVo productVo) {
         this.productShowVo = productVo;
     }
 

@@ -4,6 +4,7 @@ import com.biz.gbck.dao.mysql.po.product.meta.Category;
 import com.biz.gbck.dao.mysql.po.product.meta.ProductExtend;
 import com.biz.gbck.dao.mysql.repository.category.CategoryRepository;
 import com.biz.gbck.dao.mysql.repository.productExtend.ProductExtendRepository;
+import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.product.ProductExtendNotFoundException;
 import com.biz.gbck.vo.product.backend.*;
 import com.biz.service.AbstractBaseService;
@@ -92,7 +93,7 @@ public class ProductExtendServiceImpl extends AbstractBaseService implements Pro
      */
     @Override
     @Transactional
-    public void createCategoryProperty(CreateCategoryPropertyVo createCategoryPropertyVo) throws ProductExtendNotFoundException {
+    public void createCategoryProperty(CreateCategoryPropertyVo createCategoryPropertyVo) {
         createCategoryPropertyVo.setId(idService.nextId());
         Integer idx = productExtendRepository.findMaxIdx(createCategoryPropertyVo.getCategoryId());
         if (idx == null) {
@@ -186,28 +187,33 @@ public class ProductExtendServiceImpl extends AbstractBaseService implements Pro
         return vos;
     }
 
-    @Override
-    public List<ProductExtend> findByCategoryId(Long id) {
-        return null;
-    }
+	@Override
+	public List<ProductExtend> findByCategoryId(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public ProductExtend findOne(Long id) {
-        return null;
-    }
+	@Override
+	public ProductExtend findOne(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public List<ProductExtend> findAll() {
-        return null;
-    }
+	@Override
+	public List<ProductExtend> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public List<ProductExtendVo> productExtend2ProductExtendVo(List<ProductExtend> list) {
-        return null;
-    }
+	@Override
+	public List<ProductExtendVo> productExtend2ProductExtendVo(List<ProductExtend> list) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public Boolean isExistProductExtendName(CreateCategoryPropertyVo vo) throws ProductExtendNotFoundException {
-        return null;
-    }
+	@Override
+	public Boolean isExistProductExtendName(CreateCategoryPropertyVo vo) throws DepotNextDoorException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

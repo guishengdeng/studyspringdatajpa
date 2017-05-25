@@ -107,7 +107,7 @@ public class ProductServiceImpl extends AbstractProductService implements Produc
         if (logger.isDebugEnabled()) {
             logger.debug("product detail reqVo: {}", reqVo);
         }
-        return this.getProductPrototype(reqVo.getProductId(), reqVo.getPriceGroupId(), reqVo.getSellerId()).toAppDetailRespVO();
+        return this.getProductPrototype(reqVo.getId(), reqVo.getPriceGroupId(), reqVo.getSellerId()).toAppDetailRespVO();
     }
 
     @Override
@@ -118,5 +118,4 @@ public class ProductServiceImpl extends AbstractProductService implements Produc
         return this.getProductPrototype(reqVO.getProductIds(), reqVO.getCompanyGroupId(), reqVO.getSellerId())
                 .stream().map(ProductPrototype::toPurchaseProductItemVO).collect(Collectors.toList());
     }
-
 }

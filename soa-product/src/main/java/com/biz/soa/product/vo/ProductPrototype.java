@@ -114,6 +114,7 @@ public class ProductPrototype implements Serializable {
     public ProductAppListItemVo toAppListItemVO() {
         ProductAppListItemVo itemVo = new ProductAppListItemVo();
         itemVo.setId(String.valueOf(this.productRO.getId()));
+        itemVo.setCategoryId(this.productRO.getCategoryId());
         itemVo.setProductName(this.productRO.getName());
         itemVo.setProductCode(this.productRO.getProductCode());
         itemVo.setLogo(String.format("%s.jpg", this.productRO.getLogo()));
@@ -151,7 +152,7 @@ public class ProductPrototype implements Serializable {
                 return vo;
             }));
         }
-        respVO.setLogo(this.productRO.getLogo());
+        respVO.setLogo(String.format("%s.jpg", this.productRO.getLogo()));
         if (StringUtils.isNotBlank(this.productRO.getImages())) {
             List<String> productImages = StringTool.split(this.productRO.getImages(), ",").stream().map(image -> String.format("%s.jpg", image)).collect(Collectors.toList());
             respVO.setImages(productImages);

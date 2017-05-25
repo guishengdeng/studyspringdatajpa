@@ -44,28 +44,29 @@
                             <h3 class="header smaller lighter blue">
                                 库存日志
                             </h3>
-                            <form action="goods/stock.do" method="POST">
+                            <form action="stock.do" method="POST">
                                 <div class="col-md-3 inline">
                                     <label>商品编码</label>
                                     <input name="productCode" value='<c:out value="${productShowVo.productCode}" />'
-                                           type="text" placeholder="商品编码" autocomplete="off">
+                                           maxlength="225" type="text" placeholder="商品编码" autocomplete="off">
                                 </div>
                                 <div class="col-md-3 inline">
                                     <label>商品名称</label>
                                     <input name="name" value='<c:out value="${productShowVo.name}" />' type="text"
-                                           placeholder="商品名称" autocomplete="off">
+                                           maxlength="225" placeholder="商品名称" autocomplete="off">
                                 </div>
                                 <div class="col-md-3 inline">
                                     <label>品牌</label>
                                     <input name="brandName" value='<c:out value="${productShowVo.brandName}" />'
-                                           type="text" placeholder="品牌" autocomplete="off">
+                                           maxlength="225" type="text" placeholder="品牌" autocomplete="off">
                                 </div>
-                                    <div class="col-md-2 inline">
+
+                                <div class="col-md-2 inline">
                                     <label>商品类别</label>
                                     <gbck:stockCategorySelect fieldName="categoryName"
-                                    selectedStatus="${productShowVo.categoryName}"
-                                    withNone="true" />
-                                    </div>
+                                                              selectedStatus="${productShowVo.categoryName}"
+                                                              withNone="true"/>
+                                </div>
                                 <div class="inline">
                                     <button type="submit" class="btn btn-info btn-sm">
                                         <i class="ace-icon fa fa-search bigger-110"></i>搜索
@@ -104,7 +105,7 @@
                                 </c:forEach>
                                 </tbody>
                             </table>
-                            <gbck:springPagePagination url="goods/stock.do" springPage="${page}"/>
+                            <gbck:springPagePagination url="stock.do" springPage="${page}"/>
                         </div><!-- /.span -->
                     </div><!-- /.row -->
                     <!-- PAGE CONTENT ENDS -->

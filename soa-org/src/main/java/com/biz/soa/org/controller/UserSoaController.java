@@ -5,22 +5,10 @@ import com.biz.gbck.common.exception.ExceptionCode;
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
-import com.biz.gbck.vo.org.AutoLoginReqVo;
-import com.biz.gbck.vo.org.ChangePwdVo;
-import com.biz.gbck.vo.org.ForgotPasswordReqVo;
-import com.biz.gbck.vo.org.UserChangeAvatarReqVo;
-import com.biz.gbck.vo.org.UserChangeMobileReqVo;
-import com.biz.gbck.vo.org.UserLoginReqVo;
-import com.biz.gbck.vo.org.UserLoginResVo;
-import com.biz.gbck.vo.org.UserRegisterReqVo;
-import com.biz.gbck.vo.org.ValidateUserLoginPwdReqVo;
-import com.biz.service.org.interfaces.UserService;
+import com.biz.gbck.vo.org.*;
 import com.biz.soa.org.service.interfaces.UserSoaService;
 import com.biz.soa.org.util.Constant;
-import com.biz.soa.org.util.RestUtil;
 import com.biz.support.web.handler.JSONResult;
-import com.biz.support.web.util.HttpServletHelper;
-import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 用户模块 注册,登陆,修改密码,获取用户信息等
@@ -194,6 +179,11 @@ public class UserSoaController extends BaseRestController {
     @RequestMapping(value = "findUser", method = RequestMethod.POST)
     public UserRo findUser(@RequestParam("userId") Long userId) throws CommonException {
         return userSoaService.findUser(userId);
+    }
+
+    @RequestMapping(value = "findUserInfo", method = RequestMethod.POST)
+    public UserInfoVo finUserInfo(@RequestParam("userId") Long userId) throws CommonException {
+        return userSoaService.findUserInfo(userId);
     }
 
 

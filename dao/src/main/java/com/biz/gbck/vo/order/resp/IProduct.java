@@ -27,5 +27,10 @@ public interface IProduct extends Serializable {
      */
     Integer getQuantity();
 
+    /**
+     * 分类Id
+     */
+    Long getCategoryId();
+
 
 }

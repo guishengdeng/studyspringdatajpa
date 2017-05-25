@@ -82,5 +82,8 @@ public class UserFeignClientHystrix implements UserFeignClient {
         return null;
     }
 
-
+    @Override
+    public UserInfoVo findUserInfo(Long userId) throws DepotNextDoorException {
+        return null;
+    }
 }

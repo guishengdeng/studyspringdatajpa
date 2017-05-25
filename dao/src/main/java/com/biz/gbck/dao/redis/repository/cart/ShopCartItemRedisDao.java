@@ -3,6 +3,7 @@ package com.biz.gbck.dao.redis.repository.cart;
 import com.biz.core.util.DateUtil;
 import com.biz.gbck.dao.redis.CrudRedisDao;
 import com.biz.gbck.dao.redis.ro.cart.ShopCartItemRo;
+import com.biz.redis.util.RedisUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.codelogger.utils.ArrayUtils;
 import org.springframework.stereotype.Repository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -53,7 +55,7 @@ public class ShopCartItemRedisDao extends CrudRedisDao<ShopCartItemRo, String> {
      * @param userId     用户Id
      * @param productIds 商品id集合
      */
-    public void deleteByUserIdAndProductIds(Long userId, Collection<String> productIds) {
+    public void deleteByUserIdAndProductIds(String userId, Collection<String> productIds) {
         if (userId == null || CollectionUtils.isEmpty(productIds)) {
             return;
         }
@@ -75,7 +77,7 @@ public class ShopCartItemRedisDao extends CrudRedisDao<ShopCartItemRo, String> {
      * @param productId
      * @return
      */
-    private String getId(Long userId, String productId) {
+    private String getId(String userId, String productId) {
         return String.format("%s:%s", userId, productId);
     }
 
@@ -84,7 +86,7 @@ public class ShopCartItemRedisDao extends CrudRedisDao<ShopCartItemRo, String> {
      * @param userId
      * @return
      */
-    public ShopCartItemRo findByUserIdAndProductId(Long userId, String productId) {
+    public ShopCartItemRo findByUserIdAndProductId(String userId, String productId) {
         return findOne(getId(userId, productId));
     }
 
@@ -93,7 +95,7 @@ public class ShopCartItemRedisDao extends CrudRedisDao<ShopCartItemRo, String> {
      * @param userId
      * @return
      */
-    public List<ShopCartItemRo> findByUserId(Long userId) {
+    public List<ShopCartItemRo> findByUserId(String userId) {
         Set<byte[]> idBytes = super.zrevrange(getFieldSortedSetKey("userId", userId), 0, -1L);
         if (CollectionUtils.isNotEmpty(idBytes)) {
             return findByIds(idBytes);
@@ -103,9 +105,18 @@ public class ShopCartItemRedisDao extends CrudRedisDao<ShopCartItemRo, String> {
     }
 
 
-    private String getUserIdToShopCartProductIdSortedSetKey(Long userId) {
+    private String getUserIdToShopCartProductIdSortedSetKey(String userId) {
         return getKeyByParams("userId", userId);
     }
 
 
+    public void removeAllByUserId(String userId) {
+        Set<byte[]> idBytes = super.zrevrange(getFieldSortedSetKey("userId", userId), 0, -1L);
+        List<Long> ids = RedisUtil.bytesSetToLongList(idBytes);
+        if (CollectionUtils.isNotEmpty(ids)) {
+            List<String> idKeys = ids.stream().map(this::getHashKey).collect(Collectors.toList());
+            this.pipeDelete(idKeys);
+        }
+        this.del(getFieldSortedSetKey("userId", userId));
+    }
 }

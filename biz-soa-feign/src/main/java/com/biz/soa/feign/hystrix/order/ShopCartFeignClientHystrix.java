@@ -1,6 +1,7 @@
 package com.biz.soa.feign.hystrix.order;
 
 import com.biz.gbck.vo.cart.*;
+import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.soa.feign.client.order.ShopCartFeignClient;
 import org.springframework.stereotype.Component;
 
@@ -15,27 +16,32 @@ import org.springframework.stereotype.Component;
 public class ShopCartFeignClientHystrix implements ShopCartFeignClient {
 
     @Override
-    public String getTestString() {
+    public MicroServiceResult<ShopCartRespVo> addCartItem(ShopCartItemAddReqVo reqVo) {
         return null;
     }
 
     @Override
-    public void addCartItem(ShopCartItemAddReqVo reqVo) {
-
-    }
-
-    @Override
-    public ShopCartRespVo getCartInfo(ShopCartListReqVo reqVo) {
+    public MicroServiceResult<ShopCartRespVo> getCartInfo(ShopCartListReqVo reqVo) {
         return null;
     }
 
     @Override
-    public ShopCartNumRespVo getCartNum(ShopCartNumReqVo reqVo) {
+    public MicroServiceResult<ShopCartRespVo> deleteCartItems(ShopCartItemBatchDeleteReqVo reqVo) {
         return null;
     }
 
     @Override
-    public void deleteCartItems(ShopCartItemBatchDeleteReqVo reqVo) {
+    public MicroServiceResult<ShopCartRespVo> updateItemQuantity(ShopCartItemUpdateReqVo reqVo) {
+        return null;
+    }
 
+    @Override
+    public MicroServiceResult<ShopCartNumRespVo> getCartNum(ShopCartNumReqVo reqVo) {
+        return null;
+    }
+
+    @Override
+    public MicroServiceResult<String> getTestString() {
+        return null;
     }
 }

@@ -8,7 +8,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password:
-    url: jdbc:mysql://127.0.0.1:3306/depotnextdoor?characterEncoding=utf-8
+    url: jdbc:mysql://127.0.0.1:3306/gbck?characterEncoding=utf-8
     dbcp2:
       initial-size: 5
       max-total: 10
@@ -75,7 +75,7 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://local:7777/eureka/
+      defaultZone: http://localhost:7777/eureka/
 
 security:
   basic:
