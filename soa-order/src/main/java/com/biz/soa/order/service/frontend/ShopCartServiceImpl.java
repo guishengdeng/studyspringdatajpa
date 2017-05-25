@@ -265,10 +265,16 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
     //获取商品信息且map
     private Map<String, PurchaseProductItemVO> getProductIdToProductVoMap(List<Long> productIds, UserInfoVo userInfo)
             throws CartItemProductInvalidException {
+        //TODO Mock
+//        PurchaseProductReqVO productReqVo = new PurchaseProductReqVO();
+//        productReqVo.setProductIds(productIds);
+//        productReqVo.setSellerId(userInfo.getPartnerId());
+//        productReqVo.setCompanyGroupId(userInfo.getCompanyGroupId());
+
         PurchaseProductReqVO productReqVo = new PurchaseProductReqVO();
         productReqVo.setProductIds(productIds);
-        productReqVo.setSellerId(userInfo.getPartnerId());
-        productReqVo.setCompanyGroupId(userInfo.getCompanyGroupId());
+        productReqVo.setSellerId(1l);
+        productReqVo.setCompanyGroupId(1l);
         if (logger.isDebugEnabled()) {
             logger.debug("获取购物车商品详情请求vo: {}", productReqVo);
         }
