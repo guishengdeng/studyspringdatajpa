@@ -1555,6 +1555,7 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
      *后台修改商户详情
      */
     @Override
+    @Transactional
     public Boolean saveUpdateDetail(ShopAuditReqVo shopAuditReqVo) {
         if(shopAuditReqVo != null && shopAuditReqVo.getShopDetailId() != null
                 && shopAuditReqVo.getShopQualificationId() != null){
@@ -1583,6 +1584,7 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
 
 
     @Override
+    @Transactional
     public void auditShop(ShopAuditReqVo reqVo) throws CommonException {
         ShopDetailPo shopDetailPo = this.auditShopDetail(reqVo); //修改审核商户详情
         ShopQualificationPo shopQualificationPo = this.auditShopQualification(reqVo); //修改审核商户资质
