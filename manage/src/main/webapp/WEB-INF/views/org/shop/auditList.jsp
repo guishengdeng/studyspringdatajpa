@@ -73,7 +73,7 @@
                                 <a  class="btn btn-success btn-sm" href="shops/new.do">
                                     <i class="ace-icon fa glyphicon-plus bigger-110" ></i>新增商户
                                 </a>
-                            </div>
+                            </div><br>
                             <div class="hr hr-18 dotted"></div>
                             <table class="table table-striped table-bordered table-hover audit-table">
                                 <thead>
