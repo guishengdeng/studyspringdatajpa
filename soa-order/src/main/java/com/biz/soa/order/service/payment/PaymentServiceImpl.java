@@ -488,10 +488,10 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 	}
 
 	@Override
-	public List<Long> getSupportedPaymentTypes(String userId) throws DepotNextDoorException {
+	public List<Integer> getSupportedPaymentTypes(String userId) throws DepotNextDoorException {
 		UserInfoVo userInfo = userFeignClient.findUserInfo(Long.valueOf(userId));
 		BusinessAsserts.notNull(userInfo, DepotNextDoorExceptions.User.USER_NOT_EXIST);
-		List<Long> supportPaymentIds = userInfo.getSupportPaymentIds();
+		List<Integer> supportPaymentIds = userInfo.getSupportPaymentIds();
 		CollectionUtils.subtract(supportPaymentIds, userInfo.getDisabledPaymentIds());
 		return supportPaymentIds;
 	}

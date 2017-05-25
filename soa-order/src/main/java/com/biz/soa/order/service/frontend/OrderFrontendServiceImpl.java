@@ -152,13 +152,8 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         if (reqVo instanceof OrderCreateReqVo) {
             //
         } else {
-            List<Long> supportedPaymentTypes = paymentService.getSupportedPaymentTypes(userId);
-            List<Integer> paymentTypes = supportedPaymentTypes.stream().filter(Objects::nonNull).map
-                    (Long::intValue).collect(Collectors.toList());
-            if (logger.isDebugEnabled()) {
-                logger.debug("user[userId=] paymentTypes: {}", reqVo.getUserId(), paymentTypes);
-            }
-            builder.setPaymentTypes(paymentTypes);
+            List<Integer> supportedPaymentTypes = paymentService.getSupportedPaymentTypes(userId);
+            builder.setPaymentTypes(supportedPaymentTypes);
             OrderPromotionRespVo usablePromotion = this.getUsablePromotion(userInfo, settleOrderItemVos);
             if (usablePromotion != null) {
                 builder.setPromotions(newArrayList(usablePromotion));
@@ -166,9 +161,9 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
             }
 
             //根据促销信息获取优惠券数量
-//TODO            int couponCount = this.getUsableCouponCount(reqVo, settleOrderItemVos);
-//            builder.setCoupons(couponCount);
-//            builder.setVoucherAmount(null); //TODO 获取优惠券抵扣金额
+            Integer couponCount = this.getUsableCouponCount(reqVo, settleOrderItemVos);
+            builder.setCoupons(couponCount);
+            builder.setVoucherAmount(null); //TODO 获取优惠券抵扣金额
 
         }
         OrderSettlePageRespVo settleResult = builder.build();
@@ -191,14 +186,14 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
     }
 
     //获取可用优惠券
-    private int getUsableCouponCount(OrderSettlePageReqVo reqVo, List<? extends IProduct> products) {
+    private Integer getUsableCouponCount(OrderSettlePageReqVo reqVo, List<? extends IProduct> products) {
         OrderCouponReqVo couponReqVo = new OrderCouponReqVo();
         int orderAmount = OrderUtil.calcOrderAmount(products);
         couponReqVo.setUserId(Long.valueOf(reqVo.getUserId()));
         couponReqVo.setPaymentType(reqVo.getPaymentType());
         couponReqVo.setProducts(products);
         couponReqVo.setOrderAmount(orderAmount);
-        int usableCount = voucherFeignClient.getUsableCount(couponReqVo);
+        Integer usableCount = ValueUtils.getValue(voucherFeignClient.getUsableCount(couponReqVo));
         if (logger.isDebugEnabled()) {
             logger.debug("请求可用优惠券-------请求vo: {}, 返回: {}", couponReqVo, usableCount);
         }

@@ -82,5 +82,5 @@ public interface PaymentService {
 
 	void savePaymentTradeNo(Long paymentId, String tradeNo);
 
-    List<Long> getSupportedPaymentTypes(String userId) throws DepotNextDoorException;
+    List<Integer> getSupportedPaymentTypes(String userId) throws DepotNextDoorException;
 }
