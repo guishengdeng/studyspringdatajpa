@@ -155,15 +155,20 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
             List<Long> supportedPaymentTypes = paymentService.getSupportedPaymentTypes(userId);
             List<Integer> paymentTypes = supportedPaymentTypes.stream().filter(Objects::nonNull).map
                     (Long::intValue).collect(Collectors.toList());
+            if (logger.isDebugEnabled()) {
+                logger.debug("user[userId=] paymentTypes: {}", reqVo.getUserId(), paymentTypes);
+            }
             builder.setPaymentTypes(paymentTypes);
-            OrderPromotionRespVo usablePromotion =  this.getUsablePromotion(userInfo, settleOrderItemVos);
-            builder.setPromotions(newArrayList(usablePromotion));
-            builder.setFreeAmount(null); //TODO 获取促销活动抵扣金额
+            OrderPromotionRespVo usablePromotion = this.getUsablePromotion(userInfo, settleOrderItemVos);
+            if (usablePromotion != null) {
+                builder.setPromotions(newArrayList(usablePromotion));
+                builder.setFreeAmount(null); //TODO 获取促销活动抵扣金额
+            }
 
             //根据促销信息获取优惠券数量
             int couponCount = this.getUsableCouponCount(reqVo, settleOrderItemVos);
             builder.setCoupons(couponCount);
-            builder.setVoucherAmount(null); //TODO 获取优惠券抵扣金额
+//            builder.setVoucherAmount(null); //TODO 获取优惠券抵扣金额
 
         }
         OrderSettlePageRespVo settleResult = builder.build();
@@ -193,7 +198,11 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         couponReqVo.setPaymentType(reqVo.getPaymentType());
         couponReqVo.setProducts(products);
         couponReqVo.setOrderAmount(orderAmount);
-        return voucherFeignClient.getUsableCount(couponReqVo);
+        int usableCount = voucherFeignClient.getUsableCount(couponReqVo);
+        if (logger.isDebugEnabled()) {
+            logger.debug("请求可用优惠券-------请求vo: {}, 返回: {}", couponReqVo, usableCount);
+        }
+        return usableCount;
     }
 
     /**
