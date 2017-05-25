@@ -26,7 +26,7 @@ public class VoucherFeignClientHystrix implements VoucherFeignClient {
 	}
 
 	@Override
-	public boolean validateDispatcherAction(List<Long> userIds, Long shopTypeId, Long voucherTypeId,
+	public Boolean validateDispatcherAction(List<Long> userIds, Long shopTypeId, Long voucherTypeId,
 			int dispatcherCnt) {
 		// TODO Auto-generated method stub
 		return false;
@@ -40,13 +40,13 @@ public class VoucherFeignClientHystrix implements VoucherFeignClient {
 	}
 
 	@Override
-	public int findVoucherNumberById(Long voucherTypeId) {
+	public Integer findVoucherNumberById(Long voucherTypeId) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int getUsableCount(OrderCouponReqVo reqVo) {
+	public Integer getUsableCount(OrderCouponReqVo reqVo) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -58,7 +58,7 @@ public class VoucherFeignClientHystrix implements VoucherFeignClient {
 	}
 
 	@Override
-	public int getVoucherLimit(OrderCouponReqVo iOrderPeriodQueryReqVo) throws DepotNextDoorException {
+	public Integer getVoucherLimit(OrderCouponReqVo iOrderPeriodQueryReqVo) throws DepotNextDoorException {
 		// TODO Auto-generated method stub
 		return 0;
 	}

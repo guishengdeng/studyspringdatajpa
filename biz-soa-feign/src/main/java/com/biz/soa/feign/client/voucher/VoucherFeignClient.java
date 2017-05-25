@@ -44,7 +44,7 @@ public interface VoucherFeignClient {
 			@RequestParam("dispatcherCnt") Integer dispatcherCnt,@RequestParam("loginUsername")	String loginUsername);
 
 	@RequestMapping(value = "/soa/voucher/findVoucherNumberById", method = RequestMethod.POST)
-	public int findVoucherNumberById(@RequestParam("voucherTypeId") Long voucherTypeId);
+	public Integer findVoucherNumberById(@RequestParam("voucherTypeId") Long voucherTypeId);
 	
 	/**
      * 获取优惠券可用数量
@@ -52,7 +52,7 @@ public interface VoucherFeignClient {
      * @return
      */
     @RequestMapping(value = "/soa/voucher/getUsableCount", method = RequestMethod.POST)
-    public int getUsableCount(@RequestBody OrderCouponReqVo reqVo);
+    public Integer getUsableCount(@RequestBody OrderCouponReqVo reqVo);
     
     /**
      *  购物车,获取可用优惠券
@@ -69,7 +69,7 @@ public interface VoucherFeignClient {
      * @return
      */
     @RequestMapping(value="/soa/voucher/getVoucherlimit",method=RequestMethod.POST)
-    public int getVoucherLimit(@RequestBody OrderCouponReqVo OrderCouponReqVo) throws DepotNextDoorException;
+    public Integer getVoucherLimit(@RequestBody OrderCouponReqVo OrderCouponReqVo) throws DepotNextDoorException;
     
     /**
      * 使用优惠券
