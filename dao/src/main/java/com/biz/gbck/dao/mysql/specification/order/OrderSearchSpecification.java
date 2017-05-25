@@ -2,15 +2,10 @@ package com.biz.gbck.dao.mysql.specification.order;
 
 import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.dao.mysql.po.org.PartnerPo;
-import com.biz.gbck.dao.mysql.po.org.PlatformPo;
-import com.biz.gbck.dao.mysql.repository.org.PartnerRepository;
-import com.biz.gbck.dao.mysql.repository.org.PlatformRepository;
 import com.biz.gbck.vo.order.req.OrderQueryReqVo;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
-import sun.plugin.services.PlatformService;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
