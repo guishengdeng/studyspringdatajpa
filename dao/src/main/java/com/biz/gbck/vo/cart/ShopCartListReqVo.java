@@ -13,17 +13,6 @@ public class ShopCartListReqVo extends BaseShopCartReqVo {
 
     private static final long serialVersionUID = 2010073680708198043L;
 
-    @JsonIgnore
-    private boolean showDetail = true;
-
-    public boolean isShowDetail() {
-        return showDetail;
-    }
-
-    public void setShowDetail(boolean showDetail) {
-        this.showDetail = showDetail;
-    }
-
     public ShopCartListReqVo() {
     }
 

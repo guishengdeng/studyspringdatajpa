@@ -65,7 +65,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
 
 
     @Override
-    public void addCartItem(ShopCartItemAddReqVo reqVo) throws DepotNextDoorException {
+    public ShopCartRespVo addCartItem(ShopCartItemAddReqVo reqVo) throws DepotNextDoorException {
         if (logger.isDebugEnabled()) {
             logger.debug("添加购物车商品-------请求vo: {}", reqVo);
         }
@@ -90,6 +90,18 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         }
         shopCartItemRo.setQuantity(quantity);
         shopCartItemRedisDao.save(shopCartItemRo);
+
+        ShopCartNumReqVo cartNumReqVo = new ShopCartNumReqVo();
+        cartNumReqVo.setUserId(reqVo.getUserId());
+        ShopCartNumRespVo cartNum = this.getCartNum(cartNumReqVo);
+        ShopCartRespVo shopCartRespVo = ShopCartRespVoBuilder.createBuilder().setCartNum(cartNum.getCartNum()).build();
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("添加购物车-------请求: {}, 返回值: {}", reqVo, shopCartRespVo);
+        }
+        return shopCartRespVo;
+
+
     }
 
     @Override
@@ -141,7 +153,7 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
 
 
     @Override
-    public ShopCartRespVo updateCartItemQuantity(ShopCartItemUpdateReqVo reqVo) throws DepotNextDoorException {
+    public void updateCartItemQuantity(ShopCartItemUpdateReqVo reqVo) throws DepotNextDoorException {
         if (logger.isDebugEnabled()) {
             logger.debug("Update shop cart count updateVo: {}", reqVo);
         }
@@ -160,15 +172,6 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         } else {
             throw new CartItemNotExistException("购物车商品不存在");
         }
-        ShopCartNumReqVo cartNumReqVo = new ShopCartNumReqVo();
-        cartNumReqVo.setUserId(reqVo.getUserId());
-        ShopCartNumRespVo cartNum = this.getCartNum(cartNumReqVo);
-        ShopCartRespVo shopCartRespVo = ShopCartRespVoBuilder.createBuilder().setCartNum(cartNum.getCartNum()).build();
-
-        if (logger.isDebugEnabled()) {
-            logger.debug("更新购物车数量-------请求: {}, 返回值: {}", reqVo, shopCartRespVo);
-        }
-        return shopCartRespVo;
     }
 
     @Override
@@ -287,8 +290,11 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
     private void validQuantity(String userId, Long productId, int quantity) throws DepotNextDoorException {
         SystemAsserts.isTrue(quantity > 0, "添加数量应大于0, 添加购物车失败");
         UserInfoVo userInfo = this.getUserInfo(userId);
-        CompanyStockRespVO stockRespVO = stockFeignClient.getStock(new CompanyStockReqVO(userInfo.getPartnerId(),
-                productId));
+        CompanyStockReqVO reqVo = new CompanyStockReqVO(userInfo.getPartnerId(), productId);
+        CompanyStockRespVO stockRespVO = stockFeignClient.getStock(reqVo);
+        if (logger.isDebugEnabled()) {
+            logger.debug("购物车验证库存,请求:{}, 返回值: {}", reqVo, stockRespVO);
+        }
         SystemAsserts.notNull(stockRespVO, "库存不足, 添加购物车失败");
         SystemAsserts.isTrue(quantity <= ValueUtils.getValue(stockRespVO.getQuantity()), "库存不足");
     }

@@ -50,6 +50,7 @@ public class UpdateCompanyLockStockReqVO implements Serializable {
     }
 
     public UpdateCompanyLockStockReqVO(String orderCode, Long companyId, List<StockItemVO> items) {
+        this();
         this.orderCode = orderCode;
         this.companyId = companyId;
         this.items = items;
