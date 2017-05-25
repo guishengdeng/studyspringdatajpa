@@ -184,7 +184,8 @@ public interface DepotNextDoorExceptions {
         VALIDATE_CODE_ERROR(1015, "图片验证码错误"),
         TGT_COOKIE_INVALID(1016, "TGT无效"),
         SESSION_INVALID(1017, "会话失效"),
-        CONTAIN_SENSITIVE_WORLD(1018, "包含敏感词");
+        CONTAIN_SENSITIVE_WORLD(1018, "包含敏感词"),
+        STS_ERROR(1019, "获取STS失败");
 
         private int code;
         private String description;

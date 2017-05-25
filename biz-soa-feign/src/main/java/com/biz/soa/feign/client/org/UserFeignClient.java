@@ -3,14 +3,10 @@ package com.biz.soa.feign.client.org;
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
-import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.org.*;
 import com.biz.soa.feign.hystrix.org.UserFeignClientHystrix;
 import com.biz.support.web.handler.JSONResult;
-
-import java.util.List;
-
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -98,6 +94,9 @@ public interface UserFeignClient {
      */
     @RequestMapping(value = "findUserPoByAccount", method = RequestMethod.POST)
     UserPo findUserPoByAccount(@RequestParam("account") String account);
+
+    @RequestMapping(value = "/soa/user/findUserInfo", method = RequestMethod.POST)
+    UserInfoVo findUserInfo(@RequestParam("userId") Long userId) throws DepotNextDoorException;
 
 }
 

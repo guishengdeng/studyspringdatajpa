@@ -12,6 +12,7 @@ import com.biz.gbck.common.exception.CommonRuntimeException;
 import com.biz.gbck.common.exception.ExceptionCode;
 import com.biz.gbck.common.model.InitGlobalParams;
 import com.biz.gbck.common.vo.CommonReqVo;
+import com.biz.gbck.exceptions.DepotNextDoorExceptions;
 import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.rest.bean.Constant;
 import com.biz.support.web.assist.GlobalParams;
@@ -176,6 +177,10 @@ public class RestUtil {
     }
 
     public static JSONResult parseBizResult(MicroServiceResult result) {
+        if (result == null) {
+            return new JSONResult(DepotNextDoorExceptions.Global.SERVER_EXCEPTION.getCode(), DepotNextDoorExceptions
+                    .Global.SERVER_EXCEPTION.getDescription());
+        }
         if (result.getStatus() == MicroServiceResult.SUCCESS_STATUS) {
             return new JSONResult(result.getData());
         } else {

@@ -4,6 +4,7 @@ import com.biz.gbck.vo.product.promotion.PromotionNoticeVO;
 import com.biz.soa.promotion.vo.CategoryAccountCutPromotionVO;
 import com.biz.soa.promotion.vo.CombinationAccountPromotionVO;
 import com.biz.soa.promotion.vo.SinglePurchaseGiftPromotionVO;
+import com.biz.soa.promotion.vo.WholeOrderAccountCutPromotionVO;
 import com.google.common.collect.Maps;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import java.util.Map;
  * Created by david-liu on 2017/05/19 15:08.
  */
 public interface DepotNextDoorPromotionCacheService {
+
     /**
      * Key为商品ID, Value为单品买赠促销VO集合
      */
@@ -27,6 +29,11 @@ public interface DepotNextDoorPromotionCacheService {
      * Key为商品ID, Value为组合满减促销VO集合
      */
     Map<Long, List<CombinationAccountPromotionVO>> combinationAccountCutPromotions = Maps.newConcurrentMap();
+
+    /**
+     * Key为用户组ID, Value为整单满减促销VO集合
+     */
+    Map<Long, List<WholeOrderAccountCutPromotionVO>> wholeOrderAccountCutPromotions = Maps.newConcurrentMap();
 
     void loadCacheFromDb(PromotionNoticeVO noticeVO);
 }

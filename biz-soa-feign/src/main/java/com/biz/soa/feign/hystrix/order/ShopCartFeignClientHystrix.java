@@ -31,6 +31,11 @@ public class ShopCartFeignClientHystrix implements ShopCartFeignClient {
     }
 
     @Override
+    public MicroServiceResult<ShopCartRespVo> updateItemQuantity(ShopCartItemUpdateReqVo reqVo) {
+        return null;
+    }
+
+    @Override
     public MicroServiceResult<ShopCartNumRespVo> getCartNum(ShopCartNumReqVo reqVo) {
         return null;
     }

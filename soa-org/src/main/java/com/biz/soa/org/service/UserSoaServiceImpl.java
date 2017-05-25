@@ -2,7 +2,6 @@ package com.biz.soa.org.service;
 
 
 
-import com.biz.core.codec.PasswordUtil;
 import com.biz.core.transaction.BizTransactionManager;
 import com.biz.core.util.DateUtil;
 import com.biz.core.util.StringTool;
@@ -31,15 +30,7 @@ import com.biz.gbck.enums.user.ShopChannel;
 import com.biz.gbck.transform.org.UserPoToUserRo;
 import com.biz.gbck.vo.mq.MQMessage;
 import com.biz.gbck.vo.oms.OMSCreateMemberVo;
-import com.biz.gbck.vo.org.AutoLoginReqVo;
-import com.biz.gbck.vo.org.ChangePwdVo;
-import com.biz.gbck.vo.org.ForgotPasswordReqVo;
-import com.biz.gbck.vo.org.UserChangeAvatarReqVo;
-import com.biz.gbck.vo.org.UserChangeMobileReqVo;
-import com.biz.gbck.vo.org.UserCreateVo;
-import com.biz.gbck.vo.org.UserLoginReqVo;
-import com.biz.gbck.vo.org.UserLoginResVo;
-import com.biz.gbck.vo.org.UserRegisterReqVo;
+import com.biz.gbck.vo.org.*;
 import com.biz.gbck.vo.search.bbc.SearchUserReqVo;
 import com.biz.service.CommonService;
 import com.biz.soa.org.event.AutoLoginEvent;
@@ -826,5 +817,12 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
             }
         }
         logger.debug("批量注册用户信息到老系统成功. size: {}", size);
+    }
+
+    @Override
+    public UserInfoVo findUserInfo(Long userId) throws CommonException {
+        UserRo userRo = this.findUser(userId);
+        ShopRo shopRo = shopSoaService.findShop(userRo.getShopId());
+        return new UserInfoVo(userRo, shopRo);
     }
 }

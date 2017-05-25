@@ -40,7 +40,7 @@ public class ProductAppListReqVo implements GlobalParamsAware, Serializable {
     /**
      * 搜索过滤字段
      */
-    private List<ProductSearchFieldVo> productSearchFields;
+    private List<ProductSearchFieldVo> fields;
 
     /**
      * 搜索关键字
@@ -78,12 +78,12 @@ public class ProductAppListReqVo implements GlobalParamsAware, Serializable {
         this.categoryId = categoryId;
     }
 
-    public List<ProductSearchFieldVo> getProductSearchFields() {
-        return productSearchFields;
+    public List<ProductSearchFieldVo> getFields() {
+        return fields;
     }
 
-    public void setProductSearchFields(List<ProductSearchFieldVo> productSearchFields) {
-        this.productSearchFields = productSearchFields;
+    public void setFields(List<ProductSearchFieldVo> fields) {
+        this.fields = fields;
     }
 
     public Long getSellerId() {
@@ -142,9 +142,12 @@ public class ProductAppListReqVo implements GlobalParamsAware, Serializable {
                 "sellerId=" + sellerId +
                 ", priceGroupId=" + priceGroupId +
                 ", categoryId=" + categoryId +
-                ", productSearchFields=" + productSearchFields +
+                ", lastFlag='" + lastFlag + '\'' +
+                ", fields=" + fields +
                 ", keyword='" + keyword + '\'' +
                 ", sort='" + sort + '\'' +
+                ", filterMap=" + filterMap +
+                ", globalParams=" + globalParams +
                 '}';
     }
 

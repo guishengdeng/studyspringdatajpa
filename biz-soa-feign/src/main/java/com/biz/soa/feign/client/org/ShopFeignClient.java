@@ -2,6 +2,7 @@ package com.biz.soa.feign.client.org;
 
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.org.ShopPo;
+import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.vo.org.*;
 import com.biz.gbck.vo.spring.PageVO;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 
 import java.util.List;
 
@@ -85,7 +85,7 @@ public interface ShopFeignClient {
      * 获取单个商户待审核信息
      */
     @RequestMapping(value = "soa/shop/findShopAuditDataOfWaitForAuditByShopId", method = RequestMethod.POST)
-    ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(@RequestParam("shopId") Long shopId);
+    ShopDetailResVo findShopAuditDataOfWaitForAuditByShopId(@RequestBody Long shopId);
 
 
     /**
@@ -117,7 +117,13 @@ public interface ShopFeignClient {
      *根据id查询对应商户
      */
     @RequestMapping(value = "soa/shop/findShopRoById", method = RequestMethod.POST)
-    ShopPo findShopRoById(@RequestParam("id") Long id);
+    ShopRo findShopRoById(@RequestParam("id") Long id);
+
+    /**
+     *根据id查询对应商户
+     */
+    @RequestMapping(value = "soa/shop/findShopPoById", method = RequestMethod.POST)
+    ShopPo findShopPoById(@RequestParam("id") Long id);
 
 
     /**

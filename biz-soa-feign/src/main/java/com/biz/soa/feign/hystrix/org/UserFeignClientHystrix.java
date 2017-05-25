@@ -3,14 +3,10 @@ package com.biz.soa.feign.hystrix.org;
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
-import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.org.*;
 import com.biz.soa.feign.client.org.UserFeignClient;
 import com.biz.support.web.handler.JSONResult;
-
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -83,6 +79,11 @@ public class UserFeignClientHystrix implements UserFeignClient {
 
     @Override
     public UserPo findUserPoByAccount(@RequestParam("account") String account) {
+        return null;
+    }
+
+    @Override
+    public UserInfoVo findUserInfo(Long userId) throws DepotNextDoorException {
         return null;
     }
 }
