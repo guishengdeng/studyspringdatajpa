@@ -1,0 +1,93 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password:
+    url: jdbc:mysql://10.4.100.198:3306/depotnextdoor?characterEncoding=utf-8
+    dbcp2:
+      initial-size: 5
+      max-total: 10
+      min-idle: 1
+      time-between-eviction-runs-millis: 360000
+      test-on-borrow: true
+      test-on-return: false
+      test-while-idle: true
+      validation-query: SELECT 1
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database: mysql
+    open-in-view: true
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+  session:
+    redis:
+      flush-mode: immediate
+  application:
+    name: soa-order
+
+biz:
+  soa:
+    idx: 1
+  zookeeper:
+    url: zookeeper://10.4.100.194:2181
+    soaIdx:
+      path: /biz/gbck/boot/soaIdx
+    #redis:
+    #  path: /biz/gbck/boot/redis
+  redis:
+    maxTotal: 120
+    maxIdle: 10
+    timeBetweenEvictionRunsMillis: 30000
+    minEvictableIdleTimeMillis: 30000
+    testOnBorrow: true
+    host: 10.4.100.196
+    port: 6379
+    name:
+    password:
+  amqp:
+    host: 10.4.100.196
+    username: guest
+    password: guest
+    port: 5672
+    maxRetry: 3
+    retryElapse: 1000
+  oss:
+    remoteEndpoint: oss-cn-beijing.aliyuncs.com
+    localEndpoint: oss-cn-beijing-internal.aliyuncs.com
+    accessKeyId: LTAIcBsZ7zY66tku
+    accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
+    bucketName: gbck-test
+
+server:
+  session:
+    timeout: 1200
+  port: 8680
+security:
+  basic:
+    enabled: false
+management:
+  security:
+    enabled: false
+eureka:
+  client:
+    service-url:
+      defaultZone: http://10.4.100.195:8195/eureka/,http://10.4.100.196:8196/eureka/
+    registry-fetch-interval-seconds: 1
+  instance:
+    prefer-ip-address: true
+  server:
+    eviction-interval-timer-in-ms: 1000
+
+payment:
+  alipay:
+    notify-url: http://external.com/alipay/notify.do
+  wechat:
+    appid.default: wxe458de408eef40eb
+    mch_id.wxe458de408eef40eb: 1340664401
+    key.wxe458de408eef40eb: 9d49f4f815890c8ef39935a271c38bd7
+    LOAD_IDENTIFICATION.wxe458de408eef40eb: /wxe458de408eef40eb_apiclient_cert.p12
+    notify-url: http://external.com/wechatPay/notify.do
