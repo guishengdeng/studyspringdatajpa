@@ -54,22 +54,28 @@
                      layer.msg("请手动选择后台账号级别");
                      return false;
                  }
-                 if(value == "ORG_PLATFORM"){
                      $.ajax({
                          method : "POST",
-                         url : "platform/findByCompanyLevel.do",
+                         url : "wareHouse/findByCompanyLevel.do",
                          data : {"companyLevel":value}
                      }).done(function(result){
+                         console.log(result);
                          $('#companyLevelSons').show();
-                         $('#companyLabel').html("公司");
+                         if(result[0].companyLevel =="ORG_PLATFORM"){
+                             $('#companyLabel').html("公司");
+                         }else if(result[0].companyLevel =="ORG_PARTNER"){
+                             $('#companyLabel').html("合伙人");
+                         }else{
+                             $('#companyLabel').html("隔壁仓库");
+                         }
                          $('#companySelect').empty();
                          for(var index=0;index<result.length;index++){
                              $('#companySelect').show();
-                              $('#companySelect').append('<option value="'+result[index].id+'">'+result[index].platFormName+'</option>');
+                              $('#companySelect').append('<option value="'+result[index].id+'">'+result[index].name+'</option>');
                          }
                      });
-                 }
-                 if(value == "ORG_PARTNER"){
+
+                 /*if(value == "ORG_PARTNER"){
                      $.ajax({
                          method : "POST",
                          url : "partner/findByCompanyLevel.do",
@@ -83,8 +89,8 @@
                              $('#companySelect').append('<option value="'+result[index].id+'">'+result[index].partnerName+'</option>');
                          }
                      });
-                 }
-                 if(value == "ORG_WAREHOUSE"){
+                 }*/
+                 /*if(value == "ORG_WAREHOUSE"){
                      $.ajax({
                          method : "POST",
                          url : "wareHouse/findByCompanyLevel.do",
@@ -98,7 +104,7 @@
                              $('#companySelect').append('<option value="'+result[index].id+'">'+result[index].name+'</option>');
                          }
                      });
-                 }
+                 }*/
              }
         </script>
         <script type="application/javascript">
@@ -166,7 +172,7 @@
                                                 <p class="help-block">用户名一旦注册,便不能修改</p>
                                             </div>
                                       </div>
-                                <c:if test="${empty admin}">
+                                <c:if test="${empty admin}"><%--说明是做添加操作--%>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label no-padding-right"
                                                for="password">
@@ -179,6 +185,9 @@
 
                                         </div>
                                     </div>
+                                </c:if>
+                                <c:if test="${not empty admin}"><%--说明是做修改操作--%>
+                                    <input type="hidden" name="password" value="<c:out value="${admin.password}"/>"/>
                                 </c:if>
                                 <%--由于sql语句要求一定要传入密码参数，所以，这里需要给定一个隐藏的input标签--%>
                                 <%--<input type="hidden" value="${admin.password}"

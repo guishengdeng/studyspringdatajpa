@@ -2,10 +2,10 @@ package com.biz.service.partner.interfaces;
 
 import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.org.PartnerPo;
-import com.biz.gbck.dao.mysql.po.org.PlatformPo;
 import com.biz.gbck.enums.org.CompanyLevel;
 import com.biz.gbck.exceptions.partner.PartnerExceptions;
 import com.biz.gbck.vo.platform.PartnerRespVo;
+import com.biz.gbck.vo.warehouse.WarehouseResponseVo;
 import com.biz.vo.partner.PartnerDetailRespVo;
 import com.biz.vo.partner.PartnerRegisterReqVo;
 import com.biz.vo.partner.PartnerReqVo;
@@ -35,5 +35,5 @@ public interface PartnerService {
 
     List<PartnerRespVo> getPartnersByPlatFormId(Long id);
 
-    List<PartnerRespVo> getRespVoByCompanyLevel(CompanyLevel companyLevel);
+    List<WarehouseResponseVo> getRespVoByCompanyLevel(CompanyLevel companyLevel);
 }

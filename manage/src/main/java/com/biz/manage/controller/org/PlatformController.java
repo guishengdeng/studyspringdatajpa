@@ -99,13 +99,13 @@ public class PlatformController {
 //        return new ModelAndView("redirect:/companyGroup/list.do");
 //    }
 
-      @PostMapping("/findByCompanyLevel")
+     /* @PostMapping("/findByCompanyLevel")
       @PreAuthorize("hasAuthority('OPT_PLATFORM_LIST')")
       @ResponseBody
       public List<PlatFormRespVo> findByCompanyLevel(CompanyLevel companyLevel){
 
           return platformService.getRespVoByCompanyLevel(companyLevel);
-      }
+      }*/
 
 
 }

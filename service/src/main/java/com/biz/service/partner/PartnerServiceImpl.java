@@ -14,6 +14,7 @@ import com.biz.gbck.enums.partner.ApprovalStatus;
 import com.biz.gbck.exceptions.partner.PartnerExceptions;
 import com.biz.gbck.vo.platform.PartnerRespVo;
 import com.biz.gbck.vo.platform.PlatFormRespVo;
+import com.biz.gbck.vo.warehouse.WarehouseResponseVo;
 import com.biz.service.IdService;
 import com.biz.service.partner.interfaces.PartnerService;
 import com.biz.service.partner.specification.PartnerSpecification;
@@ -156,14 +157,15 @@ public class PartnerServiceImpl implements PartnerService{
     }
 
     @Override
-    public List<PartnerRespVo> getRespVoByCompanyLevel(CompanyLevel companyLevel) {
-        List<PartnerRespVo> voList = Lists.newArrayList();
+    public List<WarehouseResponseVo> getRespVoByCompanyLevel(CompanyLevel companyLevel) {
+        List<WarehouseResponseVo> voList = Lists.newArrayList();
         List<PartnerPo> poList = partnerRepository.findByCompanyLevel(companyLevel);
         if(CollectionUtils.isNotEmpty(poList)){
             for(PartnerPo partnerPo : poList){
-                PartnerRespVo vo = new PartnerRespVo();
+                WarehouseResponseVo vo = new WarehouseResponseVo();
                 vo.setId(partnerPo.getId());
-                vo.setPartnerName(partnerPo.getName());
+                vo.setName(partnerPo.getName());
+                vo.setCompanyLevel(companyLevel);
                 voList.add(vo);
             }
         }

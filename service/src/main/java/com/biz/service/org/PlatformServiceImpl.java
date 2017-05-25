@@ -11,6 +11,7 @@ import com.biz.gbck.vo.org.ShopSearchVo;
 import com.biz.gbck.vo.platform.PartnerSearchVo;
 import com.biz.gbck.vo.platform.PlatFormRespVo;
 import com.biz.gbck.vo.platform.PlatformSearchVo;
+import com.biz.gbck.vo.warehouse.WarehouseResponseVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.org.interfaces.PlatformService;
 import com.google.common.collect.Lists;
@@ -106,14 +107,15 @@ public class PlatformServiceImpl extends AbstractBaseService implements Platform
     }
 
     @Override
-    public List<PlatFormRespVo> getRespVoByCompanyLevel(CompanyLevel companyLevel) {
-        List<PlatFormRespVo> voList = Lists.newArrayList();
+    public List<WarehouseResponseVo> getRespVoByCompanyLevel(CompanyLevel companyLevel) {
+        List<WarehouseResponseVo> voList = Lists.newArrayList();
         List<PlatformPo> poList = platformRepository.findByCompanyLevel(companyLevel);
         if(CollectionUtils.isNotEmpty(poList)){
             for(PlatformPo platformPo : poList){
-                PlatFormRespVo vo = new PlatFormRespVo();
+                WarehouseResponseVo vo = new WarehouseResponseVo();
                 vo.setId(platformPo.getId());
-                vo.setPlatFormName(platformPo.getName());
+                vo.setName(platformPo.getName());
+                vo.setCompanyLevel(companyLevel);
                 voList.add(vo);
             }
         }

@@ -6,6 +6,8 @@ import com.biz.gbck.dao.mysql.repository.org.WareHouseRepository;
 import com.biz.gbck.enums.org.CompanyLevel;
 import com.biz.gbck.vo.warehouse.MnsWarehouseVo;
 import com.biz.gbck.vo.warehouse.WarehouseResponseVo;
+import com.biz.service.org.interfaces.PlatformService;
+import com.biz.service.partner.interfaces.PartnerService;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +27,12 @@ import java.util.List;
  */
 @Service("wareHouseBackendServiceImpl")
 public class WareHouseBackendServiceImpl implements WarehouseBackendService {
-    @Resource
+    @Autowired
     private WareHouseRepository wareHouseRepository;
+    @Autowired
+    private PartnerService partnerService;
+    @Autowired
+    private PlatformService platformService;
     @Override
     public void trans(MnsWarehouseVo mnsWarehouseVo) {
 
@@ -34,16 +40,24 @@ public class WareHouseBackendServiceImpl implements WarehouseBackendService {
 
     @Override
     public List<WarehouseResponseVo> getRespVoByCompanyLevel(CompanyLevel companyLevel) {
-        List<WarehousePo> poList = wareHouseRepository.findWareHousesByCompanyLevel(companyLevel);
-        List<WarehouseResponseVo> voList = Lists.newArrayList();
-        if(CollectionUtils.isNotEmpty(poList)){
-             for(WarehousePo item : poList){
-                 WarehouseResponseVo vo = new WarehouseResponseVo();
-                 vo.setId(item.getId());
-                 vo.setName(item.getName());
-                 voList.add(vo);
-             }
+        if(companyLevel.equals(CompanyLevel.ORG_WAREHOUSE)){
+            List<WarehouseResponseVo> voList = Lists.newArrayList();
+            List<WarehousePo> poList = wareHouseRepository.findWareHousesByCompanyLevel(companyLevel);
+            if(CollectionUtils.isNotEmpty(poList)){
+                for(WarehousePo item : poList){
+                    WarehouseResponseVo vo = new WarehouseResponseVo();
+                    vo.setId(item.getId());
+                    vo.setName(item.getName());
+                    vo.setCompanyLevel(companyLevel);
+                    voList.add(vo);
+                }
+            }
+            return voList;
+        }else if(companyLevel.equals(CompanyLevel.ORG_PLATFORM)){
+             return platformService.getRespVoByCompanyLevel(companyLevel);
+        }else{
+             return partnerService.getRespVoByCompanyLevel(companyLevel);
         }
-        return voList;
+
     }
 }

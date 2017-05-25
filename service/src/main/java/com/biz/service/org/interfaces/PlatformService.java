@@ -7,6 +7,7 @@ import com.biz.gbck.vo.org.ShopSearchVo;
 import com.biz.gbck.vo.platform.PartnerSearchVo;
 import com.biz.gbck.vo.platform.PlatFormRespVo;
 import com.biz.gbck.vo.platform.PlatformSearchVo;
+import com.biz.gbck.vo.warehouse.WarehouseResponseVo;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -35,5 +36,5 @@ public interface PlatformService {
 
     List<PlatFormRespVo> getNotDuplicatedName();
 
-    List<PlatFormRespVo> getRespVoByCompanyLevel(CompanyLevel companyLevel);
+    List<WarehouseResponseVo> getRespVoByCompanyLevel(CompanyLevel companyLevel);
 }

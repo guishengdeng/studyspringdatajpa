@@ -163,11 +163,11 @@ public class PartnerController {
         }
         return new JSONResult(partnerService.validAccountIsExist(username));
     }
-    @PostMapping("/findByCompanyLevel")
+   /* @PostMapping("/findByCompanyLevel")
     @PreAuthorize("hasAuthority('OPT_PARTNER_LIST')")
     @ResponseBody
     public List<PartnerRespVo> findByCompanyLevel(CompanyLevel companyLevel){
         return partnerService.getRespVoByCompanyLevel(companyLevel);
-    }
+    }*/
 
 }

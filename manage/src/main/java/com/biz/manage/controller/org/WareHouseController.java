@@ -6,6 +6,7 @@ import com.biz.service.warehouse.backend.WarehouseBackendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,7 +23,7 @@ import java.util.List;
  * @description
  * @see
  */
-@RestController
+@Controller
 @RequestMapping("/wareHouse")
 @Secured("ROLE_WAREHOUSE")
 public class WareHouseController {
