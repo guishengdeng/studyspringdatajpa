@@ -78,13 +78,76 @@
 	</dependencies>
 
 	<build>
+		<finalName>sms_center</finalName>
+		<resources>
+			<resource>
+				<directory>docs/profiles/${profileName}</directory>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>com.biz.gbck.smscenter.SmsCenterApplication</mainClass>
+							<addClasspath>true</addClasspath>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>1.3.3.RELEASE</version>
+				<configuration>
+					<executable>true</executable>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>internal</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<profileName>internal</profileName>
+			</properties>
+		</profile>
+		<profile>
+			<id>production</id>
+			<properties>
+				<profileName>production</profileName>
+			</properties>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<profileName>test</profileName>
+			</properties>
+		</profile>
+		<profile>
+			<id>preview</id>
+			<properties>
+				<profileName>preview</profileName>
+			</properties>
+		</profile>
+	</profiles>
 
 </project>
