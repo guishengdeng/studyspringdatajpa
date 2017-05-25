@@ -1,8 +1,8 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    username: root
-    password:
+    username: depotapp
+    password: Depot*123456
     url: jdbc:mysql://10.4.100.198:3306/depotnextdoor?characterEncoding=utf-8
     dbcp2:
       initial-size: 5
