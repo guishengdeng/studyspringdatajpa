@@ -328,7 +328,7 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
             propertyMap.forEach((propertyName, propertySet) -> {
                 if (CollectionUtils.isNotEmpty(propertySet)) {
                     ProductFilterVO filterVO = new ProductFilterVO();
-                    filterVO.setField("property");
+                    filterVO.setField("properties");
                     filterVO.setLabel(propertyName);
                     List<ProductFilterItemVO> itemVOS = Lists.newArrayList();
                     propertySet.elementSet().forEach(property -> {
