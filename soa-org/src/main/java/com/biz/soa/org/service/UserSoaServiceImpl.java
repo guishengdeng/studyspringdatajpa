@@ -376,7 +376,9 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
 
     @Override
     public UserPo findUserPoByMobile(String mobile) {
-        return userRepository.findByMobile(mobile);
+        UserPo userPo = userRepository.findByMobile(mobile);
+        logger.info("findUserPoByMobile userPo is {}", userPo.toString() );
+        return userPo;
     }
 
     @Override
