@@ -26,7 +26,19 @@
             <artifactId>biz-support-web</artifactId>
             <version>${biz-support-web.version}</version>
         </dependency>
-
+        <!-- 读取excel poi.jar -->
+		<dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.14</version>
+        </dependency>
+        
+        <dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.14</version>
+		</dependency>
+		
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
@@ -83,6 +95,8 @@
             <groupId>com.biz.gbck</groupId>
             <artifactId>biz-soa-feign</artifactId>
         </dependency>
+
+
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-sts</artifactId>

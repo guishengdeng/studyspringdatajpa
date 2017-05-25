@@ -33,6 +33,19 @@ public enum ReturnCause implements EnumerableValue {
         this.desc = desc;
     }
 
+    public static ReturnCause valueOf(Integer value) {
+       if (value == PRE_EXPIRED.getValue()) {
+           return PRE_EXPIRED;
+       } else if (value == BROKEN.getValue()) {
+           return BROKEN;
+       } else if (value == QUALITY_PROBLEM.getValue()){
+           return QUALITY_PROBLEM;
+       } else {
+           return OTHER;
+       }
+    }
+
+
     @Override
     public int getValue() {
         return value;

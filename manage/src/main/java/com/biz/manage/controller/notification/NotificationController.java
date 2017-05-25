@@ -1,10 +1,9 @@
 package com.biz.manage.controller.notification;
 
 
-import com.biz.gbck.common.exception.CommonException;
 import com.biz.gbck.dao.mysql.po.security.Admin;
 import com.biz.manage.util.AuthorityUtil;
-import com.biz.service.notification.NotificationService;
+import com.biz.soa.feign.client.global.NoticeFeignClient;
 import com.biz.vo.notify.NotifyVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Created by david-liu on 2016/03/29 22:50.
+ * Created dylan 消息发送
  */
 
 @Controller
@@ -27,7 +26,7 @@ public class NotificationController {
     private static final Logger logger = LoggerFactory.getLogger(NotificationController.class);
 
     @Autowired
-    private NotificationService notificationService;
+    private NoticeFeignClient noticeFeignClient;
 
     @RequestMapping("add") @PreAuthorize("hasAuthority('OPT_NOTIFICATION_SAVE')")
     public ModelAndView addNotification() {
@@ -36,15 +35,9 @@ public class NotificationController {
 
     @RequestMapping(value = "save", method = RequestMethod.POST) @PreAuthorize("hasAuthority('OPT_NOTIFICATION_SAVE')")
     public ModelAndView saveNotification(NotifyVo notifyVo) {
-        String errMsg = null;
+        String errMsg = "消息发送成功";
         Admin currentAdmin = (Admin) AuthorityUtil.getLoginUser();
-
-        try {
-            notificationService.sendNotification(currentAdmin.getName(), notifyVo);
-        } catch (CommonException e) {
-            logger.warn("执行发送推送失败", e);
-            errMsg = e.getMessage();
-        }
+        noticeFeignClient.sendNotification(currentAdmin.getName(), notifyVo);
         return new ModelAndView("notification/add").addObject("errMsg", errMsg);
     }
 

@@ -126,4 +126,13 @@ public interface CategoryService {
      */
     CategoryRespVo findById(Long id);
 
+	List<Category> findAll();
+
+    /**
+     *获取有效商品分类集合
+     */
+    List<Category> findCategoryByStatus();
+
+
+
 }

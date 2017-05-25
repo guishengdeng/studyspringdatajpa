@@ -1,5 +1,7 @@
 package com.biz.gbck.vo.order.resp;
 
+import java.io.Serializable;
+
 /**
  * 商品接口Vo
  *
@@ -8,7 +10,7 @@ package com.biz.gbck.vo.order.resp;
  * @reviewer
  * @see
  */
-public interface IProduct {
+public interface IProduct extends Serializable {
 
     /**
      * 商品id
@@ -24,6 +26,11 @@ public interface IProduct {
      * 数量
      */
     Integer getQuantity();
+
+    /**
+     * 分类Id
+     */
+    Long getCategoryId();
 
 
 }

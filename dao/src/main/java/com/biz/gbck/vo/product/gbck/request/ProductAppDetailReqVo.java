@@ -1,40 +1,46 @@
 package com.biz.gbck.vo.product.gbck.request;
 
-import java.io.Serializable;
+import com.biz.support.web.assist.GlobalParams;
+import com.biz.support.web.assist.GlobalParamsAware;
+
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * App商品详情请求Vo
  *
  * Created by david-liu on 2017/04/28 11:59.
  */
-public class ProductAppDetailReqVo implements Serializable {
+public class ProductAppDetailReqVo implements GlobalParamsAware, Serializable {
     private static final long serialVersionUID = 2612052700611378983L;
 
     /**
      * 上级采购单位Id
      */
-    @NotNull(message = "上级采购单位ID不能为空")
     private Long sellerId;
 
     /**
      * 商品编码
      */
     @NotNull(message = "商品ID不能为空")
-    private Long productId;
+    private Long id;
 
     /**
      * 价格组ID
      */
-    @NotNull(message = "价格组ID不能为空")
     private Long priceGroupId;
 
-    public Long getProductId() {
-        return productId;
+    /**
+     * 全局参数
+     */
+    private GlobalParams globalParams;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getPriceGroupId() {
@@ -54,11 +60,22 @@ public class ProductAppDetailReqVo implements Serializable {
     }
 
     @Override
+    public GlobalParams getGlobalParams() {
+        return globalParams;
+    }
+
+    @Override
+    public void setGlobalParams(GlobalParams globalParams) {
+        this.globalParams = globalParams;
+    }
+
+    @Override
     public String toString() {
         return "ProductAppDetailReqVo{" +
                 "sellerId=" + sellerId +
-                ", productId=" + productId +
+                ", id=" + id +
                 ", priceGroupId=" + priceGroupId +
+                ", globalParams=" + globalParams +
                 '}';
     }
 }

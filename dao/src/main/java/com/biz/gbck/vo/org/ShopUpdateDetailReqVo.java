@@ -14,7 +14,7 @@ public class ShopUpdateDetailReqVo extends CommonReqVoBindUserId {
     /**
      * 店铺id
      */
-    @NotNull private Long shopId;
+    @NotNull private String shopId;
 
     /**
      * 店铺名称
@@ -24,7 +24,8 @@ public class ShopUpdateDetailReqVo extends CommonReqVoBindUserId {
     /**
      * 法人名字
      */
-    @NotNull(message = "法人名字不能为空") private String corporateName;
+    @NotNull(message = "法人名字不能为空")
+    private String corporateName;
 
     /**
      * 店铺类型
@@ -71,11 +72,11 @@ public class ShopUpdateDetailReqVo extends CommonReqVoBindUserId {
             '}';
     }
 
-    public Long getShopId() {
+    public String getShopId() {
         return shopId;
     }
 
-    public void setShopId(Long shopId) {
+    public void setShopId(String shopId) {
         this.shopId = shopId;
     }
 
@@ -142,4 +143,6 @@ public class ShopUpdateDetailReqVo extends CommonReqVoBindUserId {
     public void setReason(String reason) {
         this.reason = reason;
     }
+
+
 }

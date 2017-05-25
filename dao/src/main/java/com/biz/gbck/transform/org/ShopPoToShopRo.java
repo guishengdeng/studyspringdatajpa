@@ -95,8 +95,9 @@ public class ShopPoToShopRo implements Function<ShopPo, ShopRo>, Serializable {
             ro.setChannel(po.getChannel());
             ro.setChannelUserId(po.getChannelUserId());
 //            ro.setShopLevel(po.getShopLevel());
-            ro.setPartnerId(po.getPartner().getId());
-
+            if(po.getPartner() != null){
+                ro.setPartnerId(po.getPartner().getId());
+            }
         }
         return ro;
     }

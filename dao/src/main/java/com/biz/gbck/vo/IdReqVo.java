@@ -1,6 +1,6 @@
 package com.biz.gbck.vo;
 
-import com.biz.gbck.vo.user.BaseRequestVo;
+import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 
 import javax.validation.constraints.NotNull;
 
@@ -12,12 +12,19 @@ import javax.validation.constraints.NotNull;
  * @reviewer
  * @see
  */
-public class IdReqVo extends BaseRequestVo {
+public class IdReqVo extends CommonReqVoBindUserId {
 
     private static final long serialVersionUID = 1960246981093046447L;
 
     @NotNull(message = "id不能为null")
     private Long id;
+
+    public IdReqVo() {
+    }
+
+    public IdReqVo(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;

@@ -7,7 +7,8 @@ import com.biz.gbck.vo.payment.resp.AlipaySignRespVo;
 import com.biz.gbck.vo.payment.resp.PaymentQueryResultRespVo;
 import com.biz.gbck.vo.payment.resp.WechatPayResp;
 import com.biz.rest.controller.BaseRestController;
-import com.biz.soa.order.service.payment.PaymentService;
+import com.biz.rest.util.RestUtil;
+import com.biz.soa.feign.client.payment.PaymentFeignClient;
 import com.biz.support.web.handler.JSONResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,30 +29,27 @@ import javax.servlet.http.HttpServletRequest;
 public class PaymentController extends BaseRestController {
 
     @Autowired(required = false)
-    private PaymentService paymentService;
+    private PaymentFeignClient paymentFeignClient;
 
     //查询支付状态
     @RequestMapping("/queryPaid")
     public JSONResult queryPaid(HttpServletRequest request) throws PaymentException {
-        IdReqVo reqVo = super.parseBizData(request, IdReqVo.class);
-        PaymentQueryResultRespVo paidResultRespVo = paymentService.queryPaid(reqVo);
-        return new JSONResult(paidResultRespVo);
+        IdReqVo reqVo = RestUtil.parseBizData(request, IdReqVo.class);
+        return RestUtil.parseBizResult(paymentFeignClient.queryPaid(reqVo));
     }
 
     //支付宝继续支付
     @RequestMapping("/alipay")
     public JSONResult alipay(HttpServletRequest request) throws PaymentException {
-        IdReqVo reqVo = super.parseBizData(request, IdReqVo.class);
-        AlipaySignRespVo responseVo = paymentService.getAlipaySign(reqVo.getId());
-        return new JSONResult(responseVo);
+        IdReqVo reqVo = RestUtil.parseBizData(request, IdReqVo.class);
+        return RestUtil.parseBizResult(paymentFeignClient.getAlipaySign(reqVo.getId()));
     }
 
     //微信继续支付
     @RequestMapping("/wechat")
     public JSONResult wecaht(HttpServletRequest request) throws PaymentException {
-        WechatOrderReqVo reqVo = super.parseBizData(request, WechatOrderReqVo.class);
-        WechatPayResp respVo = paymentService.wechatPay(reqVo, reqVo.getOrderId());
-        return new JSONResult(respVo);
+        WechatOrderReqVo reqVo = RestUtil.parseBizData(request, WechatOrderReqVo.class);
+        return RestUtil.parseBizResult(paymentFeignClient.getWechatParam(reqVo));
     }
 
 

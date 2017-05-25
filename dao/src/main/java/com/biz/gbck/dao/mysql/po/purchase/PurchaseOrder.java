@@ -45,7 +45,7 @@ public class PurchaseOrder extends BaseEntity {
 
     //运费金额
     @Column(nullable = false)
-    private Integer freightAmount = 0;
+    private Integer freight = 0;
 
     /**
      * 促销优惠金额
@@ -57,7 +57,7 @@ public class PurchaseOrder extends BaseEntity {
      * 优惠券抵付金额
      */
     @Column(nullable = false)
-    private Integer voucherFreeAmount = 0;
+    private Integer voucherAmount = 0;
 
     /**
      * 支付金额
@@ -89,8 +89,6 @@ public class PurchaseOrder extends BaseEntity {
     @Embedded
     private OrderShipping shipping;
 
-    @Embedded
-    private PurchaseAudit audit;
 
     public String getOrderCode() {
         return orderCode;
@@ -124,12 +122,12 @@ public class PurchaseOrder extends BaseEntity {
         this.orderAmount = orderAmount;
     }
 
-    public Integer getFreightAmount() {
-        return freightAmount;
+    public Integer getFreight() {
+        return freight;
     }
 
-    public void setFreightAmount(Integer freightAmount) {
-        this.freightAmount = freightAmount;
+    public void setFreight(Integer freightAmount) {
+        this.freight = freightAmount;
     }
 
     public Integer getFreeAmount() {
@@ -140,12 +138,12 @@ public class PurchaseOrder extends BaseEntity {
         this.freeAmount = freeAmount;
     }
 
-    public Integer getVoucherFreeAmount() {
-        return voucherFreeAmount;
+    public Integer getVoucherAmount() {
+        return voucherAmount;
     }
 
-    public void setVoucherFreeAmount(Integer voucherFreeAmount) {
-        this.voucherFreeAmount = voucherFreeAmount;
+    public void setVoucherAmount(Integer voucherFreeAmount) {
+        this.voucherAmount = voucherFreeAmount;
     }
 
     public Integer getPayAmount() {
@@ -196,11 +194,4 @@ public class PurchaseOrder extends BaseEntity {
         this.shipping = shipping;
     }
 
-    public PurchaseAudit getAudit() {
-        return audit;
-    }
-
-    public void setAudit(PurchaseAudit audit) {
-        this.audit = audit;
-    }
 }

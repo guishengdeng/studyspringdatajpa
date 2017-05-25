@@ -2,6 +2,7 @@ package com.biz.gbck.dao.mysql.repository.product;
 
 import com.biz.gbck.dao.mysql.po.product.master.Product;
 import com.biz.support.jpa.repository.CommonJpaRepository;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 /**
@@ -12,4 +13,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 public interface ProductRepository extends CommonJpaRepository<Product, Long>, ProductDao, JpaSpecificationExecutor<Product> {
 
     Product findByProductCode(String productCode);
+
+    List<Product> findByDeleteFlag(Boolean deleteFlag);
 }

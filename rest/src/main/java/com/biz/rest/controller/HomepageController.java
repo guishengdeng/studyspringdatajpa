@@ -1,21 +1,36 @@
 package com.biz.rest.controller;
 
+import com.biz.service.cover.CoverService;
+import com.biz.support.web.handler.JSONResult;
+import com.biz.vo.cover.CoverReqVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Maps.newLinkedHashMap;
 
 @Controller
 @RequestMapping("homepage")
 public class HomepageController extends BaseRestController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HomepageController.class);
+
+	@Autowired
+	@Qualifier("coverFeignService")
+	private CoverService coverService;
 
 	@PostConstruct
 	public void setup(){
@@ -24,9 +39,11 @@ public class HomepageController extends BaseRestController {
 	}
 
 	@RequestMapping
-	public String productList(HttpServletRequest request, HttpServletResponse response) {
+	@ResponseBody
+	public Object productList(HttpServletRequest request, HttpServletResponse response) {
 
-		return "[{\"type\": \"SlideBanner\", \"items\": [{\"imgUrl\": \"https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/25f18acf-0437-436f-95b4-f2a0f4abe264\", \"link\": \"https://www.baidu.com\"} ], \"interval\": 5 }, {\"type\": \"ImageNavigation\", \"items\": [{\"imgUrl\": \"https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/25f18acf-0437-436f-95b4-f2a0f4abe264\", \"link\": \"https://www.baidu.com\"} ] }, {\"type\": \"ImageShowcase\", \"left\": {\"imgUrl\": \"https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/25f18acf-0437-436f-95b4-f2a0f4abe264\", \"link\": \"https://www.baidu.com\"}, \"rightTop\": {\"imgUrl\": \"https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/25f18acf-0437-436f-95b4-f2a0f4abe264\", \"link\": \"https://www.baidu.com\"}, \"rightBottom\": {\"imgUrl\": \"https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/25f18acf-0437-436f-95b4-f2a0f4abe264\", \"link\": \"https://www.baidu.com\"} }, {\"type\": \"ProductList\", \"items\": [{\"imgUrl\": \"https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/25f18acf-0437-436f-95b4-f2a0f4abe264\", \"text\" : \"飞天茅台\", \"link\" : \"https://www.baidu.com\"} ] } ]";
+		CoverReqVO reqVo = new CoverReqVO();
+		return new JSONResult(coverService.getHomePage(reqVo));
 	}
 
 }

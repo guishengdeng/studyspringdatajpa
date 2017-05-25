@@ -1,10 +1,11 @@
 package com.biz.soa.org;
 
-import com.biz.service.product.impl.BrandServiceImpl;
-import com.biz.service.product.impl.CategoryServiceImpl;
+import com.biz.core.event.AbstractBizEventListener;
 import com.biz.service.system.InitManager;
+import com.biz.soa.org.listener.ShopQualificationUpdateListener;
 import com.biz.support.jpa.repository.CommonRepositoryFactoryBean;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -30,8 +31,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EntityScan(basePackages = "com.biz")
 @EnableTransactionManagement
 @EnableDiscoveryClient
+@EnableAutoConfiguration
 public class SoaOrgApplication {
     public static void main(String[] args) {
-        SpringApplication.run(SoaOrgApplication.class);
+        SpringApplication application = new SpringApplication(SoaOrgApplication.class);
+        application.addListeners();
+        application.addListeners(new ShopQualificationUpdateListener());
+        application.run(args);
     }
 }

@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 控制器基类,要求所有面向手机端的api都要继承此类
+ * 控制器基类
  *
  * @author yanweijin
  * @usage

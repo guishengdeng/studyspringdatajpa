@@ -3,7 +3,7 @@ package com.biz.gbck.dao.redis.ro.product.bbc;
 import com.alibaba.fastjson.JSON;
 import com.biz.gbck.enums.product.SaleStatusEnum;
 import com.biz.gbck.enums.product.VendorTypeEnum;
-import com.biz.gbck.vo.product.ProductPropertyVo;
+import com.biz.gbck.vo.product.ProductPropertyContentVo;
 import com.biz.gbck.vo.product.PropertyItemVo;
 import com.biz.gbck.vo.product.RapidProductItemVo;
 import com.biz.redis.annotation.Ro;
@@ -492,8 +492,8 @@ public class ProductRo extends BaseRedisObject<String> implements Serializable {
         return this.saleStatus != null && this.saleStatus == SaleStatusEnum.ON_SALE.getValue();
     }
 
-    public ProductPropertyVo getProductProperty() {
-        ProductPropertyVo vo = new ProductPropertyVo();
+    public ProductPropertyContentVo getProductProperty() {
+        ProductPropertyContentVo vo = new ProductPropertyContentVo();
         vo.setProductCode(this.productCode);
         PropertyItemVo nameItemVo = new PropertyItemVo();
         nameItemVo.setPropertyName("名称");

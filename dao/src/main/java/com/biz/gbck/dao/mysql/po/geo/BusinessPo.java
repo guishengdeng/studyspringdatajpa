@@ -1,7 +1,7 @@
 package com.biz.gbck.dao.mysql.po.geo;
 
-import com.biz.gbck.model.geo.IArea;
-import com.biz.gbck.model.geo.IBusiness;
+import com.biz.gbck.common.model.geo.IArea;
+import com.biz.gbck.common.model.geo.IBusiness;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.Entity;
@@ -27,9 +27,11 @@ import java.util.List;
         this.status = status;
     }
 
-    @ManyToOne(optional = true) @JoinColumn(name = "districtId") private DistrictPo district;
+    @ManyToOne(optional = true) @JoinColumn(name = "districtId")
+    private DistrictPo district;
 
-    @ManyToOne(optional = true) @JoinColumn(name = "cityId") private CityPo city;
+    @ManyToOne(optional = true) @JoinColumn(name = "cityId")
+    private CityPo city;
 
     public DistrictPo getDistrict() {
         return district;

@@ -1,6 +1,7 @@
 package com.biz.gbck.common.ro;
 
 
+import com.biz.gbck.enums.IdType;
 import com.biz.gbck.enums.user.ShopChannel;
 
 /**
@@ -174,6 +175,23 @@ public class RedisKeyGenerator {
             return "global:shareTimes";
         }
 
+    }
+
+    public static class System {
+
+        /**
+         * 全局设置
+         */
+        public static String getConfigHashKey() {
+            return "global:config";
+        }
+
+        /**
+         * id池
+         */
+        public static String getIdPoolListKey(IdType idType) {
+            return idType.name() + "_idPool";
+        }
     }
 
 }

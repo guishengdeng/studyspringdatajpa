@@ -27,11 +27,6 @@ public class PriceRO extends BaseRedisObject<String> {
     private Long priceGroupId;
 
     /**
-     * 商品编码
-     */
-    private String productCode;
-
-    /**
      * 商品ID
      */
     private Long productId;
@@ -55,14 +50,6 @@ public class PriceRO extends BaseRedisObject<String> {
      * 建议零售价
      */
     private Integer suggestPrice;
-
-    public String getProductCode() {
-        return productCode;
-    }
-
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
-    }
 
     public Integer getPurchasePrice() {
         return purchasePrice;
@@ -134,7 +121,6 @@ public class PriceRO extends BaseRedisObject<String> {
                 "priceId=" + priceId +
                 ", companyGroupId=" + companyGroupId +
                 ", priceGroupId=" + priceGroupId +
-                ", productCode='" + productCode + '\'' +
                 ", productId=" + productId +
                 ", purchasePrice=" + purchasePrice +
                 ", dynamicAveragePrice=" + dynamicAveragePrice +

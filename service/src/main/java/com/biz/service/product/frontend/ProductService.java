@@ -2,8 +2,11 @@ package com.biz.service.product.frontend;
 
 import com.biz.gbck.vo.product.gbck.request.ProductAppDetailReqVo;
 import com.biz.gbck.vo.product.gbck.request.ProductAppListReqVo;
+import com.biz.gbck.vo.product.gbck.request.PurchaseProductReqVO;
 import com.biz.gbck.vo.product.gbck.response.ProductAppDetailRespVO;
 import com.biz.gbck.vo.product.gbck.response.ProductAppListRespVO;
+import com.biz.gbck.vo.product.gbck.response.PurchaseProductItemVO;
+import java.util.List;
 
 /**
  * 商品Service
@@ -14,4 +17,6 @@ public interface ProductService {
     ProductAppListRespVO searchProducts(ProductAppListReqVo reqVo);
 
     ProductAppDetailRespVO productDetail(ProductAppDetailReqVo reqVo);
+
+    List<PurchaseProductItemVO> purchaseProducts(PurchaseProductReqVO reqVO);
 }

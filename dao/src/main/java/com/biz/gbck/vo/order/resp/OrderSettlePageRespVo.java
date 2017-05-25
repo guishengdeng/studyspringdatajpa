@@ -1,6 +1,8 @@
 package com.biz.gbck.vo.order.resp;
 
 import com.biz.gbck.enums.order.PaymentType;
+import com.biz.gbck.vo.org.UserInfoVo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.util.List;
@@ -22,15 +24,25 @@ public class OrderSettlePageRespVo implements Serializable {
     /**
      * 总金额
      */
-    private Integer orderAmount;
+    private Integer orderAmount = 0;
+
+    /**
+     * 促销优惠免额
+     */
+    private Integer freeAmount = 0;
+
+    /**
+     * 优惠券优惠金额
+     */
+    private Integer voucherAmount = 0;
 
     // 运费
     private Integer freight = 0;
 
     /**
-     * 付款期限
+     * 支付金额
      */
-    private Long payLimitTime;
+    private Integer payAmount = 0;
 
     /**
      * 商品明细
@@ -68,12 +80,41 @@ public class OrderSettlePageRespVo implements Serializable {
      */
     private String buyerAddress;
 
+    //冗余用户基本信息
+    @JsonIgnore
+    private UserInfoVo userInfoVo;
+
+
     public Integer getOrderAmount() {
         return orderAmount;
     }
 
     public void setOrderAmount(Integer orderAmount) {
         this.orderAmount = orderAmount;
+    }
+
+    public Integer getFreeAmount() {
+        return freeAmount;
+    }
+
+    public void setFreeAmount(Integer freeAmount) {
+        this.freeAmount = freeAmount;
+    }
+
+    public Integer getVoucherAmount() {
+        return voucherAmount;
+    }
+
+    public void setVoucherAmount(Integer voucherAmount) {
+        this.voucherAmount = voucherAmount;
+    }
+
+    public Integer getPayAmount() {
+        return payAmount;
+    }
+
+    public void setPayAmount(Integer payAmount) {
+        this.payAmount = payAmount;
     }
 
     public Integer getFreight() {
@@ -116,14 +157,6 @@ public class OrderSettlePageRespVo implements Serializable {
         this.valid = valid;
     }
 
-    public Long getPayLimitTime() {
-        return payLimitTime;
-    }
-
-    public void setPayLimitTime(Long payLimitTime) {
-        this.payLimitTime = payLimitTime;
-    }
-
     public String getBuyerName() {
         return buyerName;
     }
@@ -154,6 +187,14 @@ public class OrderSettlePageRespVo implements Serializable {
 
     public void setPromotions(List<OrderPromotionRespVo> promotions) {
         this.promotions = promotions;
+    }
+
+    public UserInfoVo getUserInfoVo() {
+        return userInfoVo;
+    }
+
+    public void setUserInfoVo(UserInfoVo userInfoVo) {
+        this.userInfoVo = userInfoVo;
     }
 }
 

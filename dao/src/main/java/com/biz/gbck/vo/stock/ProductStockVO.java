@@ -10,6 +10,10 @@ import java.io.Serializable;
 public class ProductStockVO implements Serializable {
     private static final long serialVersionUID = 5264457748831500076L;
 
+    private Long productId;
+
+    private Long sellerId;
+
     private String productCode;
 
     private Integer stock;
@@ -36,6 +40,22 @@ public class ProductStockVO implements Serializable {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public Long getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
     }
 
     @Override

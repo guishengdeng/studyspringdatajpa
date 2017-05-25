@@ -1,0 +1,51 @@
+body {
+    background-color: #4977AA;
+}
+
+#title-div {
+    margin-left: 34%;
+    margin-bottom: 31px;
+}
+
+.upload-pic-dev {
+    position: relative;
+    border: 1px dashed;
+    width: 64px;
+    height: 64px;
+    font-size: 43px;
+    text-align: center;
+    padding-bottom: 15px;
+    cursor: pointer;
+}
+
+.upload-input {
+    font-size: 14px;
+    filter: alpha(opacity=0); /*IE滤镜，透明度50%*/
+    -moz-opacity: 0; /*Firefox私有，透明度50%*/
+    opacity: 0; /*其他，透明度50%*/
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+}
+
+.light-login {
+    background-color: #4977AA;
+    color: white;
+}
+
+.form-group > label[class*=col-] {
+    margin-right: 5px;
+}
+
+b {
+    color: red;
+    padding-right: 6px;
+}
+
+.preview-img {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 9px;
+}

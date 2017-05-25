@@ -256,7 +256,7 @@
     </c:otherwise>
 </c:choose>
 <div style="text-align: center;width: 100%;position: fixed;bottom: 0">
-    <a target="_blank" href="static-resource/ace/index.html">ACE示例</a>
+    <a target="_blank" href="static-resource/ace/index.html" style="color:white">关于我们 | 成都博智维讯信息技术股份有限公司 | Copyright 2016 biz-united information</a>
 </div>
 </body>
 <!-- basic scripts -->

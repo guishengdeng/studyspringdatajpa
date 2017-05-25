@@ -1,9 +1,12 @@
 package com.biz.gbck.vo.cart;
 
+import com.biz.gbck.enums.order.ItemType;
+import com.biz.gbck.vo.product.gbck.response.PurchaseProductItemVO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.codelogger.utils.BeanUtils;
+import org.codelogger.utils.ValueUtils;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -15,6 +18,8 @@ import java.util.List;
  * @date 2017/01/12
  */
 public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Serializable {
+
+    private static final long serialVersionUID = 297542739517280818L;
 
     /**
      * 商品名称
@@ -29,7 +34,12 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
     /**
      * 商品Id
      */
-    private Long productId;
+    private String productId;
+
+    /**
+     * 分类Id
+     */
+    private Long categoryId;
 
     /**
      * 商品编码
@@ -99,9 +109,38 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
     private Timestamp updateTime;
 
     /**
+     * 商品类型
+     */
+    @JsonIgnore
+    private ItemType itemType = ItemType.NORMAL;
+    /**
      * 是否选中
      */
     private boolean selected = false;
+
+    public ShopCartItemRespVo() {
+    }
+
+    public ShopCartItemRespVo(PurchaseProductItemVO itemVo) {
+        this();
+        this.setProductId(itemVo.getId());
+        this.setProductCode(itemVo.getProductCode());
+        this.setName(itemVo.getProductName());
+        this.setLogo(itemVo.getLogo());
+        this.setCreateTime(null);
+        this.setMarketPrice(null);
+        this.setPrice(itemVo.getSalePrice());
+        if (itemVo.getSupportSpecialOffer() && ValueUtils.getValue(itemVo.getSpecialOfferPrice()) > 0) {
+            this.setPrice(itemVo.getSpecialOfferPrice());
+        }
+        this.setMaxQuantity(itemVo.getMaxQuantity());
+        this.setMinQuantity(itemVo.getMinQuantity());
+        this.setStatus(itemVo.getShowStatus().getValue());
+        this.setStandard(null);
+        this.setSubTitle(null);
+        this.setCategoryId(itemVo.getCategoryId());
+    }
+
 
     public String getName() {
         return name;
@@ -119,11 +158,11 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
         this.subTitle = subTitle;
     }
 
-    public Long getProductId() {
+    public String getProductId() {
         return productId;
     }
 
-    public void setProductId(Long productId) {
+    public void setProductId(String productId) {
         this.productId = productId;
     }
 
@@ -237,6 +276,22 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
 
     public void setPromotionTags(List<String> promotionTags) {
         this.promotionTags = promotionTags;
+    }
+
+    public ItemType getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
     @Override

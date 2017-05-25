@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/rabbit
+                           http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd">
+    <rabbit:connection-factory id="connectionFactory"
+                               username="${amqp.webconsole.username}" password="${amqp.webconsole.password}"
+                               host="${amqp.host}" port="${amqp.port}" />
+
+    <rabbit:template id="amqpTemplate"  connection-factory="connectionFactory"
+                     exchange="${amqp.exchangename}" />
+
+    <rabbit:admin connection-factory="connectionFactory" />
+
+    <rabbit:queue name="${amqp.queuename.sms}" durable="true" auto-delete="false" exclusive="false" />
+
+    <rabbit:queue name="${amqp.queuename.email}" durable="true" auto-delete="false" exclusive="false" />
+
+    <rabbit:direct-exchange name="${amqp.exchangename}" durable="true" auto-delete="false">
+        <rabbit:bindings>
+            <rabbit:binding queue="${amqp.queuename.sms}" key="${amqp.routingkey.sms}" />
+            <rabbit:binding queue="${amqp.queuename.email}" key="${amqp.routingkey.email}" />
+        </rabbit:bindings>
+    </rabbit:direct-exchange>
+
+    <bean id="smsMessageReceiver" class="com.biz.gbck.smscenter.amqp.MessageReceiver">
+        <property name="notifyPublisher" ref="smsPublisher" />
+    </bean>
+
+    <bean id="mailMessageReceiver" class="com.biz.gbck.smscenter.amqp.MessageReceiver">
+        <property name="notifyPublisher" ref="mailPublisher" />
+    </bean>
+
+    <bean id="messagePublisher" class="com.biz.gbck.smscenter.amqp.MessagePublisher"/>
+
+    <rabbit:listener-container connection-factory="connectionFactory">
+        <rabbit:listener queues="${amqp.queuename.sms}" ref="smsMessageReceiver"/>
+    </rabbit:listener-container>
+
+    <rabbit:listener-container connection-factory="connectionFactory">
+        <rabbit:listener queues="${amqp.queuename.email}" ref="mailMessageReceiver"/>
+    </rabbit:listener-container>
+</beans>

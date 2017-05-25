@@ -1,10 +1,14 @@
 package com.biz.gbck.dao.mysql.po.order;
 
+import com.biz.gbck.enums.order.RefundStatus;
 import com.biz.gbck.enums.order.ReturnStatus;
+import com.biz.gbck.enums.order.ReturnType;
 import com.biz.support.jpa.converter.ListStringConverter;
 import com.biz.support.jpa.po.BaseEntity;
+
 import javax.persistence.*;
 import java.util.List;
+
 import static com.google.common.collect.Lists.newArrayList;
 
 /**
@@ -30,11 +34,21 @@ public class OrderReturn extends BaseEntity {
     @Column(length = 50, unique = true, nullable = false)
     private String returnCode;
 
+    //收货类型
+    @Convert(converter = ReturnType.Converter.class)
+    private ReturnType returnType;
+
     /**
-     * 退款状态
+     * 状态
      */
     @Convert(converter = ReturnStatus.Converter.class)
-    private ReturnStatus status = ReturnStatus.PRE_AUDIT;
+    private ReturnStatus status = ReturnStatus.CREATED;
+
+    /**
+     * 退款状态(如果为换货,状态是NO_REFUND)
+     */
+    @Convert(converter = RefundStatus.Converter.class)
+    private RefundStatus refundStatus = RefundStatus.REFUNDING;
 
     /**
      * 退款单明细
@@ -101,6 +115,14 @@ public class OrderReturn extends BaseEntity {
 
     public void setReturnCode(String returnCode) {
         this.returnCode = returnCode;
+    }
+
+    public ReturnType getReturnType() {
+        return returnType;
+    }
+
+    public void setReturnType(ReturnType returnType) {
+        this.returnType = returnType;
     }
 
     public ReturnStatus getStatus() {
@@ -189,5 +211,13 @@ public class OrderReturn extends BaseEntity {
 
     public void setItems(List<OrderReturnItem> items) {
         this.items = items;
+    }
+
+    public RefundStatus getRefundStatus() {
+        return refundStatus;
+    }
+
+    public void setRefundStatus(RefundStatus refundStatus) {
+        this.refundStatus = refundStatus;
     }
 }

@@ -1,5 +1,7 @@
 package com.biz.gbck.vo.product.gbck.response;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -15,6 +17,11 @@ public class ProductAppListItemVo implements Serializable {
      * 商品ID
      */
     private String id;
+
+    /**
+     * 分类ID
+     */
+    private Long categoryId;
 
     /**
      * 商品名称
@@ -77,6 +84,25 @@ public class ProductAppListItemVo implements Serializable {
      */
     private Integer stock;
 
+    public ProductAppListItemVo() {
+    }
+
+    public ProductAppListItemVo(ProductAppListItemVo itemVo) {
+        this.setId(itemVo.getId());
+        this.setProductName(itemVo.getProductName());
+        this.setProductCode(itemVo.getProductCode());
+        this.setLogo(itemVo.getLogo());
+        this.setTags(itemVo.getTags());
+        this.setApartTagImage(itemVo.getApartTagImage());
+        this.setSupportSpecialOffer(itemVo.getSupportSpecialOffer());
+        this.setSupportVoucher(itemVo.getSupportVoucher());
+        this.setSupportPromotions(itemVo.getSupportPromotions());
+        this.setSpecialOfferPrice(itemVo.getSpecialOfferPrice());
+        this.setSalePrice(itemVo.getSalePrice());
+        this.setSuggestSalePrice(itemVo.getSuggestSalePrice());
+        this.setStock(itemVo.getStock());
+    }
+
     public String getId() {
         return id;
     }
@@ -99,6 +125,14 @@ public class ProductAppListItemVo implements Serializable {
 
     public void setProductCode(String productCode) {
         this.productCode = productCode;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getLogo() {
@@ -179,5 +213,10 @@ public class ProductAppListItemVo implements Serializable {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

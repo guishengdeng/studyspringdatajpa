@@ -2,6 +2,7 @@ package com.biz.gbck.vo.order.resp;
 
 import com.biz.gbck.dao.mysql.po.order.OrderItem;
 import com.biz.gbck.enums.order.ItemType;
+import com.biz.gbck.enums.product.ProductShowStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
@@ -65,7 +66,24 @@ public class OrderItemRespVo implements IProduct, Comparable<OrderItemRespVo>, S
     /**
      * 是否已经申请退货
      */
-    private Boolean returnFlag = false;
+    private Boolean returnFlag;
+
+    /**
+     * 状态
+     */
+    @JsonIgnore
+    private Integer status;
+
+    /**
+     * 库存
+     */
+    @JsonIgnore
+    private Integer stock;
+
+    /**
+     * 分类
+     */
+    private Long categoryId;
 
 
     public OrderItemRespVo() {
@@ -80,6 +98,7 @@ public class OrderItemRespVo implements IProduct, Comparable<OrderItemRespVo>, S
         this.setLogo(orderItem.getLogo());
         this.setPrice(orderItem.getPrice());
         this.setQuantity(orderItem.getQuantity());
+        this.setCategoryId(orderItem.getCategoryId());
     }
 
     public Long getId() {
@@ -146,6 +165,22 @@ public class OrderItemRespVo implements IProduct, Comparable<OrderItemRespVo>, S
         this.quantity = quantity;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
     public ItemType getItemType() {
         return itemType;
     }
@@ -162,10 +197,23 @@ public class OrderItemRespVo implements IProduct, Comparable<OrderItemRespVo>, S
         this.returnFlag = returnFlag;
     }
 
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    @Override
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
     @Override
     public int compareTo(OrderItemRespVo o) {
         return this.productCode != null && o.productCode != null ? this.productCode.compareTo(o.productCode) : this
                 .productCode != null ? 1 : -1;
+    }
+
+    public boolean canBuy() {
+        return this.status != null && this.status == ProductShowStatus.NORMAL.getValue();
     }
 
 

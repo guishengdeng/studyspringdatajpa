@@ -1,12 +1,14 @@
 package com.biz.gbck.vo.order.req;
 
+import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import com.biz.gbck.enums.order.ReturnCause;
 import com.biz.gbck.enums.order.ReturnType;
-import com.biz.gbck.vo.user.BaseRequestVo;
 import org.hibernate.validator.constraints.Length;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
+
 import static com.google.common.collect.Lists.newArrayList;
 
 /**
@@ -17,7 +19,7 @@ import static com.google.common.collect.Lists.newArrayList;
  * @reviewer
  * @see
  */
-public class OrderApplyReturnReqVo extends BaseRequestVo {
+public class OrderApplyReturnReqVo extends CommonReqVoBindUserId {
 
     private static final long serialVersionUID = -1931418367038896879L;
 

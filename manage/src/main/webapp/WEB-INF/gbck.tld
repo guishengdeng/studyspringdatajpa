@@ -6,4 +6,82 @@
     <short-name>depotnextdoor</short-name>
     <uri>http://com.depotnextdoor/tag/core</uri>
     <tlib-version>4.0</tlib-version>
+    
+    <tag>
+        <name>product</name>
+        <tag-class>com.biz.manage.tag.ProductSelectTag</tag-class>
+        <body-content>JSP</body-content>
+    </tag>
+    
+    <tag>
+        <name>paymentType</name>
+        <tag-class>com.biz.manage.tag.PaymentTypeTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>supportPaymentIds</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>excludePaymentIds</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+        
+
+
+    <tag>
+        <name>province</name>
+        <tag-class>com.biz.manage.controller.tag.GeoProvinceTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>provinceId</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>city</name>
+        <tag-class>com.biz.manage.controller.tag.GeoCityTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>provinceId</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>cityId</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>district</name>
+        <tag-class>com.biz.manage.controller.tag.GeoDistrictTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>cityId</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>districtId</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>shopType</name>
+        <tag-class>com.biz.manage.controller.tag.ShopTypeTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>shopTypeId</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
 </taglib>

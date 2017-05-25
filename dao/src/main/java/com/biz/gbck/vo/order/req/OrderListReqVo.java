@@ -1,10 +1,8 @@
 package com.biz.gbck.vo.order.req;
 
+import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import com.biz.gbck.enums.order.OrderStatus;
-import com.biz.gbck.vo.user.BaseRequestVo;
 import org.codelogger.utils.ValueUtils;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 /**
  * 订单列表请求Vo
@@ -14,13 +12,13 @@ import org.springframework.data.domain.Pageable;
  * @reviewer
  * @see
  */
-public class OrderListReqVo extends BaseRequestVo {
+public class OrderListReqVo extends CommonReqVoBindUserId {
 
     private static final long serialVersionUID = -5292997499176479924L;
 
-    private static final int DEFAULT_PAGE_SIZE = 10;
+    private static final int DEFAULT_PAGE_SIZE = 20;
 
-    private Integer page = 0;
+    private String lastFlag;
 
     private Integer size = DEFAULT_PAGE_SIZE;
 
@@ -30,12 +28,12 @@ public class OrderListReqVo extends BaseRequestVo {
     private Integer status;
 
 
-    public Integer getPage() {
-        return ValueUtils.getValue(page) > 0 ? page : 0;
+    public String getLastFlag() {
+        return lastFlag;
     }
 
-    public void setPage(Integer page) {
-        this.page = page;
+    public void setLastFlag(String lastFlag) {
+        this.lastFlag = lastFlag;
     }
 
     public Integer getSize() {
@@ -52,10 +50,6 @@ public class OrderListReqVo extends BaseRequestVo {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public Pageable toPageable() {
-        return new PageRequest(page, size);
     }
 
 }

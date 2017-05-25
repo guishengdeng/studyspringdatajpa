@@ -11,6 +11,8 @@ import com.biz.support.web.handler.JSONResult;
 import java.io.IOException;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
+
+import org.codelogger.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,10 +57,30 @@ public class UploadController {
     public JSONResult fileUpload(MultipartFile file, HttpServletRequest request) {
         String key = request.getParameter(UPLOAD_NAME_PARAM);
         try {
-            PutObjectRequest req = new PutObjectRequest(config.getBucketName(), key, file.getInputStream
+            PutObjectRequest req = new PutObjectRequest(config.getProductBucketName(), key, file.getInputStream
                     ());
             OssUtil.putObject(ossClient, req);
             return new JSONResult(0, "上传成功");
+        } catch (Exception e) {
+            logger.error("上传失败", e);
+            return new JSONResult(1, "上传失败");
+        }
+    }
+
+    /**
+     * 上传文件 并且返回文件名
+     * @param file
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "uploadAndGetFileName", method = RequestMethod.POST)
+    @ResponseBody
+    public JSONResult uploadAndGetFileName(MultipartFile file, HttpServletRequest request) {
+        try {
+            final String key = StringUtils.getRandomString(32);
+            PutObjectRequest req = new PutObjectRequest(config.getProductBucketName(), key, file.getInputStream());
+            OssUtil.putObject(ossClient, req);
+            return new JSONResult(key);
         } catch (Exception e) {
             logger.error("上传失败", e);
             return new JSONResult(1, "上传失败");
@@ -72,9 +94,9 @@ public class UploadController {
         try {
             ImageUtil.Base64stream2imageTransResult imageTransResult = ImageUtil.base64stream2image(base64stream);
             String key = String.format(UUID.randomUUID().toString(), imageTransResult.imagePattern);
-            PutObjectRequest req = new PutObjectRequest(config.getBucketName(), key, imageTransResult.stream);
+            PutObjectRequest req = new PutObjectRequest(config.getProductBucketName(), key, imageTransResult.stream);
             OssUtil.putObject(ossClient, req);
-            String imageUri = OssUtil.getOssResourceUri(config.getBucketName(), config.getRemoteEndpoint(), key);
+            String imageUri = OssUtil.getOssResourceUri(config.getProductBucketName(), config.getRemoteEndpoint(), key);
             return new JSONResult(imageUri);
         } catch (Exception e) {
             logger.error("上传失败", e);
@@ -92,27 +114,47 @@ public class UploadController {
     public JSONObject sourceUri(HttpServletRequest request) {
         String imageName = request.getParameter(PREVIEW_PARAM);
         JSONObject json = new JSONObject();
-        json.put(URI_FLAG, OssUtil.getOssResourceUri(config.getBucketName(), config.getRemoteEndpoint(), imageName));
+        json.put(URI_FLAG, OssUtil.getOssResourceUri(config.getProductBucketName(), config.getRemoteEndpoint(), imageName));
         return json;
     }
 
-	/**
-	 * base64位 上传图片初版
-	 * @param request
-	 * @return
-	 */
-    @RequestMapping(value = "uploadTest", method = RequestMethod.POST)
+
+    /**
+     * 上传 头像,商品 图片到oss
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "uploadProduct", method = RequestMethod.POST)
     @ResponseBody
-    public JSONObject uploadTest(HttpServletRequest request) {
+    public JSONObject uploadProduct(HttpServletRequest request) {
         String base64stream = request.getParameter(UPLOAD_STREAM_PARAM);
-        logger.debug("base64--------" + base64stream);
+      return uploadFilter(base64stream,config.getProductBucketName());
+    }
+
+    /**
+     * 上传 资质 图片到oss
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "uploadAudit", method = RequestMethod.POST)
+    @ResponseBody
+    public JSONObject uploadAudit(HttpServletRequest request) {
+        String base64stream = request.getParameter(UPLOAD_STREAM_PARAM);
+        return uploadFilter(base64stream,config.getAuditBucketName());
+    }
+
+    /**
+     * 根据类型上传图片
+     */
+    private JSONObject uploadFilter(String base64stream,String productBucketName ){
+
         PutObjectRequest req = null;
         JSONObject jsonObject = new JSONObject();
         String key = null;
         try {
             ImageUtil.Base64stream2imageTransResult imageTransResult = ImageUtil.base64stream2image(base64stream);
             key = String.format(UUID.randomUUID().toString(), imageTransResult.imagePattern);
-            req = new PutObjectRequest(config.getBucketName(), key, imageTransResult.stream);
+            req = new PutObjectRequest(productBucketName, key, imageTransResult.stream);
         } catch (IOException e) {
             logger.error("转换base64图片编码出错", e);
             jsonObject.put(STATUS, ERROR_FLAG);
@@ -122,6 +164,7 @@ public class UploadController {
             OssUtil.putObject(ossClient, req);
             jsonObject.put(STATUS, SUCCESS_FLAG);
             jsonObject.put(UPLOAD_IMAGE_NAME, key);
+            jsonObject.put(URI_FLAG, OssUtil.getOssResourceUri(config.getProductBucketName(), config.getRemoteEndpoint(), key));
         } catch (BizSystemException | IOException e) {
             logger.error("上传图片到oss出错", e);
             jsonObject.put(STATUS, ERROR_FLAG);
@@ -129,4 +172,5 @@ public class UploadController {
         }
         return jsonObject;
     }
+
 }

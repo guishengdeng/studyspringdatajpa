@@ -10,7 +10,9 @@ import com.biz.support.web.assist.GlobalParams;
  */
 public class ChangePwdVo extends CommonReqVoBindUserId implements InitGlobalParams {
 
-
+    /**
+     * 原密码（旧密码）md5加密
+     */
     private String originPassword;
     /**
      * 新密码(md5加密)
@@ -20,11 +22,6 @@ public class ChangePwdVo extends CommonReqVoBindUserId implements InitGlobalPara
      * 新密码确认密码(md5加密)
      */
     private String confirmPassword;
-    /**
-     * 新密码明文密码(aes加密)
-     */
-    private String rawPassword;
-
 
     private GlobalParams globalParams;
 
@@ -36,13 +33,6 @@ public class ChangePwdVo extends CommonReqVoBindUserId implements InitGlobalPara
         return globalParams;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
 
     public String getOriginPassword() {
         return originPassword;
@@ -66,13 +56,5 @@ public class ChangePwdVo extends CommonReqVoBindUserId implements InitGlobalPara
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
-    }
-
-    public String getRawPassword() {
-        return rawPassword;
-    }
-
-    public void setRawPassword(String rawPassword) {
-        this.rawPassword = rawPassword;
     }
 }

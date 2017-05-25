@@ -1,0 +1,84 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 12345678
+    url: jdbc:mysql://127.0.0.1:3306/gbck?characterEncoding=utf-8
+    dbcp2:
+      initial-size: 5
+      max-total: 10
+      min-idle: 1
+      time-between-eviction-runs-millis: 360000
+      test-on-borrow: true
+      test-on-return: false
+      test-while-idle: true
+      validation-query: SELECT 1
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database: mysql
+    open-in-view: true
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+  session:
+    redis:
+      flush-mode: immediate
+  application:
+    name: soa-org
+
+biz:
+  soa:
+    idx: 1
+  zookeeper:
+    url: zookeeper://127.0.0.1:2181
+    soaIdx:
+      path: /biz/gbck/boot/soaIdx
+    #redis:
+    #  path: /biz/gbck/boot/redis
+  redis:
+    maxTotal: 120
+    maxIdle: 10
+    timeBetweenEvictionRunsMillis: 30000
+    minEvictableIdleTimeMillis: 30000
+    testOnBorrow: true
+    host: 127.0.0.1
+    port: 6379
+    name:
+    password:
+  oss:
+    remoteEndpoint: oss-cn-beijing.aliyuncs.com
+    localEndpoint: oss-cn-beijing-internal.aliyuncs.com
+    accessKeyId: LTAIcBsZ7zY66tku
+    accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
+    productBucketName: gbck-test
+    auditBucketName: gbck-test-qualification
+  amqp:
+    username: guest
+    password: guest
+    port: 5672
+    host: 127.0.0.1
+    maxRetry: 3
+    retryElapse: 1000
+
+server:
+  session:
+    timeout: 1200
+  port: 8679
+eureka:
+  client:
+    service-url:
+      defaultZone: http://peer1:7777/eureka/
+  instance:
+    lease-renewal-interval-in-seconds: 5      # 心跳时间，即服务续约间隔时间（缺省为30s）
+    lease-expiration-duration-in-seconds: 10  # 发呆时间，即服务续约到期时间（缺省为90s）
+
+
+security:
+  basic:
+    enabled: false
+management:
+  security:
+    enabled: false

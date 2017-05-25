@@ -1,28 +1,30 @@
 package com.biz.gbck.vo.product.gbck.request;
 
+import com.alibaba.fastjson.JSON;
+import com.biz.gbck.vo.product.gbck.response.ProductFilterVO;
 import com.biz.gbck.vo.product.gbck.response.ProductSearchFieldVo;
+import com.biz.support.web.assist.GlobalParams;
+import com.biz.support.web.assist.GlobalParamsAware;
 import java.io.Serializable;
 import java.util.List;
-import javax.validation.constraints.NotNull;
+import java.util.Map;
 
 /**
  * App商品列表页请求Vo
  *
  * Created by david-liu on 2017/04/28 09:39.
  */
-public class ProductAppListReqVo implements Serializable {
+public class ProductAppListReqVo implements GlobalParamsAware, Serializable {
     private static final long serialVersionUID = -8016336127108731901L;
 
     /**
      * 上级采购方ID(向谁采购商品)
      */
-    @NotNull(message = "上级采购方ID不能为空")
     private Long sellerId;
 
     /**
      * 价格组ID
      */
-    @NotNull(message = "商品价格组ID不能为空")
     private Long priceGroupId;
 
     /**
@@ -31,19 +33,14 @@ public class ProductAppListReqVo implements Serializable {
     private Long categoryId;
 
     /**
-     * 第几页
+     * 分页标识符
      */
-    private Integer page = 0;
-
-    /**
-     * 页大小
-     */
-    private Integer pageSize = 30;
+    private String lastFlag;
 
     /**
      * 搜索过滤字段
      */
-    private List<ProductSearchFieldVo> productSearchFields;
+    private List<ProductSearchFieldVo> fields;
 
     /**
      * 搜索关键字
@@ -54,6 +51,16 @@ public class ProductAppListReqVo implements Serializable {
      * 排序
      */
     private String sort;
+
+    /**
+     * 搜索结果集过滤条件
+     */
+    private Map<String, ProductFilterVO> filterMap;
+
+    /**
+     * 全局参数
+     */
+    private GlobalParams globalParams;
 
     public Long getPriceGroupId() {
         return priceGroupId;
@@ -71,12 +78,12 @@ public class ProductAppListReqVo implements Serializable {
         this.categoryId = categoryId;
     }
 
-    public List<ProductSearchFieldVo> getProductSearchFields() {
-        return productSearchFields;
+    public List<ProductSearchFieldVo> getFields() {
+        return fields;
     }
 
-    public void setProductSearchFields(List<ProductSearchFieldVo> productSearchFields) {
-        this.productSearchFields = productSearchFields;
+    public void setFields(List<ProductSearchFieldVo> fields) {
+        this.fields = fields;
     }
 
     public Long getSellerId() {
@@ -85,22 +92,6 @@ public class ProductAppListReqVo implements Serializable {
 
     public void setSellerId(Long sellerId) {
         this.sellerId = sellerId;
-    }
-
-    public Integer getPage() {
-        return page;
-    }
-
-    public void setPage(Integer page) {
-        this.page = page;
-    }
-
-    public Integer getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
     }
 
     public String getKeyword() {
@@ -119,18 +110,51 @@ public class ProductAppListReqVo implements Serializable {
         this.sort = sort;
     }
 
+    public String getLastFlag() {
+        return lastFlag;
+    }
+
+    public void setLastFlag(String lastFlag) {
+        this.lastFlag = lastFlag;
+    }
+
+    public Map<String, ProductFilterVO> getFilterMap() {
+        return filterMap;
+    }
+
+    public void setFilterMap(Map<String, ProductFilterVO> filterMap) {
+        this.filterMap = filterMap;
+    }
+
+    @Override
+    public GlobalParams getGlobalParams() {
+        return globalParams;
+    }
+
+    @Override
+    public void setGlobalParams(GlobalParams globalParams) {
+        this.globalParams = globalParams;
+    }
+
     @Override
     public String toString() {
         return "ProductAppListReqVo{" +
                 "sellerId=" + sellerId +
                 ", priceGroupId=" + priceGroupId +
                 ", categoryId=" + categoryId +
-                ", page=" + page +
-                ", pageSize=" + pageSize +
-                ", productSearchFields=" + productSearchFields +
+                ", lastFlag='" + lastFlag + '\'' +
+                ", fields=" + fields +
                 ", keyword='" + keyword + '\'' +
                 ", sort='" + sort + '\'' +
+                ", filterMap=" + filterMap +
+                ", globalParams=" + globalParams +
                 '}';
+    }
+
+    public static void main(String[] args) {
+        ProductAppListReqVo reqVo = new ProductAppListReqVo();
+        reqVo.setCategoryId(1L);
+        System.out.println(JSON.toJSONString(reqVo));
     }
 
 }

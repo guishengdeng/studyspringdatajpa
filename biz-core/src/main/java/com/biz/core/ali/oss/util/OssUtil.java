@@ -10,6 +10,7 @@ import com.biz.core.exceptions.BizSystemException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.*;
 
 /**
@@ -17,6 +18,7 @@ import java.io.*;
  */
 public class  OssUtil {
     private static Logger logger = LoggerFactory.getLogger(OssUtil.class);
+
 
     /**
      * oss服务端异常公共方法
@@ -149,5 +151,6 @@ public class  OssUtil {
         // 打印ETag
         //        System.out.println(result.getETag());
     }
+
 }
 

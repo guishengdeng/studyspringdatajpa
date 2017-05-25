@@ -1,6 +1,6 @@
 package com.biz.gbck.vo.order.resp;
 
-import com.biz.gbck.vo.user.BaseRequestVo;
+import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 
 /**
  * 促销活动返回Vo
@@ -10,7 +10,7 @@ import com.biz.gbck.vo.user.BaseRequestVo;
  * @reviewer
  * @see
  */
-public class OrderPromotionRespVo extends BaseRequestVo {
+public class OrderPromotionRespVo extends CommonReqVoBindUserId {
 
     private static final long serialVersionUID = -8415628255360674537L;
 
