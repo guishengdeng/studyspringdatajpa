@@ -19,6 +19,8 @@ public interface AppService {
 
     void addOrUpdate(AppVo appVo);
 
+    AppVo findLastData();
+
     /**
      * 返回启动上报后台配置需要参数
      * @return

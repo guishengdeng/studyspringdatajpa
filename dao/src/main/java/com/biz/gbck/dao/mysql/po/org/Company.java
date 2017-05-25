@@ -66,10 +66,15 @@ public class Company extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private CompanyLevel companyLevel;
 
+    /**
+     * 创建的所有用户组
+     */
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CompanyGroupPo> parentGroup;
 
-
+    /**
+     * 所在的用户组
+     */
     @ManyToOne
     @JoinColumn(name = "child_group_id")
     private CompanyGroupPo childGroup;

@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
     /**
      * 消息中心
      */
-    @RequestMapping(value = "/notices" , method = RequestMethod.POST)
+    @RequestMapping(value = "/notices")
     public JSONResult notices(HttpServletRequest httpRequest, HttpServletResponse response) {
         ListNoticeAfterLastReqVo reqVo =
                 RestUtil.parseBizData(httpRequest, ListNoticeAfterLastReqVo.class);

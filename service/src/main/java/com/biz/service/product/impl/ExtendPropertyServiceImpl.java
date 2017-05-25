@@ -9,6 +9,7 @@ import com.biz.gbck.transform.product.CreateExtendPropertyVo2ExtendProperty;
 import com.biz.gbck.vo.product.backend.*;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.product.backend.ExtendPropertyService;
+import com.biz.service.product.backend.ProductExtendService;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,8 +32,9 @@ import java.util.Map;
 public class ExtendPropertyServiceImpl extends AbstractBaseService  implements ExtendPropertyService {
     @Autowired
     private ExtendPropertyRepository extendPropertyRepository;
+
     @Autowired
-    private ProductExtendRepository productExtendRepository;
+    private ProductExtendService productExtendService;
 
     @Override
     public BootstrapTablePageResult<ExtendPropertyListItemVo> listExtendProperties(Long productExtendId) throws IllegalParameterException, ExtendPropertyNotFoundException {
@@ -79,7 +81,7 @@ public class ExtendPropertyServiceImpl extends AbstractBaseService  implements E
            //将vo转化成po
          CreateExtendPropertyVo2ExtendProperty  c2p = new CreateExtendPropertyVo2ExtendProperty();
          ExtendProperty extendProperty = c2p.apply(vo);
-         extendProperty.setProductExtend(productExtendRepository.findOne(vo.getProductExtendId()));
+         extendProperty.setProductExtend(productExtendService.findOne(vo.getProductExtendId()));
          extendPropertyRepository.save(extendProperty);
 
 

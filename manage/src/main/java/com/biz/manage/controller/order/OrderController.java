@@ -44,10 +44,9 @@ public class OrderController {
     public ModelAndView list(@ModelAttribute OrderQueryReqVo vo){
         Page<Order> page = orderBackendService.queryOrdersByCondition(vo);
         List<PlatFormRespVo> platFormRespVo = platformService.getNotDuplicatedName();
-        List<PartnerRespVo> partnerRespVos = partnerService.getNotDuplicatePartnerName();
+        //List<PartnerRespVo> partnerRespVos = partnerService.getNotDuplicatePartnerName();
         return new ModelAndView("ord/order/list","orderPage",orderBackendService.pageOrder2PageRespVo(page))
-                .addObject("platFormRespVo",platFormRespVo)
-                .addObject("partnerRespVos",partnerRespVos);
+                .addObject("platFormRespVo",platFormRespVo);
     }
     @PostMapping("/findPartners")
     @PreAuthorize("hasAuthority('OPT_ORDER_LIST')")

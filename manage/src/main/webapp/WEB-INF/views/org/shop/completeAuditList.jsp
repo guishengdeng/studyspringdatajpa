@@ -222,7 +222,7 @@
                                         <td><c:out value="${shopDetail.shopId}"/></td>
                                         <td><c:out value="${shopDetail.name}"/></td>
                                         <td><c:out value="${shopDetail.shopTypeName}"/></td>
-                                        <td><c:out value="${shopDetail.shopAddress}"/></td>
+                                        <td><c:out value="${shopDetail.deliveryAddress}"/></td>
                                         <td><c:out value="${shopDetail.mobile}"/></td>
                                         <td class="${shopDetail.shopStatus eq "ENABLE"?"col_green":"col_red"}" id="shop_${shopDetail.shopId}"><span id="span_${shopDetail.shopId}">${shopDetail.shopStatus eq "ENABLE"?"启用":"禁用"}</span></td>
                                         <td style="color:${shopDetail.auditStatus==30?"green":"red"}">${shopDetail.auditStatus==30?"审核通过":"审核未通过"}</td>

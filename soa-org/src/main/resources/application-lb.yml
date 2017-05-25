@@ -55,6 +55,13 @@ biz:
     accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
     productBucketName: gbck-test
     auditBucketName: gbck-test-qualification
+  amqp:
+    username: guest
+    password: guest
+    port: 5672
+    host: 127.0.0.1
+    maxRetry: 3
+    retryElapse: 1000
 
 server:
   session:
@@ -64,6 +71,9 @@ eureka:
   client:
     service-url:
       defaultZone: http://peer1:7777/eureka/
+  instance:
+    lease-renewal-interval-in-seconds: 5      # 心跳时间，即服务续约间隔时间（缺省为30s）
+    lease-expiration-duration-in-seconds: 10  # 发呆时间，即服务续约到期时间（缺省为90s）
 
 
 security:
