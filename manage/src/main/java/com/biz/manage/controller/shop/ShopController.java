@@ -147,16 +147,16 @@ public class ShopController extends BaseController {
             }
         }
         /**-----下面为测试数据需要删除--------**/
-        PageVO<PartnerSearchResVo> partners = new PageVO<PartnerSearchResVo>();
-        List<PartnerSearchResVo> partnerSearchResVos=newArrayList();
-        PartnerSearchResVo vo=new PartnerSearchResVo();
-        vo.setId(359874944668536832l);vo.setName("测试公司");
-        partnerSearchResVos.add(vo);
-        PartnerSearchResVo vo2=new PartnerSearchResVo();
-        vo2.setId(359884283051511808l);vo2.setName("茅台");
-        partnerSearchResVos.add(vo2);
-        partners.setContent(partnerSearchResVos);
-        modelAndView.addObject("partners", partners.getContent());
+//        PageVO<PartnerSearchResVo> partners = new PageVO<PartnerSearchResVo>();
+//        List<PartnerSearchResVo> partnerSearchResVos=newArrayList();
+//        PartnerSearchResVo vo=new PartnerSearchResVo();
+//        vo.setId(359874944668536832l);vo.setName("测试公司");
+//        partnerSearchResVos.add(vo);
+//        PartnerSearchResVo vo2=new PartnerSearchResVo();
+//        vo2.setId(359884283051511808l);vo2.setName("茅台");
+//        partnerSearchResVos.add(vo2);
+//        partners.setContent(partnerSearchResVos);
+//        modelAndView.addObject("partners", partners.getContent());
         return modelAndView;
     }
 
@@ -237,6 +237,17 @@ public class ShopController extends BaseController {
                 modelAndView.addObject("partners", partners.getContent());
             }
         }
+        /**-----下面为测试数据需要删除--------**/
+//        PageVO<PartnerSearchResVo> partners = new PageVO<PartnerSearchResVo>();
+//        List<PartnerSearchResVo> partnerSearchResVos=newArrayList();
+//        PartnerSearchResVo vo=new PartnerSearchResVo();
+//        vo.setId(359874944668536832l);vo.setName("测试公司");
+//        partnerSearchResVos.add(vo);
+//        PartnerSearchResVo vo2=new PartnerSearchResVo();
+//        vo2.setId(359884283051511808l);vo2.setName("茅台");
+//        partnerSearchResVos.add(vo2);
+//        partners.setContent(partnerSearchResVos);
+//        modelAndView.addObject("partners", partners.getContent());
         if(msg != null){
             modelAndView.addObject("msg",msg==1?"修改成功":"修改失败");
         }

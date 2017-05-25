@@ -104,4 +104,9 @@ public class UserFeignClientHystrix implements UserFeignClient {
     public List<Long> findAdminUserIdsByShopId(@RequestParam("shopId") Long shopId, @RequestParam("isAdmin") Boolean isAdmin) {
         return null;
     }
+
+    @Override
+    public List<Long> findUserIdByCompanyGroupId(@RequestParam("companyGroupId") Long companyGroupId) {
+        return null;
+    }
 }

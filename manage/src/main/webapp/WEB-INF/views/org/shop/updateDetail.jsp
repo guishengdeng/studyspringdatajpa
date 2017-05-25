@@ -210,7 +210,8 @@
                                         <select name="partnerId" style="width: 170px">
                                             <option value="">请选择</option>
                                             <c:forEach items="${partners}" var="partner">
-                                                <option value="${partner.id}">${partner.name}</option>
+                                                <option <c:if test="${partner.id==shopDetailResVo.partnerId}">selected</c:if>
+                                                        value="${partner.id}">${partner.name}</option>
                                             </c:forEach>
                                         </select>
                                     </div>
