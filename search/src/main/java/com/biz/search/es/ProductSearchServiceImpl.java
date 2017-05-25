@@ -319,7 +319,7 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
                         itemVO.setValue(property);
                         return itemVO;
                     }).collect(Collectors.toList());
-                    filterVO.setField("property");
+                    filterVO.setField("properties");
                     filterVO.setFilterItems(filterItemVOS);
                     filters.add(filterVO);
                 }
