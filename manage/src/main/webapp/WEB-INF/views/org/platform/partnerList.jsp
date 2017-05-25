@@ -101,10 +101,10 @@
                                         </td>
                                         <td><c:out value="${partner.id}"/></td>
                                         <td><c:out value="${partner.name}"/></td>
-                                        <td><c:out value="${partner.province.name}"/></td>
-                                        <td><c:out value="${partner.city.name}"/></td>
+                                        <td><c:out value="${partner.provinceName}"/></td>
+                                        <td><c:out value="${partner.cityName}"/></td>
                                         <td style="color:${partner.status eq "ENABLE"?"green":"red"}" id="id_${partner.id}">${partner.status eq "ENABLE"?"启用":"禁用"}</td>
-                                        <td><c:out value="${partner.platform.name}"/></td>
+                                        <td><c:out value="${partner.name}"/></td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
                                                 <a class="btn btn-xs btn-info" href="/platform/partnerEdit.do?id=<c:out value="${partner.id}"/>">

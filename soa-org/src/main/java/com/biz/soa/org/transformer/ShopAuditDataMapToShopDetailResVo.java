@@ -42,6 +42,7 @@ public class ShopAuditDataMapToShopDetailResVo implements Function<ShopAuditData
                     vo.setMobile(detailPo.getMobile());
                     if(detailPo.getShop() != null && detailPo.getShop().getPartner() != null ){
                         vo.setPartnerName(detailPo.getShop().getPartner().getName());
+                        vo.setPartnerId(detailPo.getShop().getPartner().getId());
                     }
                     if(detailPo.getProvince() != null){
                         vo.setProvinceId(detailPo.getProvince().getId());
@@ -65,7 +66,6 @@ public class ShopAuditDataMapToShopDetailResVo implements Function<ShopAuditData
                     vo.setBusinessLicenceName(qualificationPo.getBusinessLicenceName());
                     vo.setBusinessLicenceId(qualificationPo.getBusinessLicenceId());
                     vo.setLiquorSellLicenceId(qualificationPo.getLiquorSellLicenceId());
-
                     logger.info("ShopDetailResVo vo is {}", vo.toString());
                 }
             }

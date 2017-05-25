@@ -6,11 +6,10 @@ import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.dao.mysql.po.order.OrderConsignee;
 import com.biz.gbck.dao.mysql.po.order.OrderInvoice;
 import com.biz.gbck.dao.mysql.po.order.OrderItem;
-import com.biz.gbck.dao.redis.ro.org.ShopRo;
-import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.enums.order.InvoiceType;
 import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.vo.order.req.OrderCreateReqVo;
+import com.biz.gbck.vo.org.UserInfoVo;
 import org.apache.commons.lang.StringUtils;
 import org.codelogger.utils.ValueUtils;
 
@@ -38,39 +37,29 @@ public class OrderBuilder {
     }
 
     //用户相关信息
-    public OrderBuilder setUserInfo(UserRo userRo, ShopRo shopRo) {
-        SystemAsserts.notNull(userRo.getId(), "买家Id为空");
-        SystemAsserts.notNull(userRo.getShopId(), "店铺Id为空");
-        SystemAsserts.notNull(userRo.getPartnerId(), "合伙人Id为空");
+    public OrderBuilder setUserInfo(UserInfoVo userInfo) {
+        SystemAsserts.notNull(userInfo.getUserId(), "买家Id为空");
+        SystemAsserts.notNull(userInfo.getShopId(), "店铺Id为空");
+        SystemAsserts.notNull(userInfo.getPartnerId(), "合伙人Id为空");
 
-        SystemAsserts.notNull(shopRo, "店铺为空");
-        this.order.setUserId(Long.valueOf(userRo.getId()));
-        this.order.setSellerId(Long.valueOf(userRo.getPartnerId()));
-        this.order.setCompanyId(Long.valueOf(userRo.getPlatformId()));
+        this.order.setUserId(Long.valueOf(userInfo.getUserId()));
+        this.order.setSellerId(userInfo.getPartnerId());
+        this.order.setCompanyId(userInfo.getPlatformId());
 
         //收货信息
         OrderConsignee consignee = new OrderConsignee();
-        //收货人姓名(优先顺序: 收货人姓名>法人姓名>店铺名称)
-        if (StringUtils.isNotEmpty(shopRo.getDeliveryName())) {
-            consignee.setName(shopRo.getDeliveryName());
-        } else {
-            if (StringUtils.isNotEmpty(shopRo.getCorporateName())) {
-                consignee.setName(shopRo.getCorporateName());
-            } else {
-                consignee.setName(shopRo.getName());
-            }
+        consignee.setName(userInfo.getUsableDeliveryName());
+        consignee.setMobile(userInfo.getDeliveryMobile());
+        if (userInfo.getProvinceId() != null) {
+            consignee.setProvinceId(userInfo.getProvinceId().intValue());
         }
-        consignee.setMobile(shopRo.getDeliveryMobile());
-        if (shopRo.getProvinceId() != null) {
-            consignee.setProvinceId(shopRo.getProvinceId().intValue());
+        if (userInfo.getDistrictId() != null) {
+            consignee.setDistrictId(userInfo.getDistrictId().intValue());
         }
-        if (shopRo.getDistrictId() != null) {
-            consignee.setDistrictId(shopRo.getDistrictId().intValue());
+        if (userInfo.getCityId() != null) {
+            consignee.setCityId(userInfo.getCityId().intValue());
         }
-        if (shopRo.getCityId() != null) {
-            consignee.setCityId(shopRo.getCityId().intValue());
-        }
-        consignee.setAddress(StringUtils.trim(shopRo.getDeliveryAddress()));
+        consignee.setAddress(StringUtils.trim(userInfo.getDeliveryAddress()));
         order.setConsignee(consignee);
         return this;
     }

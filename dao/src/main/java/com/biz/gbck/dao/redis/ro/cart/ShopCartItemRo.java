@@ -37,7 +37,7 @@ public class ShopCartItemRo extends BaseRedisObject<String> {
      * 用户Id
      */
     @FieldSortedSet(key = "userId", score = "updateTimestamp")
-    private Long userId;
+    private String userId;
 
     /**
      * 数量
@@ -78,11 +78,11 @@ public class ShopCartItemRo extends BaseRedisObject<String> {
         this.quantity = quantity;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

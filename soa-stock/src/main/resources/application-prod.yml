@@ -1,17 +1,9 @@
 spring:
-  profiles:
-    active: local
-  mvc:
-    view:
-      prefix: /WEB-INF/views/
-      suffix: .jsp
-
-
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password:
-    url: jdbc:mysql://127.0.0.1:3306/biz
+    url: jdbc:mysql://127.0.0.1:3307/biz
     dbcp2:
       initial-size: 5
       max-total: 10
@@ -27,9 +19,10 @@ spring:
     hibernate:
       ddl-auto: update
     database: mysql
-  session:
-    redis:
-      flush-mode: immediate
+    open-in-view: true
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
 
 biz:
   soa:
@@ -38,8 +31,8 @@ biz:
     url: zookeeper://127.0.0.1:2181
     soaIdx:
       path: /biz/gbck/boot/soaIdx
-    #redis:
-    #  path: /biz/gbck/boot/redis
+    redis:
+      path: /biz/gbck/boot/redis
   redis:
     maxTotal: 120
     maxIdle: 10
@@ -50,11 +43,12 @@ biz:
     port: 6379
     name:
     password:
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:7777/eureka
+  oss:
+    remoteEndpoint: oss-cn-beijing.aliyuncs.com
+    localEndpoint: oss-cn-beijing-internal.aliyuncs.com
+    accessKeyId: LTAIcBsZ7zY66tku
+    accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
+    bucketName: gbck-production
 
 server:
   session:

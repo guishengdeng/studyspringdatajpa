@@ -75,7 +75,6 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
         // 如果商品数量的超过了10000, 可以采取分页取多次对结果进行合并再做聚类
         nativeSearchQueryBuilder.withQuery(rootQueryBuilder).withSort(this.getSort(reqVo.getSort())).withPageable(new PageRequest(0, 10000));
         Iterable<ProductEsEntity> esEntityPage = productEsRepository.search(nativeSearchQueryBuilder.build());
-        ProductSearchResultVo<ProductSearchResultEntityVo> searchResultVo = new ProductSearchResultVo<>();
         List<ProductEsEntity> resultEntities = Lists.newArrayList();
         if (esEntityPage != null) {
             Iterator<ProductEsEntity> iterator = esEntityPage.iterator();
@@ -169,9 +168,9 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
         SortBuilder sortBuilder;
         if (StringUtils.equalsIgnoreCase("saleVolumeAsc", sort)) {
             sortBuilder = SortBuilders.fieldSort("salesVolume").order(SortOrder.ASC);
-        } else if (StringUtils.equalsIgnoreCase("salePrice", sort)) {
+        } else if (StringUtils.equalsIgnoreCase("salePriceAsc", sort)) {
             sortBuilder = SortBuilders.fieldSort("salePrice").order(SortOrder.ASC);
-        } else if (StringUtils.equalsIgnoreCase("salePrice", sort)) {
+        } else if (StringUtils.equalsIgnoreCase("salePriceDesc", sort)) {
             sortBuilder = SortBuilders.fieldSort("salePrice").order(SortOrder.DESC);
         } else {
             sortBuilder = SortBuilders.fieldSort("salesVolume").order(SortOrder.DESC);
@@ -213,7 +212,7 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
                         searchValues.forEach(val -> boolQueryBuilder.should(QueryBuilders.termQuery(fieldName, val)));
                     } else if (StringUtils.equalsIgnoreCase(fieldName, "properties")) {
                         searchValues.forEach(val -> boolQueryBuilder.should(QueryBuilders.matchPhraseQuery("properties", val)));
-                    } else if (StringUtils.equalsIgnoreCase(fieldName, "price")) {
+                    } else if (StringUtils.equalsIgnoreCase(fieldName, "salePrice")) {
                         searchValues.forEach(val -> {
                             if (StringUtils.contains(val, "_") && StringUtils.isNotBlank(val)) {
                                 String[] prices = val.split("_");
@@ -319,7 +318,7 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
                         itemVO.setValue(property);
                         return itemVO;
                     }).collect(Collectors.toList());
-                    filterVO.setField("property");
+                    filterVO.setField("properties");
                     filterVO.setFilterItems(filterItemVOS);
                     filters.add(filterVO);
                 }
@@ -328,7 +327,7 @@ public final class ProductSearchServiceImpl implements ProductSearchService {
             propertyMap.forEach((propertyName, propertySet) -> {
                 if (CollectionUtils.isNotEmpty(propertySet)) {
                     ProductFilterVO filterVO = new ProductFilterVO();
-                    filterVO.setField("property");
+                    filterVO.setField("properties");
                     filterVO.setLabel(propertyName);
                     List<ProductFilterItemVO> itemVOS = Lists.newArrayList();
                     propertySet.elementSet().forEach(property -> {

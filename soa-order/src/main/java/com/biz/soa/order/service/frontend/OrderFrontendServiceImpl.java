@@ -6,8 +6,6 @@ import com.biz.core.util.Timers;
 import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.dao.mysql.po.order.OrderItem;
 import com.biz.gbck.dao.mysql.po.order.OrderReturn;
-import com.biz.gbck.dao.redis.ro.org.ShopRo;
-import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.enums.order.OrderShowStatus;
 import com.biz.gbck.enums.order.OrderStatus;
 import com.biz.gbck.enums.order.PaymentType;
@@ -24,6 +22,7 @@ import com.biz.gbck.vo.order.event.SystemOrderCancelEvent;
 import com.biz.gbck.vo.order.event.UserOrderCancelEvent;
 import com.biz.gbck.vo.order.req.*;
 import com.biz.gbck.vo.order.resp.*;
+import com.biz.gbck.vo.org.UserInfoVo;
 import com.biz.gbck.vo.payment.resp.PaymentRespVo;
 import com.biz.gbck.vo.stock.StockItemVO;
 import com.biz.gbck.vo.stock.UpdateCompanyLockStockReqVO;
@@ -136,11 +135,8 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
             logger.debug("订单结算-------请求vo: {}. 创建订单: {}", reqVo, reqVo instanceof OrderCreateReqVo);
         }
         String userId = reqVo.getUserId();
-        UserRo userRo = userFeignClient.findUser(Long.valueOf(userId));
-        BusinessAsserts.notNull(userRo, DepotNextDoorExceptions.User.USER_NOT_EXIST);
-
-        ShopRo shopRo = shopFeignClient.findShopRoById(userRo.getShopId());
-        SystemAsserts.notNull(shopRo, "您的店铺信息有误，请联系客服处理");
+        UserInfoVo userInfo = userFeignClient.findUserInfo(Long.valueOf(userId));
+        BusinessAsserts.notNull(userInfo, DepotNextDoorExceptions.User.USER_NOT_EXIST);
 
         ShopCartListSettleReqVo cartSettleReqVo = new ShopCartListSettleReqVo();
         BeanUtils.copyProperties(reqVo, cartSettleReqVo);
@@ -150,9 +146,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         List<OrderItemRespVo> settleOrderItemVos = Lists.transform(cartInfo.getItems(), new
                 ShopCartItemRespVo2OrderItemRespVo());
         OrderSettlePageRespVoBuilder builder = OrderSettlePageRespVoBuilder.createBuilder();
-        builder.setUserRo(userRo);
-        builder.setShopRo(shopRo);
-        builder.setBuyerInfo(shopRo);
+        builder.setBuyerInfo(userInfo);
         builder.setItems(settleOrderItemVos);
         this.validProduct(reqVo, settleOrderItemVos);
         if (reqVo instanceof OrderCreateReqVo) {
@@ -274,7 +268,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         //TODO 保存促销活动
         long id = idService.nextId();
         String orderCode = sequenceService.generateOrderCode();
-        Order order = OrderBuilder.createBuilder(reqVo).setUserInfo(settleResult.getUserRo(), settleResult.getShopRo()).setItems(this.transOrderItems(items)).setFreeAmount
+        Order order = OrderBuilder.createBuilder(reqVo).setUserInfo(settleResult.getUserInfoVo()).setItems(this.transOrderItems(items)).setFreeAmount
                 (settleResult.getOrderAmount()).setVoucherAmount(settleResult.getVoucherAmount()).setPayAmount
                 (settleResult.getPayAmount()).setPaymentType(PaymentType.valueOf(reqVo.getPaymentType())).build(id,
                 orderCode);

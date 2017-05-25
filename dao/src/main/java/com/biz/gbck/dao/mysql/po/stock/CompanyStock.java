@@ -15,7 +15,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "sto_stock", uniqueConstraints = {@UniqueConstraint(columnNames = {"company_id", "product_id"})})
-public class Stock extends BaseEntity {
+public class CompanyStock extends BaseEntity {
 
     private static final long serialVersionUID = 5652389386181748226L;
 
@@ -46,6 +46,16 @@ public class Stock extends BaseEntity {
      * 库存数量
      */
     private Integer quantity;
+
+    /**
+     * 库存数量
+     */
+    private Integer lockQuantity;
+
+    /**
+     * 实际数量
+     */
+    private Integer realQuantity;
 
     public Long getCompanyId() {
         return companyId;
@@ -87,5 +97,19 @@ public class Stock extends BaseEntity {
         this.quantity = quantity;
     }
 
+    public Integer getLockQuantity() {
+        return lockQuantity;
+    }
 
+    public void setLockQuantity(Integer lockQuantity) {
+        this.lockQuantity = lockQuantity;
+    }
+
+    public Integer getRealQuantity() {
+        return realQuantity;
+    }
+
+    public void setRealQuantity(Integer realQuantity) {
+        this.realQuantity = realQuantity;
+    }
 }

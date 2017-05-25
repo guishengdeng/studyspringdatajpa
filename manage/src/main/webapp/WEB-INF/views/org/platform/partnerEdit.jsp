@@ -27,7 +27,7 @@
                     </a>
                 </li>
                 <li class="active">
-                    <a href="/platform/partnerList.do?platformId=<c:out value="${partner.platform.id}"/>">
+                    <a href="/platform/partnerList.do?platformId=<c:out value="${partner.platformId}"/>">
                     合伙人
                      </a>
                 </li>
@@ -45,7 +45,7 @@
                         <div class="col-xs-12">
                             <h3 class="header smaller lighter blue">
                                 城市合伙人详情
-                                <a href="/platform/partnerList.do?platformId=<c:out value="${partner.platform.id}"/>"
+                                <a href="/platform/partnerList.do?platformId=<c:out value="${partner.platformId}"/>"
                                    class="btn btn-sm btn-primary pull-right">
                                     <i class="ace-icon fa fa-angle-left"></i>
                                     返回
@@ -93,7 +93,7 @@
 
                                 <div class="clearfix form-actions">
                                     <div class="col-md-offset-3 col-md-9">
-                                        <a class="btn btn-info" type="submit" href="/platform/partnerList.do?platformId=<c:out value="${partner.platform.id}"/>">
+                                        <a class="btn btn-info" type="submit" href="/platform/partnerList.do?platformId=<c:out value="${partner.platformId}"/>">
                                             <i class="ace-icon fa fa-angle-left"></i>
                                             返回
                                         </a>
