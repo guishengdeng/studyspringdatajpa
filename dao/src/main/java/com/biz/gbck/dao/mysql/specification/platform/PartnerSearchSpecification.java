@@ -36,7 +36,7 @@ public class PartnerSearchSpecification implements Specification<PartnerPo>{
 		}
 
 		if (reqVo.getPlatformId() != null) {
-			Predicate predicate = criteriaBuilder.equal(root.get("platformId"),reqVo.getPlatformId());
+			Predicate predicate = criteriaBuilder.equal(root.get("platform").get("id"),reqVo.getPlatformId());
 			predicates.add(predicate);
 		}
 

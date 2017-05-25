@@ -825,4 +825,9 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
         ShopRo shopRo = shopSoaService.findShop(userRo.getShopId());
         return new UserInfoVo(userRo, shopRo);
     }
+
+    @Override
+    public List<Long> findUserIdByCompanyGroupId(Long companyGroupId) {
+        return userRepository.findUserIdByCompanyGroupId(companyGroupId);
+    }
 }

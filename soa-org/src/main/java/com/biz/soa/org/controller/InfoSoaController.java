@@ -42,6 +42,7 @@ public class InfoSoaController extends BaseRestController{
     @RequestMapping(value = "/notices", method = RequestMethod.POST)
     public Object notices(@RequestBody ListNoticeAfterLastReqVo reqVo,
             HttpServletRequest httpRequest, HttpServletResponse response) {
+        logger.info("soa消息中心接收参数 userId:{} ,lastNoticeId:{}",reqVo.getUserId(),reqVo.getLastNoticeId());
         List<NoticeRo> roList =
                 noticeSoaService.findUserNoticeAfter(Long.valueOf(reqVo.getUserId()), reqVo.getLastNoticeId());
         List<NoticeResVo> voList = Lists.transform(roList, new NoticeRoToNoticeResVo());
