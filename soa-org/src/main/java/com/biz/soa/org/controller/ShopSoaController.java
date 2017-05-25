@@ -259,7 +259,6 @@ public class ShopSoaController extends BaseRestController {
         shopSoaService.deleteBlackList(shopIds);
         return new JSONResult();
     }
-
     @RequestMapping(value = "findShopRoById", method = RequestMethod.POST)
     public ShopRo findShopRoById(@RequestParam("id") Long id) throws CommonException{
         return shopSoaService.findShop(id);
@@ -277,6 +276,4 @@ public class ShopSoaController extends BaseRestController {
     public Boolean saveUpdateDetail(@RequestBody ShopAuditReqVo shopAuditReqVo) {
         return shopSoaService.saveUpdateDetail(shopAuditReqVo);
     }
-
-
 }

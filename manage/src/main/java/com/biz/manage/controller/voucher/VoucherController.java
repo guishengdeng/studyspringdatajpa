@@ -5,6 +5,7 @@ import static java.lang.String.format;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +23,9 @@ import org.codelogger.utils.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,17 +33,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.biz.gbck.dao.mysql.po.org.Company;
+import com.biz.gbck.dao.mysql.po.org.CompanyGroupPo;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
+import com.biz.gbck.dao.mysql.po.security.Admin;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
+import com.biz.gbck.dao.mysql.po.voucher.VoucherTypePo;
 import com.biz.gbck.dao.redis.repository.voucher.VoucherTypeRedisDao;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.enums.user.ShopTypeStatus;
+import com.biz.gbck.vo.voucher.VoucherSearchVo;
 import com.biz.manage.util.AuthorityUtil;
 import com.biz.manage.util.POIUtil;
 import com.biz.manage.vo.voucher.DispatcherVoucherVo;
 import com.biz.manage.vo.voucher.VoucherBatchGrantReqVo;
-import com.biz.service.org.interfaces.ShopTypeService;
+import com.biz.service.security.interfaces.AdminService;
+import com.biz.soa.feign.client.org.ShopTypeFeignClient;
 import com.biz.soa.feign.client.org.UserFeignClient;
 import com.biz.soa.feign.client.voucher.VoucherFeignClient;
 import com.biz.soa.feign.client.voucher.VoucherTypeFeignClient;
@@ -67,7 +76,7 @@ public class VoucherController {
     private VoucherFeignClient voucherService;
 
     @Autowired
-    private ShopTypeService shopTypeService;
+    private ShopTypeFeignClient ShopTypeFeignClient;
 
     @Autowired
     private UserFeignClient userFeignClient;
@@ -75,6 +84,10 @@ public class VoucherController {
     @Autowired
     private VoucherTypeFeignClient voucherTypeService;
 
+    
+    @Autowired
+    private AdminService adminService;
+    
     /**
      * 根据商户Id给对应用户发放优惠券（跳转）
      *
@@ -135,7 +148,14 @@ public class VoucherController {
         view.addObject("voucherTypeRo", voucherTypeRo);
 
         // 商户类型
-        List<ShopTypeRo> shopTypes = shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL);
+//        List<ShopTypeRo> shopTypeList = ShopTypeFeignClient.findAllShopTypeRo(ShopTypeStatus.NORMAL);
+        List<ShopTypeRo> shopTypeList = ShopTypeFeignClient.findAllShopTypeRo();
+        List<ShopTypeRo> shopTypes = new ArrayList<>();
+        for (ShopTypeRo shopTypeRo : shopTypeList) {
+			if(shopTypeRo.getStatus() == 1){
+				shopTypes.add(shopTypeRo);
+			}
+		}
         view.addObject("shopTypes", shopTypes);
 
         return view;
@@ -171,7 +191,14 @@ public class VoucherController {
                 	// TODO Auto-generated method stub
 //                    userIds = userFeignClient.findUserIdByShopType(shopTypeId);
                 } else {
-                    List<ShopTypeRo> shopTypes = shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL);
+//                    List<ShopTypeRo> shopTypes = ShopTypeFeignClient.findAllShopTypeRo(ShopTypeStatus.NORMAL);
+                    List<ShopTypeRo> shopTypeList = ShopTypeFeignClient.findAllShopTypeRo();
+                    List<ShopTypeRo> shopTypes = new ArrayList<>();
+                    for (ShopTypeRo shopTypeRo : shopTypeList) {
+            			if(shopTypeRo.getStatus() == 1){
+            				shopTypes.add(shopTypeRo);
+            			}
+            		}
                     for (ShopTypeRo ro : shopTypes) {
                     	// TODO Auto-generated method stub
 //                        userIds.addAll(userFeignClient.findUserIdByShopType(Long.parseLong(ro.getId())));
@@ -226,7 +253,6 @@ public class VoucherController {
 //    @PreAuthorize("hasAuthority('OPT_VOUCHER_BATCH')")
     public ModelAndView batchGrant(HttpServletRequest request) {
         ModelAndView view = new ModelAndView("/vouchers/batchGrant");
-
         // 查询优惠券类型集合
         List<VoucherTypeRo> voucherTypeRos = voucherTypeService.allVoucherTypesInApp();
         List<VoucherTypeRo> voucherTypeRosResult = new ArrayList<VoucherTypeRo>();
@@ -355,5 +381,99 @@ public class VoucherController {
             }
         }
         return userIds;
+    }
+    
+    /**
+     * 后台获取优惠券列表
+     * @param vsVo
+     * @return
+     */
+    @RequestMapping("voucherList")
+    public ModelAndView voucherList(@ModelAttribute("vsVo") VoucherSearchVo vsVo){
+    	ModelAndView view = new ModelAndView("/vouchers/searchResult");
+    	Page<VoucherTypePo>  page = voucherService.searchVoucher(vsVo);
+    	for (VoucherTypePo voucherTypePo : page) {
+			System.out.println(voucherTypePo.getName());
+		}
+    	view.addObject("vouchers",page);
+        return view;
+    }
+
+    /**
+     * 批量发放有用户组优惠券页面
+     */
+    @RequestMapping(value="dispatcherUserGroupsVoucher")
+    public ModelAndView dispatcherUserGroupsVoucherIndex(){
+    	ModelAndView view = new ModelAndView("/vouchers/dispatcherUserGroupsVoucher");
+    	//管理员
+    	Admin admin = adminService.getAdmin(AuthorityUtil.getLoginUsername());
+    	//获取用户组类型集合
+    	List<CompanyGroupPo> companyGroups = new ArrayList<>();
+    	//隔壁仓库、省公司(平台公司)、合伙人基类
+    	if(admin.getCompany() != null){
+	    	Company company = admin.getCompany();
+	    	if(company.getParentGroup() != null)
+	    	companyGroups = company.getParentGroup();
+    	}
+    	
+    	view.addObject("companyGroups",companyGroups);
+    	
+    	// 查询优惠券类型集合
+        List<VoucherTypeRo> voucherTypeRos = voucherTypeService.allVoucherTypesInApp();
+        
+        List<VoucherTypeRo> voucherTypeRosResult = new ArrayList<VoucherTypeRo>();
+        
+        if (voucherTypeRos != null && voucherTypeRos.size() > 0) {
+            for (VoucherTypeRo voucherTypeRo : voucherTypeRos) {
+                if (voucherTypeRo.getStartTime() <= System.currentTimeMillis()
+                        && voucherTypeRo.getExpireTime() >= System.currentTimeMillis()) {//判断是否过期
+                    voucherTypeRosResult.add(voucherTypeRo);
+                }
+            }
+            Collections.sort(voucherTypeRosResult, new Comparator<VoucherTypeRo>() {//排序
+                public int compare(VoucherTypeRo arg0, VoucherTypeRo arg1) {
+                    return arg0.getId().compareTo(arg1.getId());
+                }
+            });
+            view.addObject("voucherTypes", voucherTypeRosResult);
+        }
+    	return view;
+    }
+    
+    /**
+     * 批量发放用户组优惠券
+     * @throws Exception 
+     */
+    @RequestMapping(value = "/dispatcherUGVSub",method = RequestMethod.POST)
+    public ModelAndView sendUserGroupVoucher(@RequestParam("userGroupCode") String userGroupCode,
+    		VoucherBatchGrantReqVo vo) throws Exception{
+    	String msg = "";
+    	String status = "failed";
+    	
+    	if (vo.getDispatcherCnt() == null || vo.getDispatcherCnt() == 0
+                || vo.getVoucherTypeId() == null) {
+            return new ModelAndView(format("redirect:/manage/voucher/dispatcherUserGroupsVoucher.do?status=failed&msg=%s",
+                    status, URLEncoder.encode(msg, "UTF-8")));
+        }
+    	
+    	//取用户组下userId
+    	List<Long> userIds = null;
+    	VoucherTypeRo voucherTypeRo = voucherTypeRedisDao.getVoucherTypeRoById(vo.getVoucherTypeId());
+        if (voucherTypeRo.getStartTime() > System.currentTimeMillis()) {
+            msg = "优惠券未到发放时间";
+        } else if (voucherTypeRo.getExpireTime() < System.currentTimeMillis()) {
+            msg = "优惠券发放时间已经过期";
+        } else if (voucherService.findVoucherNumberById(vo.getVoucherTypeId()) < (userIds !=null ?vo.getDispatcherCnt() * userIds.size():vo.getDispatcherCnt()) ) {
+            msg = "优惠券数量不足";
+        } else {
+        	if(userIds != null && userIds.size() > 0){
+                voucherService.dispatcherVoucher(userIds, voucherTypeRo, vo.getDispatcherCnt(),
+                        AuthorityUtil.getLoginUsername());
+        	}else{
+        		status = "failed";
+        	}
+        }
+    	return new ModelAndView(format("redirect:/manage/voucher/dispatcherUserGroupsVoucher.do?status=%s&msg=%s",
+                status, URLEncoder.encode(msg, "UTF-8")));
     }
 }
