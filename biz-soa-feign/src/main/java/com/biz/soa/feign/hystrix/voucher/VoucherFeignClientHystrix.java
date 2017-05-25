@@ -1,22 +1,19 @@
 package com.biz.soa.feign.hystrix.voucher;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.stereotype.Component;
-
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherTypePo;
-import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.exceptions.DepotNextDoorException;
-import com.biz.gbck.vo.order.resp.IOrderPeriodQueryReqVo;
 import com.biz.gbck.vo.order.resp.IProduct;
+import com.biz.gbck.vo.order.resp.OrderCouponReqVo;
 import com.biz.gbck.vo.spring.PageVO;
 import com.biz.gbck.vo.voucher.VoucherSearchVo;
 import com.biz.soa.feign.client.voucher.VoucherFeignClient;
 import com.biz.support.web.handler.JSONResult;
 import com.biz.vo.voucher.ShopCraftVoucherVo;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class VoucherFeignClientHystrix implements VoucherFeignClient {
@@ -49,7 +46,7 @@ public class VoucherFeignClientHystrix implements VoucherFeignClient {
 	}
 
 	@Override
-	public int getUsableCount(IOrderPeriodQueryReqVo reqVo) {
+	public int getUsableCount(OrderCouponReqVo reqVo) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -61,13 +58,13 @@ public class VoucherFeignClientHystrix implements VoucherFeignClient {
 	}
 
 	@Override
-	public int getVoucherLimit(IOrderPeriodQueryReqVo iOrderPeriodQueryReqVo) throws DepotNextDoorException {
+	public int getVoucherLimit(OrderCouponReqVo iOrderPeriodQueryReqVo) throws DepotNextDoorException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public void useVoucher(IOrderPeriodQueryReqVo iOrderPeriodQueryReqVo) {
+	public void useVoucher(OrderCouponReqVo iOrderPeriodQueryReqVo) {
 		// TODO Auto-generated method stub
 		
 	}

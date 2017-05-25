@@ -193,9 +193,6 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         couponReqVo.setPaymentType(reqVo.getPaymentType());
         couponReqVo.setProducts(products);
         couponReqVo.setOrderAmount(orderAmount);
-        if (voucherFeignClient == null) {
-            return 0;
-        }
         return voucherFeignClient.getUsableCount(couponReqVo);
     }
 
