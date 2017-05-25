@@ -22,7 +22,11 @@ public class CompanyStockReqVO implements Serializable {
      */
     private Long companyId;
 
+    public CompanyStockReqVO() {
+    }
+
     public CompanyStockReqVO(Long companyId, Long productId) {
+        this();
         this.companyId = companyId;
         this.productId = productId;
     }

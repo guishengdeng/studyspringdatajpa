@@ -28,11 +28,15 @@ import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.enums.user.ShopChannel;
 import com.biz.gbck.transform.org.UserPoToUserRo;
+import com.biz.gbck.vo.cart.ShopCartNumReqVo;
+import com.biz.gbck.vo.cart.ShopCartNumRespVo;
 import com.biz.gbck.vo.mq.MQMessage;
 import com.biz.gbck.vo.oms.OMSCreateMemberVo;
 import com.biz.gbck.vo.org.*;
 import com.biz.gbck.vo.search.bbc.SearchUserReqVo;
+import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.service.CommonService;
+import com.biz.soa.feign.client.order.ShopCartFeignClient;
 import com.biz.soa.org.event.AutoLoginEvent;
 import com.biz.soa.org.event.UserLoginEvent;
 import com.biz.soa.org.event.UserRegisterEvent;
@@ -78,6 +82,9 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
 
     @Autowired
     private SmsSoaService smsSoaService;
+
+    @Autowired
+    private ShopCartFeignClient shopCartFeignClient;
 
 //    @Autowired
 //    private IdPool idPool;
@@ -243,6 +250,13 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
             userLoginResVo.setQualificationRejectReasons(qualificationAuditRejectReason);
         }
        /* userLoginResVo.setMsgCount(noticeService.getRemainMSgCount(userRo.getId()));*/ // TODO: 17-4-27 消息数量
+
+        ShopCartNumReqVo shopCartNumReqVo = new ShopCartNumReqVo();
+        shopCartNumReqVo.setUserId(userLoginResVo.getUserId());
+        MicroServiceResult<ShopCartNumRespVo> cartNum = shopCartFeignClient.getCartNum(shopCartNumReqVo);
+        if (cartNum != null && cartNum.getData() != null && cartNum.getData().getCartNum() > 0) {
+            userLoginResVo.setPurchaseCount(cartNum.getData().getCartNum());
+        }
         logger.error("获取数据用户[{}] 店铺及系统信息耗时 {} ms", userRo.getId(),
                 stopwatch.elapsed(TimeUnit.MILLISECONDS));
         return userLoginResVo;
@@ -362,7 +376,9 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
 
     @Override
     public UserPo findUserPoByMobile(String mobile) {
-        return userRepository.findByMobile(mobile);
+        UserPo userPo = userRepository.findByMobile(mobile);
+        logger.info("findUserPoByMobile userPo is {}", userPo.toString() );
+        return userPo;
     }
 
     @Override
