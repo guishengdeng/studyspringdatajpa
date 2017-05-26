@@ -223,8 +223,6 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 	@Transactional
 	public PaymentRespVo noNeedPay(Order order) {
 		OrderPayment payment = getPayablePayment(order, PaymentType.PAY_ON_DELIVERY);
-		payment.setPayStatus(PaymentStatus.PAYED);
-		payment.setSuccessDate(new Date(System.currentTimeMillis()));
 		confirmPaid(order.getId(), payment);
 		return new PaymentRespVo(order.getId(), order.getOrderCode());
 	}
@@ -382,6 +380,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 			@Override
 			public <R> R execute() {
 				payment.setPayStatus(PaymentStatus.PAYED);
+				payment.setSuccessDate(new Date(System.currentTimeMillis()));
 				paymentRepository.updatePaymentState(payment.getId(), PaymentStatus.PAYED.getValue());
 				logger.info("订单查询支付成功：orderId:{}",orderId);
 				Order order = orderFrontendService.getOrder(orderId);
@@ -522,7 +521,9 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 			order.setPayStatus(PaymentStatus.PAYED);
 			order.setPaymentType(payment.getPaymentType());
 			order.setPayAmount(payAmount);
+			paymentRepository.save(payment);
 			orderFrontendService.saveOrder(order);
+			//TODO event
 		} else {
 			logger.warn("订单无法支付, orderId=[{}],paymentId=[{}], status: {} ", order.getId(), payment.getId(),
 					order.getStatus());

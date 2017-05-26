@@ -297,10 +297,14 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         //TODO 保存促销活动
         long id = idService.nextId();
         String orderCode = sequenceService.generateOrderCode();
-        Order order = OrderBuilder.createBuilder(reqVo).setUserInfo(settleResult.getUserInfoVo()).setItems(this.transOrderItems(items)).setFreeAmount
-                (settleResult.getOrderAmount()).setVoucherAmount(settleResult.getVoucherAmount()).setPayAmount
-                (settleResult.getPayAmount()).setPaymentType(PaymentType.valueOf(reqVo.getPaymentType())).build(id,
-                orderCode);
+        Order order = OrderBuilder.createBuilder(reqVo)
+                .setUserInfo(settleResult.getUserInfoVo())
+                .setItems(this.transOrderItems(items)).setFreeAmount
+                (settleResult.getOrderAmount())
+                .setVoucherAmount(settleResult.getVoucherAmount())
+                .setPayAmount(settleResult.getPayAmount())
+                .setPaymentType(PaymentType.valueOf(reqVo.getPaymentType()))
+                .build(id, orderCode);
 
         this.lockStock(order);
         //清空购物车

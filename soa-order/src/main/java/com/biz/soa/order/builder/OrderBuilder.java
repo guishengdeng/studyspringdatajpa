@@ -7,6 +7,8 @@ import com.biz.gbck.dao.mysql.po.order.OrderConsignee;
 import com.biz.gbck.dao.mysql.po.order.OrderInvoice;
 import com.biz.gbck.dao.mysql.po.order.OrderItem;
 import com.biz.gbck.enums.order.InvoiceType;
+import com.biz.gbck.enums.order.OrderStatus;
+import com.biz.gbck.enums.order.PaymentStatus;
 import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.vo.order.req.OrderCreateReqVo;
 import com.biz.gbck.vo.org.UserInfoVo;
@@ -31,6 +33,8 @@ public class OrderBuilder {
     public static OrderBuilder createBuilder(OrderCreateReqVo reqVo){
         OrderBuilder builder = new OrderBuilder();
         builder.order = new Order();
+        builder.order.setPayStatus(PaymentStatus.CREATE_PAYMENT);
+        builder.order.setStatus(OrderStatus.PRE_PAY);
         builder.order.setDescription(StringUtils.trim(reqVo.getDescription()));
         builder.order.setInvoice(createInvoice(reqVo));
         return builder;
