@@ -76,12 +76,7 @@ public class UserFeignClientHystrix implements UserFeignClient {
     }
 
     @Override
-    public UserPo findUserPoByMobile(@RequestParam("mobile") String mobile) {
-        return null;
-    }
-
-    @Override
-    public UserPo findUserPoByAccount(@RequestParam("account") String account) {
+    public UserRo findUserRoByMobile(String mobile) {
         return null;
     }
 
