@@ -11,7 +11,6 @@ import org.codelogger.utils.StringUtils;
 import java.sql.Timestamp;
 import java.util.List;
 
-import static com.biz.gbck.common.Constant.DEFAULT_ORDER_EXPIRE_TIME;
 import static com.google.common.collect.Lists.newArrayList;
 
 /**
@@ -168,7 +167,7 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
                 .NO.getValue());
         this.setInvoiceTitle(order.getInvoice() != null && StringUtils.isNotBlank(order.getInvoice().getTitle()) ?
                 order.getInvoice().getTitle() : null);
-        this.setPayLimitTime(this.getCreateTime() + DEFAULT_ORDER_EXPIRE_TIME);
+        this.setPayLimitTime(order.getExpireTimestamp().getTime());
 
         this.setPayable(order.isPayable());
         this.setCancelable(order.isCancelable(false));
