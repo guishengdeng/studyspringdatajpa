@@ -131,9 +131,9 @@ public class SoaVoucherController extends SoaBaseController{
      * @return
      */
     @PostMapping(value="/validataAction")
-	public boolean validateDispatcherAction(@RequestBody List<Long> userIds, @RequestParam("shopTypeId") Long shopTypeId, 
-				@RequestParam("voucherTypeId") Long voucherTypeId, @RequestParam("dispatcherCnt") int dispatcherCnt){
-    	return voucherService.validateDispatcherAction(userIds, shopTypeId, voucherTypeId, dispatcherCnt);
+	public boolean validateDispatcherAction(List<Long> userIds, @RequestParam("shopTypeId") String shopTypeId, 
+				@RequestParam("voucherTypeId") String voucherTypeId, @RequestParam("dispatcherCnt") int dispatcherCnt){
+    	return voucherService.validateDispatcherAction(userIds, Long.parseLong(shopTypeId), Long.parseLong(voucherTypeId), dispatcherCnt);
 		
 	}
 

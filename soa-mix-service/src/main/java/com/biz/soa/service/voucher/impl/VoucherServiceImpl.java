@@ -103,9 +103,6 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	@Autowired 
 	private VoucherDao voucherRepositoryImpl;
 	
-	@Autowired
-	private ProductRedisDao productRedisDao;
-	
 	@Override
 	public Collection<VoucherRo> findUsableVouchersByUserIdAndVoucherType(Long userId, Long voucherTypeId) {
 		VoucherTypeRo voucherTypeRo = voucherTypeRedisDao.getVoucherTypeRoById(voucherTypeId);
@@ -299,10 +296,12 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
       if (shopTypeId == null) {
           if (CollectionUtils.isEmpty(userIds)) {
               List<ShopTypeRo> shopTypes =  shopTypeFeignClient.findAllShopTypeRo();
-              for (ShopTypeRo ro : shopTypes) {
-            	  if(ro.getStatus().equals(ShopTypeStatus.NORMAL)){//判断可用商铺类型
-            		  userCount = userCount + userFeignClient.findUserIdByShopType(Long.valueOf(ro.getId())).size();
-            	  }
+              if(CollectionUtils.isEmpty(shopTypes)){
+	              for (ShopTypeRo ro : shopTypes) {
+	            	  if(ro.getStatus().equals(ShopTypeStatus.NORMAL)){//判断可用商铺类型
+	            		  userCount = userCount + userFeignClient.findUserIdByShopType(Long.valueOf(ro.getId())).size();
+	            	  }
+	              }
               }
           }
       } else {

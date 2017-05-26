@@ -21,6 +21,11 @@ import com.biz.vo.voucher.ShopCraftVoucherVo;
 @Component
 public class VoucherFeignClientHystrix implements VoucherFeignClient {
 
+	@Override
+	public JSONResult allVouchers(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public List<VoucherPo> listAllVouchersByUserId(Long userId) {
@@ -29,7 +34,7 @@ public class VoucherFeignClientHystrix implements VoucherFeignClient {
 	}
 
 	@Override
-	public boolean validateDispatcherAction(List<Long> userIds, Long shopTypeId, Long voucherTypeId,
+	public boolean validateDispatcherAction(List<Long> userIds, String shopTypeId, String voucherTypeId,
 			int dispatcherCnt) {
 		// TODO Auto-generated method stub
 		return false;
@@ -43,7 +48,7 @@ public class VoucherFeignClientHystrix implements VoucherFeignClient {
 	}
 
 	@Override
-	public int findVoucherNumberById(Long voucherTypeId) {
+	public int findVoucherNumberById(String voucherTypeId) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -55,7 +60,7 @@ public class VoucherFeignClientHystrix implements VoucherFeignClient {
 	}
 
 	@Override
-	public List<ShopCraftVoucherVo> getAvailableVouchers(Long userId, List<? extends IProduct> itemVos) {
+	public List<ShopCraftVoucherVo> getAvailableVouchers(String userId, List<? extends IProduct> itemVos) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -85,10 +90,5 @@ public class VoucherFeignClientHystrix implements VoucherFeignClient {
 		
 	}
 
-	@Override
-	public JSONResult allVouchers(String userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

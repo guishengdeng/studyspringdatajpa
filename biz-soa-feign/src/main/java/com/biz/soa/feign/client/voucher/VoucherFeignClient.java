@@ -39,16 +39,16 @@ public interface VoucherFeignClient {
 	@RequestMapping(value = "/soa/voucher/listAllVouchersByUserId", method = RequestMethod.POST)
 	public List<VoucherPo> listAllVouchersByUserId(@RequestParam("userId") Long userId);
 
-	@RequestMapping(value = "/soa/voucher/validateAction", method = RequestMethod.POST)
-	public boolean validateDispatcherAction(@RequestBody List<Long> userIds, @RequestParam("shopTypeId") Long shopTypeId, 
-				@RequestParam("voucherTypeId") Long voucherTypeId, @RequestParam("dispatcherCnt") int dispatcherCnt);
+	@RequestMapping(value = "/soa/voucher/validataAction", method = RequestMethod.POST)
+	public boolean validateDispatcherAction(List<Long> userIds, @RequestParam("shopTypeId") String shopTypeId, 
+				@RequestParam("voucherTypeId") String voucherTypeId, @RequestParam("dispatcherCnt") int dispatcherCnt);
 
 	@RequestMapping(value = "/soa/voucher/dispatcherVoucher", method = RequestMethod.POST)
 	public void dispatcherVoucher(@RequestParam("userIds") List<Long> userIds, @RequestBody VoucherTypeRo voucherTypeRo, 
 			@RequestParam("dispatcherCnt") Integer dispatcherCnt,@RequestParam("loginUsername")	String loginUsername);
 
 	@RequestMapping(value = "/soa/voucher/findVoucherNumberById", method = RequestMethod.POST)
-	public int findVoucherNumberById(@RequestParam("voucherTypeId") Long voucherTypeId);
+	public int findVoucherNumberById(@RequestParam("voucherTypeId") String voucherTypeId);
 	
 	/**
      * 获取优惠券可用数量
@@ -65,7 +65,7 @@ public interface VoucherFeignClient {
      * @return
      */
     @RequestMapping(value="/soa/voucher/getAvailableVouchers",method=RequestMethod.POST)
-    public  List<ShopCraftVoucherVo> getAvailableVouchers(@RequestParam("userId") Long userId,@RequestBody List<? extends IProduct> itemVos);
+    public  List<ShopCraftVoucherVo> getAvailableVouchers(@RequestParam("userId") String userId,@RequestBody List<? extends IProduct> itemVos);
 
     /**
      * 获取优惠额度

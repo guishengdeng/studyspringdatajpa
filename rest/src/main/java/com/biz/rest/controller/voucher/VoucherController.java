@@ -78,7 +78,7 @@ public class VoucherController extends BaseRestController {
         // 排除掉与优惠活动互斥的优惠券
     	List<? extends IProduct> iproductList = this.getVoucherAvailAbleOrderItem(reqVo.getOrderItemVos(),userGroupsId);
         
-        List<ShopCraftVoucherVo> availableVouchers = voucherFeignClient.getAvailableVouchers(Long.valueOf(reqVo.getUserId()), iproductList);
+        List<ShopCraftVoucherVo> availableVouchers = voucherFeignClient.getAvailableVouchers(reqVo.getUserId(), iproductList);
 
         return new JSONResult(availableVouchers);
     }

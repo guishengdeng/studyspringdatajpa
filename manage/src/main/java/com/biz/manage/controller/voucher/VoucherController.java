@@ -115,9 +115,8 @@ public class VoucherController {
             });
             view.addObject("voucherTypes", voucherTypeRosResult);
         }
-        
-        // TODO Auto-generated method stub
-        List<Long> id = null;//userFeignClient.findAdminUserIdsByShopId(shopId, true);
+        //根据商户Id和是否是店长查找用户Id
+        List<Long> id = userFeignClient.findAdminUserIdsByShopId(shopId, true);
         if (id.size() != 0) {
             Long userId = id.get(0);
             view.addObject("userId", userId);
@@ -168,7 +167,8 @@ public class VoucherController {
      * @author Nian.Li
      * @date 2016年4月15日 下午4:27:10 
      */
-    @RequestMapping(value = "dispatcherSub", produces = "text/html;charset=UTF-8")
+    @SuppressWarnings("unused")
+	@RequestMapping(value = "dispatcherSub", produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String dispatcherSub(DispatcherVoucherVo dispatcherVoucherVo) {
         String result = "系统异常";
@@ -184,12 +184,11 @@ public class VoucherController {
                 result = "优惠券未到发放时间";
             } else if (voucherTypeRo.getExpireTime() < System.currentTimeMillis()) {
                 result = "优惠券发放时间已经过期";
-            } else if (!voucherService.validateDispatcherAction(userIds, shopTypeId, voucherTypeId, dispatcherCnt)) {
+            } else if (!voucherService.validateDispatcherAction(userIds, shopTypeId+"", voucherTypeId+"", dispatcherCnt)) {
                 result = "优惠券数量不足";
             } else {
                 if (shopTypeId != null) {
-                	// TODO Auto-generated method stub
-//                    userIds = userFeignClient.findUserIdByShopType(shopTypeId);
+                    userIds = userFeignClient.findUserIdByShopType(shopTypeId);
                 } else {
 //                    List<ShopTypeRo> shopTypes = ShopTypeFeignClient.findAllShopTypeRo(ShopTypeStatus.NORMAL);
                     List<ShopTypeRo> shopTypeList = ShopTypeFeignClient.findAllShopTypeRo();
@@ -200,8 +199,7 @@ public class VoucherController {
             			}
             		}
                     for (ShopTypeRo ro : shopTypes) {
-                    	// TODO Auto-generated method stub
-//                        userIds.addAll(userFeignClient.findUserIdByShopType(Long.parseLong(ro.getId())));
+                        userIds.addAll(userFeignClient.findUserIdByShopType(Long.parseLong(ro.getId())));
                     }
                 }
                 voucherService.dispatcherVoucher(userIds, voucherTypeRo, dispatcherCnt,
@@ -231,7 +229,7 @@ public class VoucherController {
                 result = "优惠券未到发放时间";
             } else if (voucherTypeRo.getExpireTime() < System.currentTimeMillis()) {
                 result = "优惠券发放时间已经过期";
-            } else if (voucherService.findVoucherNumberById(voucherTypeId) < dispatcherCnt) {
+            } else if (voucherService.findVoucherNumberById(voucherTypeId.toString()) < dispatcherCnt) {
                 result = "优惠券数量不足";
             } else {
                 voucherService.dispatcherVoucher(userId, voucherTypeRo, dispatcherCnt, AuthorityUtil.getLoginUsername());
@@ -319,7 +317,7 @@ public class VoucherController {
                     msg = "优惠券未到发放时间";
                 } else if (voucherTypeRo.getExpireTime() < System.currentTimeMillis()) {
                     msg = "优惠券发放时间已经过期";
-                } else if (voucherService.findVoucherNumberById(vo.getVoucherTypeId()) < vo.getDispatcherCnt() * userIds.size()) {
+                } else if (voucherService.findVoucherNumberById(vo.getVoucherTypeId().toString()) < vo.getDispatcherCnt() * userIds.size()) {
                     msg = "优惠券数量不足";
                 } else {
                 	if(userIds != null && userIds.size() > 0){
@@ -445,7 +443,7 @@ public class VoucherController {
      * @throws Exception 
      */
     @RequestMapping(value = "/dispatcherUGVSub",method = RequestMethod.POST)
-    public ModelAndView sendUserGroupVoucher(@RequestParam("userGroupCode") String userGroupCode,
+    public ModelAndView sendUserGroupVoucher(@RequestParam("companyGroupId") Long companyGroupId,
     		VoucherBatchGrantReqVo vo) throws Exception{
     	String msg = "";
     	String status = "failed";
@@ -457,13 +455,13 @@ public class VoucherController {
         }
     	
     	//取用户组下userId
-    	List<Long> userIds = null;
+    	List<Long> userIds = userFeignClient.findUserIdByCompanyGroupId(companyGroupId);
     	VoucherTypeRo voucherTypeRo = voucherTypeRedisDao.getVoucherTypeRoById(vo.getVoucherTypeId());
         if (voucherTypeRo.getStartTime() > System.currentTimeMillis()) {
             msg = "优惠券未到发放时间";
         } else if (voucherTypeRo.getExpireTime() < System.currentTimeMillis()) {
             msg = "优惠券发放时间已经过期";
-        } else if (voucherService.findVoucherNumberById(vo.getVoucherTypeId()) < (userIds !=null ?vo.getDispatcherCnt() * userIds.size():vo.getDispatcherCnt()) ) {
+        } else if (voucherService.findVoucherNumberById(vo.getVoucherTypeId().toString()) < (userIds !=null ?vo.getDispatcherCnt() * userIds.size():vo.getDispatcherCnt()) ) {
             msg = "优惠券数量不足";
         } else {
         	if(userIds != null && userIds.size() > 0){
