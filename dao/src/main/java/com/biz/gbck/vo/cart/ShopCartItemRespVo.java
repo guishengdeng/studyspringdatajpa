@@ -59,7 +59,7 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
     /**
      * 促销标签
      */
-    private List<String> promotionTags;
+    private List<String> supportPromotions;
 
     /**
      * 市场价
@@ -271,12 +271,12 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
         this.status = status;
     }
 
-    public List<String> getPromotionTags() {
-        return promotionTags;
+    public List<String> getSupportPromotions() {
+        return supportPromotions;
     }
 
-    public void setPromotionTags(List<String> promotionTags) {
-        this.promotionTags = promotionTags;
+    public void setSupportPromotions(List<String> supportPromotions) {
+        this.supportPromotions = supportPromotions;
     }
 
     public ItemType getItemType() {
