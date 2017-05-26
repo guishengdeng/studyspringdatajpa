@@ -394,7 +394,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 	@Transactional
 	public PaymentQueryResultRespVo queryPaid(IdReqVo reqVo) throws PaymentException {
 		// 查询订单
-		Long orderId = reqVo.getId();
+		Long orderId = Long.valueOf(reqVo.getId());
 		Order order = orderFrontendService.getOrder(orderId);
 		OrderPayment payment = this.getPayablePayment(order, null);
 		if (logger.isDebugEnabled()) {

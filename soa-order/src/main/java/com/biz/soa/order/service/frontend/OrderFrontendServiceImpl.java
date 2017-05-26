@@ -88,7 +88,8 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
             logger.debug("获取订单详情-------请求vo: {}", reqVo);
         }
         SystemAsserts.notNull(reqVo);
-        Order order = orderRepository.findOne(reqVo.getId());
+        Long orderId = Long.valueOf(reqVo.getId());
+        Order order = orderRepository.findOne(orderId);
         OrderRespVo orderRespVo = CollectionUtils.getFirstNotNullValue(this.buildOrderVos(newArrayList(order)));
         if (logger.isDebugEnabled()) {
             logger.debug("获取订单详情-------请求: {}, 返回值: {}", reqVo, orderRespVo);
@@ -102,8 +103,9 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         if (logger.isDebugEnabled()) {
             logger.debug("取消订单-------请求vo: {}", reqVo);
         }
-        super.queryPayStatus(reqVo.getId());
-        Order order = orderRepository.findOne(reqVo.getId());
+        Long orderId = Long.valueOf(reqVo.getId());
+        super.queryPayStatus(orderId);
+        Order order = orderRepository.findOne(orderId);
         super.validUser(order, reqVo);
         SystemAsserts.notNull(order, "订单不存在");
         SystemAsserts.isTrue(order.isCancelable(false), "订单状态已经发生变化，不能取消");

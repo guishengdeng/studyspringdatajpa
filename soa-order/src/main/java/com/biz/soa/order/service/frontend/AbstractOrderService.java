@@ -90,7 +90,7 @@ public abstract class AbstractOrderService extends AbstractBaseService {
      * @param order
      */
     protected boolean queryPayStatus(Long orderId) throws DepotNextDoorException {
-        PaymentQueryResultRespVo paidResult = paymentService.queryPaid(new IdReqVo(orderId));
+        PaymentQueryResultRespVo paidResult = paymentService.queryPaid(new IdReqVo(String.valueOf(orderId)));
         if (logger.isDebugEnabled()) {
             logger.debug("订单[orderId={}]查询支付结果", orderId);
         }
