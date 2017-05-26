@@ -303,6 +303,8 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
                 orderCode);
 
         this.lockStock(order);
+        //清空购物车
+        shopCartService.cleanCart(reqVo);
         timers.print("创建订单用时");
         return order;
     }
