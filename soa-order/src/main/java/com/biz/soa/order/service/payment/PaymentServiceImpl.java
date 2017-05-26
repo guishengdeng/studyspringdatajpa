@@ -90,7 +90,6 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 		String errorMsg;
 		try {
 			String appid = WeChatPayFactory.getCurrentOpenAppid();
-			appid = appid != null ? appid : WeChatPayFactory.getDefaultAppid();
 			WeChatPayFactory weChatPayFactory = WeChatPayFactory.newInstance();
 			String timeExpire = DateUtils.formatDate(payment.getExpireTimestamp(), TIME_EXPIRE_DATE_FORMATER);
 			UnifiedOrder unifiedOrder = weChatPayFactory.newUnifiedOrder(appid, payment.getId().toString(), payment.getSubject(),
@@ -108,6 +107,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 				resp.setNoncestr(unifiedOrderResponse.getNonceStr());
 				resp.setTimestamp(String.valueOf(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())));
 				resp.setOrderId(orderId);
+				resp.setOrderCode(order.getOrderCode());
 				String sign = weChatPayFactory.newSigner(req.getAppId()).sign(resp);
 				resp.setSign(sign);
 				return resp;
