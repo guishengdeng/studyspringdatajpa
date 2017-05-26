@@ -364,20 +364,21 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
 
     @Override
     public UserRo findUserByMobile(String mobile) {
-        logger.debug("Find User by mobile:{}", mobile);
+        logger.info("Find User by mobile:{}", mobile);
         UserRo userRo = userRedisDao.getUserByMobile(mobile);
         if (userRo == null) {
             logger.debug("Find User by mobile:{} from mysql.", mobile);
             UserPo userPo = findUserPoByMobile(mobile);
             userRo = syncUserPoToRedis(userPo);
         }
+        logger.info("findUserByMobile {}", userRo.toString());
         return userRo;
     }
 
     @Override
     public UserPo findUserPoByMobile(String mobile) {
         UserPo userPo = userRepository.findByMobile(mobile);
-        logger.info("findUserPoByMobile userPo is {}", userPo.toString() );
+        logger.info("findUserPoByMobile userPo is {}", userPo.toString());
         return userPo;
     }
 
