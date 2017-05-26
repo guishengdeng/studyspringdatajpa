@@ -5,6 +5,7 @@ import com.biz.gbck.vo.product.SearchVo;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -16,34 +17,34 @@ import java.util.List;
  */
 public class ProductSpecification implements Specification<Product> {
 
-    private SearchVo productShowVo;
+    private SearchVo reqVo;
 
     public ProductSpecification(SearchVo productVo) {
-        this.productShowVo = productVo;
+        this.reqVo = productVo;
     }
 
     @Override
     public Predicate toPredicate(Root<Product> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = Lists.newArrayList();
 
-        if (StringUtils.isNotBlank(productShowVo.getCategoryName())){
-            Predicate predicate = criteriaBuilder.like(root.join("category").get("name"), "%" + productShowVo.getCategoryName().trim()+ "%");
+        if (StringUtils.isNotBlank(reqVo.getCategoryName())) {
+            Predicate predicate = criteriaBuilder.like(root.join("category").get("name"), "%" + reqVo.getCategoryName().trim() + "%");
             predicates.add(predicate);
         }
 
-        if (StringUtils.isNotBlank(productShowVo.getBrandName())){
-           Predicate predicate = criteriaBuilder.like(root.join("brand").get("name").as(String.class), "%" + productShowVo.getBrandName().trim() + "%" );
-           predicates.add(predicate);
-        }
-
-        if (StringUtils.isNotBlank(productShowVo.getProductCode())){
-            Predicate predicate = criteriaBuilder.like(root.get("productCode").as(String.class), "%" +productShowVo.getProductCode().trim() + "%");
+        if (StringUtils.isNotBlank(reqVo.getBrandName())) {
+            Predicate predicate = criteriaBuilder.like(root.join("brand").get("name").as(String.class), "%" + reqVo.getBrandName().trim() + "%");
             predicates.add(predicate);
         }
 
-        if (StringUtils.isNotBlank(productShowVo.getName())){
-            String sqlName = "%" + productShowVo.getName().trim() + "%";
-            predicates.add(criteriaBuilder.like(root.get("name").as(String.class),sqlName));
+        if (StringUtils.isNotBlank(reqVo.getProductCode())) {
+            Predicate predicate = criteriaBuilder.like(root.get("productCode").as(String.class), "%" + reqVo.getProductCode().trim() + "%");
+            predicates.add(predicate);
+        }
+
+        if (StringUtils.isNotBlank(reqVo.getName())) {
+            String sqlName = "%" + reqVo.getName().trim() + "%";
+            predicates.add(criteriaBuilder.like(root.get("name").as(String.class), sqlName));
         }
         criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
         return criteriaQuery.getRestriction();

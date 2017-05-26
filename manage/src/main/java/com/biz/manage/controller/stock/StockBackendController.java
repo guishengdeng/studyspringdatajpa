@@ -5,6 +5,7 @@ import com.biz.gbck.vo.product.SearchVo;
 import com.biz.gbck.vo.stock.StockShowVo;
 import com.biz.manage.controller.BaseController;
 import com.biz.manage.servlet.ManageServlet;
+import com.biz.service.security.interfaces.AdminService;
 import com.biz.service.stock.StockBackendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,12 +26,16 @@ public class StockBackendController extends BaseController {
     @Autowired
     private StockBackendService stockBackendService;
 
+    @Autowired
+    private AdminService adminService;
+
     @RequestMapping("stock")
     @PreAuthorize("hasAuthority('OPT_STOCK_LIST')")
     public ModelAndView list(@ModelAttribute("reqVo") SearchVo reqVo) {
-        //懒加载，直接获取不到ID
-        Admin admin = ManageServlet.getAdmin();
-        reqVo.setUserName(admin.getUsername());
+        if (ManageServlet.getAdmin() != null) {
+            Admin admin = adminService.getAdmin(ManageServlet.getAdmin().getUsername());
+            reqVo.setCompanyId(admin.getCompany().getId());
+        }
         Page<StockShowVo> page = stockBackendService.search(reqVo);
         return new ModelAndView("goods/stock").addObject("page", page);
     }

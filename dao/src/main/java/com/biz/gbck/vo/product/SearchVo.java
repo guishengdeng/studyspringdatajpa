@@ -37,11 +37,6 @@ public class SearchVo implements Serializable {
      */
     private Long companyId;
 
-    /**
-     * 登录用户
-     */
-    private String userName;
-
     @Min(1)
     private Integer page = 1;
 
@@ -86,14 +81,6 @@ public class SearchVo implements Serializable {
 
     public void setCompanyId(Long companyId) {
         this.companyId = companyId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public Integer getPage() {
