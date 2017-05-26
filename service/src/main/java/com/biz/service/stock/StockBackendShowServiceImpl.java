@@ -35,11 +35,11 @@ public class StockBackendShowServiceImpl extends AbstractBaseService implements 
 
         //通过reqVo查询满足条件的商品
         List<Product> products = productBackendService.findAll(reqVo);
-        Map<Long, Product> productIdToProductMap = new HashMap<>();
+        Map<Long, Product> productIdsToProduct = new HashMap<>();
         for (Product product : products) {
-            productIdToProductMap.put(product.getId(), product);
+            productIdsToProduct.put(product.getId(), product);
         }
-        Set<Long> productIds = productIdToProductMap.keySet();
+        Set<Long> productIds = productIdsToProduct.keySet();
         Page<CompanyStock> stockPage = stockRepository.findByCompanyIdAndProductIdIn(reqVo.getCompanyId(), productIds,
                 new PageRequest(reqVo.getPage() - 1, reqVo.getPageSize(), new Sort(Sort.Direction.ASC, "productId")));
         List<StockShowVo> stockShowVos = new ArrayList<>();
@@ -51,20 +51,20 @@ public class StockBackendShowServiceImpl extends AbstractBaseService implements 
             if (stock.getProductId() != null) {
                 stockShowVo.setProductId(stock.getProductId());
             }
-            if (StringUtils.isNotBlank(productIdToProductMap.get(stock.getProductId()).getName())) {
-                stockShowVo.setName(productIdToProductMap.get(stock.getProductId()).getName());
+            if (StringUtils.isNotBlank(productIdsToProduct.get(stock.getProductId()).getName())) {
+                stockShowVo.setName(productIdsToProduct.get(stock.getProductId()).getName());
             }
-            if (StringUtils.isNotBlank(productIdToProductMap.get(stock.getProductId()).getProductCode())) {
-                stockShowVo.setProductCode(productIdToProductMap.get(stock.getProductId()).getProductCode());
+            if (StringUtils.isNotBlank(productIdsToProduct.get(stock.getProductId()).getProductCode())) {
+                stockShowVo.setProductCode(productIdsToProduct.get(stock.getProductId()).getProductCode());
             }
-            if (StringUtils.isNotBlank(productIdToProductMap.get(stock.getProductId()).getName())) {
-                stockShowVo.setCategoryName(productIdToProductMap.get(stock.getProductId()).getCategory().getName());
+            if (StringUtils.isNotBlank(productIdsToProduct.get(stock.getProductId()).getName())) {
+                stockShowVo.setCategoryName(productIdsToProduct.get(stock.getProductId()).getCategory().getName());
             }
-            if (StringUtils.isNotBlank(productIdToProductMap.get(stock.getProductId()).getBrand().getName())) {
-                stockShowVo.setBrandName(productIdToProductMap.get(stock.getProductId()).getBrand().getName());
+            if (StringUtils.isNotBlank(productIdsToProduct.get(stock.getProductId()).getBrand().getName())) {
+                stockShowVo.setBrandName(productIdsToProduct.get(stock.getProductId()).getBrand().getName());
             }
-            if (StringUtils.isNotBlank(productIdToProductMap.get(stock.getProductId()).getStandard())) {
-                stockShowVo.setStandard(productIdToProductMap.get(stock.getProductId()).getStandard());
+            if (StringUtils.isNotBlank(productIdsToProduct.get(stock.getProductId()).getStandard())) {
+                stockShowVo.setStandard(productIdsToProduct.get(stock.getProductId()).getStandard());
             }
             stockShowVo.setPage(reqVo.getPage());
             stockShowVo.setPageSize(reqVo.getPageSize());
