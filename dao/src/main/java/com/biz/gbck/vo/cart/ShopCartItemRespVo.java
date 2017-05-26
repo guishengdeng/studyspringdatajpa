@@ -125,7 +125,7 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
         this();
         this.setProductId(itemVo.getId());
         this.setProductCode(itemVo.getProductCode());
-        this.setName(itemVo.getProductName());
+        this.setName(itemVo.getName());
         this.setLogo(itemVo.getLogo());
         this.setCreateTime(null);
         this.setMarketPrice(null);
