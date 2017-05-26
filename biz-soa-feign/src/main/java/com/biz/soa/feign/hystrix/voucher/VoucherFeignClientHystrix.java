@@ -1,19 +1,19 @@
 package com.biz.soa.feign.hystrix.voucher;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherTypePo;
-import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.order.resp.IOrderPeriodQueryReqVo;
 import com.biz.gbck.vo.order.resp.IProduct;
 import com.biz.gbck.vo.spring.PageVO;
+import com.biz.gbck.vo.voucher.DispatcherVoucherReqVo;
 import com.biz.gbck.vo.voucher.VoucherSearchVo;
+import com.biz.gbck.vo.voucher.VoucherValidataReqVo;
 import com.biz.soa.feign.client.voucher.VoucherFeignClient;
 import com.biz.support.web.handler.JSONResult;
 import com.biz.vo.voucher.ShopCraftVoucherVo;
@@ -34,21 +34,13 @@ public class VoucherFeignClientHystrix implements VoucherFeignClient {
 	}
 
 	@Override
-	public boolean validateDispatcherAction(List<Long> userIds, String shopTypeId, String voucherTypeId,
-			int dispatcherCnt) {
+	public Boolean validateDispatcherAction(VoucherValidataReqVo voucherValidataReqVo) {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 	@Override
-	public void dispatcherVoucher(List<Long> userIds, VoucherTypeRo voucherTypeRo, Integer dispatcherCnt,
-			String loginUsername) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int findVoucherNumberById(String voucherTypeId) {
+	public int findVoucherNumberById(Long voucherTypeId) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -89,6 +81,13 @@ public class VoucherFeignClientHystrix implements VoucherFeignClient {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void dispatcherVoucher(DispatcherVoucherReqVo dispatcherVoucherReqVo) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 }

@@ -66,7 +66,7 @@ public interface VoucherTypeFeignClient {
 	 * @param voucherTypeId
 	 * @return
 	 */
-	@RequestMapping(value="/soa/voucherType/getVouRO",method = RequestMethod.POST)
+	@RequestMapping(value="/soa/voucherType/getVouTypeRO",method = RequestMethod.POST)
 	public VoucherTypeRo getVoucherTypeRoById(@RequestParam("voucherTypeId") Long voucherTypeId);
 
 }

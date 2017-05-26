@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.biz.gbck.common.exception.CommonException;
-import com.biz.gbck.common.model.order.IOrderItemVo;
-import com.biz.gbck.dao.mysql.po.demo.CatPO;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherLimitType;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherTypePo;
@@ -29,12 +26,12 @@ import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.DepotNextDoorExceptions;
 import com.biz.gbck.util.DateTool;
-import com.biz.gbck.vo.demo.CatSearchVO;
 import com.biz.gbck.vo.order.resp.IOrderPeriodQueryReqVo;
 import com.biz.gbck.vo.order.resp.IProduct;
-import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.gbck.vo.spring.PageVO;
+import com.biz.gbck.vo.voucher.DispatcherVoucherReqVo;
 import com.biz.gbck.vo.voucher.VoucherSearchVo;
+import com.biz.gbck.vo.voucher.VoucherValidataReqVo;
 import com.biz.gbck.vo.voucher.VoucherVo;
 import com.biz.soa.base.SoaBaseController;
 import com.biz.soa.service.voucher.VoucherService;
@@ -131,9 +128,12 @@ public class SoaVoucherController extends SoaBaseController{
      * @return
      */
     @PostMapping(value="/validataAction")
-	public boolean validateDispatcherAction(List<Long> userIds, @RequestParam("shopTypeId") String shopTypeId, 
-				@RequestParam("voucherTypeId") String voucherTypeId, @RequestParam("dispatcherCnt") int dispatcherCnt){
-    	return voucherService.validateDispatcherAction(userIds, Long.parseLong(shopTypeId), Long.parseLong(voucherTypeId), dispatcherCnt);
+	public boolean validateDispatcherAction(@RequestBody VoucherValidataReqVo voucherValidataReqVo){
+    	List<Long> userIds = voucherValidataReqVo.getUserIds();
+    	Long shopTypeId = voucherValidataReqVo.getShopTypeId();
+    	Long voucherTypeId = voucherValidataReqVo.getVoucherTypeId();
+    	int dispatcherCnt = voucherValidataReqVo.getDispatcherCnt();
+    	return voucherService.validateDispatcherAction(userIds, shopTypeId, voucherTypeId, dispatcherCnt);
 		
 	}
 
@@ -145,8 +145,11 @@ public class SoaVoucherController extends SoaBaseController{
      * @param loginUsername
      */
     @PostMapping(value="/dispatcherVoucher")
-	public void dispatcherVoucher(@RequestParam("userIds") List<Long> userIds, @RequestBody VoucherTypeRo voucherTypeRo, @RequestParam("dispatcherCnt") Integer dispatcherCnt,
-			@RequestParam("loginUsername") String loginUsername){
+	public void dispatcherVoucher(@RequestBody DispatcherVoucherReqVo dispatcherVoucherReqVo){
+    	List<Long> userIds = dispatcherVoucherReqVo.getUserIds();
+    	VoucherTypeRo voucherTypeRo = dispatcherVoucherReqVo.getVoucherTypeRo();
+    	String loginUsername = dispatcherVoucherReqVo.getLoginUsername();
+    	int dispatcherCnt = dispatcherVoucherReqVo.getDispatcherCnt();
 		voucherService.dispatcherVoucher(userIds, voucherTypeRo, dispatcherCnt, loginUsername);
 	}
 	
