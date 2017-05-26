@@ -39,4 +39,6 @@ public interface OrderFrontendService {
     void saveOrder(Order order);
 
     void applyReturn(OrderApplyReturnReqVo reqVo);
+
+    void lockStock(Order order) throws DepotNextDoorException;
 }

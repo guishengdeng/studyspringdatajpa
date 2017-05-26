@@ -18,6 +18,7 @@ import com.biz.gbck.vo.IdReqVo;
 import com.biz.gbck.vo.PageRespVo;
 import com.biz.gbck.vo.cart.ShopCartListSettleReqVo;
 import com.biz.gbck.vo.cart.ShopCartRespVo;
+import com.biz.gbck.vo.order.event.OrderCreateEvent;
 import com.biz.gbck.vo.order.event.SystemOrderCancelEvent;
 import com.biz.gbck.vo.order.event.UserOrderCancelEvent;
 import com.biz.gbck.vo.order.req.*;
@@ -306,15 +307,15 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
                 .setPaymentType(PaymentType.valueOf(reqVo.getPaymentType()))
                 .build(id, orderCode);
 
-        this.lockStock(order);
         //清空购物车
-        shopCartService.cleanCart(reqVo);
+
         timers.print("创建订单用时");
+        super.publishEventUsingTx(new OrderCreateEvent(this, order.getId()));
         return order;
     }
 
     //锁定库存
-    private void lockStock(Order order) throws DepotNextDoorException {
+    public void lockStock(Order order) throws DepotNextDoorException {
         List<UpdateCompanyLockStockReqVO> lockStockReqVOS = newArrayList();
 
         UpdateCompanyLockStockReqVO lockReqVo = new UpdateCompanyLockStockReqVO();
