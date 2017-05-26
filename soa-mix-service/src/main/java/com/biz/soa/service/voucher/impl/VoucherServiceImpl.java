@@ -26,19 +26,16 @@ import com.biz.gbck.dao.mysql.repository.voucher.VoucherDao;
 import com.biz.gbck.dao.mysql.repository.voucher.VoucherRepository;
 import com.biz.gbck.dao.mysql.repository.voucher.VoucherTypeRepository;
 import com.biz.gbck.dao.mysql.specification.voucher.VoucherSearchSpecification;
-import com.biz.gbck.dao.redis.repository.product.ProductRedisDao;
 import com.biz.gbck.dao.redis.repository.voucher.VoucherRedisDao;
 import com.biz.gbck.dao.redis.repository.voucher.VoucherTypeRedisDao;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
-import com.biz.gbck.dao.redis.ro.product.bbc.ProductRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherConfigureRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeWithQuantity;
 import com.biz.gbck.enums.user.AuditStatus;
-import com.biz.gbck.enums.user.ShopTypeStatus;
 import com.biz.gbck.util.DateTool;
 import com.biz.gbck.vo.order.resp.IProduct;
 import com.biz.gbck.vo.product.frontend.ProductListItemVo;
@@ -298,9 +295,7 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
               List<ShopTypeRo> shopTypes =  shopTypeFeignClient.findAllShopTypeRo();
               if(CollectionUtils.isEmpty(shopTypes)){
 	              for (ShopTypeRo ro : shopTypes) {
-	            	  if(ro.getStatus().equals(ShopTypeStatus.NORMAL)){//判断可用商铺类型
-	            		  userCount = userCount + userFeignClient.findUserIdByShopType(Long.valueOf(ro.getId())).size();
-	            	  }
+	            	  userCount = userCount + userFeignClient.findUserIdByShopType(Long.valueOf(ro.getId())).size();
 	              }
               }
           }

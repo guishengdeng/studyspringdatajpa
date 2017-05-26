@@ -1,10 +1,8 @@
 package com.biz.soa.feign.client.voucher;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,13 +10,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherTypePo;
-import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.order.resp.IOrderPeriodQueryReqVo;
 import com.biz.gbck.vo.order.resp.IProduct;
 import com.biz.gbck.vo.spring.PageVO;
+import com.biz.gbck.vo.voucher.DispatcherVoucherReqVo;
 import com.biz.gbck.vo.voucher.VoucherSearchVo;
+import com.biz.gbck.vo.voucher.VoucherValidataReqVo;
 import com.biz.soa.feign.hystrix.voucher.VoucherFeignClientHystrix;
 import com.biz.support.web.handler.JSONResult;
 import com.biz.vo.voucher.ShopCraftVoucherVo;
@@ -40,15 +39,13 @@ public interface VoucherFeignClient {
 	public List<VoucherPo> listAllVouchersByUserId(@RequestParam("userId") Long userId);
 
 	@RequestMapping(value = "/soa/voucher/validataAction", method = RequestMethod.POST)
-	public boolean validateDispatcherAction(List<Long> userIds, @RequestParam("shopTypeId") String shopTypeId, 
-				@RequestParam("voucherTypeId") String voucherTypeId, @RequestParam("dispatcherCnt") int dispatcherCnt);
+	public Boolean validateDispatcherAction(@RequestBody VoucherValidataReqVo voucherValidataReqVo);
 
 	@RequestMapping(value = "/soa/voucher/dispatcherVoucher", method = RequestMethod.POST)
-	public void dispatcherVoucher(@RequestParam("userIds") List<Long> userIds, @RequestBody VoucherTypeRo voucherTypeRo, 
-			@RequestParam("dispatcherCnt") Integer dispatcherCnt,@RequestParam("loginUsername")	String loginUsername);
+	public void dispatcherVoucher(@RequestBody DispatcherVoucherReqVo dispatcherVoucherReqVo);
 
 	@RequestMapping(value = "/soa/voucher/findVoucherNumberById", method = RequestMethod.POST)
-	public int findVoucherNumberById(@RequestParam("voucherTypeId") String voucherTypeId);
+	public int findVoucherNumberById(@RequestParam("voucherTypeId") Long voucherTypeId);
 	
 	/**
      * 获取优惠券可用数量

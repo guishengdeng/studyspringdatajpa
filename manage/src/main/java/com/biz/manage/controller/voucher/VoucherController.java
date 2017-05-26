@@ -5,7 +5,6 @@ import static java.lang.String.format;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,8 +41,9 @@ import com.biz.gbck.dao.mysql.po.voucher.VoucherTypePo;
 import com.biz.gbck.dao.redis.repository.voucher.VoucherTypeRedisDao;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
-import com.biz.gbck.enums.user.ShopTypeStatus;
+import com.biz.gbck.vo.voucher.DispatcherVoucherReqVo;
 import com.biz.gbck.vo.voucher.VoucherSearchVo;
+import com.biz.gbck.vo.voucher.VoucherValidataReqVo;
 import com.biz.manage.util.AuthorityUtil;
 import com.biz.manage.util.POIUtil;
 import com.biz.manage.vo.voucher.DispatcherVoucherVo;
@@ -147,14 +147,7 @@ public class VoucherController {
         view.addObject("voucherTypeRo", voucherTypeRo);
 
         // 商户类型
-//        List<ShopTypeRo> shopTypeList = ShopTypeFeignClient.findAllShopTypeRo(ShopTypeStatus.NORMAL);
-        List<ShopTypeRo> shopTypeList = ShopTypeFeignClient.findAllShopTypeRo();
-        List<ShopTypeRo> shopTypes = new ArrayList<>();
-        for (ShopTypeRo shopTypeRo : shopTypeList) {
-			if(shopTypeRo.getStatus() == 1){
-				shopTypes.add(shopTypeRo);
-			}
-		}
+        List<ShopTypeRo> shopTypes = ShopTypeFeignClient.findAllShopTypeRo();
         view.addObject("shopTypes", shopTypes);
 
         return view;
@@ -164,10 +157,7 @@ public class VoucherController {
      * @param dispatcherVoucherVo
      * @return
      * @Description: 把优惠券发放给某用户处理
-     * @author Nian.Li
-     * @date 2016年4月15日 下午4:27:10 
      */
-    @SuppressWarnings("unused")
 	@RequestMapping(value = "dispatcherSub", produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String dispatcherSub(DispatcherVoucherVo dispatcherVoucherVo) {
@@ -180,30 +170,32 @@ public class VoucherController {
             int dispatcherCnt = Integer.valueOf(dispatcherVoucherVo.getDispatchCount());
 
             VoucherTypeRo voucherTypeRo = voucherTypeRedisDao.getVoucherTypeRoById(voucherTypeId);
+            VoucherValidataReqVo voucherValidataReqVo = new VoucherValidataReqVo();
+            voucherValidataReqVo.setUserIds(userIds);
+            voucherValidataReqVo.setShopTypeId(shopTypeId);
+            voucherValidataReqVo.setDispatcherCnt(dispatcherCnt);
+            voucherValidataReqVo.setVoucherTypeId(voucherTypeId);
             if (voucherTypeRo.getStartTime() > System.currentTimeMillis()) {
                 result = "优惠券未到发放时间";
             } else if (voucherTypeRo.getExpireTime() < System.currentTimeMillis()) {
                 result = "优惠券发放时间已经过期";
-            } else if (!voucherService.validateDispatcherAction(userIds, shopTypeId+"", voucherTypeId+"", dispatcherCnt)) {
+            } else if (!voucherService.validateDispatcherAction(voucherValidataReqVo)) {
                 result = "优惠券数量不足";
             } else {
                 if (shopTypeId != null) {
                     userIds = userFeignClient.findUserIdByShopType(shopTypeId);
                 } else {
-//                    List<ShopTypeRo> shopTypes = ShopTypeFeignClient.findAllShopTypeRo(ShopTypeStatus.NORMAL);
-                    List<ShopTypeRo> shopTypeList = ShopTypeFeignClient.findAllShopTypeRo();
-                    List<ShopTypeRo> shopTypes = new ArrayList<>();
-                    for (ShopTypeRo shopTypeRo : shopTypeList) {
-            			if(shopTypeRo.getStatus() == 1){
-            				shopTypes.add(shopTypeRo);
-            			}
-            		}
+                    List<ShopTypeRo> shopTypes = ShopTypeFeignClient.findAllShopTypeRo();
                     for (ShopTypeRo ro : shopTypes) {
                         userIds.addAll(userFeignClient.findUserIdByShopType(Long.parseLong(ro.getId())));
                     }
                 }
-                voucherService.dispatcherVoucher(userIds, voucherTypeRo, dispatcherCnt,
-                    AuthorityUtil.getLoginUsername());
+                DispatcherVoucherReqVo dispatcherVoucherReqVo =  new DispatcherVoucherReqVo();
+                 dispatcherVoucherReqVo.setUserIds(userIds);
+            	 dispatcherVoucherReqVo.setVoucherTypeRo(voucherTypeRo);
+            	 dispatcherVoucherReqVo.setLoginUsername(AuthorityUtil.getLoginUsername());
+            	 dispatcherVoucherReqVo.setDispatcherCnt(dispatcherCnt);
+                voucherService.dispatcherVoucher(dispatcherVoucherReqVo);
                 result = "success";
             }
         } catch (Exception e) {
@@ -229,10 +221,15 @@ public class VoucherController {
                 result = "优惠券未到发放时间";
             } else if (voucherTypeRo.getExpireTime() < System.currentTimeMillis()) {
                 result = "优惠券发放时间已经过期";
-            } else if (voucherService.findVoucherNumberById(voucherTypeId.toString()) < dispatcherCnt) {
+            } else if (voucherService.findVoucherNumberById(voucherTypeId) < dispatcherCnt) {
                 result = "优惠券数量不足";
             } else {
-                voucherService.dispatcherVoucher(userId, voucherTypeRo, dispatcherCnt, AuthorityUtil.getLoginUsername());
+            	DispatcherVoucherReqVo dispatcherVoucherReqVo =  new DispatcherVoucherReqVo();
+            	dispatcherVoucherReqVo.setUserIds(userId);
+	           	dispatcherVoucherReqVo.setVoucherTypeRo(voucherTypeRo);
+	           	dispatcherVoucherReqVo.setLoginUsername(AuthorityUtil.getLoginUsername());
+	           	dispatcherVoucherReqVo.setDispatcherCnt(dispatcherCnt);
+                voucherService.dispatcherVoucher(dispatcherVoucherReqVo);
                 result = "success";
             }
         } catch (Exception e) {
@@ -317,12 +314,16 @@ public class VoucherController {
                     msg = "优惠券未到发放时间";
                 } else if (voucherTypeRo.getExpireTime() < System.currentTimeMillis()) {
                     msg = "优惠券发放时间已经过期";
-                } else if (voucherService.findVoucherNumberById(vo.getVoucherTypeId().toString()) < vo.getDispatcherCnt() * userIds.size()) {
+                } else if (voucherService.findVoucherNumberById(vo.getVoucherTypeId()) < vo.getDispatcherCnt() * userIds.size()) {
                     msg = "优惠券数量不足";
                 } else {
                 	if(userIds != null && userIds.size() > 0){
-	                    voucherService.dispatcherVoucher(userIds, voucherTypeRo, vo.getDispatcherCnt(),
-	                            AuthorityUtil.getLoginUsername());
+                		DispatcherVoucherReqVo dispatcherVoucherReqVo =  new DispatcherVoucherReqVo();
+                    	dispatcherVoucherReqVo.setUserIds(userIds);
+        	           	dispatcherVoucherReqVo.setVoucherTypeRo(voucherTypeRo);
+        	           	dispatcherVoucherReqVo.setLoginUsername(AuthorityUtil.getLoginUsername());
+        	           	dispatcherVoucherReqVo.setDispatcherCnt(vo.getDispatcherCnt());
+	                    voucherService.dispatcherVoucher(dispatcherVoucherReqVo);
                 	}else{
                 		status = "failed";
                 	}
@@ -461,12 +462,16 @@ public class VoucherController {
             msg = "优惠券未到发放时间";
         } else if (voucherTypeRo.getExpireTime() < System.currentTimeMillis()) {
             msg = "优惠券发放时间已经过期";
-        } else if (voucherService.findVoucherNumberById(vo.getVoucherTypeId().toString()) < (userIds !=null ?vo.getDispatcherCnt() * userIds.size():vo.getDispatcherCnt()) ) {
+        } else if (voucherService.findVoucherNumberById(vo.getVoucherTypeId()) < (userIds !=null ?vo.getDispatcherCnt() * userIds.size():vo.getDispatcherCnt()) ) {
             msg = "优惠券数量不足";
         } else {
         	if(userIds != null && userIds.size() > 0){
-                voucherService.dispatcherVoucher(userIds, voucherTypeRo, vo.getDispatcherCnt(),
-                        AuthorityUtil.getLoginUsername());
+        		DispatcherVoucherReqVo dispatcherVoucherReqVo =  new DispatcherVoucherReqVo();
+            	dispatcherVoucherReqVo.setUserIds(userIds);
+	           	dispatcherVoucherReqVo.setVoucherTypeRo(voucherTypeRo);
+	           	dispatcherVoucherReqVo.setLoginUsername(AuthorityUtil.getLoginUsername());
+	           	dispatcherVoucherReqVo.setDispatcherCnt(vo.getDispatcherCnt());
+                voucherService.dispatcherVoucher(dispatcherVoucherReqVo);
         	}else{
         		status = "failed";
         	}

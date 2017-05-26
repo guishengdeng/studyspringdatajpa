@@ -7,8 +7,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password:
-    url: jdbc:mysql://127.0.0.1:3306/gbck?characterEncoding=utf-8
+    password: root
+    url: jdbc:mysql://127.0.0.1:3306/gbck-test?characterEncoding=utf-8
     dbcp2:
       initial-size: 5
       max-total: 10
@@ -47,7 +47,7 @@ biz:
     timeBetweenEvictionRunsMillis: 30000
     minEvictableIdleTimeMillis: 30000
     testOnBorrow: true
-    host: 127.0.0.1
+    host: 10.4.100.196
     port: 6379
     name:
     password:
