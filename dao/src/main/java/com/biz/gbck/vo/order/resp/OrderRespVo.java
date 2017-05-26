@@ -5,6 +5,7 @@ import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.enums.order.InvoiceType;
 import com.biz.gbck.enums.order.PaymentType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.codelogger.utils.StringUtils;
 
 import java.sql.Timestamp;
@@ -382,6 +383,10 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
         return o.createTimestamp.compareTo(this.createTimestamp);
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
     public static void main(String[] args) {
         OrderRespVo vo = new OrderRespVo();
