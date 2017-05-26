@@ -220,7 +220,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional
 	public PaymentRespVo noNeedPay(Order order) {
 		OrderPayment payment = getPayablePayment(order, PaymentType.PAY_ON_DELIVERY);
 		confirmPaid(order.getId(), payment);

@@ -273,6 +273,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
     }
 
     @Override
+    @Transactional
     public Order saveOrder(Order order) {
         return super.saveOrder(order);
     }
