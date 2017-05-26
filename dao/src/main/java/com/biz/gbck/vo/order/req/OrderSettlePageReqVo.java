@@ -2,6 +2,7 @@ package com.biz.gbck.vo.order.req;
 
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import com.biz.gbck.enums.order.PaymentType;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -55,5 +56,10 @@ public class OrderSettlePageReqVo extends CommonReqVoBindUserId {
 
     public void setPaymentType(Integer paymentType) {
         this.paymentType = paymentType;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

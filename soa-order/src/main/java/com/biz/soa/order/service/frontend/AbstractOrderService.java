@@ -16,6 +16,7 @@ import com.biz.service.SequenceService;
 import com.biz.service.cart.ShopCartService;
 import com.biz.soa.feign.client.org.ShopFeignClient;
 import com.biz.soa.feign.client.org.UserFeignClient;
+import com.biz.soa.feign.client.product.PromotionFeignClient;
 import com.biz.soa.feign.client.stock.StockFeignClient;
 import com.biz.soa.feign.client.voucher.VoucherFeignClient;
 import com.biz.soa.order.service.payment.PaymentService;
@@ -63,21 +64,23 @@ public abstract class AbstractOrderService extends AbstractBaseService {
     @Autowired(required = false)
     protected VoucherFeignClient voucherFeignClient;
 
+    @Autowired(required = false)
+    protected PromotionFeignClient promotionFeignClient;
+
     protected Order getOrder(Long id) {
         return orderRepository.findOne(id);
     }
 
-    protected void saveOrder(Order order) {
-        orderRepository.save(order);
+    protected Order saveOrder(Order order) {
+        preCommitOpt(() -> saveOrUpdateUsingPo(orderRepository, orderRedisDao, order, new Order2OrderRo()));
+        return order;
     }
 
     protected Order updateOrderStatus(Order order, OrderStatus newStatus) {
         logger.debug("修改订单状态 orderId={}. {} --> {}", order.getStatus(), newStatus);
         SystemAsserts.notNull(newStatus, "新订单状态不能为空");
         order.setStatus(newStatus);
-
-        preCommitOpt(() -> saveOrUpdateUsingPo(orderRepository, orderRedisDao, order, new Order2OrderRo()));
-
+        this.saveOrder(order);
         return order;
     }
 

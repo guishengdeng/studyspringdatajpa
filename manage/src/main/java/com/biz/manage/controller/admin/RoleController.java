@@ -82,4 +82,10 @@ public class RoleController extends BaseController{
        }
        return false;
     }
+    @RequestMapping("/isExist")
+    @PreAuthorize("hasAuthority('OPT_ROLE_ADD')")
+    @ResponseBody
+    public Boolean isExist(Role role){
+        return roleService.isExist(role);
+    }
 }

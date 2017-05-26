@@ -60,7 +60,8 @@ biz:
     localEndpoint: oss-cn-beijing-internal.aliyuncs.com
     accessKeyId: LTAIcBsZ7zY66tku
     accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
-    bucketName: gbck-test
+    productBucketName: gbck-test
+    auditBucketName: gbck-test-qualification
 
 server:
   session:
@@ -72,6 +73,8 @@ eureka:
       defaultZone: http://10.4.100.195:8195/eureka/,http://10.4.100.196:8196/eureka/
   instance:
     prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5      # 心跳时间，即服务续约间隔时间（缺省为30s）
+    lease-expiration-duration-in-seconds: 10  # 发呆时间，即服务续约到期时间（缺省为90s）
   server:
     eviction-interval-timer-in-ms: 1000
 hystrix:

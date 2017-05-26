@@ -17,20 +17,20 @@ public class AppVoToAppPo implements Function<AppVo, App>, Serializable {
         if (null != vo) {
             app = new App();
             app.setId(vo.getId());
-            app.setTel(vo.getTel());
-            app.setPictureUrl(vo.getPictureUrl());
-            app.setUrl(vo.getUrl());
-            app.setHotKeyWord(vo.getHotKeyWord());
-            app.setContent(vo.getContent());
-            app.setTel(vo.getTel());
-            app.setTitle(vo.getTitle());
-            app.setIcon(vo.getIcon());
-            app.setShareUrl(vo.getShareUrl());
-            app.setRecommedUrl(vo.getRecommedUrl());
-            app.setAppDownloadUrl(vo.getAppDownloadUrl());
+            app.setTel(vo.getTel().trim());
+            app.setPictureUrl(vo.getPictureUrl().trim());
+            app.setUrl(vo.getUrl().trim());
+            app.setHotKeyWord(vo.getHotKeyWord().trim());
+            app.setContent(vo.getContent().trim());
+            app.setTel(vo.getTel().trim());
+            app.setTitle(vo.getTitle().trim());
+            app.setIcon(vo.getIcon().trim());
+            app.setShareUrl(vo.getShareUrl().trim());
+            app.setRecommedUrl(vo.getRecommedUrl().trim());
+            app.setAppDownloadUrl(vo.getAppDownloadUrl().trim());
             app.setAmount(vo.getAmount());
-            app.setTabOne(vo.getTabOne());
-            app.setTabTwo(vo.getTabTwo());
+            app.setTabOne(vo.getTabOne().trim());
+            app.setTabTwo(vo.getTabTwo().trim());
         }
         return app;
     }

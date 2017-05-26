@@ -6,9 +6,9 @@
 <%@ attribute name="id" required="false" type="java.lang.String" %>
 <%@ attribute name="change" required="false" type="java.lang.String" %>
 <%@ attribute name="withNone" required="false" type="java.lang.Boolean" %>
-<%@ attribute name="categories" required="false" type="java.lang.Object" %>
+<%@ attribute name="categories" required="true" type="java.lang.Object" %>
 
-<select name="${fieldName}" id="${id}" onchange="${change}">
+<select name="${fieldName}" id="${id}" onchange="${change}" style="width: 120px;">
     <c:if test="${withNone}">
         <option value="${noneLabel}" ${empty selectedStatus ? 'selected' : ''} >${empty noneLabel ? '不限' : noneLabel}</option>
     </c:if>

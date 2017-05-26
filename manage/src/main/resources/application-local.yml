@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: manage
   mvc:
     view:
       prefix: /WEB-INF/views/
@@ -22,7 +20,7 @@ spring:
       validation-query: SELECT 1
 
   jpa:
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: update
     database: mysql
@@ -64,7 +62,6 @@ biz:
 server:
   session:
     timeout: 1200
-
 eureka:
   client:
     service-url:

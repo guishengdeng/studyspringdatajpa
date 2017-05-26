@@ -1,29 +1,23 @@
 package com.biz.service.product.impl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.biz.gbck.dao.mysql.po.product.meta.ExtendProperty;
 import com.biz.gbck.dao.mysql.repository.extendProperty.ExtendPropertyRepository;
 import com.biz.gbck.dao.mysql.repository.productExtend.ProductExtendRepository;
 import com.biz.gbck.exceptions.product.ExtendPropertyNotFoundException;
 import com.biz.gbck.exceptions.product.IllegalParameterException;
 import com.biz.gbck.transform.product.CreateExtendPropertyVo2ExtendProperty;
-import com.biz.gbck.vo.product.backend.BootstrapTablePageResult;
-import com.biz.gbck.vo.product.backend.CreateExtendPropertyVo;
-import com.biz.gbck.vo.product.backend.ExtendPropertyListItemVo;
-import com.biz.gbck.vo.product.backend.ExtendPropertySortListVo;
-import com.biz.gbck.vo.product.backend.ExtendPropertySortVo;
-import com.biz.gbck.vo.product.backend.ExtendSelectVo;
-import com.biz.gbck.vo.product.backend.UpdateExtendPropertyVo;
+import com.biz.gbck.vo.product.backend.*;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.product.backend.ExtendPropertyService;
+import com.biz.service.product.backend.ProductExtendService;
 import com.google.common.collect.Lists;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ExtendPropertyServiceImpl
@@ -38,8 +32,9 @@ import com.google.common.collect.Lists;
 public class ExtendPropertyServiceImpl extends AbstractBaseService  implements ExtendPropertyService {
     @Autowired
     private ExtendPropertyRepository extendPropertyRepository;
+
     @Autowired
-    private ProductExtendRepository productExtendRepository;
+    private ProductExtendService productExtendService;
 
     @Override
     public BootstrapTablePageResult<ExtendPropertyListItemVo> listExtendProperties(Long productExtendId) throws IllegalParameterException, ExtendPropertyNotFoundException {
@@ -53,18 +48,11 @@ public class ExtendPropertyServiceImpl extends AbstractBaseService  implements E
 
     @Override
     public Boolean isExistExtendPropertyValue(CreateExtendPropertyVo vo) throws ExtendPropertyNotFoundException {
-        ExtendProperty extendProperty = extendPropertyRepository.findExtendPropertyByCondition(vo.getProductExtendId(),vo.getValue());
-        List<ExtendProperty> list = extendPropertyRepository.findByProductExtendId(vo.getProductExtendId());
+        ExtendProperty extendProperty = extendPropertyRepository.findExtendPropertyByCondition(vo.getProductExtendId(),vo.getValue().trim());
         if(extendProperty != null){
-
-             if(vo.getId() !=null){
-                 for(ExtendProperty item : list){
-                      if(vo.getId().equals(item.getId()) && vo.getValue().equals(item.getValue())){
-                          return  Boolean.TRUE;
-                      }
-                      if(vo.getValue().equals(item.getValue())){
-                          return  Boolean.FALSE;
-                      }
+             if(vo.getId() != null){
+                 if(vo.getId().equals(extendProperty.getId())){
+                     return Boolean.TRUE;
                  }
              }
             return Boolean.FALSE;
@@ -93,7 +81,7 @@ public class ExtendPropertyServiceImpl extends AbstractBaseService  implements E
            //将vo转化成po
          CreateExtendPropertyVo2ExtendProperty  c2p = new CreateExtendPropertyVo2ExtendProperty();
          ExtendProperty extendProperty = c2p.apply(vo);
-         extendProperty.setProductExtend(productExtendRepository.findOne(vo.getProductExtendId()));
+         extendProperty.setProductExtend(productExtendService.findOne(vo.getProductExtendId()));
          extendPropertyRepository.save(extendProperty);
 
 
@@ -149,4 +137,6 @@ public class ExtendPropertyServiceImpl extends AbstractBaseService  implements E
     public ExtendProperty findById(Long id) {
         return extendPropertyRepository.findOne(id);
     }
+
+
 }

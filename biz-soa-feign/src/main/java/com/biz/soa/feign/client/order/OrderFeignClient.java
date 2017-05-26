@@ -1,8 +1,8 @@
 package com.biz.soa.feign.client.order;
 
 import com.biz.gbck.vo.IdReqVo;
-import com.biz.gbck.vo.PageRespVo;
 import com.biz.gbck.vo.order.req.*;
+import com.biz.gbck.vo.order.resp.OrderListRespVo;
 import com.biz.gbck.vo.order.resp.OrderRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
 import com.biz.gbck.vo.payment.resp.PaymentRespVo;
@@ -20,11 +20,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @reviewer
  * @see
  */
+//
 @FeignClient(name = "soa-order", fallback = OrderFeignClientHystrix.class)
 public interface OrderFeignClient {
 
     @RequestMapping(value = "/soa/order/app/list", method = RequestMethod.GET)
-    MicroServiceResult<PageRespVo> allTypeOrders(@RequestBody OrderListReqVo reqVo);
+    MicroServiceResult<OrderListRespVo> allTypeOrders(@RequestBody OrderListReqVo reqVo);
 
     @RequestMapping(value = "/soa/order/app/detail", method = RequestMethod.POST)
     MicroServiceResult<OrderRespVo> orderDetail(@RequestBody IdReqVo reqVo);

@@ -57,7 +57,8 @@ biz:
     localEndpoint: oss-cn-beijing-internal.aliyuncs.com
     accessKeyId: LTAIcBsZ7zY66tku
     accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
-    bucketName: gbck-test
+    productBucketName: gbck-test
+    auditBucketName: gbck-test-qualification
 
 server:
   port: 7099

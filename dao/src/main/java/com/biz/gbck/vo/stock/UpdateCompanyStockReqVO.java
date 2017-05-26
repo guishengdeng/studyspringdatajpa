@@ -27,6 +27,8 @@ public class UpdateCompanyStockReqVO implements Serializable {
      */
     private int quantity = 0;
 
+    public UpdateCompanyStockReqVO() {
+    }
 
     public Long getProductId() {
         return productId;

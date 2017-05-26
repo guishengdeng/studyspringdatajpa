@@ -1,6 +1,8 @@
 package com.biz.gbck.vo.warehouse;
 
 import com.biz.gbck.enums.CommonStatusEnum;
+import com.biz.gbck.enums.org.CompanyLevel;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -18,6 +20,16 @@ public class WarehouseResponseVo implements Serializable {
      * ID
      */
     private Long id;
+
+    private CompanyLevel companyLevel;
+
+    public CompanyLevel getCompanyLevel() {
+        return companyLevel;
+    }
+
+    public void setCompanyLevel(CompanyLevel companyLevel) {
+        this.companyLevel = companyLevel;
+    }
 
     /**
      * 省仓编号

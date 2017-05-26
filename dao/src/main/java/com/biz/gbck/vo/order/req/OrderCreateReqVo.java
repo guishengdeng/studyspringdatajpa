@@ -2,7 +2,7 @@ package com.biz.gbck.vo.order.req;
 
 import com.biz.core.util.JsonUtil;
 import com.biz.gbck.enums.order.InvoiceType;
-import com.biz.gbck.enums.order.PaymentType;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.validation.constraints.Size;
 
@@ -39,11 +39,6 @@ public class OrderCreateReqVo extends OrderSettlePageReqVo {
      */
     private String invoiceTitle;
 
-    /**
-     * 支付方式{@link PaymentType}
-     */
-    private Integer paymentType;
-
 
     public String getDescription() {
         return description;
@@ -77,12 +72,9 @@ public class OrderCreateReqVo extends OrderSettlePageReqVo {
         this.invoiceTitle = invoiceTitle;
     }
 
-    public Integer getPaymentType() {
-        return paymentType;
-    }
-
-    public void setPaymentType(Integer paymentType) {
-        this.paymentType = paymentType;
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 
     public static void main(String[] args) {

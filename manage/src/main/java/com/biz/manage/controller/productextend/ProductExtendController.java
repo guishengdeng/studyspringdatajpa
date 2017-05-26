@@ -64,10 +64,10 @@ public class ProductExtendController {
                 .addObject("categoryId",parentId)
                 .addObject("cmd","edit");
     }
-    @RequestMapping("/addOrUpdate")
+    @RequestMapping("/isExist")
     @PreAuthorize("hasAuthority('OPT_PRODUCTEXTEND_ADD')")
     @ResponseBody
-    public Boolean addOrUpdate(CreateCategoryPropertyVo vo) throws DepotNextDoorException {
+    public Boolean isExist(CreateCategoryPropertyVo vo) throws DepotNextDoorException {
         try {
             return productExtendService.isExistProductExtendName(vo);
         } catch (ProductExtendNotFoundException e) {

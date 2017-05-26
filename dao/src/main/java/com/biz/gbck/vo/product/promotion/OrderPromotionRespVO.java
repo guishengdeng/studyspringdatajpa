@@ -1,6 +1,8 @@
 package com.biz.gbck.vo.product.promotion;
 
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -62,6 +64,11 @@ public class OrderPromotionRespVO extends CommonReqVoBindUserId {
 
     public void setActivePromotionItems(List<OrderActivePromotionItemVO> activePromotionItems) {
         this.activePromotionItems = activePromotionItems;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 
     public static void main(String[] args) {

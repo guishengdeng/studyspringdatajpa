@@ -112,10 +112,18 @@ public class ProductServiceImpl extends AbstractProductService implements Produc
 
     @Override
     public List<PurchaseProductItemVO> purchaseProducts(PurchaseProductReqVO reqVO) {
+        if (logger.isDebugEnabled()) {
+            logger.debug("product purchase reqVo: {}", reqVO);
+        }
         Preconditions.checkArgument(Objects.nonNull(reqVO)
                 && CollectionUtils.isNotEmpty(reqVO.getProductIds())
                 && Objects.nonNull(reqVO.getCompanyGroupId()) && Objects.nonNull(reqVO.getSellerId()));
-        return this.getProductPrototype(reqVO.getProductIds(), reqVO.getCompanyGroupId(), reqVO.getSellerId())
-                .stream().map(ProductPrototype::toPurchaseProductItemVO).collect(Collectors.toList());
+        List<PurchaseProductItemVO> productItemVOS = this.getProductPrototype(reqVO.getProductIds(), reqVO.getCompanyGroupId
+                (), reqVO.getSellerId()).stream().map(ProductPrototype::toPurchaseProductItemVO).collect(Collectors
+                .toList());
+        if (logger.isDebugEnabled()) {
+            logger.debug("product purchase respVo: {}", productItemVOS);
+        }
+        return productItemVOS;
     }
 }

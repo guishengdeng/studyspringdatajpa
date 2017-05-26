@@ -4,15 +4,11 @@ import com.biz.gbck.dao.mysql.po.security.MainMenu;
 import com.biz.gbck.dao.mysql.po.security.MenuItem;
 import com.biz.gbck.dao.mysql.po.security.Resource;
 import com.biz.gbck.enums.CommonStatusEnum;
-import com.biz.gbck.vo.menu.MenuItemVo;
+import com.biz.gbck.vo.menu.UpdateMenuItemParentMenuReqVo;
 import com.biz.manage.controller.BaseController;
 import com.biz.service.IdService;
 import com.biz.service.security.interfaces.MainMenuService;
 import com.biz.service.security.interfaces.MenuItemService;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-import net.sf.json.util.CycleDetectionStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 /**
  * MenuItemController
@@ -124,5 +117,16 @@ public class MenuItemController extends BaseController{
 
         return menuItemService.isExist(menuItem);
     }
-
+    @RequestMapping("/changeMenu")
+    @PreAuthorize("hasAuthority('OPT_MENUITEM_LIST')")
+    public ModelAndView changeMenu(){
+        List <MainMenu> mainMenus = mainMenuService.listMainMenus();
+        return new ModelAndView("manage/menu/changeMenu","mainMenus",mainMenus);
+    }
+    @RequestMapping("/updateItemMenuParentMenu")
+    @PreAuthorize("hasAuthority('OPT_MENUITEM_EDIT')")
+    public ModelAndView updateParentMenu(UpdateMenuItemParentMenuReqVo vo){
+       menuItemService.updateMenuItemParentMenu(vo);
+       return new ModelAndView("redirect:changeMenu");
+    }
 }

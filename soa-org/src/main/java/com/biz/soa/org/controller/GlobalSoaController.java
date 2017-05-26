@@ -65,7 +65,7 @@ public class GlobalSoaController extends BaseRestController{
             @RequestParam(value = "os", required = true, defaultValue = "") String os,
             @RequestParam(value = "partner", required = true, defaultValue = "") String partner,
             HttpServletRequest request) {
-        logger.debug("Received soa-org  /init/upgrade GET request.");
+        logger.debug("Received soa-org  /init/upgrade GET request. ver:{},os:{},partner:{}",ver,os,partner);
         boolean inhourse = StringUtils.equalsIgnoreCase("inhouse", partner);
         UpgradeRo ro = upgradeSoaService.needUpgrade(os, ver, inhourse);
         if (ro != null) {
@@ -121,7 +121,7 @@ public class GlobalSoaController extends BaseRestController{
     public List<BucketResVo> getOssBuckets() {
         List<BucketResVo> bucketResVos=newArrayList();
         bucketResVos.add(new BucketResVo("product",config.getProductBucketName()));
-        bucketResVos.add(new BucketResVo("audit",config.getProductBucketName()));
+        bucketResVos.add(new BucketResVo("audit",config.getAuditBucketName()));
         return bucketResVos;
     }
 

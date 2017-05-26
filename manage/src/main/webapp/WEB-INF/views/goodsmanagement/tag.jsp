@@ -109,7 +109,7 @@
                             </label>
 
                             <div class="col-sm-9">
-                                <textarea id="description" type="text" name="description" placeholder="后台备注"
+                                <textarea   id="description" type="text" name="description" placeholder="后台备注"
                                           maxlength="255" class="col-xs-12 col-sm-12"><c:out
                                         value="${saleTag.description}"/></textarea>
 
@@ -122,16 +122,16 @@
                             </label>
                             <div class="radio inline">
                                 <label>
-                                    <input name="saleStatus" type="radio" class="ace " value="ENABLE"
-                                           <c:if test="${saleTag.saleStatus eq 'ENABLE'}">checked</c:if>>
+                                    <input name="saleStatus" type="radio" class="ace required text" value="ENABLE"
+                                           <c:if test="${saleTag.saleStatus eq 'ENABLE'}">checked</c:if> checked>
                                     <span class="lbl">启用</span>
                                 </label>
                             </div>
-
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <div class="radio inline">
                                 <label>
-                                    <input name="saleStatus" type="radio" class="ace " value="DISABLE"
-                                           <c:if test="${saleTag.saleStatus eq 'DISABLE'}">checked</c:if>>
+                                    <input name="saleStatus" type="radio" class="ace required text " value="DISABLE"
+                                           <c:if test="${saleTag.saleStatus eq 'DISABLE'}"></c:if>>
                                     <span class="lbl">禁用</span>
                                 </label>
                             </div>
