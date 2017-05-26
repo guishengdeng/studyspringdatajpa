@@ -40,14 +40,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -223,7 +221,9 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 	@Transactional
 	public PaymentRespVo noNeedPay(Order order) {
 		OrderPayment payment = getPayablePayment(order, PaymentType.PAY_ON_DELIVERY);
-		confirmPaid(order.getId(), payment);
+		payment.setPayStatus(PaymentStatus.PAYED);
+		payment.setSuccessTimestamp(DateUtil.now());
+		this.updateOrderPaidStatus(order, payment, payment.getPayAmount());
 		return new PaymentRespVo(order.getId(), order.getOrderCode());
 	}
 
@@ -380,11 +380,11 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 			@Override
 			public <R> R execute() {
 				payment.setPayStatus(PaymentStatus.PAYED);
-				payment.setSuccessDate(new Date(System.currentTimeMillis()));
+				payment.setSuccessTimestamp(DateUtil.now());
 				paymentRepository.updatePaymentState(payment.getId(), PaymentStatus.PAYED);
 				logger.info("订单查询支付成功：orderId:{}",orderId);
 				Order order = orderFrontendService.getOrder(orderId);
-				updateOrderPayStatus(order, payment, payment.getPayAmount());
+				updateOrderPaidStatus(order, payment, payment.getPayAmount());
 				return null;
 			}
 		});
@@ -515,7 +515,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 		return payment;
 	}
 
-	private void updateOrderPayStatus(final Order order, final OrderPayment payment, final Integer payAmount){
+	private void updateOrderPaidStatus(final Order order, final OrderPayment payment, final Integer payAmount){
 		if (order.isPayable()) {
 			order.setStatus(OrderStatus.ORDERED);
 			order.setPayStatus(PaymentStatus.PAYED);

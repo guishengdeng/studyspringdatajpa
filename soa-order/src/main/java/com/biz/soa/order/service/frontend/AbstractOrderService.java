@@ -22,6 +22,7 @@ import com.biz.soa.feign.client.voucher.VoucherFeignClient;
 import com.biz.soa.order.service.payment.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.transaction.Transactional;
 import java.util.Objects;
 
 /**
@@ -71,6 +72,7 @@ public abstract class AbstractOrderService extends AbstractBaseService {
         return orderRepository.findOne(id);
     }
 
+    @Transactional
     protected Order saveOrder(Order order) {
         saveOrUpdateUsingPo(orderRepository, orderRedisDao, order, new Order2OrderRo());
         return order;

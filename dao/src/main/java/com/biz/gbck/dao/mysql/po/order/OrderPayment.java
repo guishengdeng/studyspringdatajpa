@@ -58,7 +58,7 @@ public class OrderPayment extends BaseEntity {
     /**
      * 支付成功时间(支付回调时间）
      */
-    private Date successDate;
+    private Timestamp successTimestamp;
 
 
     /**
@@ -122,12 +122,12 @@ public class OrderPayment extends BaseEntity {
         this.subject = subject;
     }
 
-    public Date getSuccessDate() {
-        return successDate;
+    public Timestamp getSuccessTimestamp() {
+        return successTimestamp;
     }
 
-    public void setSuccessDate(Date successDate) {
-        this.successDate = successDate;
+    public void setSuccessTimestamp(Timestamp successTimestamp) {
+        this.successTimestamp = successTimestamp;
     }
 
     public Timestamp getExpireTimestamp() {
