@@ -1,5 +1,7 @@
 package com.biz.gbck.vo.stock;
 
+import org.apache.commons.lang.StringUtils;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
@@ -90,7 +92,7 @@ public class StockShowVo implements Serializable {
     }
 
     public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+        this.categoryName = StringUtils.trim(categoryName);
     }
 
     public Integer getQuantity() {

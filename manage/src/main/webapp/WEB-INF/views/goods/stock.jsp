@@ -92,11 +92,11 @@
                                         <td><c:out value="${stock.productCode}"/></td>
                                         <td><c:out value="${stock.name}"/></td>
                                         <td>
-                                            <c:if test="${stock.categoryName.trim() eq 'SPIRIT'}">白酒</c:if>
-                                            <c:if test="${stock.categoryName.trim() eq 'BEER'}">啤酒</c:if>
-                                            <c:if test="${stock.categoryName.trim() eq 'RED_WINE'}">红酒</c:if>
-                                            <c:if test="${stock.categoryName.trim() eq 'FOREIGN_WINE'}">洋酒</c:if>
-                                            <c:if test="${stock.categoryName.trim() eq 'ELSE_WINE'}">其他</c:if>
+                                            <c:if test="${stock.categoryName eq 'SPIRIT'}">白酒</c:if>
+                                            <c:if test="${stock.categoryName eq 'BEER'}">啤酒</c:if>
+                                            <c:if test="${stock.categoryName eq 'RED_WINE'}">红酒</c:if>
+                                            <c:if test="${stock.categoryName eq 'FOREIGN_WINE'}">洋酒</c:if>
+                                            <c:if test="${stock.categoryName eq 'ELSE_WINE'}">其他</c:if>
                                         </td>
                                         <td><c:out value="${stock.brandName}"/></td>
                                         <td><c:out value="${stock.standard}"/></td>
