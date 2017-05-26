@@ -10,7 +10,7 @@
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>soa-user</artifactId>
+    <artifactId>soa-org</artifactId>
     <version>1.0.1-SNAPSHOT</version>
 
     <dependencies>
