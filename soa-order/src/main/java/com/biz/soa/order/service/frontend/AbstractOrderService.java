@@ -72,7 +72,7 @@ public abstract class AbstractOrderService extends AbstractBaseService {
     }
 
     protected Order saveOrder(Order order) {
-        preCommitOpt(() -> saveOrUpdateUsingPo(orderRepository, orderRedisDao, order, new Order2OrderRo()));
+        saveOrUpdateUsingPo(orderRepository, orderRedisDao, order, new Order2OrderRo());
         return order;
     }
 
