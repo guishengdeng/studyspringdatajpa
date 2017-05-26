@@ -1,5 +1,6 @@
 package com.biz.gbck.vo.order.resp;
 
+import com.biz.core.util.DateUtil;
 import com.biz.core.util.JsonUtil;
 import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.enums.order.InvoiceType;
@@ -165,9 +166,9 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
         this.setDescription(order.getDescription());
         this.setInvoiceType(order.getInvoice() != null ? order.getInvoice().getInvoiceType().getValue() : InvoiceType
                 .NO.getValue());
-        this.setInvoiceTitle(order.getInvoice() != null && StringUtils.isNotBlank(order.getInvoice().getTitle()) ?
-                order.getInvoice().getTitle() : null);
-        this.setPayLimitTime(order.getExpireTimestamp().getTime());
+        this.setInvoiceTitle(order.getInvoice() != null && StringUtils.isNotBlank(order.getInvoice().getTitle()) ? order.getInvoice().getTitle() : null);
+        this.setPayLimitTime(order.getExpireTimestamp() == null ? null : order.getExpireTimestamp().getTime() -
+                DateUtil.now().getTime());
 
         this.setPayable(order.isPayable());
         this.setCancelable(order.isCancelable(false));

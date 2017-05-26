@@ -1,6 +1,8 @@
 package com.biz.gbck.vo;
 
+import com.biz.core.util.JsonUtil;
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.validation.constraints.NotNull;
 
@@ -33,5 +35,16 @@ public class IdReqVo extends CommonReqVoBindUserId {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
+
+    public static void main(String[] args) {
+        String a ="{\n" + "    \"id\":\"363844490836316160\"\n" + "}";
+        IdReqVo idReqVo = JsonUtil.json2Obj(a, IdReqVo.class);
+        System.out.println(idReqVo);
     }
 }
