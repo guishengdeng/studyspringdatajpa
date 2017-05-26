@@ -22,6 +22,9 @@ public class CompanyStocksReqVO implements Serializable {
      */
     private Long companyId;
 
+    public CompanyStocksReqVO() {
+    }
+
     public List<Long> getProductIds() {
         return productIds;
     }

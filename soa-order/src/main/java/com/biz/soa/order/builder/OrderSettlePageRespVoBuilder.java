@@ -6,6 +6,7 @@ import com.biz.gbck.vo.order.resp.OrderPromotionRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
 import com.biz.gbck.vo.org.UserInfoVo;
 import com.biz.soa.order.util.OrderUtil;
+import org.codelogger.utils.ValueUtils;
 
 import java.util.List;
 
@@ -93,9 +94,14 @@ public class OrderSettlePageRespVoBuilder {
 
     //计算支付金额
     private void calcPayAmount() {
-        Integer payAmount = this.respVo.getOrderAmount() - this.respVo.getFreeAmount() - this.respVo.getVoucherAmount() - this
-                .respVo.getFreight();
+        Integer payAmount = this.respVo.getOrderAmount() - getAmountValue(this.respVo.getFreeAmount()) - getAmountValue(this.respVo.getVoucherAmount()) - getAmountValue(this
+                .respVo.getFreight());
         this.respVo.setPayAmount(payAmount);
+    }
+
+    private static int getAmountValue(Number number) {
+        int value = ValueUtils.getValue(number).intValue();
+        return value > 0 ? value : 0;
     }
 
 }

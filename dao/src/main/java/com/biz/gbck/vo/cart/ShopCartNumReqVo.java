@@ -1,5 +1,6 @@
 package com.biz.gbck.vo.cart;
 
+import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
@@ -8,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @author lei
  * @date 2017/04/05
  */
-public class ShopCartNumReqVo extends BaseShopCartReqVo {
+public class ShopCartNumReqVo extends CommonReqVoBindUserId {
 
     @Override
     public String toString() {

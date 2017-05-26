@@ -18,7 +18,7 @@ public interface ShopCartService {
      * 添加商品到购物车
      * @return
      */
-    void addCartItem(ShopCartItemAddReqVo reqVo) throws DepotNextDoorException;
+    ShopCartRespVo addCartItem(ShopCartItemAddReqVo reqVo) throws DepotNextDoorException;
 
     /**
      * 获取购物车商品信息
@@ -36,7 +36,7 @@ public interface ShopCartService {
      * 购物车数量更新
      * @param reqVo
      */
-    ShopCartRespVo updateCartItemQuantity(ShopCartItemUpdateReqVo reqVo) throws DepotNextDoorException;
+    void updateCartItemQuantity(ShopCartItemUpdateReqVo reqVo) throws DepotNextDoorException;
 
 
     /**

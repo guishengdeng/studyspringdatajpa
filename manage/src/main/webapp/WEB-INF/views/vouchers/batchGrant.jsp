@@ -33,11 +33,15 @@
                 返回
             </a>
         </div>
-        <div class="page-content">
-            <div class="row">
+<!--         <div class="page-content"> -->
+	               <div class="panel panel-info">
+						<div class="panel-heading">
+							<h3 class="panel-title">导入商户手机号</h3>
+						</div>
+						<div class="panel-body">
+						<div class="row">
                <div class="col-xs-12">
-                <a class="ui teal ribbon label">导入商户手机号</a><br><br>
-                <form class="form-horizontal" method="post" enctype="multipart/form-data"
+							<form class="form-horizontal" method="post" enctype="multipart/form-data"
                       action="manage/voucher/upload.do">
                       <div class="success message">
                         <c:choose>
@@ -96,6 +100,8 @@
                                 <span>下载模板:&nbsp;</span><span><a href="mobile.xlsx"><i class="file excel outline icon"></i>鼠标右键-》目标另存为</a></span>
                             </div>
                 </form>
+						</div>
+<!-- 					</div> -->
             </div>
         </div>
       </div>

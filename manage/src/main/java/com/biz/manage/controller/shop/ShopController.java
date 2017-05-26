@@ -49,6 +49,14 @@ import static com.google.common.collect.Lists.newArrayList;
 public class ShopController extends BaseController {
     private static final Logger logger = LoggerFactory.getLogger(ShopController.class);
 
+    /* @Autowired
+     private DepotEmployeeService depotEmployeeService;*/
+
+    /*@Autowired
+    private DepotService depotService;*/
+
+    @Autowired
+    private ShopTypeService shopTypeService;
 
     @Autowired
     private ShopFeignClient shopFeignClient;

@@ -3,6 +3,7 @@ package com.biz.gbck.vo.order.resp;
 import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.vo.org.UserInfoVo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
 import java.util.List;
@@ -195,6 +196,11 @@ public class OrderSettlePageRespVo implements Serializable {
 
     public void setUserInfoVo(UserInfoVo userInfoVo) {
         this.userInfoVo = userInfoVo;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }
 

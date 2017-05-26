@@ -78,7 +78,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>sms_center</finalName>
+		<finalName>sms-center</finalName>
 		<resources>
 			<resource>
 				<directory>docs/profiles/${profileName}</directory>

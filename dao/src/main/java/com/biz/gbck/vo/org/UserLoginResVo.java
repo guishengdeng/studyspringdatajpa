@@ -111,6 +111,11 @@ public class UserLoginResVo {
      */
     private Boolean emptyPaymentPassword = true;
 
+    /**
+     * 购物车商品数量
+     */
+    private Integer purchaseCount = 0;
+
     public void setShopProperties(ShopRo shopRo) {
         setShopId(shopRo.getId());
         setDeliveryAddress(shopRo.getDeliveryAddress());
@@ -291,4 +296,11 @@ public class UserLoginResVo {
         return emptyPaymentPassword;
     }
 
+    public Integer getPurchaseCount() {
+        return purchaseCount;
+    }
+
+    public void setPurchaseCount(Integer purchaseCount) {
+        this.purchaseCount = purchaseCount;
+    }
 }

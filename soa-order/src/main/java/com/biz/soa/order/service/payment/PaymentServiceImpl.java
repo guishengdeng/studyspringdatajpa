@@ -13,9 +13,11 @@ import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.order.OrderStatus;
 import com.biz.gbck.enums.order.PaymentStatus;
 import com.biz.gbck.enums.order.PaymentType;
+import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.DepotNextDoorExceptions;
 import com.biz.gbck.exceptions.order.PaymentException;
 import com.biz.gbck.vo.IdReqVo;
+import com.biz.gbck.vo.org.UserInfoVo;
 import com.biz.gbck.vo.payment.req.IWechatPaymentReqVo;
 import com.biz.gbck.vo.payment.resp.*;
 import com.biz.pay.alipay.AlipayFactory;
@@ -31,6 +33,7 @@ import com.biz.pay.wechat.res.WechatPayNotifyRespVo;
 import com.biz.pay.wechat.res.WechatPayRespVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.order.frontend.OrderFrontendService;
+import com.biz.soa.feign.client.org.UserFeignClient;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.utils.DateUtils;
@@ -70,7 +73,10 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 
 	@Autowired
 	private AlipayPaymentLogPoRepository alipayPaymentLogPoRepository;
-	
+
+	@Autowired
+	private UserFeignClient userFeignClient;
+
 	private SyncUtil paymentSyncUtil = new SyncUtil(256);
 
 	@Override
@@ -482,9 +488,12 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 	}
 
 	@Override
-	public List<PaymentType> getSupportedPaymentTypes(String userId) {
-		//TODO 获取用户可用支付方式
-		return ArrayUtils.toList(PaymentType.values());
+	public List<Integer> getSupportedPaymentTypes(String userId) throws DepotNextDoorException {
+		UserInfoVo userInfo = userFeignClient.findUserInfo(Long.valueOf(userId));
+		BusinessAsserts.notNull(userInfo, DepotNextDoorExceptions.User.USER_NOT_EXIST);
+		List<Integer> supportPaymentIds = userInfo.getSupportPaymentIds();
+		CollectionUtils.subtract(supportPaymentIds, userInfo.getDisabledPaymentIds());
+		return supportPaymentIds;
 	}
 
 	/**

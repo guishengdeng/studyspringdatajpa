@@ -7,11 +7,16 @@ import java.util.Map;
 import com.biz.gbck.common.model.order.IOrderItemVo;
 import com.biz.gbck.common.model.voucher.VoucherConfigure;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
+import com.biz.gbck.dao.mysql.po.voucher.VoucherTypePo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
+import com.biz.gbck.vo.PageVo;
+import com.biz.gbck.vo.order.resp.IProduct;
 import com.biz.gbck.vo.product.frontend.ProductListItemVo;
+import com.biz.gbck.vo.spring.PageVO;
 import com.biz.gbck.vo.voucher.UserVoucherStatisticResultVo;
+import com.biz.gbck.vo.voucher.VoucherSearchVo;
 import com.biz.vo.voucher.ShopCraftVoucherVo;
 
 public interface VoucherService{
@@ -24,6 +29,12 @@ public interface VoucherService{
     public Collection<VoucherRo> findUsableVouchersByUserIdAndVoucherType(Long userId,
         Long voucherTypeId);
     
+    /**
+     * 拿优惠券
+     * @param userId
+     * @param voucherTypeRo
+     * @return
+     */
     public VoucherRo fetchVoucher(Long userId, VoucherTypeRo voucherTypeRo);
     
     public void useVoucher(Long userId, Long voucherId, Long orderId, Integer offSetAmount);
@@ -32,6 +43,12 @@ public interface VoucherService{
     public Map<String, List<VoucherRo>> allVouchers(Long userId);
     
     public List<VoucherPo> listAllVouchersByUserId(Long userId);
+    
+    /**
+     * 未用过的优惠券
+     * @param userId
+     * @return
+     */
     public Map<Long, VoucherRo> unusedVouchers(Long userId);
     /**
      * 获取用户可用优惠券数量
@@ -53,7 +70,7 @@ public interface VoucherService{
      * @throws CommonException
      */
     public void dispatcherVoucher(List<Long> userIds, VoucherTypeRo voucherTypeRo,
-        int dispatcherCnt, String handler);
+    		Integer dispatcherCnt, String handler);
     /**
      * 发放优惠券
      *
@@ -61,7 +78,7 @@ public interface VoucherService{
      * @param voucherTypeRo
      * @param quantity
      */
-    public void dispatcherVoucher(Long userId, VoucherTypeRo voucherTypeRo, int quantity,
+    public void dispatcherVoucher(Long userId, VoucherTypeRo voucherTypeRo, Integer quantity,
         String handler); 
     
     public boolean validateDispatcherAction(List<Long> userIds, Long shopTypeId, Long voucherTypeId,
@@ -95,8 +112,20 @@ public interface VoucherService{
      * 获取可用优惠券
      */
     public List<ShopCraftVoucherVo> getAvailableVouchers(Long userId,
-        List<? extends IOrderItemVo> itemVos) throws Exception;
+    		List<? extends IProduct> itemVos) throws Exception;
 
     public List<UserVoucherStatisticResultVo> findUserOrderStatsBy(
         Map<String, Object> searchParams);
+    
+	public PageVO<VoucherTypePo> searchVoucher(VoucherSearchVo reqVo);
+
+	/**
+     * 用户组优惠券批量发放
+     * @param userIdGroupsType 用户组类型
+     * @param voucherTypeRo	优惠券类型
+     * @param dispatcherCnt	发放数量
+     * @param loginUsername 发放人
+     */
+	public void dispatcherUserGroupsVoucher(Long userIdGroupsId, VoucherTypeRo voucherTypeRo, Integer dispatcherCnt,
+			String loginUsername);
 }

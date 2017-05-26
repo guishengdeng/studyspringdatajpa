@@ -1,6 +1,7 @@
 package com.biz.gbck.vo.order.resp;
 
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
+import com.biz.gbck.vo.product.promotion.OrderActivePromotionItemVO;
 
 /**
  * 促销活动返回Vo
@@ -27,9 +28,7 @@ public class OrderPromotionRespVo extends CommonReqVoBindUserId {
     /**
      * 消息
      */
-    private String message;
-
-    //TODO  促销类型
+    private String description;
 
     /**
      * 是否可用
@@ -38,6 +37,18 @@ public class OrderPromotionRespVo extends CommonReqVoBindUserId {
 
     // 本促销是否与优惠卷冲突
     private boolean useCoupon = true;
+
+    public OrderPromotionRespVo() {
+    }
+
+    public OrderPromotionRespVo(OrderActivePromotionItemVO itemVO) {
+        this();
+        this.id = itemVO.getId();
+        this.title = itemVO.getName();
+        this.description = itemVO.getDescription();
+        this.available = itemVO.getAllowVoucher();
+        this.useCoupon = itemVO.getAllowVoucher();
+    }
 
     public Long getId() {
         return id;
@@ -55,12 +66,12 @@ public class OrderPromotionRespVo extends CommonReqVoBindUserId {
         this.title = title;
     }
 
-    public String getMessage() {
-        return message;
+    public String getDescription() {
+        return description;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Boolean getAvailable() {

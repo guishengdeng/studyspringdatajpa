@@ -6,15 +6,14 @@ import com.biz.gbck.vo.PageRespVo;
 import com.biz.gbck.vo.order.req.*;
 import com.biz.gbck.vo.order.resp.OrderRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
+import com.biz.gbck.vo.org.UserInfoVo;
 import com.biz.gbck.vo.payment.resp.PaymentRespVo;
 import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.service.order.frontend.OrderFrontendService;
 import com.biz.soa.base.SoaBaseController;
+import com.biz.soa.feign.client.org.UserFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 订单soa controller
@@ -30,6 +29,9 @@ public class SoaOrderController extends SoaBaseController {
 
     @Autowired
     private OrderFrontendService orderService;
+
+    @Autowired
+    private UserFeignClient userFeignClient;
 
     //订单列表
     @RequestMapping("/app/list")
@@ -120,6 +122,15 @@ public class SoaOrderController extends SoaBaseController {
     @GetMapping(value = "/app/test")
     public MicroServiceResult<String> getTestString() {
         return render200("I am a test String");
+    }
+
+    @GetMapping(value = "/app/userInfo")
+    public MicroServiceResult<UserInfoVo> findUserInfo(@RequestParam("userId") String userId) {
+        try {
+            return render200(userFeignClient.findUserInfo(Long.valueOf(userId)));
+        } catch (Exception e) {
+            return render500(e);
+        }
     }
 
 }

@@ -28,11 +28,7 @@ public class SoaShopCartController extends SoaBaseController {
     @RequestMapping("/app/add")
     public MicroServiceResult<ShopCartRespVo> addCartItem(@RequestBody ShopCartItemAddReqVo reqVo) {
         try {
-            shopCartService.addCartItem(reqVo);
-            ShopCartListReqVo cartListReqVo = new ShopCartListReqVo();
-            cartListReqVo.setUserId(reqVo.getUserId());
-            cartListReqVo.setShowDetail(false);
-            return render200(shopCartService.getCartItemsInfo(cartListReqVo));
+            return render200(shopCartService.addCartItem(reqVo));
         } catch (Exception e) {
             return render500(e);
         }
@@ -57,7 +53,10 @@ public class SoaShopCartController extends SoaBaseController {
     @RequestMapping("/app/updateQuantity")
     public MicroServiceResult<ShopCartRespVo> updateItemQuantity(@RequestBody ShopCartItemUpdateReqVo reqVo) {
         try {
-            return render200(shopCartService.updateCartItemQuantity(reqVo));
+            shopCartService.updateCartItemQuantity(reqVo);
+            ShopCartListReqVo cartListReqVo = new ShopCartListReqVo();
+            cartListReqVo.setUserId(reqVo.getUserId());
+            return render200(shopCartService.getCartItemsInfo(cartListReqVo));
         } catch (Exception e) {
             return render500(e);
         }

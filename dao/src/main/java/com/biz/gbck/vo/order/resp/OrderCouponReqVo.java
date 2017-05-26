@@ -21,7 +21,7 @@ public class OrderCouponReqVo implements IOrderPeriodQueryReqVo {
     private Integer orderAmount;
 
     //商品明细
-    private List<? extends IProduct> products;
+    private List<ProductInfoVo> products;
 
     //支付方式
     private Integer paymentType;
@@ -31,6 +31,8 @@ public class OrderCouponReqVo implements IOrderPeriodQueryReqVo {
 
     //订单id
     private Long orderId;
+
+
 
 
     @Override
@@ -44,7 +46,7 @@ public class OrderCouponReqVo implements IOrderPeriodQueryReqVo {
     }
 
     @Override
-    public List<? extends IProduct> getProducts() {
+    public List<ProductInfoVo> getProducts() {
         return products;
     }
 
@@ -56,7 +58,7 @@ public class OrderCouponReqVo implements IOrderPeriodQueryReqVo {
         this.orderAmount = orderAmount;
     }
 
-    public void setProducts(List<? extends IProduct> products) {
+    public void setProducts(List<ProductInfoVo> products) {
         this.products = products;
     }
 

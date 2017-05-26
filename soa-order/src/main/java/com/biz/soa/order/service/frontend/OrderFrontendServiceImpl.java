@@ -24,6 +24,9 @@ import com.biz.gbck.vo.order.req.*;
 import com.biz.gbck.vo.order.resp.*;
 import com.biz.gbck.vo.org.UserInfoVo;
 import com.biz.gbck.vo.payment.resp.PaymentRespVo;
+import com.biz.gbck.vo.product.promotion.OrderActivePromotionItemVO;
+import com.biz.gbck.vo.product.promotion.OrderPromotionRespVO;
+import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.gbck.vo.stock.StockItemVO;
 import com.biz.gbck.vo.stock.UpdateCompanyLockStockReqVO;
 import com.biz.service.order.frontend.OrderFrontendService;
@@ -152,18 +155,19 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         if (reqVo instanceof OrderCreateReqVo) {
             //
         } else {
-            List<PaymentType> supportedPaymentTypes = paymentService.getSupportedPaymentTypes(userId);
-            List<Integer> paymentTypes = supportedPaymentTypes.stream().filter(Objects::nonNull).map
-                    (PaymentType::getValue).collect(Collectors.toList());
-            builder.setPaymentTypes(paymentTypes);
-            OrderPromotionRespVo usablePromotion =  this.getUsablePromotion(reqVo, settleOrderItemVos);
-            builder.setPromotions(newArrayList(usablePromotion));
-            builder.setFreeAmount(null); //TODO 获取促销活动抵扣金额
-
+            List<Integer> supportedPaymentTypes = paymentService.getSupportedPaymentTypes(userId);
+            builder.setPaymentTypes(supportedPaymentTypes);
+            OrderPromotionRespVO promotion = this.getUsablePromotion(userInfo, settleOrderItemVos);
+            if (promotion != null) {
+                List<OrderPromotionRespVo> promotionRespVos = Lists.transform(promotion.getActivePromotionItems(),
+                        OrderPromotionRespVo::new);
+                builder.setPromotions(promotionRespVos);
+                builder.setFreeAmount(promotion.getPromotionCutOrderAmount());
+            }
             //根据促销信息获取优惠券数量
-            int couponCount = this.getUsableCouponCount(reqVo, settleOrderItemVos);
+            Integer couponCount = this.getUsableCouponCount(reqVo, this.filterCouponProduct(settleOrderItemVos, promotion));
             builder.setCoupons(couponCount);
-            builder.setVoucherAmount(null); //TODO 获取优惠券抵扣金额
+            builder.setVoucherAmount(0); //TODO 获取优惠券抵扣金额
 
         }
         OrderSettlePageRespVo settleResult = builder.build();
@@ -173,25 +177,57 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         return settleResult;
     }
 
-    private OrderPromotionRespVo getUsablePromotion(OrderSettlePageReqVo reqVo, List<? extends IProduct>  products) {
+    //过滤请求优惠券商品信息
+    private List<ProductInfoVo> filterCouponProduct(List<OrderItemRespVo> settleOrderItemVos, OrderPromotionRespVO promotion) {
+        List<ProductInfoVo> couponProducts = newArrayList();
+        if (promotion != null && CollectionUtils.isNotEmpty(promotion.getActivePromotionItems())){
+            for (OrderItemRespVo settleOrderItemVo : settleOrderItemVos) {
+                boolean valid = false;
+                for (OrderActivePromotionItemVO promotionItemVO : promotion.getActivePromotionItems()) {
+                    if (settleOrderItemVo.getProductId().equals(promotionItemVO.getProductId()) && promotionItemVO.getAllowVoucher())     {
+                        valid = true;
+                    }
+                }
+                if (valid){
+                    couponProducts.add(settleOrderItemVo);
+                }
+            }
+        }
+        return couponProducts;
+    }
+
+    private OrderPromotionRespVO getUsablePromotion(UserInfoVo userInfo, List<? extends IProduct>  products) {
         OrderPromotionReqVo promoReqVo = new OrderPromotionReqVo();
         int orderAmount = OrderUtil.calcOrderAmount(products);
-        promoReqVo.setUserId(Long.valueOf(reqVo.getUserId()));
+        promoReqVo.setUserId(Long.valueOf(userInfo.getUserId()));
+        promoReqVo.setCompanyGroupId(userInfo.getCompanyGroupId());
         promoReqVo.setProducts(products);
         promoReqVo.setOrderAmount(orderAmount);
         // 获取促销信息
+        MicroServiceResult<OrderPromotionRespVO> promotionResult = promotionFeignClient
+                .orderProductsPromotion(promoReqVo);
+        if (logger.isDebugEnabled()) {
+            logger.debug("满足促销: {}", promotionResult);
+        }
+        if (promotionResult != null && promotionResult.isSuccess()) {
+            return promotionResult.getData();
+        }
         return null;
     }
 
     //获取可用优惠券
-    private int getUsableCouponCount(OrderSettlePageReqVo reqVo, List<? extends IProduct> products) {
+    private Integer getUsableCouponCount(OrderSettlePageReqVo reqVo, List<ProductInfoVo> products) {
         OrderCouponReqVo couponReqVo = new OrderCouponReqVo();
         int orderAmount = OrderUtil.calcOrderAmount(products);
         couponReqVo.setUserId(Long.valueOf(reqVo.getUserId()));
         couponReqVo.setPaymentType(reqVo.getPaymentType());
         couponReqVo.setProducts(products);
         couponReqVo.setOrderAmount(orderAmount);
-        return voucherFeignClient.getUsableCount(couponReqVo);
+        Integer usableCount = ValueUtils.getValue(voucherFeignClient.getUsableCount(couponReqVo));
+        if (logger.isDebugEnabled()) {
+            logger.debug("请求可用优惠券-------请求vo: {}, 返回: {}", couponReqVo, usableCount);
+        }
+        return usableCount;
     }
 
     /**
@@ -305,7 +341,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
             orderItem.setProductCode(item.getProductCode());
             orderItem.setName(item.getName());
             orderItem.setLogo(item.getLogo());
-            orderItem.setPrice(item.getPrice());
+            orderItem.setPrice(item.getSalePrice());
             orderItem.setMarketPrice(item.getMarketPrice());
             orderItem.setQuantity(item.getQuantity());
             orderItem.setItemType(item.getItemType());
