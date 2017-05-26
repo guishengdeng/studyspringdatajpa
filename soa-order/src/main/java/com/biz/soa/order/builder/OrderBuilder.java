@@ -47,7 +47,8 @@ public class OrderBuilder {
         SystemAsserts.notNull(userInfo.getPartnerId(), "合伙人Id为空");
 
         this.order.setUserId(Long.valueOf(userInfo.getUserId()));
-        this.order.setSellerId(userInfo.getPartnerId());
+        this.order.setUserId(Long.valueOf(userInfo.getUserId()));
+        this.order.setShopId(userInfo.getShopId());
         this.order.setCompanyId(userInfo.getPlatformId());
 
         //收货信息
