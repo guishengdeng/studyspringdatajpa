@@ -15,7 +15,6 @@ import com.biz.gbck.exceptions.order.PaymentException;
 import com.biz.gbck.transform.order.OrderItem2StockItemVO;
 import com.biz.gbck.transform.order.ShopCartItemRespVo2OrderItemRespVo;
 import com.biz.gbck.vo.IdReqVo;
-import com.biz.gbck.vo.PageRespVo;
 import com.biz.gbck.vo.cart.ShopCartListSettleReqVo;
 import com.biz.gbck.vo.cart.ShopCartRespVo;
 import com.biz.gbck.vo.order.event.OrderCreateEvent;
@@ -62,7 +61,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
     /*****************public begin*********************/
 
     @Override
-    public PageRespVo listOrders(OrderListReqVo reqVo) throws DepotNextDoorException {
+    public OrderListRespVo listOrders(OrderListReqVo reqVo) throws DepotNextDoorException {
         if (logger.isDebugEnabled()) {
             logger.debug("获取订单列表-------请求vo: {}", reqVo);
         }
@@ -76,7 +75,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         List<OrderRespVo> orderRespVos = this.buildOrderVos(orders);
 
         Long lastOrderId = CollectionUtils.getLastElement(orderIds);
-        PageRespVo pageRespVo = new PageRespVo(lastOrderId != null ? lastOrderId.toString() : null, orderRespVos);
+        OrderListRespVo pageRespVo = new OrderListRespVo(lastOrderId != null ? lastOrderId.toString() : null, orderRespVos);
         if (logger.isDebugEnabled()) {
             logger.debug("获取订单列表-------请求: {}, 返回值: {}", reqVo, pageRespVo);
         }
