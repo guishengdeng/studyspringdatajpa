@@ -310,8 +310,8 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
                 .build(id, orderCode);
 
         super.saveOrder(order);
-        timers.print("创建订单用时");
         super.publishEventUsingTx(new OrderCreateEvent(this, order.getId()));
+        timers.print("创建订单用时");
         return order;
     }
 
