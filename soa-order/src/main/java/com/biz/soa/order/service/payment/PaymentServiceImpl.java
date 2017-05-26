@@ -38,7 +38,6 @@ import com.biz.soa.feign.client.org.UserFeignClient;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.utils.DateUtils;
-import org.codelogger.utils.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -384,7 +383,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 				paymentRepository.updatePaymentState(payment.getId(), PaymentStatus.PAYED);
 				logger.info("订单查询支付成功：orderId:{}",orderId);
 				Order order = orderFrontendService.getOrder(orderId);
-				updateOrderPayState(order, payment, payment.getPayAmount());
+				updateOrderPayStatus(order, payment, payment.getPayAmount());
 				return null;
 			}
 		});
@@ -515,7 +514,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 		return payment;
 	}
 
-	private void updateOrderPayState(final Order order,final OrderPayment payment,final Integer payAmount){
+	private void updateOrderPayStatus(final Order order, final OrderPayment payment, final Integer payAmount){
 		if (order.isPayable()) {
 			order.setStatus(OrderStatus.DELIVERED);
 			order.setPayStatus(PaymentStatus.PAYED);
@@ -523,7 +522,6 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 			order.setPayAmount(payAmount);
 			paymentRepository.save(payment);
 			orderFrontendService.saveOrder(order);
-			//TODO event
 		} else {
 			logger.warn("订单无法支付, orderId=[{}],paymentId=[{}], status: {} ", order.getId(), payment.getId(),
 					order.getStatus());
