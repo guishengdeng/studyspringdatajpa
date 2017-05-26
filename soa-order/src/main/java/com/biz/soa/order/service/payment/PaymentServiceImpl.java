@@ -523,6 +523,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 			order.setPayAmount(payAmount);
 			paymentRepository.save(payment);
 			orderFrontendService.saveOrder(order);
+			logger.debug("Payed! update OrderStatus: {}", order.getStatus());
 		} else {
 			logger.warn("订单无法支付, orderId=[{}],paymentId=[{}], status: {} ", order.getId(), payment.getId(),
 					order.getStatus());
