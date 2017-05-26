@@ -26,7 +26,6 @@ import com.biz.gbck.vo.org.UserInfoVo;
 import com.biz.gbck.vo.payment.resp.PaymentRespVo;
 import com.biz.gbck.vo.product.promotion.OrderActivePromotionItemVO;
 import com.biz.gbck.vo.product.promotion.OrderPromotionRespVO;
-import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.gbck.vo.stock.StockItemVO;
 import com.biz.gbck.vo.stock.UpdateCompanyLockStockReqVO;
 import com.biz.service.order.frontend.OrderFrontendService;
@@ -204,14 +203,14 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         promoReqVo.setProducts(products);
         promoReqVo.setOrderAmount(orderAmount);
         // 获取促销信息
-        MicroServiceResult<OrderPromotionRespVO> promotionResult = promotionFeignClient
-                .orderProductsPromotion(promoReqVo);
-        if (logger.isDebugEnabled()) {
-            logger.debug("满足促销: {}", promotionResult);
-        }
-        if (promotionResult != null && promotionResult.isSuccess()) {
-            return promotionResult.getData();
-        }
+//        MicroServiceResult<OrderPromotionRespVO> promotionResult = promotionFeignClient
+//                .orderProductsPromotion(promoReqVo);
+//        if (logger.isDebugEnabled()) {
+//            logger.debug("满足促销: {}", promotionResult);
+//        }
+//        if (promotionResult != null && promotionResult.isSuccess()) {
+//            return promotionResult.getData();
+//        }
         return null;
     }
 
