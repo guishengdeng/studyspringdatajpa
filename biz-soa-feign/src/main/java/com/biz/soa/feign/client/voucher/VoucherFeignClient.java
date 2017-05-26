@@ -1,27 +1,23 @@
 package com.biz.soa.feign.client.voucher;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherTypePo;
-import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.exceptions.DepotNextDoorException;
-import com.biz.gbck.vo.order.resp.IOrderPeriodQueryReqVo;
 import com.biz.gbck.vo.order.resp.IProduct;
+import com.biz.gbck.vo.order.resp.OrderCouponReqVo;
 import com.biz.gbck.vo.spring.PageVO;
 import com.biz.gbck.vo.voucher.VoucherSearchVo;
 import com.biz.soa.feign.hystrix.voucher.VoucherFeignClientHystrix;
 import com.biz.support.web.handler.JSONResult;
 import com.biz.vo.voucher.ShopCraftVoucherVo;
+import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 /**
  * 
  * @author yang
@@ -40,7 +36,7 @@ public interface VoucherFeignClient {
 	public List<VoucherPo> listAllVouchersByUserId(@RequestParam("userId") Long userId);
 
 	@RequestMapping(value = "/soa/voucher/validateAction", method = RequestMethod.POST)
-	public boolean validateDispatcherAction(@RequestBody List<Long> userIds, @RequestParam("shopTypeId") Long shopTypeId, 
+	public Boolean validateDispatcherAction(@RequestBody List<Long> userIds, @RequestParam("shopTypeId") Long shopTypeId,
 				@RequestParam("voucherTypeId") Long voucherTypeId, @RequestParam("dispatcherCnt") int dispatcherCnt);
 
 	@RequestMapping(value = "/soa/voucher/dispatcherVoucher", method = RequestMethod.POST)
@@ -48,7 +44,7 @@ public interface VoucherFeignClient {
 			@RequestParam("dispatcherCnt") Integer dispatcherCnt,@RequestParam("loginUsername")	String loginUsername);
 
 	@RequestMapping(value = "/soa/voucher/findVoucherNumberById", method = RequestMethod.POST)
-	public int findVoucherNumberById(@RequestParam("voucherTypeId") Long voucherTypeId);
+	public Integer findVoucherNumberById(@RequestParam("voucherTypeId") Long voucherTypeId);
 	
 	/**
      * 获取优惠券可用数量
@@ -56,7 +52,7 @@ public interface VoucherFeignClient {
      * @return
      */
     @RequestMapping(value = "/soa/voucher/getUsableCount", method = RequestMethod.POST)
-    public int getUsableCount(@RequestBody IOrderPeriodQueryReqVo reqVo);
+    public Integer getUsableCount(@RequestBody OrderCouponReqVo reqVo);
     
     /**
      *  购物车,获取可用优惠券
@@ -69,18 +65,18 @@ public interface VoucherFeignClient {
 
     /**
      * 获取优惠额度
-     * @param iOrderPeriodQueryReqVo
+     * @param OrderCouponReqVo
      * @return
      */
     @RequestMapping(value="/soa/voucher/getVoucherlimit",method=RequestMethod.POST)
-    public int getVoucherLimit(@RequestBody IOrderPeriodQueryReqVo iOrderPeriodQueryReqVo) throws DepotNextDoorException;
+    public Integer getVoucherLimit(@RequestBody OrderCouponReqVo OrderCouponReqVo) throws DepotNextDoorException;
     
     /**
      * 使用优惠券
-     * @param iOrderPeriodQueryReqVo
+     * @param orderCouponReqVo
      */
     @RequestMapping(value="/soa/voucher/useVoucher",method=RequestMethod.POST)
-    public void useVoucher(@RequestBody IOrderPeriodQueryReqVo iOrderPeriodQueryReqVo);
+    public void useVoucher(@RequestBody OrderCouponReqVo orderCouponReqVo);
     
     
     /**

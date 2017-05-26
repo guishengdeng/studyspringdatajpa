@@ -1,8 +1,8 @@
 package com.biz.gbck.vo.order.resp;
 
-import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.vo.org.UserInfoVo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
 import java.util.List;
@@ -56,9 +56,9 @@ public class OrderSettlePageRespVo implements Serializable {
     private Integer coupons = 0;
 
     /**
-     * 可用支付方式 {@link PaymentType}
+     * 可用支付方式 {@link OrderPaymentTypeRespVo}
      */
-    private List<Integer> paymentTypes = newArrayList();
+    private List<OrderPaymentTypeRespVo> paymentTypes = newArrayList();
 
     /**
      * 是否有效
@@ -141,11 +141,11 @@ public class OrderSettlePageRespVo implements Serializable {
         this.coupons = coupons;
     }
 
-    public List<Integer> getPaymentTypes() {
+    public List<OrderPaymentTypeRespVo> getPaymentTypes() {
         return paymentTypes;
     }
 
-    public void setPaymentTypes(List<Integer> paymentTypes) {
+    public void setPaymentTypes(List<OrderPaymentTypeRespVo> paymentTypes) {
         this.paymentTypes = paymentTypes;
     }
 
@@ -195,6 +195,11 @@ public class OrderSettlePageRespVo implements Serializable {
 
     public void setUserInfoVo(UserInfoVo userInfoVo) {
         this.userInfoVo = userInfoVo;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }
 

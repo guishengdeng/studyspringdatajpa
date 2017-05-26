@@ -2,9 +2,10 @@ package com.biz.soa.order.service.payment;
 
 import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.dao.mysql.po.order.OrderPayment;
-import com.biz.gbck.enums.order.PaymentType;
+import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.order.PaymentException;
 import com.biz.gbck.vo.IdReqVo;
+import com.biz.gbck.vo.order.resp.OrderPaymentTypeRespVo;
 import com.biz.gbck.vo.payment.req.IWechatPaymentReqVo;
 import com.biz.gbck.vo.payment.resp.*;
 import com.biz.pay.wechat.res.WechatPayNotifyRespVo;
@@ -82,5 +83,5 @@ public interface PaymentService {
 
 	void savePaymentTradeNo(Long paymentId, String tradeNo);
 
-    List<PaymentType> getSupportedPaymentTypes(String userId);
+    List<OrderPaymentTypeRespVo> getSupportedPaymentTypes(String userId) throws DepotNextDoorException;
 }
