@@ -5,7 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="gbck" tagdir="/WEB-INF/tags" %>
-<gbck:page title="库存日志">
+<gbck:page title="库存管理">
     <jsp:attribute name="css">
         <style type="text/css">
             #cat-table .name {
@@ -42,7 +42,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <h3 class="header smaller lighter blue">
-                                库存日志
+                                库存管理
                             </h3>
                             <form action="stock.do" method="POST">
                                 <div class="col-md-3 inline">

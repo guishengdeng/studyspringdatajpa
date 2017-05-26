@@ -7,6 +7,7 @@ import com.biz.gbck.vo.product.SearchVo;
 import com.biz.gbck.vo.stock.StockShowVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.product.backend.ProductBackendService;
+import com.biz.support.jpa.po.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 /**
@@ -35,10 +38,7 @@ public class StockBackendShowServiceImpl extends AbstractBaseService implements 
 
         //通过reqVo查询满足条件的商品
         List<Product> products = productBackendService.findAll(reqVo);
-        Map<Long, Product> productIdsToProduct = new HashMap<>();
-        for (Product product : products) {
-            productIdsToProduct.put(product.getId(), product);
-        }
+        Map<Long, Product> productIdsToProduct = products.stream().collect(Collectors.toMap(BaseEntity::getId, Function.identity()));
         Set<Long> productIds = productIdsToProduct.keySet();
         Page<CompanyStock> stockPage = stockRepository.findByCompanyIdAndProductIdIn(reqVo.getCompanyId(), productIds,
                 new PageRequest(reqVo.getPage() - 1, reqVo.getPageSize(), new Sort(Sort.Direction.ASC, "productId")));
@@ -70,8 +70,7 @@ public class StockBackendShowServiceImpl extends AbstractBaseService implements 
             stockShowVo.setPageSize(reqVo.getPageSize());
             stockShowVos.add(stockShowVo);
         }
-        Page<StockShowVo> resultPage = new PageImpl<>(stockShowVos, new PageRequest(reqVo.getPage() - 1, reqVo.getPageSize()), stockShowVos.size());
-        return resultPage;
+        return new PageImpl<>(stockShowVos, new PageRequest(reqVo.getPage() - 1, reqVo.getPageSize()), stockShowVos.size());
     }
 }
 
