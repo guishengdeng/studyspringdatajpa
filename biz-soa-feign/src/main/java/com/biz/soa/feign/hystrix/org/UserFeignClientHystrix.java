@@ -76,12 +76,12 @@ public class UserFeignClientHystrix implements UserFeignClient {
     }
 
     @Override
-    public UserPo findUserPoByMobile(@RequestParam("mobile") String mobile) {
+    public UserPo findUserPoByAccount(@RequestParam("account") String account) {
         return null;
     }
 
     @Override
-    public UserPo findUserPoByAccount(@RequestParam("account") String account) {
+    public UserPo findUserPoByMobile(@RequestParam("mobile") String mobile) {
         return null;
     }
 
@@ -107,6 +107,12 @@ public class UserFeignClientHystrix implements UserFeignClient {
 
     @Override
     public List<Long> findUserIdByCompanyGroupId(@RequestParam("companyGroupId") Long companyGroupId) {
+        return null;
+    }
+
+
+    @Override
+    public UserRo findUserRoByMobile(@RequestParam("mobile") String mobile) {
         return null;
     }
 }

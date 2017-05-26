@@ -7,8 +7,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: root
-    url: jdbc:mysql://127.0.0.1:3306/gbck-test?characterEncoding=utf-8
+    password:
+    url: jdbc:mysql://127.0.0.1:3306/depotnextdoor?characterEncoding=utf-8
     dbcp2:
       initial-size: 5
       max-total: 10
@@ -56,7 +56,8 @@ biz:
     localEndpoint: oss-cn-beijing-internal.aliyuncs.com
     accessKeyId: LTAIcBsZ7zY66tku
     accessKeySecret: MoEHemVQhg84mDvcdkVkix2GfCUiVB
-    bucketName: gbck-test
+    productBucketName: gbck-test
+    auditBucketName: gbck-test-qualification
 
 server:
   session:

@@ -17,6 +17,7 @@ import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.DepotNextDoorExceptions;
 import com.biz.gbck.exceptions.order.PaymentException;
 import com.biz.gbck.vo.IdReqVo;
+import com.biz.gbck.vo.order.resp.OrderPaymentTypeRespVo;
 import com.biz.gbck.vo.org.UserInfoVo;
 import com.biz.gbck.vo.payment.req.IWechatPaymentReqVo;
 import com.biz.gbck.vo.payment.resp.*;
@@ -53,6 +54,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static com.biz.gbck.enums.order.PaymentType.ALIPAY;
 import static com.biz.gbck.enums.order.PaymentType.WECHAT;
@@ -221,8 +223,6 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 	@Transactional
 	public PaymentRespVo noNeedPay(Order order) {
 		OrderPayment payment = getPayablePayment(order, PaymentType.PAY_ON_DELIVERY);
-		payment.setPayStatus(PaymentStatus.PAYED);
-		payment.setSuccessDate(new Date(System.currentTimeMillis()));
 		confirmPaid(order.getId(), payment);
 		return new PaymentRespVo(order.getId(), order.getOrderCode());
 	}
@@ -380,7 +380,8 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 			@Override
 			public <R> R execute() {
 				payment.setPayStatus(PaymentStatus.PAYED);
-				paymentRepository.updatePaymentState(payment.getId(), PaymentStatus.PAYED.getValue());
+				payment.setSuccessDate(new Date(System.currentTimeMillis()));
+				paymentRepository.updatePaymentState(payment.getId(), PaymentStatus.PAYED);
 				logger.info("订单查询支付成功：orderId:{}",orderId);
 				Order order = orderFrontendService.getOrder(orderId);
 				updateOrderPayState(order, payment, payment.getPayAmount());
@@ -488,12 +489,12 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 	}
 
 	@Override
-	public List<Integer> getSupportedPaymentTypes(String userId) throws DepotNextDoorException {
+	public List<OrderPaymentTypeRespVo> getSupportedPaymentTypes(String userId) throws DepotNextDoorException {
 		UserInfoVo userInfo = userFeignClient.findUserInfo(Long.valueOf(userId));
 		BusinessAsserts.notNull(userInfo, DepotNextDoorExceptions.User.USER_NOT_EXIST);
 		List<Integer> supportPaymentIds = userInfo.getSupportPaymentIds();
-		CollectionUtils.subtract(supportPaymentIds, userInfo.getDisabledPaymentIds());
-		return supportPaymentIds;
+		supportPaymentIds.removeAll(userInfo.getDisabledPaymentIds());
+		return supportPaymentIds.stream().map(o -> new OrderPaymentTypeRespVo(o)).collect(Collectors.toList());
 	}
 
 	/**
@@ -520,7 +521,9 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 			order.setPayStatus(PaymentStatus.PAYED);
 			order.setPaymentType(payment.getPaymentType());
 			order.setPayAmount(payAmount);
+			paymentRepository.save(payment);
 			orderFrontendService.saveOrder(order);
+			//TODO event
 		} else {
 			logger.warn("订单无法支付, orderId=[{}],paymentId=[{}], status: {} ", order.getId(), payment.getId(),
 					order.getStatus());

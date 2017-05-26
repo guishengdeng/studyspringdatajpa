@@ -71,17 +71,16 @@ public abstract class AbstractOrderService extends AbstractBaseService {
         return orderRepository.findOne(id);
     }
 
-    protected void saveOrder(Order order) {
-        orderRepository.save(order);
+    protected Order saveOrder(Order order) {
+        preCommitOpt(() -> saveOrUpdateUsingPo(orderRepository, orderRedisDao, order, new Order2OrderRo()));
+        return order;
     }
 
     protected Order updateOrderStatus(Order order, OrderStatus newStatus) {
         logger.debug("修改订单状态 orderId={}. {} --> {}", order.getStatus(), newStatus);
         SystemAsserts.notNull(newStatus, "新订单状态不能为空");
         order.setStatus(newStatus);
-
-        preCommitOpt(() -> saveOrUpdateUsingPo(orderRepository, orderRedisDao, order, new Order2OrderRo()));
-
+        this.saveOrder(order);
         return order;
     }
 
