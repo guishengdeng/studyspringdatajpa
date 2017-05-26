@@ -449,7 +449,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 		paymentQueryResult.setPaid(paid);
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("订单[orderId={}]查询支付结果", orderId);
+			logger.debug("订单[orderId={}]查询支付结果: {}", orderId, paymentQueryResult);
 		}
 		return paymentQueryResult;
 	}
