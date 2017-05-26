@@ -47,24 +47,24 @@
                             <form action="stock.do" method="POST">
                                 <div class="col-md-3 inline">
                                     <label>商品编码</label>
-                                    <input name="productCode" value='<c:out value="${productShowVo.productCode}" />'
+                                    <input name="productCode" value='<c:out value="${reqVo.productCode}" />'
                                            maxlength="225" type="text" placeholder="商品编码" autocomplete="off">
                                 </div>
                                 <div class="col-md-3 inline">
                                     <label>商品名称</label>
-                                    <input name="name" value='<c:out value="${productShowVo.name}" />' type="text"
+                                    <input name="name" value='<c:out value="${reqVo.name}" />' type="text"
                                            maxlength="225" placeholder="商品名称" autocomplete="off">
                                 </div>
                                 <div class="col-md-3 inline">
                                     <label>品牌</label>
-                                    <input name="brandName" value='<c:out value="${productShowVo.brandName}" />'
+                                    <input name="brandName" value='<c:out value="${reqVo.brandName}" />'
                                            maxlength="225" type="text" placeholder="品牌" autocomplete="off">
                                 </div>
 
                                 <div class="col-md-2 inline">
                                     <label>商品类别</label>
                                     <gbck:stockCategorySelect fieldName="categoryName"
-                                                              selectedStatus="${productShowVo.categoryName}"
+                                                              selectedStatus="${reqVo.categoryName}"
                                                               withNone="true"/>
                                 </div>
                                 <div class="inline">

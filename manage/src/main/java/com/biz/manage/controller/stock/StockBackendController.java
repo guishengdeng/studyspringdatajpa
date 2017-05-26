@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,11 +27,10 @@ public class StockBackendController extends BaseController {
 
     @RequestMapping("stock")
     @PreAuthorize("hasAuthority('OPT_STOCK_LIST')")
-    public ModelAndView List(SearchVo reqVo) {
-        //这里写获取公司id 放在reqVo
+    public ModelAndView list(@ModelAttribute("reqVo") SearchVo reqVo) {
+        //懒加载，直接获取不到ID
         Admin admin = ManageServlet.getAdmin();
-        Long companyId = admin.getCompany().getId();
-        reqVo.setCompanyId(companyId);
+        reqVo.setUserName(admin.getUsername());
         Page<StockShowVo> page = stockBackendService.search(reqVo);
         return new ModelAndView("goods/stock").addObject("page", page);
     }

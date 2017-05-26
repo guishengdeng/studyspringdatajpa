@@ -1,7 +1,6 @@
 package com.biz.service.product.backend;
 
 import com.biz.gbck.dao.mysql.po.product.master.Product;
-import com.biz.gbck.dao.mysql.specification.stock.ProductSpecification;
 import com.biz.gbck.vo.product.SearchVo;
 
 import java.util.List;
