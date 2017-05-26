@@ -409,6 +409,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 		resp.setOrderId(orderId);
 		resp.setOrderCode(order.getOrderCode());
 		resp.setPayAmount(payment.getPayAmount());
+		resp.setPaidTime(payment.getSuccessTimestamp() == null ? null : payment.getSuccessTimestamp().getTime());
 		switch (paymentType) {
 			case ALIPAY:
 				try {
