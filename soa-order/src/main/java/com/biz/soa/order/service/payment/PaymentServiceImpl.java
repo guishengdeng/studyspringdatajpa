@@ -380,7 +380,9 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 			@Override
 			public <R> R execute() {
 				payment.setPayStatus(PaymentStatus.PAYED);
-				payment.setSuccessTimestamp(DateUtil.now());
+				if (payment.getSuccessTimestamp() != null) {
+					payment.setSuccessTimestamp(DateUtil.now());
+				}
 				paymentRepository.updatePaymentState(payment.getId(), PaymentStatus.PAYED);
 				logger.info("订单查询支付成功：orderId:{}",orderId);
 				Order order = orderFrontendService.getOrder(orderId);
@@ -396,7 +398,8 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 		// 查询订单
 		Long orderId = Long.valueOf(reqVo.getId());
 		Order order = orderFrontendService.getOrder(orderId);
-		OrderPayment payment = this.getPayablePayment(order, null);
+
+		OrderPayment payment = this.getValidOrderPaymentFromOrder(order);
 		if (logger.isDebugEnabled()) {
 			logger.debug("payment Id : {}", payment.getId());
 		}
@@ -547,16 +550,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 				.ORDER_PAYED);
 		timers.record("查询订单");
 
-		OrderPayment payment = null;
-		List<OrderPayment> payments = order.getPayments();
-		if (CollectionUtils.isNotEmpty(payments)) {
-			for (OrderPayment orderPayment : payments) {
-				if (orderPayment.getStatus() == CommonStatusEnum.ENABLE) {
-					payment = orderPayment;
-					break;
-				}
-			}
-		}
+		OrderPayment payment = this.getValidOrderPaymentFromOrder(order);
 		timers.record("获取支付单");
 		// 2.检查支付单是否可用,如果不可用,创建新的支付单,作废其他支付单
 		if (payment != null) {
@@ -565,11 +559,24 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 			payment.setStatus(CommonStatusEnum.DISABLE);
 			paymentRepository.save(payment);
 		}
-		payment = createPayment(order, paymentType);
+		payment = this.createPayment(order, paymentType);
 		logger.error("getPayment orderId={} paymentId={}",orderId, payment.getId());
 		timers.record("处理支付单");
 		timers.print("use time get-payment");
 		return payment;
+	}
+
+	//根据order获取当前生效优惠券
+	private OrderPayment getValidOrderPaymentFromOrder(Order order) {
+		List<OrderPayment> payments = order.getPayments();
+		if (CollectionUtils.isNotEmpty(payments)) {
+			for (OrderPayment orderPayment : payments) {
+				if (orderPayment.getStatus() == CommonStatusEnum.ENABLE) {
+					return orderPayment;
+				}
+			}
+		}
+		return null;
 	}
 
 }
