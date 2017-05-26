@@ -42,7 +42,7 @@ public class OrderConfig {
         String mchId = environment.getProperty("payment.wechat.mch_id." + defaultAppId);
         String key = environment.getProperty("payment.wechat.key." + defaultAppId);
         String identification = environment.getProperty("payment.wechat.LOAD_IDENTIFICATION." + defaultAppId);
-        String createIp = environment.getProperty("spbill_create_ip");
+        String createIp = environment.getProperty("payment.wechat.spbill_create_ip");
         String notifyUrl = environment.getProperty("payment.wechat.notify-url");
         properties.setProperty("appid", defaultAppId);
         properties.setProperty("mch_id", mchId);
