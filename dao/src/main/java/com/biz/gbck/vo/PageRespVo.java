@@ -1,6 +1,7 @@
 package com.biz.gbck.vo;
 
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
 import java.util.List;
@@ -40,5 +41,10 @@ public class PageRespVo implements Serializable {
 
     public void setList(List<?> list) {
         this.list = list;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }
