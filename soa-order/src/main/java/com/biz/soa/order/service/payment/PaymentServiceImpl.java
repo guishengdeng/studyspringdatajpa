@@ -381,7 +381,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 			public <R> R execute() {
 				payment.setPayStatus(PaymentStatus.PAYED);
 				payment.setSuccessDate(new Date(System.currentTimeMillis()));
-				paymentRepository.updatePaymentState(payment.getId(), PaymentStatus.PAYED.getValue());
+				paymentRepository.updatePaymentState(payment.getId(), PaymentStatus.PAYED);
 				logger.info("订单查询支付成功：orderId:{}",orderId);
 				Order order = orderFrontendService.getOrder(orderId);
 				updateOrderPayState(order, payment, payment.getPayAmount());
