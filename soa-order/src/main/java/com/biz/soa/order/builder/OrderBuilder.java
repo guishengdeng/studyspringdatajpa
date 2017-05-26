@@ -109,7 +109,7 @@ public class OrderBuilder {
 
     //支付金额
     public OrderBuilder setPaymentType(PaymentType paymentType){
-        SystemAsserts.notNull(order.getPaymentType(), "订单支付方式为空");
+        SystemAsserts.notNull(paymentType, "订单支付方式为空");
         order.setPaymentType(paymentType);
         return this;
     }
