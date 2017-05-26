@@ -4,8 +4,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ taglib prefix="depotnextdoor" tagdir="/WEB-INF/tags" %>
-<depotnextdoor:page title="广告管理">
+<%@ taglib prefix="gbck" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="depotnextdoor" uri="http://com.depotnextdoor/tag/core" %>
+<gbck:page title="广告管理">
+    <jsp:attribute name="css">
+        <style type="text/css">
+            img.adv-img {
+                max-width: 80px;
+                max-height: 80px;
+            }
+        </style>
+    </jsp:attribute>
     <jsp:attribute name="script">
         <script type="application/javascript">
             <c:forEach items="${admin.roles}" var="role" varStatus="status">
@@ -78,7 +87,9 @@
                                 <c:forEach items="${advertisements}" var="advertisement">
 
                                     <tr>
-                                        <td>${advertisement.picturesLink}</td>
+                                        <td>
+                                            <img class="adv-img" src="<depotnextdoor:ossUrl objectName="${advertisement.picturesLink}" type="product" />" alt="">
+                                        </td>
                                         <td>${advertisement.clickLink}</td>
                                         <td><fmt:formatDate value="${advertisement.beginTimestamp}"
                                                             pattern="yyyy/MM/dd HH:mm:ss"/></td>
@@ -140,4 +151,4 @@
         </div>
         <input type="hidden" id="advertisementId">
     </jsp:body>
-</depotnextdoor:page>
+</gbck:page>
