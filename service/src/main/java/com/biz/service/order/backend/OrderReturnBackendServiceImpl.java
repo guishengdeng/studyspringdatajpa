@@ -1,7 +1,7 @@
 package com.biz.service.order.backend;
 
-import com.biz.core.ali.oss.config.OssConfig;
-import com.biz.core.ali.oss.util.OssUtil;
+//import com.biz.core.ali.oss.config.OssConfig;
+//import com.biz.core.ali.oss.util.OssUtil;
 import com.biz.core.util.DateUtil;
 import com.biz.gbck.dao.mysql.po.order.OrderReturn;
 import com.biz.gbck.dao.mysql.po.order.OrderReturnAudit;
@@ -44,8 +44,8 @@ public class OrderReturnBackendServiceImpl extends AbstractRepositorySupportServ
     @Autowired
     private OrderReturnRepository orderReturnRepository;
 
-    @Autowired(required = false)
-    private OssConfig config;
+//    @Autowired
+//    private OssConfig config;
 
     @Override
     protected CommonJpaRepository<OrderReturn, Long> getRepository() {
@@ -106,10 +106,10 @@ public class OrderReturnBackendServiceImpl extends AbstractRepositorySupportServ
      */
     public List<String> getOssResourceUri(List<String> sources) {
         List<String> images = new ArrayList<>();
-        for (String imageName : sources) {
-            String imageUrl = OssUtil.getOssResourceUri(config.getProductBucketName(), config.getRemoteEndpoint(), imageName);
-            images.add(imageUrl);
-        }
+//        for (String imageName : sources) {
+//            String imageUrl = OssUtil.getOssResourceUri(config.getProductBucketName(), config.getRemoteEndpoint(), imageName);
+//            images.add(imageUrl);
+//        }
         return images;
     }
 }

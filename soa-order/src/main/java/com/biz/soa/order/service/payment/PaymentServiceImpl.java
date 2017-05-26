@@ -13,9 +13,12 @@ import com.biz.gbck.enums.CommonStatusEnum;
 import com.biz.gbck.enums.order.OrderStatus;
 import com.biz.gbck.enums.order.PaymentStatus;
 import com.biz.gbck.enums.order.PaymentType;
+import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.DepotNextDoorExceptions;
 import com.biz.gbck.exceptions.order.PaymentException;
 import com.biz.gbck.vo.IdReqVo;
+import com.biz.gbck.vo.order.resp.OrderPaymentTypeRespVo;
+import com.biz.gbck.vo.org.UserInfoVo;
 import com.biz.gbck.vo.payment.req.IWechatPaymentReqVo;
 import com.biz.gbck.vo.payment.resp.*;
 import com.biz.pay.alipay.AlipayFactory;
@@ -31,10 +34,10 @@ import com.biz.pay.wechat.res.WechatPayNotifyRespVo;
 import com.biz.pay.wechat.res.WechatPayRespVo;
 import com.biz.service.AbstractBaseService;
 import com.biz.service.order.frontend.OrderFrontendService;
+import com.biz.soa.feign.client.org.UserFeignClient;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.utils.DateUtils;
-import org.codelogger.utils.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,13 +46,13 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static com.biz.gbck.enums.order.PaymentType.ALIPAY;
 import static com.biz.gbck.enums.order.PaymentType.WECHAT;
@@ -70,7 +73,10 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 
 	@Autowired
 	private AlipayPaymentLogPoRepository alipayPaymentLogPoRepository;
-	
+
+	@Autowired
+	private UserFeignClient userFeignClient;
+
 	private SyncUtil paymentSyncUtil = new SyncUtil(256);
 
 	@Override
@@ -101,6 +107,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 				resp.setNoncestr(unifiedOrderResponse.getNonceStr());
 				resp.setTimestamp(String.valueOf(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())));
 				resp.setOrderId(orderId);
+				resp.setOrderCode(order.getOrderCode());
 				String sign = weChatPayFactory.newSigner(req.getAppId()).sign(resp);
 				resp.setSign(sign);
 				return resp;
@@ -216,8 +223,8 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 	public PaymentRespVo noNeedPay(Order order) {
 		OrderPayment payment = getPayablePayment(order, PaymentType.PAY_ON_DELIVERY);
 		payment.setPayStatus(PaymentStatus.PAYED);
-		payment.setSuccessDate(new Date(System.currentTimeMillis()));
-		confirmPaid(order.getId(), payment);
+		payment.setSuccessTimestamp(DateUtil.now());
+		this.updateOrderPaidStatus(order, payment, payment.getPayAmount());
 		return new PaymentRespVo(order.getId(), order.getOrderCode());
 	}
 
@@ -374,10 +381,13 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 			@Override
 			public <R> R execute() {
 				payment.setPayStatus(PaymentStatus.PAYED);
-				paymentRepository.updatePaymentState(payment.getId(), PaymentStatus.PAYED.getValue());
+				if (payment.getSuccessTimestamp() != null) {
+					payment.setSuccessTimestamp(DateUtil.now());
+				}
+				paymentRepository.updatePaymentState(payment.getId(), PaymentStatus.PAYED);
 				logger.info("订单查询支付成功：orderId:{}",orderId);
 				Order order = orderFrontendService.getOrder(orderId);
-				updateOrderPayState(order, payment, payment.getPayAmount());
+				updateOrderPaidStatus(order, payment, payment.getPayAmount());
 				return null;
 			}
 		});
@@ -387,18 +397,15 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 	@Transactional
 	public PaymentQueryResultRespVo queryPaid(IdReqVo reqVo) throws PaymentException {
 		// 查询订单
-		Long orderId = reqVo.getId();
+		Long orderId = Long.valueOf(reqVo.getId());
 		Order order = orderFrontendService.getOrder(orderId);
-		OrderPayment payment = this.getPayablePayment(order, null);
+
+		OrderPayment payment = this.getValidOrderPaymentFromOrder(order);
 		if (logger.isDebugEnabled()) {
 			logger.debug("payment Id : {}", payment.getId());
 		}
 		PaymentType paymentType = payment.getPaymentType();
-		PaymentQueryResultRespVo resp = new PaymentQueryResultRespVo();
-		resp.setPaymentType(paymentType.getValue());
-		resp.setOrderId(orderId);
-		resp.setOrderCode(order.getOrderCode());
-		resp.setPayAmount(payment.getPayAmount());
+		boolean paid = false;
 		switch (paymentType) {
 			case ALIPAY:
 				try {
@@ -408,11 +415,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 							logger.info("order alipay success save tradeNo:[{}]", paidRespVo.getTradeNo());
 							this.savePaymentTradeNo(payment.getId(), paidRespVo.getTradeNo());
 						}
-						resp.setPaid(true);
-						resp.setMessage("您的订单已经成功提交");
-					} else {
-						resp.setPaid(false);
-						resp.setMessage("您的订单未成功提交");
+						paid = true;
 					}
 				} catch (PaymentException e) {
 					e.printStackTrace();
@@ -426,29 +429,30 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 							logger.info("order wechatpay success save tradeNo:[{}]", paidRespVo.getTradeNo());
 							this.savePaymentTradeNo(payment.getId(), paidRespVo.getTradeNo());
 						}
-						resp.setPaid(true);
-						resp.setMessage("您的订单已经成功提交");
-					} else {
-						resp.setPaid(false);
-						resp.setMessage("您的订单未成功提交");
+						paid = true;
 					}
-				} catch (PaymentException e) {
-					e.printStackTrace();
+				} catch (Exception e) {
+					logger.error("查询微信支付异常", e);
 				}
 				break;
 			case PAY_ON_DELIVERY:
-				resp.setPaid(true);
-				resp.setMessage("您的订单已经成功提交");
+				paid = true;
 				break;
 			default:
 				throw new PaymentException("不支持的支付方式:" + paymentType);
 		}
 
-		if (resp.isPaid()) {
+		if (paid) {
 			this.confirmPaid(orderId, payment);
 		}
 
-		return resp;
+		PaymentQueryResultRespVo paymentQueryResult = new PaymentQueryResultRespVo(payment);
+		paymentQueryResult.setPaid(paid);
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("订单[orderId={}]查询支付结果: {}", orderId, paymentQueryResult);
+		}
+		return paymentQueryResult;
 	}
 
 	@Override
@@ -482,9 +486,12 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 	}
 
 	@Override
-	public List<PaymentType> getSupportedPaymentTypes(String userId) {
-		//TODO 获取用户可用支付方式
-		return ArrayUtils.toList(PaymentType.values());
+	public List<OrderPaymentTypeRespVo> getSupportedPaymentTypes(String userId) throws DepotNextDoorException {
+		UserInfoVo userInfo = userFeignClient.findUserInfo(Long.valueOf(userId));
+		BusinessAsserts.notNull(userInfo, DepotNextDoorExceptions.User.USER_NOT_EXIST);
+		List<Integer> supportPaymentIds = userInfo.getSupportPaymentIds();
+		supportPaymentIds.removeAll(userInfo.getDisabledPaymentIds());
+		return supportPaymentIds.stream().map(o -> new OrderPaymentTypeRespVo(o)).collect(Collectors.toList());
 	}
 
 	/**
@@ -505,13 +512,15 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 		return payment;
 	}
 
-	private void updateOrderPayState(final Order order,final OrderPayment payment,final Integer payAmount){
+	private void updateOrderPaidStatus(final Order order, final OrderPayment payment, final Integer payAmount){
 		if (order.isPayable()) {
-			order.setStatus(OrderStatus.DELIVERED);
+			order.setStatus(OrderStatus.ORDERED);
 			order.setPayStatus(PaymentStatus.PAYED);
 			order.setPaymentType(payment.getPaymentType());
 			order.setPayAmount(payAmount);
+			paymentRepository.save(payment);
 			orderFrontendService.saveOrder(order);
+			logger.debug("Payed! update OrderStatus: {}", order.getStatus());
 		} else {
 			logger.warn("订单无法支付, orderId=[{}],paymentId=[{}], status: {} ", order.getId(), payment.getId(),
 					order.getStatus());
@@ -535,16 +544,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 				.ORDER_PAYED);
 		timers.record("查询订单");
 
-		OrderPayment payment = null;
-		List<OrderPayment> payments = order.getPayments();
-		if (CollectionUtils.isNotEmpty(payments)) {
-			for (OrderPayment orderPayment : payments) {
-				if (orderPayment.getStatus() == CommonStatusEnum.ENABLE) {
-					payment = orderPayment;
-					break;
-				}
-			}
-		}
+		OrderPayment payment = this.getValidOrderPaymentFromOrder(order);
 		timers.record("获取支付单");
 		// 2.检查支付单是否可用,如果不可用,创建新的支付单,作废其他支付单
 		if (payment != null) {
@@ -553,11 +553,24 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 			payment.setStatus(CommonStatusEnum.DISABLE);
 			paymentRepository.save(payment);
 		}
-		payment = createPayment(order, paymentType);
+		payment = this.createPayment(order, paymentType);
 		logger.error("getPayment orderId={} paymentId={}",orderId, payment.getId());
 		timers.record("处理支付单");
 		timers.print("use time get-payment");
 		return payment;
+	}
+
+	//根据order获取当前生效优惠券
+	private OrderPayment getValidOrderPaymentFromOrder(Order order) {
+		List<OrderPayment> payments = order.getPayments();
+		if (CollectionUtils.isNotEmpty(payments)) {
+			for (OrderPayment orderPayment : payments) {
+				if (orderPayment.getStatus() == CommonStatusEnum.ENABLE) {
+					return orderPayment;
+				}
+			}
+		}
+		return null;
 	}
 
 }

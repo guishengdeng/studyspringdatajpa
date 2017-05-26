@@ -16,11 +16,13 @@ import com.biz.service.SequenceService;
 import com.biz.service.cart.ShopCartService;
 import com.biz.soa.feign.client.org.ShopFeignClient;
 import com.biz.soa.feign.client.org.UserFeignClient;
+import com.biz.soa.feign.client.product.PromotionFeignClient;
 import com.biz.soa.feign.client.stock.StockFeignClient;
 import com.biz.soa.feign.client.voucher.VoucherFeignClient;
 import com.biz.soa.order.service.payment.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.transaction.Transactional;
 import java.util.Objects;
 
 /**
@@ -63,21 +65,24 @@ public abstract class AbstractOrderService extends AbstractBaseService {
     @Autowired(required = false)
     protected VoucherFeignClient voucherFeignClient;
 
+    @Autowired(required = false)
+    protected PromotionFeignClient promotionFeignClient;
+
     protected Order getOrder(Long id) {
         return orderRepository.findOne(id);
     }
 
-    protected void saveOrder(Order order) {
-        orderRepository.save(order);
+    @Transactional
+    protected Order saveOrder(Order order) {
+        saveOrUpdateUsingPo(orderRepository, orderRedisDao, order, new Order2OrderRo());
+        return order;
     }
 
     protected Order updateOrderStatus(Order order, OrderStatus newStatus) {
         logger.debug("修改订单状态 orderId={}. {} --> {}", order.getStatus(), newStatus);
         SystemAsserts.notNull(newStatus, "新订单状态不能为空");
         order.setStatus(newStatus);
-
-        preCommitOpt(() -> saveOrUpdateUsingPo(orderRepository, orderRedisDao, order, new Order2OrderRo()));
-
+        this.saveOrder(order);
         return order;
     }
 
@@ -87,7 +92,7 @@ public abstract class AbstractOrderService extends AbstractBaseService {
      * @param order
      */
     protected boolean queryPayStatus(Long orderId) throws DepotNextDoorException {
-        PaymentQueryResultRespVo paidResult = paymentService.queryPaid(new IdReqVo(orderId));
+        PaymentQueryResultRespVo paidResult = paymentService.queryPaid(new IdReqVo(String.valueOf(orderId)));
         if (logger.isDebugEnabled()) {
             logger.debug("订单[orderId={}]查询支付结果", orderId);
         }

@@ -18,6 +18,7 @@ import com.biz.support.web.handler.JSONResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -169,6 +170,14 @@ public class ShopSoaController extends BaseRestController {
     }
 
     /**
+     * 获取所有未审核商户
+     */
+    @RequestMapping(value = "findAllWaitForShop", method = RequestMethod.POST)
+    public List<ShopDetailResVo> findAllWaitForShop(){
+        return shopSoaService.findAllWaitForShop();
+    }
+
+    /**
      *获取所有条件审核商户
      */
     @RequestMapping(value = "findShopAuditDataOfWaitForAudit", method = RequestMethod.POST)
@@ -250,7 +259,6 @@ public class ShopSoaController extends BaseRestController {
         shopSoaService.deleteBlackList(shopIds);
         return new JSONResult();
     }
-
     @RequestMapping(value = "findShopRoById", method = RequestMethod.POST)
     public ShopRo findShopRoById(@RequestParam("id") Long id) throws CommonException{
         return shopSoaService.findShop(id);
@@ -268,6 +276,4 @@ public class ShopSoaController extends BaseRestController {
     public Boolean saveUpdateDetail(@RequestBody ShopAuditReqVo shopAuditReqVo) {
         return shopSoaService.saveUpdateDetail(shopAuditReqVo);
     }
-
-
 }

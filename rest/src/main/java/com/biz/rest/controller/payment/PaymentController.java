@@ -42,7 +42,7 @@ public class PaymentController extends BaseRestController {
     @RequestMapping("/alipay")
     public JSONResult alipay(HttpServletRequest request) throws PaymentException {
         IdReqVo reqVo = RestUtil.parseBizData(request, IdReqVo.class);
-        return RestUtil.parseBizResult(paymentFeignClient.getAlipaySign(reqVo.getId()));
+        return RestUtil.parseBizResult(paymentFeignClient.getAlipaySign(Long.valueOf(reqVo.getId())));
     }
 
     //微信继续支付

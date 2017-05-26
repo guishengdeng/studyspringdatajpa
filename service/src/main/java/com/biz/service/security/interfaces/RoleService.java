@@ -24,4 +24,11 @@ public interface RoleService {
     void addOrUpdate(Role role);
 
     List<Role>  findByStatus(CommonStatusEnum status);
+
+    /**
+     *
+     * @param :根据角色名查询对象是否存在
+     * @return
+     */
+    Boolean isExist(Role role);
 }

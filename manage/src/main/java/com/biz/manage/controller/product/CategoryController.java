@@ -5,11 +5,15 @@ import com.biz.gbck.exceptions.product.CategoryNotFoundException;
 import com.biz.gbck.vo.product.backend.*;
 import com.biz.manage.controller.BaseController;
 import com.biz.service.product.backend.CategoryService;
+import com.biz.service.product.backend.ProductExtendService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -21,7 +25,8 @@ import java.util.List;
 public class CategoryController extends BaseController {
     @Autowired
     private CategoryService categoryService;
-
+    @Autowired
+    private ProductExtendService productExtendService;
     @GetMapping
     public ModelAndView list(String id) {
         ModelAndView modelAndView = new ModelAndView("manage/product/category/list");
@@ -75,4 +80,6 @@ public class CategoryController extends BaseController {
         CategoryRespVo respVo = categoryService.findById(id);
         return new ModelAndView("manage/product/category/addOrUpdate").addObject("category", respVo);
     }
+
+
 }

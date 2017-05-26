@@ -13,19 +13,19 @@
                 var icon = $('#icon').val();
                 var link = $('#link').val();
                 var symbol = $('#symbol').val();
-                if(name == ""){
+                if(!name){
                     layer.msg("子菜单名称不能为空");
                     return false;
                 }
-                if(icon == ""){
+                if(!icon){
                     layer.msg("图标不能为空");
                     return false;
                 }
-                if(link == ""){
+                if(!link){
                     layer.msg("链接不能为空");
                     return false;
                 }
-                if(symbol == ""){
+                if(!symbol){
                     layer.msg("权限不能为空");
                     return false;
                 }
@@ -151,7 +151,7 @@
                                     </label>
 
                                     <div class="col-sm-9"><%--^(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+));?)+$ --%>
-                                        <input type="text" id="symbol" name="symbol" placeholder="" pattern="(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+));?)+"
+                                        <input type="text" id="symbol" name="symbol" placeholder="" pattern="(((ROLE_[A-Z]+)|(OPT(_[A-Z]+)+))(;|,)?)+"
                                                value="<c:out value='${menuItem.symbol}'/>" class="regExp required text col-xs-10 col-sm-5">
                                         <p class="help-block">例如:OPT_XXX_XXX或者ROLE_XXX</p>
                                     </div>

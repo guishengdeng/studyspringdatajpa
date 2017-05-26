@@ -28,5 +28,5 @@ public interface VoucherTypeRepository extends CommonJpaRepository<VoucherTypePo
     void deleteDataById(@Param("id") Long id,
                                @Param("time") Timestamp time);
 
-//    List<VoucherTypePo> findByPaymentType(String paymentType);
+    List<VoucherTypePo> findByPaymentType(String paymentType);
 }

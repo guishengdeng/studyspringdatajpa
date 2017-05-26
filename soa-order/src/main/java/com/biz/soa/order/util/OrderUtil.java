@@ -18,7 +18,7 @@ public class OrderUtil {
     public static Integer calcOrderAmount(List<? extends IProduct> productVos) {
         int orderAmount = 0;
         for (IProduct productVo : productVos) {
-            orderAmount += ValueUtils.getValue(productVo.getPrice()) * ValueUtils.getValue(productVo.getQuantity());
+            orderAmount += ValueUtils.getValue(productVo.getSalePrice()) * ValueUtils.getValue(productVo.getQuantity());
         }
         return orderAmount;
 

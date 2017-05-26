@@ -16,7 +16,7 @@ import java.util.List;
  * @reviewer
  * @see
  */
-@FeignClient(name = "soa-order", fallback = StockFeignClientHystrix.class)
+@FeignClient(name = "soa-stock", fallback = StockFeignClientHystrix.class)
 public interface StockFeignClient {
 
     /**

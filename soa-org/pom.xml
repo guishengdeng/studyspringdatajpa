@@ -34,6 +34,11 @@
             <groupId>com.biz.gbck</groupId>
             <artifactId>soa-parent</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.biz.gbck</groupId>
+            <artifactId>biz-soa-feign</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

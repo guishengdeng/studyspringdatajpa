@@ -52,7 +52,7 @@
                             <h3 class="header smaller lighter blue">
                                 未审核商户
                             </h3>
-                            <form action="/shops/auditList.do" method="get">
+                           <%-- <form action="/shops/auditList.do" method="get">
                                     商户ID <input name="id" type="text" placeholder="商户ID"  value="<c:out value="${vo.id}"/>" autocomplete="off"  style="width: 100px;height: 30px;">&nbsp;
                                     商户名称 <input name="name" type="text" placeholder="商户名称" value="<c:out value="${vo.name}"/>"  autocomplete="off" style="width: 100px;height: 30px;">&nbsp;
                                     手机号码<input name="mobile" type="text" placeholder="手机号码" value="<c:out value="${vo.mobile}"/>" autocomplete="off" style="width: 100px;height: 30px;">&nbsp;
@@ -63,17 +63,17 @@
                                         <i class="ace-icon fa fa-search bigger-110"></i>搜索
                                     </button>
                                 </div>
-                            </form>
-                            <div class="inline pull-right">
-                                <button  class="btn btn-info btn-sm" onclick="newShop()">
-                                    <i class="ace-icon fa  fa-cloud-upload bigger-110"></i>导入商户
-                                </button>
-                            </div>
-                            <div class="inline pull-right">
-                                <a  class="btn btn-success btn-sm" href="shops/new.do">
-                                    <i class="ace-icon fa glyphicon-plus bigger-110" ></i>新增商户
-                                </a>
-                            </div>
+                            </form>--%>
+                                <%--  <div class="inline pull-right">
+                                     <button  class="btn btn-info btn-sm" onclick="newShop()">
+                                         <i class="ace-icon fa  fa-cloud-upload bigger-110"></i>导入商户
+                                     </button>
+                                 </div>
+                                <div class="inline pull-right">
+                                     <a  class="btn btn-success btn-sm" href="shops/new.do">
+                                         <i class="ace-icon fa glyphicon-plus bigger-110" ></i>新增商户
+                                     </a>
+                                 </div>--%><br>
                             <div class="hr hr-18 dotted"></div>
                             <table class="table table-striped table-bordered table-hover audit-table">
                                 <thead>
@@ -90,12 +90,12 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach items="${shopSearchResVoPage.content}" var="shopDetail">
+                                <c:forEach items="${vos}" var="shopDetail">
                                     <tr id="tr-${shopDetail.shopDetailId}">
                                         <td><c:out value="${shopDetail.shopId}"/></td>
                                         <td><c:out value="${shopDetail.name}"/></td>
                                         <td><c:out value="${shopDetail.shopTypeName}"/></td>
-                                        <td><c:out value="${shopDetail.shopAddress}"/></td>
+                                        <td><c:out value="${shopDetail.deliveryAddress}"/></td>
                                         <td><c:out value="${shopDetail.mobile}"/></td>
                                         <td>${shopDetail.auditStatus==25 || shopDetail.auditStatus==20?"待审核":null}</td>
                                         <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${shopDetail.createTime}"/></td>
@@ -112,7 +112,7 @@
                                 </c:forEach>
                                 </tbody>
                             </table>
-                            <gbck:springPagePagination url="/shops/auditList.do" springPage="${shopSearchResVoPage}"/>
+                           <%-- <gbck:springPagePagination url="/shops/auditList.do" springPage="${shopSearchResVoPage}"/>--%>
                             <br><br><br>
                         </div>
                     </div>

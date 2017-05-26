@@ -12,6 +12,7 @@ import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.vo.org.*;
 import com.biz.gbck.vo.search.bbc.SearchUserReqVo;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -215,4 +216,6 @@ public interface UserSoaService {
     UserInfoVo findUserInfo(Long userId) throws CommonException;
 
     //UserResponseVo findByMemberIdCondition(MemberIdRequestVo memberIdRequestVo); //刘伟引入的
+
+    List<Long> findUserIdByCompanyGroupId(Long companyGroupId);
 }

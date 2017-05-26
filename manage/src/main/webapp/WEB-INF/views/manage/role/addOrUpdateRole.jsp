@@ -12,6 +12,31 @@
             }
         </style>
     </jsp:attribute>
+    <jsp:attribute name="script">
+          <script type="application/javascript">
+             $('#confirm').on("click",function(){
+                 var data = $('#role_form').serialize();
+                 var name = $('#name').val().trim();
+                 if(!name){
+                     layer.msg("角色名称不能为空");
+                     return false;
+                 }
+                 $.ajax({
+                     method : "POST",
+                     url : "manage/roles/isExist.do",
+                     data : data
+                 }).done(function(returnResult){
+                     if(returnResult){
+                         document.roleForm.action = "manage/roles/addOrUpdate.do";
+                         document.roleForm.submit();
+                     }else{
+                         layer.msg("该角色名称已存在,请重新输入");
+                         return false;
+                     }
+                 });
+             });
+          </script>
+    </jsp:attribute>
     <jsp:body>
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
@@ -51,7 +76,7 @@
                             </h3>
 
                             <form action="manage/roles/addOrUpdate.do" method="post"
-                                  class="form-horizontal" role="form">
+                                  class="form-horizontal" role="form" id="role_form" name="roleForm" >
                                  <input type="hidden" name="id" id="id" value="${role.id}"/>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right">
@@ -61,6 +86,7 @@
                                     <div class="col-sm-9">
                                         <input  type="text"
                                                 name="name"
+                                                id="name"
                                                 value="<c:out value='${role.name}'/> "
                                                 class="required col-xs-10 col-sm-5">
                                     </div>
@@ -146,7 +172,7 @@
                                 <sec:authorize access="hasAnyAuthority('OPT_ROLE_ADD', 'OPT_ROLE_EDIT')">
                                     <div class="clearfix form-actions">
                                         <div class="col-md-offset-3 col-md-9">
-                                            <button class="btn btn-info" type="submit">
+                                            <button class="btn btn-info" type="button" id="confirm">
                                                 <i class="ace-icon fa fa-check bigger-110"></i>
                                                 提交
                                             </button>

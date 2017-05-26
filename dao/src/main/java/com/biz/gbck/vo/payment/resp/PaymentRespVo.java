@@ -2,6 +2,7 @@ package com.biz.gbck.vo.payment.resp;
 
 
 import com.biz.pay.wechat.lang.SignIgnore;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
 
@@ -22,11 +23,13 @@ public class PaymentRespVo implements Serializable {
 	@SignIgnore
 	private String orderCode;
 
+	public PaymentRespVo() {
+	}
+
 	public PaymentRespVo(Long orderId, String orderCode) {
+		this();
 		this.orderId = orderId;
 		this.orderCode = orderCode;
-	}
-	public PaymentRespVo() {
 	}
 
 	public Long getOrderId() {
@@ -41,6 +44,11 @@ public class PaymentRespVo implements Serializable {
 	}
 	public void setOrderCode(String orderCode) {
 		this.orderCode = orderCode;
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 	
 }

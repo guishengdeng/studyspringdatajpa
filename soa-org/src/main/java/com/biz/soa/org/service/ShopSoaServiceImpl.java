@@ -12,23 +12,14 @@ import com.biz.gbck.common.vo.statistic.ShopAuditStatisticResultVo;
 import com.biz.gbck.dao.mysql.po.geo.CityPo;
 import com.biz.gbck.dao.mysql.po.geo.DistrictPo;
 import com.biz.gbck.dao.mysql.po.geo.ProvincePo;
-import com.biz.gbck.dao.mysql.po.org.ShopDetailPo;
-import com.biz.gbck.dao.mysql.po.org.ShopLevel;
-import com.biz.gbck.dao.mysql.po.org.ShopPo;
-import com.biz.gbck.dao.mysql.po.org.ShopQualificationPo;
-import com.biz.gbck.dao.mysql.po.org.ShopTypePo;
-import com.biz.gbck.dao.mysql.po.org.UserPo;
+import com.biz.gbck.dao.mysql.po.org.*;
 import com.biz.gbck.dao.mysql.po.payment.LoanApplyType;
 import com.biz.gbck.dao.mysql.po.payment.ZsgfApplyStatus;
 import com.biz.gbck.dao.mysql.po.payment.ZsgfLoanApplyPo;
 import com.biz.gbck.dao.mysql.repository.geo.CityRepository;
 import com.biz.gbck.dao.mysql.repository.geo.DistrictRepository;
 import com.biz.gbck.dao.mysql.repository.geo.ProvinceRepository;
-import com.biz.gbck.dao.mysql.repository.org.ShopDetailRepository;
-import com.biz.gbck.dao.mysql.repository.org.ShopQualificationRepository;
-import com.biz.gbck.dao.mysql.repository.org.ShopRepository;
-import com.biz.gbck.dao.mysql.repository.org.ShopTypeRepository;
-import com.biz.gbck.dao.mysql.repository.org.UserRepository;
+import com.biz.gbck.dao.mysql.repository.org.*;
 import com.biz.gbck.dao.mysql.specification.org.ShopSearchSpecification;
 import com.biz.gbck.dao.redis.repository.org.ShopRedisDao;
 import com.biz.gbck.dao.redis.repository.org.UserRedisDao;
@@ -56,6 +47,7 @@ import com.biz.soa.org.event.ShopQualificationUpdateEvent;
 import com.biz.soa.org.service.interfaces.ShopSoaService;
 import com.biz.soa.org.service.interfaces.UserSoaService;
 import com.biz.soa.org.transformer.ShopAuditDataMapToShopDetailResVo;
+import com.biz.soa.org.transformer.ShopAuditDataMapToShopDetailResVos;
 import com.biz.soa.org.transformer.ShopDetailPoPageToShopDetailResVoPage;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -147,6 +139,9 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
 
     @Autowired
     private ShopSoaService shopSoaService;
+
+    @Autowired
+    private PartnerRepository partnerRepository;
 
 //    @Autowired
 //    private IdPool idPool;
@@ -1560,11 +1555,28 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
      *后台修改商户详情
      */
     @Override
+    @Transactional
     public Boolean saveUpdateDetail(ShopAuditReqVo shopAuditReqVo) {
         if(shopAuditReqVo != null && shopAuditReqVo.getShopDetailId() != null
                 && shopAuditReqVo.getShopQualificationId() != null){
             this.updateShopQualification(shopAuditReqVo);
             this.updateShopDetail(shopAuditReqVo);
+            ShopPo shop;
+            if (shopAuditReqVo.getShopDetailId() != null) {
+                shop = shopDetailRepository.findOne(shopAuditReqVo.getShopDetailId()).getShop();
+            } else {
+                shop = shopQualificationRepository.findOne(shopAuditReqVo.getShopQualificationId()).getShop();
+            }
+            if(shopAuditReqVo.getPartnerId() != null){
+                shop.setPartner(partnerRepository.findOne(shopAuditReqVo.getPartnerId())); //set城市合伙人
+            }
+            this.save(shop);//修改城市合伙人
+            Set<UserPo> userPos=shop.getUsers();
+            if(CollectionUtils.isNotEmpty(userPos)){
+                for(UserPo userPo:userPos){
+                    userSoaService.saveUser(userPo);
+                }
+            }
             return true;
         }
         return false;
@@ -1572,6 +1584,7 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
 
 
     @Override
+    @Transactional
     public void auditShop(ShopAuditReqVo reqVo) throws CommonException {
         ShopDetailPo shopDetailPo = this.auditShopDetail(reqVo); //修改审核商户详情
         ShopQualificationPo shopQualificationPo = this.auditShopQualification(reqVo); //修改审核商户资质
@@ -1581,6 +1594,16 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
             shop = shopDetailRepository.findOne(reqVo.getShopDetailId()).getShop();
         } else {
             shop = shopQualificationRepository.findOne(reqVo.getShopQualificationId()).getShop();
+        }
+        if(reqVo.getPartnerId() != null){
+            shop.setPartner(partnerRepository.findOne(reqVo.getPartnerId())); //set城市合伙人
+        }
+        this.save(shop);//修改城市合伙人
+        Set<UserPo> userPos=shop.getUsers();
+        if(CollectionUtils.isNotEmpty(userPos)){
+            for(UserPo userPo:userPos){
+                userSoaService.saveUser(userPo);
+            }
         }
         String mobile = shop.getMobile();
       /* 消息发送  if (reqVo.getAuditStatus() == AuditStatus.NORMAL) {
@@ -1613,14 +1636,42 @@ public class ShopSoaServiceImpl extends AbstractBaseService implements ShopSoaSe
         }*/
     }
 
+    @Override
+    public  List<ShopDetailResVo>  findAllWaitForShop() {
+        List<ShopDetailPo> shopsOfDetailWaitForAudit = shopDetailRepository
+                .findByAuditStatusInOrderByCreateTimeDesc(
+                        newArrayList(AuditStatus.WAIT_FOR_AUDIT.getValue(),
+                                AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue()));
 
+        List<ShopQualificationPo> shopsOfQualificationWaitForAudit = shopQualificationRepository
+                .findByAuditStatusInOrderByIdDesc(newArrayList(AuditStatus.WAIT_FOR_AUDIT.getValue(),
+                        AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue()));
 
+        ShopAuditDataMap shopAuditDataMap =
+                new ShopAuditDataMap(shopsOfDetailWaitForAudit, shopsOfQualificationWaitForAudit);
+        List<Long> shopNeedToRemove = newArrayList();
+        for (Map.Entry<Long, ShopAuditVo> shopAuditVoEntry : shopAuditDataMap.entrySet()) {
 
-
-
-
-
-
+            Long shopId = shopAuditVoEntry.getKey();
+            if (shopAuditVoEntry.getValue().getShopQualification() == null
+                    && shopAuditVoEntry.getValue().getShopDetail() != null && !Objects
+                    .equals(shopAuditVoEntry.getValue().getShopDetail().getAuditStatus(),
+                            AuditStatus.NORMAL_AND_HAS_NEW_UPDATE_WAIT_FOR_AUDIT.getValue())) {
+                shopNeedToRemove.add(shopId);
+                continue;
+            }
+            if (shopAuditVoEntry.getValue().getShopDetail() == null) {
+                List<ShopDetailPo> shopDetails =
+                        shopDetailRepository.findByShopIdOrderByIdDesc(shopId);
+                shopAuditVoEntry.getValue()
+                        .setShopDetail(CollectionUtils.getFirstOrNull(shopDetails));
+            }
+        }
+        for (Long shopId : shopNeedToRemove) {
+            shopAuditDataMap.remove(shopId);
+        }
+        return  new ShopAuditDataMapToShopDetailResVos().apply(shopAuditDataMap);
+    }
 
 
     /**

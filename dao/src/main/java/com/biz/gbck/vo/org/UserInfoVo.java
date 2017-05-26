@@ -146,12 +146,12 @@ public class UserInfoVo implements Serializable {
     /**
      * 支持的 付款方式
      */
-    private List<Long> supportPaymentIds;
+    private List<Integer> supportPaymentIds;
 
     /**
      * 禁用的付款方式
      */
-    private List<Long> disabledPaymentIds;
+    private List<Integer> disabledPaymentIds;
 
 
     //渠道
@@ -175,8 +175,11 @@ public class UserInfoVo implements Serializable {
      */
     private Long companyGroupId;
 
+    public UserInfoVo() {
+    }
 
     public UserInfoVo(UserRo userRo, ShopRo shopRo) {
+        this();
         this.setUserId(userRo.getId());
         this.setAccount(userRo.getAccount());
         this.setName(userRo.getName());
@@ -199,11 +202,11 @@ public class UserInfoVo implements Serializable {
         this.setDistrictId(shopRo.getDistrictId());
         this.setSaleAreas(shopRo.getSaleAreas());
         this.setShopStatus(shopRo.getStatus());
-        List<Long> supportPaymentIds = ArrayUtils.toList(StringUtils.split(shopRo.getSupportPaymentIds(), ","))
-                .stream().map(Long::valueOf).collect(Collectors.toList());
+        List<Integer> supportPaymentIds = ArrayUtils.toList(StringUtils.split(shopRo.getSupportPaymentIds(), ","))
+                .stream().map(Integer::valueOf).collect(Collectors.toList());
         this.setSupportPaymentIds(supportPaymentIds);
-        List<Long> disabledPaymentIds = ArrayUtils.toList(StringUtils.split(shopRo.getDisabledPaymentIds(), ","))
-                .stream().map(Long::valueOf).collect(Collectors.toList());
+        List<Integer> disabledPaymentIds = ArrayUtils.toList(StringUtils.split(shopRo.getDisabledPaymentIds(), ","))
+                .stream().map(Integer::valueOf).collect(Collectors.toList());
         this.setDisabledPaymentIds(disabledPaymentIds);
         this.setChannel(shopRo.getChannel());
         this.setChannelUserId(shopRo.getChannelUserId());
@@ -405,19 +408,19 @@ public class UserInfoVo implements Serializable {
         this.shopStatus = shopStatus;
     }
 
-    public List<Long> getSupportPaymentIds() {
+    public List<Integer> getSupportPaymentIds() {
         return supportPaymentIds;
     }
 
-    public void setSupportPaymentIds(List<Long> supportPaymentIds) {
+    public void setSupportPaymentIds(List<Integer> supportPaymentIds) {
         this.supportPaymentIds = supportPaymentIds;
     }
 
-    public List<Long> getDisabledPaymentIds() {
+    public List<Integer> getDisabledPaymentIds() {
         return disabledPaymentIds;
     }
 
-    public void setDisabledPaymentIds(List<Long> disabledPaymentIds) {
+    public void setDisabledPaymentIds(List<Integer> disabledPaymentIds) {
         this.disabledPaymentIds = disabledPaymentIds;
     }
 

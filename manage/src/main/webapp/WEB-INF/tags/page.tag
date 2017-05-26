@@ -92,6 +92,9 @@
     <!-- <![treeview]> -->
     <link rel="stylesheet" href="static-resource/ace/assets/css/bootstrap-treeview.css" >
     <script src="static-resource/ace/assets/js/bootstrap-treeview.js"></script>
+     <%-- <![select2]>--%>
+    <link rel="stylesheet" href="static-resource/ace/assets/css/select2.min.css" >
+    <script src="static-resource/ace/assets/js/select2.min.js"></script>
 
     <jsp:invoke fragment="css"/>
 </head>

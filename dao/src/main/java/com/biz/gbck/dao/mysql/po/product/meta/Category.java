@@ -269,4 +269,23 @@ public class Category extends BaseEntity implements Serializable {
         this.setSeoKeywords(categoryVo.getSeoKeywords());
         this.setSeoDescription(categoryVo.getSeoDescription());
     }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "name='" + name + '\'' +
+                ", idx=" + idx +
+                ", logo='" + logo + '\'' +
+                ", status=" + status +
+                ", parent=" + parent +
+                ", children=" + children +
+                ", brands=" + brands +
+                ", productExtends=" + productExtends +
+                ", productFilters=" + productFilters +
+                ", seoTitle='" + seoTitle + '\'' +
+                ", seoKeywords='" + seoKeywords + '\'' +
+                ", seoDescription='" + seoDescription + '\'' +
+                ", deleteFlag=" + deleteFlag +
+                '}';
+    }
 }

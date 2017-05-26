@@ -7,31 +7,14 @@
 <depotnextdoor:page title="扩展属性值edit">
     <jsp:attribute name="script">
          <script type="application/javascript">
-                $('#addOrUpdate').on('click',function(){
-                    /* var value = $('#extendPropertyValue').val();
-                     var id = $('#id').val();
-                     var curr_extendProperties = $('#extendProperties').html();
-                     var productExtendId = $('#productExtendId').val();
 
-                     curr_extendProperties = JSON.parse(curr_extendProperties);
-                     for (var index = 0;index < curr_extendProperties.length ;index++){
-                          var  extendProperties = curr_extendProperties[index].value;
-                          var  curr_id = curr_extendProperties[index].id;
-                         if (value == extendProperties ){
-                               if(curr_id == id){
-                                   commonAjaxReq($('#extendProperty_form').serialize(),productExtendId);
-                                   return true; //放行
-                               }
-                             layer.msg("您输入的值已存在,请重新输入");
-                             return false;//不让用户提交
-                         }
-                     }
-                        commonAjaxReq($('#extendProperty_form').serialize(),productExtendId);*/
-                    var value = $('#extendPropertyValue').val();
+                $('#addOrUpdate').on('click',function(){
+
+                    var value = $('#extendPropertyValue').val().trim();
                     var data = $('#extendProperty_form').serialize();
-                    if(value == ""){
+                    if(!value){
                         layer.msg("属性值不能为空");
-                        return false;//不让用户提交
+                        return false;
                     }
                     $.ajax({
                         method : "POST",
@@ -49,22 +32,7 @@
                     });
 
                 });
-                function commonAjaxReq(data,productExtendId){
-                    $.ajax({
-                        method : "POST",
-                        url : "product/extendProperty/addOrUpdate.do",
-                        data : data,
-                        dataType : "json"
-                    }).done(function(result){
-                        alert(result);
-                        if(result){
-                            //layer.msg("what you do is successful");
-                            window.location.href = "product/extendProperty/detail/"+productExtendId+".do"
-                        }else{
-                            //layer.msg("what you do is failed");
-                        }
-                    });
-                }
+
          </script>
     </jsp:attribute>
     <jsp:body>
@@ -132,15 +100,18 @@
                                 <input type="hidden" name="idx" value="${extendProperty.idx}"/>
                                 <input type="hidden" id="cmd" value="${cmd}"/>
                                 <div  id="extendProperties" style="display: none">${currJson}</div>
-                                <%--<div class="form-group">
-                                    <label class="col-sm-3 control-label no-padding-right" for="extendPropertyValue">
-                                        当前属性名所属的属性值
-                                    </label>
-
-                                    <div class="col-sm-9">
-                                        <input type="text"  name="value" id="extendPropertyValue" placeholder="属性值：容量,体积等" class="required col-xs-10 col-sm-5" value="<c:out value='${extendProperty.value}'/>">
+                               <c:if test="${not empty extendProperties}">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="extendPropertyValue">
+                                            当前属性名所属的属性值
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <c:forEach items="${extendProperties}" var="currExtendProperty" varStatus="status">
+                                                <input type="text" readonly="readonly"  class="col-xs-5" value="<c:out value='${currExtendProperty.value}'/>">
+                                            </c:forEach>
+                                        </div>
                                     </div>
-                                </div>--%>
+                               </c:if>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right" for="extendPropertyValue">
                                         属性值

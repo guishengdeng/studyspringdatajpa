@@ -7,6 +7,8 @@ import com.biz.gbck.dao.mysql.po.order.OrderConsignee;
 import com.biz.gbck.dao.mysql.po.order.OrderInvoice;
 import com.biz.gbck.dao.mysql.po.order.OrderItem;
 import com.biz.gbck.enums.order.InvoiceType;
+import com.biz.gbck.enums.order.OrderStatus;
+import com.biz.gbck.enums.order.PaymentStatus;
 import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.vo.order.req.OrderCreateReqVo;
 import com.biz.gbck.vo.org.UserInfoVo;
@@ -31,6 +33,8 @@ public class OrderBuilder {
     public static OrderBuilder createBuilder(OrderCreateReqVo reqVo){
         OrderBuilder builder = new OrderBuilder();
         builder.order = new Order();
+        builder.order.setPayStatus(PaymentStatus.CREATE_PAYMENT);
+        builder.order.setStatus(OrderStatus.PRE_PAY);
         builder.order.setDescription(StringUtils.trim(reqVo.getDescription()));
         builder.order.setInvoice(createInvoice(reqVo));
         return builder;
@@ -43,7 +47,8 @@ public class OrderBuilder {
         SystemAsserts.notNull(userInfo.getPartnerId(), "合伙人Id为空");
 
         this.order.setUserId(Long.valueOf(userInfo.getUserId()));
-        this.order.setSellerId(userInfo.getPartnerId());
+        this.order.setSellerId(Long.valueOf(userInfo.getPartnerId()));
+        this.order.setShopId(userInfo.getShopId());
         this.order.setCompanyId(userInfo.getPlatformId());
 
         //收货信息
@@ -72,7 +77,8 @@ public class OrderBuilder {
         int orderAmount = 0;
         StringBuilder sb = new StringBuilder();
         for (OrderItem orderItem : orderItems) {
-            orderAmount += ValueUtils.getValue(orderItem.getPrice()) * ValueUtils.getValue(orderItem.getQuantity());
+            orderItem.setOrder(order);
+            orderAmount += ValueUtils.getValue(orderItem.getSalePrice()) * ValueUtils.getValue(orderItem.getQuantity());
             sb.append(orderItem.getName()).append(",");
         }
 
@@ -109,7 +115,7 @@ public class OrderBuilder {
 
     //支付金额
     public OrderBuilder setPaymentType(PaymentType paymentType){
-        SystemAsserts.notNull(order.getPaymentType(), "订单支付方式为空");
+        SystemAsserts.notNull(paymentType, "订单支付方式为空");
         order.setPaymentType(paymentType);
         return this;
     }
@@ -141,7 +147,7 @@ public class OrderBuilder {
         order.setId(id);
         order.setOrderCode(orderCode);
         Timestamp createTime = DateUtil.now();
-        Timestamp expireTime = new Timestamp(createTime.getTime() + DateUtil.DAY);
+        Timestamp expireTime = new Timestamp(createTime.getTime() + DateUtil.HOUR);
         order.setCreateTimestamp(createTime);
         order.setExpireTimestamp(expireTime);
         return order;

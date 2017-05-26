@@ -1,6 +1,6 @@
 package com.biz.gbck.vo.cart;
 
-import com.biz.gbck.vo.user.BaseRequestVo;
+import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Set;
@@ -9,10 +9,11 @@ import static com.google.common.collect.Sets.newHashSet;
 
 /**
  * 删除购物车明细vo
+ *
  * @author lei
  * @date 2017/01/12
  */
-public class ShopCartItemBatchDeleteReqVo extends BaseShopCartReqVo {
+public class ShopCartItemBatchDeleteReqVo extends CommonReqVoBindUserId {
 
     private static final long serialVersionUID = -7024451311062313823L;
 

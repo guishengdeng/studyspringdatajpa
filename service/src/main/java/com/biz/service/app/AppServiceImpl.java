@@ -18,6 +18,11 @@ import javax.transaction.Transactional;
 import org.codelogger.utils.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Objects;
+
 import static org.codelogger.utils.ExceptionUtils.iae;
 
 
@@ -98,6 +103,8 @@ public class AppServiceImpl extends AbstractBaseService implements AppService {
         }
         return id != null ? appVo : null;
     }
+
+    @Override
     public AppConfigVo getAppConfigVo() {
         App app= CollectionUtils.getFirstNotNullValue(appRepository.findAll());
         return new AppToAppConfigVo().apply(app);
@@ -108,5 +115,6 @@ public class AppServiceImpl extends AbstractBaseService implements AppService {
         List<Category> categories=categoryService.findCategoryByStatus();
         return Lists.transform(categories,new CategoryToCategoryResVo());
     }
+
 
 }

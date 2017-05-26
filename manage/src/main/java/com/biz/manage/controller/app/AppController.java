@@ -1,6 +1,5 @@
 package com.biz.manage.controller.app;
 
-import com.biz.gbck.dao.mysql.po.app.App;
 import com.biz.gbck.vo.app.AppVo;
 import com.biz.manage.controller.BaseController;
 import com.biz.service.app.AppService;
@@ -9,11 +8,11 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * app的内容管理

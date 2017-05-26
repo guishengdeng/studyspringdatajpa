@@ -120,7 +120,7 @@ public class SmsSoaServiceImpl extends CommonService implements SmsSoaService {
                                     .setUsername(username).setAlidayuTemplateCode(templateCode).build())
                             .setAlidayuTemplateCode(templateCode.getTemplateCode())
                             .setAlidayuTemplateParams(templateParam).build();
-           messageService.sendMessage(BizBaseQueue.MQ_SMS_CODE, SimpleBizMessage.newMessage(smsMessage));
+           messageService.sendMessage(BizBaseQueue.SMS_QUEUE, SimpleBizMessage.newMessage(smsMessage));
         } catch (Exception e) {
             throw new CommonException("获取验证码失败", ExceptionCode.Global.INFO_TO_USER);
         }
@@ -154,12 +154,10 @@ public class SmsSoaServiceImpl extends CommonService implements SmsSoaService {
      */
     public Boolean validateSMSCode(String mobile, SMSType smsType, String smsCode)
             throws CommonException {
-        // todo liubin
-//        validateSMSParameters(mobile, smsType, smsCode);
-//        logger.debug("validate {} smsCode[{}] for mobile[{}]", smsType, smsCode, mobile);
-//        SMSRo smsRo = smsRedisDao.findSMSCode(mobile, smsType);
-//        return smsRo != null && smsCode.equalsIgnoreCase(smsRo.getCode());
-        return true;
+        validateSMSParameters(mobile, smsType, smsCode);
+        logger.info("validate {} smsCode[{}] for mobile[{}]", smsType, smsCode, mobile);
+        SMSRo smsRo = smsRedisDao.findSMSCode(mobile, smsType);
+        return smsRo != null && smsCode.equalsIgnoreCase(smsRo.getCode());
     }
 
     private void validateSMSParameters(String mobile, SMSType smsType, String smsCode)
@@ -214,7 +212,7 @@ public class SmsSoaServiceImpl extends CommonService implements SmsSoaService {
             smsMessage.setDestination(user.getMobile());
             smsMessage.setMessageBody(content);
             smsMessage.setAlidayuTemlateCode(templateCode);
-            messageService.sendMessage(BizBaseQueue.MQ_SMS_CODE, SimpleBizMessage.newMessage(smsMessage));
+            messageService.sendMessage(BizBaseQueue.SMS_QUEUE, SimpleBizMessage.newMessage(smsMessage));
         }
     }
 

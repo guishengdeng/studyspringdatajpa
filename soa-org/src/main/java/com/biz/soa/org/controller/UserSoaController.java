@@ -5,6 +5,8 @@ import com.biz.gbck.common.exception.ExceptionCode;
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
+import com.biz.gbck.enums.user.AuditStatus;
+import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.org.*;
 import com.biz.soa.org.service.interfaces.UserSoaService;
 import com.biz.soa.org.util.Constant;
@@ -12,11 +14,9 @@ import com.biz.support.web.handler.JSONResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 用户模块 注册,登陆,修改密码,获取用户信息等
@@ -162,18 +162,22 @@ public class UserSoaController extends BaseRestController {
     /**
      * 通过电话号码查用户
      */
-    @RequestMapping(value = "findUserPoByMobile", method = RequestMethod.POST)
-    public UserPo findUserPoByMobile(@RequestParam("mobile") String mobile) {
-        return userSoaService.findUserPoByMobile(mobile);
+//    @RequestMapping(value = "findUserPoByMobile", method = RequestMethod.POST)
+//    public UserPo findUserPoByMobile(@RequestParam("mobile") String mobile) {
+//        logger.info("findUserPoByMobile mobile is {}", mobile);
+//        return userSoaService.findUserPoByMobile(mobile);
+//    }
+
+    @RequestMapping(value = "findUserRoByMobile", method = RequestMethod.POST)
+    public UserRo findUserRoByMobile(@RequestParam("mobile") String mobile) {
+        return userSoaService.findUserByMobile(mobile);
     }
 
-    /**
-     * 通过电话号码查用户
-     */
-    @RequestMapping(value = "findUserPoByAccount", method = RequestMethod.POST)
-    public UserPo findUserPoByAccount(@RequestParam("account") String account) {
-        return userSoaService.findUserPoByAccount(account);
-    }
+
+//    @RequestMapping(value = "findUserPoByAccount", method = RequestMethod.POST)
+//    public UserPo findUserPoByAccount(@RequestParam("account") String account) {
+//        return userSoaService.findUserPoByAccount(account);
+//    }
 
 
     @RequestMapping(value = "findUser", method = RequestMethod.POST)
@@ -181,10 +185,34 @@ public class UserSoaController extends BaseRestController {
         return userSoaService.findUser(userId);
     }
 
-    @RequestMapping(value = "findUserInfo", method = RequestMethod.POST)
+    @PostMapping(value = "findUserInfo")
     public UserInfoVo finUserInfo(@RequestParam("userId") Long userId) throws CommonException {
+        if (logger.isDebugEnabled()) {
+            logger.debug("Received findUserInfo request. userId: {}", userId);
+        }
         return userSoaService.findUserInfo(userId);
     }
 
+    /**
+     * 根据店铺审核状态查询所有userPo
+     */
+    @RequestMapping(value = "findAllUserByAuditStatus", method = RequestMethod.POST)
+    public List<UserPo> findAllUserByAuditStatus(@RequestParam("auditStatus") AuditStatus auditStatus) throws DepotNextDoorException {
+        return userSoaService.findAllUserByAuditStatus(auditStatus);
+    }
 
+    @RequestMapping(value = "findUserIdByShopType", method = RequestMethod.POST)
+    public List<Long> findUserIdByShopType(@RequestParam("shopTypeId") Long shopTypeId) {
+        return userSoaService.findUserIdByShopType(shopTypeId);
+    }
+
+    @RequestMapping(value = "findAdminUserIdsByShopId", method = RequestMethod.POST)
+    public List<Long> findAdminUserIdsByShopId(@RequestParam("shopId") Long shopId, @RequestParam("isAdmin") Boolean isAdmin) {
+        return userSoaService.findAdminUserIdsByShopId(shopId, isAdmin);
+    }
+
+    @RequestMapping(value = "findUserIdByCompanyGroupId", method = RequestMethod.POST)
+    List<Long> findUserIdByCompanyGroupId(@RequestParam("companyGroupId") Long companyGroupId) {
+        return userSoaService.findUserIdByCompanyGroupId(companyGroupId);
+    }
 }

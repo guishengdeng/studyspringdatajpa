@@ -59,7 +59,7 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
     /**
      * 促销标签
      */
-    private List<String> promotionTags;
+    private List<String> supportPromotions;
 
     /**
      * 市场价
@@ -69,7 +69,7 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
     /**
      * 售价
      */
-    private Integer price;
+    private Integer salePrice;
 
     /**
      * 本商品数量
@@ -125,16 +125,17 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
         this();
         this.setProductId(itemVo.getId());
         this.setProductCode(itemVo.getProductCode());
-        this.setName(itemVo.getProductName());
+        this.setName(itemVo.getName());
         this.setLogo(itemVo.getLogo());
         this.setCreateTime(null);
         this.setMarketPrice(null);
-        this.setPrice(itemVo.getSalePrice());
+        this.setSalePrice(itemVo.getSalePrice());
         if (itemVo.getSupportSpecialOffer() && ValueUtils.getValue(itemVo.getSpecialOfferPrice()) > 0) {
-            this.setPrice(itemVo.getSpecialOfferPrice());
+            this.setSalePrice(itemVo.getSpecialOfferPrice());
         }
         this.setMaxQuantity(itemVo.getMaxQuantity());
         this.setMinQuantity(itemVo.getMinQuantity());
+        this.setStock(itemVo.getStock());
         this.setStatus(itemVo.getShowStatus().getValue());
         this.setStandard(null);
         this.setSubTitle(null);
@@ -198,12 +199,12 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
         this.marketPrice = marketPrice;
     }
 
-    public Integer getPrice() {
-        return price;
+    public Integer getSalePrice() {
+        return salePrice;
     }
 
-    public void setPrice(Integer price) {
-        this.price = price;
+    public void setSalePrice(Integer salePrice) {
+        this.salePrice = salePrice;
     }
 
     public Integer getMinQuantity() {
@@ -270,12 +271,12 @@ public class ShopCartItemRespVo implements Comparable<ShopCartItemRespVo>, Seria
         this.status = status;
     }
 
-    public List<String> getPromotionTags() {
-        return promotionTags;
+    public List<String> getSupportPromotions() {
+        return supportPromotions;
     }
 
-    public void setPromotionTags(List<String> promotionTags) {
-        this.promotionTags = promotionTags;
+    public void setSupportPromotions(List<String> supportPromotions) {
+        this.supportPromotions = supportPromotions;
     }
 
     public ItemType getItemType() {

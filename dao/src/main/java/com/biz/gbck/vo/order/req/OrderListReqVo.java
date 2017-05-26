@@ -2,6 +2,7 @@ package com.biz.gbck.vo.order.req;
 
 import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import com.biz.gbck.enums.order.OrderStatus;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.codelogger.utils.ValueUtils;
 
 /**
@@ -50,6 +51,11 @@ public class OrderListReqVo extends CommonReqVoBindUserId {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 
 }

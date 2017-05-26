@@ -28,6 +28,23 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>
+
+    <tag>
+        <name>ossUrl</name>
+        <tag-class>com.biz.manage.tag.OssUrlTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>objectName</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>type</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>空间类型，如:product, qualification</description>
+        </attribute>
+    </tag>
         
 
 

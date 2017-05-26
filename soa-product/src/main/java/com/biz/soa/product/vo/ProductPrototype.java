@@ -115,7 +115,8 @@ public class ProductPrototype implements Serializable {
         ProductAppListItemVo itemVo = new ProductAppListItemVo();
         itemVo.setId(String.valueOf(this.productRO.getId()));
         itemVo.setCategoryId(this.productRO.getCategoryId());
-        itemVo.setProductName(this.productRO.getName());
+        itemVo.setName(this.productRO.getName());
+        itemVo.setStandard(this.productRO.getStandard());
         itemVo.setProductCode(this.productRO.getProductCode());
         itemVo.setLogo(String.format("%s.jpg", this.productRO.getLogo()));
         itemVo.setTags(StringTool.split(this.productRO.getSaleTags(), ","));
@@ -142,6 +143,7 @@ public class ProductPrototype implements Serializable {
         respVO.setSuggestPrice(this.priceGenerator.getSuggestPrice());
         respVO.setMarketPrice(this.priceGenerator.getPurchasePrice());
         respVO.setMinQuantity(this.productRO.getMinQuantity());
+        respVO.setStandard(this.productRO.getStandard());
         ProductPropertyContentVo productProperties = this.productRO.getProductProperty();
         if (productProperties != null && CollectionUtils.isNotEmpty(productProperties.getItems())) {
             respVO.setProperties(Lists.transform(productProperties.getItems(), f -> {

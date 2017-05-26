@@ -59,7 +59,7 @@ public class StockServiceImpl extends AbstractBaseService implements StockServic
         }
         CompanyStockRespVO respVo = new CompanyStockRespVO();
         Long companyId = reqVo.getCompanyId();
-        Long productId = respVo.getProductId();
+        Long productId = reqVo.getProductId();
 
         respVo.setCompanyId(companyId);
         respVo.setProductId(productId);
