@@ -89,14 +89,14 @@ public interface UserFeignClient {
     /**
      * 通过电话号码查用户
      */
-    @RequestMapping(value = "/soa/user/findUserPoByMobile", method = RequestMethod.POST)
-    UserPo findUserPoByMobile(@RequestParam("mobile") String mobile);
+    @RequestMapping(value = "/soa/user/findUserRoByMobile", method = RequestMethod.POST)
+    UserRo findUserRoByMobile(@RequestParam("mobile") String mobile);
 
-    /**
-     * 通过电话号码查用户
-     */
-    @RequestMapping(value = "/soa/user/findUserPoByAccount", method = RequestMethod.POST)
-    UserPo findUserPoByAccount(@RequestParam("account") String account);
+//    /**
+//     * 通过电话号码查用户
+//     */
+//    @RequestMapping(value = "/soa/user/findUserPoByAccount", method = RequestMethod.POST)
+//    UserPo findUserPoByAccount(@RequestParam("account") String account);
 
 
     @RequestMapping(value = "/soa/user/findUserInfo", method = RequestMethod.POST)

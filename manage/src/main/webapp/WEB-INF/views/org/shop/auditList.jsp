@@ -64,16 +64,16 @@
                                     </button>
                                 </div>
                             </form>--%>
-                            <div class="inline pull-right">
-                                <button  class="btn btn-info btn-sm" onclick="newShop()">
-                                    <i class="ace-icon fa  fa-cloud-upload bigger-110"></i>导入商户
-                                </button>
-                            </div>
-                            <div class="inline pull-right">
-                                <a  class="btn btn-success btn-sm" href="shops/new.do">
-                                    <i class="ace-icon fa glyphicon-plus bigger-110" ></i>新增商户
-                                </a>
-                            </div>
+                                <%--  <div class="inline pull-right">
+                                     <button  class="btn btn-info btn-sm" onclick="newShop()">
+                                         <i class="ace-icon fa  fa-cloud-upload bigger-110"></i>导入商户
+                                     </button>
+                                 </div>
+                                <div class="inline pull-right">
+                                     <a  class="btn btn-success btn-sm" href="shops/new.do">
+                                         <i class="ace-icon fa glyphicon-plus bigger-110" ></i>新增商户
+                                     </a>
+                                 </div>--%><br>
                             <div class="hr hr-18 dotted"></div>
                             <table class="table table-striped table-bordered table-hover audit-table">
                                 <thead>
