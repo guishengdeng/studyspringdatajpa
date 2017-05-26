@@ -112,7 +112,7 @@ public class ShopCartItemRedisDao extends CrudRedisDao<ShopCartItemRo, String> {
 
     public void removeAllByUserId(String userId) {
         Set<byte[]> idBytes = super.zrevrange(getFieldSortedSetKey("userId", userId), 0, -1L);
-        List<Long> ids = RedisUtil.bytesSetToLongList(idBytes);
+        List<String> ids = RedisUtil.bytesSetToStringList(idBytes);
         if (CollectionUtils.isNotEmpty(ids)) {
             List<String> idKeys = ids.stream().map(this::getHashKey).collect(Collectors.toList());
             this.pipeDelete(idKeys);
