@@ -272,8 +272,8 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
     }
 
     @Override
-    public void saveOrder(Order order) {
-        super.saveOrder(order);
+    public Order saveOrder(Order order) {
+        return super.saveOrder(order);
     }
 
     /*****************public end*********************/
@@ -308,7 +308,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
                 .build(id, orderCode);
 
         //清空购物车
-
+        super.saveOrder(order);
         timers.print("创建订单用时");
         super.publishEventUsingTx(new OrderCreateEvent(this, order.getId()));
         return order;
