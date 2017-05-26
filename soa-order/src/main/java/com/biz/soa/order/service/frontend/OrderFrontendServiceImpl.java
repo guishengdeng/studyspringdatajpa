@@ -290,6 +290,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
     private Order createOrder(OrderCreateReqVo reqVo) throws DepotNextDoorException {
         Timers timers = Timers.createAndBegin(logger.isDebugEnabled());
         OrderSettlePageRespVo settleResult = this.getSettleResult(reqVo);
+        timers.print("获取结算单用时");
         SystemAsserts.notNull(settleResult, "未获取到订单结算信息");
         List<OrderItemRespVo> items = settleResult.getItems();
         SystemAsserts.notEmpty(items, "未获取到结算明细信息");
@@ -307,7 +308,6 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
                 .setPaymentType(PaymentType.valueOf(reqVo.getPaymentType()))
                 .build(id, orderCode);
 
-        //清空购物车
         super.saveOrder(order);
         timers.print("创建订单用时");
         super.publishEventUsingTx(new OrderCreateEvent(this, order.getId()));
