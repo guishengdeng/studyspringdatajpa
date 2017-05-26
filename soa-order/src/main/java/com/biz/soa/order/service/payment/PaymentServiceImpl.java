@@ -404,12 +404,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 			logger.debug("payment Id : {}", payment.getId());
 		}
 		PaymentType paymentType = payment.getPaymentType();
-		PaymentQueryResultRespVo resp = new PaymentQueryResultRespVo();
-		resp.setPaymentType(paymentType.getValue());
-		resp.setOrderId(orderId);
-		resp.setOrderCode(order.getOrderCode());
-		resp.setPayAmount(payment.getPayAmount());
-		resp.setPaidTime(payment.getSuccessTimestamp() == null ? null : payment.getSuccessTimestamp().getTime());
+		boolean paid = false;
 		switch (paymentType) {
 			case ALIPAY:
 				try {
@@ -419,11 +414,7 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 							logger.info("order alipay success save tradeNo:[{}]", paidRespVo.getTradeNo());
 							this.savePaymentTradeNo(payment.getId(), paidRespVo.getTradeNo());
 						}
-						resp.setPaid(true);
-						resp.setMessage("您的订单已经成功提交");
-					} else {
-						resp.setPaid(false);
-						resp.setMessage("您的订单未成功提交");
+						paid = true;
 					}
 				} catch (PaymentException e) {
 					e.printStackTrace();
@@ -437,29 +428,30 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 							logger.info("order wechatpay success save tradeNo:[{}]", paidRespVo.getTradeNo());
 							this.savePaymentTradeNo(payment.getId(), paidRespVo.getTradeNo());
 						}
-						resp.setPaid(true);
-						resp.setMessage("您的订单已经成功提交");
-					} else {
-						resp.setPaid(false);
-						resp.setMessage("您的订单未成功提交");
+						paid = true;
 					}
-				} catch (PaymentException e) {
-					e.printStackTrace();
+				} catch (Exception e) {
+					logger.error("查询微信支付异常", e);
 				}
 				break;
 			case PAY_ON_DELIVERY:
-				resp.setPaid(true);
-				resp.setMessage("您的订单已经成功提交");
+				paid = true;
 				break;
 			default:
 				throw new PaymentException("不支持的支付方式:" + paymentType);
 		}
 
-		if (resp.isPaid()) {
+		if (paid) {
 			this.confirmPaid(orderId, payment);
 		}
 
-		return resp;
+		PaymentQueryResultRespVo paymentQueryResult = new PaymentQueryResultRespVo(payment);
+		paymentQueryResult.setPaid(paid);
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("订单[orderId={}]查询支付结果", orderId);
+		}
+		return paymentQueryResult;
 	}
 
 	@Override
