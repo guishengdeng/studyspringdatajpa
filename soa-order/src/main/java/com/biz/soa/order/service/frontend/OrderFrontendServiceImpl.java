@@ -154,8 +154,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         if (reqVo instanceof OrderCreateReqVo) {
             //
         } else {
-            List<Integer> supportedPaymentTypes = paymentService.getSupportedPaymentTypes(userId);
-            builder.setPaymentTypes(supportedPaymentTypes);
+            builder.setPaymentTypes(paymentService.getSupportedPaymentTypes(userId));
             OrderPromotionRespVO promotion = this.getUsablePromotion(userInfo, settleOrderItemVos);
             if (promotion != null) {
                 List<OrderPromotionRespVo> promotionRespVos = Lists.transform(promotion.getActivePromotionItems(),

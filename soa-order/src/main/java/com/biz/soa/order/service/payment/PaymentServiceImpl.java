@@ -17,6 +17,7 @@ import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.DepotNextDoorExceptions;
 import com.biz.gbck.exceptions.order.PaymentException;
 import com.biz.gbck.vo.IdReqVo;
+import com.biz.gbck.vo.order.resp.OrderPaymentTypeRespVo;
 import com.biz.gbck.vo.org.UserInfoVo;
 import com.biz.gbck.vo.payment.req.IWechatPaymentReqVo;
 import com.biz.gbck.vo.payment.resp.*;
@@ -53,6 +54,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static com.biz.gbck.enums.order.PaymentType.ALIPAY;
 import static com.biz.gbck.enums.order.PaymentType.WECHAT;
@@ -488,12 +490,12 @@ public class PaymentServiceImpl extends AbstractBaseService implements PaymentSe
 	}
 
 	@Override
-	public List<Integer> getSupportedPaymentTypes(String userId) throws DepotNextDoorException {
+	public List<OrderPaymentTypeRespVo> getSupportedPaymentTypes(String userId) throws DepotNextDoorException {
 		UserInfoVo userInfo = userFeignClient.findUserInfo(Long.valueOf(userId));
 		BusinessAsserts.notNull(userInfo, DepotNextDoorExceptions.User.USER_NOT_EXIST);
 		List<Integer> supportPaymentIds = userInfo.getSupportPaymentIds();
-		CollectionUtils.subtract(supportPaymentIds, userInfo.getDisabledPaymentIds());
-		return supportPaymentIds;
+		supportPaymentIds.removeAll(userInfo.getDisabledPaymentIds());
+		return supportPaymentIds.stream().map(o -> new OrderPaymentTypeRespVo(o)).collect(Collectors.toList());
 	}
 
 	/**
