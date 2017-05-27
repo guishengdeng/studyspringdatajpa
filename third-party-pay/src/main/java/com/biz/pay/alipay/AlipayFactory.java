@@ -34,7 +34,7 @@ public class AlipayFactory {
 	
 	private final static String invalidParamChars = "\\s*|\t|\r|\n";
 
-	private Properties conf;
+	private static Properties conf;
 
 	private ImmutableMap<String, String> confMap;
 
@@ -74,15 +74,23 @@ public class AlipayFactory {
 
 	private final static AlipayFactory alipayFactory = new AlipayFactory();
 
-	private AlipayFactory() {
-		try {
-			logger.info("加载支付宝配置文件...");
-			conf = new Properties();
-			conf.load(AlipayFactory.class.getClassLoader().getResourceAsStream(CONFIG_PATH));
-			initAlipayConfig();
-		} catch (Throwable e) {
-			throw new RuntimeException("加载alipay 配置文件失败", e);
-		}
+//	private AlipayFactory() {
+//		try {
+//			logger.info("加载支付宝配置文件...");
+//			conf = new Properties();
+//			conf.load(AlipayFactory.class.getClassLoader().getResourceAsStream(CONFIG_PATH));
+//			initAlipayConfig();
+//		} catch (Throwable e) {
+//			throw new RuntimeException("加载alipay 配置文件失败", e);
+//		}
+//	}
+
+
+	public AlipayFactory() {
+	}
+
+	public static void setConf(Properties conf) {
+		AlipayFactory.conf = conf;
 	}
 
 	public static AlipayFactory newInstance() {
@@ -92,16 +100,16 @@ public class AlipayFactory {
 	/**
 	 * 初始化支付宝配置
 	 */
-	private void initAlipayConfig() {
-		AlipayConfig.partner = conf.getProperty(PARTNER);
-		AlipayConfig.account_name = conf.getProperty(ACCOUNT_NAME);
-		AlipayConfig.private_key = conf.getProperty(PRIVATE_KEY);
-		AlipayConfig.email_account = conf.getProperty(EMAIL_ACCOUNT);
-		AlipayConfig.seller_id = AlipayConfig.partner;
-		AlipayConfig.ali_public_key = conf.getProperty(PUBLIC_KEY);
-		AlipayConfig.sign_key = conf.getProperty(SIGN_MD5_KEY);
-		AlipayConfig.sign_type = conf.getProperty(SIGN_TYPE_KEY);
-	}
+//	private void initAlipayConfig() {
+//		AlipayConfig.partnerf.getProperty(PARTNER);
+//		AlipayConfig.account_name = conf.getProperty(ACCOUNT_NAME);
+//		AlipayConfig.private_key = conf.getProperty(PRIVATE_KEY);
+//		AlipayConfig.email_account = conf.getProperty(EMAIL_ACCOUNT);
+//		AlipayConfig.seller_id = AlipayConfig.partner;
+//		AlipayConfig.ali_public_key = conf.getProperty(PUBLIC_KEY);
+//		AlipayConfig.sign_key = conf.getProperty(SIGN_MD5_KEY);
+//		AlipayConfig.sign_type = conf.getProperty(SIGN_TYPE_KEY);
+//	}
 	/**
 	 * 获取带签名的手机端支付参数
 	 * Created getSignedMobilePayRequestParams By @author jun.liu  
@@ -110,7 +118,7 @@ public class AlipayFactory {
 	 * @param @param orderSubject
 	 * @param @param payAmount
 	 * @param @param payLimitTime
-	 * @param @throws UnsupportedEncodingException
+	 * @param @throws = con UnsupportedEncodingException
 	 * @return String
 	 */ 
 	public String getSignedMobilePayRequestParams(String orderPaymentId, String orderSubject, int payAmount,

@@ -45,7 +45,7 @@ public class SoaPaymentController extends SoaBaseController {
     @RequestMapping("/app/alipay")
     public MicroServiceResult<AlipaySignRespVo> alipay(@RequestBody IdReqVo reqVo) {
         try {
-            return render200(paymentService.getAlipaySign(reqVo.getId()));
+            return render200(paymentService.getAlipaySign(Long.valueOf(reqVo.getId())));
         } catch (Exception e) {
             return render500(e);
         }

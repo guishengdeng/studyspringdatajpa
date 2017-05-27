@@ -3,11 +3,12 @@ package com.biz.soa.base;
 import com.biz.core.exceptions.BusinessException;
 import com.biz.core.exceptions.FunctionExceptions;
 import com.biz.gbck.vo.soa.MicroServiceResult;
-import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 import static com.biz.gbck.vo.soa.MicroServiceResult.INTERNAL_ERROR_STATUS;
 import static com.biz.gbck.vo.soa.MicroServiceResult.SUCCESS_STATUS;
@@ -50,6 +51,7 @@ public abstract class SoaBaseController {
 
     protected <T> MicroServiceResult<T> render500(Exception e) {
         MicroServiceResult<T> renderResult = new MicroServiceResult<>();
+        logger.error("Soa Exception: ", e);
         renderResult.setStatus(INTERNAL_ERROR_STATUS);
         renderResult.setException(e);
         renderResult.setMsg(e.getMessage());

@@ -1,9 +1,8 @@
 package com.biz.gbck.vo.product.gbck.response;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import java.io.Serializable;
 import java.util.List;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * 商品列表项Vo
@@ -26,7 +25,12 @@ public class ProductAppListItemVo implements Serializable {
     /**
      * 商品名称
      */
-    private String productName;
+    private String name;
+
+    /**
+     * 商品规格
+     */
+    private String standard;
 
     /**
      * 商品编码
@@ -87,9 +91,17 @@ public class ProductAppListItemVo implements Serializable {
     public ProductAppListItemVo() {
     }
 
+    public String getStandard() {
+        return standard;
+    }
+
+    public void setStandard(String standard) {
+        this.standard = standard;
+    }
+
     public ProductAppListItemVo(ProductAppListItemVo itemVo) {
         this.setId(itemVo.getId());
-        this.setProductName(itemVo.getProductName());
+        this.setName(itemVo.getName());
         this.setProductCode(itemVo.getProductCode());
         this.setLogo(itemVo.getLogo());
         this.setTags(itemVo.getTags());
@@ -101,6 +113,7 @@ public class ProductAppListItemVo implements Serializable {
         this.setSalePrice(itemVo.getSalePrice());
         this.setSuggestSalePrice(itemVo.getSuggestSalePrice());
         this.setStock(itemVo.getStock());
+        this.setStandard(itemVo.getStandard());
     }
 
     public String getId() {
@@ -111,12 +124,12 @@ public class ProductAppListItemVo implements Serializable {
         this.id = id;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getName() {
+        return name;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getProductCode() {

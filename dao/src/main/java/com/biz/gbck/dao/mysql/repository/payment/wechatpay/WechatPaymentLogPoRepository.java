@@ -1,7 +1,8 @@
-package com.biz.gbck.dao.mysql.repository.payment;
+package com.biz.gbck.dao.mysql.repository.payment.wechatpay;
 
 import com.biz.gbck.dao.mysql.po.payment.WechatPaymentLogPo;
 import com.biz.support.jpa.repository.CommonJpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
  * @see
  */
 @Repository
-public interface WechatPaymentLogPoRepository extends CommonJpaRepository<WechatPaymentLogPo, Long> {
+public interface WechatPaymentLogPoRepository extends CommonJpaRepository<WechatPaymentLogPo, Long> ,JpaSpecificationExecutor<WechatPaymentLogPo>  {
+
 }
 

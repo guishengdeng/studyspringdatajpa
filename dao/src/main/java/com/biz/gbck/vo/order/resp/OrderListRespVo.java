@@ -1,6 +1,7 @@
-package com.biz.gbck.vo;
+package com.biz.gbck.vo.order.resp;
 
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @date 2017年05月07日
  * @reviewer
  */
-public class PageRespVo implements Serializable {
+public class OrderListRespVo implements Serializable {
     private static final long serialVersionUID = -5113775306566869929L;
 
     /**
@@ -19,9 +20,13 @@ public class PageRespVo implements Serializable {
     private String lastFlag;
 
     //集合
-    private List<?> list = Lists.newArrayList();
+    private List<OrderRespVo> list = Lists.newArrayList();
 
-    public PageRespVo(String lastFlag, List<?> list) {
+    public OrderListRespVo() {
+    }
+
+    public OrderListRespVo(String lastFlag, List<OrderRespVo> list) {
+        this();
         this.lastFlag = lastFlag;
         this.list = list;
     }
@@ -34,11 +39,16 @@ public class PageRespVo implements Serializable {
         this.lastFlag = lastFlag;
     }
 
-    public List<?> getList() {
+    public List<OrderRespVo> getList() {
         return list;
     }
 
-    public void setList(List<?> list) {
+    public void setList(List<OrderRespVo> list) {
         this.list = list;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

@@ -2,7 +2,7 @@ spring:
   application:
     name: soa-order
   profiles:
-    active: dev
+    active: internal
 
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
@@ -78,4 +78,5 @@ payment:
     mch_id.wxe458de408eef40eb: 1340664401
     key.wxe458de408eef40eb: 9d49f4f815890c8ef39935a271c38bd7
     LOAD_IDENTIFICATION.wxe458de408eef40eb: /wxe458de408eef40eb_apiclient_cert.p12
+    spbill_create_ip: 192.168.10.1
     notify-url: http://external.com/wechatPay/notify.do

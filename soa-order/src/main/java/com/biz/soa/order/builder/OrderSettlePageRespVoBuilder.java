@@ -59,7 +59,7 @@ public class OrderSettlePageRespVoBuilder {
     //付款促销活动
     public OrderSettlePageRespVoBuilder setPromotions(List<OrderPromotionRespVo> promotions){
         //TODO
-        this.respVo.setPromotions(promotions);
+        this.respVo.setSalePromotionDetail(promotions);
         return this;
     }
 

@@ -48,6 +48,6 @@
             <groupId>com.biz.gbck</groupId>
             <artifactId>biz-core</artifactId>
         </dependency>
-        
+
     </dependencies>
 </project>
