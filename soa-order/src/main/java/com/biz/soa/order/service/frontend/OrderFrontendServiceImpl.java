@@ -304,7 +304,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         Order order = OrderBuilder.createBuilder(reqVo)
                 .setUserInfo(settleResult.getUserInfoVo())
                 .setItems(this.transOrderItems(items))
-                .setFreeAmount(settleResult.getOrderAmount())
+                .setFreeAmount(ValueUtils.getValue(settleResult.getFreeAmount()))
                 .setVoucherAmount(settleResult.getVoucherAmount())
                 .setPayAmount(settleResult.getPayAmount())
                 .setPaymentType(PaymentType.valueOf(reqVo.getPaymentType()))
