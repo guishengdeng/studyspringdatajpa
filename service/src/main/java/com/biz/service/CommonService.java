@@ -7,24 +7,22 @@ import com.depotnearby.common.mo.cache.CacheMessage;
 import com.depotnearby.common.spring.DepotnearbyTransactionManager;
 import com.depotnearby.exception.CommonException;
 import com.depotnearby.vo.mq.MQMessage;*/
+
 import com.biz.common.event.DepotnearbyEvent;
 import com.biz.gbck.common.spring.DepotnearbyTransactionManager;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 
 public abstract class CommonService implements ApplicationEventPublisherAware,
         ApplicationContextAware {
@@ -39,6 +37,7 @@ public abstract class CommonService implements ApplicationEventPublisherAware,
     @Autowired
     protected IdPool idPool;*/
 
+    @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
     private static ApplicationContext APPLICATIONCONTEXT;
@@ -48,8 +47,9 @@ public abstract class CommonService implements ApplicationEventPublisherAware,
     private static final Map<Class, Map<String, LoadingCache<Object, Object>>> loadingCacheMap = new ConcurrentHashMap<>();
 
 
-    @Override public void setApplicationContext(ApplicationContext applicationContext)
-        throws BeansException {
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext)
+            throws BeansException {
         APPLICATIONCONTEXT = applicationContext;
     }
 
@@ -96,16 +96,16 @@ public abstract class CommonService implements ApplicationEventPublisherAware,
     }
 
     @SuppressWarnings("unchecked")
-    protected <K, V> V loadFromCacheOrCacheLoader(String cacheLoaderKey, CacheLoader<K , V> cacheLoader, K dataKey,
-        TimeUnit cacheTimeUnit, long cacheDuration){
+    protected <K, V> V loadFromCacheOrCacheLoader(String cacheLoaderKey, CacheLoader<K, V> cacheLoader, K dataKey,
+                                                  TimeUnit cacheTimeUnit, long cacheDuration) {
 
         Class<? extends CommonService> serviceClass = getClass();
         Map<String, LoadingCache<Object, Object>> serviceLoadingCacheMap =
-            loadingCacheMap.get(serviceClass);
-        if(serviceLoadingCacheMap == null) {
-            synchronized (serviceClass){
+                loadingCacheMap.get(serviceClass);
+        if (serviceLoadingCacheMap == null) {
+            synchronized (serviceClass) {
                 serviceLoadingCacheMap = loadingCacheMap.get(serviceClass);
-                if(serviceLoadingCacheMap == null){
+                if (serviceLoadingCacheMap == null) {
                     serviceLoadingCacheMap = new ConcurrentHashMap<>();
                     loadingCacheMap.put(serviceClass, serviceLoadingCacheMap);
                 }
@@ -117,8 +117,8 @@ public abstract class CommonService implements ApplicationEventPublisherAware,
                 loadingCache = serviceLoadingCacheMap.get(cacheLoaderKey);
                 if (loadingCache == null) {
                     loadingCache = (LoadingCache<Object, Object>) CacheBuilder.newBuilder()
-                        .maximumSize(CACHE_MAX_SIZE)
-                        .expireAfterWrite(cacheDuration, cacheTimeUnit).build(cacheLoader);
+                            .maximumSize(CACHE_MAX_SIZE)
+                            .expireAfterWrite(cacheDuration, cacheTimeUnit).build(cacheLoader);
                     serviceLoadingCacheMap.put(cacheLoaderKey, loadingCache);
                 }
             }

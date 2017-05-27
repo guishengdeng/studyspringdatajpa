@@ -5,11 +5,10 @@ import com.biz.core.event.BizEvent;
 import com.biz.gbck.dao.redis.repository.org.UserRedisDao;
 import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.soa.org.event.AutoLoginEvent;
+import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.transaction.Transactional;
 
 
 /**
@@ -17,6 +16,11 @@ import javax.transaction.Transactional;
  */
 public class AutoLoginListener extends AbstractBizEventListener<BizEvent> {
 
+
+    private final static Logger logger = LoggerFactory.getLogger(UserLoginListener.class);
+
+    @Autowired
+    private UserRedisDao userRedisDao;
 
     @Override
     @Transactional
@@ -31,10 +35,5 @@ public class AutoLoginListener extends AbstractBizEventListener<BizEvent> {
                     autoLoginEvent.getAutoLoginReqVo().getGlobalParams().getUserAgent());
         }
     }
-
-    @Autowired
-    private UserRedisDao userRedisDao;
-
-    private final static Logger logger = LoggerFactory.getLogger(UserLoginListener.class);
 
 }
