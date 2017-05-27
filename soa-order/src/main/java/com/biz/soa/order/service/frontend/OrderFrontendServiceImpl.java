@@ -337,6 +337,26 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         return order;
     }
 
+    @Transactional
+    @Override
+    public void payLimitOrderTask() {
+        if (logger.isDebugEnabled()) {
+            logger.debug("payLimitOrderTask begin...");
+        }
+        List<Long> tobeExpiredOrderIds = orderRedisDao.getAllToBeExpiredOrderIds();
+        if (CollectionUtils.isEmpty(tobeExpiredOrderIds)) return;
+        tobeExpiredOrderIds.forEach(o -> {
+            try {
+                this.systemCancelOrder(o);
+            } catch (DepotNextDoorException e) {
+                logger.error("取消订单失败. orderId: {}", o);
+            }
+        });
+        if (logger.isDebugEnabled()) {
+            logger.debug("payLimitOrderTask finished...");
+        }
+    }
+
     //锁定库存
     public void lockStock(Order order) throws DepotNextDoorException {
         List<UpdateCompanyLockStockReqVO> lockStockReqVOS = newArrayList();

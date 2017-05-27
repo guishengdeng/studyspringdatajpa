@@ -68,6 +68,8 @@ public abstract class AbstractOrderService extends AbstractBaseService {
     @Autowired(required = false)
     protected PromotionFeignClient promotionFeignClient;
 
+
+
     protected Order getOrder(Long id) {
         return orderRepository.findOne(id);
     }

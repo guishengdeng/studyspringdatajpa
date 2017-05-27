@@ -1,15 +1,20 @@
 package com.biz.gbck.dao.redis.repository.order;
 
 import com.biz.core.asserts.SystemAsserts;
+import com.biz.core.util.DateUtil;
 import com.biz.gbck.dao.redis.CrudRedisDao;
 import com.biz.gbck.dao.redis.ro.order.OrderRo;
 import com.biz.gbck.enums.order.OrderShowStatus;
 import com.biz.redis.util.RedisUtil;
+import org.apache.commons.lang.math.NumberUtils;
+import org.codelogger.utils.CollectionUtils;
 import org.codelogger.utils.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -149,6 +154,20 @@ public class OrderRedisDao extends CrudRedisDao<OrderRo, Long> {
         return null;
     }
 
+    /**
+     * 查询所有应该过期的订单id
+     * @author yanweijin
+     * @date 2016年9月21日
+     * @return
+     */
+    public List<Long> getAllToBeExpiredOrderIds(){
+        Set<String> idKeys =
+                zrangeByScore(this.orderExpireSortedSetKey(), 0L, DateUtil.now().getTime());
+        if (CollectionUtils.isNotEmpty(idKeys)){
+            zremrangeByRank(this.orderExpireSortedSetKey(), 0, idKeys.size() - 1);
+        }
+        return idKeys.stream().filter(NumberUtils::isNumber).map(Long::valueOf).collect(Collectors.toList());
+    }
 
     /**
      * 订单编码映射订单Id
