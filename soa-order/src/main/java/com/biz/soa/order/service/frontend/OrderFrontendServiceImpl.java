@@ -40,8 +40,8 @@ import org.codelogger.utils.CollectionUtils;
 import org.codelogger.utils.ValueUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -115,8 +115,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
 
     }
 
-    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public void systemCancelOrder(Long orderId) throws DepotNextDoorException  {
+    private void systemCancelOrder(Long orderId) throws DepotNextDoorException  {
         logger.info("系统取消订单-------请求vo: {}", orderId);
         super.queryPayStatus(orderId);
         Order order = orderRepository.findOne(orderId);
