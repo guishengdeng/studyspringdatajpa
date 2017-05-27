@@ -50,7 +50,7 @@ public class OrderSettlePageRespVo implements Serializable {
     private List<OrderItemRespVo> items = newArrayList();
 
     // 促销列表
-    private List<OrderPromotionRespVo> promotions = newArrayList();
+    private List<OrderPromotionRespVo> salePromotionDetail = newArrayList();
 
     // 可用优惠卷数量
     private Integer coupons = 0;
@@ -181,12 +181,12 @@ public class OrderSettlePageRespVo implements Serializable {
         this.buyerAddress = buyerAddress;
     }
 
-    public List<OrderPromotionRespVo> getPromotions() {
-        return promotions;
+    public List<OrderPromotionRespVo> getSalePromotionDetail() {
+        return salePromotionDetail;
     }
 
-    public void setPromotions(List<OrderPromotionRespVo> promotions) {
-        this.promotions = promotions;
+    public void setSalePromotionDetail(List<OrderPromotionRespVo> salePromotionDetail) {
+        this.salePromotionDetail = salePromotionDetail;
     }
 
     public UserInfoVo getUserInfoVo() {

@@ -22,12 +22,11 @@ import com.biz.gbck.dao.mysql.po.voucher.VoucherTypePo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherTypeStatus;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
-import com.biz.gbck.enums.user.ShopTypeStatus;
 import com.biz.gbck.vo.voucher.VoucherTypeVo;
 import com.biz.manage.util.AuthorityUtil;
-import com.biz.service.org.interfaces.ShopTypeService;
 import com.biz.service.product.backend.CategoryService;
 import com.biz.service.security.interfaces.AdminService;
+import com.biz.soa.feign.client.org.ShopTypeFeignClient;
 import com.biz.soa.feign.client.voucher.VoucherTypeFeignClient;
 
 /**
@@ -43,7 +42,7 @@ public class VoucherTypeController {
     private static final Logger logger = LoggerFactory.getLogger(VoucherTypeController.class);
 
     @Autowired
-    private VoucherTypeFeignClient voucherTypeService;
+    private VoucherTypeFeignClient voucherTypeFeignClient;
 
     @Autowired
     private CategoryService categoryService;
@@ -52,7 +51,7 @@ public class VoucherTypeController {
     private AdminService manager;
     
     @Autowired 
-    private ShopTypeService shopTypeService;
+    private ShopTypeFeignClient shopTypeFeignClient;
     
     /**
      * @Description: 进入优惠券类型列表页面
@@ -61,7 +60,7 @@ public class VoucherTypeController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
 //	@PreAuthorize("hasAuthority('OPT_VOUCHERTYPE_LIST')")	
     public ModelAndView listVoucherTypes() {
-        List<VoucherTypeRo> voucherTypeRos = voucherTypeService.allVoucherTypesInApp();
+        List<VoucherTypeRo> voucherTypeRos = voucherTypeFeignClient.allVoucherTypesInApp();
         Collections.sort(voucherTypeRos,new Comparator<VoucherTypeRo>(){  
             public int compare(VoucherTypeRo arg0, VoucherTypeRo arg1) {  
                 return arg1.getId().compareTo(arg0.getId());  
@@ -87,7 +86,7 @@ public class VoucherTypeController {
         view.addObject("listEnableAdmins", listEnableAdmins);
         
         // 商户类型
-        List<ShopTypeRo> shopTypes = shopTypeService.findAllShopTypeRo(ShopTypeStatus.NORMAL);
+        List<ShopTypeRo> shopTypes = shopTypeFeignClient.findAllShopTypeRo();
         view.addObject("shopTypes", shopTypes);
         
         // 商品分类
@@ -110,7 +109,7 @@ public class VoucherTypeController {
 //	@PreAuthorize("hasAuthority('OPT_VOUCHERTYPE_SAVE')")
     public ModelAndView saveCreate(VoucherTypeVo voucherTypeVo) {
         voucherTypeVo.setIssuerName(AuthorityUtil.getLoginUsername());
-        voucherTypeService.save(voucherTypeVo);
+        voucherTypeFeignClient.save(voucherTypeVo);
         return new ModelAndView("redirect:/manage/voucherType/list.do");
     }
     
@@ -124,7 +123,7 @@ public class VoucherTypeController {
     public ModelAndView details(@RequestParam("id") Long id) {
     	ModelAndView view = new ModelAndView("/voucherTypes/details");
     	   
-        VoucherTypePo voucherTypePo = voucherTypeService.getVoucherTypeById(id);
+        VoucherTypePo voucherTypePo = voucherTypeFeignClient.getVoucherTypeById(id);
         view.addObject("voucherTypePo", voucherTypePo);
         
         return view;
@@ -139,7 +138,7 @@ public class VoucherTypeController {
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
 //	@PreAuthorize("hasAuthority('OPT_VOUCHERTYPE_EDIT')")
     public ModelAndView editVoucherType(@RequestParam("id") Long id) {
-        VoucherTypePo voucherTypePo = voucherTypeService.getVoucherTypeById(id);
+        VoucherTypePo voucherTypePo = voucherTypeFeignClient.getVoucherTypeById(id);
         ModelAndView view = new ModelAndView("/voucherTypes/edit", "voucherType", voucherTypePo);
         return view;
     }
@@ -153,7 +152,7 @@ public class VoucherTypeController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
 //	@PreAuthorize("hasAuthority('OPT_VOUCHERTYPE_UPDATE')")
     public ModelAndView saveEdit(VoucherTypeVo voucherTypeVo) {
-    	  voucherTypeService.update(voucherTypeVo);
+    	voucherTypeFeignClient.update(voucherTypeVo);
           return new ModelAndView("redirect:/manage/voucherType/list.do");
     }
     
@@ -171,7 +170,7 @@ public class VoucherTypeController {
     		@RequestParam("addIssueCount") int addIssueCount){
     	String result  = "error";
         try {
-        	this.voucherTypeService.addVoucherTypeIssueCount(id, addIssueCount);
+        	this.voucherTypeFeignClient.addVoucherTypeIssueCount(id, addIssueCount);
 			result = "success";
 		} catch (Exception e) {
 			logger.error("更新优惠券数量异常,id["+id+"],addIssueCount["+addIssueCount+"]，异常信息["+e.getMessage()+"]",e);
@@ -188,7 +187,7 @@ public class VoucherTypeController {
     @RequestMapping(value = "/delete")
 //	@PreAuthorize("hasAuthority('OPT_VOUCHERTYPE_DELETE')")
     public ModelAndView deleteVoucherType(@RequestParam("id") Long id) {
-        voucherTypeService.deleteVoucherType(id);
+    	voucherTypeFeignClient.deleteVoucherType(id);
         return new ModelAndView("redirect:/manage/voucherType/list.do");
     }
 }

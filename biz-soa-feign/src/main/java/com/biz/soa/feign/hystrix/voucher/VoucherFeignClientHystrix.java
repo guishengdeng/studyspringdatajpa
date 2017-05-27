@@ -1,5 +1,8 @@
 package com.biz.soa.feign.hystrix.voucher;
 
+import java.util.List;
+
+import org.springframework.stereotype.Component;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherTypePo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
@@ -7,17 +10,21 @@ import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.vo.order.resp.IProduct;
 import com.biz.gbck.vo.order.resp.OrderCouponReqVo;
 import com.biz.gbck.vo.spring.PageVO;
+import com.biz.gbck.vo.voucher.DispatcherVoucherReqVo;
 import com.biz.gbck.vo.voucher.VoucherSearchVo;
+import com.biz.gbck.vo.voucher.VoucherValidataReqVo;
 import com.biz.soa.feign.client.voucher.VoucherFeignClient;
 import com.biz.support.web.handler.JSONResult;
 import com.biz.vo.voucher.ShopCraftVoucherVo;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class VoucherFeignClientHystrix implements VoucherFeignClient {
 
+	@Override
+	public JSONResult allVouchers(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public List<VoucherPo> listAllVouchersByUserId(Long userId) {
@@ -26,15 +33,13 @@ public class VoucherFeignClientHystrix implements VoucherFeignClient {
 	}
 
 	@Override
-	public Boolean validateDispatcherAction(List<Long> userIds, Long shopTypeId, Long voucherTypeId,
-			int dispatcherCnt) {
+	public Boolean validateDispatcherAction(VoucherValidataReqVo voucherValidataReqVo) {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 	@Override
-	public void dispatcherVoucher(List<Long> userIds, VoucherTypeRo voucherTypeRo, Integer dispatcherCnt,
-			String loginUsername) {
+	public void dispatcherVoucher(DispatcherVoucherReqVo dispatcherVoucherReqVo) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -42,29 +47,29 @@ public class VoucherFeignClientHystrix implements VoucherFeignClient {
 	@Override
 	public Integer findVoucherNumberById(Long voucherTypeId) {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 	@Override
 	public Integer getUsableCount(OrderCouponReqVo reqVo) {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 	@Override
-	public List<ShopCraftVoucherVo> getAvailableVouchers(Long userId, List<? extends IProduct> itemVos) {
+	public List<ShopCraftVoucherVo> getAvailableVouchers(String userId, List<? extends IProduct> itemVos) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Integer getVoucherLimit(OrderCouponReqVo iOrderPeriodQueryReqVo) throws DepotNextDoorException {
+	public Integer getVoucherLimit(OrderCouponReqVo OrderCouponReqVo) throws DepotNextDoorException {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 	@Override
-	public void useVoucher(OrderCouponReqVo iOrderPeriodQueryReqVo) {
+	public void useVoucher(OrderCouponReqVo orderCouponReqVo) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -80,12 +85,6 @@ public class VoucherFeignClientHystrix implements VoucherFeignClient {
 			String loginUsername) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public JSONResult allVouchers(String userId) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

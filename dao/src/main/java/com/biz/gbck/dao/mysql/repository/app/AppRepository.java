@@ -19,6 +19,8 @@ public interface AppRepository extends CommonJpaRepository<App, Long>, JpaSpecif
       @Transactional
       @Query("SELECT app.id FROM App app  ORDER BY createTimestamp DESC")
       List<App> findLastData();
+
+      List<App> findAByOrderByCreateTimestampDesc();
 }
 
 

@@ -22,7 +22,11 @@ public class OrderListRespVo implements Serializable {
     //集合
     private List<OrderRespVo> list = Lists.newArrayList();
 
+    public OrderListRespVo() {
+    }
+
     public OrderListRespVo(String lastFlag, List<OrderRespVo> list) {
+        this();
         this.lastFlag = lastFlag;
         this.list = list;
     }

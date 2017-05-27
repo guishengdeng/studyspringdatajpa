@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(name = "soa-order", fallback = OrderFeignClientHystrix.class)
 public interface OrderFeignClient {
 
-    @RequestMapping(value = "/soa/order/app/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/soa/order/app/list", method = RequestMethod.POST)
     MicroServiceResult<OrderListRespVo> allTypeOrders(@RequestBody OrderListReqVo reqVo);
 
     @RequestMapping(value = "/soa/order/app/detail", method = RequestMethod.POST)

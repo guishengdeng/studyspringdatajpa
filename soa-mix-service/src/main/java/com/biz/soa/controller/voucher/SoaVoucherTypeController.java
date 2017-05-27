@@ -79,5 +79,14 @@ public class SoaVoucherTypeController extends SoaBaseController{
 		voucherTypeService.deleteVoucherType(id);
 	}
 	
+	/**
+	 * 获取优惠券类型RO
+	 * @param voucherTypeId
+	 * @return
+	 */
+	@PostMapping(value="/getVouTypeRO")
+	public VoucherTypeRo getVoucherTypeRoById(@RequestParam("voucherTypeId") Long voucherTypeId){
+		return voucherTypeService.getVoucherTypeRoById(voucherTypeId);
+	}
 }
 

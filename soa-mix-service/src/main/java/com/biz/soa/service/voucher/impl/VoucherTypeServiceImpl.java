@@ -104,7 +104,7 @@ public class VoucherTypeServiceImpl extends AbstractBaseService implements Vouch
 
 		String paymentType = voucherTypeVo.getPaymentType();
 		if (paymentType != null && !"".equals(paymentType)) {
-			voucherTypePo.setPaymentType(paymentType);
+			voucherTypePo.setPaymentType(paymentType+","+PaymentType.ALIPAY + "," + PaymentType.WECHAT);
 		} else {
 			voucherTypePo.setPaymentType(PaymentType.ALIPAY + "," + PaymentType.WECHAT);
 		}

@@ -147,7 +147,7 @@ public class OrderBuilder {
         order.setId(id);
         order.setOrderCode(orderCode);
         Timestamp createTime = DateUtil.now();
-        Timestamp expireTime = new Timestamp(createTime.getTime() + DateUtil.DAY);
+        Timestamp expireTime = new Timestamp(createTime.getTime() + DateUtil.HOUR);
         order.setCreateTimestamp(createTime);
         order.setExpireTimestamp(expireTime);
         return order;

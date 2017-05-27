@@ -26,7 +26,6 @@ import com.biz.gbck.dao.mysql.repository.voucher.VoucherDao;
 import com.biz.gbck.dao.mysql.repository.voucher.VoucherRepository;
 import com.biz.gbck.dao.mysql.repository.voucher.VoucherTypeRepository;
 import com.biz.gbck.dao.mysql.specification.voucher.VoucherSearchSpecification;
-import com.biz.gbck.dao.redis.repository.product.ProductRedisDao;
 import com.biz.gbck.dao.redis.repository.voucher.VoucherRedisDao;
 import com.biz.gbck.dao.redis.repository.voucher.VoucherTypeRedisDao;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
@@ -37,7 +36,6 @@ import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeWithQuantity;
 import com.biz.gbck.enums.user.AuditStatus;
-import com.biz.gbck.enums.user.ShopTypeStatus;
 import com.biz.gbck.util.DateTool;
 import com.biz.gbck.vo.order.resp.IProduct;
 import com.biz.gbck.vo.product.frontend.ProductListItemVo;
@@ -101,9 +99,6 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	
 	@Autowired 
 	private VoucherDao voucherRepositoryImpl;
-	
-	@Autowired
-	private ProductRedisDao productRedisDao;
 	
 	@Override
 	public Collection<VoucherRo> findUsableVouchersByUserIdAndVoucherType(Long userId, Long voucherTypeId) {
@@ -298,10 +293,10 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
       if (shopTypeId == null) {
           if (CollectionUtils.isEmpty(userIds)) {
               List<ShopTypeRo> shopTypes =  shopTypeFeignClient.findAllShopTypeRo();
-              for (ShopTypeRo ro : shopTypes) {
-            	  if(ro.getStatus().equals(ShopTypeStatus.NORMAL)){//判断可用商铺类型
-            		  userCount = userCount + userFeignClient.findUserIdByShopType(Long.valueOf(ro.getId())).size();
-            	  }
+              if(CollectionUtils.isEmpty(shopTypes)){
+	              for (ShopTypeRo ro : shopTypes) {
+	            	  userCount = userCount + userFeignClient.findUserIdByShopType(Long.valueOf(ro.getId())).size();
+	              }
               }
           }
       } else {
@@ -543,10 +538,13 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 		return new PageVO<VoucherTypePo>(voucherTypeRepository.findAll(new VoucherSearchSpecification(reqVo), new PageRequest(reqVo.getPage()-1, reqVo.getPageSize(), Sort.Direction.DESC, "startTime")));
 	}
 
+	/**
+	 * 批量发放用户组优惠券
+	 */
 	@Override
 	public void dispatcherUserGroupsVoucher(Long userIdGroupsId, VoucherTypeRo voucherTypeRo, Integer dispatcherCnt,
 			String loginUsername) {
-		//通过用户组type获取用户组ids
+		//通过用户组id获取用户ids
 		List<Long> userIds = userFeignClient.findUserIdByCompanyGroupId(userIdGroupsId);
 		if(userIds != null && userIds.size() > 0){
 			//批量发放

@@ -35,7 +35,7 @@ public class GlobalController extends BaseRestController {
     private AdvertisementService advertisementService;
 
 
-    @RequestMapping(value = "/init", method = RequestMethod.POST)
+    @RequestMapping(value = "/init")
     public JSONResult init(HttpServletRequest request) {
         logger.debug("Received rest /init/init GET request.");
         return globalFeignClient.getAppConfigMap();
