@@ -1,6 +1,6 @@
 package com.biz.gbck.vo.cart;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.biz.gbck.common.vo.CommonReqVoBindUserId;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @author lei
  * @date 2017/04/22
  */
-public class ShopCartListReqVo extends BaseShopCartReqVo {
+public class ShopCartListReqVo extends CommonReqVoBindUserId {
 
     private static final long serialVersionUID = 2010073680708198043L;
 

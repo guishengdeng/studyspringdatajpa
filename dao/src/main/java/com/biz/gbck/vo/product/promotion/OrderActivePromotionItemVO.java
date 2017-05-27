@@ -1,6 +1,8 @@
 package com.biz.gbck.vo.product.promotion;
 
 import com.biz.gbck.enums.product.promotion.PromotionTypeEnum;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.io.Serializable;
 
 /**
@@ -178,5 +180,10 @@ public class OrderActivePromotionItemVO implements Serializable {
 
     public void setPromotionEffectProductQuantity(Integer promotionEffectProductQuantity) {
         this.promotionEffectProductQuantity = promotionEffectProductQuantity;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

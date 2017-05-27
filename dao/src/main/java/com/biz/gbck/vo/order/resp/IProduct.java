@@ -20,7 +20,7 @@ public interface IProduct extends Serializable {
     /**
      * 商品价格
      */
-    Integer getPrice();
+    Integer getSalePrice();
 
     /**
      * 数量

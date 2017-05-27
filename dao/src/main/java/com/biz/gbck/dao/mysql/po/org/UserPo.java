@@ -1,6 +1,7 @@
 package com.biz.gbck.dao.mysql.po.org;
 
 import com.biz.support.jpa.po.BaseEntity;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -232,6 +233,8 @@ import java.sql.Timestamp;
 		this.originalPassword = originalPassword;
 	}
 
-
-
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 }

@@ -228,14 +228,14 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
         int cartNum = 0;
         List<ShopCartItemRespVo> cartItemRespVos = newArrayList();
         for (ShopCartItemRo shopCartItemRo : shopCartItemRos) {
-            PurchaseProductItemVO productItemVo = productIdToProductItemVo.get(shopCartItemRo.getId());
+            PurchaseProductItemVO productItemVo = productIdToProductItemVo.get(shopCartItemRo.getProductId());
             if (productItemVo != null) {
                 ShopCartItemRespVo cartItemRespVo = new ShopCartItemRespVo(productItemVo);
                 cartItemRespVo.setQuantity(shopCartItemRo.getQuantity());
                 cartItemRespVo.setCreateTime(shopCartItemRo.getCreateTimestamp());
                 cartItemRespVo.setUpdateTime(shopCartItemRo.getUpdateTimestamp());
                 cartItemRespVos.add(cartItemRespVo);
-                orderAmount += ValueUtils.getValue(cartItemRespVo.getQuantity()) * cartItemRespVo.getPrice();
+                orderAmount += ValueUtils.getValue(cartItemRespVo.getQuantity()) * cartItemRespVo.getSalePrice();
                 cartNum += ValueUtils.getValue(cartItemRespVo.getQuantity());
             }
         }

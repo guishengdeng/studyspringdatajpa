@@ -162,18 +162,22 @@ public class UserSoaController extends BaseRestController {
     /**
      * 通过电话号码查用户
      */
-    @RequestMapping(value = "findUserPoByMobile", method = RequestMethod.POST)
-    public UserPo findUserPoByMobile(@RequestParam("mobile") String mobile) {
-        return userSoaService.findUserPoByMobile(mobile);
+//    @RequestMapping(value = "findUserPoByMobile", method = RequestMethod.POST)
+//    public UserPo findUserPoByMobile(@RequestParam("mobile") String mobile) {
+//        logger.info("findUserPoByMobile mobile is {}", mobile);
+//        return userSoaService.findUserPoByMobile(mobile);
+//    }
+
+    @RequestMapping(value = "findUserRoByMobile", method = RequestMethod.POST)
+    public UserRo findUserRoByMobile(@RequestParam("mobile") String mobile) {
+        return userSoaService.findUserByMobile(mobile);
     }
 
-    /**
-     * 通过电话号码查用户
-     */
-    @RequestMapping(value = "findUserPoByAccount", method = RequestMethod.POST)
-    public UserPo findUserPoByAccount(@RequestParam("account") String account) {
-        return userSoaService.findUserPoByAccount(account);
-    }
+
+//    @RequestMapping(value = "findUserPoByAccount", method = RequestMethod.POST)
+//    public UserPo findUserPoByAccount(@RequestParam("account") String account) {
+//        return userSoaService.findUserPoByAccount(account);
+//    }
 
 
     @RequestMapping(value = "findUser", method = RequestMethod.POST)

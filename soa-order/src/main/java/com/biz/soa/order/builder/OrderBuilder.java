@@ -72,7 +72,7 @@ public class OrderBuilder {
         int orderAmount = 0;
         StringBuilder sb = new StringBuilder();
         for (OrderItem orderItem : orderItems) {
-            orderAmount += ValueUtils.getValue(orderItem.getPrice()) * ValueUtils.getValue(orderItem.getQuantity());
+            orderAmount += ValueUtils.getValue(orderItem.getSalePrice()) * ValueUtils.getValue(orderItem.getQuantity());
             sb.append(orderItem.getName()).append(",");
         }
 

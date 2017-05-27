@@ -89,7 +89,10 @@ public interface UserFeignClient {
     /**
      * 通过电话号码查用户
      */
-    @RequestMapping(value = "/soa/user/findUserPoByMobile", method = RequestMethod.POST)
+    @RequestMapping(value = "/soa/user/findUserRoByMobile", method = RequestMethod.POST)
+    UserRo findUserRoByMobile(@RequestParam("mobile") String mobile);
+
+    @RequestMapping(value = "findUserPoByMobile", method = RequestMethod.POST)
     UserPo findUserPoByMobile(@RequestParam("mobile") String mobile);
 
     /**

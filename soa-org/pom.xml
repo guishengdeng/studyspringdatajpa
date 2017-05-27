@@ -10,7 +10,7 @@
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>soa-user</artifactId>
+    <artifactId>soa-org</artifactId>
     <version>1.0.1-SNAPSHOT</version>
 
     <dependencies>
@@ -33,6 +33,11 @@
         <dependency>
             <groupId>com.biz.gbck</groupId>
             <artifactId>soa-parent</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.biz.gbck</groupId>
+            <artifactId>biz-soa-feign</artifactId>
         </dependency>
     </dependencies>
 

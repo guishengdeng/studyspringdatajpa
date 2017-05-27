@@ -1,6 +1,7 @@
 package com.biz.gbck.vo.order.req;
 
 import com.biz.gbck.vo.IRequestVo;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * 订单商品明细Vo
@@ -40,4 +41,8 @@ public class ProductItemReqVo implements IRequestVo {
         this.quantity = quantity;
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 }

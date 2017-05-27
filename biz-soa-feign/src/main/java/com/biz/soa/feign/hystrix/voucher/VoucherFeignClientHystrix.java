@@ -3,13 +3,12 @@ package com.biz.soa.feign.hystrix.voucher;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
-
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherTypePo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.exceptions.DepotNextDoorException;
-import com.biz.gbck.vo.order.resp.IOrderPeriodQueryReqVo;
 import com.biz.gbck.vo.order.resp.IProduct;
+import com.biz.gbck.vo.order.resp.OrderCouponReqVo;
 import com.biz.gbck.vo.spring.PageVO;
 import com.biz.gbck.vo.voucher.DispatcherVoucherReqVo;
 import com.biz.gbck.vo.voucher.VoucherSearchVo;
@@ -40,15 +39,21 @@ public class VoucherFeignClientHystrix implements VoucherFeignClient {
 	}
 
 	@Override
-	public int findVoucherNumberById(Long voucherTypeId) {
+	public void dispatcherVoucher(DispatcherVoucherReqVo dispatcherVoucherReqVo) {
 		// TODO Auto-generated method stub
-		return 0;
+		
 	}
 
 	@Override
-	public int getUsableCount(IOrderPeriodQueryReqVo reqVo) {
+	public Integer findVoucherNumberById(Long voucherTypeId) {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
+	}
+
+	@Override
+	public Integer getUsableCount(OrderCouponReqVo reqVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -58,13 +63,13 @@ public class VoucherFeignClientHystrix implements VoucherFeignClient {
 	}
 
 	@Override
-	public int getVoucherLimit(IOrderPeriodQueryReqVo iOrderPeriodQueryReqVo) throws DepotNextDoorException {
+	public Integer getVoucherLimit(OrderCouponReqVo OrderCouponReqVo) throws DepotNextDoorException {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 	@Override
-	public void useVoucher(IOrderPeriodQueryReqVo iOrderPeriodQueryReqVo) {
+	public void useVoucher(OrderCouponReqVo orderCouponReqVo) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -81,13 +86,5 @@ public class VoucherFeignClientHystrix implements VoucherFeignClient {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void dispatcherVoucher(DispatcherVoucherReqVo dispatcherVoucherReqVo) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 
 }

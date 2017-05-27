@@ -34,12 +34,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.biz.gbck.dao.mysql.po.org.Company;
 import com.biz.gbck.dao.mysql.po.org.CompanyGroupPo;
-import com.biz.gbck.dao.mysql.po.org.UserPo;
 import com.biz.gbck.dao.mysql.po.security.Admin;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherPo;
 import com.biz.gbck.dao.mysql.po.voucher.VoucherTypePo;
 import com.biz.gbck.dao.redis.repository.voucher.VoucherTypeRedisDao;
 import com.biz.gbck.dao.redis.ro.org.ShopTypeRo;
+import com.biz.gbck.dao.redis.ro.org.UserRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.vo.voucher.DispatcherVoucherReqVo;
 import com.biz.gbck.vo.voucher.VoucherSearchVo;
@@ -371,7 +371,7 @@ public class VoucherController {
             logger.debug("开始处理{}上传的价格文件的第{}行数据", loginUsername, startRow);
             try {
                 String mobile = org.apache.commons.lang3.StringUtils.trim(POIUtil.getCellValue(row.getCell(startCol)));
-                UserPo userRo = userFeignClient.findUserPoByMobile(mobile);
+                UserRo userRo = userFeignClient.findUserRoByMobile(mobile);
                 if (userRo != null) {
                     userIds.add(Long.valueOf(userRo.getId()));
                 }

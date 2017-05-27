@@ -98,7 +98,7 @@ public class OrderItem extends BaseEntity implements IProduct {
         this.productCode = productCode;
     }
 
-    public Integer getPrice() {
+    public Integer getSalePrice() {
         return price;
     }
 

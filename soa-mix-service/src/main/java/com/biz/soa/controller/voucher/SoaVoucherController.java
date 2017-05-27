@@ -26,8 +26,8 @@ import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.exceptions.DepotNextDoorException;
 import com.biz.gbck.exceptions.DepotNextDoorExceptions;
 import com.biz.gbck.util.DateTool;
-import com.biz.gbck.vo.order.resp.IOrderPeriodQueryReqVo;
 import com.biz.gbck.vo.order.resp.IProduct;
+import com.biz.gbck.vo.order.resp.OrderCouponReqVo;
 import com.biz.gbck.vo.spring.PageVO;
 import com.biz.gbck.vo.voucher.DispatcherVoucherReqVo;
 import com.biz.gbck.vo.voucher.VoucherSearchVo;
@@ -165,7 +165,7 @@ public class SoaVoucherController extends SoaBaseController{
      * @return
      */
     @PostMapping(value="/getUsableCount")
-    public int getUsableCount(@RequestBody IOrderPeriodQueryReqVo reqVo){
+    public Integer getUsableCount(@RequestBody OrderCouponReqVo reqVo){
 		return voucherService.getUserUseableVoucherCount(reqVo.getUserId());
     }
     
@@ -180,40 +180,40 @@ public class SoaVoucherController extends SoaBaseController{
     
     /**
      * 优惠券使用
-     * @param iOrderPeriodQueryReqVo
+     * @param reqVo
      * @throws DepotNextDoorException 
      */
     @RequestMapping(value="/useVoucher",method=RequestMethod.POST)
-    public void useVoucher(@RequestBody IOrderPeriodQueryReqVo iOrderPeriodQueryReqVo) throws DepotNextDoorException{
-    	Long userId = iOrderPeriodQueryReqVo.getUserId();
-    	List<Long> vouTypeIds = iOrderPeriodQueryReqVo.getCoupons();
+    public void useVoucher(@RequestBody OrderCouponReqVo reqVo) throws DepotNextDoorException{
+    	Long userId = reqVo.getUserId();
+    	List<Long> vouTypeIds = reqVo.getCoupons();
     	for (Long ids : vouTypeIds) {
     		VoucherTypeRo voucherTypeRo = voucherTypeService.getVoucherTypeRoById(ids);
     		 VoucherRo voucherRo = voucherService.fetchVoucher(userId, voucherTypeRo);
     		 //订单id
-    		 Long orderId = iOrderPeriodQueryReqVo.getOrderId();
-    		 voucherService.useVoucher(iOrderPeriodQueryReqVo.getUserId(), voucherRo.getId(), orderId, getVoucherLimit(iOrderPeriodQueryReqVo));
+    		 Long orderId = reqVo.getOrderId();
+    		 voucherService.useVoucher(reqVo.getUserId(), voucherRo.getId(), orderId, getVoucherLimit(reqVo));
 		}
     }
     
     /**
      * 计算优惠券优惠金额
-     * @param iOrderPeriodQueryReqVo
+     * @param reqVo
      * @return
      * @throws CommonException 
      * @throws DepotNextDoorException 
      */
     @RequestMapping(value = "/getVoucherlimit",method=RequestMethod.POST)
-    public int getVoucherLimit(@RequestBody IOrderPeriodQueryReqVo iOrderPeriodQueryReqVo) throws DepotNextDoorException{
+    public int getVoucherLimit(@RequestBody OrderCouponReqVo reqVo) throws DepotNextDoorException{
 		int voucherLimit =0; ;
 		//优惠券类型id
-    	List<Long> voucherTypeIds = iOrderPeriodQueryReqVo.getCoupons();
+    	List<Long> voucherTypeIds = reqVo.getCoupons();
     	//优惠券使用数量
     	Integer voucherCount = voucherTypeIds.size();
     	//获取所选商品
-		List<? extends IProduct> iProduct = iOrderPeriodQueryReqVo.getProducts();
+		List<? extends IProduct> iProduct = reqVo.getProducts();
 		//用户 id
-		Long userId = iOrderPeriodQueryReqVo.getUserId();
+		Long userId = reqVo.getUserId();
     	for (Long ids : voucherTypeIds) {
     		//根据优惠券类型id取优惠券类型
     		VoucherTypeRo  voucherTypeRo = voucherTypeService.getVoucherTypeRoById(ids);
@@ -266,7 +266,7 @@ public class SoaVoucherController extends SoaBaseController{
                 voucherTypeRo.getVoucherLimitType() == null
                         && voucherTypeRo.getCategoryId() != null)) {
             for (IProduct item : iProduct) {
-                int currentProductPayAmount = item.getPrice() * item.getQuantity();
+                int currentProductPayAmount = item.getSalePrice() * item.getQuantity();
                 if (Objects.equals(voucherTypeRo.getCategoryId(), item.getCategoryId())) {
                     totalPayLimitAmount += currentProductPayAmount;
                     isCheckUseVoucherType = true;
@@ -276,7 +276,7 @@ public class SoaVoucherController extends SoaBaseController{
         } else if (voucherTypeRo.getVoucherLimitType() == VoucherLimitType.BY_PRODUCTS || (
                 voucherTypeRo.getVoucherLimitType() == null && voucherTypeRo.getProductIds() != null)) {
             for (IProduct item : iProduct) {
-                int currentProductPayAmount = item.getPrice() * item.getQuantity();
+                int currentProductPayAmount = item.getSalePrice() * item.getQuantity();
 
                 logger.debug("校验当前选择的优惠券是否满足当前所选购商品>>>voucherTypeRoProductIds[" + voucherTypeRo
                         .getProductIds() + "],goodsProductId[" + item.getProductId() + "],result["
@@ -290,7 +290,7 @@ public class SoaVoucherController extends SoaBaseController{
             }
         } else {// 全可用
             for (IProduct item : iProduct) {
-                totalPayLimitAmount += item.getPrice() * item.getQuantity();
+                totalPayLimitAmount += item.getSalePrice() * item.getQuantity();
             isCheckUseVoucherType = true;
             totalAmount = totalPayLimitAmount;
             }
