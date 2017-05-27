@@ -64,8 +64,9 @@ public class StockServiceImpl extends AbstractBaseService implements StockServic
         respVo.setCompanyId(companyId);
         respVo.setProductId(productId);
 
-        Integer availablePartnerStock = this.getAvailablePartnertStock(companyId, productId);
-        respVo.setQuantity(availablePartnerStock);
+//TODO 暂时写死        Integer availablePartnerStock = this.getAvailablePartnertStock(companyId, productId);
+//        respVo.setQuantity(availablePartnerStock);
+        respVo.setQuantity(1000);
 
         if (logger.isDebugEnabled()) {
             logger.debug("公司库存查询-------请求: {}, 返回值: {}", reqVo, respVo);
@@ -89,7 +90,8 @@ public class StockServiceImpl extends AbstractBaseService implements StockServic
         Map<Long, Integer> productIdToAvailableQuantity = this.getAvailablePartnertStocks(companyId, newLinkedHashSet
                 (productIds));
         for (Long productId : productIds) {
-            Integer availableQuantity = ValueUtils.getValue(productIdToAvailableQuantity.get(productId));
+            //TODO 暂时写死 Integer availableQuantity = ValueUtils.getValue(productIdToAvailableQuantity.get(productId));
+            Integer availableQuantity = 1000;
             respVos.add(new CompanyStockRespVO(companyId, productId, availableQuantity));
         }
 
