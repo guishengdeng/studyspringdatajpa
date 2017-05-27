@@ -1,16 +1,18 @@
 package com.biz.rest.controller.voucher;
 
-import static com.google.common.collect.Lists.newArrayList;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.codelogger.utils.CollectionUtils;
+import com.biz.gbck.common.exception.CommonException;
+import com.biz.gbck.common.vo.CommonReqVoBindUserId;
+import com.biz.gbck.vo.order.req.ProductItemReqVo;
+import com.biz.gbck.vo.order.resp.ProductInfoVo;
+import com.biz.gbck.vo.promotion.PromotionReqVo;
+import com.biz.gbck.vo.voucher.VoucherRequestVo;
+import com.biz.rest.controller.BaseRestController;
+import com.biz.rest.util.RestUtil;
+import com.biz.soa.feign.client.org.UserFeignClient;
+import com.biz.soa.feign.client.product.PromotionFeignClient;
+import com.biz.soa.feign.client.voucher.VoucherFeignClient;
+import com.biz.support.web.handler.JSONResult;
+import com.biz.vo.voucher.ShopCraftVoucherVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,27 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.biz.gbck.common.exception.CommonException;
-import com.biz.gbck.common.vo.CommonReqVoBindUserId;
-import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
-import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
-import com.biz.gbck.util.DateTool;
-import com.biz.gbck.vo.order.resp.IProduct;
-import com.biz.gbck.vo.promotion.PromotionReqVo;
-import com.biz.gbck.vo.promotion.PromotionRespAppVo;
-import com.biz.gbck.vo.voucher.VoucherReqVo;
-import com.biz.gbck.vo.voucher.VoucherRequestVo;
-import com.biz.gbck.vo.voucher.VoucherVo;
-import com.biz.rest.controller.BaseRestController;
-import com.biz.rest.util.RestUtil;
-import com.biz.rest.vo.order.OrderItemVo;
-import com.biz.soa.feign.client.org.UserFeignClient;
-import com.biz.soa.feign.client.product.PromotionFeignClient;
-import com.biz.soa.feign.client.voucher.VoucherFeignClient;
-import com.biz.soa.feign.client.voucher.VoucherTypeFeignClient;
-import com.biz.support.web.handler.JSONResult;
-import com.biz.vo.voucher.ShopCraftVoucherVo;
-import com.google.common.collect.Maps;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController @RequestMapping("/vouchers") 
 public class VoucherController extends BaseRestController {
@@ -82,20 +67,25 @@ public class VoucherController extends BaseRestController {
     	//TODO
     	Long CompanyGroupId = null;//userFeignClient.findCompanyGroupIdByUserId(reqVo.getUserId());
         // 排除掉与优惠活动互斥的优惠券
-    	List<? extends IProduct> iproductList = this.getVoucherAvailAbleOrderItem(reqVo.getOrderItemVos(),CompanyGroupId);
+    	List<ProductInfoVo> voucherAvailAbleOrderItems = this.getVoucherAvailAbleOrderItem(reqVo.getOrderItemVos(),CompanyGroupId);
         
-        List<ShopCraftVoucherVo> availableVouchers = voucherFeignClient.getAvailableVouchers(reqVo.getUserId(), iproductList);
+        List<ShopCraftVoucherVo> availableVouchers = voucherFeignClient.getAvailableVouchers(reqVo.getUserId(), voucherAvailAbleOrderItems);
 
         return new JSONResult(availableVouchers);
     }
 
 
-    private List<IProduct> getVoucherAvailAbleOrderItem(List<? extends IProduct> itemVos,Long userGroupsId) {
-        List<IProduct> orderItemVos = new ArrayList<>();
-        for (IProduct itemVo : itemVos) {
-        	PromotionReqVo promotionReqVo = new PromotionReqVo();
-        	promotionReqVo.setCategoryId(itemVo.getCategoryId());
-        	promotionReqVo.setProductIds(itemVo.getProductId());
+    private List<ProductInfoVo> getVoucherAvailAbleOrderItem(List<ProductItemReqVo> itemVos, Long userGroupsId) {
+        List<ProductInfoVo> orderItemVos = new ArrayList<>();
+        for (ProductItemReqVo itemVo : itemVos) {
+            ProductInfoVo productInfoVo = new ProductInfoVo();
+            productInfoVo.setProductId(Long.valueOf(itemVo.getProductId()));
+            productInfoVo.setQuantity(itemVo.getQuantity());
+            //TODO categoryId etc.
+            PromotionReqVo promotionReqVo = new PromotionReqVo();
+        	//TODO
+//        	promotionReqVo.setCategoryId();
+        	promotionReqVo.setProductIds(Long.valueOf(itemVo.getProductId()));
         	promotionReqVo.setCompanyGroupId(userGroupsId);
         	//TODO
 //            List<PromotionRespAppVo> promotionRespAppVos = promotionFeignClient.getUseablePromotionsForProductId(promotionReqVo);
@@ -111,7 +101,7 @@ public class VoucherController extends BaseRestController {
 //                logger.debug("No promotion found for product:{}", itemVo.getProductId());
 //                orderItemVos.add(itemVo);
 //            }
-        	orderItemVos.add(itemVo);
+        	orderItemVos.add(productInfoVo);
         }
         return orderItemVos;
     }

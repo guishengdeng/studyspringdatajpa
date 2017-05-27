@@ -1,20 +1,5 @@
 package com.biz.soa.service.voucher.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
-import org.codelogger.utils.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-
 import com.biz.gbck.common.model.voucher.VoucherConfigure;
 import com.biz.gbck.common.voucher.VoucherRoToVoucherPo;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
@@ -38,6 +23,7 @@ import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeWithQuantity;
 import com.biz.gbck.enums.user.AuditStatus;
 import com.biz.gbck.util.DateTool;
 import com.biz.gbck.vo.order.resp.IProduct;
+import com.biz.gbck.vo.order.resp.ProductInfoVo;
 import com.biz.gbck.vo.product.frontend.ProductListItemVo;
 import com.biz.gbck.vo.spring.PageVO;
 import com.biz.gbck.vo.voucher.UserVoucherStatisticResultVo;
@@ -58,6 +44,13 @@ import com.biz.vo.voucher.ShopCraftVoucherVo;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.codelogger.utils.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 @Service
 public class VoucherServiceImpl extends AbstractBaseService implements VoucherService {
@@ -400,7 +393,7 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	}
 
 	@Override
-	public List<ShopCraftVoucherVo> getAvailableVouchers(Long userId, List<? extends IProduct> itemVos)
+	public List<ShopCraftVoucherVo> getAvailableVouchers(Long userId, List<ProductInfoVo> itemVos)
 			throws Exception {
 		 Map<Long, List<VoucherRo>> categoryVouchersMap = divideUnusedVouchersByCategory(userId);
 		         Map<Long, Long> costMap = Maps.newHashMap();

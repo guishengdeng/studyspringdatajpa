@@ -1,10 +1,10 @@
 package com.biz.gbck.vo.voucher;
 
 
+import com.biz.gbck.common.vo.CommonReqVoBindUserId;
+import com.biz.gbck.vo.order.req.ProductItemReqVo;
 import java.util.List;
 
-import com.biz.gbck.common.vo.CommonReqVoBindUserId;
-import com.biz.gbck.vo.order.resp.IProduct;
 
 public class VoucherRequestVo extends CommonReqVoBindUserId {
 	
@@ -12,17 +12,17 @@ public class VoucherRequestVo extends CommonReqVoBindUserId {
 	 * 
 	 */
 	private static final long serialVersionUID = -6858746275765140237L;
-	private List<? extends IProduct> orderItemVos;
+	private List<ProductItemReqVo> orderItemVos;
 
     public VoucherRequestVo() {
 
     }
 
-	public List<? extends IProduct> getOrderItemVos() {
+	public List<ProductItemReqVo> getOrderItemVos() {
 		return orderItemVos;
 	}
 
-	public void setOrderItemVos(List<? extends IProduct> orderItemVos) {
+	public void setOrderItemVos(List<ProductItemReqVo> orderItemVos) {
 		this.orderItemVos = orderItemVos;
 	}
 
