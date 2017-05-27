@@ -344,6 +344,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         }
         List<Long> tobeExpiredOrderIds = orderRedisDao.getAllToBeExpiredOrderIds();
         if (CollectionUtils.isEmpty(tobeExpiredOrderIds)) return;
+        logger.debug("Expired orders total: {}", tobeExpiredOrderIds.size());
         tobeExpiredOrderIds.forEach(o -> {
             try {
                 this.systemCancelOrder(o);
