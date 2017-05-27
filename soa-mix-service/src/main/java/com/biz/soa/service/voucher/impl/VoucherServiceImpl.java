@@ -538,10 +538,13 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 		return new PageVO<VoucherTypePo>(voucherTypeRepository.findAll(new VoucherSearchSpecification(reqVo), new PageRequest(reqVo.getPage()-1, reqVo.getPageSize(), Sort.Direction.DESC, "startTime")));
 	}
 
+	/**
+	 * 批量发放用户组优惠券
+	 */
 	@Override
 	public void dispatcherUserGroupsVoucher(Long userIdGroupsId, VoucherTypeRo voucherTypeRo, Integer dispatcherCnt,
 			String loginUsername) {
-		//通过用户组type获取用户组ids
+		//通过用户组id获取用户ids
 		List<Long> userIds = userFeignClient.findUserIdByCompanyGroupId(userIdGroupsId);
 		if(userIds != null && userIds.size() > 0){
 			//批量发放

@@ -10,10 +10,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.codelogger.utils.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,13 +24,16 @@ import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.util.DateTool;
 import com.biz.gbck.vo.order.resp.IProduct;
-import com.biz.gbck.vo.voucher.PromotionReqVo;
+import com.biz.gbck.vo.promotion.PromotionReqVo;
+import com.biz.gbck.vo.promotion.PromotionRespAppVo;
 import com.biz.gbck.vo.voucher.VoucherReqVo;
 import com.biz.gbck.vo.voucher.VoucherRequestVo;
 import com.biz.gbck.vo.voucher.VoucherVo;
 import com.biz.rest.controller.BaseRestController;
 import com.biz.rest.util.RestUtil;
 import com.biz.rest.vo.order.OrderItemVo;
+import com.biz.soa.feign.client.org.UserFeignClient;
+import com.biz.soa.feign.client.product.PromotionFeignClient;
 import com.biz.soa.feign.client.voucher.VoucherFeignClient;
 import com.biz.soa.feign.client.voucher.VoucherTypeFeignClient;
 import com.biz.support.web.handler.JSONResult;
@@ -45,9 +48,12 @@ public class VoucherController extends BaseRestController {
 	 
     @Autowired 
     private VoucherFeignClient voucherFeignClient;
+    
+    @Autowired
+    private UserFeignClient  userFeignClient;
 
-//    @Autowired 
-//    private SalePromotionService salePromotionService;
+    @Autowired 
+    private PromotionFeignClient promotionFeignClient;
 
     /**
      * 获取用户下所有优惠券
@@ -74,9 +80,9 @@ public class VoucherController extends BaseRestController {
     	VoucherRequestVo reqVo = RestUtil.parseBizData(request, VoucherRequestVo.class);
     	//通过userId获取用户组userGroupsIdId
     	//TODO
-    	Long userGroupsId = null;
+    	Long CompanyGroupId = null;//userFeignClient.findCompanyGroupIdByUserId(reqVo.getUserId());
         // 排除掉与优惠活动互斥的优惠券
-    	List<? extends IProduct> iproductList = this.getVoucherAvailAbleOrderItem(reqVo.getOrderItemVos(),userGroupsId);
+    	List<? extends IProduct> iproductList = this.getVoucherAvailAbleOrderItem(reqVo.getOrderItemVos(),CompanyGroupId);
         
         List<ShopCraftVoucherVo> availableVouchers = voucherFeignClient.getAvailableVouchers(reqVo.getUserId(), iproductList);
 
@@ -92,11 +98,11 @@ public class VoucherController extends BaseRestController {
         	promotionReqVo.setProductIds(itemVo.getProductId());
         	promotionReqVo.setCompanyGroupId(userGroupsId);
         	//TODO
-//            List<SalePromotionRo> salePromotionRos = salePromotionService.getUseablePromotionsForProductId(promotionReqVo);
-//            if (CollectionUtils.isNotEmpty(salePromotionRos)) {
+//            List<PromotionRespAppVo> promotionRespAppVos = promotionFeignClient.getUseablePromotionsForProductId(promotionReqVo);
+//            if (CollectionUtils.isNotEmpty(promotionRespAppVos)) {
 //                boolean voucherAble = true;
-//                for (SalePromotionRo salePromotionRo : salePromotionRos) {
-//                    voucherAble = voucherAble && salePromotionRo.getVoucherAble();
+//                for (PromotionRespAppVo promotionRespAppVo : promotionRespAppVos) {
+//                    voucherAble = voucherAble && promotionRespAppVo.getVoucherAble();
 //                }
 //                if (voucherAble) {
 //                    orderItemVos.add(itemVo);
@@ -105,7 +111,7 @@ public class VoucherController extends BaseRestController {
 //                logger.debug("No promotion found for product:{}", itemVo.getProductId());
 //                orderItemVos.add(itemVo);
 //            }
-
+        	orderItemVos.add(itemVo);
         }
         return orderItemVos;
     }
