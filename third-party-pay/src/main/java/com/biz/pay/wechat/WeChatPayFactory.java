@@ -1,6 +1,5 @@
 package com.biz.pay.wechat;
 
-import com.biz.pay.wechat.exceptions.MissingResourceException;
 import com.biz.pay.wechat.lang.CertificateLoader;
 import com.biz.pay.wechat.lang.CheckName;
 import com.biz.pay.wechat.lang.Signer;
@@ -10,11 +9,9 @@ import org.codelogger.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.InputStreamReader;
 import java.util.Properties;
 
 import static com.biz.pay.wechat.lang.Keys.*;
-import static java.lang.String.format;
 import static org.codelogger.utils.StringUtils.isBlank;
 
 /**
@@ -29,25 +26,30 @@ public class WeChatPayFactory {
     public static final String CONFIG_PATH = "/payment/wechatpay.properties";
     public static final String UTF_8 = "utf-8";
 
-    private static final Properties conf;
+    private static Properties conf;
 
     private static class WeChatPayFactoryHolder {
         static WeChatPayFactory instance = new WeChatPayFactory();
     }
     
-	static{
-		conf = new Properties();
-	    try {
-//	        if (logger.isDebugEnabled()) {
-//	            logger.debug("load wechat payment configurations.");
-//	        }
-	        conf.load(new InputStreamReader(WeChatPayFactory.class.getResourceAsStream(CONFIG_PATH),
-	            UTF_8));
-	    } catch (Exception ex) {
-	        throw new MissingResourceException(
-	            format("Failed to load conf resource [%s]", CONFIG_PATH), ex);
-	    }
-	}
+//	static{
+//		conf = new Properties();
+//	    try {
+////	        if (logger.isDebugEnabled()) {
+////	            logger.debug("load wechat payment configurations.");
+////	        }
+//	        conf.load(new InputStreamReader(WeChatPayFactory.class.getResourceAsStream(CONFIG_PATH),
+//	            UTF_8));
+//	    } catch (Exception ex) {
+//	        throw new MissingResourceException(
+//	            format("Failed to load conf resource [%s]", CONFIG_PATH), ex);
+//	    }
+//	}
+
+    public static void setConf(Properties conf) {
+        WeChatPayFactory.conf =  conf;
+    }
+
     private WeChatPayFactory() {
         
     }

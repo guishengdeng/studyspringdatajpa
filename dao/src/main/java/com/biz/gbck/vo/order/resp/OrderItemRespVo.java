@@ -2,6 +2,7 @@ package com.biz.gbck.vo.order.resp;
 
 import com.biz.gbck.dao.mysql.po.order.OrderItem;
 import com.biz.gbck.enums.product.ProductShowStatus;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
 
@@ -37,6 +38,10 @@ public class OrderItemRespVo extends ProductInfoVo implements Comparable<OrderIt
         return this.status != null && this.status == ProductShowStatus.NORMAL.getValue();
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
     @Override
     public int compareTo(OrderItemRespVo o) {

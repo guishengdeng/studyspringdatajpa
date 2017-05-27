@@ -1,16 +1,17 @@
 package com.biz.gbck.vo.order.resp;
 
+import com.biz.core.util.DateUtil;
 import com.biz.core.util.JsonUtil;
 import com.biz.gbck.dao.mysql.po.order.Order;
 import com.biz.gbck.enums.order.InvoiceType;
 import com.biz.gbck.enums.order.PaymentType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.codelogger.utils.StringUtils;
 
 import java.sql.Timestamp;
 import java.util.List;
 
-import static com.biz.gbck.common.Constant.DEFAULT_ORDER_EXPIRE_TIME;
 import static com.google.common.collect.Lists.newArrayList;
 
 /**
@@ -165,9 +166,9 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
         this.setDescription(order.getDescription());
         this.setInvoiceType(order.getInvoice() != null ? order.getInvoice().getInvoiceType().getValue() : InvoiceType
                 .NO.getValue());
-        this.setInvoiceTitle(order.getInvoice() != null && StringUtils.isNotBlank(order.getInvoice().getTitle()) ?
-                order.getInvoice().getTitle() : null);
-        this.setPayLimitTime(this.getCreateTime() + DEFAULT_ORDER_EXPIRE_TIME);
+        this.setInvoiceTitle(order.getInvoice() != null && StringUtils.isNotBlank(order.getInvoice().getTitle()) ? order.getInvoice().getTitle() : null);
+        this.setPayLimitTime(order.getExpireTimestamp() == null ? null : order.getExpireTimestamp().getTime() -
+                DateUtil.now().getTime());
 
         this.setPayable(order.isPayable());
         this.setCancelable(order.isCancelable(false));
@@ -382,6 +383,10 @@ public class OrderRespVo implements Comparable<OrderRespVo> {
         return o.createTimestamp.compareTo(this.createTimestamp);
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
     public static void main(String[] args) {
         OrderRespVo vo = new OrderRespVo();

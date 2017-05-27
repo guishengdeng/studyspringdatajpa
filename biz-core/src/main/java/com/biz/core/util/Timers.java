@@ -1,10 +1,11 @@
 package com.biz.core.util;
 
 import com.google.common.collect.Maps;
-import java.util.Map;
 import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
 
 /**
  * 性能计时器
@@ -43,7 +44,7 @@ public class Timers {
     }
 
     private Map<String, Long> out() {
-        if (!enabled) return map;
+        if (!enabled || sw.isStopped()) return map;
         sw.stop();
         long all = sw.getTime();
         map.put("总计用时", all);

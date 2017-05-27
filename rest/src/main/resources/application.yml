@@ -2,12 +2,12 @@ spring:
   application:
     name: depotnextdoor-rest
   profiles:
-    active: lb
+    active: local
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: 12345678
-    url: jdbc:mysql://127.0.0.1:3306/gbck?characterEncoding=utf-8
+    password: root
+    url: jdbc:mysql://127.0.0.1:3306/gbck-test?characterEncoding=utf-8
     dbcp2:
       initial-size: 5
       max-total: 10

@@ -42,6 +42,7 @@ public class AdminServiceImpl extends AbstractBaseService implements UserDetails
         if (admin != null) {
             admin.setMenus(this.initAdminMenu(admin));
             Hibernate.initialize(admin.getRoles());
+            Hibernate.initialize(admin.getCompany());
             logger.info("load user from db;");
         } else {
             throw new UsernameNotFoundException(String.format("username: %s is not exists", username));

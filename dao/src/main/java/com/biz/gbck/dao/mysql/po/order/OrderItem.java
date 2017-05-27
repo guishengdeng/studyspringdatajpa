@@ -64,7 +64,6 @@ public class OrderItem extends BaseEntity implements IProduct {
     /**
      * 市场价
      */
-    @Column(nullable = false)
     private Integer marketPrice;
 
     /**

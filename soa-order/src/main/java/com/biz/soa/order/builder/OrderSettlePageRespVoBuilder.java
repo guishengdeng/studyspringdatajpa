@@ -2,6 +2,7 @@ package com.biz.soa.order.builder;
 
 import com.biz.core.asserts.SystemAsserts;
 import com.biz.gbck.vo.order.resp.OrderItemRespVo;
+import com.biz.gbck.vo.order.resp.OrderPaymentTypeRespVo;
 import com.biz.gbck.vo.order.resp.OrderPromotionRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
 import com.biz.gbck.vo.org.UserInfoVo;
@@ -58,7 +59,7 @@ public class OrderSettlePageRespVoBuilder {
     //付款促销活动
     public OrderSettlePageRespVoBuilder setPromotions(List<OrderPromotionRespVo> promotions){
         //TODO
-        this.respVo.setPromotions(promotions);
+        this.respVo.setSalePromotionDetail(promotions);
         return this;
     }
 
@@ -69,7 +70,7 @@ public class OrderSettlePageRespVoBuilder {
     }
 
     //支付方式
-    public OrderSettlePageRespVoBuilder setPaymentTypes(List<Integer> paymentTyps){
+    public OrderSettlePageRespVoBuilder setPaymentTypes(List<OrderPaymentTypeRespVo> paymentTyps){
         this.respVo.setPaymentTypes(paymentTyps);
         return this;
     }

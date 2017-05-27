@@ -78,7 +78,7 @@ public class AppSoaServiceImpl extends AbstractBaseService implements AppSoaServ
 
     @Override
     public AppConfigVo getAppConfigVo() {
-        App app= CollectionUtils.getFirstNotNullValue(appRepository.findAll());
+        App app= CollectionUtils.getFirstNotNullValue(appRepository.findAByOrderByCreateTimestampDesc());
         return new AppToAppConfigVo().apply(app);
     }
 

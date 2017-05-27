@@ -1,4 +1,4 @@
-package com.biz.gbck.vo.voucher;
+package com.biz.gbck.vo.promotion;
 
 import java.io.Serializable;
 import java.util.List;

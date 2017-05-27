@@ -103,6 +103,11 @@ public class ProductAppDetailRespVO implements Serializable {
      */
     private List<SalePromotionVO> salePromotionDetail;
 
+    /**
+     * 商品规格
+     */
+    private String standard;
+
     public String getProductCode() {
         return productCode;
     }
@@ -245,5 +250,13 @@ public class ProductAppDetailRespVO implements Serializable {
 
     public void setSalePromotionDetail(List<SalePromotionVO> salePromotionDetail) {
         this.salePromotionDetail = salePromotionDetail;
+    }
+
+    public String getStandard() {
+        return standard;
+    }
+
+    public void setStandard(String standard) {
+        this.standard = standard;
     }
 }

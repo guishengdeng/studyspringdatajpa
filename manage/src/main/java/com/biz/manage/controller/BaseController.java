@@ -69,7 +69,7 @@ public class BaseController {
 
 		if (result.hasErrors()) {
 			throw new InvalidParameterException(result);
-		}
+	}
 	}
 
 	protected Number validNumberId(String text) throws NumberIdParameterException {

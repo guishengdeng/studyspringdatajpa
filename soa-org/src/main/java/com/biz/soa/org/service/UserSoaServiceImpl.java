@@ -1,7 +1,6 @@
 package com.biz.soa.org.service;
 
 
-
 import com.biz.core.transaction.BizTransactionManager;
 import com.biz.core.util.DateUtil;
 import com.biz.core.util.StringTool;
@@ -35,7 +34,7 @@ import com.biz.gbck.vo.oms.OMSCreateMemberVo;
 import com.biz.gbck.vo.org.*;
 import com.biz.gbck.vo.search.bbc.SearchUserReqVo;
 import com.biz.gbck.vo.soa.MicroServiceResult;
-import com.biz.service.CommonService;
+import com.biz.service.IdService;
 import com.biz.soa.feign.client.order.ShopCartFeignClient;
 import com.biz.soa.org.event.AutoLoginEvent;
 import com.biz.soa.org.event.UserLoginEvent;
@@ -45,28 +44,30 @@ import com.biz.soa.org.service.interfaces.SmsSoaService;
 import com.biz.soa.org.service.interfaces.UserSoaService;
 import com.biz.transformer.org.UserRoToUserVo;
 import com.google.common.base.Stopwatch;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
 import static java.lang.String.format;
 
 
 @Service
-public class UserSoaServiceImpl extends CommonService implements UserSoaService {
+public class UserSoaServiceImpl implements UserSoaService {
     private static final Logger logger = LoggerFactory.getLogger(UserSoaServiceImpl.class);
 
+    @Autowired
+    private IdService idService;
 
     @Autowired
     private UserRedisDao userRedisDao;
@@ -86,10 +87,8 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
     @Autowired
     private ShopCartFeignClient shopCartFeignClient;
 
-//    @Autowired
-//    private IdPool idPool;
-
-
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     public List<Long> findAdminUserIdsByShopId(Long shopId, Boolean isAdmin) {
@@ -115,7 +114,7 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
         if (StringUtils.isBlank(userRegisterReqVo.getPassword())) {
             throw DepotnearbyExceptionFactory.User.ILLEGAL_PASSWORD;
         }
-        if(StringUtils.isNotBlank(userRegisterReqVo.getInviterCode())
+        if (StringUtils.isNotBlank(userRegisterReqVo.getInviterCode())
                 && !userRegisterReqVo.getInviterCode().matches("(\\d+)|([A-Z\\d]+)")) {
             throw DepotnearbyExceptionFactory.User.ILLEGAL_INVITER_CODE;
         }
@@ -192,7 +191,7 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
 
     @Override
     public UserLoginResVo buildRespVo(UserRo userRo) throws CommonException {
-        if(!userRepository.exists(Long.parseLong(userRo.getId()))){
+        if (!userRepository.exists(Long.parseLong(userRo.getId()))) {
             userRedisDao.delete(userRo);
             throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
         }
@@ -216,18 +215,18 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
         }
         assert userLoginResVo != null;
         // todo liubin
-//        if (!Objects.equals(shopRo.getStatus(), ShopStatus.NORMAL.getValue())) {
-//            throw DepotnearbyExceptionFactory.Shop.SHOP_DISABLED;
-//        }
+        //        if (!Objects.equals(shopRo.getStatus(), ShopStatus.NORMAL.getValue())) {
+        //            throw DepotnearbyExceptionFactory.Shop.SHOP_DISABLED;
+        //        }
         userLoginResVo.setShopProperties(shopRo);
         //为20倍会员做双重检查，以防状态不正确
-        if(!Objects.equals(userLoginResVo.getDetailAuditStatus(), AuditStatus.NORMAL.getValue()) || !Objects
-                .equals(userLoginResVo.getQualificationAuditStatus(), AuditStatus.NORMAL.getValue())){
+        if (!Objects.equals(userLoginResVo.getDetailAuditStatus(), AuditStatus.NORMAL.getValue()) || !Objects
+                .equals(userLoginResVo.getQualificationAuditStatus(), AuditStatus.NORMAL.getValue())) {
             ShopPo shopPo = shopSoaService.findShopPo(Long.parseLong(shopRo.getId())); // TODO: 17-4-27 根据商户id获取shopPo
-//            if(shopPo.getShopLevel() == ShopLevel.VIP_20){
-//            userLoginResVo.setDetailAuditStatus(AuditStatus.NEED_INFO.getValue());
-//            userLoginResVo.setQualificationAuditStatus(AuditStatus.NEED_INFO.getValue());
-//            }
+            //            if(shopPo.getShopLevel() == ShopLevel.VIP_20){
+            //            userLoginResVo.setDetailAuditStatus(AuditStatus.NEED_INFO.getValue());
+            //            userLoginResVo.setQualificationAuditStatus(AuditStatus.NEED_INFO.getValue());
+            //            }
         }
        /*userLoginResVo.setLuckMoneyCount(voucherService.getUserUseableVoucherCount(userRo.getId()));*/// TODO: 17-4-27 获取用户可用优惠券数量
        /* userLoginResVo.setShowActivityRedPoint(promotionService.showRedPoint(userRo.getId()));*/ // TODO: 17-4-27 是否显示红点，有消息显示
@@ -278,7 +277,7 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
         } else {
             if (userLoginReqVo.getPassword().equalsIgnoreCase(userRo.getPassword())) {
                 BizTransactionManager.publishEvent(new UserLoginEvent(this, userRo, userLoginReqVo), true);
-//                publishEvent(new UserLoginEvent(this, userRo, userLoginReqVo));
+                //                publishEvent(new UserLoginEvent(this, userRo, userLoginReqVo));
                 if (Objects.equals(userRo.getStatus(), UserStatus.NORMAL.getValue())) {
                     return buildRespVo(userRo);
                 } else {
@@ -293,8 +292,7 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
     @Override
     public UserLoginResVo autoLogin(AutoLoginReqVo autoLoginReqVo) throws CommonException {
         UserRo userRo = this.findUser(Long.valueOf(autoLoginReqVo.getUserId()));
-        BizTransactionManager.publishEvent(new AutoLoginEvent(this, userRo, autoLoginReqVo), true);
-        //publishEvent(new AutoLoginEvent(this, userRo, autoLoginReqVo));
+        applicationEventPublisher.publishEvent(new AutoLoginEvent(this, userRo, autoLoginReqVo));
         return buildRespVo(userRo);
     }
 
@@ -313,13 +311,13 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
             throw DepotnearbyExceptionFactory.User.ILLEGAL_PASSWORD;
         }
         if (smsSoaService.validateAndDisableSMSCode(forgotPasswordReqVo.getMobile(),
-                SMSType.FORGOT_PASSWORD,forgotPasswordReqVo.getSmsCode())) {
+                SMSType.FORGOT_PASSWORD, forgotPasswordReqVo.getSmsCode())) {
             UserRo userRo = findUserByMobile(forgotPasswordReqVo.getMobile());
             if (userRo == null) {
                 throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
             } else {
-//                String originalPassword =
-//                        PasswordUtil.aes2Original(forgotPasswordReqVo.getOriginalPassword());
+                //                String originalPassword =
+                //                        PasswordUtil.aes2Original(forgotPasswordReqVo.getOriginalPassword());
                 userRepository.updateUserPassword(forgotPasswordReqVo.getMobile(),
                         forgotPasswordReqVo.getPassword(), forgotPasswordReqVo.getPassword());
                 userRedisDao.updateUserPassword(forgotPasswordReqVo.getMobile(),
@@ -364,20 +362,21 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
 
     @Override
     public UserRo findUserByMobile(String mobile) {
-        logger.debug("Find User by mobile:{}", mobile);
+        logger.info("Find User by mobile:{}", mobile);
         UserRo userRo = userRedisDao.getUserByMobile(mobile);
         if (userRo == null) {
             logger.debug("Find User by mobile:{} from mysql.", mobile);
             UserPo userPo = findUserPoByMobile(mobile);
             userRo = syncUserPoToRedis(userPo);
         }
+        logger.info("findUserByMobile {}", userRo.toString());
         return userRo;
     }
 
     @Override
     public UserPo findUserPoByMobile(String mobile) {
         UserPo userPo = userRepository.findByMobile(mobile);
-        logger.info("findUserPoByMobile userPo is {}", userPo.toString() );
+        logger.info("findUserPoByMobile userPo is {}", userPo.toString());
         return userPo;
     }
 
@@ -392,7 +391,8 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
         final UserPo userPo = userRepository.findOne(userId);
         DepotnearbyTransactionManager.doWhenTransactionalSuccess(
                 new DepotnearbyTransactionManager.Task() {
-                    @Override public void justDoIt() {
+                    @Override
+                    public void justDoIt() {
                         syncUserPoToRedis(userPo);
                     }
                 });
@@ -481,7 +481,7 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
     /**
      * 根据店铺审核状态查询所有userId
      */
-    public List<Long> findAllUserIdByAuditStatus(AuditStatus auditStatus){
+    public List<Long> findAllUserIdByAuditStatus(AuditStatus auditStatus) {
 
         return userRepository.findAllUserIds(auditStatus.getValue());
     }
@@ -489,7 +489,7 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
     /**
      * 根据店铺审核状态查询所有userPo
      */
-    public List<UserPo> findAllUserByAuditStatus(AuditStatus auditStatus){
+    public List<UserPo> findAllUserByAuditStatus(AuditStatus auditStatus) {
 
         return userRepository.findAllUserByAuditStatus(auditStatus.getValue());
     }
@@ -561,27 +561,26 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
         vo.setUserId(userId);
         vo.setBusinessTags(shopRo.getBusinessTags());
         if (StringUtils.isNotBlank(shopRo.getPriceTags())) {
-//            List<Integer> ids = StringTool.strToIntArray(shopRo.getPriceTags());
-//            List<PriceTagRo> tags = priceTagRedisDao.findByIds(ids);
-//            Map<Integer, List<Integer>> maps = new HashMap<Integer, List<Integer>>();
-//            for (PriceTagRo ro : tags) {
-//                if (ro != null) {
-//                    List<Integer> idList = null;
-//                    idList = maps.get(ro.getCategoryId());
-//                    if (idList == null) {
-//                        idList = new ArrayList<Integer>();
-//                        maps.put(ro.getCategoryId(), idList);
-//                    }
-//                    idList.add(ro.getId());
-//                }
-//            }
-//            vo.setPriceTagMap(maps);
+            //            List<Integer> ids = StringTool.strToIntArray(shopRo.getPriceTags());
+            //            List<PriceTagRo> tags = priceTagRedisDao.findByIds(ids);
+            //            Map<Integer, List<Integer>> maps = new HashMap<Integer, List<Integer>>();
+            //            for (PriceTagRo ro : tags) {
+            //                if (ro != null) {
+            //                    List<Integer> idList = null;
+            //                    idList = maps.get(ro.getCategoryId());
+            //                    if (idList == null) {
+            //                        idList = new ArrayList<Integer>();
+            //                        maps.put(ro.getCategoryId(), idList);
+            //                    }
+            //                    idList.add(ro.getId());
+            //                }
+            //            }
+            //            vo.setPriceTagMap(maps);
         }
         vo.setSaleAreas(shopRo.getSaleAreas());
         vo.setDepotId(shopRo.getDepotId());
         return vo;
     }
-
 
 
     /**
@@ -604,10 +603,11 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
             final UserPo userPo = userRepository.findOne(Long.valueOf(reqVo.getUserId()));
             DepotnearbyTransactionManager.doWhenTransactionalSuccess(
                     new DepotnearbyTransactionManager.Task() {
-                        @Override public void justDoIt() {
+                        @Override
+                        public void justDoIt() {
                             syncUserPoToRedis(userPo);
                             userRedisDao.removeMapMobileToUser(userRo.getMobile());
-                            if(userPo.getIsAdmin()) {
+                            if (userPo.getIsAdmin()) {
                                 shopSoaService.changeMobile(userRo.getShopId(), reqVo.getMobile());
                             }
                         }
@@ -645,7 +645,8 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
         userPo.setPassword(StringTool.encodedByMD5(userPo.getOriginalPassword()));
         final UserPo savedUserPo = userRepository.save(userPo);
         DepotnearbyTransactionManager.doWhenTransactionalSuccess(new DepotnearbyTransactionManager.Task() {
-            @Override public void justDoIt() {
+            @Override
+            public void justDoIt() {
                 syncUserPoToRedis(savedUserPo);
             }
         });
@@ -654,7 +655,8 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
     /**
      * 修改用户头像
      */
-    @Transactional public void changeAvatar(UserChangeAvatarReqVo reqVo) throws CommonException {
+    @Transactional
+    public void changeAvatar(UserChangeAvatarReqVo reqVo) throws CommonException {
 
         UserRo userRo = userRedisDao.get(Long.valueOf(reqVo.getUserId()));
         if (userRo == null) {
@@ -664,7 +666,8 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
         final UserPo userPo = userRepository.findOne(Long.valueOf(reqVo.getUserId()));
         DepotnearbyTransactionManager.doWhenTransactionalSuccess(
                 new DepotnearbyTransactionManager.Task() {
-                    @Override public void justDoIt() {
+                    @Override
+                    public void justDoIt() {
                         syncUserPoToRedis(userPo);
                     }
                 });
@@ -676,7 +679,7 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
             throw new CommonException("Argument baiduUserId can not be null.");
         }
 
-        if(geoCode == null){
+        if (geoCode == null) {
             throw new CommonException("Argument geoCode can not be null.");
         }
 
@@ -755,7 +758,7 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
         return userRepository.findAll();
     }
 
-    public void removeUserRoByMobile(String mobile){
+    public void removeUserRoByMobile(String mobile) {
         userRedisDao.removeMapMobileToUser(mobile);
     }
 
@@ -782,19 +785,20 @@ public class UserSoaServiceImpl extends CommonService implements UserSoaService 
             throw DepotnearbyExceptionFactory.User.USER_NOT_EXIST;
         }
         final String mobile = userRo.getMobile();
-        if(changePwdVo.getOriginPassword().length()!=32|changePwdVo.getNewPassword().length()!=32|changePwdVo.getConfirmPassword().length()!=32){
+        if (changePwdVo.getOriginPassword().length() != 32 | changePwdVo.getNewPassword().length() != 32 | changePwdVo.getConfirmPassword().length() != 32) {
             // todo liubin
             //throw DepotnearbyExceptionFactory.User.ILLEGAL_PASSWORD;
         }
         if (changePwdVo.getOriginPassword().equalsIgnoreCase(userRo.getPassword()) &&
                 changePwdVo.getNewPassword().equalsIgnoreCase(changePwdVo.getConfirmPassword())) {
-            userRepository.updateUserPassword(mobile,changePwdVo.getConfirmPassword(),changePwdVo.getConfirmPassword());
+            userRepository.updateUserPassword(mobile, changePwdVo.getConfirmPassword(), changePwdVo.getConfirmPassword());
             DepotnearbyTransactionManager.doWhenTransactionalSuccess(new DepotnearbyTransactionManager.Task() {
-                @Override public void justDoIt() {
-                    userRedisDao.updateUserPassword(mobile,changePwdVo.getConfirmPassword(),changePwdVo.getConfirmPassword());
+                @Override
+                public void justDoIt() {
+                    userRedisDao.updateUserPassword(mobile, changePwdVo.getConfirmPassword(), changePwdVo.getConfirmPassword());
                 }
             });
-        }else{
+        } else {
             throw DepotnearbyExceptionFactory.User.PWD_NOT_MATCH;
         }
 

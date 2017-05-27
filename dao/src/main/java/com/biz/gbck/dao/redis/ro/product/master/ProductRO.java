@@ -125,6 +125,11 @@ public class ProductRO extends BaseRedisObject<Long> {
     private Integer maxQuantity;
 
     /**
+     * 规格
+     */
+    private String standard;
+
+    /**
      * Seo 标题
      */
     private String seoTitle;
@@ -370,6 +375,14 @@ public class ProductRO extends BaseRedisObject<Long> {
         this.propertiesJson = propertiesJson;
     }
 
+    public String getStandard() {
+        return standard;
+    }
+
+    public void setStandard(String standard) {
+        this.standard = standard;
+    }
+
     public List<RapidProductItemVo> getRapidProductInfoVo() {
         return StringUtils.isEmpty(rapidProductInfo) ? Lists.<RapidProductItemVo>newArrayList() : JSON.parseArray(rapidProductInfo, RapidProductItemVo.class);
     }
@@ -501,7 +514,8 @@ public class ProductRO extends BaseRedisObject<Long> {
         List<PropertyItemVo> appendProperties = Lists.newArrayList(
                 new PropertyItemVo("名称", this.name),
                 new PropertyItemVo("分类", this.categoryName),
-                new PropertyItemVo("品牌", this.brandName)
+                new PropertyItemVo("品牌", this.brandName),
+                new PropertyItemVo("规格", this.standard)
         );
         CollectionUtils.addAll(appendProperties, propertyItems.iterator());
         vo.setItems(appendProperties);

@@ -15,9 +15,9 @@ import com.biz.gbck.exceptions.order.PaymentException;
 import com.biz.gbck.transform.order.OrderItem2StockItemVO;
 import com.biz.gbck.transform.order.ShopCartItemRespVo2OrderItemRespVo;
 import com.biz.gbck.vo.IdReqVo;
-import com.biz.gbck.vo.PageRespVo;
 import com.biz.gbck.vo.cart.ShopCartListSettleReqVo;
 import com.biz.gbck.vo.cart.ShopCartRespVo;
+import com.biz.gbck.vo.order.event.OrderCreateEvent;
 import com.biz.gbck.vo.order.event.SystemOrderCancelEvent;
 import com.biz.gbck.vo.order.event.UserOrderCancelEvent;
 import com.biz.gbck.vo.order.req.*;
@@ -26,7 +26,6 @@ import com.biz.gbck.vo.org.UserInfoVo;
 import com.biz.gbck.vo.payment.resp.PaymentRespVo;
 import com.biz.gbck.vo.product.promotion.OrderActivePromotionItemVO;
 import com.biz.gbck.vo.product.promotion.OrderPromotionRespVO;
-import com.biz.gbck.vo.soa.MicroServiceResult;
 import com.biz.gbck.vo.stock.StockItemVO;
 import com.biz.gbck.vo.stock.UpdateCompanyLockStockReqVO;
 import com.biz.service.order.frontend.OrderFrontendService;
@@ -36,12 +35,13 @@ import com.biz.soa.order.builder.OrderReturnBuilder;
 import com.biz.soa.order.builder.OrderSettlePageRespVoBuilder;
 import com.biz.soa.order.util.OrderUtil;
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.tuple.Pair;
 import org.codelogger.utils.CollectionUtils;
 import org.codelogger.utils.ValueUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -62,7 +62,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
     /*****************public begin*********************/
 
     @Override
-    public PageRespVo listOrders(OrderListReqVo reqVo) throws DepotNextDoorException {
+    public OrderListRespVo listOrders(OrderListReqVo reqVo) throws DepotNextDoorException {
         if (logger.isDebugEnabled()) {
             logger.debug("获取订单列表-------请求vo: {}", reqVo);
         }
@@ -76,7 +76,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         List<OrderRespVo> orderRespVos = this.buildOrderVos(orders);
 
         Long lastOrderId = CollectionUtils.getLastElement(orderIds);
-        PageRespVo pageRespVo = new PageRespVo(lastOrderId != null ? lastOrderId.toString() : null, orderRespVos);
+        OrderListRespVo pageRespVo = new OrderListRespVo(lastOrderId != null ? lastOrderId.toString() : null, orderRespVos);
         if (logger.isDebugEnabled()) {
             logger.debug("获取订单列表-------请求: {}, 返回值: {}", reqVo, pageRespVo);
         }
@@ -89,7 +89,8 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
             logger.debug("获取订单详情-------请求vo: {}", reqVo);
         }
         SystemAsserts.notNull(reqVo);
-        Order order = orderRepository.findOne(reqVo.getId());
+        Long orderId = Long.valueOf(reqVo.getId());
+        Order order = orderRepository.findOne(orderId);
         OrderRespVo orderRespVo = CollectionUtils.getFirstNotNullValue(this.buildOrderVos(newArrayList(order)));
         if (logger.isDebugEnabled()) {
             logger.debug("获取订单详情-------请求: {}, 返回值: {}", reqVo, orderRespVo);
@@ -103,8 +104,9 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         if (logger.isDebugEnabled()) {
             logger.debug("取消订单-------请求vo: {}", reqVo);
         }
-        super.queryPayStatus(reqVo.getId());
-        Order order = orderRepository.findOne(reqVo.getId());
+        Long orderId = Long.valueOf(reqVo.getId());
+        super.queryPayStatus(orderId);
+        Order order = orderRepository.findOne(orderId);
         super.validUser(order, reqVo);
         SystemAsserts.notNull(order, "订单不存在");
         SystemAsserts.isTrue(order.isCancelable(false), "订单状态已经发生变化，不能取消");
@@ -113,8 +115,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
 
     }
 
-    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public void systemCancelOrder(Long orderId) throws DepotNextDoorException  {
+    private void systemCancelOrder(Long orderId) throws DepotNextDoorException  {
         logger.info("系统取消订单-------请求vo: {}", orderId);
         super.queryPayStatus(orderId);
         Order order = orderRepository.findOne(orderId);
@@ -155,8 +156,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         if (reqVo instanceof OrderCreateReqVo) {
             //
         } else {
-            List<Integer> supportedPaymentTypes = paymentService.getSupportedPaymentTypes(userId);
-            builder.setPaymentTypes(supportedPaymentTypes);
+            builder.setPaymentTypes(paymentService.getSupportedPaymentTypes(userId));
             OrderPromotionRespVO promotion = this.getUsablePromotion(userInfo, settleOrderItemVos);
             if (promotion != null) {
                 List<OrderPromotionRespVo> promotionRespVos = Lists.transform(promotion.getActivePromotionItems(),
@@ -165,9 +165,10 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
                 builder.setFreeAmount(promotion.getPromotionCutOrderAmount());
             }
             //根据促销信息获取优惠券数量
-            Integer couponCount = this.getUsableCouponCount(reqVo, this.filterCouponProduct(settleOrderItemVos, promotion));
-            builder.setCoupons(couponCount);
-            builder.setVoucherAmount(0); //TODO 获取优惠券抵扣金额
+            Pair<Integer, Integer> couponInfo = this.getCouponInfo(reqVo, this.filterCouponProduct
+                    (settleOrderItemVos, promotion));
+            builder.setCoupons(couponInfo.getLeft());
+            builder.setVoucherAmount(couponInfo.getRight());
 
         }
         OrderSettlePageRespVo settleResult = builder.build();
@@ -204,30 +205,49 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         promoReqVo.setProducts(products);
         promoReqVo.setOrderAmount(orderAmount);
         // 获取促销信息
-        MicroServiceResult<OrderPromotionRespVO> promotionResult = promotionFeignClient
-                .orderProductsPromotion(promoReqVo);
-        if (logger.isDebugEnabled()) {
-            logger.debug("满足促销: {}", promotionResult);
-        }
-        if (promotionResult != null && promotionResult.isSuccess()) {
-            return promotionResult.getData();
-        }
+//        MicroServiceResult<OrderPromotionRespVO> promotionResult = promotionFeignClient
+//                .orderProductsPromotion(promoReqVo);
+//        if (logger.isDebugEnabled()) {
+//            logger.debug("满足促销: {}", promotionResult);
+//        }
+//        if (promotionResult != null && promotionResult.isSuccess()) {
+//            return promotionResult.getData();
+//        }
         return null;
     }
 
     //获取可用优惠券
-    private Integer getUsableCouponCount(OrderSettlePageReqVo reqVo, List<ProductInfoVo> products) {
+    private Pair<Integer, Integer> getCouponInfo(OrderSettlePageReqVo reqVo, List<ProductInfoVo> products) throws DepotNextDoorException {
         OrderCouponReqVo couponReqVo = new OrderCouponReqVo();
         int orderAmount = OrderUtil.calcOrderAmount(products);
         couponReqVo.setUserId(Long.valueOf(reqVo.getUserId()));
         couponReqVo.setPaymentType(reqVo.getPaymentType());
         couponReqVo.setProducts(products);
         couponReqVo.setOrderAmount(orderAmount);
+        couponReqVo.setCoupons(reqVo.getUsedCoupons());
         Integer usableCount = ValueUtils.getValue(voucherFeignClient.getUsableCount(couponReqVo));
+        Integer vouchAmount = ValueUtils.getValue(voucherFeignClient.getVoucherLimit(couponReqVo));
         if (logger.isDebugEnabled()) {
             logger.debug("请求可用优惠券-------请求vo: {}, 返回: {}", couponReqVo, usableCount);
         }
-        return usableCount;
+
+        return new Pair<Integer, Integer>() {
+
+            @Override
+            public Integer getLeft() {
+                return usableCount;
+            }
+
+            @Override
+            public Integer getRight() {
+                return vouchAmount;
+            }
+
+            @Override
+            public Integer setValue(Integer value) {
+                return null;
+            }
+        };
     }
 
     /**
@@ -273,8 +293,9 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
     }
 
     @Override
-    public void saveOrder(Order order) {
-        super.saveOrder(order);
+    @Transactional
+    public Order saveOrder(Order order) {
+        return super.saveOrder(order);
     }
 
     /*****************public end*********************/
@@ -290,12 +311,8 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
      */
     private Order createOrder(OrderCreateReqVo reqVo) throws DepotNextDoorException {
         Timers timers = Timers.createAndBegin(logger.isDebugEnabled());
-
-        OrderSettlePageReqVo settleReqVo = new OrderSettlePageReqVo();
-        settleReqVo.setUserId(reqVo.getUserId());
-        settleReqVo.setUsedCoupons(reqVo.getUsedCoupons());
-        OrderSettlePageRespVo settleResult = this.getSettleResult(settleReqVo);
-
+        OrderSettlePageRespVo settleResult = this.getSettleResult(reqVo);
+        timers.print("获取结算单用时");
         SystemAsserts.notNull(settleResult, "未获取到订单结算信息");
         List<OrderItemRespVo> items = settleResult.getItems();
         SystemAsserts.notEmpty(items, "未获取到结算明细信息");
@@ -304,18 +321,44 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         //TODO 保存促销活动
         long id = idService.nextId();
         String orderCode = sequenceService.generateOrderCode();
-        Order order = OrderBuilder.createBuilder(reqVo).setUserInfo(settleResult.getUserInfoVo()).setItems(this.transOrderItems(items)).setFreeAmount
-                (settleResult.getOrderAmount()).setVoucherAmount(settleResult.getVoucherAmount()).setPayAmount
-                (settleResult.getPayAmount()).setPaymentType(PaymentType.valueOf(reqVo.getPaymentType())).build(id,
-                orderCode);
+        Order order = OrderBuilder.createBuilder(reqVo)
+                .setUserInfo(settleResult.getUserInfoVo())
+                .setItems(this.transOrderItems(items))
+                .setFreeAmount(ValueUtils.getValue(settleResult.getFreeAmount()))
+                .setVoucherAmount(settleResult.getVoucherAmount())
+                .setPayAmount(settleResult.getPayAmount())
+                .setPaymentType(PaymentType.valueOf(reqVo.getPaymentType()))
+                .build(id, orderCode);
 
-        this.lockStock(order);
+        super.saveOrder(order);
+        super.publishEventUsingTx(new OrderCreateEvent(this, order.getId()));
         timers.print("创建订单用时");
         return order;
     }
 
+    @Transactional
+    @Override
+    public void payLimitOrderTask() {
+        if (logger.isDebugEnabled()) {
+            logger.debug("payLimitOrderTask begin...");
+        }
+        List<Long> tobeExpiredOrderIds = orderRedisDao.getAllToBeExpiredOrderIds();
+        if (CollectionUtils.isEmpty(tobeExpiredOrderIds)) return;
+        logger.debug("Expired orders total: {}", tobeExpiredOrderIds.size());
+        tobeExpiredOrderIds.forEach(o -> {
+            try {
+                this.systemCancelOrder(o);
+            } catch (DepotNextDoorException e) {
+                logger.error("取消订单失败. orderId: {}", o);
+            }
+        });
+        if (logger.isDebugEnabled()) {
+            logger.debug("payLimitOrderTask finished...");
+        }
+    }
+
     //锁定库存
-    private void lockStock(Order order) throws DepotNextDoorException {
+    public void lockStock(Order order) throws DepotNextDoorException {
         List<UpdateCompanyLockStockReqVO> lockStockReqVOS = newArrayList();
 
         UpdateCompanyLockStockReqVO lockReqVo = new UpdateCompanyLockStockReqVO();

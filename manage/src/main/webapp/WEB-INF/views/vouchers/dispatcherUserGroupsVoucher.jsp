@@ -56,8 +56,8 @@
                             <label class="col-sm-2 control-label no-padding-right">选择用户组：</label>
                             <div class="col-sm-9">
 	                            <select name="userGroupCode" class="form-control">
-		                            <c:forEach items="${companyGroups }" var="userGroup">
-		                           		<option value="${userGroup.code }">${userGroup.name }</option>
+		                            <c:forEach items="${companyGroups }" var="companyGroup">
+		                           		<option value="${companyGroup.id }">${companyGroup.name }</option>
 		                            </c:forEach>
 	                            </select>
                             </div>

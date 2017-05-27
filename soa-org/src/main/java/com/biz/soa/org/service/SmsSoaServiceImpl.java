@@ -120,7 +120,7 @@ public class SmsSoaServiceImpl extends CommonService implements SmsSoaService {
                                     .setUsername(username).setAlidayuTemplateCode(templateCode).build())
                             .setAlidayuTemplateCode(templateCode.getTemplateCode())
                             .setAlidayuTemplateParams(templateParam).build();
-           messageService.sendMessage(BizBaseQueue.SMS_QUEUE, SimpleBizMessage.newMessage(smsMessage));
+           messageService.sendMessage(BizBaseQueue.MQ_SMS_CODE, SimpleBizMessage.newMessage(smsMessage));
         } catch (Exception e) {
             throw new CommonException("获取验证码失败", ExceptionCode.Global.INFO_TO_USER);
         }

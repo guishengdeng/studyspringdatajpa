@@ -23,7 +23,7 @@ public class OrderPromotionRespVo extends CommonReqVoBindUserId {
     /**
      * 标题
      */
-    private String title;
+    private String name;
 
     /**
      * 消息
@@ -44,7 +44,7 @@ public class OrderPromotionRespVo extends CommonReqVoBindUserId {
     public OrderPromotionRespVo(OrderActivePromotionItemVO itemVO) {
         this();
         this.id = itemVO.getId();
-        this.title = itemVO.getName();
+        this.name = itemVO.getName();
         this.description = itemVO.getDescription();
         this.available = itemVO.getAllowVoucher();
         this.useCoupon = itemVO.getAllowVoucher();
@@ -58,12 +58,12 @@ public class OrderPromotionRespVo extends CommonReqVoBindUserId {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {

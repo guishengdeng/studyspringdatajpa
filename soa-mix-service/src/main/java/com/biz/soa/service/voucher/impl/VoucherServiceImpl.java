@@ -1,20 +1,5 @@
 package com.biz.soa.service.voucher.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
-import org.codelogger.utils.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-
 import com.biz.gbck.common.model.voucher.VoucherConfigure;
 import com.biz.gbck.common.voucher.VoucherRoToVoucherPo;
 import com.biz.gbck.dao.mysql.po.org.UserPo;
@@ -26,7 +11,6 @@ import com.biz.gbck.dao.mysql.repository.voucher.VoucherDao;
 import com.biz.gbck.dao.mysql.repository.voucher.VoucherRepository;
 import com.biz.gbck.dao.mysql.repository.voucher.VoucherTypeRepository;
 import com.biz.gbck.dao.mysql.specification.voucher.VoucherSearchSpecification;
-import com.biz.gbck.dao.redis.repository.product.ProductRedisDao;
 import com.biz.gbck.dao.redis.repository.voucher.VoucherRedisDao;
 import com.biz.gbck.dao.redis.repository.voucher.VoucherTypeRedisDao;
 import com.biz.gbck.dao.redis.ro.org.ShopRo;
@@ -37,9 +21,9 @@ import com.biz.gbck.dao.redis.ro.voucher.VoucherRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeRo;
 import com.biz.gbck.dao.redis.ro.voucher.VoucherTypeWithQuantity;
 import com.biz.gbck.enums.user.AuditStatus;
-import com.biz.gbck.enums.user.ShopTypeStatus;
 import com.biz.gbck.util.DateTool;
 import com.biz.gbck.vo.order.resp.IProduct;
+import com.biz.gbck.vo.order.resp.ProductInfoVo;
 import com.biz.gbck.vo.product.frontend.ProductListItemVo;
 import com.biz.gbck.vo.spring.PageVO;
 import com.biz.gbck.vo.voucher.UserVoucherStatisticResultVo;
@@ -60,6 +44,13 @@ import com.biz.vo.voucher.ShopCraftVoucherVo;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.codelogger.utils.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 @Service
 public class VoucherServiceImpl extends AbstractBaseService implements VoucherService {
@@ -101,9 +92,6 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	
 	@Autowired 
 	private VoucherDao voucherRepositoryImpl;
-	
-	@Autowired
-	private ProductRedisDao productRedisDao;
 	
 	@Override
 	public Collection<VoucherRo> findUsableVouchersByUserIdAndVoucherType(Long userId, Long voucherTypeId) {
@@ -298,10 +286,10 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
       if (shopTypeId == null) {
           if (CollectionUtils.isEmpty(userIds)) {
               List<ShopTypeRo> shopTypes =  shopTypeFeignClient.findAllShopTypeRo();
-              for (ShopTypeRo ro : shopTypes) {
-            	  if(ro.getStatus().equals(ShopTypeStatus.NORMAL)){//判断可用商铺类型
-            		  userCount = userCount + userFeignClient.findUserIdByShopType(Long.valueOf(ro.getId())).size();
-            	  }
+              if(CollectionUtils.isEmpty(shopTypes)){
+	              for (ShopTypeRo ro : shopTypes) {
+	            	  userCount = userCount + userFeignClient.findUserIdByShopType(Long.valueOf(ro.getId())).size();
+	              }
               }
           }
       } else {
@@ -405,7 +393,7 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 	}
 
 	@Override
-	public List<ShopCraftVoucherVo> getAvailableVouchers(Long userId, List<? extends IProduct> itemVos)
+	public List<ShopCraftVoucherVo> getAvailableVouchers(Long userId, List<ProductInfoVo> itemVos)
 			throws Exception {
 		 Map<Long, List<VoucherRo>> categoryVouchersMap = divideUnusedVouchersByCategory(userId);
 		         Map<Long, Long> costMap = Maps.newHashMap();
@@ -543,10 +531,13 @@ public class VoucherServiceImpl extends AbstractBaseService implements VoucherSe
 		return new PageVO<VoucherTypePo>(voucherTypeRepository.findAll(new VoucherSearchSpecification(reqVo), new PageRequest(reqVo.getPage()-1, reqVo.getPageSize(), Sort.Direction.DESC, "startTime")));
 	}
 
+	/**
+	 * 批量发放用户组优惠券
+	 */
 	@Override
 	public void dispatcherUserGroupsVoucher(Long userIdGroupsId, VoucherTypeRo voucherTypeRo, Integer dispatcherCnt,
 			String loginUsername) {
-		//通过用户组type获取用户组ids
+		//通过用户组id获取用户ids
 		List<Long> userIds = userFeignClient.findUserIdByCompanyGroupId(userIdGroupsId);
 		if(userIds != null && userIds.size() > 0){
 			//批量发放
