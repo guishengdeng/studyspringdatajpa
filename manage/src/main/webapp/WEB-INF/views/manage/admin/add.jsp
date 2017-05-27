@@ -155,6 +155,10 @@
                             <form action="" method="post" id="admin_form" name="adminForm"
                                                  class="form-horizontal" role="form">
                                          <input type="hidden" id="cmd" value="<c:out value="${cmd}"/>"/>
+                                          <%--<c:if test="${not empty admin}">
+                                                   <input type="hidden" name="company" value="<c:out value="${admin.company.id}"/>"/>
+                                          </c:if>--%>
+
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label no-padding-right"
                                                    for="username">
