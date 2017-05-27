@@ -15,9 +15,9 @@ import com.biz.gbck.exceptions.order.PaymentException;
 import com.biz.gbck.transform.order.OrderItem2StockItemVO;
 import com.biz.gbck.transform.order.ShopCartItemRespVo2OrderItemRespVo;
 import com.biz.gbck.vo.IdReqVo;
-import com.biz.gbck.vo.PageRespVo;
 import com.biz.gbck.vo.cart.ShopCartListSettleReqVo;
 import com.biz.gbck.vo.cart.ShopCartRespVo;
+import com.biz.gbck.vo.order.event.OrderCreateEvent;
 import com.biz.gbck.vo.order.event.SystemOrderCancelEvent;
 import com.biz.gbck.vo.order.event.UserOrderCancelEvent;
 import com.biz.gbck.vo.order.req.*;
@@ -61,7 +61,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
     /*****************public begin*********************/
 
     @Override
-    public PageRespVo listOrders(OrderListReqVo reqVo) throws DepotNextDoorException {
+    public OrderListRespVo listOrders(OrderListReqVo reqVo) throws DepotNextDoorException {
         if (logger.isDebugEnabled()) {
             logger.debug("获取订单列表-------请求vo: {}", reqVo);
         }
@@ -75,7 +75,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         List<OrderRespVo> orderRespVos = this.buildOrderVos(orders);
 
         Long lastOrderId = CollectionUtils.getLastElement(orderIds);
-        PageRespVo pageRespVo = new PageRespVo(lastOrderId != null ? lastOrderId.toString() : null, orderRespVos);
+        OrderListRespVo pageRespVo = new OrderListRespVo(lastOrderId != null ? lastOrderId.toString() : null, orderRespVos);
         if (logger.isDebugEnabled()) {
             logger.debug("获取订单列表-------请求: {}, 返回值: {}", reqVo, pageRespVo);
         }
@@ -88,7 +88,8 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
             logger.debug("获取订单详情-------请求vo: {}", reqVo);
         }
         SystemAsserts.notNull(reqVo);
-        Order order = orderRepository.findOne(reqVo.getId());
+        Long orderId = Long.valueOf(reqVo.getId());
+        Order order = orderRepository.findOne(orderId);
         OrderRespVo orderRespVo = CollectionUtils.getFirstNotNullValue(this.buildOrderVos(newArrayList(order)));
         if (logger.isDebugEnabled()) {
             logger.debug("获取订单详情-------请求: {}, 返回值: {}", reqVo, orderRespVo);
@@ -102,8 +103,9 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         if (logger.isDebugEnabled()) {
             logger.debug("取消订单-------请求vo: {}", reqVo);
         }
-        super.queryPayStatus(reqVo.getId());
-        Order order = orderRepository.findOne(reqVo.getId());
+        Long orderId = Long.valueOf(reqVo.getId());
+        super.queryPayStatus(orderId);
+        Order order = orderRepository.findOne(orderId);
         super.validUser(order, reqVo);
         SystemAsserts.notNull(order, "订单不存在");
         SystemAsserts.isTrue(order.isCancelable(false), "订单状态已经发生变化，不能取消");
@@ -271,8 +273,9 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
     }
 
     @Override
-    public void saveOrder(Order order) {
-        super.saveOrder(order);
+    @Transactional
+    public Order saveOrder(Order order) {
+        return super.saveOrder(order);
     }
 
     /*****************public end*********************/
@@ -289,6 +292,7 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
     private Order createOrder(OrderCreateReqVo reqVo) throws DepotNextDoorException {
         Timers timers = Timers.createAndBegin(logger.isDebugEnabled());
         OrderSettlePageRespVo settleResult = this.getSettleResult(reqVo);
+        timers.print("获取结算单用时");
         SystemAsserts.notNull(settleResult, "未获取到订单结算信息");
         List<OrderItemRespVo> items = settleResult.getItems();
         SystemAsserts.notEmpty(items, "未获取到结算明细信息");
@@ -297,18 +301,23 @@ public class OrderFrontendServiceImpl extends AbstractOrderService implements Or
         //TODO 保存促销活动
         long id = idService.nextId();
         String orderCode = sequenceService.generateOrderCode();
-        Order order = OrderBuilder.createBuilder(reqVo).setUserInfo(settleResult.getUserInfoVo()).setItems(this.transOrderItems(items)).setFreeAmount
-                (settleResult.getOrderAmount()).setVoucherAmount(settleResult.getVoucherAmount()).setPayAmount
-                (settleResult.getPayAmount()).setPaymentType(PaymentType.valueOf(reqVo.getPaymentType())).build(id,
-                orderCode);
+        Order order = OrderBuilder.createBuilder(reqVo)
+                .setUserInfo(settleResult.getUserInfoVo())
+                .setItems(this.transOrderItems(items))
+                .setFreeAmount(ValueUtils.getValue(settleResult.getFreeAmount()))
+                .setVoucherAmount(settleResult.getVoucherAmount())
+                .setPayAmount(settleResult.getPayAmount())
+                .setPaymentType(PaymentType.valueOf(reqVo.getPaymentType()))
+                .build(id, orderCode);
 
-        this.lockStock(order);
+        super.saveOrder(order);
+        super.publishEventUsingTx(new OrderCreateEvent(this, order.getId()));
         timers.print("创建订单用时");
         return order;
     }
 
     //锁定库存
-    private void lockStock(Order order) throws DepotNextDoorException {
+    public void lockStock(Order order) throws DepotNextDoorException {
         List<UpdateCompanyLockStockReqVO> lockStockReqVOS = newArrayList();
 
         UpdateCompanyLockStockReqVO lockReqVo = new UpdateCompanyLockStockReqVO();

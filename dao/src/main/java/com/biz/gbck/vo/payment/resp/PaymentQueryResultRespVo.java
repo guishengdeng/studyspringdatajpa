@@ -1,5 +1,8 @@
 package com.biz.gbck.vo.payment.resp;
 
+import com.biz.gbck.dao.mysql.po.order.OrderPayment;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 
 /**
@@ -18,11 +21,23 @@ public class PaymentQueryResultRespVo implements Serializable {
 	
 	private String orderCode;
 
+	//商户名称
+	private String businessName = "隔壁仓库网上订单";
+
 	//支付金额
 	private Integer payAmount;
 
 	//支付方式
 	private Integer paymentType;
+
+	//支付方式名称
+	private String paymentTypeName;
+
+	//付款状态
+	private Integer payStatus;
+
+	//付款状态名称
+	private String payStatusName;
 
 	//支付时间
 	private Long paidTime;
@@ -30,7 +45,24 @@ public class PaymentQueryResultRespVo implements Serializable {
 	//是否支付成功
 	private boolean paid = true;
 
+	public PaymentQueryResultRespVo() {
+	}
+
+	public PaymentQueryResultRespVo(OrderPayment payment) {
+		this();
+		this.orderId = payment.getOrder().getId();
+		this.orderCode = payment.getOrder().getOrderCode();
+		this.payAmount = payment.getPayAmount();
+		this.paymentType = payment.getPaymentType().getValue();
+		this.paymentTypeName = payment.getPaymentType().getDesc();
+		this.payStatus = payment.getPayStatus().getValue();
+		this.payStatusName = payment.getPayStatus().getDesc();
+		this.paidTime = payment.getSuccessTimestamp() == null ? null :payment.getSuccessTimestamp().getTime();
+	}
+
+
 	//查询结果文本
+	@JsonIgnore
 	private String message;
 
 	public Long getOrderId() {
@@ -65,6 +97,14 @@ public class PaymentQueryResultRespVo implements Serializable {
 		this.paymentType = paymentType;
 	}
 
+	public String getPaymentTypeName() {
+		return paymentTypeName;
+	}
+
+	public void setPaymentTypeName(String paymentTypeName) {
+		this.paymentTypeName = paymentTypeName;
+	}
+
 	public Long getPaidTime() {
 		return paidTime;
 	}
@@ -79,6 +119,30 @@ public class PaymentQueryResultRespVo implements Serializable {
 
 	public void setPaid(boolean paid) {
 		this.paid = paid;
+	}
+
+	public String getBusinessName() {
+		return businessName;
+	}
+
+	public void setBusinessName(String businessName) {
+		this.businessName = businessName;
+	}
+
+	public Integer getPayStatus() {
+		return payStatus;
+	}
+
+	public void setPayStatus(Integer payStatus) {
+		this.payStatus = payStatus;
+	}
+
+	public String getPayStatusName() {
+		return payStatusName;
+	}
+
+	public void setPayStatusName(String payStatusName) {
+		this.payStatusName = payStatusName;
 	}
 
 	public String getMessage() {

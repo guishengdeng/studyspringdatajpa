@@ -2,6 +2,7 @@ package com.biz.gbck.vo.order.req;
 
 import com.biz.core.util.JsonUtil;
 import com.biz.gbck.enums.order.InvoiceType;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.validation.constraints.Size;
 
@@ -69,6 +70,11 @@ public class OrderCreateReqVo extends OrderSettlePageReqVo {
 
     public void setInvoiceTitle(String invoiceTitle) {
         this.invoiceTitle = invoiceTitle;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 
     public static void main(String[] args) {

@@ -2,8 +2,8 @@ package com.biz.soa.order.controller;
 
 import com.biz.gbck.enums.order.PaymentType;
 import com.biz.gbck.vo.IdReqVo;
-import com.biz.gbck.vo.PageRespVo;
 import com.biz.gbck.vo.order.req.*;
+import com.biz.gbck.vo.order.resp.OrderListRespVo;
 import com.biz.gbck.vo.order.resp.OrderRespVo;
 import com.biz.gbck.vo.order.resp.OrderSettlePageRespVo;
 import com.biz.gbck.vo.org.UserInfoVo;
@@ -35,7 +35,7 @@ public class SoaOrderController extends SoaBaseController {
 
     //订单列表
     @RequestMapping("/app/list")
-    public MicroServiceResult<PageRespVo> allTypeOrders(@RequestBody OrderListReqVo reqVo) {
+    public MicroServiceResult<OrderListRespVo> allTypeOrders(@RequestBody OrderListReqVo reqVo) {
         try {
             return render200(orderService.listOrders(reqVo));
         } catch (Exception e) {

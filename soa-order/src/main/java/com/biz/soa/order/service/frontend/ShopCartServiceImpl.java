@@ -202,13 +202,12 @@ public class ShopCartServiceImpl extends AbstractBaseService implements ShopCart
 
 
     @Override
-    public void cleanCart(CommonReqVoBindUserId reqVo) {
+    public void cleanCart(String userId) {
         if (logger.isDebugEnabled()) {
-            logger.debug("清空购物车-------请求vo: {}", reqVo);
+            logger.debug("清空购物车-------请求vo: {}", userId);
         }
-        BusinessAsserts.notNull(reqVo, DepotNextDoorExceptions.Global.PARAMETER_ERROR);
-        BusinessAsserts.notNull(reqVo.getUserId(), DepotNextDoorExceptions.User.USER_NOT_EXIST);
-        shopCartItemRedisDao.removeAllByUserId(reqVo.getUserId());
+        BusinessAsserts.notNull(userId, DepotNextDoorExceptions.Global.PARAMETER_ERROR);
+        shopCartItemRedisDao.removeAllByUserId(userId);
     }
 
     /**
