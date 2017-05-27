@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import com.biz.gbck.vo.order.resp.ProductInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -174,7 +175,7 @@ public class SoaVoucherController extends SoaBaseController{
      * @throws Exception 
      */
     @PostMapping(value="/getAvailableVouchers")
-    public  List<ShopCraftVoucherVo> availableVouchers(@RequestParam("userId") Long userId,@RequestBody List<IProduct> itemVos) throws Exception{
+    public  List<ShopCraftVoucherVo> availableVouchers(@RequestParam("userId") Long userId,@RequestBody List<ProductInfoVo> itemVos) throws Exception{
     	 return voucherService.getAvailableVouchers(userId, itemVos);
      }
     
